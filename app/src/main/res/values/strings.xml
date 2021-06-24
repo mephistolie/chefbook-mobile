@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">ChefBook</string>
+    <string name="empty_fields">Please fill in the fields</string>
+    <string name="authentication_failed">Email or password is incorrect</string>
+    <string name="login">Log In</string>
+    <string name="signin">Sign In</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="not_member">Not a member yet?&#160;</string>
+    <string name="already_member">Already a member?&#160;</string>
+    <string name="signup">Sign Up</string>
+    <string name="repeat_password">Repeat Password</string>
+    <string name="reset_password">Reset Password</string>
+    <string name="short_password">Password must contain at least 8 characters</string>
+    <string name="lower_password">Password must contain at least 1 lower character</string>
+    <string name="upper_password">Password must contain at least 1 upper character</string>
+    <string name="number_password">Password must contain at least 1 digit</string>
+    <string name="password_mismatch">Passwords don\'t match</string>
+    <string name="space_password">Password mustn\'t contain spaces</string>
+    <string name="invalid_email">Type correct email</string>
+    <string name="signup_failed">Sign up failed. Are you already a member?</string>
+    <string name="email_to_reset">Password Reset link was sent to email</string>
+    <string name="login_successfully">Logged in successfully</string>
+    <string name="failed_to_reset">Failed to reset password. Try again</string>
+    <string name="failed_to_google">Failed to login via Google. Try again</string>
+    <string name="recipes">Recipes</string>
+</resources>
