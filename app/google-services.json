@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "497308718785",
+    "project_id": "ck-chefbook-reborn",
+    "storage_bucket": "ck-chefbook-reborn.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:497308718785:android:96099d905b8e0f7025e640",
+        "android_client_info": {
+          "package_name": "com.cactusknights.chefbook"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "497308718785-a3b2npeevgakn0uo43sesdqbl22hhmsn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA12mBppwVUbMm1Ce47xc_4wIr84cwTA34"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "497308718785-a3b2npeevgakn0uo43sesdqbl22hhmsn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
