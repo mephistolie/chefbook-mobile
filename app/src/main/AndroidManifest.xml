@@ -11,22 +11,26 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ChefBook">
-        <activity android:name="com.cactusknights.chefbook.app.activities.MainActivity">
+        <activity android:name="com.cactusknights.chefbook.activities.MainActivity"
+            android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.cactusknights.chefbook.app.activities.LoginActivity"
+        <activity android:name="com.cactusknights.chefbook.activities.LoginActivity"
             android:noHistory="true"
             android:excludeFromRecents="true"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustPan"
-            android:theme="@style/Theme.ChefBook.NoActionBar"/>
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+        <activity android:name="com.cactusknights.chefbook.activities.RecipeCommitActivity" />
+        <activity android:name="com.cactusknights.chefbook.activities.RecipeActivity" />
 
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-2240420199912180~7045461636"/>
     </application>
 
 </manifest>

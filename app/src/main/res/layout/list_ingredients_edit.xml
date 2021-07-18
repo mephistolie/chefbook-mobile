@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/app_background"
+    android:foreground="?attr/selectableItemBackground">
+
+    <data>
+        <import type="android.graphics.Typeface"/>
+        <variable
+            name="ingredient"
+            type="com.cactusknights.chefbook.models.Ingredient" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:gravity="center_vertical">
+
+            <ImageView
+                style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:padding="0dp"
+                android:src="@drawable/ic_rows"
+                android:layout_marginEnd="8dp"
+                android:contentDescription="@string/divider" />
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/ingredient_name"
+                android:layout_width="match_parent"
+                android:layout_height="36dp"
+                android:layout_weight="3"
+                android:background="@drawable/selector_input"
+                android:hint="@{ingredient.isSection ? @string/section:@string/ingredient}"
+                android:text="@{ingredient.name}"
+                app:isSectionEdit="@{ingredient.isSection}"
+                android:inputType="text"
+                android:imeOptions="actionNext"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="4dp"/>
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/delete_ingredient"
+                style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+                android:layout_width="36dp"
+                android:layout_height="48dp"
+                android:paddingEnd="0dp"
+                android:paddingStart="4dp"
+                android:src="@drawable/ic_cross" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

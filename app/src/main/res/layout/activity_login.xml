@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".app.activities.MainActivity"
+    tools:context=".activities.MainActivity"
+    android:background="@color/app_background"
     android:animateLayoutChanges="true">
 
     <androidx.appcompat.widget.LinearLayoutCompat
@@ -35,6 +36,7 @@
                 android:layout_height="96dp"
                 android:scaleType="fitXY"
                 android:src="@drawable/ic_logo"
+                android:contentDescription="@string/app_name"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -44,7 +46,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:fontFamily="@font/comfortaa_bold"
+                app:fontFamily="@font/comfortaa_bold"
                 android:text="@string/app_name"
                 android:textSize="34sp" />
 
@@ -54,7 +56,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:hint="Email"
+            android:hint="@string/email"
             app:boxStrokeWidth="0dp"
             app:boxStrokeWidthFocused="0dp"
             app:startIconDrawable="@drawable/ic_email">
@@ -72,7 +74,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:hint="Password"
+            android:hint="@string/password"
             app:boxStrokeWidth="0dp"
             app:boxStrokeWidthFocused="0dp"
             app:passwordToggleEnabled="true"
@@ -142,18 +144,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_google"
+                android:contentDescription="@string/google"
                 app:backgroundTint="@color/input_background"
                 app:fabSize="mini"
                 app:tint="@color/login_tint" />
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/login_vk"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_vk"
-                app:backgroundTint="@color/input_background"
-                app:fabSize="mini"
-                app:tint="@color/login_tint" />
         </androidx.appcompat.widget.LinearLayoutCompat>
 
     </androidx.appcompat.widget.LinearLayoutCompat>
@@ -197,6 +192,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="@string/signup"
+                android:maxLines="1"
                 android:textColor="@color/deep_orange_light"/>
 
         </androidx.appcompat.widget.LinearLayoutCompat>

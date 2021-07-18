@@ -2,7 +2,7 @@
     <!-- Base application theme. -->
     <style name="Theme.ChefBook" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/deep_orange</item>
+        <item name="colorPrimary">@color/deep_orange_light</item>
         <item name="colorPrimaryVariant">@color/deep_orange_dark</item>
         <item name="colorAccent">@color/deep_orange_light</item>
         <item name="colorOnPrimary">@color/black</item>
@@ -17,22 +17,8 @@
         <item name="android:navigationBarColor" tools:targetApi="p">@color/app_background</item>
         <item name="android:windowLightNavigationBar" tools:targetApi="p">true</item>
         <item name="fontFamily">@font/montserrat</item>
+
+        <item name="android:windowActivityTransitions">true</item>
     </style>
 
-    <style name="Theme.ChefBook.NoActionBar" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/deep_orange</item>
-        <item name="colorPrimaryVariant">@color/deep_orange_dark</item>
-        <item name="colorOnPrimary">@color/white</item>
-        <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/teal_200</item>
-        <item name="colorSecondaryVariant">@color/teal_700</item>
-        <item name="colorOnSecondary">@color/black</item>
-        <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">@color/app_background</item>
-        <!-- Customize your theme here. -->
-        <item name="android:windowBackground">@color/app_background</item>
-        <item name="android:navigationBarColor">@color/app_background</item>
-        <item name="fontFamily">@font/montserrat</item>
-    </style>
 </resources>
