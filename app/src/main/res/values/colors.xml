@@ -12,12 +12,12 @@
     <color name="monochrome_invert">@color/black</color>
 
     <color name="ic_launcher_background">@color/white</color>
-    <color name="app_background">#F0F0F0</color>
+    <color name="app_background">@color/white</color>
     <color name="input_background">#F2F2F2</color>
     <color name="login_tint">#3F3F3F</color>
-    <color name="navigation_background">@color/white</color>
+    <color name="navigation_background">#FAFAFA</color>
     <color name="navigation_foreground">#404040</color>
     <color name="time_popular">#f2f2f2</color>
-    <color name="recipe_card_background">@color/white</color>
+    <color name="recipe_card_background">#F7F7F7</color>
 
 </resources>

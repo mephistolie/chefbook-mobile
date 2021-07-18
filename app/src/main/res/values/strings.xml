@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ChefBook</string>
+    <string name="app_name" translatable="false">ChefBook</string>
     <string name="empty_fields">Please fill in the fields</string>
     <string name="authentication_failed">Email or password is incorrect</string>
     <string name="login">Log In</string>
@@ -17,10 +17,94 @@
     <string name="password_mismatch">Passwords don\'t match</string>
     <string name="space_password">Password mustn\'t contain spaces</string>
     <string name="invalid_email">Type correct email</string>
+    <string name="signup_successfully">Signed up successfully</string>
     <string name="signup_failed">Sign up failed. Are you already a member?</string>
-    <string name="email_to_reset">Password Reset link was sent to email</string>
+    <string name="reset_password_successfully">Password Reset link was sent to email</string>
+    <string name="reset_password_failed">Password Reset failed. Try again</string>
     <string name="login_successfully">Logged in successfully</string>
     <string name="failed_to_reset">Failed to reset password. Try again</string>
     <string name="failed_to_google">Failed to login via Google. Try again</string>
     <string name="recipes">Recipes</string>
+    <string name="servings_placeholder">Servings: %1$d</string>
+    <string name="calories_placeholder">%1$d kcal</string>
+    <string name="new_recipe">New Recipe</string>
+    <string name="name">Name</string>
+    <string name="cupcake">Cupcakes</string>
+    <string name="servings">Servings:</string>
+    <string name="calories_kcal">Calories (kcal):</string>
+    <string name="_0_to_hide">0 to hide</string>
+    <string name="time">Time:</string>
+    <string name="choose_categories">Choose Categories…</string>
+    <string name="ingredients">Ingredients</string>
+    <string name="ingredient">Ingredient</string>
+    <string name="section">Section</string>
+    <string name="cooking">Cooking</string>
+    <string name="password">Password</string>
+    <string name="email">Email</string>
+    <string name="recipe">Recipe</string>
+    <string name="select_categories">Select Categories</string>
+    <string name="new_category">New category</string>
+    <string name="are_you_sure">Are you sure?</string>
+    <string name="recipe_menu">Recipe Menu</string>
+    <string name="user">User</string>
+    <string name="open_shopping_list_by_default">Open shopping list by default</string>
+    <string name="log_out">Log Out</string>
+    <string name="add_item">Add Item</string>
+    <string name="add">Add</string>
+    <string name="_12_servings">12 servings</string>
+    <string name="divider" translatable="false">|</string>
+    <string name="_1700_kcal">1700 kcal</string>
+    <string name="to_shopping_list">To Shopping List</string>
+    <string name="search">Search</string>
+    <string name="favourite">Favourite</string>
+    <string name="categories">Categories</string>
+    <string name="recently_added">Recently added</string>
+    <string name="all_recipes">All Recipes</string>
+    <string name="nothing_to_show">Nothing to show</string>
+    <string name="category">Category</string>
+    <string name="_15_min">15 min</string>
+    <string name="uncategorized">Uncategorized</string>
+    <string name="item">Item</string>
+    <string name="step_number" translatable="false">1.</string>
+    <string name="_1" translatable="false">1</string>
+    <string name="step">Step</string>
+    <string name="broccoli">Broccoli</string>
+    <string name="shopping_list">Shopping List</string>
+    <string name="search_results">Results</string>
+    <string name="app_info">Made by Mikhail Levin</string>
+    <string name="app_ver" translatable="false">3.0</string>
+    <string name="about_app">About app / Support</string>
+    <string name="special_to">Special for T. I.</string>
+    <string name="buy_premium">Buy Premium / Donate</string>
+    <string name="banner_ad_unit_id" translatable="false">ca-app-pub-2240420199912180/3421911394</string>
+    <string name="donate">Donate</string>
+    <string name="support_info">Your support really helps me to pay for the server and develop products (for example, creating iOS-version)</string>
+    <string name="small_donate">Starter Pack Donation</string>
+    <string name="middle_donation">Advanced Donation</string>
+    <string name="big_donation">Ultra Donation</string>
+    <string name="already_donated">Donated before, but Premium unactive?</string>
+    <string name="big_donate_price">$5</string>
+    <string name="middle_donate_price">$3</string>
+    <string name="small_donate_price">$1</string>
+    <string name="support_email" translatable="false">mikhaillevin@inbox.ru</string>
+    <string name="failed_edit_recipe">Failed to edit recipe</string>
+    <string name="recipe_deleted">Recipe deleted</string>
+    <string name="deleting_failed">Recipe updating failed</string>
+    <string name="edit_recipe">Edit Recipe</string>
+    <string name="enter_name">Please enter the name</string>
+    <string name="enter_ingredients">Please add at least 1 ingredient</string>
+    <string name="enter_step">Please describe at least 1 step</string>
+    <string name="recipe_added">Recipe added</string>
+    <string name="recipe_updated">Recipe updated</string>
+    <string name="failed_update">Recipe updating failed</string>
+    <string name="failed_add">Recipe adding failed</string>
+    <string name="gratitude">Thanks for your support 🥰</string>
+    <string name="restart">Restart app to activate Premium</string>
+    <string name="broccy_happy">Broccy is happy!</string>
+    <string name="no_ads">No ads</string>
+    <string name="unlimited_recipes">Unlimited recipes count</string>
+    <string name="troubles">Have problems or suggestions?</string>
+    <string name="added_to_shopping_list">Selected ingredients have been added to the Shopping List</string>
+    <string name="recipes_limit">Please, buy Premium to add more than 15 recipes</string>
+    <string name="google">Google</string>
 </resources>

@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <array name="preloaded_fonts" translatable="false">
+    <array name="preloaded_fonts" translatable="true">
+        <item>@font/comfortaa</item>
         <item>@font/comfortaa_bold</item>
+        <item>@font/comfortaa_semibold</item>
         <item>@font/montserrat</item>
     </array>
 </resources>

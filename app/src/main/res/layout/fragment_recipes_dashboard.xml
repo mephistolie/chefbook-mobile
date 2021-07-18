@@ -1,177 +1,200 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:requiresFadingEdge="vertical"
-    android:scrollbars="none">
+    android:layout_height="match_parent">
 
-    <LinearLayout
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scroll_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/search_field"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginTop="16dp"
-            android:hint="Search"
-            app:boxStrokeWidth="0dp"
-            app:boxStrokeWidthFocused="0dp"
-            app:startIconDrawable="@drawable/ic_search">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/search"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/selector_search" />
-
-
-        </com.google.android.material.textfield.TextInputLayout>
+        android:animateLayoutChanges="true"
+        android:foregroundGravity="top"
+        android:orientation="vertical"
+        android:requiresFadingEdge="vertical"
+        android:scrollbars="none"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
-            android:layout_marginTop="16dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginHorizontal="16dp"
-            android:weightSum="3">
+            android:layout_gravity="top"
+            android:animateLayoutChanges="true"
+            android:orientation="vertical">
 
-            <androidx.cardview.widget.CardView
+            <LinearLayout
+                android:id="@+id/search_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginEnd="4dp"
-                app:cardCornerRadius="16dp"
-                android:backgroundTint="@color/navigation_background">
+                android:layout_marginTop="16dp"
+                android:animateLayoutChanges="true"
+                android:orientation="horizontal">
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/search_field"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/selector_search"
+                    android:drawableStart="@drawable/ic_search"
+                    android:drawablePadding="16dp"
+                    android:hint="@string/search"
+                    android:imeOptions="actionDone"
+                    android:inputType="text"
+                    android:paddingHorizontal="16dp" />
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/clear_search"
+                    style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+                    android:layout_width="36dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="0"
+                    android:paddingStart="4dp"
+                    android:paddingEnd="0dp"
+                    android:src="@drawable/ic_cross"
+                    android:visibility="gone" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/function_buttons"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal"
+                android:weightSum="3">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/add_recipe"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingVertical="16dp"
-                    android:orientation="vertical"
-                    android:gravity="center"
-                    android:layout_gravity="center">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_add"
-                        app:tint="@color/deep_orange_light" />
+                    android:layout_marginEnd="4dp"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:backgroundTint="@color/navigation_background"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    app:cardCornerRadius="16dp"
+                    app:cardElevation="0dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Add"
-                        android:textColor="@color/monochrome_invert"/>
+                        android:layout_gravity="center"
+                        android:paddingVertical="16dp"
+                        android:text="@string/add"
+                        android:textColor="@color/monochrome_invert"
+                        app:drawableTint="@color/deep_orange_light"
+                        app:drawableTopCompat="@drawable/ic_add"
+                        tools:ignore="MissingPrefix" />
 
-                </LinearLayout>
+                </androidx.cardview.widget.CardView>
 
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginHorizontal="4dp"
-                app:cardCornerRadius="16dp"
-                android:backgroundTint="@color/navigation_background">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/favourite"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingVertical="16dp"
-                    android:orientation="vertical"
-                    android:gravity="center"
-                    android:layout_gravity="center">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_favorite"
-                        app:tint="@color/deep_orange_light" />
+                    android:layout_marginHorizontal="4dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/navigation_background"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    app:cardCornerRadius="16dp"
+                    app:cardElevation="0dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Favourite"
-                        android:textColor="@color/monochrome_invert"/>
+                        android:layout_gravity="center"
+                        android:paddingVertical="16dp"
+                        android:text="@string/favourite"
+                        android:textColor="@color/monochrome_invert"
+                        app:drawableTint="@color/deep_orange_light"
+                        app:drawableTopCompat="@drawable/ic_favorite"
+                        tools:ignore="MissingPrefix" />
 
-                </LinearLayout>
+                </androidx.cardview.widget.CardView>
 
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginStart="4dp"
-                app:cardCornerRadius="16dp"
-                android:backgroundTint="@color/navigation_background">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/categories"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingVertical="16dp"
-                    android:orientation="vertical"
-                    android:gravity="center"
-                    android:layout_gravity="center">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_categories"
-                        app:tint="@color/deep_orange_light" />
+                    android:layout_marginStart="4dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/navigation_background"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    app:cardCornerRadius="16dp"
+                    app:cardElevation="0dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Categories"
-                        android:textColor="@color/monochrome_invert"/>
+                        android:layout_gravity="center"
+                        android:paddingVertical="16dp"
+                        android:text="@string/categories"
+                        android:textColor="@color/monochrome_invert"
+                        app:drawableTint="@color/deep_orange_light"
+                        app:drawableTopCompat="@drawable/ic_categories"
+                        tools:ignore="MissingPrefix" />
 
-                </LinearLayout>
+                </androidx.cardview.widget.CardView>
 
-            </androidx.cardview.widget.CardView>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/popular_title"
+                style="@style/TextAppearance.AppCompat.Headline"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/recently_added"
+                app:fontFamily="@font/comfortaa_semibold" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/popular_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:fadingEdgeLength="8dp"
+                android:requiresFadingEdge="horizontal" />
+
+            <TextView
+                android:id="@+id/all_recipes_title"
+                style="@style/TextAppearance.AppCompat.Headline"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/all_recipes"
+                app:fontFamily="@font/comfortaa_semibold" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recipes_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="8dp"
+                android:nestedScrollingEnabled="false"
+                tools:listitem="@layout/list_recipes" />
 
         </LinearLayout>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Popular"
-            android:fontFamily="@font/comfortaa_bold"
-            style="@style/TextAppearance.AppCompat.Headline"/>
+    </androidx.core.widget.NestedScrollView>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/popular_recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:fadingEdgeLength="8dp"
-            android:requiresFadingEdge="horizontal" />
+    <TextView
+        android:id="@+id/empty_list_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="24sp"
+        android:visibility="gone"
+        android:text="@string/nothing_to_show"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/scroll_view"/>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="All Recipes"
-            android:fontFamily="@font/comfortaa_bold"
-            style="@style/TextAppearance.AppCompat.Headline"/>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recipes_recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="8dp"
-            tools:listitem="@layout/list_recipes"
-            android:nestedScrollingEnabled="false"/>
-
-    </LinearLayout>
-
-</androidx.core.widget.NestedScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>
