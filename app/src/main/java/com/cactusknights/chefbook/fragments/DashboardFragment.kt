@@ -64,8 +64,8 @@ class DashboardFragment: Fragment(), RecipeAdapter.RecipeClickListener, Recently
             recipes.sortBy { it.name.lowercase() }
             allAdapter.notifyDataSetChanged()
 
-            recentlyAddedRecipes.clear(); recentlyAddedRecipes.addAll(newRecipes.take(4))
-            recentlyAddedRecipes.sortByDescending { it.creationDate }
+            recentlyAddedRecipes.clear()
+            recentlyAddedRecipes.addAll(newRecipes.sortedByDescending { it.creationDate }.take(4))
             recentlyAddedAdapter.notifyDataSetChanged()
 
             setLayout(recipes.size)
