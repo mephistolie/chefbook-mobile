@@ -129,14 +129,6 @@ open class LoginActivity : AppCompatActivity() {
         })
     }
 
-    private fun signUp() {
-        val emailText = email.text.toString()
-        val passwordText = password.text.toString()
-        val repeatPasswordText = repeatPassword.text.toString()
-        if (Utils.checkAuthFields(emailText, passwordText, repeatPasswordText, this))
-            userViewModel.signup(emailText, passwordText, ::onSignUpCallback)
-    }
-
     private fun setLoginLayout() {
 
         password.setText("")
@@ -154,7 +146,6 @@ open class LoginActivity : AppCompatActivity() {
 
     private fun setSignupLayout() {
 
-        passwordField.error = null
         password.text = null
 
         passwordField.visibility = View.VISIBLE
@@ -179,6 +170,14 @@ open class LoginActivity : AppCompatActivity() {
         signupBtn.text = resources.getText(R.string.login)
 
         state = LoginStates.RESTORE
+    }
+
+    private fun signUp() {
+        val emailText = email.text.toString()
+        val passwordText = password.text.toString()
+        val repeatPasswordText = repeatPassword.text.toString()
+        if (Utils.checkAuthFields(emailText, passwordText, repeatPasswordText, this))
+            userViewModel.signup(emailText, passwordText, ::onSignUpCallback)
     }
 
     private fun logonGoogle() {

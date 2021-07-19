@@ -43,6 +43,15 @@ class UserViewModel: ViewModel() {
         contentRepository.stopListenShoppingList()
     }
 
+    fun getCurrentCategories(): ArrayList<String> {
+        val currentCategoriesSet = categories.value
+        val currentCategories = arrayListOf<String>()
+        if (currentCategoriesSet != null) {
+            currentCategories.addAll(currentCategoriesSet)
+        }
+        return currentCategories
+    }
+
     companion object {
 
         private val recipeEditor: ContentProvider = FirebaseContentRepository

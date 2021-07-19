@@ -23,6 +23,7 @@ import com.cactusknights.chefbook.activities.MainActivity
 import com.cactusknights.chefbook.activities.RecipeActivity
 import com.cactusknights.chefbook.adapters.RecentlyAddedAdapter
 import com.cactusknights.chefbook.adapters.RecipeAdapter
+import com.cactusknights.chefbook.dialogs.DonateDialog
 import com.cactusknights.chefbook.helpers.Utils
 import com.cactusknights.chefbook.models.Recipe
 import com.cactusknights.chefbook.viewmodels.UserViewModel
@@ -106,7 +107,7 @@ class DashboardFragment: Fragment(), RecipeAdapter.RecipeClickListener, Recently
         addRecipeButton.setOnClickListener {
             if (viewModel.isPremium() || viewModel.getRecipesCount() < 15) {
                 val intent = Intent(activity, RecipeCommitActivity()::class.java)
-                intent.putStringArrayListExtra("allCategories", getCurrentCategories())
+                intent.putStringArrayListExtra("allCategories", viewModel.getCurrentCategories())
                 val options: ActivityOptionsCompat =
                     ActivityOptionsCompat.makeSceneTransitionAnimation(mainActivity)
                 startActivity(intent, options.toBundle())
@@ -116,7 +117,7 @@ class DashboardFragment: Fragment(), RecipeAdapter.RecipeClickListener, Recently
                 )
             } else {
                 Toast.makeText(activity, R.string.recipes_limit, Toast.LENGTH_SHORT).show()
-                mainActivity.openDonateDialog()
+                DonateDialog().show(requireActivity().supportFragmentManager, "Donate")
             }
         }
 
@@ -196,19 +197,10 @@ class DashboardFragment: Fragment(), RecipeAdapter.RecipeClickListener, Recently
     private fun openRecipe(recipe: Recipe) {
         val intent = Intent(activity, RecipeActivity()::class.java)
         intent.putExtra("recipe", recipe)
-        intent.putStringArrayListExtra("allCategories", getCurrentCategories())
+        intent.putStringArrayListExtra("allCategories", viewModel.getCurrentCategories())
         intent.putExtra("isPremium", viewModel.isPremium())
         val options: ActivityOptionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation((mainActivity))
         startActivity(intent, options.toBundle())
         mainActivity.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
-    }
-
-    private fun getCurrentCategories(): ArrayList<String> {
-        val currentCategoriesSet = viewModel.categories.value
-        val currentCategories = arrayListOf<String>()
-        if (currentCategoriesSet != null) {
-            currentCategories.addAll(currentCategoriesSet)
-        }
-        return currentCategories
     }
 }

@@ -5,7 +5,7 @@ import android.app.Activity
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import com.android.billingclient.api.*
-import com.cactusknights.chefbook.helpers.Dialogs
+import com.cactusknights.chefbook.dialogs.GratitudeDialog
 import com.cactusknights.chefbook.interfaces.AuthProvider
 import com.cactusknights.chefbook.migration.DataBaseHandler
 import com.cactusknights.chefbook.models.User
@@ -123,7 +123,7 @@ class FirebaseAuthRepository: AuthProvider {
                         firestore.collection("users").document(currentUser.uid).update(mapOf(
                             "isPremium" to true
                         ))
-                        Dialogs.openGratitudeDialog(activity)
+                        GratitudeDialog()
                     }
                 }
 
