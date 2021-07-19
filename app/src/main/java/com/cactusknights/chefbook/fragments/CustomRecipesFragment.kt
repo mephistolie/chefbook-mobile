@@ -65,6 +65,8 @@ class CustomRecipesFragment(val category: String? = null): Fragment(), RecipeAda
     override fun onRecipeClick(recipe: Recipe) {
         val intent = Intent(activity, RecipeActivity()::class.java)
         intent.putExtra("recipe", recipe)
+        intent.putStringArrayListExtra("allCategories", viewModel.getCurrentCategories())
+        intent.putExtra("isPremium", viewModel.isPremium())
         val options: ActivityOptionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation((activity as MainActivity))
         startActivity(intent, options.toBundle())
         (activity as MainActivity).overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)

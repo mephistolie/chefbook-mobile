@@ -1,22 +1,18 @@
 package com.cactusknights.chefbook.activities
 
-import android.app.Dialog
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatImageButton
-import androidx.core.view.children
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.cactusknights.chefbook.adapters.CookingEditAdapter
 import com.cactusknights.chefbook.adapters.IngredientEditAdapter
 import com.cactusknights.chefbook.R
-import com.cactusknights.chefbook.adapters.CategoryEditAdapter
-import com.cactusknights.chefbook.helpers.Dialogs.getConfirmDialog
+import com.cactusknights.chefbook.dialogs.CategoriesDialog
+import com.cactusknights.chefbook.dialogs.ConfirmDialog
 import com.cactusknights.chefbook.models.Ingredient
 import com.cactusknights.chefbook.models.Recipe
 import com.cactusknights.chefbook.viewmodels.UserViewModel
@@ -127,10 +123,13 @@ class RecipeCommitActivity: AppCompatActivity() {
             cookingAdapter.notifyItemInserted(steps.size-1)
         }
 
-        chooseCategoriesButton.setOnClickListener { openCategoriesDialog() }
+        chooseCategoriesButton.setOnClickListener {
+            CategoriesDialog(categories, allCategories, ::onCommitCategoriesCallback)
+                .show(supportFragmentManager, "Categories Dialog")
+        }
 
-        btnBack.setOnClickListener { getConfirmDialog(this) { onBackPressed() } }
-        btnConfirm.setOnClickListener { addRecipe() }
+        btnBack.setOnClickListener { onBackPressed() }
+        btnConfirm.setOnClickListener { commitRecipe() }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -140,8 +139,7 @@ class RecipeCommitActivity: AppCompatActivity() {
         super.onSaveInstanceState(outState)
     }
 
-
-    private fun addRecipe() {
+    private fun commitRecipe() {
         val confirmedRecipe = getRecipe()
         when {
             confirmedRecipe.name.isEmpty() -> { Toast.makeText(this, resources.getString(R.string.enter_name), Toast.LENGTH_SHORT).show() }
@@ -154,6 +152,13 @@ class RecipeCommitActivity: AppCompatActivity() {
                 finish()
             }
         }
+    }
+
+    private fun onCommitRecipeCallback(isAdded: Boolean) {
+        if (isAdded) { Toast.makeText(applicationContext, if (originalRecipe == null) resources.getString(R.string.recipe_added)
+            else resources.getString(R.string.recipe_updated), Toast.LENGTH_SHORT).show() }
+        else Toast.makeText(applicationContext, if (originalRecipe == null) resources.getString(R.string.failed_add)
+            else resources.getString(R.string.failed_update), Toast.LENGTH_SHORT).show()
     }
 
     private fun getRecipe(): Recipe {
@@ -178,13 +183,6 @@ class RecipeCommitActivity: AppCompatActivity() {
 
             ingredients = notEmptyIngredients, cooking = notEmptySteps
         )
-    }
-
-    private fun onCommitRecipeCallback(isAdded: Boolean) {
-        if (isAdded) { Toast.makeText(applicationContext, if (originalRecipe == null) resources.getString(R.string.recipe_added)
-                        else resources.getString(R.string.recipe_updated), Toast.LENGTH_SHORT).show() }
-        else Toast.makeText(applicationContext, if (originalRecipe == null) resources.getString(R.string.failed_add)
-                        else resources.getString(R.string.failed_update), Toast.LENGTH_SHORT).show()
     }
 
     inner class IngredientsDragCallback: ItemTouchHelper.Callback() {
@@ -221,52 +219,13 @@ class RecipeCommitActivity: AppCompatActivity() {
         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) { return }
     }
 
-    private fun openCategoriesDialog() {
+    private fun onCommitCategoriesCallback (newCategories: ArrayList<String>, allCategories: ArrayList<String>) {
+        this.categories = newCategories
+        this.allCategories = allCategories
 
-        val categoriesAdapter = CategoryEditAdapter(allCategories, categories)
+    }
 
-        val dialog = Dialog(this)
-        dialog.setContentView(R.layout.dialog_categories)
-        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-
-        val categoriesRecyclerView = dialog.findViewById<RecyclerView>(R.id.categories_recycler_view)
-        categoriesRecyclerView.layoutManager = LinearLayoutManager(this)
-        categoriesRecyclerView.adapter = categoriesAdapter
-
-
-        val newCategory = dialog.findViewById<TextView>(R.id.new_category)
-        val addCategory = dialog.findViewById<ImageButton>(R.id.add_category)
-
-        val cancel = dialog.findViewById<ImageButton>(R.id.cancel)
-        val confirm = dialog.findViewById<ImageButton>(R.id.confirm)
-
-        addCategory.setOnClickListener {
-            val newCategoryText = newCategory.text.toString()
-            if (newCategoryText != "" && newCategoryText !in allCategories) {
-                allCategories.add(newCategoryText)
-                categoriesAdapter.notifyItemInserted(allCategories.size-1)
-                newCategory.text = ""
-            } else {
-                newCategory.text = ""
-            }
-        }
-
-        cancel.setOnClickListener {
-            dialog.dismiss()
-        }
-
-        confirm.setOnClickListener {
-            val newCategories = arrayListOf<String>()
-            for (categoryView in categoriesRecyclerView.children) {
-                val checkBox = categoryView.findViewById<CheckBox>(R.id.category_checkbox)
-                if (checkBox.isChecked) {
-                    newCategories.add(categoryView.findViewById<TextView>(R.id.category_name).text.toString())
-                }
-            }
-            categories = newCategories
-            dialog.dismiss()
-        }
-
-        dialog.show()
+    override fun onBackPressed() {
+        ConfirmDialog { finish() }.show(supportFragmentManager, "Confirm")
     }
 }

@@ -16,7 +16,7 @@ import androidx.core.app.ActivityOptionsCompat
 import androidx.viewpager2.widget.ViewPager2
 import com.cactusknights.chefbook.R
 import com.cactusknights.chefbook.adapters.ViewPagerAdapter
-import com.cactusknights.chefbook.helpers.Dialogs.getConfirmDialog
+import com.cactusknights.chefbook.dialogs.ConfirmDialog
 import com.cactusknights.chefbook.helpers.Utils
 import com.cactusknights.chefbook.models.Recipe
 import com.cactusknights.chefbook.viewmodels.UserViewModel
@@ -144,7 +144,7 @@ class RecipeActivity: AppCompatActivity() {
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
         }
         deleteRecipe.setOnClickListener {
-            getConfirmDialog(this) { UserViewModel.deleteRecipe(recipe, ::onDeleteRecipeCallback); finish() }
+            ConfirmDialog { UserViewModel.deleteRecipe(recipe, ::onDeleteRecipeCallback); finish() }.show(supportFragmentManager, "Confirm")
             dialog.dismiss()
         }
 

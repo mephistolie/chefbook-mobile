@@ -16,10 +16,11 @@ class RecipeAdapter(private var recipes: ArrayList<Recipe>, val listener: Recipe
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val recipe = recipes[position]
         holder.favouriteIcon.visibility = if (recipe.isFavourite) View.VISIBLE else View.GONE
-        if (recipe.categories.isEmpty()) recipe.categories = arrayListOf("Uncategorized")
         holder.name.text = recipe.name
         holder.time.text = recipe.time
-        holder.categories.text = recipe.categories.joinToString(separator = ", ")
+        holder.categories.text =
+            if (recipe.categories.isNotEmpty()) recipe.categories.joinToString(separator = ", ")
+            else holder.itemView.context.getString(R.string.uncategorized)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

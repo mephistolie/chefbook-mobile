@@ -1,26 +1,19 @@
 package com.cactusknights.chefbook.activities
 
-import android.app.Dialog
 import android.content.Intent
 import android.content.SharedPreferences
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
-import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.AppCompatButton
-import androidx.appcompat.widget.LinearLayoutCompat
-import androidx.appcompat.widget.SwitchCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import com.cactusknights.chefbook.R
+import com.cactusknights.chefbook.dialogs.SettingsDialog
+import com.cactusknights.chefbook.dialogs.ShoppingDialog
 import com.cactusknights.chefbook.fragments.*
-import com.cactusknights.chefbook.helpers.Dialogs
-import com.cactusknights.chefbook.helpers.Dialogs.getConfirmDialog
 import com.cactusknights.chefbook.models.User
 import com.cactusknights.chefbook.repositories.FirebaseAuthRepository
 import com.cactusknights.chefbook.viewmodels.UserViewModel
@@ -167,13 +160,13 @@ class MainActivity : AppCompatActivity() {
     private fun onLeftPressed() {
         val currentFragment = fragmentManager.findFragmentByTag("Shopping List")
         if (currentFragment != null && currentFragment.isVisible) {
-            openShoppingDialog()
+            ShoppingDialog().show(fragmentManager, "Shopping List Dialog")
             return
         }
         onBackPressed()
     }
 
-    private fun onRightPressed() { openSettingsDialog() }
+    private fun onRightPressed() { SettingsDialog().show(supportFragmentManager, "Settings") }
 
     override fun onBackPressed() {
         for (fragment in innerFragments) {
@@ -196,97 +189,5 @@ class MainActivity : AppCompatActivity() {
         val intent = Intent(this, LoginActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
         startActivity(intent)
         finish()
-    }
-
-    private fun logout() { userViewModel.logout() }
-
-    private fun openSettingsDialog() {
-        val dialog = Dialog(this)
-        dialog.setContentView(R.layout.dialog_settings)
-        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-
-        val userName = dialog.findViewById<TextView>(R.id.user)
-        val premiumBadge = dialog.findViewById<ImageButton>(R.id.premium)
-        val logoutButton = dialog.findViewById<Button>(R.id.logout)
-        val aboutButton = dialog.findViewById<LinearLayoutCompat>(R.id.about_app)
-        val supportButton = dialog.findViewById<LinearLayoutCompat>(R.id.buy_premium)
-
-        val displayName = userViewModel.getCurrentUser().value?.displayName.toString()
-        userName.text = if (displayName.isNotEmpty()) displayName else userViewModel.getCurrentUser().value?.email.toString()
-
-        val shoppingListDefault = dialog.findViewById<SwitchCompat>(R.id.shopping_list_default)
-        shoppingListDefault.isChecked = sp.getBoolean("shoppingListIsDefault", false)
-        shoppingListDefault.setOnClickListener {
-            sp.edit().putBoolean("shoppingListIsDefault", !sp.getBoolean("shoppingListIsDefault", false)).apply()
-        }
-
-        val currentUser = userViewModel.getCurrentUser().value
-        if (currentUser != null && currentUser.isPremium) {
-            premiumBadge.visibility = View.VISIBLE
-        }
-
-        aboutButton.setOnClickListener {
-            Dialogs.openAboutDialog(this, ::sendEmail)
-            dialog.dismiss()
-        }
-        supportButton.setOnClickListener {
-            openDonateDialog()
-            dialog.dismiss()
-        }
-        logoutButton.setOnClickListener {
-            getConfirmDialog(this) { logout() }
-            dialog.dismiss()
-        }
-
-        dialog.show()
-    }
-
-    private fun openShoppingDialog() {
-        val dialog = Dialog(this)
-        dialog.setContentView(R.layout.dialog_shopping_list)
-        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-
-        val addItem = dialog.findViewById<AppCompatButton>(R.id.add_item)
-        val item = dialog.findViewById<TextView>(R.id.item)
-        addItem.setOnClickListener {
-            val itemText = item.text.toString()
-            if (itemText.isNotEmpty()) {
-                var shoppingListFragment = fragmentManager.findFragmentByTag("Shopping List")
-                if (shoppingListFragment != null) {
-                    shoppingListFragment = shoppingListFragment as ShoppingListFragment
-                    shoppingListFragment.shoppingList.add(itemText)
-                    shoppingListFragment.shoppingAdapter.notifyItemInserted(shoppingListFragment.shoppingList.size-1)
-                    shoppingListFragment.emptyListTitle.visibility = if (shoppingListFragment.shoppingList.size > 0) View.GONE else View.VISIBLE
-                }
-            }
-            dialog.dismiss()
-        }
-
-        dialog.show()
-    }
-
-    fun openDonateDialog() {
-
-        val dialog = Dialog(this)
-        dialog.setContentView(R.layout.dialog_donate)
-        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-
-        val smallDonation = dialog.findViewById<TextView>(R.id.small_donation)
-        val middleDonation = dialog.findViewById<TextView>(R.id.middle_donation)
-        val bigDonation = dialog.findViewById<TextView>(R.id.big_donation)
-        val support = dialog.findViewById<TextView>(R.id.support)
-
-        smallDonation.setOnClickListener { userViewModel.buyPremium("small_donation", this) }
-        middleDonation.setOnClickListener { userViewModel.buyPremium("middle_donation", this) }
-        bigDonation.setOnClickListener { userViewModel.buyPremium("big_donation", this) }
-        support.setOnClickListener { sendEmail() }
-
-        dialog.show()
-    }
-
-    private fun sendEmail() {
-        val intent = Intent(Intent.ACTION_SENDTO)
-        intent.data = Uri.parse("mailto:"+resources.getString(R.string.support_email))
-        startActivity(intent)
     }
 }
