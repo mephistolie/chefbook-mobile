@@ -32,9 +32,9 @@ class CookingEditAdapter(private var steps: ArrayList<String>): RecyclerView.Ada
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         val binding = DataBindingUtil.bind<ListStepsEditBinding>(itemView)
-        val number: TextView = itemView.findViewById(R.id.number)
-        private var description: EditText = itemView.findViewById(R.id.description)
-        private val deleteStepButton: ImageButton = itemView.findViewById(R.id.delete_step)
+        val number: TextView = itemView.findViewById(R.id.text_number)
+        private var description: EditText = itemView.findViewById(R.id.input_step)
+        private val deleteStepButton: ImageButton = itemView.findViewById(R.id.btn_delete_step)
 
         init {
             description.addTextChangedListener(object : TextWatcher {

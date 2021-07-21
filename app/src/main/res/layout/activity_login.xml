@@ -4,25 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.MainActivity"
-    android:background="@color/app_background"
-    android:animateLayoutChanges="true">
+    android:background="@color/app_background">
 
     <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/linearLayoutCompat"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="48dp"
+        android:animateLayoutChanges="true"
         android:gravity="center_horizontal"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:animateLayoutChanges="true">
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.appcompat.widget.LinearLayoutCompat
-            android:id="@+id/logo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -30,25 +26,24 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
-                android:id="@+id/icon"
+            <androidx.appcompat.widget.AppCompatImageView
                 android:layout_width="96dp"
                 android:layout_height="96dp"
+                android:contentDescription="@string/app_name"
                 android:scaleType="fitXY"
                 android:src="@drawable/ic_logo"
-                android:contentDescription="@string/app_name"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/app_name"
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/text_app_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                app:fontFamily="@font/comfortaa_bold"
                 android:text="@string/app_name"
-                android:textSize="34sp" />
+                android:textSize="34sp"
+                app:fontFamily="@font/comfortaa_bold" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -62,27 +57,33 @@
             app:startIconDrawable="@drawable/ic_email">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/email"
+                android:id="@+id/input_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/selector_input" />
+                android:background="@drawable/selector_input"
+                android:imeOptions="actionNext"
+                android:inputType="text"
+                android:maxLines="1" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/password_field"
+            android:id="@+id/il_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:hint="@string/password"
+            android:imeOptions="actionNext"
+            android:inputType="text"
+            android:maxLines="1"
             app:boxStrokeWidth="0dp"
             app:boxStrokeWidthFocused="0dp"
-            app:passwordToggleEnabled="true"
             app:passwordToggleDrawable="@drawable/ic_eye"
+            app:passwordToggleEnabled="true"
             app:startIconDrawable="@drawable/ic_lock">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/password"
+                android:id="@+id/input_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/selector_input"
@@ -92,21 +93,21 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id = "@+id/repeat_password_field"
+            android:id="@+id/il_repeat_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone"
             android:layout_marginTop="8dp"
             android:hint="@string/repeat_password"
+            android:visibility="gone"
             app:boxStrokeWidth="0dp"
             app:boxStrokeWidthFocused="0dp"
 
-            app:passwordToggleEnabled="true"
             app:passwordToggleDrawable="@drawable/ic_eye"
+            app:passwordToggleEnabled="true"
             app:startIconDrawable="@drawable/ic_lock">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/repeat_password"
+                android:id="@+id/input_repeat_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/selector_input"
@@ -116,7 +117,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/login_email"
+            android:id="@+id/btn_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -124,8 +125,15 @@
             android:text="@string/login"
             android:textColor="@color/deep_orange_dark" />
 
+        <ProgressBar
+            android:id="@+id/progress_login"
+            android:layout_marginTop="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
+
         <View
-            android:id="@+id/separator"
+            android:id="@+id/view_separator"
             android:layout_width="match_parent"
             android:layout_height="2dp"
             android:layout_marginHorizontal="96dp"
@@ -133,18 +141,18 @@
             android:background="@drawable/selector_input" />
 
         <androidx.appcompat.widget.LinearLayoutCompat
-            android:id="@+id/providers"
+            android:id="@+id/ll_providers"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:gravity="center">
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/login_google"
+                android:id="@+id/btn_google"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_google"
                 android:contentDescription="@string/google"
+                android:src="@drawable/ic_google"
                 app:backgroundTint="@color/input_background"
                 app:fabSize="mini"
                 app:tint="@color/login_tint" />
@@ -156,44 +164,44 @@
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:layout_marginHorizontal="48dp"
+        android:layout_marginBottom="48dp"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginBottom="48dp">
+        app:layout_constraintStart_toStartOf="parent">
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/forgot_password"
+            android:id="@+id/btn_reset_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:textColor="@color/deep_orange_light"
-            android:text="@string/forgot_password" />
+            android:text="@string/forgot_password"
+            android:textColor="@color/deep_orange_light" />
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:layout_marginTop="8dp"
             android:gravity="center"
-            android:layout_marginTop="8dp">
+            android:orientation="horizontal">
 
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/membership"
+                android:id="@+id/text_membership"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="@string/not_member" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/signup"
+                android:id="@+id/text_sign_up"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="@string/signup"
                 android:maxLines="1"
-                android:textColor="@color/deep_orange_light"/>
+                android:text="@string/signup"
+                android:textColor="@color/deep_orange_light" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

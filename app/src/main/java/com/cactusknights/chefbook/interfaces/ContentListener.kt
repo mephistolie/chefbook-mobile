@@ -1,19 +1,19 @@
 package com.cactusknights.chefbook.interfaces
 
-import androidx.lifecycle.MutableLiveData
 import com.cactusknights.chefbook.models.Recipe
+import kotlinx.coroutines.flow.MutableStateFlow
 
 interface ContentListener {
 
-    fun getRecipes(): MutableLiveData<ArrayList<Recipe>>
-    fun getRecipesCount(): Int
-    fun getCategories(): MutableLiveData<MutableSet<String>>
-    fun getShoppingList(): MutableLiveData<ArrayList<String>>
-    fun setShoppingList(shoppingList: MutableLiveData<ArrayList<String>>)
+    suspend fun getRecipes(): MutableStateFlow<ArrayList<Recipe>>
+    suspend fun getRecipesCount(): Int
+    suspend fun getCategories(): MutableStateFlow<ArrayList<String>>
+    suspend fun getShoppingList(): MutableStateFlow<ArrayList<String>>
 
-    fun listenToRecipes()
-    fun listenToShoppingList()
-    fun stopListeningRecipes()
-    fun stopListenShoppingList()
+    suspend fun listenToRecipes()
+    suspend fun listenToShoppingList()
+    suspend fun stopListeningRecipes()
+    suspend fun stopListenShoppingList()
+    suspend fun setShoppingList(shoppingList: ArrayList<String>)
 
 }

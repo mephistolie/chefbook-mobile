@@ -4,10 +4,10 @@ import com.cactusknights.chefbook.models.Recipe
 
 interface ContentProvider {
 
-    fun addRecipe(recipe: Recipe, callback: (isAdded: Boolean) -> Unit)
-    fun updateRecipe(recipe: Recipe, callback: (isAdded: Boolean) -> Unit)
-    fun deleteRecipe(recipe: Recipe, callback: (isDeleted: Boolean) -> Unit)
-    fun setRecipeFavoriteStatus(recipe: Recipe)
+    suspend fun addRecipe(recipe: Recipe, callback: (isAdded: Boolean) -> Unit)
+    suspend fun updateRecipe(recipe: Recipe, callback: (isAdded: Boolean) -> Unit)
+    suspend fun deleteRecipe(recipe: Recipe, callback: (isDeleted: Boolean) -> Unit)
+    suspend fun setRecipeFavoriteStatus(recipe: Recipe)
 
-    fun addToShoppingList(items: ArrayList<String>)
+    suspend fun addToShoppingList(items: ArrayList<String>)
 }

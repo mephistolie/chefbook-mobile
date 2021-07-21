@@ -1,48 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="step"
             type="String" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp">
+        android:layout_marginBottom="12dp"
+        android:orientation="vertical">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="top"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:gravity="top">
+            app:layout_constraintTop_toTopOf="parent">
 
             <TextView
-                android:id="@+id/number"
+                android:id="@+id/text_number"
                 android:layout_width="28dp"
                 android:layout_height="28dp"
                 android:layout_marginEnd="8dp"
                 android:gravity="end"
-                android:textSize="24sp"
                 android:text="@string/step_number"
-                android:textColor="@color/deep_orange_light"/>
+                android:textColor="@color/deep_orange_light"
+                android:textSize="24sp" />
 
             <TextView
-                android:id="@+id/description"
+                android:id="@+id/text_description"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:gravity="top"
                 android:layout_weight="1"
-                android:textSize="24sp"
+                android:gravity="top"
+                android:text="@={step}"
                 android:textColor="@color/monochrome_invert"
-                android:text="@={step}" />
+                android:textSize="24sp" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
     </androidx.constraintlayout.widget.ConstraintLayout>
