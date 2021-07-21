@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:card_view="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:layout_marginBottom="8dp">
 
 
@@ -14,21 +13,21 @@
         android:foreground="?android:attr/selectableItemBackground"
         app:cardBackgroundColor="@color/recipe_card_background"
         app:cardCornerRadius="8dp"
-        card_view:cardElevation="0dp"
-        app:cardElevation="0dp">
+        app:cardElevation="0dp"
+        card_view:cardElevation="0dp">
 
         <TextView
-            android:layout_gravity="center"
-            android:id="@+id/category"
+            android:id="@+id/text_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/category"
+            android:layout_gravity="center"
             android:layout_margin="16dp"
-            android:textColor="@color/monochrome_invert"
-            android:textSize="24sp"
             android:fadingEdgeLength="64dp"
             android:maxLines="2"
-            android:requiresFadingEdge="horizontal" />
+            android:requiresFadingEdge="horizontal"
+            android:text="@string/category"
+            android:textColor="@color/monochrome_invert"
+            android:textSize="24sp" />
 
     </androidx.cardview.widget.CardView>
 

@@ -1,36 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="360dp"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center">
-    
+
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:cardCornerRadius="20dp"
+        android:layout_marginHorizontal="8dp"
         android:backgroundTint="@color/app_background"
-        app:cardElevation="0dp">
-
+        app:cardCornerRadius="20dp"
+        app:cardElevation="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.appcompat.widget.LinearLayoutCompat
-            android:paddingVertical="24dp"
-            android:paddingHorizontal="24dp"
-            android:id="@+id/linearLayoutCompat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:animateLayoutChanges="true"
             android:gravity="center"
             android:orientation="vertical"
+            android:paddingHorizontal="24dp"
+            android:paddingVertical="24dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:animateLayoutChanges="true">
+            app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
-                android:id="@+id/icon"
                 android:layout_width="96dp"
                 android:layout_height="96dp"
+                android:contentDescription="@string/app_name"
                 android:scaleType="fitXY"
                 android:src="@drawable/ic_logo"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -38,23 +41,22 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/user"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
-                app:fontFamily="@font/comfortaa"
-                android:textColor="@color/monochrome_invert"
                 android:text="@string/app_name"
-                android:textSize="24sp" />
+                android:textColor="@color/monochrome_invert"
+                android:textSize="24sp"
+                app:fontFamily="@font/comfortaa" />
 
             <TextView
-                android:gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="18sp"
                 android:layout_weight="1"
-                android:text="@string/app_ver" />
+                android:gravity="center"
+                android:text="@string/app_ver"
+                android:textSize="18sp" />
 
             <View
                 android:layout_width="match_parent"
@@ -65,21 +67,21 @@
                 android:background="@drawable/selector_input" />
 
             <TextView
-                android:gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
                 android:layout_marginBottom="4dp"
                 android:layout_weight="1"
-                android:text="@string/app_info" />
+                android:gravity="center"
+                android:text="@string/app_info"
+                android:textSize="16sp" />
 
             <TextView
-                android:gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
                 android:layout_weight="1"
-                android:text="@string/special_to" />
+                android:gravity="center"
+                android:text="@string/special_to"
+                android:textSize="16sp" />
 
             <View
                 android:layout_width="match_parent"
@@ -89,24 +91,24 @@
                 android:background="@drawable/selector_input" />
 
             <TextView
-                android:gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
                 android:layout_marginBottom="4dp"
                 android:layout_weight="1"
-                android:text="@string/troubles" />
+                android:gravity="center"
+                android:text="@string/troubles"
+                android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/support"
-                android:gravity="center"
+                android:id="@+id/text_support"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
                 android:layout_marginBottom="16dp"
                 android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/support_email"
                 android:textColor="@color/deep_orange_light"
-                android:text="@string/support_email" />
+                android:textSize="16sp" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

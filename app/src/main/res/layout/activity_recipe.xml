@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:ads="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,19 +9,19 @@
     tools:context=".activities.MainActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout"
+        android:id="@+id/cl_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="8dp"
         android:layout_marginTop="16dp"
+        android:animateLayoutChanges="true"
         android:transitionName="toolbar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:animateLayoutChanges="true">
+        app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/back_button"
+        <ImageButton
+            android:id="@+id/btn_back"
             style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
             android:layout_width="48dp"
             android:layout_height="48dp"
@@ -29,36 +29,36 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/login_tint"/>
+            app:tint="@color/login_tint" />
 
         <TextView
-            android:drawablePadding="8dp"
-            android:id="@+id/recipe_name"
+            android:id="@+id/text_section"
             style="@style/TextAppearance.AppCompat.Medium"
             android:layout_width="280dp"
             android:layout_height="wrap_content"
-            android:text="@string/recipe"
-            android:gravity="center"
+            android:drawablePadding="8dp"
             android:ellipsize="none"
-            android:singleLine="true"
             android:fadingEdgeLength="32dp"
+            android:gravity="center"
             android:requiresFadingEdge="horizontal"
+            android:singleLine="true"
+            android:text="@string/recipe"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/more"
-            app:layout_constraintStart_toEndOf="@id/back_button"
+            app:layout_constraintEnd_toStartOf="@id/btn_more"
+            app:layout_constraintStart_toEndOf="@id/btn_back"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/more"
+        <ImageButton
+            android:id="@+id/btn_more"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:src="@drawable/ic_more"
-            android:backgroundTint="@color/black"
             android:background="?android:attr/selectableItemBackground"
+            android:backgroundTint="@color/black"
+            android:src="@drawable/ic_more"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/login_tint"/>
+            app:tint="@color/login_tint" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -67,22 +67,22 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginHorizontal="16dp"
+        android:animateLayoutChanges="true"
         android:orientation="vertical"
         android:requiresFadingEdge="vertical"
         android:scrollbars="none"
         android:transitionName="content"
-        android:animateLayoutChanges="true"
         android:weightSum="1"
-        app:layout_constraintBottom_toTopOf="@id/adView"
+        app:layout_constraintBottom_toTopOf="@id/av_banner"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
+        app:layout_constraintTop_toBottomOf="@+id/cl_toolbar">
 
         <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/recipe_view_pager"
+            android:id="@+id/vp_recipe"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"/>
+            android:layout_weight="1" />
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tab_dots"
@@ -90,21 +90,21 @@
             android:layout_height="wrap_content"
             app:tabBackground="@drawable/tab_selector"
             app:tabGravity="center"
-            app:tabIndicatorHeight="0dp"/>
+            app:tabIndicatorHeight="0dp" />
 
     </LinearLayout>
 
     <com.google.android.gms.ads.AdView
-        android:id="@+id/adView"
-        ads:adSize="BANNER"
-        ads:adUnitId="@string/banner_ad_unit_id"
-        android:visibility="gone"
+        android:id="@+id/av_banner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
+        android:visibility="gone"
+        ads:adSize="BANNER"
+        ads:adUnitId="@string/banner_ad_unit_id"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,24 +4,25 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
-import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.cactusknights.chefbook.R
+import com.cactusknights.chefbook.databinding.ActivityMainBinding
 import com.cactusknights.chefbook.dialogs.SettingsDialog
-import com.cactusknights.chefbook.dialogs.ShoppingDialog
+import com.cactusknights.chefbook.dialogs.ShoppingListDialog
 import com.cactusknights.chefbook.fragments.*
 import com.cactusknights.chefbook.models.User
 import com.cactusknights.chefbook.repositories.FirebaseAuthRepository
 import com.cactusknights.chefbook.viewmodels.UserViewModel
 import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationBarView
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import java.io.File
 
 
@@ -32,21 +33,12 @@ class MainActivity : AppCompatActivity() {
     private val innerFragments = arrayListOf("Favourite", "Categories", "Recipes in Category")
     private lateinit var sp: SharedPreferences
 
-    private lateinit var leftButton: ImageButton
-    private lateinit var sectionName: TextView
-    private lateinit var rightButton: ImageButton
-    private lateinit var bottomNavigationView: BottomNavigationView
-    private lateinit var mAdView: AdView
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
-        leftButton = findViewById(R.id.left_button)
-        sectionName = findViewById(R.id.section_name)
-        rightButton = findViewById(R.id.right_button)
-        bottomNavigationView = findViewById(R.id.bottom_navigation)
-        mAdView = findViewById(R.id.adView)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         sp = getSharedPreferences("ChefBook", MODE_PRIVATE)
 
@@ -77,9 +69,9 @@ class MainActivity : AppCompatActivity() {
             }
             true
         }
-        bottomNavigationView.setOnItemSelectedListener(navigation)
-        leftButton.setOnClickListener { onLeftPressed() }
-        rightButton.setOnClickListener { onRightPressed() }
+        binding.nvNavigation.setOnItemSelectedListener(navigation)
+        binding.btnLeft.setOnClickListener { onLeftPressed() }
+        binding.btnRight.setOnClickListener { onRightPressed() }
 
         // SQLite Migration
         val legacyDatabase = File(filesDir, "../databases/ChefBookDB")
@@ -91,21 +83,25 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onStart() {
-        userViewModel.getCurrentUser().observe(this, { user: User? ->
+        lifecycleScope.launch { listenToUser() }
+        super.onStart()
+    }
+
+    private suspend fun listenToUser() {
+        userViewModel.listenToUser().collect { user: User? ->
             if (user == null) {
                 startLoginActivity()
             } else {
                 if (user.isPremium)
-                    mAdView.visibility = View.GONE
+                    binding.avBanner.visibility = View.GONE
                 else {
                     MobileAds.initialize(this)
                     val adRequest: AdRequest = AdRequest.Builder().build()
-                    mAdView.loadAd(adRequest)
-                    mAdView.visibility = View.VISIBLE
+                    binding.avBanner.loadAd(adRequest)
+                    binding.avBanner.visibility = View.VISIBLE
                 }
             }
-        })
-        super.onStart()
+        }
     }
 
     override fun onDestroy() {
@@ -117,7 +113,7 @@ class MainActivity : AppCompatActivity() {
         for (fragment in fragmentManager.fragments) {
             if (fragment != null && fragment.isVisible) {
                 fragmentManager.putFragment(outState, "savedFragment", fragment)
-                outState.putString("sectionName", sectionName.text.toString())
+                outState.putString("sectionName", binding.textSection.text.toString())
             }
         }
         super.onSaveInstanceState(outState)
@@ -126,7 +122,7 @@ class MainActivity : AppCompatActivity() {
     private fun setStartFragment() {
         if (!sp.getBoolean("shoppingListIsDefault", false)) {
             setFragment(DashboardFragment(), R.anim.zoom_in_show, R.anim.zoom_in_hide,"Recipes")
-            bottomNavigationView.selectedItemId = R.id.recipes
+            binding.nvNavigation.selectedItemId = R.id.recipes
         } else {
             setTopMenu(resources.getString(R.string.shopping_list), true, R.drawable.ic_add, R.color.deep_orange_light)
             setFragment(ShoppingListFragment(), R.anim.zoom_in_show, R.anim.zoom_in_hide,"Shopping List")
@@ -136,37 +132,35 @@ class MainActivity : AppCompatActivity() {
     fun setFragment(fragment: Fragment, startAnimation: Int, endAnimation: Int, tag: String = "") {
         fragmentManager.beginTransaction()
             .setCustomAnimations(startAnimation, endAnimation)
-            .replace(R.id.content, fragment, tag)
+            .replace(R.id.cv_content, fragment, tag)
             .commit()
     }
 
     fun setTopMenu(title: String = resources.getString(R.string.recipes),
                            isLeftVisible: Boolean = false,
                            leftIcon: Int = R.drawable.ic_back,
-                           leftColor: Int = R.color.login_tint,
-                           rightIcon: Int = R.drawable.ic_user) {
+                           leftColor: Int = R.color.login_tint) {
 
-        sectionName.text = title
+        binding.textSection.text = title
         if (isLeftVisible) {
-            leftButton.setImageResource(leftIcon)
-            leftButton.visibility = View.VISIBLE
-            leftButton.setColorFilter(ContextCompat.getColor(this, leftColor))
+            binding.btnLeft.setImageResource(leftIcon)
+            binding.btnLeft.visibility = View.VISIBLE
+            binding.btnLeft.setColorFilter(ContextCompat.getColor(this, leftColor))
         } else {
-            leftButton.visibility = View.INVISIBLE
+            binding.btnLeft.visibility = View.INVISIBLE
         }
-        rightButton.setImageResource(rightIcon)
     }
 
     private fun onLeftPressed() {
         val currentFragment = fragmentManager.findFragmentByTag("Shopping List")
         if (currentFragment != null && currentFragment.isVisible) {
-            ShoppingDialog().show(fragmentManager, "Shopping List Dialog")
+            ShoppingListDialog().show(fragmentManager, "Shopping List Dialog")
             return
         }
         onBackPressed()
     }
 
-    private fun onRightPressed() { SettingsDialog().show(supportFragmentManager, "Settings") }
+    private fun onRightPressed() { SettingsDialog().show(fragmentManager, "Settings") }
 
     override fun onBackPressed() {
         for (fragment in innerFragments) {

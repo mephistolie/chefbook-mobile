@@ -31,8 +31,8 @@ class IngredientEditAdapter(private var ingredients: ArrayList<Ingredient>): Rec
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val binding = DataBindingUtil.bind<ListIngredientsEditBinding>(itemView)
-        private var ingredientName: EditText = itemView.findViewById(R.id.ingredient_name)
-        private var deleteIngredientButton: ImageButton = itemView.findViewById(R.id.delete_ingredient)
+        private var ingredientName: EditText = itemView.findViewById(R.id.input_ingredient)
+        private var deleteIngredientButton: ImageButton = itemView.findViewById(R.id.btn_delete_ingredient)
 
         init {
 

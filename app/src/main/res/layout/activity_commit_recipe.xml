@@ -4,23 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/app_background"
-    tools:context=".activities.MainActivity">
+    android:background="@color/app_background">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout"
+        android:id="@+id/cl_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="8dp"
-        android:transitionName="toolbar"
         android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:animateLayoutChanges="true">
+        app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/back_button"
+        <ImageButton
+            android:id="@+id/btn_back"
             style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
             android:layout_width="48dp"
             android:layout_height="48dp"
@@ -28,36 +25,36 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/login_tint"/>
+            app:tint="@color/login_tint" />
 
         <TextView
-            android:drawablePadding="8dp"
-            android:id="@+id/section_name"
+            android:id="@+id/text_section"
             style="@style/TextAppearance.AppCompat.Medium"
             android:layout_width="280dp"
             android:layout_height="wrap_content"
-            android:text="@string/new_recipe"
-            android:gravity="center"
+            android:drawablePadding="8dp"
             android:ellipsize="none"
-            android:singleLine="true"
             android:fadingEdgeLength="32dp"
+            android:gravity="center"
             android:requiresFadingEdge="horizontal"
+            android:singleLine="true"
+            android:text="@string/new_recipe"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/confirm_button"
-            app:layout_constraintStart_toEndOf="@id/back_button"
+            app:layout_constraintEnd_toStartOf="@id/btn_confirm"
+            app:layout_constraintStart_toEndOf="@id/btn_back"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/confirm_button"
+        <ImageButton
+            android:id="@+id/btn_confirm"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:src="@drawable/ic_check"
-            android:backgroundTint="@color/black"
             android:background="?android:attr/selectableItemBackground"
+            android:backgroundTint="@color/black"
+            android:src="@drawable/ic_check"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/deep_orange_light"/>
+            app:tint="@color/deep_orange_light" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -66,41 +63,40 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginHorizontal="16dp"
+        android:animateLayoutChanges="true"
         android:orientation="vertical"
         android:requiresFadingEdge="vertical"
-        android:transitionName="content"
         android:scrollbars="none"
-        android:animateLayoutChanges="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
+        app:layout_constraintTop_toBottomOf="@+id/cl_toolbar">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="16dp">
+            android:layout_marginTop="16dp"
+            android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:fontFamily="@font/comfortaa_bold"
                 android:layout_marginBottom="8dp"
                 android:text="@string/name"
                 android:textColor="@color/monochrome_invert"
-                android:textSize="24sp" />
+                android:textSize="24sp"
+                app:fontFamily="@font/comfortaa_bold" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/name"
+            <EditText
+                android:id="@+id/input_name"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:hint="@string/cupcake"
-                android:textSize="24sp"
-                android:inputType="text"
-                android:imeOptions="actionNext"
                 android:background="@drawable/selector_input"
-                android:paddingHorizontal="8dp" />
+                android:hint="@string/cupcake"
+                android:imeOptions="actionNext"
+                android:inputType="text"
+                android:paddingHorizontal="8dp"
+                android:textSize="24sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -114,19 +110,18 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="2"
-                    android:fontFamily="@font/montserrat"
                     android:text="@string/servings"
                     android:textSize="20sp" />
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/servings"
+                <EditText
+                    android:id="@+id/input_servings"
                     android:layout_width="match_parent"
                     android:layout_height="36dp"
                     android:layout_weight="3"
                     android:background="@drawable/selector_input"
                     android:hint="@string/_1"
-                    android:inputType="number"
                     android:imeOptions="actionNext"
+                    android:inputType="number"
                     android:paddingHorizontal="8dp" />
 
             </LinearLayout>
@@ -143,19 +138,18 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="2"
-                    android:fontFamily="@font/montserrat"
                     android:text="@string/calories_kcal"
                     android:textSize="20sp" />
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/calories"
+                <EditText
+                    android:id="@+id/input_calories"
                     android:layout_width="match_parent"
                     android:layout_height="36dp"
                     android:layout_weight="3"
                     android:background="@drawable/selector_input"
                     android:hint="@string/_0_to_hide"
-                    android:inputType="number"
                     android:imeOptions="actionNext"
+                    android:inputType="number"
                     android:paddingHorizontal="8dp" />
 
             </LinearLayout>
@@ -172,60 +166,58 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="2"
-                    android:fontFamily="@font/montserrat"
                     android:text="@string/time"
                     android:textSize="20sp" />
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/time"
+                <EditText
+                    android:id="@+id/input_time"
                     android:layout_width="match_parent"
                     android:layout_height="36dp"
                     android:layout_weight="3"
                     android:background="@drawable/selector_input"
                     android:hint="@string/_15_min"
-                    android:inputType="text"
                     android:imeOptions="actionNext"
+                    android:inputType="text"
                     android:paddingHorizontal="8dp" />
 
             </LinearLayout>
 
             <Button
-                android:id="@+id/choose_categories"
+                android:id="@+id/btn_categories"
                 style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="16dp"
-                android:fontFamily="@font/montserrat"
                 android:layout_gravity="center"
+                android:layout_marginVertical="16dp"
                 android:text="@string/choose_categories"
                 android:textColor="@color/deep_orange_light" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:fontFamily="@font/comfortaa_semibold"
                 android:layout_marginBottom="8dp"
                 android:text="@string/ingredients"
                 android:textColor="@color/monochrome_invert"
-                android:textSize="24sp" />
+                android:textSize="24sp"
+                app:fontFamily="@font/comfortaa_semibold" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/ingredients_recycler_view"
+                android:id="@+id/rv_ingredients"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:listitem="@layout/list_ingredients_edit"
-                tools:itemCount="2"
-                android:nestedScrollingEnabled="false"
                 android:clickable="true"
-                android:focusable="true"/>
+                android:focusable="true"
+                android:nestedScrollingEnabled="false"
+                tools:itemCount="2"
+                tools:listitem="@layout/list_ingredients_edit" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:baselineAligned="false"
                 android:orientation="horizontal"
-                android:weightSum="2"
-                android:baselineAligned="false">
+                android:weightSum="2">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -233,11 +225,10 @@
                     android:layout_weight="1">
 
                     <Button
-                        android:id="@+id/add_ingredient"
+                        android:id="@+id/btn_add_ingredient"
                         style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/montserrat"
                         android:text="@string/ingredient"
                         android:textColor="@color/deep_orange_light"
                         app:icon="@drawable/ic_add"
@@ -255,11 +246,10 @@
                     android:layout_weight="1">
 
                     <Button
-                        android:id="@+id/add_section"
+                        android:id="@+id/btn_add_section"
                         style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/montserrat"
                         android:text="@string/section"
                         android:textColor="@color/deep_orange_light"
                         app:icon="@drawable/ic_add"
@@ -275,33 +265,32 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:fontFamily="@font/comfortaa_semibold"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="8dp"
                 android:text="@string/cooking"
                 android:textColor="@color/monochrome_invert"
-                android:textSize="24sp" />
+                android:textSize="24sp"
+                app:fontFamily="@font/comfortaa_semibold" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/cooking_recycler_view"
+                android:id="@+id/rv_steps"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:listitem="@layout/list_steps_edit"
-                tools:itemCount="2"
-                android:nestedScrollingEnabled="false"/>
+                android:nestedScrollingEnabled="false"
+                tools:itemCount="1"
+                tools:listitem="@layout/list_steps_edit" />
 
             <Button
-                android:id="@+id/add_step"
+                android:id="@+id/btn_add_step"
+                style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_gravity="center"
-                app:icon="@drawable/ic_add"
-                app:iconTint="@color/deep_orange_light"
-                android:fontFamily="@font/montserrat"
-                android:text="@string/step"
                 android:layout_weight="1"
+                android:text="@string/step"
                 android:textColor="@color/deep_orange_light"
-                style="@style/Widget.MaterialComponents.Button.TextButton.Icon" />
+                app:icon="@drawable/ic_add"
+                app:iconTint="@color/deep_orange_light" />
 
         </LinearLayout>
 

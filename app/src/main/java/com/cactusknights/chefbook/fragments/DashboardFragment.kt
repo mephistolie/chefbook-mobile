@@ -5,29 +5,27 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
-import android.widget.LinearLayout
-import android.widget.TextView
 import android.widget.Toast
-import androidx.cardview.widget.CardView
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.cactusknights.chefbook.R
 import com.cactusknights.chefbook.activities.RecipeCommitActivity
 import com.cactusknights.chefbook.activities.MainActivity
 import com.cactusknights.chefbook.activities.RecipeActivity
 import com.cactusknights.chefbook.adapters.RecentlyAddedAdapter
 import com.cactusknights.chefbook.adapters.RecipeAdapter
+import com.cactusknights.chefbook.databinding.FragmentRecipesDashboardBinding
 import com.cactusknights.chefbook.dialogs.DonateDialog
 import com.cactusknights.chefbook.helpers.Utils
 import com.cactusknights.chefbook.models.Recipe
 import com.cactusknights.chefbook.viewmodels.UserViewModel
-import com.google.android.material.textfield.TextInputEditText
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import kotlin.collections.ArrayList
 
 
@@ -39,27 +37,13 @@ class DashboardFragment: Fragment(), RecipeAdapter.RecipeClickListener, Recently
 
     lateinit var mainActivity: MainActivity
 
-    private lateinit var searchLayout: LinearLayout
-    private lateinit var searchInput: TextInputEditText
-    private lateinit var clearSearch: ImageButton
+    private lateinit var binding: FragmentRecipesDashboardBinding
 
-    private lateinit var recentlyAddedTitle: TextView
-    private lateinit var allRecipesTitle: TextView
-
-    private lateinit var functionButtons: LinearLayout
-    private lateinit var addRecipeButton: CardView
-    private lateinit var favouriteRecipesButton: CardView
-    private lateinit var categoriesButton: CardView
-
-    private lateinit var allRecyclerView: RecyclerView
-    private lateinit var recentlyAddedRecyclerView: RecyclerView
     private var allAdapter = RecipeAdapter(recipes, this)
     private val recentlyAddedAdapter = RecentlyAddedAdapter(recentlyAddedRecipes, this)
 
-    private lateinit var emptyListTitle: TextView
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        viewModel.recipes.observe(this, { newRecipes ->
+    private suspend fun checkForUpdates() {
+        viewModel.listenToRecipes().collect { newRecipes: ArrayList<Recipe> ->
 
             recipes.clear(); recipes.addAll(newRecipes)
             recipes.sortBy { it.name.lowercase() }
@@ -70,16 +54,16 @@ class DashboardFragment: Fragment(), RecipeAdapter.RecipeClickListener, Recently
             recentlyAddedAdapter.notifyDataSetChanged()
 
             setLayout(recipes.size)
-        })
-        super.onCreate(savedInstanceState)
+        }
     }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_recipes_dashboard, container, false)
+    ): View {
+        binding = FragmentRecipesDashboardBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -87,27 +71,15 @@ class DashboardFragment: Fragment(), RecipeAdapter.RecipeClickListener, Recently
 
         mainActivity = activity as MainActivity
 
-        searchLayout = view.findViewById(R.id.search_layout)
-        searchInput = view.findViewById(R.id.search_field)
-        clearSearch = view.findViewById(R.id.clear_search)
-        recentlyAddedTitle = view.findViewById(R.id.popular_title)
-        allRecipesTitle = view.findViewById(R.id.all_recipes_title)
-        functionButtons = view.findViewById(R.id.function_buttons)
-        addRecipeButton = view.findViewById(R.id.add_recipe)
-        favouriteRecipesButton = view.findViewById(R.id.favourite)
-        categoriesButton = view.findViewById(R.id.categories)
-        allRecyclerView = view.findViewById(R.id.recipes_recycler_view)
-        allRecyclerView.layoutManager = LinearLayoutManager(activity)
-        allRecyclerView.adapter = allAdapter
-        recentlyAddedRecyclerView = view.findViewById(R.id.popular_recycler_view)
-        recentlyAddedRecyclerView.layoutManager = LinearLayoutManager(activity, GridLayoutManager.HORIZONTAL, false)
-        recentlyAddedRecyclerView.adapter = recentlyAddedAdapter
-        emptyListTitle = view.findViewById(R.id.empty_list_title)
+        binding.rvAllRecipes.layoutManager = LinearLayoutManager(activity)
+        binding.rvAllRecipes.adapter = allAdapter
+        binding.rvRecentlyAdded.layoutManager = LinearLayoutManager(activity, GridLayoutManager.HORIZONTAL, false)
+        binding.rvRecentlyAdded.adapter = recentlyAddedAdapter
 
-        addRecipeButton.setOnClickListener {
+        binding.btnAddRecipe.setOnClickListener {
             if (viewModel.isPremium() || viewModel.getRecipesCount() < 15) {
                 val intent = Intent(activity, RecipeCommitActivity()::class.java)
-                intent.putStringArrayListExtra("allCategories", viewModel.getCurrentCategories())
+                intent.putStringArrayListExtra("allCategories", viewModel.getCategories())
                 val options: ActivityOptionsCompat =
                     ActivityOptionsCompat.makeSceneTransitionAnimation(mainActivity)
                 startActivity(intent, options.toBundle())
@@ -121,71 +93,76 @@ class DashboardFragment: Fragment(), RecipeAdapter.RecipeClickListener, Recently
             }
         }
 
-        favouriteRecipesButton.setOnClickListener {
+        binding.btnFavourite.setOnClickListener {
             mainActivity.setTopMenu(resources.getString(R.string.favourite), true)
             mainActivity.setFragment(CustomRecipesFragment(), R.anim.zoom_in_show, R.anim.zoom_in_hide,"Favourite")
         }
-        categoriesButton.setOnClickListener {
+        binding.btnCategories.setOnClickListener {
             mainActivity.setTopMenu(resources.getString(R.string.categories), true)
             mainActivity.setFragment(CategoriesFragment(), R.anim.zoom_in_show, R.anim.zoom_in_hide,"Categories")
         }
 
-        searchInput.doOnTextChanged { text, _, _, _ ->
+        binding.inputSearch.doOnTextChanged { text, _, _, _ ->
 
             if (text != null && text.isNotEmpty()) {
-                functionButtons.visibility = View.GONE
-                recentlyAddedTitle.visibility = View.GONE
-                recentlyAddedRecyclerView.visibility = View.GONE
-                clearSearch.visibility = View.VISIBLE
-                allRecipesTitle.text = resources.getString(R.string.search_results)
+                binding.llFunctions.visibility = View.GONE
+                binding.textRecentlyAdded.visibility = View.GONE
+                binding.rvRecentlyAdded.visibility = View.GONE
+                binding.btnClearSearch.visibility = View.VISIBLE
+                binding.textAllRecipes.text = resources.getString(R.string.search_results)
                 recipes.clear()
-                recipes.addAll(viewModel.recipes.value!!.filter { it.name.lowercase().contains(text.toString().lowercase()) })
+                recipes.addAll(viewModel.getRecipes().filter { it.name.lowercase().contains(text.toString().lowercase()) })
                 allAdapter.notifyDataSetChanged()
-                emptyListTitle.visibility = if (recipes.size > 0) View.GONE else View.VISIBLE
+                binding.textEmptyList.visibility = if (recipes.size > 0) View.GONE else View.VISIBLE
             } else {
-                functionButtons.visibility = View.VISIBLE
-                recentlyAddedTitle.visibility = View.VISIBLE
-                recentlyAddedRecyclerView.visibility = View.VISIBLE
-                clearSearch.visibility = View.GONE
-                allRecipesTitle.text = resources.getString(R.string.all_recipes)
+                binding.llFunctions.visibility = View.VISIBLE
+                binding.textRecentlyAdded.visibility = View.VISIBLE
+                binding.rvRecentlyAdded.visibility = View.VISIBLE
+                binding.btnClearSearch.visibility = View.GONE
+                binding.textAllRecipes.text = resources.getString(R.string.all_recipes)
                 recipes.clear()
-                recipes.addAll(viewModel.recipes.value as Collection<Recipe>)
+                recipes.addAll(viewModel.getRecipes() as Collection<Recipe>)
                 recipes.sortBy { it.name.lowercase() }
                 allAdapter.notifyDataSetChanged()
-                emptyListTitle.visibility = if (recipes.size > 0) View.GONE else View.VISIBLE
+                binding.textEmptyList.visibility = if (recipes.size > 0) View.GONE else View.VISIBLE
             }
         }
 
-        clearSearch.setOnClickListener {
-            searchInput.setText("")
+        binding.btnClearSearch.setOnClickListener {
+            binding.inputSearch.setText("")
             Utils.hideKeyboard(mainActivity)
         }
     }
 
+    override fun onStart() {
+        lifecycleScope.launch { checkForUpdates() }
+        super.onStart()
+    }
+
     override fun onResume() {
-        if (recipes.size >= 6) searchInput.setText("")
+        if (recipes.size >= 6) binding.inputSearch.setText("")
         super.onResume()
     }
 
     private fun setLayout(recipesCount: Int) {
         when {
             recipesCount >= 6 -> {
-                searchLayout.visibility = View.VISIBLE
-                recentlyAddedTitle.visibility = View.VISIBLE
-                recentlyAddedRecyclerView.visibility = View.VISIBLE
-                emptyListTitle.visibility = View.GONE
+                binding.llSearch.visibility = View.VISIBLE
+                binding.textRecentlyAdded.visibility = View.VISIBLE
+                binding.rvRecentlyAdded.visibility = View.VISIBLE
+                binding.textEmptyList.visibility = View.GONE
             }
             recipesCount > 0 -> {
-                searchLayout.visibility = View.GONE
-                recentlyAddedTitle.visibility = View.GONE
-                recentlyAddedRecyclerView.visibility = View.GONE
-                emptyListTitle.visibility = View.GONE
+                binding.llSearch.visibility = View.GONE
+                binding.textRecentlyAdded.visibility = View.GONE
+                binding.rvRecentlyAdded.visibility = View.GONE
+                binding.textEmptyList.visibility = View.GONE
             }
             else -> {
-                searchLayout.visibility = View.GONE
-                recentlyAddedTitle.visibility = View.GONE
-                recentlyAddedRecyclerView.visibility = View.GONE
-                emptyListTitle.visibility = View.VISIBLE
+                binding.llSearch.visibility = View.GONE
+                binding.textRecentlyAdded.visibility = View.GONE
+                binding.rvRecentlyAdded.visibility = View.GONE
+                binding.textEmptyList.visibility = View.VISIBLE
             }
         }
     }
@@ -197,7 +174,7 @@ class DashboardFragment: Fragment(), RecipeAdapter.RecipeClickListener, Recently
     private fun openRecipe(recipe: Recipe) {
         val intent = Intent(activity, RecipeActivity()::class.java)
         intent.putExtra("recipe", recipe)
-        intent.putStringArrayListExtra("allCategories", viewModel.getCurrentCategories())
+        intent.putStringArrayListExtra("allCategories", viewModel.getCategories())
         intent.putExtra("isPremium", viewModel.isPremium())
         val options: ActivityOptionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation((mainActivity))
         startActivity(intent, options.toBundle())

@@ -1,103 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:card_view="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="8dp">
+    android:layout_marginBottom="8dp"
+    android:orientation="vertical">
 
-        <androidx.cardview.widget.CardView
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:foreground="?android:attr/selectableItemBackground"
+        app:cardBackgroundColor="@color/recipe_card_background"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="0dp"
+        card_view:cardElevation="0dp">
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:foreground="?android:attr/selectableItemBackground"
-            app:cardBackgroundColor="@color/recipe_card_background"
-            app:cardCornerRadius="8dp"
-            card_view:cardElevation="0dp"
-            app:cardElevation="0dp">
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_margin="8dp">
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                card_view:ignore="UseCompoundDrawables">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    card_view:ignore="UseCompoundDrawables">
+                <ImageView
+                    android:id="@+id/image_favourite"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="1dp"
+                    android:layout_marginEnd="4dp"
+                    android:contentDescription="@string/favourite"
+                    android:src="@drawable/ic_favorite"
+                    android:visibility="gone"
+                    app:tint="@color/deep_orange_light" />
 
-                    <ImageView
-                        android:id="@+id/favourite_icon"
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:layout_marginEnd="4dp"
-                        android:layout_marginTop="1dp"
-                        android:visibility="gone"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_favorite"
-                        app:tint="@color/deep_orange_light"
-                        android:contentDescription="@string/favourite" />
-
-                    <TextView
-                        android:id="@+id/recipe_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/recipe"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                        android:ellipsize="none"
-                        android:fadingEdgeLength="64dp"
-                        android:requiresFadingEdge="horizontal"
-                        android:singleLine="true"/>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/recipe_categories"
-                        android:layout_width="250dp"
-                        android:layout_height="wrap_content"
-                        android:text="@string/uncategorized"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                        android:ellipsize="none"
-                        android:fadingEdgeLength="64dp"
-                        android:layout_weight="0"
-                        android:requiresFadingEdge="horizontal"
-                        android:singleLine="true"/>
-
-                    <TextView
-                        android:id="@+id/recipe_time"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:gravity="end|bottom"
-                        android:layout_weight="2"
-                        android:text="@string/_15_min"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Small" />
-
-                    <ImageView
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:layout_marginStart="4dp"
-                        android:layout_marginTop="1dp"
-                        android:layout_weight="0"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_time"
-                        android:contentDescription="@string/time"
-                        app:tint="@color/login_tint" />
-
-                </LinearLayout>
+                <TextView
+                    android:id="@+id/text_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="none"
+                    android:fadingEdgeLength="64dp"
+                    android:requiresFadingEdge="horizontal"
+                    android:singleLine="true"
+                    android:text="@string/recipe"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
             </LinearLayout>
-        </androidx.cardview.widget.CardView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/text_categories"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0"
+                    android:ellipsize="none"
+                    android:fadingEdgeLength="64dp"
+                    android:requiresFadingEdge="horizontal"
+                    android:singleLine="true"
+                    android:text="@string/uncategorized"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+                <TextView
+                    android:id="@+id/text_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="2"
+                    android:gravity="end|bottom"
+                    android:text="@string/_15_min"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="1dp"
+                    android:layout_weight="0"
+                    android:contentDescription="@string/time"
+                    android:src="@drawable/ic_time"
+                    app:tint="@color/login_tint" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

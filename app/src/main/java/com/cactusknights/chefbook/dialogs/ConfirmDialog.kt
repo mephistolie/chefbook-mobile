@@ -1,28 +1,28 @@
 package com.cactusknights.chefbook.dialogs
 
+import android.app.AlertDialog
 import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.widget.ImageButton
 import androidx.fragment.app.DialogFragment
-import com.cactusknights.chefbook.R
+import com.cactusknights.chefbook.databinding.DialogConfirmBinding
 
 class ConfirmDialog(val action: () -> Unit): DialogFragment() {
 
+    private lateinit var binding: DialogConfirmBinding
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val dialog = Dialog(requireContext())
-        dialog.setContentView(R.layout.dialog_confirm)
+
+        binding = DialogConfirmBinding.inflate(layoutInflater)
+        val dialog = AlertDialog.Builder(context)
+            .setView(binding.root).create()
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialog.setCancelable(false)
 
-        val cancel = dialog.findViewById<ImageButton>(R.id.cancel)
-        val confirm = dialog.findViewById<ImageButton>(R.id.confirm)
-
-        cancel.setOnClickListener {
+        binding.btnCancel.setOnClickListener {
             dialog.dismiss()
         }
-        confirm.setOnClickListener {
+        binding.btnConfirm.setOnClickListener {
             action()
             dialog.dismiss()
         }

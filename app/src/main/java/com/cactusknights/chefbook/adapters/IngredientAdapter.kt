@@ -36,8 +36,8 @@ class IngredientAdapter(private var ingredients: ArrayList<Ingredient>, val list
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val binding = DataBindingUtil.bind<ListIngredientsBinding>(itemView)
-        val ingredientView: LinearLayout = itemView.findViewById(R.id.ingredient_view)
-        private val addToShopList: CheckBox = itemView.findViewById(R.id.add_to_shoplist)
+        val ingredientView: LinearLayout = itemView.findViewById(R.id.ll_ingredient)
+        private val addToShopList: CheckBox = itemView.findViewById(R.id.checkbox_add_to_shopping_list)
 
         init {
             addToShopList.setOnClickListener {

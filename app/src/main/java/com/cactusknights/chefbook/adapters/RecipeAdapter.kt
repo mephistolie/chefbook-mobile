@@ -34,10 +34,10 @@ class RecipeAdapter(private var recipes: ArrayList<Recipe>, val listener: Recipe
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        val name: TextView = itemView.findViewById(R.id.recipe_name)
-        val favouriteIcon: ImageView = itemView.findViewById(R.id.favourite_icon)
-        val time: TextView = itemView.findViewById(R.id.recipe_time)
-        val categories: TextView = itemView.findViewById(R.id.recipe_categories)
+        val name: TextView = itemView.findViewById(R.id.text_name)
+        val favouriteIcon: ImageView = itemView.findViewById(R.id.image_favourite)
+        val time: TextView = itemView.findViewById(R.id.text_time)
+        val categories: TextView = itemView.findViewById(R.id.text_categories)
 
         init {
             itemView.setOnClickListener {

@@ -24,8 +24,8 @@ class ShoppingAdapter(private var shoppingList: ArrayList<String>, val listener:
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val item: TextView = itemView.findViewById(R.id.item)
-        private val deleteItem: AppCompatImageButton = itemView.findViewById(R.id.delete_item)
+        val item: TextView = itemView.findViewById(R.id.text_name)
+        private val deleteItem: AppCompatImageButton = itemView.findViewById(R.id.btn_delete)
 
         init {
             deleteItem.setOnClickListener {
