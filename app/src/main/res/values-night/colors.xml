@@ -3,8 +3,6 @@
     <color name="deep_orange">#ff5722</color>
     <color name="deep_orange_light">#ff8a50</color>
     <color name="deep_orange_dark">#754027</color>
-    <color name="teal_200">#FF03DAC5</color>
-    <color name="teal_700">#FF018786</color>
 
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
@@ -14,7 +12,7 @@
     <color name="ic_launcher_background">@color/white</color>
     <color name="app_background">#121212</color>
     <color name="input_background">#1F1F1F</color>
-    <color name="login_tint">#bebebe</color>
+    <color name="secondary_text_tint">#bebebe</color>
     <color name="navigation_background">#202020</color>
     <color name="navigation_foreground">#BFBFBF</color>
     <color name="time_popular">#f2f2f2</color>

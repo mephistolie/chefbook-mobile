@@ -2,31 +2,31 @@ package com.cactusknights.chefbook.activities
 
 import android.app.Activity
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.ForegroundColorSpan
 import android.view.View
-import android.widget.Button
-import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.cactusknights.chefbook.R
+import com.cactusknights.chefbook.databinding.ActivityLoginBinding
 import com.cactusknights.chefbook.enums.LoginStates
 import com.cactusknights.chefbook.helpers.Utils
 import com.cactusknights.chefbook.helpers.Utils.hideKeyboard
+import com.cactusknights.chefbook.models.User
 import com.cactusknights.chefbook.viewmodels.UserViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.textfield.TextInputEditText
-import com.google.android.material.textfield.TextInputLayout
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 
 open class LoginActivity : AppCompatActivity() {
@@ -34,20 +34,7 @@ open class LoginActivity : AppCompatActivity() {
     private var state = LoginStates.LOGIN
     private lateinit var userViewModel: UserViewModel
 
-    private lateinit var email: TextInputEditText
-    private lateinit var password: TextInputEditText
-    private lateinit var passwordField: TextInputLayout
-    private lateinit var repeatPassword: TextInputEditText
-    private lateinit var repeatPasswordField: TextInputLayout
-
-    private lateinit var loginEmailBtn: Button
-    private lateinit var loginGoogleBtn: FloatingActionButton
-    private lateinit var resetPasswordBtn: TextView
-    private lateinit var signupBtn: TextView
-
-    private lateinit var separator: View
-    private lateinit var providers: LinearLayoutCompat
-    private lateinit var membership: TextView
+    private lateinit var binding: ActivityLoginBinding
 
     private val googleLogInContract = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult? ->
         if (result?.resultCode == Activity.RESULT_OK) {
@@ -63,121 +50,125 @@ open class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
+        binding = ActivityLoginBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        email = findViewById(R.id.email)
-        password = findViewById(R.id.password)
-        passwordField = findViewById(R.id.password_field)
-        repeatPassword = findViewById(R.id.repeat_password)
-        repeatPasswordField = findViewById(R.id.repeat_password_field)
-        loginEmailBtn = findViewById(R.id.login_email)
-        loginGoogleBtn = findViewById(R.id.login_google)
-        resetPasswordBtn = findViewById(R.id.forgot_password)
-        signupBtn = findViewById(R.id.signup)
-        separator = findViewById(R.id.separator)
-        providers = findViewById(R.id.providers)
-        membership = findViewById(R.id.membership)
-
-        val appName = findViewById<TextView>(R.id.app_name)
         val chefbookTitle = SpannableString("ChefBook")
-        chefbookTitle.setSpan(ForegroundColorSpan(ContextCompat.getColor(this, R.color.deep_orange_light)), 0, 4, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        chefbookTitle.setSpan(ForegroundColorSpan(ContextCompat.getColor(this, R.color.deep_orange)), 0, 4, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
         chefbookTitle.setSpan(ForegroundColorSpan(ContextCompat.getColor(this, R.color.monochrome_invert)), 4, chefbookTitle.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-        appName.text = chefbookTitle
+        binding.textAppName.text = chefbookTitle
 
         userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
         userViewModel.logout()
 
-        loginEmailBtn.setOnClickListener {
+        binding.btnLogin.setOnClickListener {
             when(state) {
-                LoginStates.LOGIN -> userViewModel.logonEmail(email.text.toString(), password.text.toString(), ::onLogInCallback)
-                LoginStates.SIGNUP -> signUp()
+                LoginStates.LOGIN -> {
+                    userViewModel.logonEmail(binding.inputEmail.text.toString(), binding.inputPassword.text.toString(), ::onLogInCallback)
+                    changeLoginProgressLayout()
+                }
+                LoginStates.SIGNUP -> {
+                    signUp()
+                }
                 else -> {
-                    userViewModel.restorePassword(email.text.toString(), ::onRestorePasswordCallback)
+                    userViewModel.restorePassword(binding.inputEmail.text.toString(), ::onRestorePasswordCallback)
+                    changeLoginProgressLayout()
                     hideKeyboard(this)
                 }
             }
         }
 
-        loginGoogleBtn.setOnClickListener {
+        binding.btnGoogle.setOnClickListener {
             logonGoogle()
         }
 
-        signupBtn.setOnClickListener {
+        binding.textSignUp.setOnClickListener {
             if (state == LoginStates.LOGIN) {
                 state = LoginStates.SIGNUP
-                setLoginLayout()
+                setSignUpLayout()
             } else {
                 state = LoginStates.LOGIN
-                setSignupLayout()
+                setLoginLayout()
             }
         }
 
-        resetPasswordBtn.setOnClickListener {
+        binding.btnResetPassword.setOnClickListener {
             setRestoreLayout()
             state = LoginStates.RESTORE
         }
     }
 
     override fun onStart() {
+        lifecycleScope.launch { listenToUser() }
         super.onStart()
-        userViewModel.getCurrentUser().observe(this,  {
-            user -> if (user != null) {
+    }
+
+    private suspend fun listenToUser() {
+        userViewModel.listenToUser().collect { user: User? ->
+            if (user != null) {
                 Toast.makeText(this, R.string.login_successfully, Toast.LENGTH_SHORT).show()
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
             }
-        })
+        }
+    }
+
+    private fun setSignUpLayout() {
+
+        binding.inputPassword.setText("")
+        binding.inputRepeatPassword.setText("")
+
+        binding.ilPassword.visibility = View.VISIBLE
+        binding.ilRepeatPassword.visibility = View.VISIBLE
+        binding.viewSeparator.visibility = View.GONE
+        binding.llProviders.visibility = View.GONE
+
+        binding.btnLogin.text = resources.getText(R.string.signup)
+        binding.textMembership.text = resources.getText(R.string.already_member)
+        binding.textSignUp.text = resources.getText(R.string.login)
     }
 
     private fun setLoginLayout() {
 
-        password.setText("")
-        repeatPassword.setText("")
+        binding.inputPassword.text = null
 
-        passwordField.visibility = View.VISIBLE
-        repeatPasswordField.visibility = View.VISIBLE
-        separator.visibility = View.GONE
-        providers.visibility = View.GONE
+        binding.ilPassword.visibility = View.VISIBLE
+        binding.ilRepeatPassword.visibility = View.GONE
+        binding.viewSeparator.visibility = View.VISIBLE
+        binding.llProviders.visibility = View.VISIBLE
 
-        loginEmailBtn.text = resources.getText(R.string.signup)
-        membership.text = resources.getText(R.string.already_member)
-        signupBtn.text = resources.getText(R.string.login)
-    }
-
-    private fun setSignupLayout() {
-
-        password.text = null
-
-        passwordField.visibility = View.VISIBLE
-        repeatPasswordField.visibility = View.GONE
-        separator.visibility = View.VISIBLE
-        providers.visibility = View.VISIBLE
-
-        membership.text = resources.getText(R.string.not_member)
-        signupBtn.text = resources.getText(R.string.signup)
-        loginEmailBtn.text = resources.getText(R.string.login)
+        binding.textMembership.text = resources.getText(R.string.not_member)
+        binding.textSignUp.text = resources.getText(R.string.signup)
+        binding.btnLogin.text = resources.getText(R.string.login)
     }
 
     private fun setRestoreLayout() {
 
-        passwordField.visibility = View.GONE
-        repeatPasswordField.visibility = View.GONE
-        separator.visibility = View.GONE
-        providers.visibility = View.GONE
+        binding.ilPassword.visibility = View.GONE
+        binding.ilRepeatPassword.visibility = View.GONE
+        binding.viewSeparator.visibility = View.GONE
+        binding.llProviders.visibility = View.GONE
 
-        loginEmailBtn.text = resources.getText(R.string.reset_password)
-        membership.text = resources.getText(R.string.already_member)
-        signupBtn.text = resources.getText(R.string.login)
+        binding.btnLogin.text = resources.getText(R.string.reset_password)
+        binding.textMembership.text = resources.getText(R.string.already_member)
+        binding.textSignUp.text = resources.getText(R.string.login)
 
         state = LoginStates.RESTORE
     }
 
+    private fun changeLoginProgressLayout() {
+        binding.btnLogin.visibility = if (binding.btnLogin.visibility == View.VISIBLE) View.GONE else View.VISIBLE
+        binding.progressLogin.visibility = if (binding.progressLogin.visibility == View.VISIBLE) View.GONE else View.VISIBLE
+    }
+
     private fun signUp() {
-        val emailText = email.text.toString()
-        val passwordText = password.text.toString()
-        val repeatPasswordText = repeatPassword.text.toString()
-        if (Utils.checkAuthFields(emailText, passwordText, repeatPasswordText, this))
+        val emailText = binding.inputEmail.text.toString()
+        val passwordText = binding.inputPassword.text.toString()
+        val repeatPasswordText = binding.inputRepeatPassword.text.toString()
+        if (Utils.checkAuthFields(emailText, passwordText, repeatPasswordText, this)) {
             userViewModel.signup(emailText, passwordText, ::onSignUpCallback)
+            changeLoginProgressLayout()
+        }
     }
 
     private fun logonGoogle() {
@@ -193,16 +184,26 @@ open class LoginActivity : AppCompatActivity() {
 
     private fun onLogInCallback(isDeleted: Boolean) {
         if (isDeleted) { Toast.makeText(applicationContext, R.string.login_successfully, Toast.LENGTH_SHORT).show() }
-        else { Toast.makeText(applicationContext, R.string.authentication_failed, Toast.LENGTH_SHORT).show() }
+        else {
+            Toast.makeText(applicationContext, R.string.authentication_failed, Toast.LENGTH_SHORT).show()
+            changeLoginProgressLayout()
+        }
     }
 
     private fun onSignUpCallback(isDeleted: Boolean) {
         if (isDeleted) { Toast.makeText(applicationContext, R.string.signup_successfully, Toast.LENGTH_SHORT).show() }
-        else { Toast.makeText(applicationContext, R.string.signup_failed, Toast.LENGTH_SHORT).show() }
+        else {
+            Toast.makeText(applicationContext, R.string.signup_failed, Toast.LENGTH_SHORT).show()
+            changeLoginProgressLayout()
+        }
+
     }
 
     private fun onRestorePasswordCallback(isDeleted: Boolean) {
         if (isDeleted) { Toast.makeText(applicationContext, R.string.reset_password_successfully, Toast.LENGTH_SHORT).show() }
-        else { Toast.makeText(applicationContext, R.string.reset_password_failed, Toast.LENGTH_SHORT).show() }
+        else {
+            Toast.makeText(applicationContext, R.string.reset_password_failed, Toast.LENGTH_SHORT).show()
+            changeLoginProgressLayout()
+        }
     }
 }

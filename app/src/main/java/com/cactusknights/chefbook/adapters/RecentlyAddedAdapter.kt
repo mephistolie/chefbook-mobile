@@ -28,8 +28,8 @@ class RecentlyAddedAdapter(private var recipes: ArrayList<Recipe>, val listener:
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        val name: TextView = itemView.findViewById(R.id.recipe_name)
-        val time: TextView = itemView.findViewById(R.id.recipe_time)
+        val name: TextView = itemView.findViewById(R.id.text_name)
+        val time: TextView = itemView.findViewById(R.id.text_time)
 
         init {
             itemView.setOnClickListener {

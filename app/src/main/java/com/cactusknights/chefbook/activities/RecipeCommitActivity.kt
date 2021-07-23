@@ -4,13 +4,13 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.AppCompatImageButton
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.cactusknights.chefbook.adapters.CookingEditAdapter
 import com.cactusknights.chefbook.adapters.IngredientEditAdapter
 import com.cactusknights.chefbook.R
+import com.cactusknights.chefbook.databinding.ActivityCommitRecipeBinding
 import com.cactusknights.chefbook.dialogs.CategoriesDialog
 import com.cactusknights.chefbook.dialogs.ConfirmDialog
 import com.cactusknights.chefbook.models.Ingredient
@@ -34,41 +34,12 @@ class RecipeCommitActivity: AppCompatActivity() {
     private lateinit var cookingAdapter: CookingEditAdapter
     private val cookingTouchHelper = ItemTouchHelper(IngredientsDragCallback())
 
-    private lateinit var sectionName: TextView
-
-    private lateinit var name: EditText
-    private lateinit var servings: EditText
-    private lateinit var time: EditText
-    private lateinit var calories: EditText
-
-    private lateinit var addIngredientButton: Button
-    private lateinit var addSectionButton: Button
-    private lateinit var addStepButton: Button
-    private lateinit var chooseCategoriesButton: Button
-
-    private lateinit var ingredientsView: RecyclerView
-    private lateinit var cookingView: RecyclerView
-
-    private lateinit var btnBack: AppCompatImageButton
-    private lateinit var btnConfirm: AppCompatImageButton
+    private lateinit var binding: ActivityCommitRecipeBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_edit_recipe)
-
-        sectionName = findViewById(R.id.section_name)
-        name = findViewById(R.id.name)
-        servings = findViewById(R.id.servings)
-        time = findViewById(R.id.time)
-        calories = findViewById(R.id.calories)
-        addIngredientButton = findViewById(R.id.add_ingredient)
-        addSectionButton = findViewById(R.id.add_section)
-        addStepButton = findViewById(R.id.add_step)
-        chooseCategoriesButton = findViewById(R.id.choose_categories)
-        ingredientsView = findViewById(R.id.ingredients_recycler_view)
-        cookingView = findViewById(R.id.cooking_recycler_view)
-        btnBack = findViewById(R.id.back_button)
-        btnConfirm = findViewById(R.id.confirm_button)
+        binding = ActivityCommitRecipeBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         if (savedInstanceState != null) {
             originalRecipe = savedInstanceState.getSerializable("originalRecipe") as Recipe
@@ -76,22 +47,24 @@ class RecipeCommitActivity: AppCompatActivity() {
             val outRecipe = savedInstanceState.getSerializable("recipe") as Recipe
             categories = outRecipe.categories
 
-            if (originalRecipe != null) sectionName.text = resources.getString(R.string.edit_recipe)
-            name.setText(outRecipe.name)
-            servings.setText(outRecipe.servings.toString())
-            time.setText(outRecipe.time)
-            calories.setText(outRecipe.calories.toString())
+            if (originalRecipe != null) binding.textSection.text = resources.getString(R.string.edit_recipe)
+            binding.inputName.setText(outRecipe.name)
+            binding.inputServings.setText(outRecipe.servings.toString())
+            binding.inputCalories.setText(outRecipe.calories.toString())
+            binding.inputTime.setText(outRecipe.time)
 
             ingredients = outRecipe.ingredients
             steps = outRecipe.cooking
         } else {
             originalRecipe = intent.extras?.get("targetRecipe") as Recipe?
             if (originalRecipe != null) {
-                sectionName.text = resources.getString(R.string.edit_recipe)
-                name.setText(originalRecipe!!.name)
-                servings.setText(originalRecipe!!.servings.toString())
-                time.setText(originalRecipe!!.time)
-                calories.setText(originalRecipe!!.calories.toString())
+
+                binding.textSection.text = resources.getString(R.string.edit_recipe)
+                binding.inputName.setText(originalRecipe!!.name)
+                binding.inputServings.setText(originalRecipe!!.servings.toString())
+                binding.inputCalories.setText(originalRecipe!!.calories.toString())
+                binding.inputTime.setText(originalRecipe!!.time)
+
                 ingredients = originalRecipe!!.ingredients
                 steps = originalRecipe!!.cooking
                 categories = originalRecipe!!.categories
@@ -100,36 +73,36 @@ class RecipeCommitActivity: AppCompatActivity() {
                 allCategories.addAll(intent.extras?.getStringArrayList("allCategories") as ArrayList<String>)
         }
 
-        ingredientsView.layoutManager = LinearLayoutManager(this)
+        binding.rvIngredients.layoutManager = LinearLayoutManager(this)
         ingredientsAdapter = IngredientEditAdapter(ingredients)
-        ingredientsView.adapter = ingredientsAdapter
-        ingredientTouchHelper.attachToRecyclerView(ingredientsView)
+        binding.rvIngredients.adapter = ingredientsAdapter
+        ingredientTouchHelper.attachToRecyclerView(binding.rvIngredients)
 
-        cookingView.layoutManager = LinearLayoutManager(this)
+        binding.rvSteps.layoutManager = LinearLayoutManager(this)
         cookingAdapter = CookingEditAdapter(steps)
-        cookingView.adapter = cookingAdapter
-        cookingTouchHelper.attachToRecyclerView(cookingView)
+        binding.rvSteps.adapter = cookingAdapter
+        cookingTouchHelper.attachToRecyclerView(binding.rvSteps)
 
-        addIngredientButton.setOnClickListener {
-            ingredients.add(Ingredient(""))
-            ingredientsAdapter.notifyItemInserted(ingredients.size-1)
-        }
-        addSectionButton.setOnClickListener {
-            ingredients.add(Ingredient("", true))
-            ingredientsAdapter.notifyItemInserted(ingredients.size-1)
-        }
-        addStepButton.setOnClickListener {
-            steps.add("")
-            cookingAdapter.notifyItemInserted(steps.size-1)
-        }
-
-        chooseCategoriesButton.setOnClickListener {
+        binding.btnCategories.setOnClickListener {
             CategoriesDialog(categories, allCategories, ::onCommitCategoriesCallback)
                 .show(supportFragmentManager, "Categories Dialog")
         }
 
-        btnBack.setOnClickListener { onBackPressed() }
-        btnConfirm.setOnClickListener { commitRecipe() }
+        binding.btnAddIngredient.setOnClickListener {
+            ingredients.add(Ingredient(""))
+            ingredientsAdapter.notifyItemInserted(ingredients.size-1)
+        }
+        binding.btnAddSection.setOnClickListener {
+            ingredients.add(Ingredient("", true))
+            ingredientsAdapter.notifyItemInserted(ingredients.size-1)
+        }
+        binding.btnAddStep.setOnClickListener {
+            steps.add("")
+            cookingAdapter.notifyItemInserted(steps.size-1)
+        }
+
+        binding.btnBack.setOnClickListener { onBackPressed() }
+        binding.btnConfirm.setOnClickListener { commitRecipe() }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -156,17 +129,22 @@ class RecipeCommitActivity: AppCompatActivity() {
 
     private fun onCommitRecipeCallback(isAdded: Boolean) {
         if (isAdded) { Toast.makeText(applicationContext, if (originalRecipe == null) resources.getString(R.string.recipe_added)
-            else resources.getString(R.string.recipe_updated), Toast.LENGTH_SHORT).show() }
+        else resources.getString(R.string.recipe_updated), Toast.LENGTH_SHORT).show() }
         else Toast.makeText(applicationContext, if (originalRecipe == null) resources.getString(R.string.failed_add)
-            else resources.getString(R.string.failed_update), Toast.LENGTH_SHORT).show()
+        else resources.getString(R.string.failed_update), Toast.LENGTH_SHORT).show()
+    }
+
+    private fun onCommitCategoriesCallback (newCategories: ArrayList<String>, allCategories: ArrayList<String>) {
+        this.categories = newCategories
+        this.allCategories = allCategories
     }
 
     private fun getRecipe(): Recipe {
 
-        val nameText = name.text.toString()
-        val servingsText = servings.text.toString()
-        val timeText = time.text.toString()
-        val caloriesText = calories.text.toString()
+        val nameText = binding.inputName.text.toString()
+        val servingsText = binding.inputServings.text.toString()
+        val timeText = binding.inputTime.text.toString()
+        val caloriesText = binding.inputCalories.text.toString()
 
         val notEmptyIngredients = ingredients.filter { it.name != "" } as ArrayList<Ingredient>
         val notEmptySteps = steps.filter { it != "" } as ArrayList<String>
@@ -178,7 +156,7 @@ class RecipeCommitActivity: AppCompatActivity() {
             categories = categories,
 
             servings = if (servingsText.isNotEmpty()) servingsText.toInt() else 1,
-            time = if (timeText.isNotEmpty()) timeText else "15 min",
+            time = if (timeText.isNotEmpty()) timeText else resources.getString(R.string._15_min),
             calories = if (caloriesText.isNotEmpty()) caloriesText.toInt() else 0,
 
             ingredients = notEmptyIngredients, cooking = notEmptySteps
@@ -217,12 +195,6 @@ class RecipeCommitActivity: AppCompatActivity() {
         }
 
         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) { return }
-    }
-
-    private fun onCommitCategoriesCallback (newCategories: ArrayList<String>, allCategories: ArrayList<String>) {
-        this.categories = newCategories
-        this.allCategories = allCategories
-
     }
 
     override fun onBackPressed() {

@@ -28,6 +28,6 @@ class CookingAdapter(private var steps: ArrayList<String>): RecyclerView.Adapter
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         val binding = DataBindingUtil.bind<ListStepsBinding>(itemView)
-        val number: TextView = itemView.findViewById(R.id.number)
+        val number: TextView = itemView.findViewById(R.id.text_number)
     }
 }

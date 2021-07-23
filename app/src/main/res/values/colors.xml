@@ -3,8 +3,6 @@
     <color name="deep_orange">#ff5722</color>
     <color name="deep_orange_light">#ff8a50</color>
     <color name="deep_orange_dark">#754027</color>
-    <color name="teal_200">#FF03DAC5</color>
-    <color name="teal_700">#FF018786</color>
 
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
@@ -14,9 +12,9 @@
     <color name="ic_launcher_background">@color/white</color>
     <color name="app_background">@color/white</color>
     <color name="input_background">#F2F2F2</color>
-    <color name="login_tint">#3F3F3F</color>
+    <color name="secondary_text_tint">#3F3F3F</color>
     <color name="navigation_background">#FAFAFA</color>
-    <color name="navigation_foreground">#404040</color>
+    <color name="navigation_foreground">#666666</color>
     <color name="time_popular">#f2f2f2</color>
     <color name="recipe_card_background">#F7F7F7</color>
 

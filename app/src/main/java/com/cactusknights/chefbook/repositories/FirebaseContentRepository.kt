@@ -1,6 +1,5 @@
 package com.cactusknights.chefbook.repositories
 
-import androidx.lifecycle.MutableLiveData
 import com.cactusknights.chefbook.helpers.Utils
 import com.cactusknights.chefbook.interfaces.ContentProvider
 import com.cactusknights.chefbook.interfaces.ContentListener
@@ -8,6 +7,7 @@ import com.cactusknights.chefbook.models.Recipe
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
+import kotlinx.coroutines.flow.MutableStateFlow
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -18,28 +18,21 @@ class FirebaseContentRepository: ContentListener {
     private lateinit var recipesListener: ListenerRegistration
     private lateinit var shoppingListListener: ListenerRegistration
 
-    private var recipes: MutableLiveData<ArrayList<Recipe>> = MutableLiveData(arrayListOf())
-    private var shoppingList: MutableLiveData<ArrayList<String>> = MutableLiveData(arrayListOf())
-    private var categories: MutableLiveData<MutableSet<String>> = MutableLiveData(mutableSetOf())
+    private var recipes: MutableStateFlow<ArrayList<Recipe>> = MutableStateFlow(arrayListOf())
+    private var categories: MutableStateFlow<ArrayList<String>> = MutableStateFlow(arrayListOf())
+    private var shoppingList: MutableStateFlow<ArrayList<String>> = MutableStateFlow(arrayListOf())
 
 
-    override fun getRecipes(): MutableLiveData<ArrayList<Recipe>> { return recipes }
-    override fun getCategories(): MutableLiveData<MutableSet<String>> { return categories }
-    override fun getShoppingList(): MutableLiveData<ArrayList<String>> { return shoppingList }
+    override suspend fun getRecipes(): MutableStateFlow<ArrayList<Recipe>> { return recipes }
+    override suspend fun getCategories(): MutableStateFlow<ArrayList<String>> { return categories }
+    override suspend fun getShoppingList(): MutableStateFlow<ArrayList<String>> { return shoppingList }
 
-    override fun getRecipesCount(): Int {
+    override suspend fun getRecipesCount(): Int {
         val currentRecipes = recipes.value
-        return currentRecipes?.size ?: 0
+        return currentRecipes.size
     }
 
-    override fun setShoppingList(shoppingList: MutableLiveData<ArrayList<String>>) {
-        val user = auth.currentUser
-        if (user != null)
-            firestore.collection("users")
-                .document(user.uid).update(mapOf("shoppingList" to shoppingList.value))
-    }
-
-    override fun listenToRecipes() {
+    override suspend fun listenToRecipes() {
         val user = auth.currentUser
         if (user != null) {
             recipesListener = firestore.collection("users").document(user.uid)
@@ -49,24 +42,24 @@ class FirebaseContentRepository: ContentListener {
 
                 if (snapshot != null) {
                     val allRecipes = arrayListOf<Recipe>()
-                    val allCategories = mutableSetOf<String>()
+                    val allCategories = arrayListOf<String>()
                     val documents = snapshot.documents
-                    documents.forEach {
-                        val recipe = it.toObject(Recipe::class.java)
-                        recipe?.id = it.id
+                    documents.forEach { document ->
+                        val recipe = document.toObject(Recipe::class.java)
+                        recipe?.id = document.id
                         if (recipe != null) {
                             allRecipes.add(recipe)
-                            allCategories.addAll(recipe.categories)
+                            allCategories.addAll(recipe.categories.filter { it !in allCategories })
                         }
                     }
-                    recipes.postValue(allRecipes)
+                    recipes.value = allRecipes
                     categories.value = allCategories
                 }
             }
         }
     }
 
-    override fun listenToShoppingList() {
+    override suspend fun listenToShoppingList() {
         val user = auth.currentUser
         if (user != null) {
             shoppingListListener = firestore.collection("users")
@@ -76,27 +69,37 @@ class FirebaseContentRepository: ContentListener {
 
                     if (snapshot != null) {
                         val newShoppingList = arrayListOf<String>()
-                        newShoppingList.addAll((snapshot["shoppingList"] as Collection<*>).map { it.toString() })
+                        if (snapshot["shoppingList"] != null)
+                            newShoppingList.addAll((snapshot["shoppingList"] as Collection<*>).map { it.toString() })
                         if (!Utils.areListsSame(shoppingList.value, newShoppingList))
-                            shoppingList.postValue(newShoppingList)
+                            shoppingList.value = newShoppingList
                     }
                 }
         }
     }
 
-    override fun stopListeningRecipes() {
+    override suspend fun stopListeningRecipes() {
         if (this::recipesListener.isInitialized) {recipesListener.remove()}
     }
 
-    override fun stopListenShoppingList() {
+    override suspend fun stopListenShoppingList() {
         if (this::shoppingListListener.isInitialized) {shoppingListListener.remove()}
+    }
+
+    override suspend fun setShoppingList(shoppingList: ArrayList<String>) {
+        val user = auth.currentUser
+        if (user != null)
+            firestore.collection("users")
+                .document(user.uid).update(mapOf("shoppingList" to shoppingList))
     }
 
     companion object: ContentProvider {
 
+        val instance = FirebaseContentRepository()
+
         private var auth = FirebaseAuth.getInstance()
 
-        override fun addRecipe(recipe: Recipe, callback: (isAdded: Boolean) -> Unit) {
+        override suspend fun addRecipe(recipe: Recipe, callback: (isAdded: Boolean) -> Unit) {
             val firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
             val user = auth.currentUser
             if (user != null) {
@@ -106,7 +109,7 @@ class FirebaseContentRepository: ContentListener {
             }
         }
 
-        override fun updateRecipe(recipe: Recipe, callback: (isUpdated: Boolean) -> Unit) {
+        override suspend fun updateRecipe(recipe: Recipe, callback: (isUpdated: Boolean) -> Unit) {
             val firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
             val user = auth.currentUser
             if (user != null) {
@@ -116,7 +119,7 @@ class FirebaseContentRepository: ContentListener {
             }
         }
 
-        override fun deleteRecipe(recipe: Recipe, callback: (isDeleted: Boolean) -> Unit) {
+        override suspend fun deleteRecipe(recipe: Recipe, callback: (isDeleted: Boolean) -> Unit) {
             val firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
             val user = auth.currentUser
             if (user != null) {
@@ -126,7 +129,7 @@ class FirebaseContentRepository: ContentListener {
             }
         }
 
-        override fun setRecipeFavoriteStatus(recipe: Recipe) {
+        override suspend fun setRecipeFavoriteStatus(recipe: Recipe) {
             val firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
             val user = auth.currentUser
             if (user != null)
@@ -134,7 +137,7 @@ class FirebaseContentRepository: ContentListener {
                     .document(user.uid).collection("recipes").document(recipe.id).update(mapOf("favourite" to recipe.isFavourite))
         }
 
-        override fun addToShoppingList(items: ArrayList<String>) {
+        override suspend fun addToShoppingList(items: ArrayList<String>) {
             val firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
             val user = FirebaseAuth.getInstance().currentUser
             if (user != null) {

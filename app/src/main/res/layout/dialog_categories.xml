@@ -2,40 +2,45 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="360dp"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center">
-    
+
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:cardCornerRadius="20dp"
+        android:layout_marginHorizontal="8dp"
         android:backgroundTint="@color/app_background"
-        app:cardElevation="0dp">
+        app:cardCornerRadius="20dp"
+        app:cardElevation="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.appcompat.widget.LinearLayoutCompat
-            android:paddingVertical="16dp"
-            android:paddingHorizontal="24dp"
             android:id="@+id/linearLayoutCompat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:animateLayoutChanges="true"
             android:gravity="center"
             android:orientation="vertical"
+            android:paddingHorizontal="24dp"
+            android:paddingVertical="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:animateLayoutChanges="true">
+            app:layout_constraintTop_toTopOf="parent">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                app:fontFamily="@font/comfortaa"
-                android:textColor="@color/monochrome_invert"
                 android:layout_weight="0"
                 android:text="@string/select_categories"
-                android:textSize="24sp" />
+                android:textColor="@color/monochrome_invert"
+                android:textSize="24sp"
+                app:fontFamily="@font/comfortaa" />
 
             <View
                 android:layout_width="match_parent"
@@ -46,41 +51,41 @@
                 android:background="@drawable/selector_input" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/categories_recycler_view"
+                android:id="@+id/rv_categories"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:listitem="@layout/list_categories_edit"
-                tools:itemCount="30"
-                android:nestedScrollingEnabled="false"
+                android:layout_marginBottom="16dp"
+                android:layout_weight="3"
                 android:clickable="true"
                 android:focusable="true"
-                android:layout_weight="3"
-                android:layout_marginBottom="16dp"/>
+                android:nestedScrollingEnabled="false"
+                tools:itemCount="30"
+                tools:listitem="@layout/list_categories_edit" />
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
                 android:layout_weight="0"
-                android:gravity="center">
+                android:gravity="center"
+                android:orientation="horizontal">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/new_category"
+                    android:id="@+id/input_new_category"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
-                    android:hint="@string/new_category"
                     android:layout_weight="2"
-                    android:textSize="24sp"
                     android:background="@drawable/selector_input"
-                    android:paddingHorizontal="8dp" />
+                    android:hint="@string/new_category"
+                    android:paddingHorizontal="8dp"
+                    android:textSize="24sp" />
 
                 <androidx.appcompat.widget.AppCompatImageButton
-                    android:id="@+id/add_category"
+                    android:id="@+id/btn_add_category"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
+                    android:background="@drawable/ripple_primary"
                     android:src="@drawable/ic_add"
-                    android:background="?android:attr/selectableItemBackground"
-                    app:tint="@color/deep_orange_light"/>
+                    app:tint="@color/deep_orange_light" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -92,27 +97,26 @@
                 android:layout_weight="0"
                 android:background="@drawable/selector_input" />
 
-            <androidx.appcompat.widget.LinearLayoutCompat
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:layout_marginBottom="8dp"
                 android:layout_weight="0"
                 android:gravity="center"
-                android:layout_marginBottom="8dp">
+                android:orientation="horizontal">
 
                 <androidx.appcompat.widget.AppCompatImageButton
-                    android:id="@+id/cancel"
+                    android:id="@+id/btn_cancel"
                     android:layout_width="36dp"
                     android:layout_height="36dp"
+                    android:layout_marginHorizontal="4dp"
+                    android:background="@drawable/ripple_secondary"
                     android:scaleType="fitCenter"
                     android:src="@drawable/ic_cross"
-                    android:backgroundTint="@color/black"
-                    android:background="?android:attr/selectableItemBackground"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    android:layout_marginHorizontal="4dp"
-                    app:tint="@color/login_tint"/>
+                    app:tint="@color/secondary_text_tint" />
 
                 <View
                     android:layout_width="2dp"
@@ -122,20 +126,19 @@
                     android:background="@drawable/selector_input" />
 
                 <androidx.appcompat.widget.AppCompatImageButton
-                    android:id="@+id/confirm"
+                    android:id="@+id/btn_confirm"
                     android:layout_width="36dp"
                     android:layout_height="36dp"
+                    android:layout_marginHorizontal="4dp"
+                    android:background="@drawable/ripple_primary"
                     android:scaleType="fitCenter"
                     android:src="@drawable/ic_check"
-                    android:backgroundTint="@color/black"
-                    android:background="?android:attr/selectableItemBackground"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    android:layout_marginHorizontal="4dp"
-                    app:tint="@color/deep_orange_light"/>
+                    app:tint="@color/deep_orange_light" />
 
-            </androidx.appcompat.widget.LinearLayoutCompat>
+            </LinearLayout>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

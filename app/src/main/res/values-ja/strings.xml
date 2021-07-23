@@ -100,4 +100,6 @@
     <string name="troubles">問題や提案?</string>
     <string name="added_to_shopping_list">選択した成分が買い物リストに追加されます</string>
     <string name="recipes_limit">15以上のレシピを追加するには、プレミアムを購入してくださ</string>
+    <string name="rate_gratitude">レビューをありがとう!</string>
+    <string name="rate_app">レートChefBook</string>
 </resources>

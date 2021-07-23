@@ -1,24 +1,20 @@
 package com.cactusknights.chefbook.fragments
 
-import android.app.Dialog
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.TextureView
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import androidx.appcompat.widget.AppCompatButton
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.cactusknights.chefbook.R
 import com.cactusknights.chefbook.adapters.ShoppingAdapter
+import com.cactusknights.chefbook.databinding.FragmentRecyclerViewBinding
 import com.cactusknights.chefbook.viewmodels.UserViewModel
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -29,54 +25,54 @@ class ShoppingListFragment: Fragment(), ShoppingAdapter.ItemClickListener {
     val shoppingList: ArrayList<String> = arrayListOf()
     private val excludedList: ArrayList<String> = arrayListOf()
     val shoppingAdapter = ShoppingAdapter(shoppingList, this)
-
-    lateinit var recyclerView: RecyclerView
-    lateinit var emptyListTitle: TextView
-
     private val ingredientTouchHelper = ItemTouchHelper(ItemsCallback())
+
+    lateinit var binding: FragmentRecyclerViewBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_recycler_view, container, false)
+    ): View {
+        binding = FragmentRecyclerViewBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        recyclerView = view.findViewById(R.id.recycler_view)
-        recyclerView.layoutManager = LinearLayoutManager(context)
-        recyclerView.adapter = shoppingAdapter
-        ingredientTouchHelper.attachToRecyclerView(recyclerView)
-
-        emptyListTitle = view.findViewById(R.id.empty_list_title)
+        binding.rvContent.layoutManager = LinearLayoutManager(context)
+        binding.rvContent.adapter = shoppingAdapter
+        ingredientTouchHelper.attachToRecyclerView(binding.rvContent)
     }
 
     override fun onStart() {
-        viewModel.shoppingList.observe(this, { newShoppingList ->
-            shoppingList.addAll(newShoppingList.filter { it !in shoppingList})
-            shoppingAdapter.notifyDataSetChanged()
-            emptyListTitle.visibility = if (shoppingList.size > 0) View.GONE else View.VISIBLE
-        })
+        lifecycleScope.launch { checkForUpdates() }
         super.onStart()
     }
 
+    private suspend fun checkForUpdates() {
+        viewModel.listenToShoppingList().collect { newShoppingList: ArrayList<String> ->
+            shoppingList.addAll(newShoppingList.filter { it !in shoppingList})
+            shoppingAdapter.notifyDataSetChanged()
+            binding.textEmptyList.visibility = if (shoppingList.size > 0) View.GONE else View.VISIBLE
+        }
+    }
+
     override fun onPause() {
-        val oldShoppingList = viewModel.shoppingList.value
-        if (oldShoppingList?.size == shoppingList.size) {
+        val oldShoppingList = viewModel.getShoppingList()
+        if (oldShoppingList.size == shoppingList.size) {
             for (item in shoppingList) {
                 if (item !in oldShoppingList) {
-                    viewModel.shoppingList = MutableLiveData(shoppingList)
+                    viewModel.setShoppingList(shoppingList)
                     break
                 }
             }
-        } else { viewModel.shoppingList = MutableLiveData(shoppingList) }
+        } else { viewModel.setShoppingList(shoppingList) }
         super.onPause()
     }
 
-    inner class ItemsCallback(): ItemTouchHelper.Callback() {
+    inner class ItemsCallback: ItemTouchHelper.Callback() {
         override fun getMovementFlags(
             recyclerView: RecyclerView,
             viewHolder: RecyclerView.ViewHolder
@@ -103,7 +99,7 @@ class ShoppingListFragment: Fragment(), ShoppingAdapter.ItemClickListener {
             excludedList.add(shoppingList[viewHolder.adapterPosition])
             shoppingList.removeAt(viewHolder.adapterPosition)
             shoppingAdapter.notifyItemRemoved(viewHolder.adapterPosition)
-            emptyListTitle.visibility = if (shoppingList.size > 0) View.GONE else View.VISIBLE
+            binding.textEmptyList.visibility = if (shoppingList.size > 0) View.GONE else View.VISIBLE
         }
 
     }
@@ -113,7 +109,7 @@ class ShoppingListFragment: Fragment(), ShoppingAdapter.ItemClickListener {
             excludedList.add(shoppingList[position])
             shoppingList.removeAt(position)
             shoppingAdapter.notifyItemRemoved(position)
-            emptyListTitle.visibility = if (shoppingList.size > 0) View.GONE else View.VISIBLE
+            binding.textEmptyList.visibility = if (shoppingList.size > 0) View.GONE else View.VISIBLE
         }
     }
 }

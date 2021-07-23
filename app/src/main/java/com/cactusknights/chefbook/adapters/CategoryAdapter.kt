@@ -3,15 +3,15 @@ package com.cactusknights.chefbook.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.cactusknights.chefbook.R
+import com.cactusknights.chefbook.databinding.ListCategoriesBinding
 
 class CategoryAdapter(private var categories: ArrayList<String>, val listener: CategoryClickListener) :
     RecyclerView.Adapter<CategoryAdapter.ViewHolder>() {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.category.text = categories[position]
+        holder.binding.textName.text = categories[position]
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -24,11 +24,9 @@ class CategoryAdapter(private var categories: ArrayList<String>, val listener: C
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
-        val category: TextView = itemView.findViewById(R.id.category)
-
+        val binding = ListCategoriesBinding.bind(itemView)
         init {
-            itemView.setOnClickListener {
+            binding.root.setOnClickListener {
                 listener.onCategoryClick(adapterPosition)
             }
         }

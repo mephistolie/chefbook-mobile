@@ -99,4 +99,6 @@
     <string name="troubles">문제 또는 제안?</string>
     <string name="added_to_shopping_list">선택한 재료가 쇼핑 목록에 추가됩니다</string>
     <string name="recipes_limit">15 개 이상의 조리법을 추가하려면 프리미엄을 구입하십시오</string>
+    <string name="rate_gratitude">검토 주셔서 감사합니다!</string>
+    <string name="rate_app">속도 ChefBook</string>
 </resources>

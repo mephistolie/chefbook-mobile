@@ -1,65 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:card_view="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:layout_marginBottom="8dp">
 
 
-        <androidx.cardview.widget.CardView
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:foreground="?android:attr/selectableItemBackground"
+        app:cardBackgroundColor="@color/recipe_card_background"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="0dp"
+        card_view:cardElevation="0dp">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:foreground="?android:attr/selectableItemBackground"
-            app:cardBackgroundColor="@color/recipe_card_background"
-            app:cardCornerRadius="8dp"
-            card_view:cardElevation="0dp"
-            app:cardElevation="0dp">
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp">
 
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:layout_width="match_parent"
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/btn_delete"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_gravity="center"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/selector_button"
+                android:src="@drawable/ic_check"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/text_name"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="16dp">
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:fadingEdgeLength="64dp"
+                android:maxLines="2"
+                android:requiresFadingEdge="horizontal"
+                android:text="@string/item"
+                android:textColor="@color/monochrome_invert"
+                android:textSize="24sp" />
 
+            <ImageView
+                style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_gravity="center"
+                android:layout_marginStart="16dp"
+                android:contentDescription="@string/divider"
+                android:padding="0dp"
+                android:src="@drawable/ic_rows" />
 
-                <androidx.appcompat.widget.AppCompatImageButton
-                    android:id="@+id/delete_item"
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
-                    android:src="@drawable/ic_check"
-                    android:layout_gravity="center"
-                    android:layout_marginEnd="16dp"
-                    android:background="@drawable/selector_button"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
-                <TextView
-                    android:layout_gravity="center"
-                    android:id="@+id/item"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/item"
-                    android:layout_weight="1"
-                    android:textColor="@color/monochrome_invert"
-                    android:textSize="24sp"
-                    android:fadingEdgeLength="64dp"
-                    android:maxLines="2"
-                    android:requiresFadingEdge="horizontal" />
-
-                <ImageView
-                    style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_gravity="center"
-                    android:padding="0dp"
-                    android:src="@drawable/ic_rows"
-                    android:contentDescription="@string/divider" />
-
-            </androidx.appcompat.widget.LinearLayoutCompat>
-
-        </androidx.cardview.widget.CardView>
+    </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
