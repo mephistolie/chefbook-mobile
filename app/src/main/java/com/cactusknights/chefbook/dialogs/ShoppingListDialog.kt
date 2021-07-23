@@ -10,7 +10,7 @@ import androidx.fragment.app.DialogFragment
 import com.cactusknights.chefbook.databinding.DialogShoppingListBinding
 import com.cactusknights.chefbook.fragments.ShoppingListFragment
 
-class ShoppingListDialog: DialogFragment() {
+class ShoppingListDialog(): DialogFragment() {
 
     private lateinit var binding: DialogShoppingListBinding
 

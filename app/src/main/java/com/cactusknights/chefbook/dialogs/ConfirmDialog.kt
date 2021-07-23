@@ -23,8 +23,8 @@ class ConfirmDialog(val action: () -> Unit): DialogFragment() {
             dialog.dismiss()
         }
         binding.btnConfirm.setOnClickListener {
-            action()
             dialog.dismiss()
+            action()
         }
 
         return dialog

@@ -14,7 +14,7 @@ android {
         applicationId "com.cactusknights.chefbook"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 34
+        versionCode 35
         versionName "3.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -55,6 +55,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth:21.0.1'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     implementation 'com.google.android.gms:play-services-auth:19.0.0'
+    implementation 'com.google.android.play:core:1.10.0'
+    implementation 'com.google.android.play:core-ktx:1.8.1'
     implementation 'com.google.firebase:firebase-ads:20.2.0'
     implementation "com.android.billingclient:billing:4.0.0"
     implementation 'com.google.firebase:firebase-crashlytics-ktx:18.1.0'

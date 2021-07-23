@@ -93,7 +93,7 @@
                 <TextView
                     android:id="@+id/btn_small_donation"
                     android:layout_width="48dp"
-                    android:layout_height="24dp"
+                    android:layout_height="28dp"
                     android:layout_gravity="center"
                     android:background="@drawable/selector_button"
                     android:gravity="center"
@@ -120,7 +120,7 @@
                 <TextView
                     android:id="@+id/btn_middle_donation"
                     android:layout_width="48dp"
-                    android:layout_height="24dp"
+                    android:layout_height="28dp"
                     android:layout_gravity="center"
                     android:background="@drawable/selector_button"
                     android:gravity="center"
@@ -146,7 +146,7 @@
                 <TextView
                     android:id="@+id/btn_big_donation"
                     android:layout_width="48dp"
-                    android:layout_height="24dp"
+                    android:layout_height="28dp"
                     android:layout_gravity="center"
                     android:background="@drawable/selector_button"
                     android:gravity="center"

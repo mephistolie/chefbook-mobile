@@ -83,6 +83,11 @@ class RecipeCommitActivity: AppCompatActivity() {
         binding.rvSteps.adapter = cookingAdapter
         cookingTouchHelper.attachToRecyclerView(binding.rvSteps)
 
+        binding.btnCategories.setOnClickListener {
+            CategoriesDialog(categories, allCategories, ::onCommitCategoriesCallback)
+                .show(supportFragmentManager, "Categories Dialog")
+        }
+
         binding.btnAddIngredient.setOnClickListener {
             ingredients.add(Ingredient(""))
             ingredientsAdapter.notifyItemInserted(ingredients.size-1)
@@ -94,11 +99,6 @@ class RecipeCommitActivity: AppCompatActivity() {
         binding.btnAddStep.setOnClickListener {
             steps.add("")
             cookingAdapter.notifyItemInserted(steps.size-1)
-        }
-
-        binding.btnCategories.setOnClickListener {
-            CategoriesDialog(categories, allCategories, ::onCommitCategoriesCallback)
-                .show(supportFragmentManager, "Categories Dialog")
         }
 
         binding.btnBack.setOnClickListener { onBackPressed() }
@@ -129,9 +129,14 @@ class RecipeCommitActivity: AppCompatActivity() {
 
     private fun onCommitRecipeCallback(isAdded: Boolean) {
         if (isAdded) { Toast.makeText(applicationContext, if (originalRecipe == null) resources.getString(R.string.recipe_added)
-            else resources.getString(R.string.recipe_updated), Toast.LENGTH_SHORT).show() }
+        else resources.getString(R.string.recipe_updated), Toast.LENGTH_SHORT).show() }
         else Toast.makeText(applicationContext, if (originalRecipe == null) resources.getString(R.string.failed_add)
-            else resources.getString(R.string.failed_update), Toast.LENGTH_SHORT).show()
+        else resources.getString(R.string.failed_update), Toast.LENGTH_SHORT).show()
+    }
+
+    private fun onCommitCategoriesCallback (newCategories: ArrayList<String>, allCategories: ArrayList<String>) {
+        this.categories = newCategories
+        this.allCategories = allCategories
     }
 
     private fun getRecipe(): Recipe {
@@ -151,7 +156,7 @@ class RecipeCommitActivity: AppCompatActivity() {
             categories = categories,
 
             servings = if (servingsText.isNotEmpty()) servingsText.toInt() else 1,
-            time = if (timeText.isNotEmpty()) timeText else "15 min",
+            time = if (timeText.isNotEmpty()) timeText else resources.getString(R.string._15_min),
             calories = if (caloriesText.isNotEmpty()) caloriesText.toInt() else 0,
 
             ingredients = notEmptyIngredients, cooking = notEmptySteps
@@ -190,12 +195,6 @@ class RecipeCommitActivity: AppCompatActivity() {
         }
 
         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) { return }
-    }
-
-    private fun onCommitCategoriesCallback (newCategories: ArrayList<String>, allCategories: ArrayList<String>) {
-        this.categories = newCategories
-        this.allCategories = allCategories
-
     }
 
     override fun onBackPressed() {

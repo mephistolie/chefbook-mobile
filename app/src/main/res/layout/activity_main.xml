@@ -20,17 +20,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageButton
+        <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/btn_left"
-            style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
             android:layout_width="48dp"
             android:layout_height="48dp"
+            android:background="@drawable/ripple_primary"
             android:src="@drawable/ic_back"
             android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/login_tint" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/text_section"
@@ -49,17 +48,16 @@
             app:layout_constraintStart_toEndOf="@id/btn_left"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageButton
+        <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/btn_right"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:background="?android:attr/selectableItemBackground"
-            android:backgroundTint="@color/black"
+            android:background="@drawable/ripple_secondary"
+            android:contentDescription="@string/user"
             android:src="@drawable/ic_user"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/login_tint" />
+            app:layout_constraintTop_toTopOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -82,6 +80,7 @@
         android:layout_marginHorizontal="8dp"
         android:layout_marginBottom="8dp"
         android:background="@drawable/selector_navigation_background"
+        ads:itemRippleColor="@color/deep_orange_light"
         app:elevation="1dp"
         app:itemIconTint="@drawable/selector_navigation_foreground"
         app:itemTextColor="@drawable/selector_navigation_foreground"

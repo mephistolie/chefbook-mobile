@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
@@ -79,7 +80,7 @@ class MainActivity : AppCompatActivity() {
             FirebaseAuthRepository.migrateToFirebase(legacyDatabase, this)
 
         userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
-        userViewModel.listenForUpdates()
+        userViewModel.startListeningToUpdates()
     }
 
     override fun onStart() {
@@ -105,7 +106,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onDestroy() {
-        userViewModel.stopListening()
+        userViewModel.stopListeningToUpdates()
         super.onDestroy()
     }
 
@@ -139,11 +140,16 @@ class MainActivity : AppCompatActivity() {
     fun setTopMenu(title: String = resources.getString(R.string.recipes),
                            isLeftVisible: Boolean = false,
                            leftIcon: Int = R.drawable.ic_back,
-                           leftColor: Int = R.color.login_tint) {
+                           leftColor: Int = R.color.secondary_text_tint) {
 
         binding.textSection.text = title
         if (isLeftVisible) {
             binding.btnLeft.setImageResource(leftIcon)
+            binding.btnLeft.background =
+                if (leftIcon == R.drawable.ic_back)
+                    ResourcesCompat.getDrawable(resources, R.drawable.ripple_secondary, null)
+                else
+                    ResourcesCompat.getDrawable(resources, R.drawable.ripple_primary, null)
             binding.btnLeft.visibility = View.VISIBLE
             binding.btnLeft.setColorFilter(ContextCompat.getColor(this, leftColor))
         } else {

@@ -100,4 +100,6 @@
     <string name="troubles">Проблемы или предложения?</string>
     <string name="added_to_shopping_list">Выбранные ингредиенты добавлены в список покупок</string>
     <string name="recipes_limit">Пожалуйста, купите Премиум, чтобы добавить более 15 рецептов</string>
+    <string name="rate_gratitude">Спасибо за отзыв!</string>
+    <string name="rate_app">Оценить ChefBook</string>
 </resources>

@@ -83,7 +83,7 @@
                     android:id="@+id/btn_add_category"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    android:background="?android:attr/selectableItemBackground"
+                    android:background="@drawable/ripple_primary"
                     android:src="@drawable/ic_add"
                     app:tint="@color/deep_orange_light" />
 
@@ -110,14 +110,13 @@
                     android:layout_width="36dp"
                     android:layout_height="36dp"
                     android:layout_marginHorizontal="4dp"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:backgroundTint="@color/black"
+                    android:background="@drawable/ripple_secondary"
                     android:scaleType="fitCenter"
                     android:src="@drawable/ic_cross"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:tint="@color/login_tint" />
+                    app:tint="@color/secondary_text_tint" />
 
                 <View
                     android:layout_width="2dp"
@@ -131,8 +130,7 @@
                     android:layout_width="36dp"
                     android:layout_height="36dp"
                     android:layout_marginHorizontal="4dp"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:backgroundTint="@color/black"
+                    android:background="@drawable/ripple_primary"
                     android:scaleType="fitCenter"
                     android:src="@drawable/ic_check"
                     app:layout_constraintBottom_toBottomOf="parent"

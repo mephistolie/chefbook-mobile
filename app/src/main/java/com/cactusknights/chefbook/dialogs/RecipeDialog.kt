@@ -23,7 +23,7 @@ class RecipeDialog(val activity: RecipeActivity): DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 
         binding = DialogRecipeBinding.inflate(layoutInflater)
-        val dialog = AlertDialog.Builder(context)
+        val dialog = AlertDialog.Builder(activity)
             .setView(binding.root).create()
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
@@ -45,8 +45,7 @@ class RecipeDialog(val activity: RecipeActivity): DialogFragment() {
             requireActivity().overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
         }
         binding.btnDeleteRecipe.setOnClickListener {
-            ConfirmDialog { UserViewModel.deleteRecipe(activity.recipe, ::onDeleteRecipeCallback); requireActivity().finish() }.show(requireActivity().supportFragmentManager, "Confirm")
-            dialog.dismiss()
+            ConfirmDialog { UserViewModel.deleteRecipe(activity.recipe, ::onDeleteRecipeCallback) }.show(activity.supportFragmentManager, "Delete Recipe")
         }
 
         return dialog
@@ -55,6 +54,7 @@ class RecipeDialog(val activity: RecipeActivity): DialogFragment() {
     private fun onDeleteRecipeCallback(isDeleted: Boolean) {
         if (isDeleted) {
             Toast.makeText(requireContext(), resources.getString(R.string.recipe_deleted), Toast.LENGTH_SHORT).show()
+            dialog?.dismiss()
             requireActivity().finish()
         } else { Toast.makeText(requireContext(), resources.getString(R.string.deleting_failed), Toast.LENGTH_SHORT).show()}
     }

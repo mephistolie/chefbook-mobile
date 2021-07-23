@@ -16,16 +16,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageButton
+        <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/btn_back"
-            style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
             android:layout_width="48dp"
             android:layout_height="48dp"
+            android:background="@drawable/ripple_secondary"
             android:src="@drawable/ic_back"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/login_tint" />
+            app:tint="@color/secondary_text_tint" />
 
         <TextView
             android:id="@+id/text_section"
@@ -44,12 +44,11 @@
             app:layout_constraintStart_toEndOf="@id/btn_back"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageButton
+        <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/btn_confirm"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:background="?android:attr/selectableItemBackground"
-            android:backgroundTint="@color/black"
+            android:background="@drawable/ripple_primary"
             android:src="@drawable/ic_check"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -87,7 +86,7 @@
                 android:textSize="24sp"
                 app:fontFamily="@font/comfortaa_bold" />
 
-            <EditText
+            <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/input_name"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
@@ -113,7 +112,7 @@
                     android:text="@string/servings"
                     android:textSize="20sp" />
 
-                <EditText
+                <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/input_servings"
                     android:layout_width="match_parent"
                     android:layout_height="36dp"
@@ -141,7 +140,7 @@
                     android:text="@string/calories_kcal"
                     android:textSize="20sp" />
 
-                <EditText
+                <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/input_calories"
                     android:layout_width="match_parent"
                     android:layout_height="36dp"
@@ -169,7 +168,7 @@
                     android:text="@string/time"
                     android:textSize="20sp" />
 
-                <EditText
+                <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/input_time"
                     android:layout_width="match_parent"
                     android:layout_height="36dp"

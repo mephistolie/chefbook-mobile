@@ -60,8 +60,7 @@
                     android:layout_width="36dp"
                     android:layout_height="36dp"
                     android:layout_marginHorizontal="4dp"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:backgroundTint="@color/black"
+                    android:background="@drawable/ripple_primary"
                     android:scaleType="fitCenter"
                     android:src="@drawable/ic_unfavorite"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -82,14 +81,13 @@
                     android:layout_width="36dp"
                     android:layout_height="36dp"
                     android:layout_marginHorizontal="4dp"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:backgroundTint="@color/black"
+                    android:background="@drawable/ripple_secondary"
                     android:scaleType="fitCenter"
                     android:src="@drawable/ic_share"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:tint="@color/login_tint" />
+                    app:tint="@color/secondary_text_tint" />
 
                 <View
                     android:layout_width="2dp"
@@ -103,14 +101,13 @@
                     android:layout_width="36dp"
                     android:layout_height="36dp"
                     android:layout_marginHorizontal="4dp"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:backgroundTint="@color/black"
+                    android:background="@drawable/ripple_secondary"
                     android:scaleType="fitCenter"
                     android:src="@drawable/ic_edit"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:tint="@color/login_tint" />
+                    app:tint="@color/secondary_text_tint" />
 
                 <View
                     android:layout_width="2dp"
@@ -124,14 +121,13 @@
                     android:layout_width="36dp"
                     android:layout_height="36dp"
                     android:layout_marginHorizontal="4dp"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:backgroundTint="@color/black"
+                    android:background="@drawable/ripple_secondary"
                     android:scaleType="fitCenter"
                     android:src="@drawable/ic_trash"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:tint="@color/login_tint" />
+                    app:tint="@color/secondary_text_tint" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
