@@ -92,7 +92,7 @@
                     android:layout_weight="0"
                     android:contentDescription="@string/time"
                     android:src="@drawable/ic_time"
-                    app:tint="@color/login_tint" />
+                    app:tint="@color/secondary_text_tint" />
 
             </LinearLayout>
 

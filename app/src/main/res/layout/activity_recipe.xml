@@ -20,16 +20,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageButton
+        <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/btn_back"
-            style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
             android:layout_width="48dp"
             android:layout_height="48dp"
+            android:background="@drawable/ripple_secondary"
             android:src="@drawable/ic_back"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/login_tint" />
+            app:tint="@color/secondary_text_tint" />
 
         <TextView
             android:id="@+id/text_section"
@@ -48,17 +48,16 @@
             app:layout_constraintStart_toEndOf="@id/btn_back"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageButton
+        <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/btn_more"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:background="?android:attr/selectableItemBackground"
-            android:backgroundTint="@color/black"
+            android:background="@drawable/ripple_secondary"
             android:src="@drawable/ic_more"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/login_tint" />
+            app:tint="@color/secondary_text_tint" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

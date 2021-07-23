@@ -5,11 +5,8 @@ import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.widget.TextView
 import androidx.fragment.app.DialogFragment
-import com.cactusknights.chefbook.R
 import com.cactusknights.chefbook.databinding.DialogInfoBinding
-import com.cactusknights.chefbook.databinding.FragmentRecyclerViewBinding
 import com.cactusknights.chefbook.helpers.Utils
 
 class AboutDialog: DialogFragment() {

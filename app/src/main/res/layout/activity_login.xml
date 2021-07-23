@@ -155,7 +155,7 @@
                 android:src="@drawable/ic_google"
                 app:backgroundTint="@color/input_background"
                 app:fabSize="mini"
-                app:tint="@color/login_tint" />
+                app:tint="@color/secondary_text_tint" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

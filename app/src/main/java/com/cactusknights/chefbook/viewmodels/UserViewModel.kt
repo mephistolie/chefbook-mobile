@@ -52,7 +52,7 @@ class UserViewModel: ViewModel() {
     fun isPremium(): Boolean { return getCurrentUser()?.isPremium ?: false }
 
 
-    fun listenForUpdates() {
+    fun startListeningToUpdates() {
         viewModelScope.launch {
             contentRepository.listenToRecipes()
             contentRepository.listenToShoppingList()
@@ -63,7 +63,7 @@ class UserViewModel: ViewModel() {
     fun listenToCategories(): StateFlow<ArrayList<String>> { return categories }
     fun listenToShoppingList(): StateFlow<ArrayList<String>> { return shoppingList }
 
-    fun stopListening() {
+    fun stopListeningToUpdates() {
         viewModelScope.launch {
             contentRepository.stopListeningRecipes()
             contentRepository.stopListenShoppingList()

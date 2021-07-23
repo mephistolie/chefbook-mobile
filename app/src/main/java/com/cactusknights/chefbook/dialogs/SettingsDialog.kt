@@ -1,5 +1,6 @@
 package com.cactusknights.chefbook.dialogs
 
+import android.app.Activity
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.SharedPreferences
@@ -7,11 +8,14 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
+import com.cactusknights.chefbook.R
 import com.cactusknights.chefbook.databinding.DialogSettingsBinding
 import com.cactusknights.chefbook.viewmodels.UserViewModel
+import com.google.android.play.core.review.ReviewManagerFactory
 
 class SettingsDialog: DialogFragment() {
 
@@ -50,11 +54,36 @@ class SettingsDialog: DialogFragment() {
             DonateDialog().show(requireActivity().supportFragmentManager, "Donate")
             dialog.dismiss()
         }
+        binding.llRate.setOnClickListener {
+            requestReviewFlow(requireActivity())
+        }
         binding.btnLogout.setOnClickListener {
             ConfirmDialog { viewModel.logout() }.show(requireActivity().supportFragmentManager, "Confirm")
             dialog.dismiss()
         }
 
         return dialog
+    }
+
+    private fun requestReviewFlow(activity: Activity) {
+
+        val reviewManager = ReviewManagerFactory.create(activity)
+
+        val requestReviewFlow = reviewManager.requestReviewFlow()
+
+        requestReviewFlow.addOnCompleteListener { request ->
+
+            if (request.isSuccessful) {
+
+                val reviewInfo = request.result
+
+                val flow = reviewManager.launchReviewFlow(activity, reviewInfo)
+
+                flow.addOnCompleteListener {
+                    Toast.makeText(requireContext(), R.string.rate_gratitude, Toast.LENGTH_SHORT).show()
+                }
+
+            }
+        }
     }
 }
