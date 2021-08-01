@@ -1,8 +1,7 @@
 package com.cactusknights.chefbook.repositories
 
-
-import android.app.Activity
 import android.content.Context
+import androidx.appcompat.app.AppCompatActivity
 import com.android.billingclient.api.*
 import com.cactusknights.chefbook.dialogs.GratitudeDialog
 import com.cactusknights.chefbook.interfaces.AuthProvider
@@ -19,6 +18,9 @@ class FirebaseAuthRepository: AuthProvider {
 
     private var auth = FirebaseAuth.getInstance()
     private var user: MutableStateFlow<User?> = MutableStateFlow(getChefBookUser(auth.currentUser))
+
+    private lateinit var purchasesUpdatedListener: PurchasesUpdatedListener
+    private lateinit var billingClient: BillingClient
 
     override suspend fun listenTotUser(): MutableStateFlow<User?> { return user }
 
@@ -61,42 +63,53 @@ class FirebaseAuthRepository: AuthProvider {
         }
     }
 
-    override suspend fun buyPremium(donation_type: String, activity: Activity) {
+    override suspend fun buyPremium(donation_type: String, activity: AppCompatActivity) {
+        purchasesUpdatedListener =
+            PurchasesUpdatedListener { billingResult, purchases ->
+                if (billingResult.responseCode == BillingClient.BillingResponseCode.OK && purchases != null) {
+                    for (purchase in purchases) {
+                        consumePurchase(purchase.purchaseToken, activity)
+                    }
+                }
+            }
+
+        billingClient = BillingClient.newBuilder(activity)
+            .setListener(purchasesUpdatedListener)
+            .enablePendingPurchases()
+            .build()
+
+        billingClient.startConnection(object : BillingClientStateListener {
+            override fun onBillingSetupFinished(p0: BillingResult) {
+                if (p0.responseCode == BillingClient.BillingResponseCode.OK) {
+                    val skuList = ArrayList<String>()
+                    skuList.add(donation_type)
+                    val params = SkuDetailsParams.newBuilder().setSkusList(skuList).setType(
+                        BillingClient.SkuType.INAPP)
+                    billingClient.querySkuDetailsAsync(params.build()) { _, skuDetailsList ->
+                        val flowParams = BillingFlowParams.newBuilder()
+                            .setSkuDetails(skuDetailsList!![0])
+                            .build()
+                        billingClient.launchBillingFlow(activity, flowParams).responseCode
+                    }
+                }
+            }
+            override fun onBillingServiceDisconnected() { }
+        })
+    }
+
+    private fun consumePurchase(purchaseToken: String, activity: AppCompatActivity) {
         val currentUser = user.value
         if (currentUser != null) {
-            val purchasesUpdatedListener =
-                PurchasesUpdatedListener { billingResult, purchases ->
-                    val firestore = FirebaseFirestore.getInstance()
-                    if (billingResult.responseCode == BillingClient.BillingResponseCode.OK && purchases != null) {
-                        firestore.collection("users").document(currentUser.uid).update(mapOf(
-                            "isPremium" to true
-                        ))
-                        GratitudeDialog()
-                    }
+            val firestore = FirebaseFirestore.getInstance()
+            val consumeParams = ConsumeParams.newBuilder().setPurchaseToken(purchaseToken).build()
+            billingClient.consumeAsync(consumeParams) { billingResult, _ ->
+                if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
+                    firestore.collection("users").document(currentUser.uid).update(mapOf(
+                        "isPremium" to true
+                    ))
+                    GratitudeDialog().show(activity.supportFragmentManager, "Gratitude")
                 }
-
-            val billingClient = BillingClient.newBuilder(activity)
-                .setListener(purchasesUpdatedListener)
-                .enablePendingPurchases()
-                .build()
-
-            billingClient.startConnection(object : BillingClientStateListener {
-                override fun onBillingSetupFinished(p0: BillingResult) {
-                    if (p0.responseCode == BillingClient.BillingResponseCode.OK) {
-                        val skuList = ArrayList<String>()
-                        skuList.add(donation_type)
-                        val params = SkuDetailsParams.newBuilder().setSkusList(skuList).setType(
-                            BillingClient.SkuType.INAPP)
-                        billingClient.querySkuDetailsAsync(params.build()) { _, skuDetailsList ->
-                            val flowParams = BillingFlowParams.newBuilder()
-                                .setSkuDetails(skuDetailsList!![0])
-                                .build()
-                            billingClient.launchBillingFlow(activity, flowParams).responseCode
-                        }
-                    }
-                }
-                override fun onBillingServiceDisconnected() { }
-            })
+            }
         }
     }
 

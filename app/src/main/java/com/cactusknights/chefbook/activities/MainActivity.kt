@@ -15,7 +15,9 @@ import com.cactusknights.chefbook.R
 import com.cactusknights.chefbook.databinding.ActivityMainBinding
 import com.cactusknights.chefbook.dialogs.SettingsDialog
 import com.cactusknights.chefbook.dialogs.ShoppingListDialog
-import com.cactusknights.chefbook.fragments.*
+import com.cactusknights.chefbook.fragments.CategoriesFragment
+import com.cactusknights.chefbook.fragments.DashboardFragment
+import com.cactusknights.chefbook.fragments.ShoppingListFragment
 import com.cactusknights.chefbook.models.User
 import com.cactusknights.chefbook.repositories.FirebaseAuthRepository
 import com.cactusknights.chefbook.viewmodels.UserViewModel
@@ -80,11 +82,13 @@ class MainActivity : AppCompatActivity() {
             FirebaseAuthRepository.migrateToFirebase(legacyDatabase, this)
 
         userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
-        userViewModel.startListeningToUpdates()
     }
 
     override fun onStart() {
-        lifecycleScope.launch { listenToUser() }
+        lifecycleScope.launch {
+            userViewModel.startListeningToUpdates()
+            listenToUser()
+        }
         super.onStart()
     }
 

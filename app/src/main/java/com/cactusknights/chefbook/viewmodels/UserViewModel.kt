@@ -1,6 +1,6 @@
 package com.cactusknights.chefbook.viewmodels
 
-import android.app.Activity
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.cactusknights.chefbook.interfaces.AuthProvider
@@ -11,12 +11,9 @@ import com.cactusknights.chefbook.models.Recipe
 import com.cactusknights.chefbook.models.User
 import com.cactusknights.chefbook.repositories.FirebaseContentRepository
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import kotlin.coroutines.suspendCoroutine
-
 
 class UserViewModel: ViewModel() {
 
@@ -48,7 +45,7 @@ class UserViewModel: ViewModel() {
     fun restorePassword(email: String, callback: (isReset: Boolean) -> Unit) { viewModelScope.launch { authRepository.restorePassword(email, callback) } }
     fun logout() { viewModelScope.launch { authRepository.logout() } }
 
-    fun buyPremium(donation_type: String, activity: Activity) { viewModelScope.launch { authRepository.buyPremium(donation_type, activity) } }
+    fun buyPremium(donation_type: String, activity: AppCompatActivity) { viewModelScope.launch { authRepository.buyPremium(donation_type, activity) } }
     fun isPremium(): Boolean { return getCurrentUser()?.isPremium ?: false }
 
 

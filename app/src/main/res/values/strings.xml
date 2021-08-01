@@ -107,7 +107,6 @@
     <string name="added_to_shopping_list">Selected ingredients have been added to the Shopping List</string>
     <string name="recipes_limit">Please, buy Premium to add more than 15 recipes</string>
     <string name="google" translatable="false">Google</string>
-    <string name="premium" translatable="false">Premium</string>
     <string name="rate_app">Rate ChefBook</string>
     <string name="rate_gratitude">Thanks for review!</string>
 </resources>
