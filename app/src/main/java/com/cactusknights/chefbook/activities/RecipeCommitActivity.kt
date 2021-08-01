@@ -198,6 +198,6 @@ class RecipeCommitActivity: AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        ConfirmDialog { finish() }.show(supportFragmentManager, "Confirm")
+        ConfirmDialog { super.onBackPressed() }.show(supportFragmentManager, "Confirm")
     }
 }

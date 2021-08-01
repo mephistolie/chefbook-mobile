@@ -18,6 +18,7 @@ class CookingEditAdapter(private var steps: ArrayList<String>): RecyclerView.Ada
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.binding?.step = steps[position]
         holder.number.text = (position+1).toString()
+        holder.binding?.inputStep?.requestFocus()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

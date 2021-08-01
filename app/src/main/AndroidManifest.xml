@@ -22,7 +22,8 @@
             android:noHistory="true"
             android:excludeFromRecents="true"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
-        <activity android:name="com.cactusknights.chefbook.activities.RecipeCommitActivity" />
+        <activity android:name="com.cactusknights.chefbook.activities.RecipeCommitActivity"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
         <activity android:name="com.cactusknights.chefbook.activities.RecipeActivity" />
 
         <meta-data

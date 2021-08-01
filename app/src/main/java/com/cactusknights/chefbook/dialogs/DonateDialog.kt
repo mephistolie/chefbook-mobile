@@ -5,6 +5,7 @@ import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import com.cactusknights.chefbook.databinding.DialogDonateBinding
@@ -24,9 +25,9 @@ class DonateDialog: DialogFragment() {
             .setView(binding.root).create()
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
-        binding.btnSmallDonation.setOnClickListener { viewModel.buyPremium("small_donation", requireActivity()) }
-        binding.btnMiddleDonation.setOnClickListener { viewModel.buyPremium("middle_donation", requireActivity()) }
-        binding.btnBigDonation.setOnClickListener { viewModel.buyPremium("big_donation", requireActivity()) }
+        binding.btnSmallDonation.setOnClickListener { viewModel.buyPremium("small_donation", requireActivity() as AppCompatActivity) }
+        binding.btnMiddleDonation.setOnClickListener { viewModel.buyPremium("middle_donation", requireActivity() as AppCompatActivity) }
+        binding.btnBigDonation.setOnClickListener { viewModel.buyPremium("big_donation", requireActivity() as AppCompatActivity) }
         binding.textSupport.setOnClickListener { Utils.sendEmail(requireContext()) }
 
         return dialog

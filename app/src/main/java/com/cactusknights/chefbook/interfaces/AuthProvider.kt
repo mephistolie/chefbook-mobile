@@ -1,6 +1,7 @@
 package com.cactusknights.chefbook.interfaces
 
 import android.app.Activity
+import androidx.appcompat.app.AppCompatActivity
 import com.cactusknights.chefbook.models.User
 import kotlinx.coroutines.flow.MutableStateFlow
 
@@ -15,6 +16,6 @@ interface AuthProvider {
     suspend fun logonGoogle(idToken: String, callback: (isLoggedIn: Boolean) -> Unit)
     suspend fun restorePassword(email: String, callback: (isReset: Boolean) -> Unit)
     suspend fun logout()
-    suspend fun buyPremium(donation_type: String, activity: Activity)
+    suspend fun buyPremium(donation_type: String, activity: AppCompatActivity)
 
 }
