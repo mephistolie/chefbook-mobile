@@ -102,4 +102,5 @@
     <string name="recipes_limit">Por favor, compre PREMIUM para adicionar mais de 15 receitas</string>
     <string name="rate_gratitude">Obrigado pela crítica!</string>
     <string name="rate_app">Avaliar ChefBook</string>
+    <string name="type_something">Escreva alguma coisa…</string>
 </resources>

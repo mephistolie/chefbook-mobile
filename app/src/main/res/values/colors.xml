@@ -12,6 +12,7 @@
     <color name="ic_launcher_background">@color/white</color>
     <color name="app_background">@color/white</color>
     <color name="input_background">#F2F2F2</color>
+    <color name="hint_background">#bfbfbf</color>
     <color name="secondary_text_tint">#3F3F3F</color>
     <color name="navigation_background">#FAFAFA</color>
     <color name="navigation_foreground">#666666</color>

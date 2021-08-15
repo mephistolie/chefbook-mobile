@@ -102,4 +102,5 @@
     <string name="recipes_limit">15以上のレシピを追加するには、プレミアムを購入してくださ</string>
     <string name="rate_gratitude">レビューをありがとう!</string>
     <string name="rate_app">レートChefBook</string>
+    <string name="type_something">何かを書く…</string>
 </resources>
