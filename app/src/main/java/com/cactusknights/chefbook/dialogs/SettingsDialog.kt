@@ -3,6 +3,7 @@ package com.cactusknights.chefbook.dialogs
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.Dialog
+import android.content.Context
 import android.content.SharedPreferences
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -55,7 +56,7 @@ class SettingsDialog: DialogFragment() {
             dialog.dismiss()
         }
         binding.llRate.setOnClickListener {
-            requestReviewFlow(requireActivity())
+            requestReviewFlow()
         }
         binding.btnLogout.setOnClickListener {
             ConfirmDialog { viewModel.logout() }.show(requireActivity().supportFragmentManager, "Confirm")
@@ -65,24 +66,17 @@ class SettingsDialog: DialogFragment() {
         return dialog
     }
 
-    private fun requestReviewFlow(activity: Activity) {
-
-        val reviewManager = ReviewManagerFactory.create(activity)
-
+    private fun requestReviewFlow() {
+        val reviewManager = ReviewManagerFactory.create(requireContext())
         val requestReviewFlow = reviewManager.requestReviewFlow()
-
         requestReviewFlow.addOnCompleteListener { request ->
-
             if (request.isSuccessful) {
-
                 val reviewInfo = request.result
-
-                val flow = reviewManager.launchReviewFlow(activity, reviewInfo)
-
-                flow.addOnCompleteListener {
-                    Toast.makeText(requireContext(), R.string.rate_gratitude, Toast.LENGTH_SHORT).show()
+                val flow = reviewManager.launchReviewFlow(requireActivity(), reviewInfo)
+                flow.addOnCompleteListener { task ->
+                    if (task.isSuccessful)
+                        Toast.makeText(requireContext(), R.string.rate_gratitude, Toast.LENGTH_SHORT).show()
                 }
-
             }
         }
     }

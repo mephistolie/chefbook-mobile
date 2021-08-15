@@ -109,4 +109,5 @@
     <string name="google" translatable="false">Google</string>
     <string name="rate_app">Rate ChefBook</string>
     <string name="rate_gratitude">Thanks for review!</string>
+    <string name="type_something">Type something…</string>
 </resources>

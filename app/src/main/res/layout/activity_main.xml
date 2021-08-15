@@ -24,7 +24,7 @@
             android:id="@+id/btn_left"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:background="@drawable/ripple_primary"
+            android:background="@drawable/ripple_secondary"
             android:src="@drawable/ic_back"
             android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
