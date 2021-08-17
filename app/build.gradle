@@ -14,7 +14,7 @@ android {
         applicationId "com.cactusknights.chefbook"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 37
+        versionCode 38
         versionName "3.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
