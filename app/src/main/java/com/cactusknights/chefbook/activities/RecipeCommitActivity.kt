@@ -42,7 +42,7 @@ class RecipeCommitActivity: AppCompatActivity() {
         setContentView(binding.root)
 
         if (savedInstanceState != null) {
-            originalRecipe = savedInstanceState.getSerializable("originalRecipe") as Recipe
+            originalRecipe = savedInstanceState.getSerializable("originalRecipe") as Recipe?
             allCategories = savedInstanceState.getStringArrayList("allCategories") as ArrayList<String>
             val outRecipe = savedInstanceState.getSerializable("recipe") as Recipe
             categories = outRecipe.categories
@@ -53,8 +53,8 @@ class RecipeCommitActivity: AppCompatActivity() {
             binding.inputCalories.setText(outRecipe.calories.toString())
             binding.inputTime.setText(outRecipe.time)
 
-            ingredients = outRecipe.ingredients
-            steps = outRecipe.cooking
+            ingredients = if (outRecipe.ingredients.isNotEmpty()) outRecipe.ingredients else arrayListOf(Ingredient(""))
+            steps = if (outRecipe.cooking.isNotEmpty()) outRecipe.cooking else arrayListOf("")
         } else {
             originalRecipe = intent.extras?.get("targetRecipe") as Recipe?
             if (originalRecipe != null) {
