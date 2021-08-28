@@ -1,5 +1,6 @@
 package com.cactusknights.chefbook.fragments
 
+import android.graphics.Canvas
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -17,7 +18,6 @@ import com.cactusknights.chefbook.viewmodels.UserViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 class ShoppingListFragment: Fragment(), ShoppingAdapter.ItemClickListener {
@@ -114,6 +114,11 @@ class ShoppingListFragment: Fragment(), ShoppingAdapter.ItemClickListener {
             shoppingAdapter.notifyItemRemoved(viewHolder.adapterPosition)
         }
 
+        override fun onChildDraw(c: Canvas, recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, dX: Float, dY: Float, actionState: Int, isCurrentlyActive: Boolean) {
+            val topY = viewHolder.itemView.top + dY
+            val bottomY = topY + viewHolder.itemView.height
+            if (topY > 0 && bottomY < recyclerView.height) { super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive) }
+        }
     }
 
     override fun onItemClick(position: Int) {
