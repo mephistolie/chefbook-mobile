@@ -1,9 +1,11 @@
 package com.cactusknights.chefbook.fragments
 
+import android.graphics.Canvas
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -11,12 +13,11 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.cactusknights.chefbook.adapters.ShoppingAdapter
-import com.cactusknights.chefbook.databinding.FragmentRecyclerViewBinding
+import com.cactusknights.chefbook.databinding.FragmentShoppingListBinding
 import com.cactusknights.chefbook.viewmodels.UserViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 class ShoppingListFragment: Fragment(), ShoppingAdapter.ItemClickListener {
@@ -27,14 +28,14 @@ class ShoppingListFragment: Fragment(), ShoppingAdapter.ItemClickListener {
     val shoppingAdapter = ShoppingAdapter(shoppingList, this)
     private val ingredientTouchHelper = ItemTouchHelper(ItemsCallback())
 
-    lateinit var binding: FragmentRecyclerViewBinding
+    lateinit var binding: FragmentShoppingListBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentRecyclerViewBinding.inflate(inflater, container, false)
+        binding = FragmentShoppingListBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -44,6 +45,19 @@ class ShoppingListFragment: Fragment(), ShoppingAdapter.ItemClickListener {
         binding.rvContent.layoutManager = LinearLayoutManager(context)
         binding.rvContent.adapter = shoppingAdapter
         ingredientTouchHelper.attachToRecyclerView(binding.rvContent)
+
+        binding.inputItem.doOnTextChanged { text, _, _, _ ->
+            binding.btnAddItem.visibility = if (text.isNullOrEmpty()) View.GONE else View.VISIBLE
+        }
+
+        binding.btnAddItem.setOnClickListener {
+            val itemText = binding.inputItem.text.toString()
+            if (itemText.isNotEmpty()) {
+                shoppingList.add(itemText)
+                shoppingAdapter.notifyItemInserted(shoppingList.size-1)
+                binding.inputItem.setText("")
+            }
+        }
     }
 
     override fun onStart() {
@@ -55,7 +69,6 @@ class ShoppingListFragment: Fragment(), ShoppingAdapter.ItemClickListener {
         viewModel.listenToShoppingList().collect { newShoppingList: ArrayList<String> ->
             shoppingList.addAll(newShoppingList.filter { it !in shoppingList})
             shoppingAdapter.notifyDataSetChanged()
-            binding.textEmptyList.visibility = if (shoppingList.size > 0) View.GONE else View.VISIBLE
         }
     }
 
@@ -99,9 +112,13 @@ class ShoppingListFragment: Fragment(), ShoppingAdapter.ItemClickListener {
             excludedList.add(shoppingList[viewHolder.adapterPosition])
             shoppingList.removeAt(viewHolder.adapterPosition)
             shoppingAdapter.notifyItemRemoved(viewHolder.adapterPosition)
-            binding.textEmptyList.visibility = if (shoppingList.size > 0) View.GONE else View.VISIBLE
         }
 
+        override fun onChildDraw(c: Canvas, recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, dX: Float, dY: Float, actionState: Int, isCurrentlyActive: Boolean) {
+            val topY = viewHolder.itemView.top + dY
+            val bottomY = topY + viewHolder.itemView.height
+            if (topY > 0 && bottomY < recyclerView.height) { super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive) }
+        }
     }
 
     override fun onItemClick(position: Int) {
@@ -109,7 +126,6 @@ class ShoppingListFragment: Fragment(), ShoppingAdapter.ItemClickListener {
             excludedList.add(shoppingList[position])
             shoppingList.removeAt(position)
             shoppingAdapter.notifyItemRemoved(position)
-            binding.textEmptyList.visibility = if (shoppingList.size > 0) View.GONE else View.VISIBLE
         }
     }
 }

@@ -57,7 +57,6 @@
                     android:layout_marginTop="2dp"
                     android:background="?android:attr/selectableItemBackground"
                     android:backgroundTint="@color/deep_orange_light"
-                    android:contentDescription="@string/premium"
                     android:scaleType="fitCenter"
                     android:src="@drawable/ic_premium"
                     android:visibility="gone"

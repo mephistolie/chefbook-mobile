@@ -102,4 +102,5 @@
     <string name="recipes_limit">Пожалуйста, купите Премиум, чтобы добавить более 15 рецептов</string>
     <string name="rate_gratitude">Спасибо за отзыв!</string>
     <string name="rate_app">Оценить ChefBook</string>
+    <string name="type_something">Напишите что-нибудь…</string>
 </resources>

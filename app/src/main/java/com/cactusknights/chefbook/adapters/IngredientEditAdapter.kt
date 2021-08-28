@@ -18,6 +18,7 @@ class IngredientEditAdapter(private var ingredients: ArrayList<Ingredient>): Rec
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val ingredient = ingredients[position]
         holder.binding?.ingredient = ingredient
+        holder.binding?.inputIngredient?.requestFocus()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

@@ -5,8 +5,6 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
-import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
@@ -14,8 +12,9 @@ import androidx.lifecycle.lifecycleScope
 import com.cactusknights.chefbook.R
 import com.cactusknights.chefbook.databinding.ActivityMainBinding
 import com.cactusknights.chefbook.dialogs.SettingsDialog
-import com.cactusknights.chefbook.dialogs.ShoppingListDialog
-import com.cactusknights.chefbook.fragments.*
+import com.cactusknights.chefbook.fragments.CategoriesFragment
+import com.cactusknights.chefbook.fragments.DashboardFragment
+import com.cactusknights.chefbook.fragments.ShoppingListFragment
 import com.cactusknights.chefbook.models.User
 import com.cactusknights.chefbook.repositories.FirebaseAuthRepository
 import com.cactusknights.chefbook.viewmodels.UserViewModel
@@ -61,7 +60,7 @@ class MainActivity : AppCompatActivity() {
             val shoppingListFragment = fragmentManager.findFragmentByTag("Shopping List")
             val recipesFragment = fragmentManager.findFragmentByTag("Recipes")
             if (item.itemId == R.id.shopping_list && (shoppingListFragment == null || !shoppingListFragment.isVisible)) {
-                setTopMenu(resources.getString(R.string.shopping_list), true, R.drawable.ic_add, R.color.deep_orange_light)
+                setTopMenu(resources.getString(R.string.shopping_list))
                 setFragment(ShoppingListFragment(), R.anim.swipe_right_show, R.anim.swipe_right_hide, "Shopping List")
             } else if (item.itemId == R.id.recipes && (recipesFragment == null || !recipesFragment.isVisible)) {
                 setTopMenu()
@@ -71,7 +70,7 @@ class MainActivity : AppCompatActivity() {
             true
         }
         binding.nvNavigation.setOnItemSelectedListener(navigation)
-        binding.btnLeft.setOnClickListener { onLeftPressed() }
+        binding.btnLeft.setOnClickListener { onBackPressed() }
         binding.btnRight.setOnClickListener { onRightPressed() }
 
         // SQLite Migration
@@ -80,11 +79,13 @@ class MainActivity : AppCompatActivity() {
             FirebaseAuthRepository.migrateToFirebase(legacyDatabase, this)
 
         userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
-        userViewModel.startListeningToUpdates()
     }
 
     override fun onStart() {
-        lifecycleScope.launch { listenToUser() }
+        lifecycleScope.launch {
+            userViewModel.startListeningToUpdates()
+            listenToUser()
+        }
         super.onStart()
     }
 
@@ -125,7 +126,7 @@ class MainActivity : AppCompatActivity() {
             setFragment(DashboardFragment(), R.anim.zoom_in_show, R.anim.zoom_in_hide,"Recipes")
             binding.nvNavigation.selectedItemId = R.id.recipes
         } else {
-            setTopMenu(resources.getString(R.string.shopping_list), true, R.drawable.ic_add, R.color.deep_orange_light)
+            setTopMenu(resources.getString(R.string.shopping_list), true)
             setFragment(ShoppingListFragment(), R.anim.zoom_in_show, R.anim.zoom_in_hide,"Shopping List")
         }
     }
@@ -138,32 +139,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun setTopMenu(title: String = resources.getString(R.string.recipes),
-                           isLeftVisible: Boolean = false,
-                           leftIcon: Int = R.drawable.ic_back,
-                           leftColor: Int = R.color.secondary_text_tint) {
-
+                           isLeftVisible: Boolean = false) {
         binding.textSection.text = title
         if (isLeftVisible) {
-            binding.btnLeft.setImageResource(leftIcon)
-            binding.btnLeft.background =
-                if (leftIcon == R.drawable.ic_back)
-                    ResourcesCompat.getDrawable(resources, R.drawable.ripple_secondary, null)
-                else
-                    ResourcesCompat.getDrawable(resources, R.drawable.ripple_primary, null)
             binding.btnLeft.visibility = View.VISIBLE
-            binding.btnLeft.setColorFilter(ContextCompat.getColor(this, leftColor))
         } else {
             binding.btnLeft.visibility = View.INVISIBLE
         }
-    }
-
-    private fun onLeftPressed() {
-        val currentFragment = fragmentManager.findFragmentByTag("Shopping List")
-        if (currentFragment != null && currentFragment.isVisible) {
-            ShoppingListDialog().show(fragmentManager, "Shopping List Dialog")
-            return
-        }
-        onBackPressed()
     }
 
     private fun onRightPressed() { SettingsDialog().show(fragmentManager, "Settings") }

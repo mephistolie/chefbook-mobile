@@ -80,13 +80,9 @@ class DashboardFragment: Fragment(), RecipeAdapter.RecipeClickListener, Recently
             if (viewModel.isPremium() || viewModel.getRecipesCount() < 15) {
                 val intent = Intent(activity, RecipeCommitActivity()::class.java)
                 intent.putStringArrayListExtra("allCategories", viewModel.getCategories())
-                val options: ActivityOptionsCompat =
-                    ActivityOptionsCompat.makeSceneTransitionAnimation(mainActivity)
+                val options: ActivityOptionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(mainActivity)
                 startActivity(intent, options.toBundle())
-                mainActivity.overridePendingTransition(
-                    android.R.anim.fade_in,
-                    android.R.anim.fade_out
-                )
+                mainActivity.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
             } else {
                 Toast.makeText(activity, R.string.recipes_limit, Toast.LENGTH_SHORT).show()
                 DonateDialog().show(requireActivity().supportFragmentManager, "Donate")

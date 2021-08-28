@@ -2,7 +2,6 @@ package com.cactusknights.chefbook.activities
 
 import android.app.Activity
 import android.content.Intent
-import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.text.SpannableString
 import android.text.Spanned
@@ -63,18 +62,9 @@ open class LoginActivity : AppCompatActivity() {
 
         binding.btnLogin.setOnClickListener {
             when(state) {
-                LoginStates.LOGIN -> {
-                    userViewModel.logonEmail(binding.inputEmail.text.toString(), binding.inputPassword.text.toString(), ::onLogInCallback)
-                    changeLoginProgressLayout()
-                }
-                LoginStates.SIGNUP -> {
-                    signUp()
-                }
-                else -> {
-                    userViewModel.restorePassword(binding.inputEmail.text.toString(), ::onRestorePasswordCallback)
-                    changeLoginProgressLayout()
-                    hideKeyboard(this)
-                }
+                LoginStates.LOGIN -> { login() }
+                LoginStates.SIGNUP -> { signUp() }
+                else -> { restorePassword() }
             }
         }
 
@@ -161,6 +151,17 @@ open class LoginActivity : AppCompatActivity() {
         binding.progressLogin.visibility = if (binding.progressLogin.visibility == View.VISIBLE) View.GONE else View.VISIBLE
     }
 
+    private fun login() {
+        val emailText = binding.inputEmail.text.toString()
+        val passwordText = binding.inputPassword.text.toString()
+        if (emailText.isNotEmpty() && passwordText.isNotEmpty()) {
+            userViewModel.logonEmail(binding.inputEmail.text.toString(), binding.inputPassword.text.toString(), ::onLogInCallback)
+            changeLoginProgressLayout()
+        } else {
+            Toast.makeText(this, R.string.empty_fields, Toast.LENGTH_SHORT).show()
+        }
+    }
+
     private fun signUp() {
         val emailText = binding.inputEmail.text.toString()
         val passwordText = binding.inputPassword.text.toString()
@@ -168,6 +169,17 @@ open class LoginActivity : AppCompatActivity() {
         if (Utils.checkAuthFields(emailText, passwordText, repeatPasswordText, this)) {
             userViewModel.signup(emailText, passwordText, ::onSignUpCallback)
             changeLoginProgressLayout()
+        }
+    }
+
+    private fun restorePassword() {
+        val emailText = binding.inputEmail.text.toString()
+        if (!emailText.contains('@') || !emailText.contains('.')) {
+            Toast.makeText(this, R.string.invalid_email, Toast.LENGTH_SHORT).show()
+        } else {
+            userViewModel.restorePassword(emailText, ::onRestorePasswordCallback)
+            changeLoginProgressLayout()
+            hideKeyboard(this)
         }
     }
 

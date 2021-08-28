@@ -1,6 +1,7 @@
 package com.cactusknights.chefbook.activities
 
 import android.content.Intent
+import android.graphics.Canvas
 import android.os.Bundle
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
@@ -18,6 +19,8 @@ import com.cactusknights.chefbook.models.Recipe
 import com.cactusknights.chefbook.viewmodels.UserViewModel
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.math.max
+import kotlin.math.min
 
 
 class RecipeCommitActivity: AppCompatActivity() {
@@ -42,7 +45,7 @@ class RecipeCommitActivity: AppCompatActivity() {
         setContentView(binding.root)
 
         if (savedInstanceState != null) {
-            originalRecipe = savedInstanceState.getSerializable("originalRecipe") as Recipe
+            originalRecipe = savedInstanceState.getSerializable("originalRecipe") as Recipe?
             allCategories = savedInstanceState.getStringArrayList("allCategories") as ArrayList<String>
             val outRecipe = savedInstanceState.getSerializable("recipe") as Recipe
             categories = outRecipe.categories
@@ -53,8 +56,8 @@ class RecipeCommitActivity: AppCompatActivity() {
             binding.inputCalories.setText(outRecipe.calories.toString())
             binding.inputTime.setText(outRecipe.time)
 
-            ingredients = outRecipe.ingredients
-            steps = outRecipe.cooking
+            ingredients = if (outRecipe.ingredients.isNotEmpty()) outRecipe.ingredients else arrayListOf(Ingredient(""))
+            steps = if (outRecipe.cooking.isNotEmpty()) outRecipe.cooking else arrayListOf("")
         } else {
             originalRecipe = intent.extras?.get("targetRecipe") as Recipe?
             if (originalRecipe != null) {
@@ -188,16 +191,23 @@ class RecipeCommitActivity: AppCompatActivity() {
                 cookingAdapter -> {
                     Collections.swap(steps, from, to)
                     cookingAdapter.notifyItemMoved(from, to)
-                    cookingAdapter.notifyItemRangeChanged(0, steps.size, Any())
+                    cookingAdapter.notifyItemRangeChanged(from, from+1, Any())
+                    cookingAdapter.notifyItemRangeChanged(to, to+1, Any())
                     true
                 } else -> false
             }
         }
 
         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) { return }
+
+        override fun onChildDraw(c: Canvas, recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, dX: Float, dY: Float, actionState: Int, isCurrentlyActive: Boolean) {
+            val topY = viewHolder.itemView.top + dY
+            val bottomY = topY + viewHolder.itemView.height
+            if (topY > 0 && bottomY < recyclerView.height) { super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive) }
+        }
     }
 
     override fun onBackPressed() {
-        ConfirmDialog { finish() }.show(supportFragmentManager, "Confirm")
+        ConfirmDialog { super.onBackPressed() }.show(supportFragmentManager, "Confirm")
     }
 }

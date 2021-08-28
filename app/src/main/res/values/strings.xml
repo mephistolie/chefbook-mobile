@@ -72,7 +72,7 @@
     <string name="shopping_list">Shopping List</string>
     <string name="search_results">Results</string>
     <string name="app_info">Made by Mikhail Levin</string>
-    <string name="app_ver" translatable="false">3.0</string>
+    <string name="app_ver" translatable="false">3.1</string>
     <string name="about_app">About app / Support</string>
     <string name="special_to">Special for T. I.</string>
     <string name="buy_premium">Buy Premium / Donate</string>
@@ -107,7 +107,7 @@
     <string name="added_to_shopping_list">Selected ingredients have been added to the Shopping List</string>
     <string name="recipes_limit">Please, buy Premium to add more than 15 recipes</string>
     <string name="google" translatable="false">Google</string>
-    <string name="premium" translatable="false">Premium</string>
     <string name="rate_app">Rate ChefBook</string>
     <string name="rate_gratitude">Thanks for review!</string>
+    <string name="type_something">Type something…</string>
 </resources>
