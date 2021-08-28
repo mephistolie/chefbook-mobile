@@ -64,11 +64,7 @@ open class LoginActivity : AppCompatActivity() {
             when(state) {
                 LoginStates.LOGIN -> { login() }
                 LoginStates.SIGNUP -> { signUp() }
-                else -> {
-                    userViewModel.restorePassword(binding.inputEmail.text.toString(), ::onRestorePasswordCallback)
-                    changeLoginProgressLayout()
-                    hideKeyboard(this)
-                }
+                else -> { restorePassword() }
             }
         }
 
@@ -173,6 +169,17 @@ open class LoginActivity : AppCompatActivity() {
         if (Utils.checkAuthFields(emailText, passwordText, repeatPasswordText, this)) {
             userViewModel.signup(emailText, passwordText, ::onSignUpCallback)
             changeLoginProgressLayout()
+        }
+    }
+
+    private fun restorePassword() {
+        val emailText = binding.inputEmail.text.toString()
+        if (!emailText.contains('@') || !emailText.contains('.')) {
+            Toast.makeText(this, R.string.invalid_email, Toast.LENGTH_SHORT).show()
+        } else {
+            userViewModel.restorePassword(emailText, ::onRestorePasswordCallback)
+            changeLoginProgressLayout()
+            hideKeyboard(this)
         }
     }
 
