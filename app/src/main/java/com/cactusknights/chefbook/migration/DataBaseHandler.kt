@@ -4,7 +4,7 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import com.cactusknights.chefbook.models.Ingredient
+import com.cactusknights.chefbook.models.Selectable
 import com.cactusknights.chefbook.models.Recipe
 import java.util.*
 import kotlin.collections.ArrayList
@@ -87,8 +87,8 @@ open class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DAT
             do {
                 val categories = arrayListOf<String>()
                 categories.addAll(result.getString(result.getColumnIndex(COL_CATEGORIES)).split("@"))
-                val cooking = arrayListOf<String>()
-                cooking.addAll(result.getString(result.getColumnIndex(COL_COOKING)).split("@"))
+                val cooking = arrayListOf<Selectable<String>>()
+                cooking.addAll(result.getString(result.getColumnIndex(COL_COOKING)).split("@").map { Selectable(it) })
                 val recipe = Recipe(
                     id = "", name = result.getString(result.getColumnIndex(COL_TITLE)).toString(),
                     isFavourite = result.getString(result.getColumnIndex(COL_FAVOURITE)).toInt().toBooleanImp(),
@@ -113,25 +113,25 @@ open class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DAT
     }
 
     companion object {
-        private fun getIngredientBySql(ingredientsSQL: String): ArrayList<Ingredient> {
+        private fun getIngredientBySql(ingredientsSQL: String): ArrayList<Selectable<String>> {
 
             val ingredients = ingredientsSQL.split("^")
-            val readyIngredients = arrayListOf<Ingredient>()
+            val readyIngredients = arrayListOf<Selectable<String>>()
 
             for(currentIngredient in ingredients) {
                 val metaData = currentIngredient.split("&").toTypedArray()
                 if (metaData.size == 2) {
-                    if (metaData[0].lowercase() != "uncategorized") readyIngredients.add(Ingredient(metaData[0], true))
+                    if (metaData[0].lowercase() != "uncategorized") readyIngredients.add(Selectable(metaData[0], true))
                     val currentIngredients = metaData[1].split("|").toTypedArray()
                     for (ingredient in currentIngredients) {
-                        readyIngredients.add(Ingredient(ingredient.replace("#", " - ")))
+                        readyIngredients.add(Selectable(ingredient.replace("#", " - ")))
                     }
                 } else if (metaData.size != 2) {
                     for (data in metaData) {
                         val things = data.split("|")
                         for (thing in things) {
                             if (thing.lowercase() != "uncategorized")
-                                readyIngredients.add(Ingredient(thing.replace("#", " - ")))
+                                readyIngredients.add(Selectable(thing.replace("#", " - ")))
                         }
                     }
                 }

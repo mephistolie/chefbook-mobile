@@ -4,10 +4,14 @@ import com.cactusknights.chefbook.helpers.Utils
 import com.cactusknights.chefbook.interfaces.ContentProvider
 import com.cactusknights.chefbook.interfaces.ContentListener
 import com.cactusknights.chefbook.models.Recipe
+import com.cactusknights.chefbook.models.Selectable
+import com.cactusknights.chefbook.models.legacy.LegacyRecipe
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 import kotlinx.coroutines.flow.MutableStateFlow
+import java.io.IOException
+import java.lang.Exception
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -45,7 +49,16 @@ class FirebaseContentRepository: ContentListener {
                     val allCategories = arrayListOf<String>()
                     val documents = snapshot.documents
                     documents.forEach { document ->
-                        val recipe = document.toObject(Recipe::class.java)
+                        var recipe: Recipe?
+                        try {
+                            recipe = document.toObject(Recipe::class.java)
+                            if (recipe?.ingredients!!.size > 0 && recipe.ingredients.filter { it.item == null }.isNotEmpty()) {
+                                throw IOException("Old Recipe")
+                            }
+                        } catch (e: Exception) {
+                            val legacyRecipe = document.toObject(LegacyRecipe::class.java)
+                            recipe = convertLegacyRecipe(legacyRecipe)
+                        }
                         recipe?.id = document.id
                         if (recipe != null) {
                             allRecipes.add(recipe)
@@ -149,6 +162,31 @@ class FirebaseContentRepository: ContentListener {
                         document.reference.update(mapOf("shoppingList" to newShoppingList))
                 }
             }
+        }
+
+        private fun convertLegacyRecipe(legacyRecipe: LegacyRecipe?): Recipe? {
+            if (legacyRecipe == null) return null
+            val ingredients = arrayListOf<Selectable<String>>()
+            val cooking = arrayListOf<Selectable<String>>()
+            for (ingredient in legacyRecipe.ingredients) {
+                ingredients.add(Selectable(ingredient.name, ingredient.isSection))
+            }
+            for (step in legacyRecipe.cooking) {
+                cooking.add(Selectable(step))
+            }
+            return Recipe(
+                name = legacyRecipe.name,
+                isFavourite = legacyRecipe.isFavourite,
+                creationDate = legacyRecipe.creationDate,
+                categories = legacyRecipe.categories,
+
+                servings = legacyRecipe.servings,
+                time = legacyRecipe.time,
+                calories = legacyRecipe.calories,
+
+                ingredients = ingredients,
+                cooking = cooking
+            )
         }
     }
 }

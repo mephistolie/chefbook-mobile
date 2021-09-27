@@ -10,7 +10,7 @@
 
         <variable
             name="ingredient"
-            type="com.cactusknights.chefbook.models.Ingredient" />
+            type="com.cactusknights.chefbook.models.Selectable&lt;String>" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -44,13 +44,13 @@
                 android:layout_height="36dp"
                 android:layout_weight="3"
                 android:background="@drawable/selector_input"
-                android:hint="@{ingredient.isSection ? @string/section:@string/ingredient}"
+                android:hint="@{ingredient.isSelected ? @string/section:@string/ingredient}"
                 android:imeOptions="actionNext"
                 android:inputType="text"
                 android:paddingHorizontal="8dp"
                 android:paddingVertical="4dp"
-                android:text="@{ingredient.name}"
-                app:isSectionEdit="@{ingredient.isSection}" />
+                android:text="@{ingredient.item}"
+                app:isSectionEdit="@{ingredient.isSelected}" />
 
             <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/btn_delete_ingredient"

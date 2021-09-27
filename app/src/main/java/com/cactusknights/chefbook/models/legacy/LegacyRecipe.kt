@@ -1,10 +1,11 @@
-package com.cactusknights.chefbook.models
+package com.cactusknights.chefbook.models.legacy
 
+import com.cactusknights.chefbook.models.Selectable
 import java.io.Serializable
 import java.util.*
 import kotlin.collections.ArrayList
 
-data class Recipe constructor(
+data class LegacyRecipe constructor(
 
     var id: String = "",
     var name: String = "Recipe",
@@ -16,8 +17,8 @@ data class Recipe constructor(
     var calories : Int = 0,
     var categories : ArrayList<String> = arrayListOf(),
 
-    var ingredients : ArrayList<Selectable<String>> = arrayListOf(),
-    var cooking : ArrayList<Selectable<String>> = arrayListOf(),
+    var ingredients : ArrayList<LegacyIngredient> = arrayListOf(),
+    var cooking : ArrayList<String> = arrayListOf(),
 
     ): Serializable {
 

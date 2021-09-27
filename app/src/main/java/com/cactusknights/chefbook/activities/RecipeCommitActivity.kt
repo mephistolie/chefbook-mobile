@@ -14,13 +14,11 @@ import com.cactusknights.chefbook.R
 import com.cactusknights.chefbook.databinding.ActivityCommitRecipeBinding
 import com.cactusknights.chefbook.dialogs.CategoriesDialog
 import com.cactusknights.chefbook.dialogs.ConfirmDialog
-import com.cactusknights.chefbook.models.Ingredient
+import com.cactusknights.chefbook.models.Selectable
 import com.cactusknights.chefbook.models.Recipe
 import com.cactusknights.chefbook.viewmodels.UserViewModel
 import java.util.*
 import kotlin.collections.ArrayList
-import kotlin.math.max
-import kotlin.math.min
 
 
 class RecipeCommitActivity: AppCompatActivity() {
@@ -29,11 +27,11 @@ class RecipeCommitActivity: AppCompatActivity() {
     private var allCategories = arrayListOf<String>()
     private var categories: ArrayList<String> = originalRecipe?.categories ?: arrayListOf()
 
-    private var ingredients: ArrayList<Ingredient> = arrayListOf(Ingredient(""))
+    private var ingredients: ArrayList<Selectable<String>> = arrayListOf(Selectable(""))
     private lateinit var ingredientsAdapter: IngredientEditAdapter
     private val ingredientTouchHelper = ItemTouchHelper(IngredientsDragCallback())
 
-    private var steps: ArrayList<String> = arrayListOf("")
+    private var steps: ArrayList<Selectable<String>> = arrayListOf(Selectable(""))
     private lateinit var cookingAdapter: CookingEditAdapter
     private val cookingTouchHelper = ItemTouchHelper(IngredientsDragCallback())
 
@@ -56,8 +54,10 @@ class RecipeCommitActivity: AppCompatActivity() {
             binding.inputCalories.setText(outRecipe.calories.toString())
             binding.inputTime.setText(outRecipe.time)
 
-            ingredients = if (outRecipe.ingredients.isNotEmpty()) outRecipe.ingredients else arrayListOf(Ingredient(""))
-            steps = if (outRecipe.cooking.isNotEmpty()) outRecipe.cooking else arrayListOf("")
+            ingredients = if (outRecipe.ingredients.isNotEmpty()) outRecipe.ingredients else arrayListOf(Selectable(""))
+            steps = if (outRecipe.cooking.isNotEmpty()) outRecipe.cooking else arrayListOf(
+                Selectable("")
+            )
         } else {
             originalRecipe = intent.extras?.get("targetRecipe") as Recipe?
             if (originalRecipe != null) {
@@ -87,20 +87,21 @@ class RecipeCommitActivity: AppCompatActivity() {
         cookingTouchHelper.attachToRecyclerView(binding.rvSteps)
 
         binding.btnCategories.setOnClickListener {
-            CategoriesDialog(categories, allCategories, ::onCommitCategoriesCallback)
+            CategoriesDialog(allCategories.map { Selectable(it, it in categories) } as ArrayList,
+                ::onCommitCategoriesCallback)
                 .show(supportFragmentManager, "Categories Dialog")
         }
 
         binding.btnAddIngredient.setOnClickListener {
-            ingredients.add(Ingredient(""))
+            ingredients.add(Selectable(""))
             ingredientsAdapter.notifyItemInserted(ingredients.size-1)
         }
         binding.btnAddSection.setOnClickListener {
-            ingredients.add(Ingredient("", true))
+            ingredients.add(Selectable("", true))
             ingredientsAdapter.notifyItemInserted(ingredients.size-1)
         }
         binding.btnAddStep.setOnClickListener {
-            steps.add("")
+            steps.add(Selectable())
             cookingAdapter.notifyItemInserted(steps.size-1)
         }
 
@@ -149,8 +150,8 @@ class RecipeCommitActivity: AppCompatActivity() {
         val timeText = binding.inputTime.text.toString()
         val caloriesText = binding.inputCalories.text.toString()
 
-        val notEmptyIngredients = ingredients.filter { it.name != "" } as ArrayList<Ingredient>
-        val notEmptySteps = steps.filter { it != "" } as ArrayList<String>
+        val notEmptyIngredients = ingredients.filter { it.item != "" } as ArrayList<Selectable<String>>
+        val notEmptySteps = steps.filter { it.item != "" } as ArrayList<Selectable<String>>
 
         return Recipe(
             id = originalRecipe?.id ?: "", name = nameText,

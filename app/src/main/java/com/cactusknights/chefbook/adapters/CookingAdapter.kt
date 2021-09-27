@@ -8,11 +8,12 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.cactusknights.chefbook.R
 import com.cactusknights.chefbook.databinding.ListStepsBinding
+import com.cactusknights.chefbook.models.Selectable
 
-class CookingAdapter(private var steps: ArrayList<String>): RecyclerView.Adapter<CookingAdapter.ViewHolder>() {
+class CookingAdapter(private var steps: ArrayList<Selectable<String>>): RecyclerView.Adapter<CookingAdapter.ViewHolder>() {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.binding?.step = steps[position]
+        holder.binding?.step = steps[position].item
         holder.number.text = ((position+1).toString()+".")
     }
 

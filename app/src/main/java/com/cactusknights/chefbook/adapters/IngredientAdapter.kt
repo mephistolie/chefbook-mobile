@@ -9,16 +9,16 @@ import android.widget.LinearLayout
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.cactusknights.chefbook.R
-import com.cactusknights.chefbook.models.Ingredient
+import com.cactusknights.chefbook.models.Selectable
 import com.cactusknights.chefbook.databinding.ListIngredientsBinding
 
-class IngredientAdapter(private var ingredients: ArrayList<Ingredient>, val listener: IngredientClickListener): RecyclerView.Adapter<IngredientAdapter.ViewHolder>() {
+class IngredientAdapter(private var ingredients: ArrayList<Selectable<String>>, val listener: IngredientClickListener): RecyclerView.Adapter<IngredientAdapter.ViewHolder>() {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val ingredient = ingredients[position]
         holder.binding?.ingredient = ingredient
 
-        if (position+1 < ingredients.size && ingredients[position+1].isSection) {
+        if (position+1 < ingredients.size && ingredients[position+1].isSelected) {
             val params = LinearLayout.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.WRAP_CONTENT)
             params.setMargins(0, 0, 0, 24)
             holder.ingredientView.layoutParams = params

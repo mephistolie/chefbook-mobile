@@ -6,13 +6,15 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.cactusknights.chefbook.R
 import com.cactusknights.chefbook.databinding.ListCategoriesEditBinding
+import com.cactusknights.chefbook.models.Selectable
 
-class CategoryEditAdapter(private var categories: ArrayList<String>, private val checkedCategories: ArrayList<String>) :
+class CategoryEditAdapter(private var categories: ArrayList<Selectable<String>>,
+                          val listener: EditCategoryClickListener) :
     RecyclerView.Adapter<CategoryEditAdapter.ViewHolder>() {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.binding.textName.text = categories[position]
-        holder.binding.checkboxCategory.isChecked = categories[position] in checkedCategories
+        holder.binding.textName.text = categories[position].item!!
+        holder.binding.checkboxCategory.isChecked = categories[position].isSelected
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -26,5 +28,14 @@ class CategoryEditAdapter(private var categories: ArrayList<String>, private val
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val binding = ListCategoriesEditBinding.bind(itemView)
+        init {
+            binding.checkboxCategory.setOnClickListener {
+                listener.onCategoryClick(adapterPosition, binding.checkboxCategory.isChecked)
+            }
+        }
+    }
+
+    interface EditCategoryClickListener {
+        fun onCategoryClick(position: Int, isChecked: Boolean)
     }
 }

@@ -82,7 +82,7 @@ object Utils {
         recipeDescription += resources.getString(R.string.time) + " " + recipe.time + "\n"
         recipeDescription += "\n" + resources.getString(R.string.ingredients) + ":\n"
         for (ingredient in recipe.ingredients) {
-            recipeDescription += if (ingredient.isSection) "${ingredient.name.uppercase()}\n" else "• ${ingredient.name}\n"
+            recipeDescription += if (ingredient.isSelected) "${ingredient.item!!.uppercase()}\n" else "• ${ingredient.item}\n"
         }
         recipeDescription += "\n" + resources.getString(R.string.cooking) + "\n"
         for (i in recipe.cooking.indices) {

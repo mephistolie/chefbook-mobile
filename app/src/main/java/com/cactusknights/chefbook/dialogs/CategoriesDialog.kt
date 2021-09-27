@@ -6,26 +6,23 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.widget.CheckBox
-import android.widget.TextView
-import androidx.core.view.children
 import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.cactusknights.chefbook.R
 import com.cactusknights.chefbook.adapters.CategoryEditAdapter
+import com.cactusknights.chefbook.adapters.CategoryEditAdapter.EditCategoryClickListener
 import com.cactusknights.chefbook.databinding.DialogCategoriesBinding
+import com.cactusknights.chefbook.models.Selectable
 
 class CategoriesDialog(
-    private val categories: ArrayList<String>,
-    private val allCategories: ArrayList<String>,
+    private val categories: ArrayList<Selectable<String>>,
     private val onCommitCategoriesCallback: (categories: ArrayList<String>, allCategories: ArrayList<String>) -> Unit
-): DialogFragment() {
+): DialogFragment(), EditCategoryClickListener {
 
     private lateinit var binding: DialogCategoriesBinding
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 
-        val categoriesAdapter = CategoryEditAdapter(allCategories, categories)
+        val categoriesAdapter = CategoryEditAdapter(categories, this)
 
         binding = DialogCategoriesBinding.inflate(LayoutInflater.from(requireContext()))
         val dialog = AlertDialog.Builder(context)
@@ -37,9 +34,9 @@ class CategoriesDialog(
 
         binding.btnAddCategory.setOnClickListener {
             val newCategoryText = binding.inputNewCategory.text.toString()
-            if (newCategoryText != "" && newCategoryText !in allCategories) {
-                allCategories.add(newCategoryText)
-                categoriesAdapter.notifyItemInserted(allCategories.size-1)
+            if (newCategoryText != "" && newCategoryText !in categories.map { it.item }) {
+                categories.add(Selectable(newCategoryText, true))
+                categoriesAdapter.notifyItemInserted(categories.size-1)
                 binding.inputNewCategory.setText("")
             } else {
                 binding.inputNewCategory.setText("")
@@ -51,17 +48,17 @@ class CategoriesDialog(
         }
 
         binding.btnConfirm.setOnClickListener {
-            val newCategories = arrayListOf<String>()
-            for (categoryView in binding.rvCategories.children) {
-                val checkBox = categoryView.findViewById<CheckBox>(R.id.checkbox_category)
-                if (checkBox.isChecked) {
-                    newCategories.add(categoryView.findViewById<TextView>(R.id.text_name).text.toString())
-                }
-            }
-            onCommitCategoriesCallback(newCategories, allCategories)
+            onCommitCategoriesCallback(
+                categories.filter { it.isSelected }.map { it.item!! } as ArrayList<String>,
+                categories.map { it.item!! } as ArrayList<String>)
             dialog.dismiss()
         }
 
         return dialog
+    }
+
+    override fun onCategoryClick(position: Int, isChecked: Boolean) {
+        categories[position].isSelected = isChecked
+        binding.rvCategories.adapter?.notifyItemChanged(position)
     }
 }

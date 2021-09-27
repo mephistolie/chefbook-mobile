@@ -10,10 +10,10 @@ import android.widget.ImageButton
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.cactusknights.chefbook.R
-import com.cactusknights.chefbook.models.Ingredient
+import com.cactusknights.chefbook.models.Selectable
 import com.cactusknights.chefbook.databinding.ListIngredientsEditBinding
 
-class IngredientEditAdapter(private var ingredients: ArrayList<Ingredient>): RecyclerView.Adapter<IngredientEditAdapter.ViewHolder>() {
+class IngredientEditAdapter(private var ingredients: ArrayList<Selectable<String>>): RecyclerView.Adapter<IngredientEditAdapter.ViewHolder>() {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val ingredient = ingredients[position]
@@ -41,7 +41,7 @@ class IngredientEditAdapter(private var ingredients: ArrayList<Ingredient>): Rec
                 override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                    ingredients[adapterPosition].name = s.toString()
+                    ingredients[adapterPosition].item = s.toString()
                 }
 
                 override fun afterTextChanged(s: Editable?) {}

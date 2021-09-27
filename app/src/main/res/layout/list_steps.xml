@@ -32,7 +32,7 @@
                 android:gravity="start"
                 android:text="@string/step_number"
                 android:textColor="@color/deep_orange_light"
-                android:textSize="24sp" />
+                android:textSize="22sp" />
 
             <TextView
                 android:id="@+id/text_description"
@@ -42,7 +42,7 @@
                 android:gravity="top"
                 android:text="@={step}"
                 android:textColor="@color/monochrome_invert"
-                android:textSize="24sp" />
+                android:textSize="22sp" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
     </androidx.constraintlayout.widget.ConstraintLayout>

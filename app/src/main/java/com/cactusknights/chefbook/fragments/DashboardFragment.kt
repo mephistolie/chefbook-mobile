@@ -35,7 +35,7 @@ class DashboardFragment: Fragment(), RecipeAdapter.RecipeClickListener, Recently
     private val recentlyAddedRecipes = arrayListOf<Recipe>()
     private val viewModel by activityViewModels<UserViewModel>()
 
-    lateinit var mainActivity: MainActivity
+    private lateinit var mainActivity: MainActivity
 
     private lateinit var binding: FragmentRecipesDashboardBinding
 

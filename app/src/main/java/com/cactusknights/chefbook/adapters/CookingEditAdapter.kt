@@ -12,11 +12,12 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.cactusknights.chefbook.R
 import com.cactusknights.chefbook.databinding.ListStepsEditBinding
+import com.cactusknights.chefbook.models.Selectable
 
-class CookingEditAdapter(private var steps: ArrayList<String>): RecyclerView.Adapter<CookingEditAdapter.ViewHolder>() {
+class CookingEditAdapter(private var steps: ArrayList<Selectable<String>>): RecyclerView.Adapter<CookingEditAdapter.ViewHolder>() {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.binding?.step = steps[position]
+        holder.binding?.step = steps[position].item
         holder.number.text = (position+1).toString()
         holder.binding?.inputStep?.requestFocus()
     }
@@ -42,7 +43,7 @@ class CookingEditAdapter(private var steps: ArrayList<String>): RecyclerView.Ada
                 override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                    steps[adapterPosition] = s.toString()
+                    steps[adapterPosition].item = s.toString()
                 }
 
                 override fun afterTextChanged(s: Editable?) {}

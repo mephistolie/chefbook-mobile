@@ -53,7 +53,7 @@ class RecipeIngredientsFragment(var recipe: Recipe = Recipe()): Fragment(), Ingr
             val addableIngredients = arrayListOf<String>()
             for (position in  addToShoppingList) {
                 binding.rvIngredients.getChildAt(position).findViewById<AppCompatCheckBox>(R.id.checkbox_add_to_shopping_list).isChecked = false
-                addableIngredients.add(recipe.ingredients[position].name)
+                addableIngredients.add(recipe.ingredients[position].item!!)
             }
             UserViewModel.addToShoppingList(addableIngredients)
             addToShoppingList = arrayListOf()
