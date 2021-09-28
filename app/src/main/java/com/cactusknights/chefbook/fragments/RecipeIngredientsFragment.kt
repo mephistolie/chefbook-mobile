@@ -19,14 +19,15 @@ class RecipeIngredientsFragment(var recipe: Recipe = Recipe()): Fragment(), Ingr
     private var ingredientsAdapter = IngredientAdapter(recipe.ingredients, this)
     private var addToShoppingList = arrayListOf<Int>()
 
-    private lateinit var binding: FragmentRecipeIngredientsBinding
+    private var _binding: FragmentRecipeIngredientsBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentRecipeIngredientsBinding.inflate(inflater, container, false)
+        _binding = FragmentRecipeIngredientsBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -52,7 +53,7 @@ class RecipeIngredientsFragment(var recipe: Recipe = Recipe()): Fragment(), Ingr
         binding.btnAddToShoplist.setOnClickListener {
             val addableIngredients = arrayListOf<String>()
             for (position in  addToShoppingList) {
-                binding.rvIngredients.getChildAt(position).findViewById<AppCompatCheckBox>(R.id.checkbox_add_to_shopping_list).isChecked = false
+                binding.rvIngredients.getChildAt(position).findViewById<AppCompatCheckBox>(R.id.checkbox_selected).isChecked = false
                 addableIngredients.add(recipe.ingredients[position].item!!)
             }
             UserViewModel.addToShoppingList(addableIngredients)
@@ -65,6 +66,11 @@ class RecipeIngredientsFragment(var recipe: Recipe = Recipe()): Fragment(), Ingr
     override fun onIngredientClick(position: Int) {
         if (position in addToShoppingList) addToShoppingList.remove(position) else addToShoppingList.add(position)
         binding.btnAddToShoplist.visibility = if (addToShoppingList.isNotEmpty()) View.VISIBLE else View.GONE
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

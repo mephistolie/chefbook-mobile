@@ -12,7 +12,7 @@
 
     <item android:state_checked="false">
         <shape>
-            <solid android:color="@color/navigation_foreground"/>
+            <solid android:color="@color/navigation_ripple"/>
             <corners android:radius="24dp"/>
             <size android:width="48dp"
                 android:height="24dp"/>

@@ -11,18 +11,18 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.cactusknights.chefbook.R
 import com.cactusknights.chefbook.models.Selectable
-import com.cactusknights.chefbook.databinding.ListIngredientsEditBinding
+import com.cactusknights.chefbook.databinding.ListSelectableEditBinding
 
 class IngredientEditAdapter(private var ingredients: ArrayList<Selectable<String>>): RecyclerView.Adapter<IngredientEditAdapter.ViewHolder>() {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val ingredient = ingredients[position]
-        holder.binding?.ingredient = ingredient
+        holder.binding?.selectableItem = ingredient
         holder.binding?.inputIngredient?.requestFocus()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val v = LayoutInflater.from(parent.context).inflate(R.layout.list_ingredients_edit, parent, false)
+        val v = LayoutInflater.from(parent.context).inflate(R.layout.list_selectable_edit, parent, false)
         return ViewHolder(v)
     }
 
@@ -31,7 +31,7 @@ class IngredientEditAdapter(private var ingredients: ArrayList<Selectable<String
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val binding = DataBindingUtil.bind<ListIngredientsEditBinding>(itemView)
+        val binding = DataBindingUtil.bind<ListSelectableEditBinding>(itemView)
         private var ingredientName: EditText = itemView.findViewById(R.id.input_ingredient)
         private var deleteIngredientButton: ImageButton = itemView.findViewById(R.id.btn_delete_ingredient)
 

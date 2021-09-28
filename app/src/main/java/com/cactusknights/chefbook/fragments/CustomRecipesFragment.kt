@@ -27,14 +27,15 @@ class CustomRecipesFragment(val category: String? = null): Fragment(), RecipeAda
     private var customRecipes: ArrayList<Recipe> = arrayListOf()
     private val customAdapter = RecipeAdapter(customRecipes, this)
 
-    private lateinit var binding: FragmentRecyclerViewBinding
+    private var _binding: FragmentRecyclerViewBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentRecyclerViewBinding.inflate(inflater, container, false)
+        _binding = FragmentRecyclerViewBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -47,6 +48,11 @@ class CustomRecipesFragment(val category: String? = null): Fragment(), RecipeAda
     override fun onStart() {
         lifecycleScope.launch { checkForUpdates() }
         super.onStart()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     private suspend fun checkForUpdates() {

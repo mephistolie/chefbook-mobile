@@ -37,7 +37,8 @@ class DashboardFragment: Fragment(), RecipeAdapter.RecipeClickListener, Recently
 
     private lateinit var mainActivity: MainActivity
 
-    private lateinit var binding: FragmentRecipesDashboardBinding
+    private var _binding: FragmentRecipesDashboardBinding? = null
+    private val binding get() = _binding!!
 
     private var allAdapter = RecipeAdapter(recipes, this)
     private val recentlyAddedAdapter = RecentlyAddedAdapter(recentlyAddedRecipes, this)
@@ -62,7 +63,7 @@ class DashboardFragment: Fragment(), RecipeAdapter.RecipeClickListener, Recently
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentRecipesDashboardBinding.inflate(inflater, container, false)
+        _binding = FragmentRecipesDashboardBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -107,7 +108,10 @@ class DashboardFragment: Fragment(), RecipeAdapter.RecipeClickListener, Recently
                 binding.btnClearSearch.visibility = View.VISIBLE
                 binding.textAllRecipes.text = resources.getString(R.string.search_results)
                 recipes.clear()
-                recipes.addAll(viewModel.getRecipes().filter { it.name.lowercase().contains(text.toString().lowercase()) })
+                recipes.addAll(viewModel.getRecipes().filter {
+                    it.name.lowercase().contains(text.toString().lowercase())
+                            || !it.categories.filter { category -> category.lowercase().contains(text.toString().lowercase()) }.isNullOrEmpty()
+                })
                 allAdapter.notifyDataSetChanged()
                 binding.textEmptyList.visibility = if (recipes.size > 0) View.GONE else View.VISIBLE
             } else {
@@ -138,6 +142,11 @@ class DashboardFragment: Fragment(), RecipeAdapter.RecipeClickListener, Recently
     override fun onResume() {
         if (recipes.size >= 6) binding.inputSearch.setText("")
         super.onResume()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     private fun setLayout(recipesCount: Int) {

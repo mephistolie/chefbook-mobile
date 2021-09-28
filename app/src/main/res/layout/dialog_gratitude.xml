@@ -42,14 +42,12 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
+                style="@style/TextAppearance.ChefBook.Header.3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="@string/broccy_happy"
-                android:textColor="@color/monochrome_invert"
-                android:textSize="24sp"
-                app:fontFamily="@font/comfortaa" />
+                android:text="@string/broccy_happy" />
 
             <View
                 android:layout_width="match_parent"

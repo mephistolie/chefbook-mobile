@@ -41,14 +41,12 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
+                style="@style/TextAppearance.ChefBook.Header.3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="@string/app_name"
-                android:textColor="@color/monochrome_invert"
-                android:textSize="24sp"
-                app:fontFamily="@font/comfortaa" />
+                android:text="@string/app_name" />
 
             <TextView
                 android:layout_width="wrap_content"

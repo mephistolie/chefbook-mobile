@@ -24,14 +24,15 @@ class CategoriesFragment: Fragment(), CategoryAdapter.CategoryClickListener {
     private var categories: ArrayList<String> = arrayListOf()
     private val categoriesAdapter = CategoryAdapter(categories, this)
 
-    private lateinit var binding: FragmentRecyclerViewBinding
+    private var _binding: FragmentRecyclerViewBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentRecyclerViewBinding.inflate(inflater, container, false)
+        _binding = FragmentRecyclerViewBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -51,6 +52,11 @@ class CategoriesFragment: Fragment(), CategoryAdapter.CategoryClickListener {
             }
         }
         super.onStart()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     override fun onCategoryClick(position: Int) {

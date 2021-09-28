@@ -9,26 +9,26 @@
         <import type="android.view.View" />
 
         <variable
-            name="ingredient"
+            name="selectable_item"
             type="com.cactusknights.chefbook.models.Selectable&lt;String>" />
     </data>
 
     <LinearLayout
-        android:id="@+id/ll_ingredient"
+        android:id="@+id/ll_selectable"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="horizontal">
 
         <androidx.appcompat.widget.AppCompatCheckBox
-            android:id="@+id/checkbox_add_to_shopping_list"
+            android:id="@+id/checkbox_selected"
             style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_marginEnd="8dp"
             android:button="@drawable/selector_checkbox"
             android:src="@drawable/ic_add"
-            android:visibility="@{ingredient.isSelected? View.GONE:View.VISIBLE}"
+            android:visibility="@{selectable_item.isSelected? View.GONE:View.VISIBLE}"
             app:tint="@color/deep_orange_light" />
 
         <TextView
@@ -37,9 +37,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:fontFamily="@font/comfortaa_bold"
-            android:text="@{ingredient.item}"
-            android:textSize="24sp"
-            app:isSection="@{ingredient.isSelected}" />
+            android:text="@{selectable_item.item}"
+            android:textSize="22sp"
+            app:isSection="@{selectable_item.isSelected}" />
 
     </LinearLayout>
 

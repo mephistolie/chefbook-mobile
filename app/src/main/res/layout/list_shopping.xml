@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:foreground="?android:attr/selectableItemBackground"
-        app:cardBackgroundColor="@color/recipe_card_background"
+        app:cardBackgroundColor="@color/navigation_background"
         app:cardCornerRadius="8dp"
         app:cardElevation="0dp"
         card_view:cardElevation="0dp">

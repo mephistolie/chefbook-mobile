@@ -6,17 +6,18 @@
 
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="ic_launcher_background">@color/white</color>
+
     <color name="monochrome">@color/white</color>
     <color name="monochrome_invert">@color/black</color>
 
-    <color name="ic_launcher_background">@color/white</color>
     <color name="app_background">@color/white</color>
     <color name="input_background">#F2F2F2</color>
     <color name="hint_background">#bfbfbf</color>
     <color name="secondary_text_tint">#3F3F3F</color>
     <color name="navigation_background">#F7F7F7</color>
-    <color name="navigation_foreground">#666666</color>
-    <color name="time_popular">#f2f2f2</color>
-    <color name="recipe_card_background">#F7F7F7</color>
+    <color name="navigation_ripple">#666666</color>
+    <color name="recently_added_subtext">#e5e5e5</color>
 
 </resources>

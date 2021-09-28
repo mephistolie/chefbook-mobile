@@ -10,13 +10,13 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.cactusknights.chefbook.R
 import com.cactusknights.chefbook.models.Selectable
-import com.cactusknights.chefbook.databinding.ListIngredientsBinding
+import com.cactusknights.chefbook.databinding.ListSelectableBinding
 
 class IngredientAdapter(private var ingredients: ArrayList<Selectable<String>>, val listener: IngredientClickListener): RecyclerView.Adapter<IngredientAdapter.ViewHolder>() {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val ingredient = ingredients[position]
-        holder.binding?.ingredient = ingredient
+        holder.binding?.selectableItem = ingredient
 
         if (position+1 < ingredients.size && ingredients[position+1].isSelected) {
             val params = LinearLayout.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.WRAP_CONTENT)
@@ -26,7 +26,7 @@ class IngredientAdapter(private var ingredients: ArrayList<Selectable<String>>, 
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val v = LayoutInflater.from(parent.context).inflate(R.layout.list_ingredients, parent, false)
+        val v = LayoutInflater.from(parent.context).inflate(R.layout.list_selectable, parent, false)
         return ViewHolder(v)
     }
 
@@ -35,9 +35,9 @@ class IngredientAdapter(private var ingredients: ArrayList<Selectable<String>>, 
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val binding = DataBindingUtil.bind<ListIngredientsBinding>(itemView)
-        val ingredientView: LinearLayout = itemView.findViewById(R.id.ll_ingredient)
-        private val addToShopList: CheckBox = itemView.findViewById(R.id.checkbox_add_to_shopping_list)
+        val binding = DataBindingUtil.bind<ListSelectableBinding>(itemView)
+        val ingredientView: LinearLayout = itemView.findViewById(R.id.ll_selectable)
+        private val addToShopList: CheckBox = itemView.findViewById(R.id.checkbox_selected)
 
         init {
             addToShopList.setOnClickListener {

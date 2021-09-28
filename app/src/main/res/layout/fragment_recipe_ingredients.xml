@@ -16,13 +16,12 @@
         android:orientation="vertical">
 
         <TextView
+            style="@style/TextAppearance.ChefBook.Header.2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@string/ingredients"
-            android:textColor="@color/monochrome_invert"
-            android:textSize="32sp"
-            app:fontFamily="@font/comfortaa_semibold" />
+            android:textColor="@color/monochrome_invert" />
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="wrap_content"
@@ -37,7 +36,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/_12_servings"
-                android:textColor="@color/navigation_foreground"
+                android:textColor="@color/navigation_ripple"
                 android:textSize="24sp" />
 
             <TextView
@@ -56,7 +55,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/_1700_kcal"
-                android:textColor="@color/navigation_foreground"
+                android:textColor="@color/navigation_ripple"
                 android:textSize="24sp" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
@@ -69,7 +68,7 @@
             android:focusable="true"
             android:nestedScrollingEnabled="false"
             tools:itemCount="2"
-            tools:listitem="@layout/list_ingredients" />
+            tools:listitem="@layout/list_selectable" />
 
         <Button
             android:id="@+id/btn_add_to_shoplist"

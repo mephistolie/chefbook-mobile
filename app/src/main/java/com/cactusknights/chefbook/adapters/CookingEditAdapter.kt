@@ -11,28 +11,47 @@ import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.cactusknights.chefbook.R
+import com.cactusknights.chefbook.databinding.ListSelectableEditBinding
 import com.cactusknights.chefbook.databinding.ListStepsEditBinding
 import com.cactusknights.chefbook.models.Selectable
 
-class CookingEditAdapter(private var steps: ArrayList<Selectable<String>>): RecyclerView.Adapter<CookingEditAdapter.ViewHolder>() {
+class CookingEditAdapter(private var steps: ArrayList<Selectable<String>>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.binding?.step = steps[position].item
-        holder.number.text = (position+1).toString()
-        holder.binding?.inputStep?.requestFocus()
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        if (holder.itemViewType == 0) {
+            (holder as StepHolder).binding?.step = steps[position].item
+            val sectionsSize = steps.subList(0, position).filter { it.isSelected }.size
+            holder.number.text = (position+1-sectionsSize).toString()
+            holder.binding?.inputStep?.requestFocus()
+        } else {
+            val section = steps[position]
+            (holder as SectionHolder).binding?.selectableItem = section
+            holder.binding?.inputIngredient?.requestFocus()
+        }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val v = LayoutInflater.from(parent.context).inflate(R.layout.list_steps_edit, parent, false)
-        return ViewHolder(v)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) : RecyclerView.ViewHolder {
+        when (viewType) {
+            0 -> {
+                val v = LayoutInflater.from(parent.context).inflate(R.layout.list_steps_edit, parent, false)
+                return StepHolder(v)
+            }
+            else -> {
+                val v = LayoutInflater.from(parent.context).inflate(R.layout.list_selectable_edit, parent, false)
+                return SectionHolder(v)
+            }
+        }
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return if (!steps[position].isSelected) 0 else 1
     }
 
     override fun getItemCount(): Int {
         return steps.size
     }
 
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
+    inner class StepHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val binding = DataBindingUtil.bind<ListStepsEditBinding>(itemView)
         val number: TextView = itemView.findViewById(R.id.text_number)
         private var description: EditText = itemView.findViewById(R.id.input_step)
@@ -50,6 +69,30 @@ class CookingEditAdapter(private var steps: ArrayList<Selectable<String>>): Recy
             })
 
             deleteStepButton.setOnClickListener {
+                steps.removeAt(adapterPosition)
+                notifyItemRemoved(adapterPosition)
+            }
+        }
+    }
+
+    inner class SectionHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val binding = DataBindingUtil.bind<ListSelectableEditBinding>(itemView)
+        private var ingredientName: EditText = itemView.findViewById(R.id.input_ingredient)
+        private var deleteIngredientButton: ImageButton = itemView.findViewById(R.id.btn_delete_ingredient)
+
+        init {
+
+            ingredientName.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    steps[adapterPosition].item = s.toString()
+                }
+
+                override fun afterTextChanged(s: Editable?) {}
+            })
+
+            deleteIngredientButton.setOnClickListener {
                 steps.removeAt(adapterPosition)
                 notifyItemRemoved(adapterPosition)
             }

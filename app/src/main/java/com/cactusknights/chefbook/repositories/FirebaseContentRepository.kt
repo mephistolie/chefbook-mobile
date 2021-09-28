@@ -52,14 +52,19 @@ class FirebaseContentRepository: ContentListener {
                         var recipe: Recipe?
                         try {
                             recipe = document.toObject(Recipe::class.java)
+                            recipe?.id = document.id
                             if (recipe?.ingredients!!.size > 0 && recipe.ingredients.filter { it.item == null }.isNotEmpty()) {
                                 throw IOException("Old Recipe")
                             }
                         } catch (e: Exception) {
                             val legacyRecipe = document.toObject(LegacyRecipe::class.java)
                             recipe = convertLegacyRecipe(legacyRecipe)
+                            if (recipe != null) {
+                                recipe.id = document.id
+                                firestore.collection("users").document(user.uid)
+                                    .collection("recipes").document(document.id).set(recipe)
+                            }
                         }
-                        recipe?.id = document.id
                         if (recipe != null) {
                             allRecipes.add(recipe)
                             allCategories.addAll(recipe.categories.filter { it !in allCategories })

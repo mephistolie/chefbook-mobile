@@ -1,21 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="deep_orange">#ff5722</color>
-    <color name="deep_orange_light">#ff8a50</color>
-    <color name="deep_orange_dark">#754027</color>
-
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
     <color name="monochrome">@color/black</color>
     <color name="monochrome_invert">@color/white</color>
 
-    <color name="ic_launcher_background">@color/white</color>
     <color name="app_background">#121212</color>
     <color name="input_background">#1F1F1F</color>
     <color name="hint_background">#404040</color>
     <color name="secondary_text_tint">#bebebe</color>
     <color name="navigation_background">#1F1F1F</color>
-    <color name="navigation_foreground">#BFBFBF</color>
-    <color name="time_popular">#f2f2f2</color>
-    <color name="recipe_card_background">#1F1F1F</color>
+    <color name="navigation_ripple">#BFBFBF</color>
+    <color name="recently_added_subtext">#e5e5e5</color>
 </resources>

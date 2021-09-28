@@ -1,0 +1,22 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="TextAppearance.ChefBook.Header" parent="Theme.ChefBook">
+        <item name="fontFamily">@font/comfortaa_bold</item>
+        <item name="android:textColor">@color/monochrome_invert</item>
+    </style>
+
+    <style name="TextAppearance.ChefBook.Header.1">
+        <item name="android:textSize">34sp</item>
+    </style>
+
+    <style name="TextAppearance.ChefBook.Header.2">
+        <item name="android:textSize">32sp</item>
+        <item name="fontFamily">@font/comfortaa_semibold</item>
+    </style>
+
+    <style name="TextAppearance.ChefBook.Header.3">
+        <item name="android:textSize">24sp</item>
+        <item name="fontFamily">@font/comfortaa_semibold</item>
+    </style>
+
+</resources>

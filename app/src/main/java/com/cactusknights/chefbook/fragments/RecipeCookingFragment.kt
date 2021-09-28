@@ -14,14 +14,15 @@ class RecipeCookingFragment(var recipe: Recipe = Recipe()): Fragment() {
 
     private var cookingAdapter = CookingAdapter(recipe.cooking)
 
-    private lateinit var binding: FragmentRecipeCookingBinding
+    private var _binding: FragmentRecipeCookingBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentRecipeCookingBinding.inflate(inflater, container, false)
+        _binding = FragmentRecipeCookingBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -37,6 +38,11 @@ class RecipeCookingFragment(var recipe: Recipe = Recipe()): Fragment() {
 
         binding.rvSteps.layoutManager = LinearLayoutManager(context)
         binding.rvSteps.adapter = cookingAdapter
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

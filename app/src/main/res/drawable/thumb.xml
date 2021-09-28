@@ -15,7 +15,7 @@
         <shape android:shape="oval">
             <solid android:color="@color/white"/>
             <stroke android:width="2dp"
-                android:color="@color/navigation_foreground"/>
+                android:color="@color/navigation_ripple"/>
             <size android:width="24dp"
                 android:height="24dp"/>
         </shape>

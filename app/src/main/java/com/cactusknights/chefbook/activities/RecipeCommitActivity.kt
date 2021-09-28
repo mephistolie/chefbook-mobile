@@ -96,12 +96,16 @@ class RecipeCommitActivity: AppCompatActivity() {
             ingredients.add(Selectable(""))
             ingredientsAdapter.notifyItemInserted(ingredients.size-1)
         }
-        binding.btnAddSection.setOnClickListener {
+        binding.btnAddIngredientSection.setOnClickListener {
             ingredients.add(Selectable("", true))
             ingredientsAdapter.notifyItemInserted(ingredients.size-1)
         }
         binding.btnAddStep.setOnClickListener {
             steps.add(Selectable())
+            cookingAdapter.notifyItemInserted(steps.size-1)
+        }
+        binding.btnAddCookingSection.setOnClickListener {
+            steps.add(Selectable("", true))
             cookingAdapter.notifyItemInserted(steps.size-1)
         }
 
@@ -151,7 +155,7 @@ class RecipeCommitActivity: AppCompatActivity() {
         val caloriesText = binding.inputCalories.text.toString()
 
         val notEmptyIngredients = ingredients.filter { it.item != "" } as ArrayList<Selectable<String>>
-        val notEmptySteps = steps.filter { it.item != "" } as ArrayList<Selectable<String>>
+        val notEmptySteps = steps.filter { !it.item.isNullOrEmpty() } as ArrayList<Selectable<String>>
 
         return Recipe(
             id = originalRecipe?.id ?: "", name = nameText,

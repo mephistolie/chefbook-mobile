@@ -126,7 +126,7 @@ class MainActivity : AppCompatActivity() {
             setFragment(DashboardFragment(), R.anim.zoom_in_show, R.anim.zoom_in_hide,"Recipes")
             binding.nvNavigation.selectedItemId = R.id.recipes
         } else {
-            setTopMenu(resources.getString(R.string.shopping_list), true)
+            setTopMenu(resources.getString(R.string.shopping_list))
             setFragment(ShoppingListFragment(), R.anim.zoom_in_show, R.anim.zoom_in_hide,"Shopping List")
         }
     }

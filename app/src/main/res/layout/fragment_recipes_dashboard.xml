@@ -150,12 +150,11 @@
 
             <TextView
                 android:id="@+id/text_recently_added"
-                style="@style/TextAppearance.AppCompat.Headline"
+                style="@style/TextAppearance.ChefBook.Header.3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="@string/recently_added"
-                app:fontFamily="@font/comfortaa_semibold" />
+                android:text="@string/recently_added" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_recently_added"
@@ -168,12 +167,11 @@
 
             <TextView
                 android:id="@+id/text_all_recipes"
-                style="@style/TextAppearance.AppCompat.Headline"
+                style="@style/TextAppearance.ChefBook.Header.3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="@string/all_recipes"
-                app:fontFamily="@font/comfortaa_semibold" />
+                android:text="@string/all_recipes" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_all_recipes"

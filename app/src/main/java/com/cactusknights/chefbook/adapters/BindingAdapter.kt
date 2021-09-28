@@ -21,11 +21,11 @@ fun setIngredientEditStyle(view: TextInputEditText, isSection: Boolean) {
 fun setIngredientStyle(view: TextView, isSection: Boolean) {
     if (isSection) {
         view.typeface = ResourcesCompat.getFont(view.context, R.font.comfortaa)
-        view.textSize = 28.0F
-        view.setTextColor(ContextCompat.getColor(view.context, R.color.navigation_foreground))
+        view.textSize = 26.0F
+        view.setTextColor(ContextCompat.getColor(view.context, R.color.navigation_ripple))
     } else {
         view.typeface = ResourcesCompat.getFont(view.context, R.font.montserrat)
-        view.textSize = 24.0F
+        view.textSize = 22.0F
         view.setTextColor(ContextCompat.getColor(view.context, R.color.monochrome_invert))
     }
 }

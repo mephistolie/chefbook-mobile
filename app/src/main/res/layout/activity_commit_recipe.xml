@@ -78,13 +78,11 @@
             android:orientation="vertical">
 
             <TextView
+                style="@style/TextAppearance.ChefBook.Header.3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:text="@string/name"
-                android:textColor="@color/monochrome_invert"
-                android:textSize="24sp"
-                app:fontFamily="@font/comfortaa_bold" />
+                android:text="@string/name" />
 
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/input_name"
@@ -192,13 +190,11 @@
                 android:textColor="@color/deep_orange_light" />
 
             <TextView
+                style="@style/TextAppearance.ChefBook.Header.3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:text="@string/ingredients"
-                android:textColor="@color/monochrome_invert"
-                android:textSize="24sp"
-                app:fontFamily="@font/comfortaa_semibold" />
+                android:text="@string/ingredients" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_ingredients"
@@ -208,7 +204,7 @@
                 android:focusable="true"
                 android:nestedScrollingEnabled="false"
                 tools:itemCount="2"
-                tools:listitem="@layout/list_ingredients_edit" />
+                tools:listitem="@layout/list_selectable_edit" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -262,14 +258,12 @@
             </LinearLayout>
 
             <TextView
+                style="@style/TextAppearance.ChefBook.Header.3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="8dp"
-                android:text="@string/cooking"
-                android:textColor="@color/monochrome_invert"
-                android:textSize="24sp"
-                app:fontFamily="@font/comfortaa_semibold" />
+                android:text="@string/cooking" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_steps"

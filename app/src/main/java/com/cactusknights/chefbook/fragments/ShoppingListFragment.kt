@@ -28,14 +28,15 @@ class ShoppingListFragment: Fragment(), ShoppingAdapter.ItemClickListener {
     val shoppingAdapter = ShoppingAdapter(shoppingList, this)
     private val ingredientTouchHelper = ItemTouchHelper(ItemsCallback())
 
-    lateinit var binding: FragmentShoppingListBinding
+    private var _binding: FragmentShoppingListBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentShoppingListBinding.inflate(inflater, container, false)
+        _binding = FragmentShoppingListBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -117,8 +118,13 @@ class ShoppingListFragment: Fragment(), ShoppingAdapter.ItemClickListener {
         override fun onChildDraw(c: Canvas, recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, dX: Float, dY: Float, actionState: Int, isCurrentlyActive: Boolean) {
             val topY = viewHolder.itemView.top + dY
             val bottomY = topY + viewHolder.itemView.height
-            if (topY > 0 && bottomY < recyclerView.height) { super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive) }
+            if (topY > 0 && bottomY < recyclerView.height || dY == 0.0F) { super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive) }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     override fun onItemClick(position: Int) {

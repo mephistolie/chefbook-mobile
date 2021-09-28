@@ -14,11 +14,12 @@ class RecentlyAddedAdapter(private var recipes: ArrayList<Recipe>, val listener:
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val recipe = recipes[position]
         holder.name.text = recipe.name
+        holder.servings.text = recipe.servings.toString()
         holder.time.text = recipe.time
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val v = LayoutInflater.from(parent.context).inflate(R.layout.list_popular, parent, false)
+        val v = LayoutInflater.from(parent.context).inflate(R.layout.list_recently_added, parent, false)
         return ViewHolder(v)
     }
 
@@ -29,6 +30,7 @@ class RecentlyAddedAdapter(private var recipes: ArrayList<Recipe>, val listener:
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         val name: TextView = itemView.findViewById(R.id.text_name)
+        val servings: TextView = itemView.findViewById(R.id.text_servings)
         val time: TextView = itemView.findViewById(R.id.text_time)
 
         init {

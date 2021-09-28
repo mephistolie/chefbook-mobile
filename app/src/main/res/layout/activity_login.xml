@@ -38,12 +38,11 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/text_app_name"
+                style="@style/TextAppearance.ChefBook.Header.1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="@string/app_name"
-                android:textSize="34sp"
-                app:fontFamily="@font/comfortaa_bold" />
+                android:text="@string/app_name" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -127,9 +126,9 @@
 
         <ProgressBar
             android:id="@+id/progress_login"
-            android:layout_marginTop="16dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:visibility="gone" />
 
         <View

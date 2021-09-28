@@ -15,13 +15,11 @@
         android:orientation="vertical">
 
         <TextView
+            style="@style/TextAppearance.ChefBook.Header.2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="@string/cooking"
-            android:textColor="@color/monochrome_invert"
-            android:textSize="32sp"
-            app:fontFamily="@font/comfortaa_semibold" />
+            android:text="@string/cooking" />
 
         <TextView
             android:id="@+id/text_time"
@@ -30,7 +28,7 @@
             android:layout_gravity="center"
             android:layout_marginBottom="36dp"
             android:text="@string/_15_min"
-            android:textColor="@color/navigation_foreground"
+            android:textColor="@color/navigation_ripple"
             android:textSize="24sp" />
 
         <androidx.recyclerview.widget.RecyclerView
