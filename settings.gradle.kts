@@ -1,2 +1,2 @@
 rootProject.name = "ChefBook"
-include ':app'
+include(":app")
