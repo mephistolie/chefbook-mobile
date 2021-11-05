@@ -1,4 +1,4 @@
-package com.cactusknights.chefbook.interfaces
+package com.cactusknights.chefbook.domain
 
 import com.cactusknights.chefbook.models.Recipe
 

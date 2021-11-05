@@ -1,10 +1,12 @@
 package com.cactusknights.chefbook.models
 
+import java.sql.Timestamp
+
 data class User constructor(
 
-    var uid: String = "",
-    var displayName: String = "",
+    var id: String = "",
     var email: String = "",
-    var phone: String = "",
-    var isPremium: Boolean = true
-    )
+    var name: String = "",
+    var premium: Timestamp? = null
+
+)

@@ -10,11 +10,11 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import com.cactusknights.chefbook.databinding.DialogDonateBinding
 import com.cactusknights.chefbook.helpers.Utils
-import com.cactusknights.chefbook.viewmodels.UserViewModel
+import com.cactusknights.chefbook.viewmodels.UuuserViewModel
 
 class DonateDialog: DialogFragment() {
 
-    private val viewModel by activityViewModels<UserViewModel>()
+    private val viewModel by activityViewModels<UuuserViewModel>()
 
     private lateinit var binding: DialogDonateBinding
 

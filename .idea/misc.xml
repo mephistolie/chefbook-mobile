@@ -1,5 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Mikhail/Documents/GitHub/chefbook-android/app/src/main/res/drawable/ic_broccy.xml" value="0.17863247863247864" />
+        <entry key="..\:/Mikhail/Documents/GitHub/chefbook-android/app/src/main/res/drawable/ic_eye.xml" value="0.17863247863247864" />
+        <entry key="..\:/Mikhail/Documents/GitHub/chefbook-android/app/src/main/res/drawable/ic_eye_closed.xml" value="0.17863247863247864" />
+        <entry key="..\:/Mikhail/Documents/GitHub/chefbook-android/app/src/main/res/drawable/selector_password.xml" value="0.17863247863247864" />
+        <entry key="..\:/Mikhail/Documents/GitHub/chefbook-android/app/src/main/res/layout/activity_commit_recipe.xml" value="0.16538461538461538" />
+        <entry key="..\:/Mikhail/Documents/GitHub/chefbook-android/app/src/main/res/layout/activity_login.xml" value="0.22" />
+        <entry key="..\:/Mikhail/Documents/GitHub/chefbook-android/app/src/main/res/layout/fragment_recipe_cooking.xml" value="0.16538461538461538" />
+        <entry key="..\:/Mikhail/Documents/GitHub/chefbook-reborn/app/src/main/res/layout/activity_login.xml" value="0.33" />
+      </map>
+    </option>
+  </component>
   <component name="EntryPointsManager">
     <list size="1">
       <item index="0" class="java.lang.String" itemvalue="androidx.databinding.BindingAdapter" />

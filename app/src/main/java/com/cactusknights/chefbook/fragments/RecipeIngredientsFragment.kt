@@ -4,15 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.widget.AppCompatCheckBox
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cactusknights.chefbook.adapters.IngredientAdapter
 import com.cactusknights.chefbook.R
 import com.cactusknights.chefbook.databinding.FragmentRecipeIngredientsBinding
+import com.cactusknights.chefbook.helpers.showToast
 import com.cactusknights.chefbook.models.Recipe
-import com.cactusknights.chefbook.viewmodels.UserViewModel
+import com.cactusknights.chefbook.viewmodels.UuuserViewModel
 
 class RecipeIngredientsFragment(var recipe: Recipe = Recipe()): Fragment(), IngredientAdapter.IngredientClickListener {
 
@@ -56,10 +56,10 @@ class RecipeIngredientsFragment(var recipe: Recipe = Recipe()): Fragment(), Ingr
                 binding.rvIngredients.getChildAt(position).findViewById<AppCompatCheckBox>(R.id.checkbox_selected).isChecked = false
                 addableIngredients.add(recipe.ingredients[position].item!!)
             }
-            UserViewModel.addToShoppingList(addableIngredients)
+            UuuserViewModel.addToShoppingList(addableIngredients)
             addToShoppingList = arrayListOf()
             binding.btnAddToShoplist.visibility = View.GONE
-            Toast.makeText(activity, resources.getString(R.string.added_to_shopping_list), Toast.LENGTH_SHORT).show()
+            activity?.showToast(resources.getString(R.string.added_to_shopping_list))
         }
     }
 

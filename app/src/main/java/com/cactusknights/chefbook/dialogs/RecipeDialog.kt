@@ -6,7 +6,6 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.widget.Toast
 import androidx.core.app.ActivityOptionsCompat
 import androidx.fragment.app.DialogFragment
 import com.cactusknights.chefbook.R
@@ -14,7 +13,8 @@ import com.cactusknights.chefbook.activities.RecipeActivity
 import com.cactusknights.chefbook.activities.RecipeCommitActivity
 import com.cactusknights.chefbook.databinding.DialogRecipeBinding
 import com.cactusknights.chefbook.helpers.Utils
-import com.cactusknights.chefbook.viewmodels.UserViewModel
+import com.cactusknights.chefbook.helpers.showToast
+import com.cactusknights.chefbook.viewmodels.UuuserViewModel
 
 class RecipeDialog(val activity: RecipeActivity): DialogFragment() {
 
@@ -45,7 +45,7 @@ class RecipeDialog(val activity: RecipeActivity): DialogFragment() {
             requireActivity().overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
         }
         binding.btnDeleteRecipe.setOnClickListener {
-            ConfirmDialog { UserViewModel.deleteRecipe(activity.recipe, ::onDeleteRecipeCallback) }.show(activity.supportFragmentManager, "Delete Recipe")
+            ConfirmDialog { UuuserViewModel.deleteRecipe(activity.recipe, ::onDeleteRecipeCallback) }.show(activity.supportFragmentManager, "Delete Recipe")
         }
 
         return dialog
@@ -53,9 +53,9 @@ class RecipeDialog(val activity: RecipeActivity): DialogFragment() {
 
     private fun onDeleteRecipeCallback(isDeleted: Boolean) {
         if (isDeleted) {
-            Toast.makeText(requireContext(), resources.getString(R.string.recipe_deleted), Toast.LENGTH_SHORT).show()
+            requireContext().showToast(resources.getString(R.string.recipe_deleted))
             dialog?.dismiss()
             requireActivity().finish()
-        } else { Toast.makeText(requireContext(), resources.getString(R.string.deleting_failed), Toast.LENGTH_SHORT).show()}
+        } else { requireContext().showToast(resources.getString(R.string.deleting_failed))}
     }
 }

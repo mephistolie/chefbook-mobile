@@ -3,24 +3,27 @@ package com.cactusknights.chefbook.viewmodels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.cactusknights.chefbook.interfaces.AuthProvider
-import com.cactusknights.chefbook.interfaces.ContentProvider
+import com.cactusknights.chefbook.domain.ContentProvider
 import com.cactusknights.chefbook.interfaces.ContentListener
-import com.cactusknights.chefbook.repositories.FirebaseAuthRepository
 import com.cactusknights.chefbook.models.Recipe
 import com.cactusknights.chefbook.models.User
+import com.cactusknights.chefbook.source.remote.ChefBookApi
+import com.cactusknights.chefbook.repositories.FirebaseAuthRepository
 import com.cactusknights.chefbook.repositories.FirebaseContentRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class UserViewModel: ViewModel() {
+@HiltViewModel
+class UuuserViewModel @Inject constructor(private val api: ChefBookApi): ViewModel() {
 
-    private var authRepository: AuthProvider = FirebaseAuthRepository.instance
+    private var authRepository: FirebaseAuthRepository = FirebaseAuthRepository.instance
     private var contentRepository: ContentListener = FirebaseContentRepository.instance
 
-    private lateinit var user: MutableStateFlow<User?>
+    private var user: MutableStateFlow<User?> = MutableStateFlow(null)
 
     private lateinit var recipes: MutableStateFlow<ArrayList<Recipe>>
     private lateinit var categories: MutableStateFlow<ArrayList<String>>
@@ -28,7 +31,7 @@ class UserViewModel: ViewModel() {
 
     init {
         viewModelScope.launch {
-            user = authRepository.listenTotUser()
+            user = authRepository.listenToUser()
 
             recipes = contentRepository.getRecipes()
             categories = contentRepository.getCategories()
@@ -39,14 +42,14 @@ class UserViewModel: ViewModel() {
     fun listenToUser(): StateFlow<User?> { return user }
 
     fun getCurrentUser(): User? { return user.value }
-    fun signup(email: String, password: String, callback: (isSignedUp: Boolean) -> Unit) { viewModelScope.launch {  authRepository.signupEmail(email, password, callback) } }
-    fun logonEmail(email: String, password: String, callback: (isLoggedIn: Boolean) -> Unit) { viewModelScope.launch {  authRepository.logonEmail(email, password, callback) } }
-    fun logonGoogle(idToken: String, callback: (isLoggedIn: Boolean) -> Unit) { viewModelScope.launch {  authRepository.logonGoogle(idToken, callback) } }
+    fun signup(email: String, password: String, callback: (isSignedUp: Boolean) -> Unit) { viewModelScope.launch {  } }
+    fun logonEmail(email: String, password: String, callback: (isLoggedIn: Boolean) -> Unit) { viewModelScope.launch {   } }
+    fun logonGoogle(idToken: String, callback: (isLoggedIn: Boolean) -> Unit) { viewModelScope.launch {  authRepository.signInGoogle(idToken, callback) } }
     fun restorePassword(email: String, callback: (isReset: Boolean) -> Unit) { viewModelScope.launch { authRepository.restorePassword(email, callback) } }
     fun logout() { viewModelScope.launch { authRepository.logout() } }
 
     fun buyPremium(donation_type: String, activity: AppCompatActivity) { viewModelScope.launch { authRepository.buyPremium(donation_type, activity) } }
-    fun isPremium(): Boolean { return getCurrentUser()?.isPremium ?: false }
+    fun isPremium(): Boolean { return false }
 
 
     fun startListeningToUpdates() {

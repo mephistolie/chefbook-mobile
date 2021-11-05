@@ -17,22 +17,22 @@ object Utils {
 
     fun checkAuthFields(email: String, passwordText: String, repeatPasswordText: String, context: Context): Boolean {
         if (email.isEmpty() || passwordText.isEmpty()) {
-            Toast.makeText(context, R.string.empty_fields, Toast.LENGTH_SHORT).show()
+            context.showToast(R.string.empty_fields)
             return false
         }
         if (!email.contains('@') || !email.contains('.')) {
-            Toast.makeText(context, R.string.invalid_email, Toast.LENGTH_SHORT).show()
+            context.showToast(R.string.invalid_email)
             return false
         }
         if (passwordText != repeatPasswordText && repeatPasswordText.isNotEmpty()) {
-            Toast.makeText(context, R.string.password_mismatch, Toast.LENGTH_SHORT).show()
+            context.showToast(R.string.password_mismatch)
             return false
         }
         when (validatePassword(passwordText)) {
-            PasswordStates.SPACE -> { Toast.makeText(context, R.string.space_password, Toast.LENGTH_SHORT).show() }
-            PasswordStates.SHORT -> { Toast.makeText(context, R.string.short_password, Toast.LENGTH_SHORT).show() }
-            PasswordStates.LOWER -> { Toast.makeText(context, R.string.lower_password, Toast.LENGTH_SHORT).show() }
-            PasswordStates.UPPER -> { Toast.makeText(context, R.string.upper_password, Toast.LENGTH_SHORT).show() }
+            PasswordStates.SPACE -> { context.showToast(R.string.space_password) }
+            PasswordStates.SHORT -> { context.showToast(R.string.short_password) }
+            PasswordStates.LOWER -> { context.showToast(R.string.lower_password) }
+            PasswordStates.UPPER -> { context.showToast(R.string.upper_password) }
             else -> return true
         }
         return false

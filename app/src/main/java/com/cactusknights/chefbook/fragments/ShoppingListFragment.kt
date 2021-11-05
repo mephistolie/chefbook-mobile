@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.cactusknights.chefbook.adapters.ShoppingAdapter
 import com.cactusknights.chefbook.databinding.FragmentShoppingListBinding
-import com.cactusknights.chefbook.viewmodels.UserViewModel
+import com.cactusknights.chefbook.viewmodels.UuuserViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.util.*
@@ -22,7 +22,7 @@ import java.util.*
 
 class ShoppingListFragment: Fragment(), ShoppingAdapter.ItemClickListener {
 
-    private val viewModel by activityViewModels<UserViewModel>()
+    private val viewModel by activityViewModels<UuuserViewModel>()
     val shoppingList: ArrayList<String> = arrayListOf()
     private val excludedList: ArrayList<String> = arrayListOf()
     val shoppingAdapter = ShoppingAdapter(shoppingList, this)

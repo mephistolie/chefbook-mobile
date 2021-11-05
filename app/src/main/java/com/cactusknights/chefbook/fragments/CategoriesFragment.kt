@@ -9,10 +9,10 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cactusknights.chefbook.R
-import com.cactusknights.chefbook.activities.MainActivity
+import com.cactusknights.chefbook.screens.main.MainActivity
 import com.cactusknights.chefbook.adapters.CategoryAdapter
 import com.cactusknights.chefbook.databinding.FragmentRecyclerViewBinding
-import com.cactusknights.chefbook.viewmodels.UserViewModel
+import com.cactusknights.chefbook.viewmodels.UuuserViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlin.collections.ArrayList
@@ -20,7 +20,7 @@ import kotlin.collections.ArrayList
 
 class CategoriesFragment: Fragment(), CategoryAdapter.CategoryClickListener {
 
-    private val viewModel by activityViewModels<UserViewModel>()
+    private val viewModel by activityViewModels<UuuserViewModel>()
     private var categories: ArrayList<String> = arrayListOf()
     private val categoriesAdapter = CategoryAdapter(categories, this)
 

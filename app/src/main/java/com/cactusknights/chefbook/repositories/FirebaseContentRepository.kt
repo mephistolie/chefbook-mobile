@@ -1,7 +1,7 @@
 package com.cactusknights.chefbook.repositories
 
 import com.cactusknights.chefbook.helpers.Utils
-import com.cactusknights.chefbook.interfaces.ContentProvider
+import com.cactusknights.chefbook.domain.ContentProvider
 import com.cactusknights.chefbook.interfaces.ContentListener
 import com.cactusknights.chefbook.models.Recipe
 import com.cactusknights.chefbook.models.Selectable

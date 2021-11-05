@@ -10,12 +10,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.cactusknights.chefbook.activities.MainActivity
+import com.cactusknights.chefbook.screens.main.MainActivity
 import com.cactusknights.chefbook.activities.RecipeActivity
 import com.cactusknights.chefbook.adapters.RecipeAdapter
 import com.cactusknights.chefbook.databinding.FragmentRecyclerViewBinding
 import com.cactusknights.chefbook.models.Recipe
-import com.cactusknights.chefbook.viewmodels.UserViewModel
+import com.cactusknights.chefbook.viewmodels.UuuserViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlin.collections.ArrayList
@@ -23,7 +23,7 @@ import kotlin.collections.ArrayList
 
 class CustomRecipesFragment(val category: String? = null): Fragment(), RecipeAdapter.RecipeClickListener {
 
-    private val viewModel by activityViewModels<UserViewModel>()
+    private val viewModel by activityViewModels<UuuserViewModel>()
     private var customRecipes: ArrayList<Recipe> = arrayListOf()
     private val customAdapter = RecipeAdapter(customRecipes, this)
 

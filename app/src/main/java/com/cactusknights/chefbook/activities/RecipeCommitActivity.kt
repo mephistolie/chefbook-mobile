@@ -3,7 +3,6 @@ package com.cactusknights.chefbook.activities
 import android.content.Intent
 import android.graphics.Canvas
 import android.os.Bundle
-import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,9 +13,10 @@ import com.cactusknights.chefbook.R
 import com.cactusknights.chefbook.databinding.ActivityCommitRecipeBinding
 import com.cactusknights.chefbook.dialogs.CategoriesDialog
 import com.cactusknights.chefbook.dialogs.ConfirmDialog
+import com.cactusknights.chefbook.helpers.showToast
 import com.cactusknights.chefbook.models.Selectable
 import com.cactusknights.chefbook.models.Recipe
-import com.cactusknights.chefbook.viewmodels.UserViewModel
+import com.cactusknights.chefbook.viewmodels.UuuserViewModel
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -123,12 +123,12 @@ class RecipeCommitActivity: AppCompatActivity() {
     private fun commitRecipe() {
         val confirmedRecipe = getRecipe()
         when {
-            confirmedRecipe.name.isEmpty() -> { Toast.makeText(this, resources.getString(R.string.enter_name), Toast.LENGTH_SHORT).show() }
-            confirmedRecipe.ingredients.isEmpty() -> { Toast.makeText(this, resources.getString(R.string.enter_ingredients), Toast.LENGTH_SHORT).show() }
-            confirmedRecipe.cooking.isEmpty() -> { Toast.makeText(this, resources.getString(R.string.enter_step), Toast.LENGTH_SHORT).show() }
+            confirmedRecipe.name.isEmpty() -> { this.showToast(resources.getString(R.string.enter_name)) }
+            confirmedRecipe.ingredients.isEmpty() -> { this.showToast(resources.getString(R.string.enter_ingredients)) }
+            confirmedRecipe.cooking.isEmpty() -> { this.showToast(resources.getString(R.string.enter_step)) }
             else -> {
-                if (confirmedRecipe.id.isEmpty()) UserViewModel.addRecipe(confirmedRecipe, ::onCommitRecipeCallback)
-                else UserViewModel.updateRecipe(confirmedRecipe, ::onCommitRecipeCallback)
+                if (confirmedRecipe.id.isEmpty()) UuuserViewModel.addRecipe(confirmedRecipe, ::onCommitRecipeCallback)
+                else UuuserViewModel.updateRecipe(confirmedRecipe, ::onCommitRecipeCallback)
                 setResult(RESULT_OK, Intent().putExtra("recipe", confirmedRecipe))
                 finish()
             }
@@ -136,10 +136,10 @@ class RecipeCommitActivity: AppCompatActivity() {
     }
 
     private fun onCommitRecipeCallback(isAdded: Boolean) {
-        if (isAdded) { Toast.makeText(applicationContext, if (originalRecipe == null) resources.getString(R.string.recipe_added)
-        else resources.getString(R.string.recipe_updated), Toast.LENGTH_SHORT).show() }
-        else Toast.makeText(applicationContext, if (originalRecipe == null) resources.getString(R.string.failed_add)
-        else resources.getString(R.string.failed_update), Toast.LENGTH_SHORT).show()
+        if (isAdded) {applicationContext.showToast(if (originalRecipe == null) resources.getString(R.string.recipe_added)
+        else resources.getString(R.string.recipe_updated)) }
+        else applicationContext.showToast(if (originalRecipe == null) resources.getString(R.string.failed_add)
+        else resources.getString(R.string.failed_update))
     }
 
     private fun onCommitCategoriesCallback (newCategories: ArrayList<String>, allCategories: ArrayList<String>) {

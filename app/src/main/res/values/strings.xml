@@ -110,4 +110,5 @@
     <string name="rate_app">Rate ChefBook</string>
     <string name="rate_gratitude">Thanks for review!</string>
     <string name="type_something">Type something…</string>
+    <string name="server_unavailable">Couldn\'t reach server. Check your internet connection.</string>
 </resources>

@@ -7,18 +7,18 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import com.cactusknights.chefbook.R
 import com.cactusknights.chefbook.databinding.DialogSettingsBinding
-import com.cactusknights.chefbook.viewmodels.UserViewModel
+import com.cactusknights.chefbook.helpers.showToast
+import com.cactusknights.chefbook.viewmodels.UuuserViewModel
 import com.google.android.play.core.review.ReviewManagerFactory
 
 class SettingsDialog: DialogFragment() {
 
-    private val viewModel by activityViewModels<UserViewModel>()
+    private val viewModel by activityViewModels<UuuserViewModel>()
     private lateinit var sp: SharedPreferences
 
     private lateinit var binding: DialogSettingsBinding
@@ -32,7 +32,7 @@ class SettingsDialog: DialogFragment() {
             .setView(binding.root).create()
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
-        val displayName = viewModel.getCurrentUser()?.displayName.toString()
+        val displayName = viewModel.getCurrentUser()?.name.toString()
         binding.textUser.text = if (displayName.isNotEmpty()) displayName else viewModel.getCurrentUser()?.email.toString()
 
         binding.switchShoppingListDefault.isChecked = sp.getBoolean("shoppingListIsDefault", false)
@@ -41,7 +41,7 @@ class SettingsDialog: DialogFragment() {
         }
 
         val currentUser = viewModel.getCurrentUser()
-        if (currentUser != null && currentUser.isPremium) {
+        if (currentUser != null /*&& currentUser.isPremium*/) {
             binding.imagePremium.visibility = View.VISIBLE
         }
 
@@ -73,7 +73,7 @@ class SettingsDialog: DialogFragment() {
                 val flow = reviewManager.launchReviewFlow(requireActivity(), reviewInfo)
                 flow.addOnCompleteListener { task ->
                     if (task.isSuccessful)
-                        Toast.makeText(requireContext(), R.string.rate_gratitude, Toast.LENGTH_SHORT).show()
+                        requireContext().showToast(R.string.rate_gratitude)
                 }
             }
         }

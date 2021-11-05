@@ -3,7 +3,6 @@ package com.cactusknights.chefbook.activities
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.*
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -11,8 +10,9 @@ import com.cactusknights.chefbook.R
 import com.cactusknights.chefbook.adapters.ViewPagerAdapter
 import com.cactusknights.chefbook.databinding.ActivityRecipeBinding
 import com.cactusknights.chefbook.dialogs.RecipeDialog
+import com.cactusknights.chefbook.helpers.showToast
 import com.cactusknights.chefbook.models.Recipe
-import com.cactusknights.chefbook.viewmodels.UserViewModel
+import com.cactusknights.chefbook.viewmodels.UuuserViewModel
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.MobileAds
 import com.google.android.material.tabs.TabLayoutMediator
@@ -34,7 +34,7 @@ class RecipeActivity: AppCompatActivity() {
                 recipe = editedRecipe
                 binding.textSection.text = recipe.name
                 binding.vpRecipe.adapter = ViewPagerAdapter(recipe, supportFragmentManager, this.lifecycle)
-            } else { Toast.makeText(this, resources.getString(R.string.failed_edit_recipe), Toast.LENGTH_SHORT).show() }
+            } else { applicationContext.showToast(resources.getString(R.string.failed_edit_recipe)) }
         }
     }
 
@@ -83,7 +83,7 @@ class RecipeActivity: AppCompatActivity() {
 
     override fun onStop() {
         if (isFavouriteOriginally != recipe.isFavourite) {
-            UserViewModel.setRecipeFavoriteStatus(recipe)
+            UuuserViewModel.setRecipeFavoriteStatus(recipe)
             isFavouriteOriginally = recipe.isFavourite
         }
         super.onStop()
