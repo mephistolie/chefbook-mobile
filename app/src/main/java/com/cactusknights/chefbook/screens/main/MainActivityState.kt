@@ -5,5 +5,6 @@ enum class DashboardFragments {
 }
 
 class MainActivityState (
-    currentFragment: DashboardFragments = DashboardFragments.RECIPES,
+    val currentFragment: DashboardFragments = DashboardFragments.RECIPES,
+    val isLoggedIn: Boolean = true
 )

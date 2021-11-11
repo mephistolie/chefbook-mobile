@@ -20,17 +20,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.cactusknights.chefbook.activities.LoginActivity"
-            android:noHistory="true"
-            android:excludeFromRecents="true"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
         <activity android:name="com.cactusknights.chefbook.screens.auth.AuthActivity"
             android:noHistory="true"
             android:excludeFromRecents="true"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
-        <activity android:name="com.cactusknights.chefbook.activities.RecipeCommitActivity"
+        <activity android:name="com.cactusknights.chefbook.legacy.activities.RecipeCommitActivity"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
-        <activity android:name="com.cactusknights.chefbook.activities.RecipeActivity" />
+        <activity android:name="com.cactusknights.chefbook.legacy.activities.RecipeActivity" />
 
         <meta-data
             android:name="preloaded_fonts"

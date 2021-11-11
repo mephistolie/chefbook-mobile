@@ -2,34 +2,51 @@ package com.cactusknights.chefbook.screens.main
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.cactusknights.chefbook.R
 import com.cactusknights.chefbook.common.Result
 import com.cactusknights.chefbook.domain.usecases.AuthUseCases
 import com.cactusknights.chefbook.domain.usecases.RecipesUseCases
-import com.cactusknights.chefbook.enums.SignStates
+import com.cactusknights.chefbook.models.BaseRecipe
 import com.cactusknights.chefbook.models.Recipe
-import com.cactusknights.chefbook.screens.auth.AuthActivityState
+import com.cactusknights.chefbook.models.User
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
-import retrofit2.HttpException
-import java.io.IOException
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MainActivityViewModel @Inject constructor(private val useCases: RecipesUseCases) : ViewModel() {
+class MainActivityViewModel @Inject constructor(
+    private val authUseCases: AuthUseCases,
+    private val recipeUseCases: RecipesUseCases
+) : ViewModel() {
 
     private val _state = MutableStateFlow(MainActivityState())
     val state: StateFlow<MainActivityState> = _state
 
-    private val _recipes = MutableStateFlow(listOf<Recipe>())
-    val recipes: StateFlow<List<Recipe>> = _recipes
+    private var user = User()
+
+    private val _recipes = MutableStateFlow(listOf<BaseRecipe>())
+    val recipes: StateFlow<List<BaseRecipe>> = _recipes
 
     init {
-        getRecipes()
+        viewModelScope.launch {
+            launch { observeAuthState() }
+            getRecipes()
+        }
     }
 
-    private fun getRecipes() {
-        useCases.getRecipes().onEach { result ->
+    private suspend fun observeAuthState() {
+        authUseCases.authState().collect { auth ->
+            if (auth == null) {
+                _state.emit(MainActivityState(
+                    currentFragment = _state.value.currentFragment,
+                    isLoggedIn = false
+                ))
+            } else user = auth
+        }
+    }
+
+    private suspend fun getRecipes() {
+        recipeUseCases.getRecipes().onEach { result ->
             when (result) {
                 is Result.Loading -> {}
                 is Result.Success -> {

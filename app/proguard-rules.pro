@@ -22,4 +22,4 @@
 
 -keep class com.cactusknights.chefbook.models.* { *; }
 -keep class com.cactusknights.chefbook.models.legacy.* { *; }
--keep class com.cactusknights.chefbook.repositories.* { *; }
+-keep class com.cactusknights.chefbook.legacy.repositories.* { *; }

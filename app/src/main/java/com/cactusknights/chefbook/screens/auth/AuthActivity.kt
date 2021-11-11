@@ -13,8 +13,8 @@ import androidx.lifecycle.lifecycleScope
 import com.cactusknights.chefbook.R
 import com.cactusknights.chefbook.screens.main.MainActivity
 import com.cactusknights.chefbook.databinding.ActivityAuthBinding
-import com.cactusknights.chefbook.enums.SignStates
-import com.cactusknights.chefbook.helpers.showToast
+import com.cactusknights.chefbook.legacy.enums.SignStates
+import com.cactusknights.chefbook.legacy.helpers.showToast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow

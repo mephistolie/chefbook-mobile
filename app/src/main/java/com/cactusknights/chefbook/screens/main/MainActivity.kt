@@ -4,28 +4,37 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.lifecycleScope
 import com.cactusknights.chefbook.R
 import com.cactusknights.chefbook.databinding.ActivityMainBinding
-import com.cactusknights.chefbook.dialogs.SettingsDialog
-import com.cactusknights.chefbook.fragments.CategoriesFragment
-import com.cactusknights.chefbook.fragments.ShoppingListFragment
+import com.cactusknights.chefbook.legacy.dialogs.SettingsDialog
+import com.cactusknights.chefbook.legacy.fragments.CategoriesFragment
+import com.cactusknights.chefbook.legacy.fragments.ShoppingListFragment
 import com.cactusknights.chefbook.screens.auth.AuthActivity
+import com.cactusknights.chefbook.screens.auth.AuthActivityState
+import com.cactusknights.chefbook.screens.main.fragments.DashboardFragment
 import com.google.android.material.navigation.NavigationBarView
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import java.io.File
+import javax.inject.Inject
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
+class MainActivity(): AppCompatActivity() {
 
     val viewModel: MainActivityViewModel by viewModels()
-//    val userViewModel: UuuserViewModel by viewModels()
     private val fragmentManager: FragmentManager = supportFragmentManager
     private val innerFragments = arrayListOf("Favourite", "Categories", "Recipes in Category")
-    private lateinit var sp: SharedPreferences
+
+    private lateinit var state: StateFlow<MainActivityState>
 
     private lateinit var binding: ActivityMainBinding
 
@@ -33,7 +42,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        startLoginActivity()
 
         if (savedInstanceState != null) {
             val savedFragment = supportFragmentManager.getFragment(savedInstanceState, "savedFragment")
@@ -75,24 +83,12 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-    }
-
-    private suspend fun listenToUser() {
-//        startLoginActivity()
-//        userViewModel.listenToUser().collect { user: User? ->
-//            if (user == null) {
-//                startLoginActivity()
-//            } else {
-//                if (user.isPremium)
-//                    binding.avBanner.visibility = View.GONE
-//                else {
-//                    MobileAds.initialize(this)
-//                    val adRequest: AdRequest = AdRequest.Builder().build()
-//                    binding.avBanner.loadAd(adRequest)
-//                    binding.avBanner.visibility = View.VISIBLE
-//                }
-//            }
-//        }
+        state = viewModel.state
+        lifecycleScope.launch {
+            state.collect { currentState ->
+                if (!currentState.isLoggedIn) startLoginActivity()
+            }
+        }
     }
 
 //    override fun onDestroy() {
@@ -111,13 +107,8 @@ class MainActivity : AppCompatActivity() {
 //    }
 
     private fun setStartFragment() {
-//        if (!sp.getBoolean("shoppingListIsDefault", false)) {
-//            setFragment(DashboardFragment(), R.anim.zoom_in_show, R.anim.zoom_in_hide,"Recipes")
-//            binding.nvNavigation.selectedItemId = R.id.recipes
-//        } else {
-//            setTopMenu(resources.getString(R.string.shopping_list))
-//            setFragment(ShoppingListFragment(), R.anim.zoom_in_show, R.anim.zoom_in_hide,"Shopping List")
-//        }
+        setFragment(DashboardFragment(), R.anim.zoom_in_show, R.anim.zoom_in_hide,"Recipes")
+        binding.nvNavigation.selectedItemId = R.id.recipes
     }
 
     fun setFragment(fragment: Fragment, startAnimation: Int, endAnimation: Int, tag: String = "") {

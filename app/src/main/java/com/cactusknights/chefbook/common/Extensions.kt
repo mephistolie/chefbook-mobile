@@ -1,9 +1,7 @@
-package com.cactusknights.chefbook.helpers
+package com.cactusknights.chefbook.legacy.helpers
 
-import android.app.Activity
 import android.content.Context
 import android.widget.Toast
-import androidx.fragment.app.FragmentActivity
 
 fun <T : Context> T.showToast(message: String) {
     Toast.makeText(this, message, Toast.LENGTH_SHORT).show()

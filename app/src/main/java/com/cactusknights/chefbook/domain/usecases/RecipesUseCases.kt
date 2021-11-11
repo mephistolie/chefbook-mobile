@@ -3,6 +3,7 @@ package com.cactusknights.chefbook.domain.usecases
 import com.cactusknights.chefbook.domain.AuthProvider
 import com.cactusknights.chefbook.common.Result
 import com.cactusknights.chefbook.domain.RecipesProvider
+import com.cactusknights.chefbook.models.BaseRecipe
 import com.cactusknights.chefbook.models.Recipe
 import com.cactusknights.chefbook.models.Selectable
 import com.cactusknights.chefbook.models.User
@@ -15,7 +16,7 @@ import javax.inject.Inject
 
 class RecipesUseCases @Inject constructor(private val repository: RecipesProvider) {
 
-    fun getRecipes(): Flow<Result<List<Recipe>>> = flow {
+    suspend fun getRecipes(): Flow<Result<List<BaseRecipe>>> = flow {
         try {
             emit(Result.Loading)
             val recipes = repository.getRecipes()

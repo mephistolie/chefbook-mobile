@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 
 interface AuthProvider {
 
-    suspend fun listenToUser(): MutableStateFlow<User?>
+    suspend fun listenAuthState(): MutableStateFlow<User?>
     suspend fun isLoggedIn(): Boolean
     suspend fun isPremium(): Boolean
 

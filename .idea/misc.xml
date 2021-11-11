@@ -11,6 +11,8 @@
         <entry key="..\:/Mikhail/Documents/GitHub/chefbook-android/app/src/main/res/layout/activity_login.xml" value="0.22" />
         <entry key="..\:/Mikhail/Documents/GitHub/chefbook-android/app/src/main/res/layout/fragment_recipe_cooking.xml" value="0.16538461538461538" />
         <entry key="..\:/Mikhail/Documents/GitHub/chefbook-reborn/app/src/main/res/layout/activity_login.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/list_selectable.xml" value="0.21197916666666666" />
+        <entry key="app/src/main/res/layout/list_selectable_edit.xml" value="0.21197916666666666" />
       </map>
     </option>
   </component>

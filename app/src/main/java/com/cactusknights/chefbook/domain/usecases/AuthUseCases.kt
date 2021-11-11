@@ -10,9 +10,11 @@ import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
 
-class AuthUseCases @Inject constructor(private val repository: AuthProvider) {
+class AuthUseCases @Inject constructor(
+    private val repository: AuthProvider
+) {
 
-    fun signUp(email: String, password: String): Flow<Result<Any>> = flow {
+    suspend fun signUp(email: String, password: String): Flow<Result<Any>> = flow {
         try {
             emit(Result.Loading)
             repository.signUp(email, password)
@@ -24,7 +26,7 @@ class AuthUseCases @Inject constructor(private val repository: AuthProvider) {
         }
     }
 
-    fun signIn(email: String, password: String): Flow<Result<User>> = flow {
+    suspend fun signIn(email: String, password: String): Flow<Result<User>> = flow {
         try {
             emit(Result.Loading)
             repository.signInEmail(email, password)
@@ -34,5 +36,9 @@ class AuthUseCases @Inject constructor(private val repository: AuthProvider) {
         } catch (e: IOException) {
             emit(Result.Error(e))
         }
+    }
+
+    suspend fun authState(): Flow<User?> {
+        return repository.listenAuthState()
     }
 }
