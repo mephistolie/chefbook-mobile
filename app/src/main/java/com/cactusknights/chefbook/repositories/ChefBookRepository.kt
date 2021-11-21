@@ -1,28 +1,26 @@
 package com.cactusknights.chefbook
 
 import android.content.SharedPreferences
-import androidx.appcompat.app.AppCompatActivity
-import com.cactusknights.chefbook.common.AuthException
+import android.util.Log
 import com.cactusknights.chefbook.common.Constants.LOCAL_USERNAME
-import com.cactusknights.chefbook.domain.AuthProvider
-import com.cactusknights.chefbook.domain.RecipesProvider
-import com.cactusknights.chefbook.models.BaseRecipe
+import com.cactusknights.chefbook.domain.ContentRepository
+import com.cactusknights.chefbook.domain.LocalDataSource
+import com.cactusknights.chefbook.domain.RemoteDataSource
+import com.cactusknights.chefbook.models.Category
+import com.cactusknights.chefbook.models.Recipe
+import com.cactusknights.chefbook.models.Selectable
 import com.cactusknights.chefbook.models.User
-import com.cactusknights.chefbook.repositories.local.LocalDataSource
-import com.cactusknights.chefbook.repositories.remote.ChefBookRecipesRepository
-import com.cactusknights.chefbook.repositories.remote.RemoteDataSource
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
+import java.lang.Exception
 import javax.inject.Inject
-import kotlin.coroutines.coroutineContext
 
 enum class DataSources {
 
     LOCAL, REMOTE;
 
     companion object {
-        fun getDataSourceByString(input: String) : DataSources {
+        fun getDataSourceByString(input: String): DataSources {
             return if (input.lowercase() == "remote") REMOTE else LOCAL
         }
     }
@@ -31,12 +29,11 @@ enum class DataSources {
 class ChefBookRepository @Inject constructor(
     private val localSource: LocalDataSource,
     private val remoteSource: RemoteDataSource,
-    private val recipesSource: ChefBookRecipesRepository,
     private val sp: SharedPreferences
-) : AuthProvider, RecipesProvider {
+) : ContentRepository {
 
-    var dataSource : DataSources = DataSources.REMOTE
-    val user : MutableStateFlow<User?> = MutableStateFlow(User())
+    var dataSource: DataSources = DataSources.REMOTE
+    val user: MutableStateFlow<User?> = MutableStateFlow(User())
 
     init {
 //        dataSource = DataSources.getDataSourceByString(sp.getString("", DataSources.LOCAL.toString()).orEmpty())
@@ -46,93 +43,90 @@ class ChefBookRepository @Inject constructor(
         }
     }
 
-
-    suspend fun getCurrentUser() {
+    private suspend fun getCurrentUser() {
         if (dataSource == DataSources.LOCAL) {
-            user.emit(User(
-                name = sp.getString(LOCAL_USERNAME, "User").orEmpty(),
-                premium = null
-            ))
+            user.emit(
+                User(
+                    name = sp.getString(LOCAL_USERNAME, "User").orEmpty(),
+                    premium = null
+                )
+            )
         } else {
-            loop@ for(tryNumber in 0..1) {
-                try {
-                    user.emit(remoteSource.getUserInfo())
-                    break
-                } catch (e: AuthException) {
-                    if (!refreshSession()) break@loop
-                }
+            try {
+                user.emit(remoteSource.getUserInfo())
+            } catch (e: Exception) {
+                Log.e("Error", e.toString())
+                user.emit(null)
             }
         }
     }
 
-    private suspend fun refreshSession(): Boolean {
-        try {
-            remoteSource.refreshSession()
-            return true
-        } catch (e: Exception) {
-            user.emit(null)
-            return false
-        }
-    }
-
-    override suspend fun listenAuthState(): MutableStateFlow<User?> {
+    override suspend fun listenToUser(): MutableStateFlow<User?> {
         return user
-    }
-
-    override suspend fun isLoggedIn(): Boolean {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun isPremium(): Boolean {
-        TODO("Not yet implemented")
     }
 
     override suspend fun signUp(email: String, password: String) {
         return remoteSource.signUp(email, password)
     }
 
-    override suspend fun signInEmail(email: String, password: String) {
-        remoteSource.signInEmail(email, password)
+    override suspend fun signIn(email: String, password: String) {
+        remoteSource.signIn(email, password)
         getCurrentUser()
     }
 
-    override suspend fun signInGoogle(idToken: String, callback: (isLoggedIn: Boolean) -> Unit) {
+    override suspend fun signOut() {
+        remoteSource.signOut()
+    }
+
+    override suspend fun listenToUserRecipes(): MutableStateFlow<ArrayList<Recipe>> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun restorePassword(email: String, callback: (isReset: Boolean) -> Unit) {
-        TODO("Not yet implemented")
+    override suspend fun getRecipes(): ArrayList<Recipe> {
+        return remoteSource.getRecipes()
     }
 
-    override suspend fun logout() {
-        TODO("Not yet implemented")
+    override suspend fun addRecipe(recipe: Recipe) : Int {
+        return remoteSource.addRecipe(recipe)
     }
 
-    override suspend fun buyPremium(donation_type: String, activity: AppCompatActivity) {
-        TODO("Not yet implemented")
+    override suspend fun updateRecipe(recipe: Recipe) {
+        remoteSource.updateRecipe(recipe)
     }
 
-    override suspend fun getRecipes(): List<BaseRecipe> {
-        return recipesSource.getRecipes()
+    override suspend fun deleteRecipe(recipe: Recipe) {
+        remoteSource.deleteRecipe(recipe)
     }
 
-    override suspend fun addRecipe(recipe: BaseRecipe) {
-        TODO("Not yet implemented")
+    override suspend fun setRecipeFavouriteStatus(recipe: Recipe) {
+        remoteSource.setRecipeFavouriteStatus(recipe)
     }
 
-    override suspend fun updateRecipe(recipe: BaseRecipe) {
-        TODO("Not yet implemented")
+    override suspend fun getCategories(): ArrayList<Category> {
+        return remoteSource.getCategories()
     }
 
-    override suspend fun deleteRecipe(recipeId: Int) {
-        TODO("Not yet implemented")
+    override suspend fun addCategory(category: Category) : Int {
+        return remoteSource.addCategory(category)
     }
 
-    override suspend fun setRecipeFavoriteStatus(recipe: BaseRecipe) {
-        TODO("Not yet implemented")
+    override suspend fun updateCategory(category: Category) {
+        return remoteSource.updateCategory(category)
     }
 
-    override suspend fun addToShoppingList(items: ArrayList<String>) {
-        TODO("Not yet implemented")
+    override suspend fun deleteCategory(category: Category) {
+        return remoteSource.deleteCategory(category)
+    }
+
+    override suspend fun getShoppingList(): ArrayList<Selectable<String>> {
+        return remoteSource.getShoppingList()
+    }
+
+    override suspend fun setShoppingList(shoppingList: ArrayList<Selectable<String>>) {
+        return remoteSource.setShoppingList(shoppingList)
+    }
+
+    override suspend fun addToShoppingList(shoppingList: ArrayList<Selectable<String>>) {
+        return remoteSource.addToShoppingList(shoppingList)
     }
 }

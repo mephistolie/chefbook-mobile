@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginBottom="36dp"
-            android:text="@string/_15_min"
+            android:text="@string/minutes"
             android:textColor="@color/navigation_ripple"
             android:textSize="24sp" />
 

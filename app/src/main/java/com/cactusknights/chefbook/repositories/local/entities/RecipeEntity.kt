@@ -11,11 +11,11 @@ import java.util.*
 @TypeConverters(RoomConverters::class)
 data class RecipeEntity constructor(
 
-    @PrimaryKey @SerializedName("recipe_id")
+    @PrimaryKey(autoGenerate = true) @SerializedName("recipe_id")
     var id: Int,
 
     @SerializedName("remote_id")
-    var remoteId: Int,
+    var remoteId: Int? = null,
 
     var name: String,
 
@@ -53,7 +53,7 @@ data class RecipeEntity constructor(
     }
 }
 
-fun RecipeEntity.toRecipe(): BaseRecipe {
+fun RecipeEntity.toRecipe(): Recipe {
     return if (isEncrypted)
         EncryptedRecipe(
             id = id,
@@ -71,7 +71,7 @@ fun RecipeEntity.toRecipe(): BaseRecipe {
             updateTimestamp = updateTimestamp
         )
     else
-        Recipe(
+        DecryptedRecipe(
             id = id,
             name = name,
             isOwned = isOwned,
@@ -80,15 +80,15 @@ fun RecipeEntity.toRecipe(): BaseRecipe {
             servings = servings,
             time = time,
             calories = calories,
-            ingredients = RoomConverters.toSelectableList(ingredients),
-            cooking = RoomConverters.toSelectableList(cooking),
+            ingredients = RoomConverters.toMarkdownString(ingredients),
+            cooking = RoomConverters.toMarkdownString(cooking),
             visibility = visibility,
             creationTimestamp = creationTimestamp,
             updateTimestamp = updateTimestamp
         )
 }
 
-fun BaseRecipe.toRecipeEntity(): RecipeEntity {
+fun Recipe.toRecipeEntity(): RecipeEntity {
     return RecipeEntity(
         id = id,
         remoteId = remoteId,

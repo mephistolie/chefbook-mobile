@@ -1,40 +1,40 @@
 package com.cactusknights.chefbook.screens.main
 
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.cactusknights.chefbook.R
 import com.cactusknights.chefbook.databinding.ActivityMainBinding
-import com.cactusknights.chefbook.legacy.dialogs.SettingsDialog
-import com.cactusknights.chefbook.legacy.fragments.CategoriesFragment
-import com.cactusknights.chefbook.legacy.fragments.ShoppingListFragment
+import com.cactusknights.chefbook.screens.main.dialogs.SettingsDialog
+import com.cactusknights.chefbook.screens.categories.CategoriesFragment
 import com.cactusknights.chefbook.screens.auth.AuthActivity
-import com.cactusknights.chefbook.screens.auth.AuthActivityState
-import com.cactusknights.chefbook.screens.main.fragments.DashboardFragment
+import com.cactusknights.chefbook.screens.favourite.FavouriteRecipesFragment
+import com.cactusknights.chefbook.screens.recipes.DashboardFragment
+import com.cactusknights.chefbook.screens.favourite.RecipesInCategoryFragment
+import com.cactusknights.chefbook.screens.shoppinglist.ShoppingListFragment
 import com.google.android.material.navigation.NavigationBarView
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import java.io.File
-import javax.inject.Inject
 
 @AndroidEntryPoint
-class MainActivity(): AppCompatActivity() {
+class MainActivity : AppCompatActivity() {
+
+    companion object {
+        const val RECIPES_TAB_ID = 1
+    }
 
     val viewModel: MainActivityViewModel by viewModels()
     private val fragmentManager: FragmentManager = supportFragmentManager
-    private val innerFragments = arrayListOf("Favourite", "Categories", "Recipes in Category")
-
-    private lateinit var state: StateFlow<MainActivityState>
 
     private lateinit var binding: ActivityMainBinding
 
@@ -44,33 +44,15 @@ class MainActivity(): AppCompatActivity() {
         setContentView(binding.root)
 
         if (savedInstanceState != null) {
-            val savedFragment = supportFragmentManager.getFragment(savedInstanceState, "savedFragment")
-            if (savedFragment != null) {
-                val savedSectionName = savedInstanceState.getString("sectionName", resources.getString(R.string.recipes))
-                val tag = savedFragment.tag!!
-                when (savedFragment.tag) {
-                    "Favourite" -> { setTopMenu(resources.getString(R.string.favourite), true) }
-                    "Categories" -> { setTopMenu(resources.getString(R.string.categories), true) }
-                    "Recipes in Category" -> { setTopMenu(savedSectionName, true) }
-                }
-                setFragment(savedFragment, R.anim.zoom_in_show, R.anim.zoom_in_hide, tag)
-            } else { setStartFragment() }
-        } else { setStartFragment() }
+            viewModel.restoreState(savedInstanceState.get("state") as MainActivityState)
+        }
 
         val navigation = NavigationBarView.OnItemSelectedListener { item ->
-            val shoppingListFragment = fragmentManager.findFragmentByTag("Shopping List")
-            val recipesFragment = fragmentManager.findFragmentByTag("Recipes")
-            if (item.itemId == R.id.shopping_list && (shoppingListFragment == null || !shoppingListFragment.isVisible)) {
-                setTopMenu(resources.getString(R.string.shopping_list))
-                setFragment(ShoppingListFragment(), R.anim.swipe_right_show, R.anim.swipe_right_hide, "Shopping List")
-            } else if (item.itemId == R.id.recipes && (recipesFragment == null || !recipesFragment.isVisible)) {
-                setTopMenu()
-                if (shoppingListFragment != null && shoppingListFragment.isVisible) setFragment(
-                    DashboardFragment(), R.anim.swipe_left_show, R.anim.swipe_left_hide, "Recipes")
-                else setFragment(DashboardFragment(), R.anim.zoom_out_show, R.anim.zoom_out_hide, "Recipes")
-            }
+            if (item.itemId == R.id.shopping_list) { viewModel.openFragment(DashboardFragments.SHOPPING_LIST) }
+            else if (item.itemId == R.id.recipes) { viewModel.openFragment(DashboardFragments.RECIPES) }
             true
         }
+
         binding.nvNavigation.setOnItemSelectedListener(navigation)
         binding.btnLeft.setOnClickListener { onBackPressed() }
         binding.btnRight.setOnClickListener { onRightPressed() }
@@ -79,72 +61,66 @@ class MainActivity(): AppCompatActivity() {
         val legacyDatabase = File(filesDir, "../databases/ChefBookDB")
 //        if (File(filesDir, "../databases/ChefBookDB").exists())
 //            FirebaseAuthRepository.migrateToFirebase(legacyDatabase, this)
-    }
 
-    override fun onStart() {
-        super.onStart()
-        state = viewModel.state
         lifecycleScope.launch {
-            state.collect { currentState ->
-                if (!currentState.isLoggedIn) startLoginActivity()
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.state.collect { currentState ->
+                    if (currentState.user == null) startLoginActivity()
+                    renderFragment(currentState)
+                }
             }
         }
     }
 
-//    override fun onDestroy() {
-////        userViewModel.stopListeningToUpdates()
-//        super.onDestroy()
-//    }
-
-//    override fun onSaveInstanceState(outState: Bundle) {
-////        for (fragment in fragmentManager.fragments) {
-////            if (fragment != null && fragment.isVisible) {
-////                fragmentManager.putFragment(outState, "savedFragment", fragment)
-////                outState.putString("sectionName", binding.textSection.text.toString())
-////            }
-////        }
-//        super.onSaveInstanceState(outState)
-//    }
-
-    private fun setStartFragment() {
-        setFragment(DashboardFragment(), R.anim.zoom_in_show, R.anim.zoom_in_hide,"Recipes")
-        binding.nvNavigation.selectedItemId = R.id.recipes
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putSerializable("state", viewModel.state.value)
+        super.onSaveInstanceState(outState)
     }
 
-    fun setFragment(fragment: Fragment, startAnimation: Int, endAnimation: Int, tag: String = "") {
-        fragmentManager.beginTransaction()
-            .setCustomAnimations(startAnimation, endAnimation)
-            .replace(R.id.cv_content, fragment, tag)
-            .commit()
-    }
+    private fun renderFragment(state: MainActivityState) {
+        if (state.currentFragment != state.previousFragment) {
+            var fragment = Fragment(); var startAnimation = R.anim.zoom_in_show; var endAnimation = R.anim.zoom_in_hide
+            when (state.currentFragment) {
+                DashboardFragments.RECIPES -> {
+                    fragment = DashboardFragment()
+                    if (state.previousFragment == DashboardFragments.SHOPPING_LIST) {
+                        startAnimation = R.anim.swipe_left_show; endAnimation = R.anim.swipe_left_hide
+                    } else if (state.previousFragment != null) {
+                        startAnimation = R.anim.zoom_out_show; endAnimation = R.anim.zoom_out_hide
+                    }
+                }
+                DashboardFragments.SHOPPING_LIST -> {
+                    fragment = ShoppingListFragment(); startAnimation = R.anim.swipe_right_show; endAnimation = R.anim.swipe_right_hide }
+                DashboardFragments.FAVOURITE -> { fragment = FavouriteRecipesFragment() }
+                DashboardFragments.CATEGORIES -> { fragment = CategoriesFragment()
+                    if (state.previousFragment == DashboardFragments.RECIPES_IN_CATEGORY) { startAnimation = R.anim.zoom_out_show; endAnimation = R.anim.zoom_out_hide }
+                }
+                DashboardFragments.RECIPES_IN_CATEGORY -> { fragment = RecipesInCategoryFragment() }
+            }
 
-    fun setTopMenu(title: String = resources.getString(R.string.recipes),
-                           isLeftVisible: Boolean = false) {
-        binding.textSection.text = title
-        if (isLeftVisible) {
-            binding.btnLeft.visibility = View.VISIBLE
-        } else {
-            binding.btnLeft.visibility = View.INVISIBLE
+            fragmentManager.beginTransaction()
+                .setCustomAnimations(startAnimation, endAnimation)
+                .replace(R.id.cv_content, fragment, state.currentFragment.name.lowercase())
+                .commit()
+
+            if (state.previousFragment == null && state.currentFragment == DashboardFragments.RECIPES) binding.nvNavigation.menu[RECIPES_TAB_ID].isChecked = true
+            binding.textSection.text = resources.getString(state.currentFragment.titleId())
+            if (state.currentFragment == DashboardFragments.RECIPES_IN_CATEGORY) binding.textSection.text = state.currentCategory?.name
+            binding.btnLeft.visibility = if (state.currentFragment in
+                arrayListOf(DashboardFragments.SHOPPING_LIST, DashboardFragments.RECIPES)) View.INVISIBLE else View.VISIBLE
         }
     }
 
     private fun onRightPressed() { SettingsDialog().show(fragmentManager, "Settings") }
 
     override fun onBackPressed() {
-        for (fragment in innerFragments) {
-            val currentFragment = fragmentManager.findFragmentByTag(fragment)
-            if (currentFragment != null && currentFragment.isVisible) {
-                if (fragment == "Recipes in Category") {
-                    setTopMenu(resources.getString(R.string.categories), true)
-                    setFragment(CategoriesFragment(), R.anim.zoom_out_show, R.anim.zoom_out_hide, "Categories")
-                } else {
-                    setTopMenu()
-                    setFragment(DashboardFragment(), R.anim.zoom_out_show, R.anim.zoom_out_hide, "Recipes")
-                }
-                return
-            }
-        }
-        super.onBackPressed()
+        if (viewModel.state.value.currentFragment == DashboardFragments.FAVOURITE
+            || viewModel.state.value.currentFragment == DashboardFragments.CATEGORIES
+        ) {
+            viewModel.openFragment(DashboardFragments.RECIPES)
+        } else if (viewModel.state.value.currentFragment == DashboardFragments.RECIPES_IN_CATEGORY) {
+            viewModel.openFragment(DashboardFragments.CATEGORIES)
+        } else super.onBackPressed()
     }
 
     private fun startLoginActivity() {

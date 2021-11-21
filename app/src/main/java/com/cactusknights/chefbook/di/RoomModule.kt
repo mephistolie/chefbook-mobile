@@ -3,7 +3,6 @@ package com.cactusknights.chefbook.di
 import android.content.Context
 import androidx.room.Room
 import com.cactusknights.chefbook.common.ChefBookDatabase
-import com.cactusknights.chefbook.repositories.local.LocalDataSource
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -23,8 +22,4 @@ class RoomModule {
             ChefBookDatabase::class.java,
             "chefbook_database"
         ).build()
-
-    @Provides
-    @Singleton
-    fun provideLocalDataSource(roomDatabase: ChefBookDatabase) = LocalDataSource(roomDatabase.chefBookDao())
 }

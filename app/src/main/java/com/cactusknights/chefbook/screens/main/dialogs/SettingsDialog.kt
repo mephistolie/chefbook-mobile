@@ -1,0 +1,80 @@
+package com.cactusknights.chefbook.screens.main.dialogs
+
+import android.app.AlertDialog
+import android.app.Dialog
+import android.content.SharedPreferences
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
+import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.activityViewModels
+import com.cactusknights.chefbook.R
+import com.cactusknights.chefbook.databinding.DialogSettingsBinding
+import com.cactusknights.chefbook.common.ConfirmDialog
+import com.cactusknights.chefbook.legacy.helpers.showToast
+import com.cactusknights.chefbook.screens.main.MainActivityViewModel
+import com.google.android.play.core.review.ReviewManagerFactory
+
+class SettingsDialog: DialogFragment() {
+
+    private val viewModel by activityViewModels<MainActivityViewModel>()
+    private lateinit var sp: SharedPreferences
+
+    private lateinit var binding: DialogSettingsBinding
+
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+
+        sp = requireActivity().getSharedPreferences("ChefBook", AppCompatActivity.MODE_PRIVATE)
+
+        binding = DialogSettingsBinding.inflate(requireActivity().layoutInflater)
+        val dialog = AlertDialog.Builder(context)
+            .setView(binding.root).create()
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        // val displayName = viewModel.getCurrentUser()?.name.toString()
+        // binding.textUser.text = if (displayName.isNotEmpty()) displayName else viewModel.getCurrentUser()?.email.toString()
+
+        binding.switchShoppingListDefault.isChecked = sp.getBoolean("shoppingListIsDefault", false)
+        binding.switchShoppingListDefault.setOnClickListener {
+            sp.edit().putBoolean("shoppingListIsDefault", !sp.getBoolean("shoppingListIsDefault", false)).apply()
+        }
+
+        // val currentUser = viewModel.getCurrentUser()
+        //if (currentUser != null /*&& currentUser.isPremium*/) {
+//            binding.imagePremium.visibility = View.VISIBLE
+//        }
+
+        binding.llAbout.setOnClickListener {
+            AboutDialog().show(requireActivity().supportFragmentManager, "About")
+            dialog.dismiss()
+        }
+        binding.llDonate.setOnClickListener {
+            DonateDialog().show(requireActivity().supportFragmentManager, "Donate")
+            dialog.dismiss()
+        }
+        binding.llRate.setOnClickListener {
+            requestReviewFlow()
+        }
+        binding.btnLogout.setOnClickListener {
+            ConfirmDialog { viewModel.signOut() }.show(requireActivity().supportFragmentManager, "Confirm")
+        }
+
+        return dialog
+    }
+
+    private fun requestReviewFlow() {
+        val reviewManager = ReviewManagerFactory.create(requireContext())
+        val requestReviewFlow = reviewManager.requestReviewFlow()
+        requestReviewFlow.addOnCompleteListener { request ->
+            if (request.isSuccessful) {
+                val reviewInfo = request.result
+                val flow = reviewManager.launchReviewFlow(requireActivity(), reviewInfo)
+                flow.addOnCompleteListener { task ->
+                    if (task.isSuccessful)
+                        requireContext().showToast(R.string.rate_gratitude)
+                }
+            }
+        }
+    }
+}

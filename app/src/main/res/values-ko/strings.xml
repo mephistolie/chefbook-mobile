@@ -17,7 +17,7 @@
     <string name="password_mismatch">비밀번호가 일치하지 않습니다</string>
     <string name="space_password">비밀번호는 공백을 포함할 수 없습니다.</string>
     <string name="invalid_email">정확한 이메일을 입력하세요</string>
-    <string name="signup_successfully">성공적으로 가입했습니다</string>
+    <string name="signup_successfully">유효성 검사 이메일이 주소로 전송되었습니다.</string>
     <string name="signup_failed">가입 실패. 이미 회원이신가요?</string>
     <string name="reset_password_successfully">비밀번호 재설정 링크가 이메일로 전송되었습니다.</string>
     <string name="reset_password_failed">비밀번호 재설정에 실패했습니다. 다시 시도하십시오</string>
@@ -101,6 +101,5 @@
     <string name="recipes_limit">15 개 이상의 조리법을 추가하려면 프리미엄을 구입하십시오</string>
     <string name="rate_gratitude">검토 주셔서 감사합니다!</string>
     <string name="rate_app">속도 ChefBook</string>
-    <string name="_15_min">15 분</string>
     <string name="type_something">뭔가 쓰기…</string>
 </resources>

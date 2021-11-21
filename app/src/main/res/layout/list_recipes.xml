@@ -12,7 +12,7 @@
         android:layout_height="match_parent"
         android:foreground="?android:attr/selectableItemBackground"
         app:cardBackgroundColor="@color/navigation_background"
-        app:cardCornerRadius="8dp"
+        app:cardCornerRadius="16dp"
         app:cardElevation="0dp"
         card_view:cardElevation="0dp">
 
@@ -80,7 +80,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_weight="2"
                     android:gravity="end|bottom"
-                    android:text="@string/_15_min"
+                    android:text="@string/minutes"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small" />
 
                 <ImageView

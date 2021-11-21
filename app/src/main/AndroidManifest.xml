@@ -24,9 +24,9 @@
             android:noHistory="true"
             android:excludeFromRecents="true"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
-        <activity android:name="com.cactusknights.chefbook.legacy.activities.RecipeCommitActivity"
+        <activity android:name="com.cactusknights.chefbook.screens.recipeinput.RecipeInputActivity"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
-        <activity android:name="com.cactusknights.chefbook.legacy.activities.RecipeActivity" />
+        <activity android:name="com.cactusknights.chefbook.screens.recipe.RecipeActivity" />
 
         <meta-data
             android:name="preloaded_fonts"

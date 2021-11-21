@@ -7,10 +7,11 @@
     <data>
 
         <import type="android.view.View" />
+        <import type="com.cactusknights.chefbook.models.MarkdownTypes"/>
 
         <variable
             name="selectable_item"
-            type="com.cactusknights.chefbook.models.Selectable&lt;String>" />
+            type="com.cactusknights.chefbook.models.MarkdownString" />
     </data>
 
     <LinearLayout
@@ -28,7 +29,7 @@
             android:layout_marginEnd="8dp"
             android:button="@drawable/selector_checkbox"
             android:src="@drawable/ic_add"
-            android:visibility="@{selectable_item.isSelected? View.GONE:View.VISIBLE}"
+            android:visibility="@{selectable_item.type == MarkdownTypes.HEADER ? View.GONE:View.VISIBLE}"
             app:tint="@color/deep_orange_light" />
 
         <TextView
@@ -37,9 +38,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:fontFamily="@font/comfortaa_bold"
-            android:text="@{selectable_item.item}"
             android:textSize="22sp"
-            app:isSection="@{selectable_item.isSelected}" />
+            app:isSection="@{selectable_item}" />
 
     </LinearLayout>
 

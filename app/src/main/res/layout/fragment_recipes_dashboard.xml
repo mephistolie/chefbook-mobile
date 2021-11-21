@@ -12,7 +12,6 @@
         android:animateLayoutChanges="true"
         android:foregroundGravity="top"
         android:orientation="vertical"
-        android:requiresFadingEdge="vertical"
         android:scrollbars="none"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -63,88 +62,155 @@
                 android:id="@+id/ll_functions"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="16dp"
                 android:orientation="horizontal"
-                android:weightSum="3">
+                android:weightSum="4">
 
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/btn_add_recipe"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="4dp"
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/ll_add_recipe"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
                     android:layout_weight="1"
-                    android:background="@android:color/transparent"
-                    android:backgroundTint="@color/navigation_background"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:foreground="?android:attr/selectableItemBackground"
-                    app:cardCornerRadius="16dp"
-                    app:cardElevation="0dp">
+                    android:gravity="center">
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/btn"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:background="@android:color/transparent"
+                        android:backgroundTint="#3f80e27e"
+                        android:clickable="false"
+                        android:focusable="true"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        app:cardCornerRadius="16dp"
+                        android:layout_marginBottom="2dp"
+                        app:cardElevation="0dp">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_add"
+                            app:tint="#80e27e" />
+
+                    </androidx.cardview.widget.CardView>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:maxLines="1"
-                        android:paddingVertical="16dp"
-                        android:text="@string/add"
-                        android:textColor="@color/monochrome_invert"
-                        app:drawableTint="@color/deep_orange_light"
-                        app:drawableTopCompat="@drawable/ic_add"
-                        tools:ignore="MissingPrefix" />
+                        android:text="@string/add"/>
 
-                </androidx.cardview.widget.CardView>
+                </androidx.appcompat.widget.LinearLayoutCompat>
 
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/btn_favourite"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="4dp"
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/ll_favourite"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
                     android:layout_weight="1"
-                    android:backgroundTint="@color/navigation_background"
-                    android:foreground="?android:attr/selectableItemBackground"
-                    app:cardCornerRadius="16dp"
-                    app:cardElevation="0dp">
+                    android:gravity="center">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:background="@android:color/transparent"
+                        android:backgroundTint="#3fff7961"
+                        android:clickable="false"
+                        android:focusable="true"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        app:cardCornerRadius="16dp"
+                        android:layout_marginBottom="2dp"
+                        app:cardElevation="0dp">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_favorite"
+                            app:tint="#ff7961" />
+
+                    </androidx.cardview.widget.CardView>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:maxLines="1"
-                        android:paddingVertical="16dp"
-                        android:text="@string/favourite"
-                        android:textColor="@color/monochrome_invert"
-                        app:drawableTint="@color/deep_orange_light"
-                        app:drawableTopCompat="@drawable/ic_favorite"
-                        tools:ignore="MissingPrefix" />
+                        android:text="@string/favourite"/>
 
-                </androidx.cardview.widget.CardView>
+                </androidx.appcompat.widget.LinearLayoutCompat>
 
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/btn_categories"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/ll_categories"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
                     android:layout_weight="1"
-                    android:backgroundTint="@color/navigation_background"
-                    android:foreground="?android:attr/selectableItemBackground"
-                    app:cardCornerRadius="16dp"
-                    app:cardElevation="0dp">
+                    android:gravity="center">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:background="@android:color/transparent"
+                        android:backgroundTint="#3fFF8A50"
+                        android:clickable="false"
+                        android:focusable="true"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        app:cardCornerRadius="16dp"
+                        android:layout_marginBottom="2dp"
+                        app:cardElevation="0dp">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_categories"
+                            app:tint="@color/deep_orange_light" />
+
+                    </androidx.cardview.widget.CardView>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:maxLines="1"
-                        android:paddingVertical="16dp"
-                        android:text="@string/categories"
-                        android:textColor="@color/monochrome_invert"
-                        app:drawableTint="@color/deep_orange_light"
-                        app:drawableTopCompat="@drawable/ic_categories"
-                        tools:ignore="MissingPrefix" />
+                        android:text="@string/categories"/>
 
-                </androidx.cardview.widget.CardView>
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/ll_online"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_weight="1"
+                    android:gravity="center">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:background="@android:color/transparent"
+                        android:backgroundTint="#3f6ec6ff"
+                        android:clickable="false"
+                        android:focusable="true"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        app:cardCornerRadius="16dp"
+                        android:layout_marginBottom="2dp"
+                        app:cardElevation="0dp">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_online"
+                            app:tint="#6ec6ff" />
+
+                    </androidx.cardview.widget.CardView>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/online"/>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
 
             </LinearLayout>
 

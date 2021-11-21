@@ -160,6 +160,29 @@
                 android:contentDescription="@string/google"
                 android:src="@drawable/ic_google"
                 app:backgroundTint="@color/input_background"
+                app:elevation="0dp"
+                app:fabSize="mini"
+                app:tint="@color/secondary_text_tint" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/btn_apple"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/google"
+                android:src="@drawable/ic_apple"
+                app:backgroundTint="@color/input_background"
+                app:elevation="0dp"
+                app:fabSize="mini"
+                app:tint="@color/secondary_text_tint" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/btn_vk"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/google"
+                android:src="@drawable/ic_vk"
+                app:backgroundTint="@color/input_background"
+                app:elevation="0dp"
                 app:fabSize="mini"
                 app:tint="@color/secondary_text_tint" />
 

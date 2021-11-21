@@ -7,4 +7,6 @@ object Constants {
 
     const val ACCESS_TOKEN = "ACCESS_TOKEN"
     const val REFRESH_TOKEN = "REFRESH_TOKEN"
+
+    const val SHOPPING_LIST_BY_DEFAULT = "SHOPPING_LIST_BY_DEFAULT"
 }

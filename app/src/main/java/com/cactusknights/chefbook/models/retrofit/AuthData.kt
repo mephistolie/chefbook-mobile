@@ -7,7 +7,12 @@ data class AuthData (
     var password: String = ""
 )
 
-data class SignUpResponse (
+data class IdResponse (
+    var id: Int = -1,
+    var message: String = ""
+)
+
+data class MessageResponse (
     var id: String = "",
     var message: String = ""
 )

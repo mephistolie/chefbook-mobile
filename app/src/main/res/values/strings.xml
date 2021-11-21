@@ -17,7 +17,6 @@
     <string name="password_mismatch">Passwords don\'t match</string>
     <string name="space_password">Password mustn\'t contain spaces</string>
     <string name="invalid_email">Type correct email</string>
-    <string name="signup_successfully">Signed up successfully</string>
     <string name="signup_failed">Sign up failed. Are you already a member?</string>
     <string name="reset_password_successfully">Password Reset link was sent to email</string>
     <string name="reset_password_failed">Password Reset failed. Try again</string>
@@ -62,7 +61,8 @@
     <string name="all_recipes">All Recipes</string>
     <string name="nothing_to_show">Nothing to show</string>
     <string name="category">Category</string>
-    <string name="_15_min">15 min</string>
+    <string name="minutes">min</string>
+    <string name="hours">h</string>
     <string name="uncategorized">Uncategorized</string>
     <string name="item">Item</string>
     <string name="step_number" translatable="false">1.</string>
@@ -111,4 +111,10 @@
     <string name="rate_gratitude">Thanks for review!</string>
     <string name="type_something">Type something…</string>
     <string name="server_unavailable">Couldn\'t reach server. Check your internet connection.</string>
+    <string name="private_recipe">PRIVATE</string>
+    <string name="shared_recipe">SHARED</string>
+    <string name="public_recipe">PUBLIC</string>
+    <string name="online">Online</string>
+    <string name="signup_successfully">Validation email has been sent to address.</string>
+    <string name="delete_purchased">Delete Purchased</string>
 </resources>

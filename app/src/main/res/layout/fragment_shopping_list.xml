@@ -4,14 +4,29 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:animateLayoutChanges="true"
     android:orientation="vertical"
     android:requiresFadingEdge="vertical"
     android:scrollbars="none">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:animateLayoutChanges="true">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_delete_purchased"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:layout_marginTop="16dp"
+            android:background="#00000000"
+            android:visibility="invisible"
+            android:foregroundTint="@color/deep_orange_light"
+            android:paddingHorizontal="16dp"
+            android:text="@string/delete_purchased"
+            android:textColor="@color/deep_orange_light"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_content"
@@ -22,9 +37,9 @@
             android:nestedScrollingEnabled="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_delete_purchased"
             tools:itemCount="5"
-            tools:listitem="@layout/list_shopping">
+            tools:listitem="@layout/list_purchase">
 
         </androidx.recyclerview.widget.RecyclerView>
 

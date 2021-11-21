@@ -6,7 +6,7 @@
     android:layout_marginStart="8dp"
     android:foreground="?android:attr/selectableItemBackground"
     app:cardBackgroundColor="@color/input_background"
-    app:cardCornerRadius="8dp"
+    app:cardCornerRadius="16dp"
     app:cardElevation="0dp">
 
     <LinearLayout
@@ -74,7 +74,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:gravity="start|bottom"
-                android:text="@string/_15_min"
+                android:text="@string/minutes"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="@color/recently_added_subtext" />
 

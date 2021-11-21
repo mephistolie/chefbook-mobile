@@ -16,7 +16,7 @@
     <string name="number_password">パスワードには少なくとも1桁の数字が含まれている必要があります</string>
     <string name="password_mismatch">パスワードが一致しません</string>
     <string name="space_password">パスワードにスペースを含めることはできません</string>
-    <string name="signup_successfully">サインアップに成功しました</string>
+    <string name="signup_successfully">検証メールがアドレスに送信されました。</string>
     <string name="invalid_email">正しいメールアドレスを入力してください</string>
     <string name="signup_failed">サインアップに失敗しました。 あなたはすでにメンバーですか?</string>
     <string name="reset_password_successfully">パスワードリセットリンクがメールに送信されました</string>
@@ -61,7 +61,6 @@
     <string name="all_recipes">すべてのレシピ</string>
     <string name="nothing_to_show">表示するものはありません</string>
     <string name="category">カテゴリー</string>
-    <string name="_15_min">15分</string>
     <string name="uncategorized">未分類</string>
     <string name="item">項目</string>
     <string name="step">ステップ</string>

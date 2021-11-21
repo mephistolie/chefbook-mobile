@@ -22,15 +22,24 @@ android {
 
     buildTypes {
         getByName("release") {
-            isMinifyEnabled = true
-            isShrinkResources = true
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+//            isMinifyEnabled = true
+//            isShrinkResources = true
+//            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+
+    buildFeatures {
+        compose = true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.1.0-beta03"
+    }
+
     kotlinOptions {
         jvmTarget = "1.8"
     }
@@ -42,16 +51,19 @@ android {
 }
 dependencies {
 
-    val hiltVersion = "2.40"
-    val roomVersion = "2.3.0"
+    val composeVersion = "1.0.5"
 
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.5.30")
+    val hiltVersion = "2.40"
+    val roomVersion = "2.4.0-beta01"
+
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.5.31")
     implementation("org.jetbrains.kotlin:kotlin-stdlib:1.5.31")
     implementation("androidx.core:core-ktx:1.7.0")
     implementation("androidx.appcompat:appcompat:1.3.1")
     implementation("androidx.activity:activity-ktx:1.4.0")
     implementation("androidx.fragment:fragment-ktx:1.3.6")
-    implementation("com.google.android.material:material:1.5.0-alpha05")
+    implementation("androidx.work:work-runtime:2.7.0")
+    implementation("com.google.android.material:material:1.5.0-beta01")
     implementation("androidx.constraintlayout:constraintlayout:2.1.1")
     implementation("com.google.firebase:firebase-firestore:24.0.0")
     implementation("com.google.firebase:firebase-auth:21.0.1")
@@ -66,7 +78,7 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.3")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
-    implementation("org.jetbrains.kotlin:kotlin-reflect:1.5.21")
+    implementation("org.jetbrains.kotlin:kotlin-reflect:1.5.31")
 
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
@@ -80,6 +92,12 @@ dependencies {
     implementation("androidx.room:room-runtime:$roomVersion")
     implementation("androidx.room:room-ktx:$roomVersion")
     kapt("androidx.room:room-compiler:$roomVersion")
+
+    implementation("androidx.compose.ui:ui:$composeVersion")
+    implementation("androidx.compose.ui:ui-tooling:$composeVersion")
+    implementation("androidx.compose.material:material:$composeVersion")
+
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.4.0")
 }
 
 kapt {

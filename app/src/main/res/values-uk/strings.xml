@@ -17,7 +17,7 @@
     <string name="password_mismatch">Паролі не збігаються</string>
     <string name="space_password">Пароль не повинен містити пробіли</string>
     <string name="invalid_email">Введіть коректну пошту</string>
-    <string name="signup_successfully">Реєстрація пройшла успішно</string>
+    <string name="signup_successfully">Лист з підтвердженням реєстрації відправлено на пошту.</string>
     <string name="signup_failed">Реєстрація не вдалася. Можливо, вже зареєстровані?</string>
     <string name="reset_password_successfully">Посилання на скидання пароль відправлена на пошту</string>
     <string name="reset_password_failed">Скидання пароля не вдалося. Спробуйте знову</string>
@@ -61,7 +61,6 @@
     <string name="all_recipes">Всі рецепти</string>
     <string name="nothing_to_show">Список порожній</string>
     <string name="category">Категорія</string>
-    <string name="_15_min">15 хв</string>
     <string name="uncategorized">Без категорій</string>
     <string name="item">Покупка</string>
     <string name="step">Крок</string>

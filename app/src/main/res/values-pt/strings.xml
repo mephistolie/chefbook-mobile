@@ -17,7 +17,7 @@
     <string name="password_mismatch">As senhas não coincidem</string>
     <string name="space_password">A senha não deve conter espaços</string>
     <string name="invalid_email">Digite o e-mail correto</string>
-    <string name="signup_successfully">Inscrito com sucesso</string>
+    <string name="signup_successfully">Uma carta de confirmação de registro foi enviada para o correio.</string>
     <string name="signup_failed">A inscrição falhou. Você já é um membro?</string>
     <string name="reset_password_successfully">O link de redefinição de senha foi enviado para o e-mail</string>
     <string name="reset_password_failed">Falha ao redefinir a senha. Tente novamente</string>
@@ -61,7 +61,6 @@
     <string name="all_recipes">Todas as Receitas</string>
     <string name="nothing_to_show">Nada para mostrar</string>
     <string name="category">Categoria</string>
-    <string name="_15_min">15 min</string>
     <string name="uncategorized">Sem categoria</string>
     <string name="item">Item</string>
     <string name="step">Etapa</string>

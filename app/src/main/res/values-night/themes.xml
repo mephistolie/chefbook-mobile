@@ -13,6 +13,7 @@
         <item name="android:navigationBarColor" tools:targetApi="p">@color/app_background</item>
         <item name="android:windowLightNavigationBar" tools:targetApi="p">true</item>
         <item name="fontFamily">@font/montserrat</item>
+        <item name="elevation">0dp</item>
     </style>
 
 </resources>

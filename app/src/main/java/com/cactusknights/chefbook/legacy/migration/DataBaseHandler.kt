@@ -5,7 +5,7 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import com.cactusknights.chefbook.models.Selectable
-import com.cactusknights.chefbook.models.Recipe
+import com.cactusknights.chefbook.models.DecryptedRecipe
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -78,8 +78,8 @@ open class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DAT
         }
     }
 
-    open fun getData() : ArrayList<Recipe> {
-        val allRecipes : ArrayList<Recipe> = ArrayList()
+    open fun getData() : ArrayList<DecryptedRecipe> {
+        val allRecipes : ArrayList<DecryptedRecipe> = ArrayList()
         val db = this.readableDatabase
         val query = "Select * FROM $TABLE_NAME"
         val result = db.rawQuery(query, null)
@@ -89,18 +89,19 @@ open class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DAT
                 categories.addAll(result.getString(result.getColumnIndexOrThrow(COL_CATEGORIES)).split("@"))
                 val cooking = arrayListOf<Selectable<String>>()
                 cooking.addAll(result.getString(result.getColumnIndexOrThrow(COL_COOKING)).split("@").map { Selectable(it) })
-                val recipe = Recipe(
+                val recipe = DecryptedRecipe(
                     id = 0, name = result.getString(result.getColumnIndexOrThrow(COL_TITLE)).toString(),
                     isFavourite = result.getString(result.getColumnIndexOrThrow(COL_FAVOURITE)).toInt().toBooleanImp(),
                     creationTimestamp = Date(),
-                    categories =  categories,
+//                    categories =  categories,
 
                     servings = result.getString(result.getColumnIndexOrThrow(COL_AMOUNT)).toInt(),
                     time = result.getInt(result.getColumnIndexOrThrow(COL_TIME)),
                     calories = result.getString(result.getColumnIndexOrThrow(COL_CALORICITY)).toInt(),
 
-                    ingredients = getIngredientBySql(result.getString(result.getColumnIndexOrThrow(COL_INGREDIENTS))),
-                    cooking = cooking)
+//                    ingredients = getIngredientBySql(result.getString(result.getColumnIndexOrThrow(COL_INGREDIENTS))),
+//                    cooking = cooking
+                    )
                 allRecipes.add(recipe)
             } while(result.moveToNext())
         }

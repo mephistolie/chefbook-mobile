@@ -9,24 +9,21 @@ import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.cactusknights.chefbook.R
 import com.cactusknights.chefbook.screens.main.MainActivity
 import com.cactusknights.chefbook.databinding.ActivityAuthBinding
-import com.cactusknights.chefbook.legacy.enums.SignStates
 import com.cactusknights.chefbook.legacy.helpers.showToast
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 open class AuthActivity : AppCompatActivity() {
 
-    private val authViewModel: AuthViewModel by viewModels()
-    private lateinit var state: StateFlow<AuthActivityState>
-    private lateinit var message: Flow<Any>
+    private val viewModel: AuthViewModel by viewModels()
 
     private lateinit var binding: ActivityAuthBinding
 
@@ -41,59 +38,51 @@ open class AuthActivity : AppCompatActivity() {
         binding.textAppName.text = chefbookTitle
 
         binding.btnLogin.setOnClickListener {
-            when(state.value.authState) {
-                SignStates.SIGN_IN -> { authViewModel.signIn(binding.inputEmail.text.toString(), binding.inputPassword.text.toString()) }
-                SignStates.SIGN_UP -> { authViewModel.signUp(binding.inputEmail.text.toString(), binding.inputPassword.text.toString()) }
-                else -> { authViewModel.updateState(AuthActivityState(
+            when(viewModel.state.value.authState) {
+                SignStates.SIGN_IN -> { viewModel.signIn(binding.inputEmail.text.toString(), binding.inputPassword.text.toString()) }
+                SignStates.SIGN_UP -> { viewModel.signUp(binding.inputEmail.text.toString(), binding.inputPassword.text.toString(), binding.inputRepeatPassword.text.toString()) }
+                else -> { viewModel.updateState(AuthActivityState(
                     authState = SignStates.RESTORE_PASSWORD,
-                    inProgress = state.value.inProgress))
+                    inProgress = viewModel.state.value.inProgress))
                 }
             }
         }
 
         binding.textSignUp.setOnClickListener {
-            if (state.value.authState == SignStates.SIGN_IN) { authViewModel.updateState(AuthActivityState(
+            if (viewModel.state.value.authState == SignStates.SIGN_IN) { viewModel.updateState(AuthActivityState(
                     authState = SignStates.SIGN_UP,
-                    inProgress = state.value.inProgress))
+                    inProgress = viewModel.state.value.inProgress))
             } else {
-                authViewModel.updateState(AuthActivityState(
+                viewModel.updateState(AuthActivityState(
                     authState = SignStates.SIGN_IN,
-                    inProgress = state.value.inProgress))
+                    inProgress = viewModel.state.value.inProgress))
             }
         }
 
         binding.btnResetPassword.setOnClickListener {
             setRestoreLayout()
-            authViewModel.updateState(AuthActivityState(
+            viewModel.updateState(AuthActivityState(
                 authState = SignStates.RESTORE_PASSWORD,
-                inProgress = state.value.inProgress))
+                inProgress = viewModel.state.value.inProgress))
         }
-    }
 
-    override fun onStart() {
-        super.onStart()
-        state = authViewModel.state
-        message = authViewModel.message
         lifecycleScope.launch {
-
-            launch {
-                message.collect { currentMessage ->
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.state.collect { currentState ->
+                    val currentMessage = viewModel.state.value.message
                     if (currentMessage is String) applicationContext.showToast(currentMessage)
                     else if (currentMessage is Int) applicationContext.showToast(currentMessage)
-                }
-            }
-
-            state.collect { currentState ->
-                when (currentState.authState) {
-                    SignStates.SIGN_UP -> setSignUpLayout()
-                    SignStates.SIGN_IN -> setSignInLayout()
-                    SignStates.RESTORE_PASSWORD -> setRestoreLayout()
-                    else -> {
-                        val intent = Intent(this@AuthActivity, MainActivity::class.java)
-                        startActivity(intent)
+                    when (currentState.authState) {
+                        SignStates.SIGN_UP -> setSignUpLayout()
+                        SignStates.SIGN_IN -> setSignInLayout()
+                        SignStates.RESTORE_PASSWORD -> setRestoreLayout()
+                        else -> {
+                            val intent = Intent(this@AuthActivity, MainActivity::class.java)
+                            startActivity(intent)
+                        }
                     }
+                    updateLoginProgressLayout()
                 }
-                updateLoginProgressLayout()
             }
         }
     }
@@ -135,7 +124,7 @@ open class AuthActivity : AppCompatActivity() {
     }
 
     private fun updateLoginProgressLayout() {
-        binding.btnLogin.visibility = if (state.value.inProgress) View.GONE else View.VISIBLE
-        binding.progressLogin.visibility = if (state.value.inProgress) View.VISIBLE else View.GONE
+        binding.btnLogin.visibility = if (viewModel.state.value.inProgress) View.GONE else View.VISIBLE
+        binding.progressLogin.visibility = if (viewModel.state.value.inProgress) View.VISIBLE else View.GONE
     }
 }

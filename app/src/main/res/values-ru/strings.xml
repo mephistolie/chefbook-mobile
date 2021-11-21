@@ -16,7 +16,7 @@
     <string name="password_mismatch">Пароли не совпадают</string>
     <string name="space_password">Пароль не должен содержать пробелы</string>
     <string name="invalid_email">Введите корректную почту</string>
-    <string name="signup_successfully">Регистрация прошла успешно</string>
+    <string name="signup_successfully">Письмо с подтверждением регистрации отправлено на почту.</string>
     <string name="signup_failed">Регистрация не удалась. Возможно, уже зарегистрированы?</string>
     <string name="reset_password_successfully">Ссылка на сброс пароль отправлена на почту</string>
     <string name="reset_password_failed">Сброс пароля не удался. Попытайтесь снова</string>
@@ -33,7 +33,6 @@
     <string name="calories_kcal">Калорийность:</string>
     <string name="_0_to_hide">0 - скрыть</string>
     <string name="time">Время:</string>
-    <string name="_15_min">15 мин</string>
     <string name="choose_categories">Выбрать категории…</string>
     <string name="ingredients">Ингредиенты</string>
     <string name="ingredient">Ингредиент</string>
@@ -103,4 +102,9 @@
     <string name="rate_gratitude">Спасибо за отзыв!</string>
     <string name="rate_app">Оценить ChefBook</string>
     <string name="type_something">Напишите что-нибудь…</string>
+    <string name="online">Онлайн</string>
+    <string name="public_recipe">ПУБЛИЧНЫЙ</string>
+    <string name="private_recipe">ЛИЧНЫЙ</string>
+    <string name="shared_recipe">СОВМЕСТНЫЙ</string>
+    <string name="delete_purchased">Удалить купленное</string>
 </resources>

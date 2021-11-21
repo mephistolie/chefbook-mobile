@@ -1,6 +1,7 @@
 package com.cactusknights.chefbook.repositories.local.entities
 
 import androidx.room.TypeConverter
+import com.cactusknights.chefbook.models.MarkdownString
 import com.cactusknights.chefbook.models.Selectable
 import com.cactusknights.chefbook.models.Visibility
 import com.google.common.reflect.TypeToken
@@ -37,12 +38,12 @@ class RoomConverters {
             return Visibility.valueOf(visibility)
         }
 
-        fun <T> fromSelectableList(data: List<Selectable<T>>): String {
+        fun fromMarkdownString(data: ArrayList<MarkdownString>): String {
             return Gson().toJson(data)
         }
 
-        fun <T> toSelectableList(data: String): ArrayList<Selectable<T>> {
-            val type: Type = object : TypeToken<Selectable<T>>() {}.type
+        fun toMarkdownString(data: String): ArrayList<MarkdownString> {
+            val type: Type = object : TypeToken<MarkdownString>() {}.type
             return Gson().fromJson(data, type)
         }
     }
