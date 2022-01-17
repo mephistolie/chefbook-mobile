@@ -27,10 +27,22 @@ class AuthUseCases @Inject constructor(
         }
     }
 
-    suspend fun signIn(email: String, password: String): Flow<Result<User>> = flow {
+    suspend fun signIn(email: String, password: String): Flow<Result<Any>> = flow {
         try {
             emit(Result.Loading)
             repository.signIn(email, password)
+            emit(Result.Success(null))
+        } catch (e: HttpException) {
+            emit(Result.Error(e, e.localizedMessage ?: "An unexpected error occured"))
+        } catch (e: IOException) {
+            emit(Result.Error(e))
+        }
+    }
+
+    suspend fun signInLocally(): Flow<Result<Any>> = flow {
+        try {
+            emit(Result.Loading)
+            repository.signInLocally()
             emit(Result.Success(null))
         } catch (e: HttpException) {
             emit(Result.Error(e, e.localizedMessage ?: "An unexpected error occured"))

@@ -1,27 +1,29 @@
 package com.cactusknights.chefbook.repositories.remote.datasources
 
 import android.content.SharedPreferences
-import com.cactusknights.chefbook.common.Constants.ACCESS_TOKEN
-import com.cactusknights.chefbook.common.Constants.REFRESH_TOKEN
+import com.cactusknights.chefbook.base.Constants.ACCESS_TOKEN
+import com.cactusknights.chefbook.base.Constants.REFRESH_TOKEN
+import com.cactusknights.chefbook.common.Utils.clearTokens
+import com.cactusknights.chefbook.common.Utils.processTokenResponse
 import com.cactusknights.chefbook.domain.AuthDataSource
+import com.cactusknights.chefbook.domain.SettingsRepository
+import com.cactusknights.chefbook.models.DataSource
 import com.cactusknights.chefbook.models.User
+import com.cactusknights.chefbook.models.UserType
 import com.cactusknights.chefbook.models.retrofit.AuthData
 import com.cactusknights.chefbook.models.retrofit.RefreshToken
-import com.cactusknights.chefbook.models.retrofit.TokenResponse
 import com.cactusknights.chefbook.repositories.remote.api.SessionApi
 import com.cactusknights.chefbook.repositories.remote.api.ChefBookApi
-import com.cactusknights.chefbook.repositories.remote.dto.toUser
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import okhttp3.Interceptor
 import okhttp3.Request
-import retrofit2.Response
 import java.io.IOException
 import javax.inject.Inject
 
 class RemoteAuthDataSource @Inject constructor(
     private val api: ChefBookApi,
-    private val authInterceptor: AuthInterceptor
+    private val sp: SharedPreferences
 ) : AuthDataSource {
 
     private var user: MutableStateFlow<User?> = MutableStateFlow(null)
@@ -30,48 +32,53 @@ class RemoteAuthDataSource @Inject constructor(
         api.signUp(AuthData(email = email, password = password))
     }
 
-    override suspend fun signIn(email: String, password: String) {
+    override suspend fun signIn(email: String, password: String): Boolean {
         val response = api.signIn(
             AuthData(
                 email = email,
                 password = password
             )
         )
-        authInterceptor.processTokenResponse(response)
-    }
-
-    suspend fun getUserInfo(): User {
-        val response = api.getUserInfo()
-        return response.body()!!.toUser()
+        if (response.code() != 200) throw IOException()
+        processTokenResponse(sp, response)
+        return true
     }
 
     override suspend fun signOut() {
-        authInterceptor.signOut()
+        try {
+            api.signOut(RefreshToken(sp.getString(REFRESH_TOKEN, "").orEmpty()))
+        } finally {
+            clearTokens(sp)
+        }
         user.emit(null)
     }
 }
 
 class AuthInterceptor @Inject constructor(
     private val api: SessionApi,
-    val preferences: SharedPreferences
+    private val sp: SharedPreferences,
+    private val settingsRepository: SettingsRepository
 ) : Interceptor {
 
-    @Synchronized
     override fun intercept(chain: Interceptor.Chain): okhttp3.Response {
         val request = getAuthRequest(chain.request())
         var response: okhttp3.Response = chain.proceed(request)
 
         if (response.code == 401) {
-            val refreshToken = preferences.getString(REFRESH_TOKEN, "").orEmpty()
+            val refreshToken = sp.getString(REFRESH_TOKEN, "").orEmpty()
             runBlocking {
                 val tokenResponse = api.refreshSession(RefreshToken(refreshToken))
-                processTokenResponse(tokenResponse)
+                processTokenResponse(sp, tokenResponse)
                 response = chain.proceed(getAuthRequest(chain.request()))
+                if (response.code == 401) {
+                    settingsRepository.setUserType(UserType.LOCAL)
+                    settingsRepository.setDataSourceType(DataSource.LOCAL)
+                }
             }
         }
 
         return if (response.code == 429) {
-            Thread.sleep(1000)
+            Thread.sleep(500)
             chain.proceed(getAuthRequest(chain.request()))
         } else {
             response
@@ -81,36 +88,7 @@ class AuthInterceptor @Inject constructor(
     private fun getAuthRequest(request: Request): Request {
         return request.newBuilder().addHeader(
             "Authorization",
-            "Bearer ${preferences.getString(ACCESS_TOKEN, "").orEmpty()}"
+            "Bearer ${sp.getString(ACCESS_TOKEN, "").orEmpty()}"
         ).build()
-    }
-
-    fun processTokenResponse(response: Response<TokenResponse>) {
-        val tokens = response.body()
-        if (response.isSuccessful && tokens != null) {
-            preferences.edit()
-                .putString(ACCESS_TOKEN, tokens.accessToken)
-                .putString(REFRESH_TOKEN, tokens.refreshToken)
-                .apply()
-        } else {
-            throw IOException()
-        }
-    }
-
-    fun signOut() {
-        runBlocking {
-            try {
-                api.signOut(RefreshToken(preferences.getString(REFRESH_TOKEN, "").orEmpty()))
-            } finally {
-                clearTokens()
-            }
-        }
-    }
-
-    private fun clearTokens() {
-        preferences.edit()
-            .putString(ACCESS_TOKEN, null)
-            .putString(REFRESH_TOKEN, null)
-            .apply()
     }
 }

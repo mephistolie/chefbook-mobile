@@ -1,26 +1,316 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:animateLayoutChanges="true"
-    android:orientation="vertical"
-    android:requiresFadingEdge="vertical"
-    android:scrollbars="none"
-    android:weightSum="1">
+    android:background="@android:color/transparent"
+    tools:background="@color/monochrome_invert">
 
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/vp_recipe"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
-
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tab_dots"
-        android:layout_width="match_parent"
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:tabBackground="@drawable/tab_selector"
-        app:tabGravity="center"
-        app:tabIndicatorHeight="0dp" />
+        android:background="@drawable/selector_bottom_sheet"
+        android:backgroundTint="@color/app_background"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
-</LinearLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/separator"
+                android:layout_width="48dp"
+                android:layout_height="6dp"
+                android:layout_marginTop="12dp"
+                app:cardBackgroundColor="@color/navigation_primary"
+                app:cardCornerRadius="3dp"
+                app:cardElevation="0dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cv_qr_code"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="24dp"
+                android:foreground="?android:attr/selectableItemBackground"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="48dp"
+                app:cardElevation="5dp"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/separator"
+                app:layout_goneMarginEnd="0dp"
+                app:layout_goneMarginTop="24dp">
+
+                <ImageView
+                    android:id="@+id/iv_qr_code"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="24dp"
+                    android:scaleType="centerCrop" />
+
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/text_link"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginRight="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/selector_rounded_left"
+                android:ellipsize="none"
+                android:fadingEdgeLength="64dp"
+                android:gravity="center|left"
+                android:paddingHorizontal="8dp"
+                android:requiresFadingEdge="horizontal"
+                android:singleLine="true"
+                style="@style/TextAppearance.ChefBook.Header.4"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@id/iv_copy"
+                app:layout_constraintTop_toBottomOf="@id/cv_qr_code"
+                app:layout_constraintBottom_toBottomOf="@id/iv_copy"
+                tools:hint="https://chefbook.space/recipes/1324234"
+                tools:ignore="RtlHardcoded" />
+
+            <ImageButton
+                android:id="@+id/iv_copy"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="24dp"
+                android:layout_weight="0"
+                app:tint="@color/secondary_text_tint"
+                android:background="@drawable/selector_rounded_right"
+                android:src="@drawable/ic_copy"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cv_qr_code" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cv_share"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                android:foreground="?android:attr/selectableItemBackground"
+                app:cardBackgroundColor="@color/navigation_primary"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:layout_constraintDimensionRatio="4:3"
+                app:layout_constraintEnd_toStartOf="@id/cv_link"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/text_link"
+                app:layout_goneMarginEnd="0dp"
+                app:layout_goneMarginTop="24dp">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:layout_weight="0"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ic_share"
+                        app:tint="@color/secondary_text_tint" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/text_share"
+                        style="@style/TextAppearance.ChefBook.Header.4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:ellipsize="none"
+                        android:fadingEdgeLength="8dp"
+                        android:gravity="center"
+                        android:requiresFadingEdge="horizontal"
+                        android:singleLine="true"
+                        android:text="@string/share"
+                        android:textSize="14sp" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cv_link"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginHorizontal="8dp"
+                android:layout_marginTop="16dp"
+                android:foreground="?android:attr/selectableItemBackground"
+                app:cardBackgroundColor="@color/navigation_primary"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:layout_constraintDimensionRatio="4:3"
+                app:layout_constraintEnd_toStartOf="@id/cv_categories"
+                app:layout_constraintStart_toEndOf="@id/cv_share"
+                app:layout_constraintTop_toBottomOf="@id/text_link"
+                app:layout_goneMarginEnd="0dp"
+                app:layout_goneMarginTop="24dp">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:layout_weight="0"
+                        android:rotation="-45"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ic_link"
+                        app:tint="@color/secondary_text_tint" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/text_icon"
+                        style="@style/TextAppearance.ChefBook.Header.4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:ellipsize="none"
+                        android:fadingEdgeLength="8dp"
+                        android:gravity="center"
+                        android:requiresFadingEdge="horizontal"
+                        android:singleLine="true"
+                        android:text="@string/link"
+                        android:textSize="14sp" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cv_categories"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:foreground="?android:attr/selectableItemBackground"
+                app:cardBackgroundColor="@color/navigation_primary"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:layout_constraintDimensionRatio="4:3"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/cv_link"
+                app:layout_constraintTop_toBottomOf="@id/text_link"
+                app:layout_goneMarginEnd="0dp"
+                app:layout_goneMarginTop="24dp">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:layout_weight="0"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ic_categories"
+                        app:tint="@color/secondary_text_tint" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/text_delete"
+                        style="@style/TextAppearance.ChefBook.Header.4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:ellipsize="none"
+                        android:fadingEdgeLength="8dp"
+                        android:gravity="center"
+                        android:requiresFadingEdge="horizontal"
+                        android:singleLine="true"
+                        android:text="@string/categories"
+                        android:textSize="14sp" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/barrier"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="bottom"
+                app:constraint_referenced_ids="cv_share, cv_categories, cv_link" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="16dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/barrier">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/cv_edit_recipe"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/selector_rounded_top">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/text_edit_recipe"
+                        style="@style/TextAppearance.ChefBook.Header.4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:paddingVertical="16dp"
+                        android:singleLine="true"
+                        android:text="@string/edit_recipe" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/navigation_secondary" />
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/cv_delete_recipe"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/selector_rounded_bottom">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/text_delete_recipe"
+                        style="@style/TextAppearance.ChefBook.Header.4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:paddingVertical="16dp"
+                        android:singleLine="true"
+                        android:text="@string/delete_recipe"
+                        android:textColor="@color/red_light" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

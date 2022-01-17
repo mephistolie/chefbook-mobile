@@ -20,7 +20,7 @@
             android:id="@+id/btn_back"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:background="@drawable/ripple_secondary"
+            android:background="@drawable/ripple_grey"
             android:src="@drawable/ic_back"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -48,7 +48,7 @@
             android:id="@+id/btn_confirm"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:background="@drawable/ripple_primary"
+            android:background="@drawable/ripple_deep_orange"
             android:src="@drawable/ic_check"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -61,351 +61,44 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginHorizontal="16dp"
         android:animateLayoutChanges="true"
         android:orientation="vertical"
         android:requiresFadingEdge="vertical"
         android:scrollbars="none"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/tab_dots"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cl_toolbar">
 
-        <LinearLayout
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/vp_recipe_input"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:orientation="vertical">
-
-            <TextView
-                style="@style/TextAppearance.ChefBook.Header.3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:text="@string/name" />
-
-            <androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/input_name"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:background="@drawable/selector_input"
-                android:hint="@string/cupcake"
-                android:imeOptions="actionNext"
-                android:inputType="text"
-                android:paddingHorizontal="8dp"
-                android:textSize="24sp" />
-
-            <RadioGroup
-                android:id="@+id/rg_visibility"
-                android:layout_width="match_parent"
-                android:layout_height="36dp"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/selector_radio_group"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:weightSum="3">
-
-                <RadioButton
-                    android:id="@+id/rb_private"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@drawable/selector_radio_button"
-                    android:button="@android:color/transparent"
-                    android:gravity="center"
-                    android:checked="true"
-                    android:text="@string/private_recipe"
-                    android:textColor="@drawable/selector_radio_button_text" />
-
-                <RadioButton
-                    android:id="@+id/rb_shared"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@drawable/selector_radio_button"
-                    android:button="@android:color/transparent"
-                    android:gravity="center"
-                    android:text="@string/shared_recipe"
-                    android:textColor="@drawable/selector_radio_button_text" />
-
-                <RadioButton
-                    android:id="@+id/rb_public"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@drawable/selector_radio_button"
-                    android:button="@android:color/transparent"
-                    android:gravity="center"
-                    android:text="@string/public_recipe"
-                    android:textColor="@drawable/selector_radio_button_text" />
-            </RadioGroup>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:orientation="horizontal"
-                android:weightSum="5">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="2"
-                    android:text="@string/servings"
-                    android:textSize="20sp" />
-
-                <androidx.appcompat.widget.AppCompatEditText
-                    android:id="@+id/input_servings"
-                    android:layout_width="match_parent"
-                    android:layout_height="36dp"
-                    android:layout_weight="3"
-                    android:background="@drawable/selector_input"
-                    android:hint="@string/_1"
-                    android:imeOptions="actionNext"
-                    android:inputType="number"
-                    android:paddingHorizontal="8dp" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:orientation="horizontal"
-                android:weightSum="5">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="2"
-                    android:text="@string/calories_kcal"
-                    android:textSize="20sp" />
-
-                <androidx.appcompat.widget.AppCompatEditText
-                    android:id="@+id/input_calories"
-                    android:layout_width="match_parent"
-                    android:layout_height="36dp"
-                    android:layout_weight="3"
-                    android:background="@drawable/selector_input"
-                    android:hint="@string/_0_to_hide"
-                    android:imeOptions="actionNext"
-                    android:inputType="number"
-                    android:paddingHorizontal="8dp" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:orientation="horizontal"
-                android:weightSum="5">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="2"
-                    android:text="@string/time"
-                    android:textSize="20sp" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="3"
-                    android:orientation="horizontal">
-
-                    <androidx.appcompat.widget.AppCompatEditText
-                        android:id="@+id/input_hours"
-                        android:layout_width="36dp"
-                        android:layout_height="36dp"
-                        android:layout_marginEnd="8dp"
-                        android:background="@drawable/selector_input"
-                        android:gravity="end|center"
-                        android:hint="0"
-                        android:imeOptions="actionNext"
-                        android:inputType="number"
-                        android:paddingHorizontal="8dp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="16dp"
-                        android:text="@string/hours" />
-
-                    <androidx.appcompat.widget.AppCompatEditText
-                        android:id="@+id/input_minutes"
-                        android:layout_width="36dp"
-                        android:layout_height="36dp"
-                        android:layout_marginEnd="8dp"
-                        android:background="@drawable/selector_input"
-                        android:gravity="end|center"
-                        android:hint="15"
-                        android:imeOptions="actionNext"
-                        android:inputType="number"
-                        android:paddingHorizontal="8dp" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/minutes" />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <Button
-                android:id="@+id/btn_categories"
-                style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginVertical="16dp"
-                android:text="@string/choose_categories"
-                android:textColor="@color/deep_orange_light" />
-
-            <TextView
-                style="@style/TextAppearance.ChefBook.Header.3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:text="@string/ingredients" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_ingredients"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:clickable="true"
-                android:focusable="true"
-                android:nestedScrollingEnabled="false"
-                tools:itemCount="2"
-                tools:listitem="@layout/list_selectable_edit" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:baselineAligned="false"
-                android:orientation="horizontal"
-                android:weightSum="2">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1">
-
-                    <Button
-                        android:id="@+id/btn_add_ingredient"
-                        style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/ingredient"
-                        android:textColor="@color/deep_orange_light"
-                        app:icon="@drawable/ic_add"
-                        app:iconTint="@color/deep_orange_light"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1">
-
-                    <Button
-                        android:id="@+id/btn_add_ingredient_section"
-                        style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/section"
-                        android:textColor="@color/deep_orange_light"
-                        app:icon="@drawable/ic_add"
-                        app:iconTint="@color/deep_orange_light"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </LinearLayout>
-
-            <TextView
-                style="@style/TextAppearance.ChefBook.Header.3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="8dp"
-                android:text="@string/cooking" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_steps"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:nestedScrollingEnabled="false"
-                tools:itemCount="1"
-                tools:listitem="@layout/list_steps_edit" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:baselineAligned="false"
-                android:orientation="horizontal"
-                android:weightSum="2">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1">
-
-                    <Button
-                        android:id="@+id/btn_add_step"
-                        style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:text="@string/step"
-                        android:textColor="@color/deep_orange_light"
-                        app:icon="@drawable/ic_add"
-                        app:iconTint="@color/deep_orange_light"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1">
-
-                    <Button
-                        android:id="@+id/btn_add_cooking_section"
-                        style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/section"
-                        android:textColor="@color/deep_orange_light"
-                        app:icon="@drawable/ic_add"
-                        app:iconTint="@color/deep_orange_light"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </LinearLayout>
-
-        </LinearLayout>
+            android:layout_height="wrap_content" />
 
     </androidx.core.widget.NestedScrollView>
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tab_dots"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/av_banner"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:tabBackground="@drawable/tab_selector"
+        app:tabGravity="center"
+        app:tabIndicatorHeight="0dp" />
+
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/av_banner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:visibility="gone"
+        app:adSize="BANNER"
+        app:adUnitId="@string/banner_ad_unit_id"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

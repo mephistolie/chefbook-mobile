@@ -23,8 +23,9 @@ enum class DashboardFragments : Serializable {
 class MainActivityState (
     val currentFragment: DashboardFragments = DashboardFragments.RECIPES,
     val previousFragment: DashboardFragments? = null,
+    val categories : List<Category> = listOf(),
     val user: User? = User(),
     val currentCategory: Category? = null,
-    val recipes: ArrayList<Recipe> = arrayListOf(),
+    val recipes: List<Recipe> = listOf(),
     val message: Int? = null
 ) : Serializable

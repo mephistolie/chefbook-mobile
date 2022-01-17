@@ -27,12 +27,12 @@
     <string name="servings_placeholder">Servings: %1$d</string>
     <string name="calories_placeholder">%1$d kcal</string>
     <string name="new_recipe">New Recipe</string>
-    <string name="name">Name</string>
+    <string name="recipe_name">Name</string>
     <string name="cupcake">Cupcakes</string>
-    <string name="servings">Servings:</string>
-    <string name="calories_kcal">Calories (kcal):</string>
-    <string name="_0_to_hide">0 to hide</string>
-    <string name="time">Time:</string>
+    <string name="servings_colon">Servings:</string>
+    <string name="calories_kcal">Calories (per 100 g):</string>
+    <string name="hide">hide</string>
+    <string name="time_colon">Time:</string>
     <string name="choose_categories">Choose Categories…</string>
     <string name="ingredients">Ingredients</string>
     <string name="ingredient">Ingredient</string>
@@ -46,8 +46,8 @@
     <string name="are_you_sure">Are you sure?</string>
     <string name="recipe_menu">Recipe Menu</string>
     <string name="user">User</string>
-    <string name="open_shopping_list_by_default">Open shopping list by default</string>
-    <string name="log_out">Log Out</string>
+    <string name="shopping_list_by_default">Shopping List Tab by Default</string>
+    <string name="sign_out">SIGN OUT</string>
     <string name="add_item">Add Item</string>
     <string name="add">Add</string>
     <string name="_12_servings">12 servings</string>
@@ -57,7 +57,7 @@
     <string name="search">Search</string>
     <string name="favourite">Favourite</string>
     <string name="categories">Categories</string>
-    <string name="recently_added">Recently added</string>
+    <string name="updated_recently">Updated recently</string>
     <string name="all_recipes">All Recipes</string>
     <string name="nothing_to_show">Nothing to show</string>
     <string name="category">Category</string>
@@ -72,8 +72,8 @@
     <string name="shopping_list">Shopping List</string>
     <string name="search_results">Results</string>
     <string name="app_info">Made by Mikhail Levin</string>
-    <string name="app_ver" translatable="false">3.2</string>
-    <string name="about_app">About app / Support</string>
+    <string name="app_ver" translatable="false">4.0</string>
+    <string name="about_app">About app</string>
     <string name="special_to">Special for T. I.</string>
     <string name="buy_premium">Buy Premium / Donate</string>
     <string name="banner_ad_unit_id" translatable="false">ca-app-pub-2240420199912180/3421911394</string>
@@ -112,9 +112,66 @@
     <string name="type_something">Type something…</string>
     <string name="server_unavailable">Couldn\'t reach server. Check your internet connection.</string>
     <string name="private_recipe">PRIVATE</string>
-    <string name="shared_recipe">SHARED</string>
+    <string name="shared_recipe">BY LINK</string>
     <string name="public_recipe">PUBLIC</string>
     <string name="online">Online</string>
     <string name="signup_successfully">Validation email has been sent to address.</string>
     <string name="delete_purchased">Delete Purchased</string>
+    <string name="kcal">kcal</string>
+    <string name="broccoli_emoji" translatable="false">🥦</string>
+    <string name="edit_category">Edit Category</string>
+    <string name="local">Local</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="free_plan" translatable="false">FREE</string>
+    <string name="manage_subscription">Manage subscription / Donate</string>
+    <string name="settings">App settings</string>
+    <string name="author">Author</string>
+    <string name="servings">Servings</string>
+    <string name="time">Time</string>
+    <string name="caloricity">Calories</string>
+    <string name="info">Info</string>
+    <string name="profile">Profile</string>
+    <string name="broccoins">Broccoins</string>
+    <string name="subscription">Subscription</string>
+    <string name="premium_plan">PREMIUM</string>
+    <string name="edit_profile_info">Name, avatar, delete profile</string>
+    <string name="settings_info">Default tab, theme, recipe uploading</string>
+    <string name="about_app_info">Contacts, support</string>
+    <string name="try_chefbot">Try ChefBot!</string>
+    <string name="rate_app_info">Help to pay for server!</string>
+    <string name="remote_profile_info">Sync, community recipes and more!</string>
+    <string name="local_profile">Local Profile</string>
+    <string name="app_theme">Theme</string>
+    <string name="select_local_source">Disable Sync</string>
+    <string name="select_local_source_info">Store recipes only locally</string>
+    <string name="shopping_list_by_default_info">Open Shopping List at launch</string>
+    <string name="show_news">Show News in Profile</string>
+    <string name="show_news_info">Hints and app news</string>
+    <string name="app_icon">Icon</string>
+    <string name="icon_standard">Standard</string>
+    <string name="icon_old">Old</string>
+    <string name="theme_system">System</string>
+    <string name="theme_light">Light</string>
+    <string name="theme_dark">Dark</string>
+    <string name="profile_name">Name</string>
+    <string name="broccoins_info">What is Broccoins?</string>
+    <string name="broccoins_info_description">Broccoins is a ChefBook\'s internal currency. It can be obtained EXCLUSIVELY for free. It will NEVER be available for real money.</string>
+    <string name="broccoins_purposes">Purpose</string>
+    <string name="broccoins_purposes_description">Broccoins shows the user\'s contribution to the development of the project. I want to thank such people. Every 100 broccoins (the value may change in the future) add the ability to create 1 additional recipe in a free subscription.</string>
+    <string name="how_to_get">How to get?</string>
+    <string name="broccoins_receiving_description">Report bugs (in the VK group or by mail), get likes for your recipes, or just help our small community.</string>
+    <string name="delete_profile">DELETE PROFILE</string>
+    <string name="delete_remote_data">DELETE REMOTE DATA</string>
+    <string name="edit_avatar">Upload avatar</string>
+    <string name="delete_avatar">Delete avatar</string>
+    <string name="change_name">Change name</string>
+    <string name="avatar_updated">Avatar has been updated</string>
+    <string name="avatar_deleted">Avatar has been deleted</string>
+    <string name="name_changed">Name has been changed</string>
+    <string name="author_colon">Author:</string>
+    <string name="description_dots">Description…</string>
+    <string name="link">Link</string>
+    <string name="delete_recipe">Delete Recipe</string>
+    <string name="share">Share</string>
+    <string name="description">Description</string>
 </resources>

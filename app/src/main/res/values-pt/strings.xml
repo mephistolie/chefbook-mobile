@@ -28,12 +28,12 @@
     <string name="servings_placeholder">Porções: %1$d</string>
     <string name="calories_placeholder">%1$d kcal</string>
     <string name="new_recipe">Nova Receita</string>
-    <string name="name">Nome</string>
+    <string name="recipe_name">Nome</string>
     <string name="cupcake">Bolos de copo</string>
-    <string name="servings">Porções:</string>
+    <string name="servings_colon">Porções:</string>
     <string name="calories_kcal">Calorias (kcal):</string>
-    <string name="_0_to_hide">0 - esconder</string>
-    <string name="time">Tempo:</string>
+    <string name="hide">0 - esconder</string>
+    <string name="time_colon">Tempo:</string>
     <string name="choose_categories">Escolha categorias…</string>
     <string name="ingredients">Ingredientes</string>
     <string name="ingredient">Ingrediente</string>
@@ -47,8 +47,8 @@
     <string name="are_you_sure">Tem certeza?</string>
     <string name="recipe_menu">Menu de Receitas</string>
     <string name="user">Do utilizador</string>
-    <string name="open_shopping_list_by_default">Abrir lista de compras por padrão</string>
-    <string name="log_out">Sair</string>
+    <string name="shopping_list_by_default">Abrir lista de compras por padrão</string>
+    <string name="sign_out">Sair</string>
     <string name="add_item">Adicionar Item</string>
     <string name="add">Adicionar</string>
     <string name="_12_servings">12 porções</string>
@@ -57,7 +57,6 @@
     <string name="search">Procurar</string>
     <string name="favourite">Favorito</string>
     <string name="categories">Categorias</string>
-    <string name="recently_added">Adicionado recentemente</string>
     <string name="all_recipes">Todas as Receitas</string>
     <string name="nothing_to_show">Nada para mostrar</string>
     <string name="category">Categoria</string>

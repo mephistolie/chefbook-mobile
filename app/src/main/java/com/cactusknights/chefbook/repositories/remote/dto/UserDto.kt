@@ -1,22 +1,31 @@
 package com.cactusknights.chefbook.repositories.remote.dto
 
 import com.cactusknights.chefbook.models.User
+import com.google.gson.annotations.SerializedName
 import java.sql.Timestamp
 
 data class UserDto constructor(
 
-    var id: Int = 1,
-    var email: String = "",
-    var name: String = "",
-    var premium: Timestamp? = null
-
+    @SerializedName("user_id") val id: Int = 1,
+    val email: String = "",
+    val username: String = "",
+    val avatar: String? = null,
+    val premium: Timestamp? = null,
+    val broccoins: Int = 0
 )
 
 fun UserDto.toUser(): User {
     return User(
         id = id,
         email = email,
-        name = name,
-        premium = premium
+        name = username,
+        premium = premium,
+        avatar = avatar,
+        broccoins = broccoins,
+        isLocal = false
     )
 }
+
+data class UsernameInputDto constructor(
+    val username: String
+)

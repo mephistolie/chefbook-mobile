@@ -26,12 +26,12 @@ fun setIngredientEditStyle(view: TextInputEditText, type: MarkdownTypes) {
 fun setIngredientStyle(view: TextView, markdown: MarkdownString) {
     view.text = markdown.text
     if (markdown.type == MarkdownTypes.HEADER) {
-        view.typeface = ResourcesCompat.getFont(view.context, R.font.comfortaa)
-        view.textSize = 26.0F
+        view.typeface = ResourcesCompat.getFont(view.context, R.font.montserrat)
+        view.textSize = 22.0F
         view.setTextColor(ContextCompat.getColor(view.context, R.color.navigation_ripple))
     } else {
         view.typeface = ResourcesCompat.getFont(view.context, R.font.montserrat)
-        view.textSize = 22.0F
+        view.textSize = 20.0F
         view.setTextColor(ContextCompat.getColor(view.context, R.color.monochrome_invert))
     }
 }

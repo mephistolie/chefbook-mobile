@@ -1,97 +1,266 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:ads="http://schemas.android.com/apk/res-auto"
+<androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/app_background"
-    tools:context=".screens.main.MainActivity">
+    app:layoutDescription="@xml/activity_recipe_scene"
+    tools:context=".screens.recipe.RecipeActivity">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cl_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="8dp"
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/btn_back"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
-        android:animateLayoutChanges="true"
-        android:transitionName="toolbar"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@drawable/ripple_grey"
+        android:src="@drawable/ic_back"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/secondary_text_tint" />
 
-        <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/btn_back"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:background="@drawable/ripple_secondary"
-            android:src="@drawable/ic_back"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/secondary_text_tint" />
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/btn_more"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/ripple_grey"
+        android:src="@drawable/ic_more"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/secondary_text_tint" />
 
-        <TextView
-            android:id="@+id/text_section"
-            style="@style/TextAppearance.AppCompat.Medium"
-            android:layout_width="280dp"
-            android:layout_height="wrap_content"
-            android:drawablePadding="8dp"
-            android:ellipsize="none"
-            android:fadingEdgeLength="32dp"
-            android:gravity="center"
-            android:requiresFadingEdge="horizontal"
-            android:singleLine="true"
-            android:text="@string/recipe"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/btn_more"
-            app:layout_constraintStart_toEndOf="@id/btn_back"
-            app:layout_constraintTop_toTopOf="parent" />
+    <TextView
+        android:id="@+id/text_section"
+        style="@style/TextAppearance.AppCompat.Medium"
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:drawablePadding="8dp"
+        android:ellipsize="none"
+        android:fadingEdgeLength="32dp"
+        android:gravity="center"
+        android:requiresFadingEdge="horizontal"
+        android:singleLine="true"
+        android:text="@string/recipe"
+        app:layout_goneMarginEnd="48dp"
+        app:layout_goneMarginStart="48dp"
+        app:layout_constraintBottom_toBottomOf="@id/btn_back"
+        app:layout_constraintEnd_toStartOf="@id/btn_more"
+        app:layout_constraintStart_toEndOf="@id/btn_back"
+        app:layout_constraintTop_toTopOf="@id/btn_back" />
 
-        <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/btn_more"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:background="@drawable/ripple_secondary"
-            android:src="@drawable/ic_more"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/secondary_text_tint" />
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/cl_toolbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="bottom"
+        app:constraint_referenced_ids="btn_back, btn_more, text_section" />
 
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv_cover"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginHorizontal="16dp"
-        android:animateLayoutChanges="true"
-        android:orientation="vertical"
-        android:requiresFadingEdge="vertical"
-        android:scrollbars="none"
-        android:transitionName="content"
-        android:weightSum="1"
+        android:layout_marginTop="12dp"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:visibility="visible"
+        app:cardBackgroundColor="@color/navigation_primary"
+        app:cardCornerRadius="24dp"
+        app:cardElevation="0dp"
+        app:layout_constraintDimensionRatio="16:9"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cl_toolbar">
+
+        <ImageView
+            android:id="@+id/iv_cover"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop" />
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/ll_social_actions"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="12dp"
+        android:gravity="start"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_author">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:layout_gravity="center"
+            android:gravity="center">
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/btn_liked"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_marginEnd="4dp"
+                android:background="@drawable/ripple_orange"
+                android:padding="8dp"
+                android:src="@drawable/ic_unliked"
+                app:tint="@color/navigation_ripple" />
+
+            <TextView
+                android:id="@+id/text_likes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="0dp"
+                android:paddingEnd="4dp"
+                android:textStyle="bold"
+                tools:text="0" />
+
+        </LinearLayout>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/ll_personal_actions"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_author">
+
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/btn_added"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:background="@drawable/ripple_grey"
+            android:padding="8dp"
+            android:src="@drawable/ic_added_to_recipes"
+            app:tint="@color/navigation_ripple" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/btn_favourite"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:background="@drawable/ripple_red"
+            android:padding="8dp"
+            android:src="@drawable/ic_unfavorite"
+            app:tint="@color/navigation_ripple" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <TextView
+        android:id="@+id/text_name"
+        style="@style/TextAppearance.ChefBook.Header.3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="4dp"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cv_cover"
+        tools:text="Cupcakes" />
+
+    <TextView
+        android:id="@+id/text_author"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:ellipsize="end"
+        android:text="@string/author_colon"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_name" />
+
+    <TextView
+        android:id="@+id/text_author_placeholder"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:ellipsize="end"
+        android:textSize="14sp"
+        app:layout_constraintBaseline_toBaselineOf="@id/text_author"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/text_author"
+        tools:text="Ivan Ivanov" />
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tl_recipe"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ll_social_actions"
+        app:tabGravity="start"
+        app:tabIndicator="@drawable/tab_indicator"
+        app:tabIndicatorAnimationMode="elastic"
+        app:tabIndicatorFullWidth="false"
+        app:tabMinWidth="0dp"
+        app:tabIndicatorHeight="2dp"
+        app:tabInlineLabel="true"
+        app:tabMode="scrollable"
+        app:tabRippleColor="@null"
+        app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget">
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/info" />
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ingredients" />
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cooking" />
+
+    </com.google.android.material.tabs.TabLayout>
+
+    <TextView
+        android:id="@+id/text_tab"
+        style="@style/TextAppearance.ChefBook.Header.3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:text="@string/info"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tl_recipe"/>
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/sv_recipe"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_tab">
+
+    </androidx.viewpager2.widget.ViewPager2>
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tab_dots"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toTopOf="@id/av_banner"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cl_toolbar">
-
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/vp_recipe"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
-
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tab_dots"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:tabBackground="@drawable/tab_selector"
-            app:tabGravity="center"
-            app:tabIndicatorHeight="0dp" />
-
-    </LinearLayout>
+        app:tabBackground="@drawable/tab_selector"
+        app:tabGravity="center"
+        app:tabIndicatorHeight="0dp" />
 
     <com.google.android.gms.ads.AdView
         android:id="@+id/av_banner"
@@ -100,10 +269,10 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:visibility="gone"
-        ads:adSize="BANNER"
-        ads:adUnitId="@string/banner_ad_unit_id"
+        app:adSize="BANNER"
+        app:adUnitId="@string/banner_ad_unit_id"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.motion.widget.MotionLayout>

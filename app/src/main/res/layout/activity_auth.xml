@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/app_background">
 
     <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/linearLayoutCompat2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="48dp"
@@ -23,28 +21,36 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:paddingEnd="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:layout_width="72dp"
-                android:layout_height="72dp"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
                 android:layout_marginEnd="4dp"
                 android:contentDescription="@string/app_name"
                 android:scaleType="fitXY"
-                android:src="@drawable/ic_logo"
+                android:src="@drawable/ic_broccy"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/text_app_name"
+                style="@style/TextAppearance.ChefBook.Header.1"
+                android:textColor="@color/deep_orange_light"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Chef" />
+
+            <androidx.appcompat.widget.AppCompatTextView
                 style="@style/TextAppearance.ChefBook.Header.1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="@string/app_name" />
+                android:text="Book" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -153,38 +159,64 @@
             android:layout_marginTop="16dp"
             android:gravity="center">
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/btn_google"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="@string/google"
-                android:src="@drawable/ic_google"
-                app:backgroundTint="@color/input_background"
-                app:elevation="0dp"
-                app:fabSize="mini"
-                app:tint="@color/secondary_text_tint" />
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/btn_apple"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="@string/google"
-                android:src="@drawable/ic_apple"
-                app:backgroundTint="@color/input_background"
-                app:elevation="0dp"
-                app:fabSize="mini"
-                app:tint="@color/secondary_text_tint" />
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/btn_google"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/google"
+                    android:src="@drawable/ic_google"
+                    app:backgroundTint="@color/input_background"
+                    app:elevation="0dp"
+                    app:fabSize="mini"
+                    app:tint="@color/secondary_text_tint" />
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/btn_vk"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="@string/google"
-                android:src="@drawable/ic_vk"
-                app:backgroundTint="@color/input_background"
-                app:elevation="0dp"
-                app:fabSize="mini"
-                app:tint="@color/secondary_text_tint" />
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/btn_apple"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/google"
+                    android:src="@drawable/ic_apple"
+                    app:backgroundTint="@color/input_background"
+                    app:elevation="0dp"
+                    app:fabSize="mini"
+                    app:tint="@color/secondary_text_tint" />
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/btn_vk"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/google"
+                    android:src="@drawable/ic_vk"
+                    app:backgroundTint="@color/input_background"
+                    app:elevation="0dp"
+                    app:fabSize="mini"
+                    app:tint="@color/secondary_text_tint" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <View
+                android:layout_width="2dp"
+                android:layout_height="match_parent"
+                android:layout_marginHorizontal="8dp"
+                android:layout_marginVertical="8dp"
+                android:background="@drawable/selector_input" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_local"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:paddingHorizontal="12dp"
+                android:layout_height="38dp"
+                android:background="@drawable/selector_button"
+                android:text="@string/local"
+                android:backgroundTint="@color/input_background" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

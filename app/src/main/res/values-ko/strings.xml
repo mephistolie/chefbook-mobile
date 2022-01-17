@@ -28,12 +28,12 @@
     <string name="servings_placeholder">인분: %1$d</string>
     <string name="calories_placeholder">%1$d kcal</string>
     <string name="new_recipe">새로운 레시피</string>
-    <string name="name">이름</string>
+    <string name="recipe_name">이름</string>
     <string name="cupcake">컵케이크</string>
-    <string name="servings">서빙:</string>
+    <string name="servings_colon">서빙:</string>
     <string name="calories_kcal">칼로리(kcal):</string>
-    <string name="_0_to_hide">0 숨기기</string>
-    <string name="time">시각:</string>
+    <string name="hide">0 숨기기</string>
+    <string name="time_colon">시각:</string>
     <string name="choose_categories">카테고리 선택…</string>
     <string name="ingredients">성분</string>
     <string name="ingredient">성분</string>
@@ -47,8 +47,8 @@
     <string name="are_you_sure">확실합니까?</string>
     <string name="recipe_menu">레시피 메뉴</string>
     <string name="user">사용자</string>
-    <string name="open_shopping_list_by_default">기본적으로 쇼핑 목록 열기</string>
-    <string name="log_out">로그 아웃</string>
+    <string name="shopping_list_by_default">기본적으로 쇼핑 목록 열기</string>
+    <string name="sign_out">로그 아웃</string>
     <string name="add_item">아이템 추가</string>
     <string name="add">더하다</string>
     <string name="_12_servings">12인분</string>
@@ -57,7 +57,7 @@
     <string name="search">검색</string>
     <string name="favourite">특히 잘하는</string>
     <string name="categories">카테고리</string>
-    <string name="recently_added">최근에 추가</string>
+    <string name="updated_recently">최근에 추가</string>
     <string name="all_recipes">모든 레시피</string>
     <string name="nothing_to_show">표시할 항목 없음</string>
     <string name="category">범주</string>

@@ -4,8 +4,10 @@ import com.cactusknights.chefbook.common.Result
 import com.cactusknights.chefbook.domain.RecipesDataSource
 import com.cactusknights.chefbook.domain.RecipesRepository
 import com.cactusknights.chefbook.domain.ShoppingListRepository
+import com.cactusknights.chefbook.models.Purchase
 import com.cactusknights.chefbook.models.Recipe
 import com.cactusknights.chefbook.models.Selectable
+import com.cactusknights.chefbook.models.ShoppingList
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -15,7 +17,9 @@ import javax.inject.Inject
 
 class ShoppingListUseCases @Inject constructor(private val repository: ShoppingListRepository) {
 
-    suspend fun getShoppingList(): Flow<Result<ArrayList<Selectable<String>>>> = flow {
+    suspend fun listenToShoppingList() = repository.listenToShoppingList()
+
+    suspend fun getShoppingList(): Flow<Result<ShoppingList>> = flow {
         try {
             emit(Result.Loading)
             val shoppingList = repository.getShoppingList()
@@ -27,8 +31,8 @@ class ShoppingListUseCases @Inject constructor(private val repository: ShoppingL
         }
     }
 
-    suspend fun setShoppingList(shoppingList: ArrayList<Selectable<String>>):
-            Flow<Result<ArrayList<Selectable<String>>>> = flow {
+    suspend fun setShoppingList(shoppingList: ShoppingList):
+            Flow<Result<ShoppingList>> = flow {
         try {
             emit(Result.Loading)
             repository.setShoppingList(shoppingList)
@@ -40,11 +44,24 @@ class ShoppingListUseCases @Inject constructor(private val repository: ShoppingL
         }
     }
 
-    suspend fun addToShoppingList(purchases: ArrayList<Selectable<String>>):
+    suspend fun addToShoppingList(purchases: ArrayList<Purchase>):
             Flow<Result<Any>> = flow {
         try {
             emit(Result.Loading)
             repository.addToShoppingList(purchases)
+            emit(Result.Success(null))
+        } catch (e: HttpException) {
+            emit(Result.Error(e, e.localizedMessage ?: "An unexpected error occured"))
+        } catch (e: IOException) {
+            emit(Result.Error(e))
+        }
+    }
+
+    suspend fun syncShoppingList():
+            Flow<Result<Any>> = flow {
+        try {
+            emit(Result.Loading)
+            repository.syncShoppingList()
             emit(Result.Success(null))
         } catch (e: HttpException) {
             emit(Result.Error(e, e.localizedMessage ?: "An unexpected error occured"))

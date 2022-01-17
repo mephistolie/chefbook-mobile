@@ -2,12 +2,7 @@ package com.cactusknights.chefbook.domain.usecases
 
 import com.cactusknights.chefbook.common.Result
 import com.cactusknights.chefbook.domain.CategoriesRepository
-import com.cactusknights.chefbook.domain.RecipesDataSource
-import com.cactusknights.chefbook.domain.RecipesRepository
-import com.cactusknights.chefbook.domain.ShoppingListRepository
 import com.cactusknights.chefbook.models.Category
-import com.cactusknights.chefbook.models.Recipe
-import com.cactusknights.chefbook.models.Selectable
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -17,11 +12,13 @@ import javax.inject.Inject
 
 class CategoriesUseCases @Inject constructor(private val repository: CategoriesRepository) {
 
-    suspend fun getCategoriesList(): Flow<Result<ArrayList<Category>>> = flow {
+    suspend fun listenToCategories() = repository.listenToCategories()
+
+    suspend fun getCategoriesList(): Flow<Result<List<Category>>> = flow {
         try {
             emit(Result.Loading)
-            val shoppingList = repository.getCategories()
-            emit(Result.Success(shoppingList))
+            val categories = repository.getCategories()
+            emit(Result.Success(categories))
         } catch (e: HttpException) {
             emit(Result.Error(e, e.localizedMessage ?: "An unexpected error occured"))
         } catch (e: IOException) {
@@ -32,7 +29,7 @@ class CategoriesUseCases @Inject constructor(private val repository: CategoriesR
     suspend fun addCategory(category: Category): Flow<Result<Category>> = flow {
         try {
             emit(Result.Loading)
-            category.id = repository.addCategory(category)
+            category.remoteId = repository.addCategory(category)
             emit(Result.Success(category))
         } catch (e: HttpException) {
             emit(Result.Error(e, e.localizedMessage ?: "An unexpected error occured"))

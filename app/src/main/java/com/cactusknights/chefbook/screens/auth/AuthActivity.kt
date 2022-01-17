@@ -15,7 +15,10 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.cactusknights.chefbook.R
 import com.cactusknights.chefbook.screens.main.MainActivity
 import com.cactusknights.chefbook.databinding.ActivityAuthBinding
-import com.cactusknights.chefbook.legacy.helpers.showToast
+import com.cactusknights.chefbook.common.showToast
+import com.cactusknights.chefbook.screens.auth.models.AuthViewEffect
+import com.cactusknights.chefbook.screens.auth.models.AuthEvent
+import com.cactusknights.chefbook.screens.auth.models.AuthScreenState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -32,58 +35,59 @@ open class AuthActivity : AppCompatActivity() {
         binding = ActivityAuthBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val chefbookTitle = SpannableString("ChefBook")
-        chefbookTitle.setSpan(ForegroundColorSpan(ContextCompat.getColor(this, R.color.deep_orange)), 0, 4, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-        chefbookTitle.setSpan(ForegroundColorSpan(ContextCompat.getColor(this, R.color.monochrome_invert)), 4, chefbookTitle.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-        binding.textAppName.text = chefbookTitle
-
         binding.btnLogin.setOnClickListener {
-            when(viewModel.state.value.authState) {
-                SignStates.SIGN_IN -> { viewModel.signIn(binding.inputEmail.text.toString(), binding.inputPassword.text.toString()) }
-                SignStates.SIGN_UP -> { viewModel.signUp(binding.inputEmail.text.toString(), binding.inputPassword.text.toString(), binding.inputRepeatPassword.text.toString()) }
-                else -> { viewModel.updateState(AuthActivityState(
-                    authState = SignStates.RESTORE_PASSWORD,
-                    inProgress = viewModel.state.value.inProgress))
+            when (viewModel.authState.value) {
+                is AuthScreenState.SignInScreen -> {
+                    viewModel.obtainEvent(
+                        AuthEvent.SignIn(
+                            binding.inputEmail.text.toString(),
+                            binding.inputPassword.text.toString()))
                 }
+                is AuthScreenState.SignUpScreen -> {
+                    viewModel.obtainEvent(
+                        AuthEvent.SignUp(
+                            binding.inputEmail.text.toString(),
+                            binding.inputPassword.text.toString(),
+                            binding.inputRepeatPassword.text.toString()))
+                }
+                is AuthScreenState.RestorePasswordScreen -> { /* TODO */ }
             }
         }
 
+        binding.btnLocal.setOnClickListener { viewModel.obtainEvent(AuthEvent.SignInLocally) }
+
         binding.textSignUp.setOnClickListener {
-            if (viewModel.state.value.authState == SignStates.SIGN_IN) { viewModel.updateState(AuthActivityState(
-                    authState = SignStates.SIGN_UP,
-                    inProgress = viewModel.state.value.inProgress))
-            } else {
-                viewModel.updateState(AuthActivityState(
-                    authState = SignStates.SIGN_IN,
-                    inProgress = viewModel.state.value.inProgress))
-            }
+            if (viewModel.authState.value is AuthScreenState.SignInScreen) { viewModel.obtainEvent(AuthEvent.SignUpScreen) }
+            else { viewModel.obtainEvent(AuthEvent.SignInSelected) }
         }
 
         binding.btnResetPassword.setOnClickListener {
-            setRestoreLayout()
-            viewModel.updateState(AuthActivityState(
-                authState = SignStates.RESTORE_PASSWORD,
-                inProgress = viewModel.state.value.inProgress))
+            viewModel.obtainEvent(AuthEvent.RestorePasswordScreen)
         }
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.state.collect { currentState ->
-                    val currentMessage = viewModel.state.value.message
-                    if (currentMessage is String) applicationContext.showToast(currentMessage)
-                    else if (currentMessage is Int) applicationContext.showToast(currentMessage)
-                    when (currentState.authState) {
-                        SignStates.SIGN_UP -> setSignUpLayout()
-                        SignStates.SIGN_IN -> setSignInLayout()
-                        SignStates.RESTORE_PASSWORD -> setRestoreLayout()
-                        else -> {
-                            val intent = Intent(this@AuthActivity, MainActivity::class.java)
-                            startActivity(intent)
-                        }
-                    }
-                    updateLoginProgressLayout()
-                }
+                launch { viewModel.authState.collect { render(it) } }
+                launch { viewModel.viewEffect.collect { handleViewEffect(it) } }
             }
+        }
+    }
+
+    private fun render(state: AuthScreenState) {
+        when (state) {
+            is AuthScreenState.SignInScreen -> setSignInLayout()
+            is AuthScreenState.SignUpScreen -> setSignUpLayout()
+            is AuthScreenState.RestorePasswordScreen -> setRestoreLayout()
+        }
+        updateLoginProgressLayout(state.isLoading)
+    }
+
+    private fun handleViewEffect(effect: AuthViewEffect) {
+        when (effect) {
+            is AuthViewEffect.Message -> applicationContext.showToast(effect.messageId)
+            is AuthViewEffect.SignedIn -> {
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent) }
         }
     }
 
@@ -123,8 +127,8 @@ open class AuthActivity : AppCompatActivity() {
         binding.textSignUp.text = resources.getText(R.string.login)
     }
 
-    private fun updateLoginProgressLayout() {
-        binding.btnLogin.visibility = if (viewModel.state.value.inProgress) View.GONE else View.VISIBLE
-        binding.progressLogin.visibility = if (viewModel.state.value.inProgress) View.VISIBLE else View.GONE
+    private fun updateLoginProgressLayout(isLoading: Boolean) {
+        binding.btnLogin.visibility = if (isLoading) View.GONE else View.VISIBLE
+        binding.progressLogin.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 }

@@ -61,6 +61,32 @@
                 android:layout_height="2dp"
                 android:layout_marginHorizontal="96dp"
                 android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/selector_input" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cv_vk"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                app:cardBackgroundColor="@color/blue_light_background"
+                app:cardCornerRadius="18dp"
+                app:cardElevation="0dp">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_vk"
+                    app:tint="@color/blue_light"/>
+
+
+            </androidx.cardview.widget.CardView>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginHorizontal="96dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginBottom="16dp"
                 android:background="@drawable/selector_input" />
 

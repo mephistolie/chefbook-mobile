@@ -1,51 +1,131 @@
 package com.cactusknights.chefbook.screens.recipe.dialogs
 
-import android.app.AlertDialog
-import android.app.Dialog
-import android.content.Intent
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
+import android.graphics.*
 import android.os.Bundle
-import androidx.core.app.ActivityOptionsCompat
-import androidx.fragment.app.DialogFragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import coil.load
 import com.cactusknights.chefbook.R
-import com.cactusknights.chefbook.screens.recipe.RecipeActivity
-import com.cactusknights.chefbook.screens.recipeinput.RecipeInputActivity
-import com.cactusknights.chefbook.databinding.DialogRecipeBinding
+import com.cactusknights.chefbook.base.Constants
 import com.cactusknights.chefbook.common.ConfirmDialog
+import com.cactusknights.chefbook.common.ChefBookQRCodeWriter
 import com.cactusknights.chefbook.common.Utils
+import com.cactusknights.chefbook.databinding.FragmentRecipeMenuBinding
+import com.cactusknights.chefbook.screens.recipe.RecipeViewModel
+import com.cactusknights.chefbook.screens.recipe.models.RecipeActivityEvent
+import com.cactusknights.chefbook.screens.recipe.models.RecipeActivityState
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.google.zxing.EncodeHintType
+import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
+import kotlin.collections.HashMap
+import android.graphics.PorterDuff
 
-class RecipeDialog(val activity: RecipeActivity): DialogFragment() {
+import android.graphics.PorterDuffXfermode
 
-    private lateinit var binding: DialogRecipeBinding
+import android.graphics.Shader
 
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+import android.graphics.Bitmap
+import com.cactusknights.chefbook.common.ChefBookQRCodeWriter.Companion.getGradientQrCode
 
-        binding = DialogRecipeBinding.inflate(layoutInflater)
-        val dialog = AlertDialog.Builder(activity)
-            .setView(binding.root).create()
-        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
-        if (activity.viewModel.state.value.recipe.isFavourite) binding.btnFavourite.setImageResource(R.drawable.ic_favorite)
-        binding.btnFavourite.setOnClickListener {
-            activity.viewModel.changeRecipeFavouriteStatus()
-            if (activity.viewModel.state.value.recipe.isFavourite) binding.btnFavourite.setImageResource(R.drawable.ic_favorite) else binding.btnFavourite.setImageResource(R.drawable.ic_unfavorite)
+class RecipeDialog: BottomSheetDialogFragment() {
+
+    private val viewModel by activityViewModels<RecipeViewModel>()
+
+    private var _binding: FragmentRecipeMenuBinding? = null
+    private val binding get() = _binding!!
+
+    companion object {
+        const val RECIPES_ENDPOINT = Constants.BASE_URL + "recipes/"
+    }
+
+    override fun getTheme() = R.style.BottomSheetDialogTheme
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentRecipeMenuBinding.inflate(inflater, container, false)
+        binding.root.setBackgroundColor(ContextCompat.getColor(requireContext(), android.R.color.transparent))
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.cvShare.setOnClickListener {
+            val recipeState = viewModel.recipeState.value
+            if (recipeState is RecipeActivityState.DataUpdated) {
+                Utils.shareRecipe(recipeState.recipe, resources, ::startActivity)
+            }
         }
-        binding.btnShare.setOnClickListener {
-            Utils.shareRecipe(activity.viewModel.state.value.recipe, resources, ::startActivity)
-        }
-        binding.btnEditRecipe.setOnClickListener {
-            val intent = Intent(activity, RecipeInputActivity::class.java)
-            intent.putExtra("recipe", activity.viewModel.state.value.recipe)
-            val options: ActivityOptionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(requireActivity())
-            dialog.dismiss()
-            activity.editRecipeRequest.launch(intent, options)
-            requireActivity().overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
-        }
-        binding.btnDeleteRecipe.setOnClickListener {
-            ConfirmDialog { activity.viewModel.deleteRecipe() }.show(activity.supportFragmentManager, "Delete Recipe")
+
+        binding.cvEditRecipe.setOnClickListener {
+            viewModel.obtainEvent(RecipeActivityEvent.EditRecipe)
+            dialog?.dismiss()
         }
 
-        return dialog
+        binding.cvDeleteRecipe.setOnClickListener {
+            ConfirmDialog { viewModel.obtainEvent(RecipeActivityEvent.DeleteRecipe) }.show(requireActivity().supportFragmentManager, "Delete Recipe")
+            dialog?.dismiss()
+        }
+
+
+        binding.cvCategories.setOnClickListener {
+            CategoriesDialog().show(requireActivity().supportFragmentManager, "Categories Dialog")
+            dialog?.dismiss()
+        }
+
+//        dialog?.setOnShowListener { dialog ->
+//            val recipeMenu = dialog as BottomSheetDialog
+//            val bottomSheetInternal = recipeMenu.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
+//            if (bottomSheetInternal != null) {
+//                BottomSheetBehavior.from(bottomSheetInternal).state = BottomSheetBehavior.STATE_EXPANDED
+//            }
+//        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.recipeState.collect { state ->
+                    if (state is RecipeActivityState.DataUpdated) {
+                        if (state.recipe.remoteId != null) {
+                            binding.cvQrCode.visibility = View.VISIBLE
+                            binding.textLink.visibility = View.VISIBLE
+                            binding.cvLink.visibility = View.VISIBLE
+                            val recipeLink = RECIPES_ENDPOINT + state.recipe.remoteId.toString()
+                            binding.textLink.hint = recipeLink
+                            val bitmap = getGradientQrCode(recipeLink, requireContext())
+                            binding.ivQrCode.load(bitmap)
+                        } else {
+                            binding.cvQrCode.visibility = View.GONE
+                            binding.textLink.visibility = View.GONE
+                            binding.cvLink.visibility = View.GONE
+                        }
+                        if (state.recipe.isOwned) {
+                            binding.cvEditRecipe.visibility = View.VISIBLE
+                            binding.cvDeleteRecipe.visibility = View.VISIBLE
+                        } else {
+                            binding.cvEditRecipe.visibility = View.GONE
+                            binding.cvDeleteRecipe.visibility = View.GONE
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

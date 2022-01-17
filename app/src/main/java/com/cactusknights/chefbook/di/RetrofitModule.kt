@@ -1,10 +1,11 @@
 package com.cactusknights.chefbook.di
 
 import android.content.SharedPreferences
-import com.cactusknights.chefbook.common.Constants
+import com.cactusknights.chefbook.base.Constants
 import com.cactusknights.chefbook.repositories.remote.datasources.AuthInterceptor
 import com.cactusknights.chefbook.repositories.remote.api.ChefBookApi
 import com.cactusknights.chefbook.repositories.remote.api.SessionApi
+import com.cactusknights.chefbook.repositories.sync.SyncSettingsRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -30,15 +31,15 @@ class RetrofitModule {
     @Singleton
     fun provideSessionApi(): SessionApi =
         Retrofit.Builder()
-            .baseUrl(Constants.BASE_URL)
+            .baseUrl(Constants.API_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(SessionApi::class.java)
 
     @Provides
     @Singleton
-    fun provideAuthInterceptor(authApi: SessionApi, sp: SharedPreferences): AuthInterceptor =
-        AuthInterceptor(authApi, sp)
+    fun provideAuthInterceptor(authApi: SessionApi, sp: SharedPreferences, sr: SyncSettingsRepository): AuthInterceptor =
+        AuthInterceptor(authApi, sp, sr)
 
     @Provides
     @Singleton
@@ -55,7 +56,7 @@ class RetrofitModule {
     @Singleton
     fun provideChefBookApi(okHttpClient: OkHttpClient): ChefBookApi =
         Retrofit.Builder()
-            .baseUrl(Constants.BASE_URL)
+            .baseUrl(Constants.API_URL)
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()

@@ -4,16 +4,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.cactusknights.chefbook.common.Utils.getFormattedTimeByMinutes
+import com.cactusknights.chefbook.common.Utils.forceSubmitList
 import com.cactusknights.chefbook.databinding.FragmentRecipeCookingBinding
 import com.cactusknights.chefbook.screens.recipe.RecipeViewModel
 import com.cactusknights.chefbook.screens.recipe.adapters.CookingAdapter
+import com.cactusknights.chefbook.screens.recipe.models.RecipeActivityState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.collect
@@ -43,12 +45,8 @@ class RecipeCookingFragment : Fragment() {
         binding.rvSteps.adapter = cookingAdapter
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.state.collect { state ->
-                    cookingAdapter.differ.submitList(state.recipe.cooking)
-                    binding.textTime.text = getFormattedTimeByMinutes(
-                        state.recipe.time,
-                        this@RecipeCookingFragment.resources
-                    )
+                viewModel.recipeState.collect { state ->
+                    if (state is RecipeActivityState.DataUpdated) cookingAdapter.differ.forceSubmitList(state.recipe.cooking)
                 }
             }
         }

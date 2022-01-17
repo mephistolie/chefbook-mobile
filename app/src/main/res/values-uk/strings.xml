@@ -28,12 +28,12 @@
     <string name="calories_placeholder">%1$d ккал</string>
     <string name="servings_placeholder">Порції: %1$d</string>
     <string name="new_recipe">Новий рецепт</string>
-    <string name="name">Назва</string>
+    <string name="recipe_name">Назва</string>
     <string name="cupcake">Капкейки</string>
-    <string name="servings">Порції:</string>
+    <string name="servings_colon">Порції:</string>
     <string name="calories_kcal">Калорійність:</string>
-    <string name="time">Час:</string>
-    <string name="_0_to_hide">0 - приховати</string>
+    <string name="time_colon">Час:</string>
+    <string name="hide">0 - приховати</string>
     <string name="choose_categories">Вибрати категорії…</string>
     <string name="ingredients">Iнгредієнти</string>
     <string name="ingredient">Інгредієнт</string>
@@ -47,8 +47,8 @@
     <string name="are_you_sure">Ви впевнені?</string>
     <string name="recipe_menu">Меню рецепта</string>
     <string name="user">Користувач</string>
-    <string name="open_shopping_list_by_default">Відкривати список покупок за замовчуванням</string>
-    <string name="log_out">Вийти</string>
+    <string name="shopping_list_by_default">Відкривати список покупок за замовчуванням</string>
+    <string name="sign_out">Вийти</string>
     <string name="add_item">Додати покупку</string>
     <string name="add">Додавши</string>
     <string name="_12_servings">12 порцій</string>
@@ -57,7 +57,6 @@
     <string name="search">Пошук</string>
     <string name="favourite">Обраний</string>
     <string name="categories">Категории</string>
-    <string name="recently_added">Додані нещодавно</string>
     <string name="all_recipes">Всі рецепти</string>
     <string name="nothing_to_show">Список порожній</string>
     <string name="category">Категорія</string>

@@ -4,31 +4,39 @@ import android.app.ActionBar
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.cactusknights.chefbook.R
-import com.cactusknights.chefbook.databinding.ListSelectableBinding
-import com.cactusknights.chefbook.databinding.ListStepsBinding
+import com.cactusknights.chefbook.databinding.CellIngredientBinding
+import com.cactusknights.chefbook.databinding.CellStepBinding
 import com.cactusknights.chefbook.models.MarkdownString
 import com.cactusknights.chefbook.models.MarkdownTypes
-import com.cactusknights.chefbook.models.Selectable
 
 class CookingAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     inner class StepHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        val binding = DataBindingUtil.bind<ListStepsBinding>(itemView)
+        val binding = DataBindingUtil.bind<CellStepBinding>(itemView)
         val number: TextView = itemView.findViewById(R.id.text_number)
         val stepView: ConstraintLayout = itemView.findViewById(R.id.ll_step)
     }
 
     inner class SectionHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val binding = DataBindingUtil.bind<ListSelectableBinding>(itemView)
+        val name: TextView = itemView.findViewById(R.id.text_name)
+        private val isSelected: CheckBox = itemView.findViewById(R.id.checkbox_selected)
+
+        init {
+            name.textSize = 22F
+            name.setTextColor(ContextCompat.getColor(itemView.context, R.color.navigation_ripple))
+            isSelected.visibility = View.GONE
+        }
     }
 
     private val differCallback = object : DiffUtil.ItemCallback<MarkdownString>() {
@@ -55,18 +63,18 @@ class CookingAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             }
         } else {
             val ingredient = differ.currentList[position]
-            (holder as SectionHolder).binding?.selectableItem = ingredient
+            (holder as SectionHolder).name.text = ingredient.text
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
             0 -> {
-                val v = LayoutInflater.from(parent.context).inflate(R.layout.list_steps, parent, false)
+                val v = LayoutInflater.from(parent.context).inflate(R.layout.cell_step, parent, false)
                 StepHolder(v)
             }
             else -> {
-                val v = LayoutInflater.from(parent.context).inflate(R.layout.list_selectable, parent, false)
+                val v = LayoutInflater.from(parent.context).inflate(R.layout.cell_ingredient, parent, false)
                 SectionHolder(v)
             }
         }

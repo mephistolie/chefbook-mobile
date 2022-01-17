@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingBottom="8dp">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv_background"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:foreground="?android:attr/selectableItemBackground"
+        app:cardBackgroundColor="@color/navigation_primary"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/cv_cover"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp">
+
+            <TextView
+                android:id="@+id/text_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="8dp"
+                android:ellipsize="none"
+                android:fadingEdgeLength="64dp"
+                android:maxLines="2"
+                android:requiresFadingEdge="horizontal"
+                android:textAppearance="@style/TextAppearance.ChefBook.Header.4"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Жареная свинина в панировке" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/separator"
+                android:layout_width="48dp"
+                android:layout_height="2dp"
+                android:layout_marginTop="2dp"
+                app:cardBackgroundColor="@color/navigation_secondary"
+                app:cardCornerRadius="1dp"
+                app:cardElevation="0dp"
+                app:layout_constraintStart_toStartOf="@id/text_name"
+                app:layout_constraintTop_toBottomOf="@+id/text_name" />
+
+            <!--            <androidx.cardview.widget.CardView-->
+            <!--                android:id="@+id/cv_favourite"-->
+            <!--                android:layout_width="24dp"-->
+            <!--                android:layout_height="24dp"-->
+            <!--                android:layout_marginStart="-4dp"-->
+            <!--                android:layout_marginTop="12dp"-->
+            <!--                android:layout_marginBottom="-4dp"-->
+            <!--                android:foreground="?android:attr/selectableItemBackground"-->
+            <!--                android:outlineAmbientShadowColor="@color/red_light"-->
+            <!--                android:outlineSpotShadowColor="@color/red_light"-->
+            <!--                app:cardBackgroundColor="#f23d4f"-->
+            <!--                app:cardCornerRadius="12dp"-->
+            <!--                app:cardElevation="12dp"-->
+            <!--                app:layout_constraintStart_toStartOf="@id/cv_cover"-->
+            <!--                app:layout_constraintBottom_toBottomOf="@id/cv_cover">-->
+
+            <!--                <ImageView-->
+            <!--                    android:id="@+id/image_favourite"-->
+            <!--                    android:layout_width="14dp"-->
+            <!--                    android:layout_height="14dp"-->
+            <!--                    android:layout_gravity="center"-->
+            <!--                    android:layout_marginTop="1dp"-->
+            <!--                    android:contentDescription="@string/favourite"-->
+            <!--                    android:elevation="16dp"-->
+            <!--                    android:src="@drawable/ic_favorite"-->
+            <!--                    app:tint="#ffe5e8" />-->
+
+            <!--            </androidx.cardview.widget.CardView>-->
+
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="12dp"
+                android:layout_marginTop="4dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/separator">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="5"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/iv_servings"
+                            android:layout_width="12dp"
+                            android:layout_height="12dp"
+                            android:contentDescription="@string/time_colon"
+                            android:elevation="8dp"
+                            android:src="@drawable/ic_servings"
+                            app:tint="@color/deep_orange_light" />
+
+                        <TextView
+                            android:id="@+id/text_servings"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="4dp"
+                            android:maxLines="1"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                            android:textSize="14sp"
+                            tools:text="24" />
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/ll_calories"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="5"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/iv_calories"
+                            android:layout_width="12dp"
+                            android:layout_height="12dp"
+                            android:contentDescription="@string/time_colon"
+                            android:src="@drawable/ic_calories"
+                            app:tint="@color/deep_orange_light" />
+
+                        <TextView
+                            android:id="@+id/text_calories"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="4dp"
+                            android:maxLines="1"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                            tools:text="2400 kcal" />
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="4dp">
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="4"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/iv_clock"
+                            android:layout_width="12dp"
+                            android:layout_height="12dp"
+                            android:contentDescription="@string/time_colon"
+                            android:elevation="6dp"
+                            android:src="@drawable/ic_time"
+                            app:layout_constraintStart_toStartOf="@id/text_name"
+                            app:layout_constraintTop_toBottomOf="@id/iv_servings"
+                            app:tint="@color/deep_orange_light" />
+
+                        <TextView
+                            android:id="@+id/text_time"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="4dp"
+                            android:maxLines="1"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                            tools:text="12 h 40 min" />
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv_cover"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:foreground="?android:attr/selectableItemBackground"
+        app:cardBackgroundColor="@color/navigation_primary"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="0dp"
+        app:layout_constraintDimensionRatio="5:4"
+        app:layout_constraintEnd_toEndOf="@id/guideline"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/cv_background">
+
+        <TextView
+            android:id="@+id/text_cover"
+            style="@style/TextAppearance.ChefBook.Header.1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:scaleType="centerCrop"
+            android:text="CP"
+            android:textColor="@color/secondary_text_tint" />
+
+        <ImageView
+            android:id="@+id/iv_cover"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop" />
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.3" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

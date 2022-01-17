@@ -1,13 +1,12 @@
 package com.cactusknights.chefbook.repositories.remote.datasources
 
 import com.cactusknights.chefbook.domain.CategoriesDataSource
-import com.cactusknights.chefbook.domain.RecipesDataSource
 import com.cactusknights.chefbook.models.Category
 import com.cactusknights.chefbook.models.Recipe
 import com.cactusknights.chefbook.repositories.remote.api.ChefBookApi
-import com.cactusknights.chefbook.repositories.remote.dto.RecipeFavouriteInputDto
+import com.cactusknights.chefbook.repositories.remote.dto.toCategory
+import com.cactusknights.chefbook.repositories.remote.dto.toCategoryDto
 import com.cactusknights.chefbook.repositories.remote.dto.toRecipe
-import com.cactusknights.chefbook.repositories.remote.dto.toRecipeInputDto
 import java.io.IOException
 import javax.inject.Inject
 
@@ -15,19 +14,28 @@ class RemoteCategoriesDataSource @Inject constructor(
     private val api: ChefBookApi
 ) : CategoriesDataSource {
     override suspend fun getCategories(): ArrayList<Category> {
-        return api.getCategories().body()!!
+        val response = api.getCategories()
+        val categoryDtos = response.body()
+        if (categoryDtos != null) {
+            val categories: ArrayList<Category> = arrayListOf()
+            return categoryDtos.map { it.toCategory() }.toCollection(categories)
+        } else throw IOException()
     }
 
     override suspend fun addCategory(category: Category) : Int {
-        val response =  api.addCategory(category)
+        val response =  api.addCategory(category.toCategoryDto())
         return response.body()!!.id
     }
 
+    override suspend fun getCategory(categoryId: Int): Category {
+        TODO("Not yet implemented")
+    }
+
     override suspend fun updateCategory(category: Category) {
-        api.updateCategory(category.id.toString(), category)
+        api.updateCategory(category.remoteId.toString(), category.toCategoryDto())
     }
 
     override suspend fun deleteCategory(category: Category) {
-        api.deleteCategory(category.id.toString())
+        api.deleteCategory(category.remoteId.toString())
     }
 }

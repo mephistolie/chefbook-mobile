@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph_application"
+    app:startDestination="@id/recipesNavigation">
+
+    <fragment
+        android:id="@+id/shoppingListFragment"
+        android:name="com.cactusknights.chefbook.screens.main.fragments.shoppinglist.ShoppingListFragment"
+        android:label="ShoppingListFragment"
+        tools:layout="@layout/fragment_shopping_list"></fragment>
+
+
+    <navigation
+        android:id="@+id/recipesNavigation"
+        app:startDestination="@id/recipesFragment">
+        <fragment
+            android:id="@+id/recipesFragment"
+            android:name="com.cactusknights.chefbook.screens.main.fragments.recipes.RecipesFragment"
+            android:label="RecipesFragment"
+            tools:layout="@layout/fragment_recipes_dashboard">
+            <action
+                android:id="@+id/action_recipesFragment_to_categoriesFragment"
+                app:destination="@id/categoriesFragment"
+                app:enterAnim="@anim/zoom_in_show"
+                app:exitAnim="@anim/zoom_in_hide"
+                app:popEnterAnim="@anim/zoom_out_show"
+                app:popExitAnim="@anim/zoom_out_hide" />
+            <action
+                android:id="@+id/action_recipesFragment_to_favouriteRecipesFragment"
+                app:destination="@id/favouriteRecipesFragment"
+                app:enterAnim="@anim/zoom_in_show"
+                app:exitAnim="@anim/zoom_in_hide"
+                app:popEnterAnim="@anim/zoom_out_show"
+                app:popExitAnim="@anim/zoom_out_hide" />
+        </fragment>
+        <fragment
+            android:id="@+id/categoriesFragment"
+            android:name="com.cactusknights.chefbook.screens.main.fragments.categories.CategoriesFragment"
+            android:label="CategoriesFragment"
+            tools:layout="@layout/fragment_categories">
+            <action
+                android:id="@+id/action_categoriesFragment_to_recipesInCategoryFragment"
+                app:destination="@id/recipesInCategoryFragment"
+                app:enterAnim="@anim/zoom_in_show"
+                app:exitAnim="@anim/zoom_in_hide"
+                app:popEnterAnim="@anim/zoom_out_show"
+                app:popExitAnim="@anim/zoom_out_hide" />
+        </fragment>
+        <fragment
+            android:id="@+id/favouriteRecipesFragment"
+            android:name="com.cactusknights.chefbook.screens.main.fragments.favourite.FavouriteRecipesFragment"
+            android:label="FavouriteRecipesFragment"
+            tools:layout="@layout/fragment_recycler_view" />
+        <fragment
+            android:id="@+id/recipesInCategoryFragment"
+            android:name="com.cactusknights.chefbook.screens.main.fragments.recipesincategory.RecipesInCategoryFragment"
+            android:label="RecipesInCategoryFragment"
+            tools:layout="@layout/fragment_recycler_view" />
+    </navigation>
+    <navigation
+        android:id="@+id/profileNavigation"
+        app:startDestination="@id/profileFragment">
+        <fragment
+            android:id="@+id/profileFragment"
+            android:name="com.cactusknights.chefbook.screens.main.fragments.profile.ProfileFragment"
+            android:label="ProfileFragment"
+            tools:layout="@layout/fragment_profile">
+            <action
+                android:id="@+id/action_profileFragment_to_settingsFragment"
+                app:destination="@id/settingsFragment"
+                app:enterAnim="@anim/zoom_in_show"
+                app:exitAnim="@anim/zoom_in_hide"
+                app:popEnterAnim="@anim/zoom_out_show"
+                app:popExitAnim="@anim/zoom_out_hide" />
+            <action
+                android:id="@+id/action_profileFragment_to_editProfileFragment"
+                app:destination="@id/editProfileFragment"
+                app:enterAnim="@anim/zoom_in_show"
+                app:exitAnim="@anim/zoom_in_hide"
+                app:popEnterAnim="@anim/zoom_out_show"
+                app:popExitAnim="@anim/zoom_out_hide" />
+        </fragment>
+        <fragment
+            android:id="@+id/settingsFragment"
+            android:name="com.cactusknights.chefbook.screens.main.fragments.settings.SettingsFragment"
+            android:label="SettingsFragment"
+            tools:layout="@layout/fragment_settings" />
+        <fragment
+            android:id="@+id/editProfileFragment"
+            android:name="com.cactusknights.chefbook.screens.main.fragments.editprofile.EditProfileFragment"
+            android:label="EditProfileFragment"
+            tools:layout="@layout/fragment_edit_profile"/>
+    </navigation>
+</navigation>

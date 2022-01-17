@@ -3,9 +3,12 @@ package com.cactusknights.chefbook.screens.auth
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.cactusknights.chefbook.R
-import com.cactusknights.chefbook.common.BaseViewModel
+import com.cactusknights.chefbook.base.EventHandler
 import com.cactusknights.chefbook.common.Result
 import com.cactusknights.chefbook.domain.usecases.AuthUseCases
+import com.cactusknights.chefbook.screens.auth.models.AuthViewEffect
+import com.cactusknights.chefbook.screens.auth.models.AuthEvent
+import com.cactusknights.chefbook.screens.auth.models.AuthScreenState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -18,36 +21,44 @@ enum class PasswordStates {
 @HiltViewModel
 class AuthViewModel @Inject constructor(
     private val authUseCases: AuthUseCases,
-) : BaseViewModel<AuthActivityState>(AuthActivityState()) {
+) : ViewModel(), EventHandler<AuthEvent> {
 
-    fun updateState(newState: AuthActivityState) {
-        _state.value = newState
+    private val _authState : MutableStateFlow<AuthScreenState> = MutableStateFlow(AuthScreenState.SignInScreen())
+    val authState : StateFlow<AuthScreenState> = _authState.asStateFlow()
+
+    private val _viewEffect : MutableSharedFlow<AuthViewEffect> = MutableSharedFlow(replay = 0, extraBufferCapacity = 0)
+    val viewEffect : SharedFlow<AuthViewEffect> = _viewEffect.asSharedFlow()
+
+    override fun obtainEvent(event: AuthEvent) {
+        viewModelScope.launch {
+            when (event) {
+                is AuthEvent.SignInSelected -> _authState.emit(AuthScreenState.SignInScreen())
+                is AuthEvent.SignUpScreen -> _authState.emit(AuthScreenState.SignUpScreen())
+                is AuthEvent.RestorePasswordScreen -> _authState.emit(AuthScreenState.RestorePasswordScreen())
+                else -> { if (!_authState.value.isLoading) reduceAuthEvent(event) }
+            }
+        }
     }
 
-    fun signUp(email: String, password: String, passwordValidation: String) {
+    private fun reduceAuthEvent(event: AuthEvent) {
+        when (event) {
+            is AuthEvent.SignUp -> signUp(event.email, event.password, event.passwordValidation)
+            is AuthEvent.SignIn -> signIn(event.email, event.password)
+            is AuthEvent.RestorePassword -> { /* TODO */ }
+            is AuthEvent.SignInLocally -> signInLocally()
+        }
+    }
+
+    private fun signUp(email: String, password: String, passwordValidation: String) {
         viewModelScope.launch {
             if (checkAuthFields(email, password, passwordValidation)) {
                 authUseCases.signUp(email, password).collect { result ->
                     when (result) {
-                        is Result.Loading -> {
-                            _state.emit(AuthActivityState(
-                                inProgress = true,
-                                authState = SignStates.SIGN_UP
-                            ))
-                        }
-                        is Result.Success -> {
-                            _state.emit(AuthActivityState(
-                                authState = SignStates.SIGN_IN,
-                                inProgress = false,
-                                message = R.string.signup_successfully
-                            ))
-                        }
+                        is Result.Loading -> _authState.emit(AuthScreenState.SignUpScreen(isLoading = true))
+                        is Result.Success -> sendMessage(R.string.signup_successfully)
                         is Result.Error -> {
-                            _state.emit(AuthActivityState(
-                                authState = SignStates.SIGN_UP,
-                                inProgress = false,
-                                message = R.string.authentication_failed
-                            ))
+                            AuthScreenState.SignUpScreen()
+                            sendMessage(R.string.authentication_failed)
                         }
                     }
                 }
@@ -55,30 +66,29 @@ class AuthViewModel @Inject constructor(
         }
     }
 
-    fun signIn(email: String, password: String) {
+    private fun signIn(email: String, password: String) {
         viewModelScope.launch {
-            if (checkAuthFields(email, password, password)) {
-                authUseCases.signIn(email, password).collect { result ->
-                    when (result) {
-                        is Result.Loading -> {
-                            _state.value = AuthActivityState(
-                                inProgress = true
-                            )
-                        }
-                        is Result.Success -> {
-                            _state.value = AuthActivityState(
-                                authState = SignStates.SIGNED_IN,
-                                inProgress = false,
-                                message = R.string.login_successfully
-                            )
-                        }
-                        is Result.Error -> {
-                            _state.value = AuthActivityState(
-                                inProgress = false,
-                                message = R.string.authentication_failed
-                            )
-                        }
+            authUseCases.signIn(email, password).collect { result ->
+                when (result) {
+                    is Result.Loading -> { _authState.emit(AuthScreenState.SignInScreen(isLoading = true)) }
+                    is Result.Success -> {
+                        sendMessage(R.string.login_successfully)
+                        _viewEffect.emit(AuthViewEffect.SignedIn) }
+                    is Result.Error -> {
+                        _authState.emit(AuthScreenState.SignInScreen())
+                        sendMessage(R.string.authentication_failed)
                     }
+                }
+            }
+        }
+    }
+
+    private fun signInLocally() {
+        viewModelScope.launch {
+            authUseCases.signInLocally().collect {
+                if (it is Result.Success) {
+                    sendMessage(R.string.login_successfully)
+                    _viewEffect.emit(AuthViewEffect.SignedIn)
                 }
             }
         }
@@ -90,29 +100,29 @@ class AuthViewModel @Inject constructor(
         repeatPasswordText: String
     ): Boolean {
         if (email.isEmpty() || passwordText.isEmpty()) {
-            sendErrorMessage(R.string.empty_fields)
+            sendMessage(R.string.empty_fields)
             return false
         }
         if (!email.contains('@') || !email.contains('.')) {
-            sendErrorMessage(R.string.invalid_email)
+            sendMessage(R.string.invalid_email)
             return false
         }
         if (passwordText != repeatPasswordText && repeatPasswordText.isNotEmpty()) {
-            sendErrorMessage(R.string.password_mismatch)
+            sendMessage(R.string.password_mismatch)
             return false
         }
         when (validatePassword(passwordText)) {
             PasswordStates.SPACE -> {
-                sendErrorMessage(R.string.space_password)
+                sendMessage(R.string.space_password)
             }
             PasswordStates.SHORT -> {
-                sendErrorMessage(R.string.short_password)
+                sendMessage(R.string.short_password)
             }
             PasswordStates.LOWER -> {
-                sendErrorMessage(R.string.lower_password)
+                sendMessage(R.string.lower_password)
             }
             PasswordStates.UPPER -> {
-                sendErrorMessage(R.string.upper_password)
+                sendMessage(R.string.upper_password)
             }
             else -> return true
         }
@@ -135,13 +145,5 @@ class AuthViewModel @Inject constructor(
         return PasswordStates.VALID
     }
 
-    private suspend fun sendErrorMessage(messageCode: Int) {
-        _state.emit(
-            AuthActivityState(
-                authState = state.value.authState,
-                inProgress = false,
-                message = messageCode
-            )
-        )
-    }
+    private suspend fun sendMessage(messageCode: Int) { _viewEffect.emit(AuthViewEffect.Message(messageCode)) }
 }

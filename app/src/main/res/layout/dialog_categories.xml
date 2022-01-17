@@ -52,40 +52,12 @@
                 android:id="@+id/rv_categories"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
                 android:layout_weight="3"
                 android:clickable="true"
                 android:focusable="true"
                 android:nestedScrollingEnabled="false"
                 tools:itemCount="30"
-                tools:listitem="@layout/list_categories_edit" />
-
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="0"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/input_new_category"
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:layout_weight="2"
-                    android:background="@drawable/selector_input"
-                    android:hint="@string/new_category"
-                    android:paddingHorizontal="8dp"
-                    android:textSize="24sp" />
-
-                <androidx.appcompat.widget.AppCompatImageButton
-                    android:id="@+id/btn_add_category"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:background="@drawable/ripple_primary"
-                    android:src="@drawable/ic_add"
-                    app:tint="@color/deep_orange_light" />
-
-            </androidx.appcompat.widget.LinearLayoutCompat>
+                tools:listitem="@layout/cell_category_edit" />
 
             <View
                 android:layout_width="match_parent"
@@ -108,7 +80,7 @@
                     android:layout_width="36dp"
                     android:layout_height="36dp"
                     android:layout_marginHorizontal="4dp"
-                    android:background="@drawable/ripple_secondary"
+                    android:background="@drawable/ripple_grey"
                     android:scaleType="fitCenter"
                     android:src="@drawable/ic_cross"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -128,7 +100,7 @@
                     android:layout_width="36dp"
                     android:layout_height="36dp"
                     android:layout_marginHorizontal="4dp"
-                    android:background="@drawable/ripple_primary"
+                    android:background="@drawable/ripple_deep_orange"
                     android:scaleType="fitCenter"
                     android:src="@drawable/ic_check"
                     app:layout_constraintBottom_toBottomOf="parent"

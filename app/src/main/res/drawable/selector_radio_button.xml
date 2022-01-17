@@ -3,12 +3,9 @@
 
     <item android:state_checked="true">
         <shape android:shape="rectangle">
-            <gradient
-                android:type="linear"
-                android:angle="315"
-                android:startColor="@color/deep_orange_light"
-                android:endColor="#f46b45"/>
             <corners android:radius="18dp"/>
+            <solid android:color="@color/deep_orange_light"/>
+            <stroke android:width="3dp" android:color="@color/input_background" android:dashWidth="8dp"/>
         </shape>
     </item>
 </selector>
