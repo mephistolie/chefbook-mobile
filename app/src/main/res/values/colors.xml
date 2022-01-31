@@ -12,19 +12,18 @@
     <color name="monochrome">@color/white</color>
     <color name="monochrome_invert">@color/black</color>
 
-    <color name="app_background">@color/monochrome</color>
-    <color name="input_background">#F2F2F2</color>
+    <color name="app_background">#F6F6F6</color>
     <color name="hint_background">#bfbfbf</color>
     <color name="secondary_text_tint">#3F3F3F</color>
-    <color name="navigation_primary">#F6F6F6</color>
+    <color name="navigation_primary">@color/monochrome</color>
     <color name="navigation_secondary">#e5e5e5</color>
     <color name="navigation_ripple">#666666</color>
     <color name="recently_added_subtext">#e5e5e5</color>
 
-    <color name="app_background_alt">#F6F6F6</color>
-    <color name="navigation_primary_alt">@color/monochrome</color>
-
-    <color name="category_cell_cover">@color/white</color>
+    <color name="app_background_alt">@color/navigation_primary</color>
+    <color name="navigation_primary_alt">@color/app_background</color>
+    <color name="input_background">#eeeeee</color>
+    <color name="input_background_nav">#eeeeee</color>
 
     <color name="deep_orange_light">#ff8a50</color>
     <color name="red_light">#ff7961</color>
@@ -50,5 +49,6 @@
     <color name="blue_grey_light_background">#3f8eacbb</color>
     <color name="deep_purple_light_background">#3f9a67ea</color>
     <color name="orange_light_background">#3fffc947</color>
+    <color name="elevation_color">#0d000000</color>
 
 </resources>

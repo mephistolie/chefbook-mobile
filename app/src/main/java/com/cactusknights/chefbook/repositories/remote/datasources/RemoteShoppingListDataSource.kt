@@ -1,17 +1,19 @@
 package com.cactusknights.chefbook.repositories.remote.datasources
 
-import android.util.Log
-import com.cactusknights.chefbook.domain.ShoppingListDataSource
 import com.cactusknights.chefbook.models.Purchase
-import com.cactusknights.chefbook.models.Selectable
 import com.cactusknights.chefbook.models.ShoppingList
-import com.cactusknights.chefbook.repositories.remote.api.ChefBookApi
-import com.cactusknights.chefbook.repositories.remote.dto.*
-import com.google.gson.Gson
+import com.cactusknights.chefbook.repositories.ShoppingListDataSource
+import com.cactusknights.chefbook.repositories.remote.api.ShoppingListApi
+import com.cactusknights.chefbook.repositories.remote.dto.toPurchaseDto
+import com.cactusknights.chefbook.repositories.remote.dto.toShoppingList
+import com.cactusknights.chefbook.repositories.remote.dto.toShoppingListInputDto
 import java.io.IOException
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class RemoteShoppingListDataSource(
-    private val api: ChefBookApi
+@Singleton
+class RemoteShoppingListDataSource @Inject constructor(
+    private val api: ShoppingListApi
 ) : ShoppingListDataSource {
 
     override suspend fun getShoppingList(): ShoppingList {

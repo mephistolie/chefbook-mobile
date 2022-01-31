@@ -15,10 +15,10 @@ import com.cactusknights.chefbook.databinding.DialogCategoriesBinding
 import com.cactusknights.chefbook.models.Selectable
 import com.cactusknights.chefbook.screens.recipe.RecipeViewModel
 import com.cactusknights.chefbook.screens.recipe.adapters.RecipeCategoryAdapter
-import com.cactusknights.chefbook.screens.recipe.models.RecipeActivityEvent
-import com.cactusknights.chefbook.screens.recipe.models.RecipeActivityState
+import com.cactusknights.chefbook.screens.recipe.models.RecipeScreenEvent
+import com.cactusknights.chefbook.screens.recipe.models.RecipeScreenState
 import kotlinx.coroutines.flow.collect
-import java.util.ArrayList
+import java.util.*
 
 class CategoriesDialog : DialogFragment() {
 
@@ -42,14 +42,14 @@ class CategoriesDialog : DialogFragment() {
         }
 
         binding.btnConfirm.setOnClickListener {
-            viewModel.obtainEvent(RecipeActivityEvent.SetCategories(categoriesAdapter.differ.currentList.filter {
+            viewModel.obtainEvent(RecipeScreenEvent.SetCategories(categoriesAdapter.differ.currentList.filter {
                 it.item?.id != null && it.isSelected }.map { it.item?.id!! } as ArrayList<Int>))
             dialog.dismiss()
         }
 
         lifecycleScope.launchWhenResumed {
             viewModel.recipeState.collect { state ->
-                if (state is RecipeActivityState.DataUpdated) {
+                if (state is RecipeScreenState.DataUpdated) {
                     val cachedSelectedIds = categoriesAdapter.differ.currentList.filter { it.isSelected }.map { it.item?.id }
                     val newCategories = state.categories.map { Selectable(
                         item = it,

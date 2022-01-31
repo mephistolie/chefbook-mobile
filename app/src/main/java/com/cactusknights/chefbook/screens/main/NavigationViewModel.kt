@@ -2,43 +2,21 @@ package com.cactusknights.chefbook.screens.main
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.cactusknights.chefbook.base.EventHandler
-import com.cactusknights.chefbook.domain.usecases.RecipesUseCases
-import com.cactusknights.chefbook.domain.usecases.SettingsUseCases
-import com.cactusknights.chefbook.domain.usecases.UserUseCases
-import com.cactusknights.chefbook.models.Recipe
-import com.cactusknights.chefbook.screens.main.models.NavigationEvent
+import com.cactusknights.chefbook.common.mvi.EventHandler
 import com.cactusknights.chefbook.screens.main.models.NavigationEffect
-import com.cactusknights.chefbook.screens.main.models.RecipesState
+import com.cactusknights.chefbook.screens.main.models.NavigationEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class NavigationViewModel @Inject constructor(
-    private val recipeUseCases: RecipesUseCases,
-    private val userUseCases: UserUseCases,
-    private val settingsUseCases: SettingsUseCases
-) : ViewModel(), EventHandler<NavigationEvent> {
-
-    private val _recipesState: MutableStateFlow<RecipesState> = MutableStateFlow(RecipesState.Loading)
-    val recipesState: StateFlow<RecipesState> = _recipesState.asStateFlow()
+class NavigationViewModel @Inject constructor() : ViewModel(), EventHandler<NavigationEvent> {
 
     private val _viewEffect: MutableSharedFlow<NavigationEffect> = MutableSharedFlow(replay = 0, extraBufferCapacity = 0)
     val viewEffect: SharedFlow<NavigationEffect> = _viewEffect.asSharedFlow()
-
-    private var recipes : List<Recipe> = listOf()
-
-    init {
-        viewModelScope.launch {
-            launch { userUseCases.getUserInfo() }
-            launch { recipeUseCases.listenToRecipes().collect {
-                recipes = it
-                _recipesState.emit(RecipesState.RecipesUpdated(it))
-            } }
-        }
-    }
 
     override fun obtainEvent(event: NavigationEvent) {
         viewModelScope.launch {
@@ -58,13 +36,7 @@ class NavigationViewModel @Inject constructor(
                 is NavigationEvent.RateApp -> _viewEffect.emit(NavigationEffect.RateAppScreen)
                 is NavigationEvent.OpenBroccoinsDialog -> _viewEffect.emit(NavigationEffect.BroccoinsDialog)
                 is NavigationEvent.OpenSubscriptionDialog -> _viewEffect.emit(NavigationEffect.SubscriptionDialog)
-                is NavigationEvent.SearchRecipe -> searchRecipe(event.query)
             }
         }
-    }
-
-    private suspend fun searchRecipe(query: String) {
-        if (query.isNotEmpty()) _recipesState.emit(RecipesState.SearchResult(recipes.filter { it.name.lowercase().contains(query.lowercase()) }))
-        else _recipesState.emit(RecipesState.RecipesUpdated(recipes))
     }
 }

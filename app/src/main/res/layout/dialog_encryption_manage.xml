@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingBottom="8dp"
+    tools:background="@color/navigation_primary">
+
+    <TextView
+        style="@style/TextAppearance.ChefBook.Header.4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_weight="1"
+        android:gravity="start"
+        android:text="@string/vault_unlocked_info" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/text_edit_recipe"
+        style="@style/TextAppearance.ChefBook.Header.4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/selector_rounded_top"
+        android:backgroundTint="@color/navigation_primary_alt"
+        android:gravity="center"
+        android:paddingVertical="16dp"
+        android:singleLine="true"
+        android:text="@string/change_password" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/navigation_secondary" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/text_lock_vault"
+        style="@style/TextAppearance.ChefBook.Header.4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/navigation_primary"
+        android:backgroundTint="@color/navigation_primary_alt"
+        android:gravity="center"
+        android:paddingVertical="16dp"
+        android:singleLine="true"
+        android:text="@string/lock_vault" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/navigation_secondary" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/text_delete_recipe"
+        style="@style/TextAppearance.ChefBook.Header.4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/selector_rounded_bottom"
+        android:backgroundTint="@color/navigation_primary_alt"
+        android:gravity="center"
+        android:paddingVertical="16dp"
+        android:singleLine="true"
+        android:text="@string/delete_vault"
+        android:textColor="@color/red_light" />
+
+</androidx.appcompat.widget.LinearLayoutCompat>

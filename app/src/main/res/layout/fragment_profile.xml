@@ -77,7 +77,6 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="24dp"
-        android:background="@drawable/selector_profile_background"
         android:fadingEdgeLength="12dp"
         android:requiresFadingEdge="vertical"
         android:scrollbars="none"
@@ -101,7 +100,7 @@
                 android:layout_weight="1"
                 android:foreground="?android:attr/selectableItemBackground"
                 android:visibility="gone"
-                app:cardBackgroundColor="@color/app_background"
+                app:cardBackgroundColor="@color/navigation_primary"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="0dp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -187,7 +186,7 @@
                 android:layout_marginTop="24dp"
                 android:layout_weight="1"
                 android:foreground="?android:attr/selectableItemBackground"
-                app:cardBackgroundColor="@color/app_background"
+                app:cardBackgroundColor="@color/navigation_primary"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="0dp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -270,7 +269,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="6dp"
                 android:foreground="?android:attr/selectableItemBackground"
-                app:cardBackgroundColor="@color/app_background"
+                app:cardBackgroundColor="@color/navigation_primary"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="0dp"
                 app:layout_constraintEnd_toStartOf="@id/cv_subscription"
@@ -336,7 +335,7 @@
                 android:layout_marginStart="6dp"
                 android:layout_marginTop="16dp"
                 android:foreground="?android:attr/selectableItemBackground"
-                app:cardBackgroundColor="@color/app_background"
+                app:cardBackgroundColor="@color/navigation_primary"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="0dp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -404,7 +403,7 @@
                 android:layout_marginTop="12dp"
                 android:layout_weight="1"
                 android:foreground="?android:attr/selectableItemBackground"
-                app:cardBackgroundColor="@color/app_background"
+                app:cardBackgroundColor="@color/navigation_primary"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="0dp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -478,7 +477,7 @@
                         android:layout_weight="0"
                         android:scaleType="fitCenter"
                         android:src="@drawable/ic_forward"
-                        app:tint="@color/secondary_text_tint" />
+                        app:tint="@color/hint_background" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -491,7 +490,7 @@
                 android:layout_marginTop="12dp"
                 android:layout_weight="1"
                 android:foreground="?android:attr/selectableItemBackground"
-                app:cardBackgroundColor="@color/app_background"
+                app:cardBackgroundColor="@color/navigation_primary"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="0dp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -565,7 +564,7 @@
                         android:layout_weight="0"
                         android:scaleType="fitCenter"
                         android:src="@drawable/ic_forward"
-                        app:tint="@color/secondary_text_tint" />
+                        app:tint="@color/hint_background" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -578,7 +577,7 @@
                 android:layout_marginTop="12dp"
                 android:layout_weight="1"
                 android:foreground="?android:attr/selectableItemBackground"
-                app:cardBackgroundColor="@color/app_background"
+                app:cardBackgroundColor="@color/navigation_primary"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="0dp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -648,7 +647,7 @@
                         android:layout_weight="0"
                         android:scaleType="fitCenter"
                         android:src="@drawable/ic_forward"
-                        app:tint="@color/secondary_text_tint" />
+                        app:tint="@color/hint_background" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -660,7 +659,7 @@
                 android:layout_height="64dp"
                 android:layout_marginTop="12dp"
                 android:foreground="?android:attr/selectableItemBackground"
-                app:cardBackgroundColor="@color/app_background"
+                app:cardBackgroundColor="@color/navigation_primary"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="0dp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -730,7 +729,7 @@
                         android:layout_weight="0"
                         android:scaleType="fitCenter"
                         android:src="@drawable/ic_forward"
-                        app:tint="@color/secondary_text_tint" />
+                        app:tint="@color/hint_background" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -743,7 +742,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="24dp"
                 android:foreground="?android:attr/selectableItemBackground"
-                app:cardBackgroundColor="@color/app_background"
+                app:cardBackgroundColor="@color/navigation_primary"
                 app:cardCornerRadius="12dp"
                 app:cardElevation="0dp"
                 app:layout_constraintEnd_toEndOf="parent"

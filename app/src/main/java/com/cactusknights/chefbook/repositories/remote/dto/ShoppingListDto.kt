@@ -5,7 +5,6 @@ import com.cactusknights.chefbook.models.ShoppingList
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 import java.util.*
-import kotlin.collections.ArrayList
 
 class ShoppingListDto (
     var purchases: ArrayList<PurchaseDto>,

@@ -2,8 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/app_background">
+    android:layout_height="match_parent">
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
@@ -21,6 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:paddingStart="0dp"
             android:paddingEnd="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -43,14 +43,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="Chef" />
+                android:text="@string/chef" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 style="@style/TextAppearance.ChefBook.Header.1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="Book" />
+                android:text="@string/book" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

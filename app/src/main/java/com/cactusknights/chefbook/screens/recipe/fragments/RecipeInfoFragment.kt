@@ -12,7 +12,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.cactusknights.chefbook.common.Utils
 import com.cactusknights.chefbook.databinding.FragmentRecipeInfoBinding
 import com.cactusknights.chefbook.screens.recipe.RecipeViewModel
-import com.cactusknights.chefbook.screens.recipe.models.RecipeActivityState
+import com.cactusknights.chefbook.screens.recipe.models.RecipeScreenState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -40,25 +40,20 @@ class RecipeInfoFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.recipeState.collect { state ->
-                    if (state is RecipeActivityState.DataUpdated) {
+                    if (state is RecipeScreenState.DataUpdated) {
                         binding.textServings.text = state.recipe.servings.toString()
-                        binding.textTime.text = Utils.getFormattedTimeByMinutes(
-                            state.recipe.time,
-                            this@RecipeInfoFragment.resources
-                        )
+                        binding.textTime.text = Utils.minutesToTimeString(state.recipe.time, this@RecipeInfoFragment.resources)
                         if (state.recipe.calories > 0) {
-                            binding.llCalories.visibility = View.VISIBLE
+                            binding.cvCalories.visibility = View.VISIBLE
                             binding.textCalories.text = state.recipe.calories.toString()
                         }
-                        else binding.llCalories.visibility = View.GONE
+                        else binding.cvCalories.visibility = View.GONE
 
                         if (!state.recipe.description.isNullOrEmpty()) {
-                            binding.textDescription.visibility = View.VISIBLE
-                            binding.textDescriptionHeader.visibility = View.VISIBLE
+                            binding.llDescription.visibility = View.VISIBLE
                             binding.textDescription.text = state.recipe.description
                         } else {
-                            binding.textDescription.visibility = View.GONE
-                            binding.textDescriptionHeader.visibility = View.GONE
+                            binding.llDescription.visibility = View.GONE
                         }
                     }
                 }

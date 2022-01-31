@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginHorizontal="8dp"
-        android:backgroundTint="@color/app_background"
+        android:backgroundTint="@color/navigation_primary"
         app:cardCornerRadius="20dp"
         app:cardElevation="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -55,7 +55,7 @@
                 android:layout_marginHorizontal="96dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="16dp"
-                android:background="@drawable/selector_input" />
+                android:background="@drawable/selector_input_nav" />
 
             <TextView
                 style="@style/TextAppearance.ChefBook.Header.4"

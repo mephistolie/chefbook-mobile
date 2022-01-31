@@ -4,13 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    tools:background="@color/monochrome_invert"
     android:layout_gravity="center">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginHorizontal="8dp"
-        android:backgroundTint="@color/app_background"
+        android:backgroundTint="@color/navigation_primary_alt"
         app:cardCornerRadius="20dp"
         app:cardElevation="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -38,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="0"
-                android:text="@string/select_categories" />
+                android:text="@string/categories" />
 
             <View
                 android:layout_width="match_parent"
@@ -46,17 +47,16 @@
                 android:layout_marginHorizontal="96dp"
                 android:layout_marginVertical="16dp"
                 android:layout_weight="0"
-                android:background="@drawable/selector_input" />
+                android:background="@drawable/selector_input_nav" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_categories"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="3"
                 android:clickable="true"
                 android:focusable="true"
                 android:nestedScrollingEnabled="false"
-                tools:itemCount="30"
+                tools:itemCount="5"
                 tools:listitem="@layout/cell_category_edit" />
 
             <View
@@ -65,7 +65,7 @@
                 android:layout_marginHorizontal="96dp"
                 android:layout_marginVertical="16dp"
                 android:layout_weight="0"
-                android:background="@drawable/selector_input" />
+                android:background="@drawable/selector_input_nav" />
 
             <LinearLayout
                 android:layout_width="match_parent"

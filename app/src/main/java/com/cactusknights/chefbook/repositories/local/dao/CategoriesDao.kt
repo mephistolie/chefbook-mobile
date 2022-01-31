@@ -2,8 +2,6 @@ package com.cactusknights.chefbook.repositories.local.dao
 
 import androidx.room.*
 import com.cactusknights.chefbook.repositories.local.entities.CategoryEntity
-import com.cactusknights.chefbook.repositories.local.entities.RecipeEntity
-import com.cactusknights.chefbook.repositories.local.entities.RecipesCategoriesEntity
 
 @Dao
 interface CategoriesDao {

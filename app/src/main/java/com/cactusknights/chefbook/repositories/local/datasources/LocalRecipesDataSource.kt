@@ -1,29 +1,22 @@
 package com.cactusknights.chefbook.repositories.local.datasources
 
 import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.stringPreferencesKey
-import com.cactusknights.chefbook.domain.RecipesDataSource
+import com.cactusknights.chefbook.SyncDataProto
 import com.cactusknights.chefbook.models.Recipe
+import com.cactusknights.chefbook.repositories.RecipesDataSource
 import com.cactusknights.chefbook.repositories.local.dao.RecipesDao
 import com.cactusknights.chefbook.repositories.local.entities.toRecipe
 import com.cactusknights.chefbook.repositories.local.entities.toRecipeEntity
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.flow.first
-import java.lang.reflect.Type
+import kotlinx.coroutines.flow.take
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class LocalRecipesDataSource @Inject constructor(
     private val dao: RecipesDao,
-    private val gson: Gson,
-    private val dataStore: DataStore<Preferences>,
+    private val syncData: DataStore<SyncDataProto>,
 ) : RecipesDataSource {
-
-    companion object {
-        private val DELETED_RECIPE_REMOTE_IDS = stringPreferencesKey("deleted_recipes")
-    }
 
     override suspend fun getRecipes(): ArrayList<Recipe> {
         val recipes = arrayListOf<Recipe>()
@@ -57,11 +50,7 @@ class LocalRecipesDataSource @Inject constructor(
     override suspend fun deleteRecipe(recipe: Recipe) {
         dao.deleteRecipe(recipe.id!!)
         if (recipe.remoteId != null) {
-            val deletedIds = getDeletedRecipeRemoteIds()
-            deletedIds.add(recipe.remoteId!!)
-            dataStore.edit { prefs ->
-                prefs[DELETED_RECIPE_REMOTE_IDS] = gson.toJson(deletedIds)
-            }
+            syncData.updateData { it.deletedRecipesList.add(recipe.remoteId!!); it }
         }
     }
 
@@ -73,11 +62,7 @@ class LocalRecipesDataSource @Inject constructor(
         dao.setRecipeLikes(recipe.id!!, recipe.isLiked, recipe.likes)
     }
 
-    suspend fun getDeletedRecipeRemoteIds(): ArrayList<Int> {
-        val type: Type = object : TypeToken<ArrayList<Int>>() {}.type
-        val prefs = dataStore.data.first()
-        return gson.fromJson(prefs[DELETED_RECIPE_REMOTE_IDS]?: "[]", type)
-    }
+    suspend fun getDeletedRecipeRemoteIds(): List<Int> = syncData.data.take(1).first().deletedRecipesList
 
     override suspend fun setRecipeCategories(recipe: Recipe) {
         dao.deleteRecipeCategories(recipe.id!!)

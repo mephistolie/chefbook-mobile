@@ -10,17 +10,18 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.cactusknights.chefbook.common.ConfirmDialog
 import com.cactusknights.chefbook.common.showToast
 import com.cactusknights.chefbook.databinding.FragmentEditProfileBinding
-import com.cactusknights.chefbook.screens.main.fragments.editprofile.dialogs.ChangeNameDialog
+import com.cactusknights.chefbook.screens.common.ConfirmDialog
 import com.cactusknights.chefbook.screens.main.NavigationViewModel
-import com.cactusknights.chefbook.screens.main.fragments.editprofile.models.EditProfileEvent
-import com.canhub.cropper.*
+import com.cactusknights.chefbook.screens.main.fragments.editprofile.dialogs.ChangeNameDialog
+import com.cactusknights.chefbook.screens.main.fragments.editprofile.models.EditProfileScreenEvent
+import com.canhub.cropper.CropImageContract
+import com.canhub.cropper.CropImageView
+import com.canhub.cropper.options
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import java.util.*
 
 @AndroidEntryPoint
 class EditProfileFragment: Fragment() {
@@ -46,7 +47,7 @@ class EditProfileFragment: Fragment() {
         val cropImage = registerForActivityResult(CropImageContract()) {
             val uri = it.getUriFilePath(requireContext())
             if (it.isSuccessful && uri != null) {
-                viewModel.obtainEvent(EditProfileEvent.UploadAvatar(uri, context))
+                viewModel.obtainEvent(EditProfileScreenEvent.UploadAvatar(uri, context))
             }
         }
 
@@ -61,12 +62,12 @@ class EditProfileFragment: Fragment() {
 
         binding.cvDeleteAvatar.setOnClickListener {
             val fm = activity?.supportFragmentManager
-            if (fm != null) ConfirmDialog { viewModel.obtainEvent(EditProfileEvent.DeleteAvatar) }.show(fm, "Confirm")
+            if (fm != null) ConfirmDialog { viewModel.obtainEvent(EditProfileScreenEvent.DeleteAvatar) }.show(fm, "Confirm")
         }
 
         binding.cvChangeName.setOnClickListener {
             val fm = activity?.supportFragmentManager
-            if (fm != null) ChangeNameDialog(viewModel.currentUser.name) { name -> viewModel.obtainEvent(EditProfileEvent.ChangeName(name)) }.show(fm, "Confirm")
+            if (fm != null) ChangeNameDialog(viewModel.currentUser.name) { name -> viewModel.obtainEvent(EditProfileScreenEvent.ChangeName(name)) }.show(fm, "Confirm")
         }
 
         viewLifecycleOwner.lifecycleScope.launch { viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {

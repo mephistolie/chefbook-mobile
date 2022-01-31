@@ -9,8 +9,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginHorizontal="8dp"
-        android:backgroundTint="@color/app_background"
-        app:cardCornerRadius="20dp"
+        android:backgroundTint="@color/navigation_primary"
+        app:cardCornerRadius="24dp"
         app:cardElevation="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -54,7 +54,7 @@
                 android:layout_height="2dp"
                 android:layout_marginHorizontal="96dp"
                 android:layout_marginVertical="16dp"
-                android:background="@drawable/selector_input" />
+                android:background="@drawable/selector_input_nav" />
 
             <TextView
                 android:layout_width="wrap_content"

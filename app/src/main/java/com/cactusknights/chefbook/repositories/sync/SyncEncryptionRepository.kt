@@ -1,109 +1,119 @@
 package com.cactusknights.chefbook.repositories.sync
 
-import com.cactusknights.chefbook.common.md5
+import com.cactusknights.chefbook.SettingsProto
+import com.cactusknights.chefbook.core.datastore.SettingsManager
+import com.cactusknights.chefbook.core.encryption.EncryptionManager
+import com.cactusknights.chefbook.core.encryption.EncryptionState
 import com.cactusknights.chefbook.domain.EncryptionRepository
-import com.cactusknights.chefbook.models.*
+import com.cactusknights.chefbook.repositories.local.datasources.LocalEncryptionDataSource
+import com.cactusknights.chefbook.repositories.remote.datasources.RemoteEncryptionDataSource
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import java.security.KeyPairGenerator
-import javax.crypto.Cipher
+import java.io.IOException
+import java.security.*
 import javax.crypto.SecretKey
 import javax.inject.Inject
-import com.cactusknights.chefbook.repositories.local.datasources.LocalEncryptionDataSource
-import javax.crypto.spec.SecretKeySpec
-import android.util.Log
-import com.cactusknights.chefbook.repositories.remote.datasources.RemoteEncryptionDataSource
-import com.google.gson.Gson
-import java.io.IOException
-import java.security.Key
-import java.security.KeyFactory
-import java.security.KeyPair
-import java.security.spec.PKCS8EncodedKeySpec
-import java.security.spec.X509EncodedKeySpec
-import javax.crypto.spec.GCMParameterSpec
+import javax.inject.Singleton
 
-
+@Singleton
 class SyncEncryptionRepository @Inject constructor(
     private val localSource: LocalEncryptionDataSource,
-    private val remoteSource: RemoteEncryptionDataSource
+    private val remoteSource: RemoteEncryptionDataSource,
+    private val encryptionManager: EncryptionManager,
+    private val settings: SettingsManager
 ): EncryptionRepository {
 
-    companion object {
-        val IV = "chefbookchefbook".toByteArray()
-        const val TAG_LENGTH = 16
-        const val RSA_LENGTH = 2048
-        const val RSA_PUBLIC_KEY_LENGTH = 294
-        const val AES = "AES/GCM/NoPadding"
-        const val RSA = "RSA"
-    }
+    private var userPublicKey : PublicKey? = null
+    private var userPrivateKey : PrivateKey? = null
+    private val unlockState : MutableStateFlow<Boolean> = MutableStateFlow(false)
 
-    private var aesKey : SecretKey? = null
-
-    fun testEncryption() {
+    init {
         CoroutineScope(Dispatchers.IO).launch {
-            setAesKey("test")
-            generateRecipeRSA(5)
-            val kp = decryptRsa(remoteSource.getEncryptedUserKey()!!)
-
-            val recipe = DecryptedRecipe(
-                name = "TEST TEST CUPCAKES",
-                ingredients = arrayListOf(MarkdownString("FIRST INGREDIENT"), MarkdownString("SECOND INGREDIENT", MarkdownTypes.HEADER)),
-                cooking = arrayListOf(MarkdownString("FIRST STEP"), MarkdownString("SECOND STEP", MarkdownTypes.HEADER))
-            )
-            Log.e("ENCRYPTION", Gson().toJson(recipe).toString())
-            val encryptedRecipe = recipe.encrypt(kp.public)
-            Log.e("ENCRYPTION", Gson().toJson(encryptedRecipe).toString())
-            val decryptedRecipe = encryptedRecipe.decrypt(kp.private)
-            Log.e("ENCRYPTION", Gson().toJson(decryptedRecipe).toString())
+            if (getEncryptionState() != EncryptionState.DISABLED) {
+                val encryptedUserKey = localSource.getEncryptedUserKey() ?: throw IOException()
+                userPublicKey = encryptionManager.getPublicKeyByEncryptedPair(encryptedUserKey)
+            }
         }
     }
 
-    override suspend fun getRecipe(recipeId: Int) {
+    override suspend fun listenToUnlockedState(): StateFlow<Boolean> = unlockState.asStateFlow()
+
+    override suspend fun getEncryptionState(): EncryptionState {
+        if (userPrivateKey != null) return EncryptionState.UNLOCKED
+        if (userPublicKey != null) return EncryptionState.LOCKED
+        var localKey = localSource.getEncryptedUserKey()
+        if (localKey == null && settings.getDataSourceType() == SettingsProto.DataSource.REMOTE) {
+            val remoteKey = remoteSource.getEncryptedUserKey()
+            if (remoteKey != null) {
+                localSource.setEncryptedUserKey(remoteKey)
+                localKey = remoteKey
+            }
+        }
+        return if (localKey != null) EncryptionState.LOCKED else EncryptionState.DISABLED
     }
 
-    override suspend fun setAesKey(keyphrase: String) {
-        aesKey = SecretKeySpec(keyphrase.md5().toByteArray(), AES)
+    override suspend fun createEncryptedVault(password: String) {
+        val kp = encryptionManager.generateKeyPair()
+        val key = encryptionManager.generateSymmetricKey(password)
+        val encryptedKeyPair = encryptionManager.encryptKeyPairBySymmetricKey(kp, key)
+
+        localSource.setEncryptedUserKey(encryptedKeyPair)
+
+        userPublicKey = kp.public
+        userPrivateKey = kp.private
+
+        if (settings.getDataSourceType() == SettingsProto.DataSource.REMOTE) remoteSource.setEncryptedUserKey(encryptedKeyPair)
     }
 
-    override suspend fun generateRecipeRSA(recipeId: Int) {
-        val kpg = KeyPairGenerator.getInstance(RSA)
-        kpg.initialize(RSA_LENGTH)
-        val kp = kpg.genKeyPair()
-
-        val stored = remoteSource.setEncryptedUserKey(encryptRsa(kp))
-        if (!stored) throw IOException()
+    override suspend fun unlockEncryptedVault(password: String) {
+        val key = encryptionManager.generateSymmetricKey(password)
+        val encryptedUserKey = localSource.getEncryptedUserKey() ?: throw IOException()
+        val keyPair = encryptionManager.decryptKeyPairBySymmetricKey(encryptedUserKey, key)
+        userPublicKey = keyPair.public
+        userPrivateKey = keyPair.private
+        unlockState.emit(true)
     }
 
-    override suspend fun setRecipeRsaPrivateKey(recipeId: Int) {
-        TODO("Not yet implemented")
+    override suspend fun lockEncryptedVault() {
+        userPrivateKey = null
+        unlockState.emit(false)
     }
 
-    private fun encryptRsa(rsa: KeyPair) : ByteArray {
-        val currentAesKey = aesKey ?: throw IOException()
-
-        val keys = rsa.public.encoded + rsa.private.encoded
-
-        val aesCipher = Cipher.getInstance(AES)
-        val spec = GCMParameterSpec(TAG_LENGTH * 8, IV)
-        aesCipher.init(Cipher.ENCRYPT_MODE, currentAesKey, spec)
-        return aesCipher.doFinal(keys)
+    override suspend fun deleteEncryptedVault() {
+        if (settings.getDataSourceType() == SettingsProto.DataSource.REMOTE) remoteSource.deleteEncryptedUserKey()
+        localSource.deleteEncryptedUserKey()
     }
 
-    private fun decryptRsa(encryptedRsa: ByteArray) : KeyPair {
-        val currentAesKey = aesKey ?: throw IOException()
+    override suspend fun setRecipeKey(localId: Int, remoteId: Int?, recipeKey: SecretKey) {
+        val currentPublicKey = userPublicKey ?: throw IOException()
+        val encryptedRecipeKey = encryptionManager.encryptSymmetricKeyByPrivateKey(recipeKey, currentPublicKey)
+        localSource.setEncryptedRecipeKey(localId, encryptedRecipeKey)
+        if (settings.getDataSourceType() == SettingsProto.DataSource.REMOTE && remoteId != null) remoteSource.setEncryptedRecipeKey(remoteId, encryptedRecipeKey)
+    }
 
-        val aesCipher = Cipher.getInstance(AES)
-        val spec = GCMParameterSpec(TAG_LENGTH * 8, IV)
-        aesCipher.init(Cipher.DECRYPT_MODE, currentAesKey, spec)
-        val rsa = aesCipher.doFinal(encryptedRsa)
+    override suspend fun getRecipeKey(localId: Int, remoteId: Int?): SecretKey {
+        val currentPrivateKey = userPrivateKey ?: throw IOException()
+        var encryptedKey = localSource.getEncryptedRecipeKey(localId)
+        if (encryptedKey == null) {
+            if (settings.getDataSourceType() != SettingsProto.DataSource.REMOTE || remoteId == null) throw IOException()
+            encryptedKey = remoteSource.getEncryptedRecipeKey(remoteId)
+            if (encryptedKey == null) throw IOException()
+            localSource.setEncryptedRecipeKey(localId, encryptedKey)
+        }
+        return encryptionManager.decryptSymmetricKeyByPrivateKey(encryptedKey, currentPrivateKey)
+    }
 
-        val publicKeyBytes = rsa.copyOfRange(0, RSA_PUBLIC_KEY_LENGTH)
-        val publicKey = KeyFactory.getInstance(RSA).generatePublic(X509EncodedKeySpec(publicKeyBytes))
+    override suspend fun decryptRecipeData(localId: Int, remoteId: Int?, encryptedData: ByteArray): ByteArray {
+        val key = getRecipeKey(localId, remoteId)
+        return encryptionManager.decryptDataBySymmetricKey(encryptedData, key)
+    }
 
-        val privateKeyBytes = rsa.copyOfRange(RSA_PUBLIC_KEY_LENGTH, rsa.size)
-        val privateKey = KeyFactory.getInstance(RSA).generatePrivate(PKCS8EncodedKeySpec(privateKeyBytes))
-
-        return KeyPair(publicKey, privateKey)
+    override suspend fun deleteRecipeKey(localId: Int, remoteId: Int?) {
+        if (settings.getDataSourceType() == SettingsProto.DataSource.REMOTE && remoteId != null) remoteSource.deleteEncryptedRecipeKey(remoteId)
+        localSource.deleteEncryptedRecipeKey(localId)
     }
 }

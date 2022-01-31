@@ -11,7 +11,7 @@
 
     <application
         android:name="com.cactusknights.ChefBookApp"
-        android:allowBackup="true"
+        android:fullBackupContent="true"
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_broccy_icon"
         android:label="@string/app_name"
@@ -20,8 +20,10 @@
         android:theme="@style/Theme.ChefBook">
         <activity
             android:name="com.cactusknights.chefbook.screens.main.MainActivity"
+            android:theme="@style/Theme.ChefBook.NavigationBar"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan"
-            android:exported="true" />
+            android:exported="true">
+        </activity>
         <activity
             android:name="com.cactusknights.chefbook.screens.auth.AuthActivity"
             android:noHistory="true"
@@ -29,7 +31,7 @@
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
         <activity
             android:name="com.cactusknights.chefbook.screens.recipeinput.RecipeInputActivity"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
         <activity
             android:name="com.cactusknights.chefbook.screens.recipe.RecipeActivity"
             android:exported="true"
@@ -62,9 +64,8 @@
             android:name="com.canhub.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />
 
-
         <activity-alias
-            android:name="com.cactusknights.chefbook.screens.main.fragments.settings.aliases.StandardIconAlias"
+            android:name="com.cactusknights.chefbook.core.StandardIconAlias"
             android:enabled="true"
             android:exported="true"
             android:icon="@mipmap/ic_broccy_icon"
@@ -77,7 +78,7 @@
             </intent-filter>
         </activity-alias>
         <activity-alias
-            android:name="com.cactusknights.chefbook.screens.main.fragments.settings.aliases.OldIconAlias"
+            android:name="com.cactusknights.chefbook.core.OldIconAlias"
             android:enabled="false"
             android:exported="true"
             android:icon="@mipmap/ic_chefbook_icon"

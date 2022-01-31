@@ -4,48 +4,28 @@ import android.app.ActionBar
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CheckBox
 import android.widget.LinearLayout
-import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
-import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.cactusknights.chefbook.R
-import com.cactusknights.chefbook.databinding.CellIngredientBinding
+import com.cactusknights.chefbook.databinding.CellSectionBinding
 import com.cactusknights.chefbook.databinding.CellStepBinding
-import com.cactusknights.chefbook.models.MarkdownString
-import com.cactusknights.chefbook.models.MarkdownTypes
+import com.cactusknights.chefbook.models.*
 
 class CookingAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    inner class StepHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class StepHolder(val binding: CellStepBinding) : RecyclerView.ViewHolder(binding.root)
+    inner class SectionHolder(val binding: CellSectionBinding) : RecyclerView.ViewHolder(binding.root)
 
-        val binding = DataBindingUtil.bind<CellStepBinding>(itemView)
-        val number: TextView = itemView.findViewById(R.id.text_number)
-        val stepView: ConstraintLayout = itemView.findViewById(R.id.ll_step)
-    }
-
-    inner class SectionHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val name: TextView = itemView.findViewById(R.id.text_name)
-        private val isSelected: CheckBox = itemView.findViewById(R.id.checkbox_selected)
-
-        init {
-            name.textSize = 22F
-            name.setTextColor(ContextCompat.getColor(itemView.context, R.color.navigation_ripple))
-            isSelected.visibility = View.GONE
-        }
-    }
-
-    private val differCallback = object : DiffUtil.ItemCallback<MarkdownString>() {
-        override fun areItemsTheSame(oldPurchase: MarkdownString, newPurchase: MarkdownString): Boolean {
-            return oldPurchase.text == newPurchase.text
+    private val differCallback = object : DiffUtil.ItemCallback<CookingStep>() {
+        override fun areItemsTheSame(oldStep: CookingStep, newStep: CookingStep): Boolean {
+            return oldStep.text == newStep.text
         }
 
-        override fun areContentsTheSame(oldPurchase: MarkdownString, newPurchase: MarkdownString): Boolean {
-            return oldPurchase.text == newPurchase.text && oldPurchase.type == newPurchase.type
+        override fun areContentsTheSame(oldStep: CookingStep, newStep: CookingStep): Boolean {
+            return oldStep.text == newStep.text && oldStep.type == newStep.type
         }
     }
 
@@ -53,30 +33,22 @@ class CookingAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder.itemViewType == 0) {
-            (holder as StepHolder).binding?.step = differ.currentList[position].text
-            val sectionsSize = differ.currentList.subList(0, position).filter { it.type == MarkdownTypes.HEADER }.size
-            holder.number.text = ((position+1-sectionsSize).toString()+".")
-            if (position+1 < differ.currentList.size && differ.currentList[position+1].type == MarkdownTypes.HEADER) {
-                val params = LinearLayout.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.WRAP_CONTENT)
-                params.setMargins(0, 0, 0, 24)
-                holder.stepView.layoutParams = params
-            }
+            (holder as StepHolder).binding.textDescription.text = differ.currentList[position].text
+            val sectionsSize = differ.currentList.subList(0, position).filter { it.type == CookingStepTypes.SECTION }.size
+            holder.binding.textNumber.text = ((position+1-sectionsSize).toString()+".")
+            holder.binding.separator.visibility = if (position+1 == differ.currentList.size || differ.currentList[position+1].type ==  CookingStepTypes.SECTION) View.GONE else View.VISIBLE
+            setCornerRadius(holder.binding.root, position)
         } else {
-            val ingredient = differ.currentList[position]
-            (holder as SectionHolder).name.text = ingredient.text
+            (holder as SectionHolder).binding.textName.text = differ.currentList[position].text
+            holder.binding.separator.visibility = if (position+1 == differ.currentList.size) View.GONE else View.VISIBLE
+            setCornerRadius(holder.binding.root, position)
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
-            0 -> {
-                val v = LayoutInflater.from(parent.context).inflate(R.layout.cell_step, parent, false)
-                StepHolder(v)
-            }
-            else -> {
-                val v = LayoutInflater.from(parent.context).inflate(R.layout.cell_ingredient, parent, false)
-                SectionHolder(v)
-            }
+            0 -> { StepHolder(CellStepBinding.inflate(LayoutInflater.from(parent.context), parent, false)) }
+            else -> { SectionHolder(CellSectionBinding.inflate(LayoutInflater.from(parent.context), parent, false)) }
         }
     }
 
@@ -85,6 +57,28 @@ class CookingAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if (differ.currentList[position].type != MarkdownTypes.HEADER) 0 else 1
+        return if (differ.currentList[position].type != CookingStepTypes.SECTION) 0 else 1
+    }
+
+    private fun setCornerRadius(view: View, position: Int) {
+        if (differ.currentList.size == 1 || position == 0 && differ.currentList[position+1].type == CookingStepTypes.SECTION) {
+            view.background = ContextCompat.getDrawable(view.context, R.drawable.selector_rounded)
+            if (differ.currentList.size > 1) {
+                val params = LinearLayout.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.WRAP_CONTENT)
+                params.setMargins(0, 0, 0, 36)
+                view.layoutParams = params
+            }
+        } else if (position+1 == differ.currentList.size || differ.currentList[position+1].type == CookingStepTypes.SECTION) {
+            val params = LinearLayout.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.WRAP_CONTENT)
+            params.setMargins(0, 0, 0, 36)
+            view.layoutParams = params
+            if (differ.currentList[position].type != CookingStepTypes.SECTION) {
+                view.background = ContextCompat.getDrawable(view.context, R.drawable.selector_rounded_bottom)
+            } else {
+                view.background = ContextCompat.getDrawable(view.context, R.drawable.selector_rounded)
+            }
+        } else if (position == 0) {
+            view.background = ContextCompat.getDrawable(view.context, R.drawable.selector_rounded_top)
+        }
     }
 }

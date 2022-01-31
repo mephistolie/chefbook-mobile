@@ -1,14 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:animateLayoutChanges="true"
     android:orientation="vertical"
     android:paddingHorizontal="16dp"
     android:paddingTop="16dp"
     android:requiresFadingEdge="vertical"
     android:scrollbars="none">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -34,7 +39,7 @@
             android:layout_height="0dp"
             android:foreground="?android:attr/selectableItemBackground"
             android:visibility="visible"
-            app:cardBackgroundColor="@color/navigation_primary"
+            app:cardBackgroundColor="@color/navigation_secondary"
             app:cardCornerRadius="16dp"
             app:cardElevation="0dp"
             app:layout_constraintDimensionRatio="16:9"
@@ -90,16 +95,38 @@
         android:layout_marginBottom="8dp"
         android:text="@string/info" />
 
-    <androidx.appcompat.widget.AppCompatEditText
-        android:id="@+id/input_name"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:background="@drawable/selector_input"
-        android:hint="@string/recipe_name"
-        android:imeOptions="actionNext"
-        android:inputType="text"
-        android:paddingHorizontal="8dp"
-        android:textSize="24sp" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal">
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/input_name"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:background="@drawable/selector_input"
+            android:hint="@string/recipe_name"
+            android:imeOptions="actionNext"
+            android:inputType="text"
+            android:paddingHorizontal="8dp"
+            android:textSize="24sp" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/btn_encryption"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_weight="0"
+            android:background="@drawable/ripple_grey"
+            android:contentDescription="@string/settings"
+            android:src="@drawable/ic_lock_open"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </LinearLayout>
 
     <RadioGroup
         android:id="@+id/rg_visibility"
@@ -190,7 +217,7 @@
                 android:layout_width="36dp"
                 android:layout_height="36dp"
                 android:foreground="?android:attr/selectableItemBackground"
-                app:cardBackgroundColor="@color/navigation_primary"
+                app:cardBackgroundColor="@color/navigation_secondary"
                 app:cardCornerRadius="18dp"
                 app:cardElevation="0dp">
 
@@ -222,7 +249,7 @@
                 android:layout_width="36dp"
                 android:layout_height="36dp"
                 android:foreground="?android:attr/selectableItemBackground"
-                app:cardBackgroundColor="@color/navigation_primary"
+                app:cardBackgroundColor="@color/navigation_secondary"
                 app:cardCornerRadius="18dp"
                 app:cardElevation="0dp">
 
@@ -342,4 +369,7 @@
         android:minLines="2"
         android:paddingHorizontal="8dp"
         android:paddingVertical="8dp" />
-</LinearLayout>
+
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</androidx.core.widget.NestedScrollView>

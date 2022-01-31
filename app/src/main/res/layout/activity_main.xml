@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/app_background"
     tools:context=".screens.main.MainActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -45,18 +44,19 @@
             app:layout_goneMarginEnd="48dp"
             app:layout_goneMarginStart="48dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/btn_right"
+            app:layout_constraintEnd_toStartOf="@id/iv_encryption"
             app:layout_constraintStart_toEndOf="@id/btn_back"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/btn_right"
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_encryption"
             android:layout_width="48dp"
             android:layout_height="48dp"
+            android:padding="12dp"
             android:background="@drawable/ripple_grey"
             android:contentDescription="@string/settings"
-            android:src="@drawable/ic_settings"
-            android:visibility="gone"
+            android:src="@drawable/ic_lock"
+            android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -81,7 +81,7 @@
     <View
         android:id="@+id/view_separator"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="0.5dp"
         android:background="@color/navigation_secondary"
         android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@id/nv_navigation"
@@ -92,7 +92,7 @@
         android:id="@+id/nv_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/app_background"
+        android:background="@color/navigation_primary"
         app:itemRippleColor="@color/deep_orange_light"
         app:elevation="0dp"
         app:itemIconTint="@drawable/selector_navigation_foreground"

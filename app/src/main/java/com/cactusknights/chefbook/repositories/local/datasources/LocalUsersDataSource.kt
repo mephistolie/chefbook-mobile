@@ -1,12 +1,12 @@
 package com.cactusknights.chefbook.repositories.local.datasources
 
-import android.content.SharedPreferences
-import com.cactusknights.chefbook.base.Constants
-import com.cactusknights.chefbook.domain.UserDataSource
 import com.cactusknights.chefbook.models.User
+import com.cactusknights.chefbook.repositories.UserDataSource
 import javax.inject.Inject
+import javax.inject.Singleton
 
-class LocalUsersDataSource : UserDataSource {
+@Singleton
+class LocalUsersDataSource @Inject constructor(): UserDataSource {
 
     override suspend fun getUserInfo(): User {
         return User(

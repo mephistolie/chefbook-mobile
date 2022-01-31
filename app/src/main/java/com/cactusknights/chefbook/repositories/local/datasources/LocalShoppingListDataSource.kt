@@ -1,42 +1,29 @@
 package com.cactusknights.chefbook.repositories.local.datasources
 
 import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.stringPreferencesKey
-import com.cactusknights.chefbook.domain.ShoppingListDataSource
-import com.cactusknights.chefbook.models.*
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
+import com.cactusknights.chefbook.ShoppingListProto
+import com.cactusknights.chefbook.models.Purchase
+import com.cactusknights.chefbook.models.ShoppingList
+import com.cactusknights.chefbook.models.toProto
+import com.cactusknights.chefbook.models.toShoppingList
+import com.cactusknights.chefbook.repositories.ShoppingListDataSource
 import kotlinx.coroutines.flow.first
-import java.lang.reflect.Type
+import kotlinx.coroutines.flow.take
 import java.util.*
 import javax.inject.Inject
-import kotlin.collections.ArrayList
+import javax.inject.Singleton
 
+@Singleton
 class LocalShoppingListDataSource @Inject constructor(
-    private val dataStore: DataStore<Preferences>,
-    val gson: Gson
+    private val dataStore: DataStore<ShoppingListProto>,
 ): ShoppingListDataSource {
 
-    companion object {
-        private val SHOPPING_LIST = stringPreferencesKey("shopping_list")
-        const val MINIMAL_DATE: Long = 1000
-        const val EMPTY_SHOPPING_LIST = "{}"
-    }
+    private val saved get() = dataStore.data.take(1)
 
-    override suspend fun getShoppingList(): ShoppingList {
-        val type: Type = object : TypeToken<ShoppingList?>() {}.type
-        val prefs = dataStore.data.first()
-        val shoppingListString = prefs[SHOPPING_LIST]?: EMPTY_SHOPPING_LIST
-        if (shoppingListString == EMPTY_SHOPPING_LIST) return ShoppingList(purchases = listOf(), timestamp = Date(MINIMAL_DATE))
-        val shoppingList : ShoppingList = gson.fromJson(prefs[SHOPPING_LIST]?: "{}", type)
-        return if (shoppingList.purchases != null && shoppingList.timestamp != null) shoppingList else ShoppingList(arrayListOf())
-    }
+    override suspend fun getShoppingList() = saved.first().toShoppingList()
 
     override suspend fun setShoppingList(shoppingList: ShoppingList) {
-        shoppingList.timestamp = Date()
-        dataStore.edit { prefs -> prefs[SHOPPING_LIST] = gson.toJson(shoppingList) }
+        dataStore.updateData { shoppingList.toProto() }
     }
 
     override suspend fun addToShoppingList(purchases: List<Purchase>) {

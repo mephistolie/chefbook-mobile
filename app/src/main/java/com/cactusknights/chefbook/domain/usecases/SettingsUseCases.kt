@@ -1,67 +1,55 @@
 package com.cactusknights.chefbook.domain.usecases
 
-import com.cactusknights.chefbook.common.Result
-import com.cactusknights.chefbook.domain.RecipesDataSource
-import com.cactusknights.chefbook.domain.RecipesRepository
-import com.cactusknights.chefbook.domain.SettingsRepository
-import com.cactusknights.chefbook.domain.ShoppingListRepository
-import com.cactusknights.chefbook.models.*
-
+import com.cactusknights.chefbook.SettingsProto
+import com.cactusknights.chefbook.common.usecases.Result
+import com.cactusknights.chefbook.core.datastore.SettingsManager
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
 
-class SettingsUseCases @Inject constructor(private val repository: SettingsRepository) {
+class SettingsUseCases @Inject constructor(private val repository: SettingsManager) {
 
-    fun getSettings() = repository.getSettings()
+    suspend fun listenToSettings() = repository.listenToSettings()
+    suspend fun getSettings() = repository.getSettings()
 
-    suspend fun setShoppingListDefault(isDefault: Boolean): Flow<Result<Any>> = flow {
+    suspend fun setDefaultTab(tab: SettingsProto.Tabs): Flow<Result<Any>> = flow {
         try {
             emit(Result.Loading)
-            repository.setShoppingListByDefault(isDefault)
+            repository.setDefaultTab(tab)
             emit(Result.Success(null))
-        } catch (e: HttpException) {
-            emit(Result.Error(e, e.localizedMessage ?: "An unexpected error occured"))
         } catch (e: IOException) {
             emit(Result.Error(e))
         }
     }
 
-    suspend fun setDataSource(dataSource: DataSource): Flow<Result<Any>> = flow {
+    suspend fun setDataSource(dataSource: SettingsProto.DataSource): Flow<Result<Any>> = flow {
         try {
             emit(Result.Loading)
             repository.setDataSourceType(dataSource)
             emit(Result.Success(null))
-        } catch (e: HttpException) {
-            emit(Result.Error(e, e.localizedMessage ?: "An unexpected error occured"))
         } catch (e: IOException) {
             emit(Result.Error(e))
         }
     }
 
-    suspend fun setTheme(theme: AppTheme):
+    suspend fun setTheme(theme: SettingsProto.AppTheme):
             Flow<Result<Any>> = flow {
         try {
             emit(Result.Loading)
             repository.setAppTheme(theme)
             emit(Result.Success(null))
-        } catch (e: HttpException) {
-            emit(Result.Error(e, e.localizedMessage ?: "An unexpected error occured"))
         } catch (e: IOException) {
             emit(Result.Error(e))
         }
     }
 
-    suspend fun setIcon(icon: AppIcon):
+    suspend fun setIcon(icon: SettingsProto.AppIcon):
             Flow<Result<Any>> = flow {
         try {
             emit(Result.Loading)
             repository.setAppIcon(icon)
             emit(Result.Success(null))
-        } catch (e: HttpException) {
-            emit(Result.Error(e, e.localizedMessage ?: "An unexpected error occured"))
         } catch (e: IOException) {
             emit(Result.Error(e))
         }

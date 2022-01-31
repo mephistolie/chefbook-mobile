@@ -4,7 +4,7 @@
 
     <item
         android:id="@+id/favourite"
-        android:icon="@drawable/ic_favorite"
+        android:icon="@drawable/ic_like"
         android:iconTint="@color/deep_orange_light"
         android:title="Favourite"
         app:showAsAction="always"/>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:background="@color/navigation_primary">
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/input_password"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_weight="2"
+        android:layout_marginHorizontal="16dp"
+        android:background="@drawable/selector_input_nav"
+        android:hint="@string/storage_password"
+        android:inputType="textPassword"
+        android:paddingHorizontal="8dp"
+        android:textSize="24sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginHorizontal="96dp"
+        android:layout_marginVertical="16dp"
+        android:layout_weight="0"
+        android:background="@drawable/selector_input_nav" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_weight="0"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/btn_cancel"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginHorizontal="4dp"
+            android:background="@drawable/ripple_grey_nav"
+            android:inputType="textPassword"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_cross"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/secondary_text_tint" />
+
+        <View
+            android:layout_width="2dp"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="8dp"
+            android:layout_marginVertical="4dp"
+            android:background="@drawable/selector_input_nav" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/btn_confirm"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginHorizontal="4dp"
+            android:background="@drawable/ripple_deep_orange_nav"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_check"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/deep_orange_light" />
+
+    </LinearLayout>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

@@ -1,68 +1,104 @@
 package com.cactusknights.chefbook.repositories.remote.dto
 
-import com.cactusknights.chefbook.common.RoomConverters
 import com.cactusknights.chefbook.models.*
-import com.cactusknights.chefbook.repositories.local.entities.toRecipeEntity
 import com.google.gson.Gson
-import com.google.gson.JsonElement
 import com.google.gson.annotations.SerializedName
-import com.google.gson.reflect.TypeToken
+import com.google.gson.internal.LinkedTreeMap
 import java.io.IOException
-import java.lang.reflect.Type
 import java.util.*
-import kotlin.collections.ArrayList
 
 data class RecipeDto(
-    var id: Int? = null,
-    var name: String,
-    var likes: Int = 0,
+    val id: Int? = null,
+    val name: String,
+    val likes: Int = 0,
     @SerializedName("owner_id") var ownerId: Int = 0,
     @SerializedName("owner_name") var ownerName: String = "",
     @SerializedName("owned") var isOwned: Boolean = false,
     @SerializedName("favourite") var isFavourite: Boolean = false,
     @SerializedName("liked") var isLiked: Boolean = false,
 
-    var description: String? = null,
-    var servings: Int = 1,
-    var time: Int = 15,
-    var calories: Int = 0,
-    var categories: ArrayList<Int> = arrayListOf(),
+    val description: String? = null,
+    val servings: Int = 1,
+    val time: Int = 15,
+    val calories: Int = 0,
+    val categories: ArrayList<Int> = arrayListOf(),
 
-    var ingredients: Any,
-    var cooking: Any,
+    val ingredients: Any,
+    val cooking: Any,
 
-    var visibility: String = "private",
-    var encrypted: Boolean = false,
-    var preview: String? = null,
+    val visibility: String = "private",
+    val encrypted: Boolean = false,
+    val preview: String? = null,
     @SerializedName("creation_timestamp") var creationTimestamp: Date = Date(),
-    @SerializedName("update_timestamp") var updateTimestamp: Date = Date()
+    @SerializedName("update_timestamp") var updateTimestamp: Date = Date(),
 )
 
 data class RecipeInputDto(
-    var name: String,
+    val name: String,
     @SerializedName("owner_id") var ownerId: Int = 0,
 
-    var description: String? = null,
-    var servings: Int = 1,
-    var time: Int = 15,
-    var calories: Int = 0,
-    var categories: ArrayList<Int> = arrayListOf(),
+    val description: String? = null,
+    val servings: Int = 1,
+    val time: Int = 15,
+    val calories: Int = 0,
+    val categories: ArrayList<Int>? = null,
 
-    var ingredients: Any,
-    var cooking: Any,
+    val ingredients: Any,
+    val cooking: Any,
 
-    var visibility: String = "private",
-    var preview: String? = null
+    val visibility: String = "private",
+    val preview: String? = null,
+    val encrypted: Boolean
 )
 
 data class DeleteRecipePictureInput(
     @SerializedName("picture_name") var pictureName: String
 )
 
+@Suppress("UNCHECKED_CAST")
 fun RecipeDto.toRecipe(): Recipe {
     try {
-        val type: Type = object : TypeToken<ArrayList<MarkdownString>>() {}.type
-        return if (!encrypted) DecryptedRecipe(
+        if (!encrypted) {
+            val ingredientsMap = ingredients as ArrayList<LinkedTreeMap<String, Any>>
+            val ingredients = arrayListOf<Ingredient>()
+            for (ingredientMap in ingredientsMap) {
+                val ingredient = Ingredient(
+                    text = ingredientMap["text"]!! as String,
+                    link = ingredientMap["link"] as String?,
+                    type = enumValueOf(ingredientMap["type"]!! as String))
+                ingredients.add(ingredient)
+            }
+            val cookingMap = cooking as ArrayList<LinkedTreeMap<String, Any>>
+            val cooking = arrayListOf<CookingStep>()
+            for (stepMap in cookingMap) {
+                val step = CookingStep(
+                    text = stepMap["text"]!! as String,
+                    link = stepMap["link"] as String?,
+                    type = enumValueOf(stepMap["type"]!! as String))
+                cooking.add(step)
+            }
+            return DecryptedRecipe(
+                remoteId = id,
+                name = name,
+                likes = likes,
+                ownerId = ownerId,
+                ownerName = ownerName,
+                isOwned = isOwned,
+                isFavourite = isFavourite,
+                isLiked = isLiked,
+                description = description,
+                servings = servings,
+                calories = calories,
+                visibility = Visibility.getByString(visibility),
+                categories = if (!categories.isNullOrEmpty()) categories else arrayListOf(),
+                time = time,
+                ingredients = ingredients,
+                cooking = cooking,
+                preview = preview,
+                creationTimestamp = creationTimestamp,
+                updateTimestamp = updateTimestamp,
+            )
+        } else return EncryptedRecipe(
             remoteId = id,
             name = name,
             likes = likes,
@@ -75,27 +111,7 @@ fun RecipeDto.toRecipe(): Recipe {
             servings = servings,
             calories = calories,
             visibility = Visibility.getByString(visibility),
-            categories = if (categories != null) categories else arrayListOf(),
-            time = time,
-            ingredients = Gson().fromJson(ingredients as JsonElement, type),
-            cooking = Gson().fromJson(cooking as JsonElement, type),
-            preview = preview,
-            creationTimestamp = creationTimestamp,
-            updateTimestamp = updateTimestamp,
-        ) else EncryptedRecipe(
-            remoteId = id,
-            name = name,
-            likes = likes,
-            ownerId = ownerId,
-            ownerName = ownerName,
-            isOwned = isOwned,
-            isFavourite = isFavourite,
-            isLiked = isLiked,
-            description = description,
-            servings = servings,
-            calories = calories,
-            visibility = Visibility.getByString(visibility),
-            categories = if (categories != null) categories else arrayListOf(),
+            categories = if (!categories.isNullOrEmpty()) categories else arrayListOf(),
             time = time,
             ingredients = ingredients as String,
             cooking = cooking as String,
@@ -104,32 +120,38 @@ fun RecipeDto.toRecipe(): Recipe {
             updateTimestamp = updateTimestamp,
         )
     } catch (e: Exception) {
-        throw IOException()
+        throw e
     }
 }
 
 fun Recipe.toRecipeInputDto(): RecipeInputDto {
-    if (this is DecryptedRecipe) return RecipeInputDto(
-        name = name,
-        description = description,
-        servings = servings,
-        calories = calories,
-        time = time,
-        categories = categories,
-        visibility = visibility.name.lowercase(),
-        preview = preview,
-        ingredients = Gson().toJsonTree(ingredients),
-        cooking = Gson().toJsonTree(cooking),
-    ) else if (this is EncryptedRecipe) return RecipeInputDto(
-        name = name,
-        description = description,
-        servings = servings,
-        calories = calories,
-        time = time,
-        categories = categories,
-        visibility = visibility.name.lowercase(),
-        preview = preview,
-        ingredients = ingredients,
-        cooking = cooking,
-    ) else throw IOException()
+    when (this) {
+        is DecryptedRecipe -> return RecipeInputDto(
+            name = name,
+            description = description,
+            servings = servings,
+            calories = calories,
+            time = time,
+            categories = categories,
+            visibility = visibility.name.lowercase(),
+            preview = preview,
+            ingredients = Gson().toJsonTree(ingredients),
+            cooking = Gson().toJsonTree(cooking),
+            encrypted = encrypted
+        )
+        is EncryptedRecipe -> return RecipeInputDto(
+            name = name,
+            description = description,
+            servings = servings,
+            calories = calories,
+            time = time,
+            categories = categories,
+            visibility = visibility.name.lowercase(),
+            preview = preview,
+            ingredients = ingredients,
+            cooking = cooking,
+            encrypted = true
+        )
+        else -> throw IOException()
+    }
 }

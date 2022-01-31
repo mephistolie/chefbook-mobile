@@ -163,4 +163,19 @@
     <string name="link">Ссылка</string>
     <string name="share">Поделиться</string>
     <string name="description">Описание</string>
+    <string name="encryption_info">Если вы профессиональный повар или просто хотите больше конфиденциальности, ChefBook позволяет шифровать рецепты. Такие рецепты могут быть только приватными или доступными по ссылке с вашим подтверждением.\n\nПридумайте пароль для Хранилища зашифрованных рецептов. Обратите внимание, что его невозможно восстановить в случае утери.</string>
+    <string name="likes">Лайки</string>
+    <string name="invalid_storage_password">Неправильный пароль от Хранлищиа</string>
+    <string name="encrypted_recipes">Зашифрованные рецепты</string>
+    <string name="storage_password">Пароль от Хранилища</string>
+    <string name="vault_unlocked_info">Хранилище разблокировано. Зашифрованные рецепты отображаются в списке рецептов.</string>
+    <string name="lock_vault">Заблокировать Хранилище</string>
+    <string name="change_password">Изменить Пароль</string>
+    <string name="delete_vault">Удалить Хранилище</string>
+    <string name="short_password_vault">Пароль для хранилища должен содержать хотя бы 4 символа</string>
+    <string name="vault_creation_error">Не удалось создать Хранилище</string>
+    <string name="lock_vault_error">Не удалось заблокировать хранилище</string>
+    <string name="vault_unlocked">Хранилище разблокировано. Зашифрованные рецепты теперь отображаются.</string>
+    <string name="vault_deleted">Хранилище удалено</string>
+    <string name="vault_created">Хранилище создано</string>
 </resources>

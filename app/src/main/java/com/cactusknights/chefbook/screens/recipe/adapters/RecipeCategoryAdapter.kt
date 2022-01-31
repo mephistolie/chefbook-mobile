@@ -37,8 +37,8 @@ class RecipeCategoryAdapter() :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val category = differ.currentList[position].item
-        val text = category?.cover + " " + category?.name
-        holder.binding.textName.text = text
+        holder.binding.textName.text = category?.name
+        holder.binding.textCover.text = category?.cover
         holder.binding.checkboxCategory.isChecked = differ.currentList[position].isSelected
     }
 

@@ -1,12 +1,8 @@
 package com.cactusknights.chefbook.domain.usecases
 
-import com.cactusknights.chefbook.common.Result
-import com.cactusknights.chefbook.domain.RecipesDataSource
-import com.cactusknights.chefbook.domain.RecipesRepository
+import com.cactusknights.chefbook.common.usecases.Result
 import com.cactusknights.chefbook.domain.ShoppingListRepository
 import com.cactusknights.chefbook.models.Purchase
-import com.cactusknights.chefbook.models.Recipe
-import com.cactusknights.chefbook.models.Selectable
 import com.cactusknights.chefbook.models.ShoppingList
 
 import kotlinx.coroutines.flow.Flow
@@ -24,8 +20,6 @@ class ShoppingListUseCases @Inject constructor(private val repository: ShoppingL
             emit(Result.Loading)
             val shoppingList = repository.getShoppingList()
             emit(Result.Success(shoppingList))
-        } catch (e: HttpException) {
-            emit(Result.Error(e, e.localizedMessage ?: "An unexpected error occured"))
         } catch (e: IOException) {
             emit(Result.Error(e))
         }
@@ -37,21 +31,16 @@ class ShoppingListUseCases @Inject constructor(private val repository: ShoppingL
             emit(Result.Loading)
             repository.setShoppingList(shoppingList)
             emit(Result.Success(shoppingList))
-        } catch (e: HttpException) {
-            emit(Result.Error(e, e.localizedMessage ?: "An unexpected error occured"))
         } catch (e: IOException) {
             emit(Result.Error(e))
         }
     }
 
-    suspend fun addToShoppingList(purchases: ArrayList<Purchase>):
-            Flow<Result<Any>> = flow {
+    suspend fun addToShoppingList(purchases: List<Purchase>): Flow<Result<Any>> = flow {
         try {
             emit(Result.Loading)
             repository.addToShoppingList(purchases)
             emit(Result.Success(null))
-        } catch (e: HttpException) {
-            emit(Result.Error(e, e.localizedMessage ?: "An unexpected error occured"))
         } catch (e: IOException) {
             emit(Result.Error(e))
         }
@@ -63,8 +52,6 @@ class ShoppingListUseCases @Inject constructor(private val repository: ShoppingL
             emit(Result.Loading)
             repository.syncShoppingList()
             emit(Result.Success(null))
-        } catch (e: HttpException) {
-            emit(Result.Error(e, e.localizedMessage ?: "An unexpected error occured"))
         } catch (e: IOException) {
             emit(Result.Error(e))
         }

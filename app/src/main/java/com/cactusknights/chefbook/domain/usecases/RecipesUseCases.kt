@@ -1,12 +1,11 @@
 package com.cactusknights.chefbook.domain.usecases
 
-import com.cactusknights.chefbook.common.Result
-import com.cactusknights.chefbook.domain.RecipesDataSource
+import com.cactusknights.chefbook.common.usecases.Result
 import com.cactusknights.chefbook.domain.RecipesRepository
+import com.cactusknights.chefbook.models.DecryptedRecipe
 import com.cactusknights.chefbook.models.Recipe
 
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
 import java.io.IOException
@@ -14,27 +13,23 @@ import javax.inject.Inject
 
 class RecipesUseCases @Inject constructor(private val repository: RecipesRepository) {
 
-    suspend fun listenToRecipes(): StateFlow<List<Recipe>> = repository.listenToUserRecipes()
+    suspend fun listenToRecipes() = repository.listenToUserRecipes()
 
     suspend fun getRecipes(): Flow<Result<List<Recipe>>> = flow {
         try {
             emit(Result.Loading)
             val recipes = repository.getRecipes()
             emit(Result.Success(recipes))
-        } catch (e: HttpException) {
-            emit(Result.Error(e, e.localizedMessage ?: "An unexpected error occured"))
         } catch (e: IOException) {
             emit(Result.Error(e))
         }
     }
 
-    suspend fun addRecipe(recipe: Recipe): Flow<Result<Recipe>> = flow {
+    suspend fun addRecipe(recipe: DecryptedRecipe): Flow<Result<Recipe>> = flow {
         try {
             emit(Result.Loading)
             val committedRecipe = repository.addRecipe(recipe)
             emit(Result.Success(committedRecipe))
-        } catch (e: HttpException) {
-            emit(Result.Error(e, e.localizedMessage ?: "An unexpected error occured"))
         } catch (e: IOException) {
             emit(Result.Error(e))
         }
@@ -45,8 +40,6 @@ class RecipesUseCases @Inject constructor(private val repository: RecipesReposit
             emit(Result.Loading)
             val recipes = repository.getRecipe(recipeId)
             emit(Result.Success(recipes))
-        } catch (e: HttpException) {
-            emit(Result.Error(e, e.localizedMessage ?: "An unexpected error occured"))
         } catch (e: IOException) {
             emit(Result.Error(e))
         }
@@ -57,20 +50,16 @@ class RecipesUseCases @Inject constructor(private val repository: RecipesReposit
             emit(Result.Loading)
             val recipes = repository.getRecipeByRemoteId(remoteId)
             emit(Result.Success(recipes))
-        } catch (e: HttpException) {
-            emit(Result.Error(e, e.localizedMessage ?: "An unexpected error occured"))
         } catch (e: IOException) {
             emit(Result.Error(e))
         }
     }
 
-    suspend fun updateRecipe(recipe: Recipe): Flow<Result<Recipe>> = flow {
+    suspend fun updateRecipe(recipe: DecryptedRecipe): Flow<Result<Recipe>> = flow {
         try {
             emit(Result.Loading)
             repository.updateRecipe(recipe)
             emit(Result.Success(recipe))
-        } catch (e: HttpException) {
-            emit(Result.Error(e, e.localizedMessage ?: "An unexpected error occured"))
         } catch (e: IOException) {
             emit(Result.Error(e))
         }
@@ -82,8 +71,6 @@ class RecipesUseCases @Inject constructor(private val repository: RecipesReposit
             emit(Result.Loading)
             repository.deleteRecipe(recipe)
             emit(Result.Success(null))
-        } catch (e: HttpException) {
-            emit(Result.Error(e, e.localizedMessage ?: "An unexpected error occured"))
         } catch (e: IOException) {
             emit(Result.Error(e))
         }
@@ -94,8 +81,6 @@ class RecipesUseCases @Inject constructor(private val repository: RecipesReposit
             emit(Result.Loading)
             repository.setRecipeFavouriteStatus(recipe)
             emit(Result.Success(recipe))
-        } catch (e: HttpException) {
-            emit(Result.Error(e, e.localizedMessage ?: "An unexpected error occured"))
         } catch (e: IOException) {
             emit(Result.Error(e))
         }
@@ -106,8 +91,6 @@ class RecipesUseCases @Inject constructor(private val repository: RecipesReposit
             emit(Result.Loading)
             repository.setRecipeLikeStatus(recipe)
             emit(Result.Success(recipe))
-        } catch (e: HttpException) {
-            emit(Result.Error(e, e.localizedMessage ?: "An unexpected error occured"))
         } catch (e: IOException) {
             emit(Result.Error(e))
         }
@@ -118,8 +101,6 @@ class RecipesUseCases @Inject constructor(private val repository: RecipesReposit
             emit(Result.Loading)
             repository.setRecipeCategories(recipe)
             emit(Result.Success(recipe))
-        } catch (e: HttpException) {
-            emit(Result.Error(e, e.localizedMessage ?: "An unexpected error occured"))
         } catch (e: IOException) {
             emit(Result.Error(e))
         }

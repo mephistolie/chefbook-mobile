@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.URLUtil
+import androidx.core.content.ContextCompat
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -15,9 +16,13 @@ import coil.load
 import com.cactusknights.chefbook.R
 import com.cactusknights.chefbook.databinding.FragmentRecipeInputInfoBinding
 import com.cactusknights.chefbook.models.Visibility
+import com.cactusknights.chefbook.screens.main.MainActivity
+import com.cactusknights.chefbook.screens.common.encryption.EncryptionDialog
+import com.cactusknights.chefbook.screens.common.encryption.EncryptionViewModel
+import com.cactusknights.chefbook.screens.common.encryption.models.EncryptionScreenState
 import com.cactusknights.chefbook.screens.recipeinput.RecipeInputViewModel
-import com.cactusknights.chefbook.screens.recipeinput.models.RecipeInputEvent
-import com.cactusknights.chefbook.screens.recipeinput.models.RecipeInputState
+import com.cactusknights.chefbook.screens.recipeinput.models.RecipeInputScreenEvent
+import com.cactusknights.chefbook.screens.recipeinput.models.RecipeInputScreenState
 import com.canhub.cropper.CropImageContract
 import com.canhub.cropper.options
 import dagger.hilt.android.AndroidEntryPoint
@@ -29,6 +34,7 @@ import java.io.File
 class RecipeInputInfoFragment : Fragment() {
 
     private val viewModel by activityViewModels<RecipeInputViewModel>()
+    private val encryptionViewModel by activityViewModels<EncryptionViewModel>()
 
     private var _binding: FragmentRecipeInputInfoBinding? = null
     private val binding get() = _binding!!
@@ -48,7 +54,7 @@ class RecipeInputInfoFragment : Fragment() {
         val cropImage = registerForActivityResult(CropImageContract()) {
             val uri = it.getUriFilePath(requireContext())
             if (it.isSuccessful && uri != null) {
-                viewModel.obtainEvent(RecipeInputEvent.SetPreview(uri, requireContext()))
+                viewModel.obtainEvent(RecipeInputScreenEvent.SetPreview(uri, requireContext()))
             }
         }
 
@@ -60,9 +66,8 @@ class RecipeInputInfoFragment : Fragment() {
             )
         }
 
-
         binding.cvDeletePreview.setOnClickListener {
-            viewModel.obtainEvent(RecipeInputEvent.DeletePreview)
+            viewModel.obtainEvent(RecipeInputScreenEvent.DeletePreview)
         }
 
         binding.rgVisibility.check(binding.rbPrivate.id)
@@ -72,15 +77,15 @@ class RecipeInputInfoFragment : Fragment() {
                 R.id.rb_shared -> Visibility.SHARED
                 else -> Visibility.PUBLIC
             }
-            viewModel.obtainEvent(RecipeInputEvent.SetVisibility(visibility))
+            viewModel.obtainEvent(RecipeInputScreenEvent.SetVisibility(visibility))
         }
 
-        binding.inputName.doOnTextChanged { name, _, _, _ -> viewModel.obtainEvent(RecipeInputEvent.InputName(name.toString())) }
-        binding.inputCalories.doOnTextChanged { calories, _, _, _ -> viewModel.obtainEvent(RecipeInputEvent.InputCalories(calories.toString())) }
-        binding.inputServings.doOnTextChanged { servings, _, _, _ -> viewModel.obtainEvent(RecipeInputEvent.InputServings(servings.toString())) }
-        binding.inputHours.doOnTextChanged { _, _, _, _ -> viewModel.obtainEvent(RecipeInputEvent.InputTime(binding.inputHours.text.toString(), binding.inputMinutes.text.toString())) }
-        binding.inputMinutes.doOnTextChanged { _, _, _, _ -> viewModel.obtainEvent(RecipeInputEvent.InputTime(binding.inputHours.text.toString(), binding.inputMinutes.text.toString())) }
-        binding.inputDescription.doOnTextChanged { _, _, _, _ -> viewModel.obtainEvent(RecipeInputEvent.InputDescription(binding.inputDescription.text.toString())) }
+        binding.inputName.doOnTextChanged { name, _, _, _ -> viewModel.obtainEvent(RecipeInputScreenEvent.InputName(name.toString())) }
+        binding.inputCalories.doOnTextChanged { calories, _, _, _ -> viewModel.obtainEvent(RecipeInputScreenEvent.InputCalories(calories.toString())) }
+        binding.inputServings.doOnTextChanged { servings, _, _, _ -> viewModel.obtainEvent(RecipeInputScreenEvent.InputServings(servings.toString())) }
+        binding.inputHours.doOnTextChanged { _, _, _, _ -> viewModel.obtainEvent(RecipeInputScreenEvent.InputTime(binding.inputHours.text.toString(), binding.inputMinutes.text.toString())) }
+        binding.inputMinutes.doOnTextChanged { _, _, _, _ -> viewModel.obtainEvent(RecipeInputScreenEvent.InputTime(binding.inputHours.text.toString(), binding.inputMinutes.text.toString())) }
+        binding.inputDescription.doOnTextChanged { _, _, _, _ -> viewModel.obtainEvent(RecipeInputScreenEvent.InputDescription(binding.inputDescription.text.toString())) }
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -89,9 +94,9 @@ class RecipeInputInfoFragment : Fragment() {
         }
     }
 
-    private fun render(state: RecipeInputState) {
-        if (state is RecipeInputState.NewRecipe || state is RecipeInputState.EditRecipe) {
-            val recipe = if (state is RecipeInputState.NewRecipe) state.recipeInput else (state as RecipeInputState.EditRecipe).recipeInput
+    private fun render(state: RecipeInputScreenState) {
+        if (state is RecipeInputScreenState.NewRecipe || state is RecipeInputScreenState.EditRecipe) {
+            val recipe = if (state is RecipeInputScreenState.NewRecipe) state.recipeInput else (state as RecipeInputScreenState.EditRecipe).recipeInput
 
             if (!recipe.preview.isNullOrEmpty()) {
                 if (URLUtil.isValidUrl(recipe.preview)) binding.ivPreview.load(recipe.preview!!)
@@ -109,7 +114,7 @@ class RecipeInputInfoFragment : Fragment() {
             binding.inputName.setText(recipe.name)
             binding.inputServings.setText(recipe.servings.toString())
 
-            if (state is RecipeInputState.EditRecipe) {
+            if (state is RecipeInputScreenState.EditRecipe) {
                 binding.inputCalories.setText(recipe.calories.toString())
                 if (recipe.time > 60) binding.inputHours.setText((recipe.time / 60).toString())
                 if (recipe.time % 60 != 0) binding.inputMinutes.setText((recipe.time % 60).toString())
@@ -132,6 +137,16 @@ class RecipeInputInfoFragment : Fragment() {
             binding.cvPlusServing.setOnClickListener {
                 if (recipe.servings < 999) {
                     binding.inputServings.setText((recipe.servings+1).toString())
+                }
+            }
+
+            binding.btnEncryption.setOnClickListener {
+                if (encryptionViewModel.encryptionState.value != EncryptionScreenState.Unlocked) {
+                    EncryptionDialog().show(activity!!.supportFragmentManager, MainActivity.ENCRYPTION_DIALOG)
+                } else {
+                    recipe.encrypted = !recipe.encrypted
+                    RecipeInputScreenEvent.SetEncryption(recipe.encrypted)
+                    binding.btnEncryption.setImageDrawable(ContextCompat.getDrawable(requireContext(), if (recipe.encrypted) R.drawable.ic_lock else R.drawable.ic_lock_open))
                 }
             }
         }

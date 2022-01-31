@@ -1,41 +1,44 @@
 package com.cactusknights.chefbook.repositories.sync
 
-import android.util.Log
+import com.cactusknights.chefbook.SettingsProto
+import com.cactusknights.chefbook.core.datastore.SettingsManager
 import com.cactusknights.chefbook.domain.CategoriesRepository
 import com.cactusknights.chefbook.models.Category
-import com.cactusknights.chefbook.models.DataSource
 import com.cactusknights.chefbook.repositories.local.datasources.LocalCategoriesDataSource
 import com.cactusknights.chefbook.repositories.remote.datasources.RemoteCategoriesDataSource
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import java.lang.Exception
-import java.util.*
 import javax.inject.Inject
-import kotlin.collections.ArrayList
+import javax.inject.Singleton
+import kotlin.math.abs
 
+@Singleton
 class SyncCategoriesRepository @Inject constructor(
     private val localSource: LocalCategoriesDataSource,
     private val remoteSource: RemoteCategoriesDataSource,
-    private val settings: SyncSettingsRepository
+    private val settings: SettingsManager
 ) : CategoriesRepository {
 
     companion object {
         const val SYNC_TIMEOUT = 60000
     }
 
-    private val categories: MutableStateFlow<List<Category>> = MutableStateFlow(arrayListOf())
+    private val categories: MutableStateFlow<List<Category>?> = MutableStateFlow(null)
 
-    private var syncTimestamp : Date? = null
+    private var syncTimestamp : Long? = null
     private val mutex = Mutex()
 
-    override suspend fun listenToCategories(): StateFlow<List<Category>> {
+    override suspend fun listenToCategories(): StateFlow<List<Category>?> {
         mutex.withLock {
-            if (syncTimestamp == null || (Date().time - syncTimestamp!!.time) > SYNC_TIMEOUT) getCategories()
-            syncTimestamp = Date()
+            if (syncTimestamp == null || abs(System.currentTimeMillis() - syncTimestamp!!) > SyncRecipesRepository.SYNC_TIMEOUT) {
+                CoroutineScope(Dispatchers.IO).launch { getCategories() }
+                syncTimestamp = System.currentTimeMillis()
+            }
         }
         return categories
     }
@@ -43,7 +46,7 @@ class SyncCategoriesRepository @Inject constructor(
     override suspend fun getCategories(): List<Category> {
         val localCategories = localSource.getCategories(); categories.emit(localCategories)
 
-        return if (settings.getDataSourceType() == DataSource.REMOTE) {
+        return if (settings.getDataSourceType() == SettingsProto.DataSource.REMOTE) {
             try {
                 val remoteCategories = remoteSource.getCategories()
                 val preparedRemoteCategories = setCategoryId(localCategories, remoteCategories)
@@ -57,9 +60,10 @@ class SyncCategoriesRepository @Inject constructor(
     override suspend fun addCategory(category: Category): Int {
         category.id = localSource.addCategory(category);
         val newCategories = arrayListOf<Category>()
-        newCategories.addAll(categories.value); newCategories.add(category)
+        val currentCategories = categories.value?: arrayListOf()
+        newCategories.addAll(currentCategories); newCategories.add(category)
         categories.emit(newCategories)
-        if (settings.getDataSourceType() == DataSource.REMOTE) {
+        if (settings.getDataSourceType() == SettingsProto.DataSource.REMOTE) {
             category.remoteId = remoteSource.addCategory(category)
             localSource.updateCategory(category)
         }
@@ -72,16 +76,16 @@ class SyncCategoriesRepository @Inject constructor(
 
     override suspend fun updateCategory(category: Category) {
         localSource.updateCategory(category)
-        categories.emit(categories.value.map { if (it.id == category.id) category else it })
-        if (settings.getDataSourceType() == DataSource.REMOTE) {
+        categories.emit(categories.value?.map { if (it.id == category.id) category else it })
+        if (settings.getDataSourceType() == SettingsProto.DataSource.REMOTE) {
             remoteSource.updateCategory(category)
         }
     }
 
     override suspend fun deleteCategory(category: Category) {
         localSource.deleteCategory(category)
-        categories.emit(categories.value.filter { it.id != category.id || it.remoteId != category.remoteId })
-        if (settings.getDataSourceType() == DataSource.REMOTE) {
+        categories.emit(categories.value?.filter { it.id != category.id || it.remoteId != category.remoteId })
+        if (settings.getDataSourceType() == SettingsProto.DataSource.REMOTE) {
             remoteSource.deleteCategory(category)
         }
     }

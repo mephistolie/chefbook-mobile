@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+option java_package = "com.cactusknights.chefbook";
+option java_multiple_files = true;
+
+message SyncDataProto {
+  repeated int32 deletedRecipes = 1;
+  repeated int32 deletedCategories = 2;
+}

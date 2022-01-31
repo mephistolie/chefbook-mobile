@@ -86,7 +86,7 @@
     <string name="big_donate_price">$5</string>
     <string name="middle_donate_price">$3</string>
     <string name="small_donate_price">$1</string>
-    <string name="support_email" translatable="false">mikhaillevin@inbox.ru</string>
+    <string name="support_email" translatable="false">support@chefbook.space</string>
     <string name="failed_edit_recipe">Failed to edit recipe</string>
     <string name="recipe_deleted">Recipe deleted</string>
     <string name="deleting_failed">Recipe updating failed</string>
@@ -174,4 +174,22 @@
     <string name="delete_recipe">Delete Recipe</string>
     <string name="share">Share</string>
     <string name="description">Description</string>
+    <string name="encrypted_recipes">Encrypted Recipes</string>
+    <string name="storage_password">Vault Password</string>
+    <string name="invalid_storage_password">Invalid Vault Password</string>
+    <string name="likes">Likes</string>
+    <string name="encryption_info">If you are professional cook or just need more privacy, with CheBook you can encrypt your recipes.\n\nCome up with password for the encrypted recipe Vault. Please note that it cannot be restored in case of loss.</string>
+    <string name="delete_vault">Delete Vault</string>
+    <string name="change_password">Change Password</string>
+    <string name="lock_vault">Lock Vault</string>
+    <string name="vault_unlocked_info">Vault is unlocked. Encrypted recipes are displayed in recipe list.</string>
+    <string name="short_password_vault">Vault password must contain at least 4 characters</string>
+    <string name="vault_creation_error">Failed to create Vault</string>
+    <string name="lock_vault_error">Unable to lock Vault</string>
+    <string name="vault_unlocked">Vault unlocked. Encrypted recipes is appearing now.</string>
+    <string name="vault_created">Vault created</string>
+    <string name="vault_deleted">Vault deleted</string>
+    <string name="link_copied">Link copied</string>
+    <string name="chef">Chef</string>
+    <string name="book">Book</string>
 </resources>

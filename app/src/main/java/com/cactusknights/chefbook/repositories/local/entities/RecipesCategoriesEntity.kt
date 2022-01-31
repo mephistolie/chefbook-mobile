@@ -1,7 +1,7 @@
 package com.cactusknights.chefbook.repositories.local.entities
 
 import androidx.room.*
-import com.cactusknights.chefbook.common.RoomConverters
+import com.cactusknights.chefbook.core.room.RoomConverters
 import com.cactusknights.chefbook.repositories.local.entities.RecipesCategoriesEntity.Companion.TABLE_NAME
 import com.google.gson.annotations.SerializedName
 
@@ -30,7 +30,6 @@ data class RecipesCategoriesEntity constructor(
     @SerializedName("category_id")
     var categoryId: Int
 ) {
-
     companion object {
         const val TABLE_NAME = "recipes_categories"
     }

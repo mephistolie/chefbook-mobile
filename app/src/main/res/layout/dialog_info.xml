@@ -9,8 +9,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginHorizontal="8dp"
-        android:backgroundTint="@color/app_background"
-        app:cardCornerRadius="20dp"
+        android:backgroundTint="@color/navigation_primary"
+        app:cardCornerRadius="24dp"
         app:cardElevation="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -35,7 +35,7 @@
                 android:layout_height="96dp"
                 android:contentDescription="@string/app_name"
                 android:scaleType="fitXY"
-                android:src="@drawable/ic_logo"
+                android:src="@drawable/ic_broccy"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -62,33 +62,7 @@
                 android:layout_marginHorizontal="96dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
-                android:background="@drawable/selector_input" />
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cv_vk"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                app:cardBackgroundColor="@color/blue_light_background"
-                app:cardCornerRadius="18dp"
-                app:cardElevation="0dp">
-
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/ic_vk"
-                    app:tint="@color/blue_light"/>
-
-
-            </androidx.cardview.widget.CardView>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:layout_marginHorizontal="96dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="16dp"
-                android:background="@drawable/selector_input" />
+                android:background="@drawable/selector_input_nav" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -112,7 +86,7 @@
                 android:layout_height="2dp"
                 android:layout_marginHorizontal="96dp"
                 android:layout_marginVertical="16dp"
-                android:background="@drawable/selector_input" />
+                android:background="@drawable/selector_input_nav" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -122,6 +96,32 @@
                 android:gravity="center"
                 android:text="@string/troubles"
                 android:textSize="16sp" />
+
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cv_vk"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                app:cardBackgroundColor="@color/blue_light_background"
+                app:cardCornerRadius="18dp"
+                app:cardElevation="0dp">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_vk"
+                    app:tint="@color/blue_light"/>
+
+            </androidx.cardview.widget.CardView>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginHorizontal="96dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/selector_input_nav" />
 
             <TextView
                 android:id="@+id/text_support"

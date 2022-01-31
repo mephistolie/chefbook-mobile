@@ -3,12 +3,12 @@ package com.cactusknights.chefbook.screens.auth
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.cactusknights.chefbook.R
-import com.cactusknights.chefbook.base.EventHandler
-import com.cactusknights.chefbook.common.Result
+import com.cactusknights.chefbook.common.usecases.Result
+import com.cactusknights.chefbook.common.mvi.EventHandler
 import com.cactusknights.chefbook.domain.usecases.AuthUseCases
-import com.cactusknights.chefbook.screens.auth.models.AuthViewEffect
-import com.cactusknights.chefbook.screens.auth.models.AuthEvent
+import com.cactusknights.chefbook.screens.auth.models.AuthScreenEvent
 import com.cactusknights.chefbook.screens.auth.models.AuthScreenState
+import com.cactusknights.chefbook.screens.auth.models.AuthScreenViewEffect
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -21,31 +21,31 @@ enum class PasswordStates {
 @HiltViewModel
 class AuthViewModel @Inject constructor(
     private val authUseCases: AuthUseCases,
-) : ViewModel(), EventHandler<AuthEvent> {
+) : ViewModel(), EventHandler<AuthScreenEvent> {
 
     private val _authState : MutableStateFlow<AuthScreenState> = MutableStateFlow(AuthScreenState.SignInScreen())
     val authState : StateFlow<AuthScreenState> = _authState.asStateFlow()
 
-    private val _viewEffect : MutableSharedFlow<AuthViewEffect> = MutableSharedFlow(replay = 0, extraBufferCapacity = 0)
-    val viewEffect : SharedFlow<AuthViewEffect> = _viewEffect.asSharedFlow()
+    private val _viewEffect : MutableSharedFlow<AuthScreenViewEffect> = MutableSharedFlow(replay = 0, extraBufferCapacity = 0)
+    val viewEffect : SharedFlow<AuthScreenViewEffect> = _viewEffect.asSharedFlow()
 
-    override fun obtainEvent(event: AuthEvent) {
+    override fun obtainEvent(event: AuthScreenEvent) {
         viewModelScope.launch {
             when (event) {
-                is AuthEvent.SignInSelected -> _authState.emit(AuthScreenState.SignInScreen())
-                is AuthEvent.SignUpScreen -> _authState.emit(AuthScreenState.SignUpScreen())
-                is AuthEvent.RestorePasswordScreen -> _authState.emit(AuthScreenState.RestorePasswordScreen())
+                is AuthScreenEvent.SignInSelected -> _authState.emit(AuthScreenState.SignInScreen())
+                is AuthScreenEvent.SignUpScreen -> _authState.emit(AuthScreenState.SignUpScreen())
+                is AuthScreenEvent.RestorePasswordScreen -> _authState.emit(AuthScreenState.RestorePasswordScreen())
                 else -> { if (!_authState.value.isLoading) reduceAuthEvent(event) }
             }
         }
     }
 
-    private fun reduceAuthEvent(event: AuthEvent) {
+    private fun reduceAuthEvent(event: AuthScreenEvent) {
         when (event) {
-            is AuthEvent.SignUp -> signUp(event.email, event.password, event.passwordValidation)
-            is AuthEvent.SignIn -> signIn(event.email, event.password)
-            is AuthEvent.RestorePassword -> { /* TODO */ }
-            is AuthEvent.SignInLocally -> signInLocally()
+            is AuthScreenEvent.SignUp -> signUp(event.email, event.password, event.passwordValidation)
+            is AuthScreenEvent.SignIn -> signIn(event.email, event.password)
+            is AuthScreenEvent.RestorePassword -> { /* TODO */ }
+            is AuthScreenEvent.SignInLocally -> signInLocally()
         }
     }
 
@@ -57,7 +57,7 @@ class AuthViewModel @Inject constructor(
                         is Result.Loading -> _authState.emit(AuthScreenState.SignUpScreen(isLoading = true))
                         is Result.Success -> sendMessage(R.string.signup_successfully)
                         is Result.Error -> {
-                            AuthScreenState.SignUpScreen()
+                            AuthScreenState.SignUpScreen(isLoading = false)
                             sendMessage(R.string.authentication_failed)
                         }
                     }
@@ -73,9 +73,9 @@ class AuthViewModel @Inject constructor(
                     is Result.Loading -> { _authState.emit(AuthScreenState.SignInScreen(isLoading = true)) }
                     is Result.Success -> {
                         sendMessage(R.string.login_successfully)
-                        _viewEffect.emit(AuthViewEffect.SignedIn) }
+                        _viewEffect.emit(AuthScreenViewEffect.SignedIn) }
                     is Result.Error -> {
-                        _authState.emit(AuthScreenState.SignInScreen())
+                        _authState.emit(AuthScreenState.SignInScreen(isLoading = false))
                         sendMessage(R.string.authentication_failed)
                     }
                 }
@@ -88,7 +88,7 @@ class AuthViewModel @Inject constructor(
             authUseCases.signInLocally().collect {
                 if (it is Result.Success) {
                     sendMessage(R.string.login_successfully)
-                    _viewEffect.emit(AuthViewEffect.SignedIn)
+                    _viewEffect.emit(AuthScreenViewEffect.SignedIn)
                 }
             }
         }
@@ -145,5 +145,5 @@ class AuthViewModel @Inject constructor(
         return PasswordStates.VALID
     }
 
-    private suspend fun sendMessage(messageCode: Int) { _viewEffect.emit(AuthViewEffect.Message(messageCode)) }
+    private suspend fun sendMessage(messageCode: Int) { _viewEffect.emit(AuthScreenViewEffect.Message(messageCode)) }
 }

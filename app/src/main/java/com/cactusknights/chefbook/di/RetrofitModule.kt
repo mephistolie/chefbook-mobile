@@ -1,11 +1,10 @@
 package com.cactusknights.chefbook.di
 
-import android.content.SharedPreferences
-import com.cactusknights.chefbook.base.Constants
-import com.cactusknights.chefbook.repositories.remote.datasources.AuthInterceptor
-import com.cactusknights.chefbook.repositories.remote.api.ChefBookApi
-import com.cactusknights.chefbook.repositories.remote.api.SessionApi
-import com.cactusknights.chefbook.repositories.sync.SyncSettingsRepository
+import com.cactusknights.chefbook.core.retrofit.interceptors.AuthInterceptor
+import com.cactusknights.chefbook.common.retrofit.CommonApi
+import com.cactusknights.chefbook.core.datastore.SessionManager
+import com.cactusknights.chefbook.core.datastore.SettingsManager
+import com.cactusknights.chefbook.repositories.remote.api.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -20,6 +19,10 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 class RetrofitModule {
 
+    companion object {
+        const val API_URL = "https://api.chefbook.space/"
+    }
+
     @Provides
     @Singleton
     fun provideLoggingInterceptor(): HttpLoggingInterceptor =
@@ -29,17 +32,8 @@ class RetrofitModule {
 
     @Provides
     @Singleton
-    fun provideSessionApi(): SessionApi =
-        Retrofit.Builder()
-            .baseUrl(Constants.API_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-            .create(SessionApi::class.java)
-
-    @Provides
-    @Singleton
-    fun provideAuthInterceptor(authApi: SessionApi, sp: SharedPreferences, sr: SyncSettingsRepository): AuthInterceptor =
-        AuthInterceptor(authApi, sp, sr)
+    fun provideAuthInterceptor(authApi: SessionApi, session: SessionManager, sr: SettingsManager): AuthInterceptor =
+        AuthInterceptor(authApi, session, sr)
 
     @Provides
     @Singleton
@@ -54,11 +48,81 @@ class RetrofitModule {
 
     @Provides
     @Singleton
-    fun provideChefBookApi(okHttpClient: OkHttpClient): ChefBookApi =
+    fun provideCommonApi(okHttpClient: OkHttpClient): CommonApi =
         Retrofit.Builder()
-            .baseUrl(Constants.API_URL)
+            .baseUrl(API_URL)
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-            .create(ChefBookApi::class.java)
+            .create(CommonApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideAuthApi(okHttpClient: OkHttpClient): AuthApi =
+        Retrofit.Builder()
+            .baseUrl(API_URL)
+            .client(okHttpClient)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(AuthApi::class.java)
+
+
+    @Provides
+    @Singleton
+    fun provideSessionApi(): SessionApi =
+        Retrofit.Builder()
+            .baseUrl(API_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(SessionApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideUsersApi(okHttpClient: OkHttpClient): UsersApi =
+        Retrofit.Builder()
+            .baseUrl(API_URL)
+            .client(okHttpClient)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(UsersApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideEncryptionApi(okHttpClient: OkHttpClient): EncryptionApi =
+        Retrofit.Builder()
+            .baseUrl(API_URL)
+            .client(okHttpClient)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(EncryptionApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideRecipesApi(okHttpClient: OkHttpClient): RecipesApi =
+        Retrofit.Builder()
+            .baseUrl(API_URL)
+            .client(okHttpClient)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(RecipesApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideCategoriesApi(okHttpClient: OkHttpClient): CategoriesApi =
+        Retrofit.Builder()
+            .baseUrl(API_URL)
+            .client(okHttpClient)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(CategoriesApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideShoppingListApi(okHttpClient: OkHttpClient): ShoppingListApi =
+        Retrofit.Builder()
+            .baseUrl(API_URL)
+            .client(okHttpClient)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(ShoppingListApi::class.java)
 }

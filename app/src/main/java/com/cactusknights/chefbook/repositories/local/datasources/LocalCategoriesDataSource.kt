@@ -1,29 +1,22 @@
 package com.cactusknights.chefbook.repositories.local.datasources
 
 import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.stringPreferencesKey
-import com.cactusknights.chefbook.domain.CategoriesDataSource
+import com.cactusknights.chefbook.SyncDataProto
 import com.cactusknights.chefbook.models.Category
+import com.cactusknights.chefbook.repositories.CategoriesDataSource
 import com.cactusknights.chefbook.repositories.local.dao.CategoriesDao
 import com.cactusknights.chefbook.repositories.local.entities.toCategory
 import com.cactusknights.chefbook.repositories.local.entities.toCategoryEntity
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.flow.first
-import java.lang.reflect.Type
+import kotlinx.coroutines.flow.take
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class LocalCategoriesDataSource @Inject constructor(
     private val dao: CategoriesDao,
-    private val dataStore: DataStore<Preferences>,
-    private val gson: Gson
+    private val syncData: DataStore<SyncDataProto>,
 ): CategoriesDataSource {
-
-    companion object {
-        private val DELETED_CATEGORY_REMOTE_IDS = stringPreferencesKey("deleted_categories")
-    }
 
     override suspend fun getCategories(): ArrayList<Category> {
         val categories = arrayListOf<Category>()
@@ -45,17 +38,9 @@ class LocalCategoriesDataSource @Inject constructor(
     override suspend fun deleteCategory(category: Category) {
         dao.deleteCategory(category.id!!)
         if (category.remoteId != null) {
-            val deletedIds = getDeletedCategoryRemoteIds()
-            deletedIds.add(category.remoteId!!)
-            dataStore.edit { prefs ->
-                prefs[DELETED_CATEGORY_REMOTE_IDS] = gson.toJson(deletedIds)
-            }
+            syncData.updateData { it.deletedCategoriesList.add(category.remoteId!!); it }
         }
     }
 
-    suspend fun getDeletedCategoryRemoteIds(): ArrayList<Int> {
-        val type: Type = object : TypeToken<ArrayList<Int>>() {}.type
-        val prefs = dataStore.data.first()
-        return gson.fromJson(prefs[DELETED_CATEGORY_REMOTE_IDS]?: "[]", type)
-    }
+    suspend fun getDeletedCategoryRemoteIds(): List<Int> = syncData.data.take(1).first().deletedCategoriesList
 }

@@ -1,5 +1,6 @@
 package com.cactusknights.chefbook.repositories
 
+import com.cactusknights.chefbook.core.encryption.EncryptionState
 import com.cactusknights.chefbook.domain.ContentRepository
 import com.cactusknights.chefbook.models.*
 import com.cactusknights.chefbook.repositories.sync.*
@@ -7,11 +8,11 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import java.io.File
-import java.lang.Exception
-import java.net.URI
+import javax.crypto.SecretKey
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class SyncRepository @Inject constructor(
     private val authSource: SyncAuthRepository,
     private val usersSource: SyncUsersRepository,
@@ -19,7 +20,6 @@ class SyncRepository @Inject constructor(
     private val recipesSource: SyncRecipesRepository,
     private val categoriesSource: SyncCategoriesRepository,
     private val shoppingListSource: SyncShoppingListRepository,
-    private val settingsRepository: SyncSettingsRepository,
 ) : ContentRepository {
 
     override suspend fun signUp(email: String, password: String) { authSource.signUp(email, password) }
@@ -28,17 +28,17 @@ class SyncRepository @Inject constructor(
         if (signedIn) CoroutineScope(Dispatchers.IO).launch { recipesSource.getRecipes() }
         return signedIn
     }
+
     override suspend fun signInLocally() { authSource.signInLocally() }
     override suspend fun signOut() { authSource.signOut(); usersSource.getUserInfo() }
 
-
     override suspend fun listenToUser(): StateFlow<User?> { return usersSource.listenToUser() }
-    override suspend fun getUserInfo(): User { encryptionRepository.testEncryption(); return usersSource.getUserInfo() }
+    override suspend fun getUserInfo(): User { return usersSource.getUserInfo() }
     override suspend fun changeName(username: String) { return usersSource.changeName(username) }
     override suspend fun uploadAvatar(uri: String) { return usersSource.uploadAvatar(uri) }
     override suspend fun deleteAvatar() { return usersSource.deleteAvatar() }
 
-    override suspend fun listenToUserRecipes(): StateFlow<List<Recipe>> { return recipesSource.listenToUserRecipes() }
+    override suspend fun listenToUserRecipes(): StateFlow<List<Recipe>?> { return recipesSource.listenToUserRecipes() }
     override suspend fun getRecipes(): List<Recipe> { return recipesSource.getRecipes() }
     override suspend fun addRecipe(recipe: Recipe) : Recipe { return recipesSource.addRecipe(recipe) }
     override suspend fun getRecipe(recipeId: Int): Recipe { return recipesSource.getRecipe(recipeId)}
@@ -50,28 +50,28 @@ class SyncRepository @Inject constructor(
 
     override suspend fun setRecipeLikeStatus(recipe: Recipe) { return recipesSource.setRecipeLikeStatus(recipe) }
 
-    override suspend fun listenToCategories(): StateFlow<List<Category>> { return categoriesSource.listenToCategories() }
+    override suspend fun listenToCategories(): StateFlow<List<Category>?> { return categoriesSource.listenToCategories() }
     override suspend fun getCategories(): List<Category> { return categoriesSource.getCategories() }
     override suspend fun addCategory(category: Category) : Int { return categoriesSource.addCategory(category) }
     override suspend fun getCategory(categoryId: Int): Category { return categoriesSource.getCategory(categoryId) }
     override suspend fun updateCategory(category: Category) { categoriesSource.updateCategory(category) }
     override suspend fun deleteCategory(category: Category) { categoriesSource.deleteCategory(category) }
 
-    override suspend fun listenToShoppingList(): StateFlow<ShoppingList> { return shoppingListSource.listenToShoppingList() }
+    override suspend fun listenToShoppingList(): StateFlow<ShoppingList?> { return shoppingListSource.listenToShoppingList() }
     override suspend fun syncShoppingList() { shoppingListSource.syncShoppingList() }
     override suspend fun getShoppingList(): ShoppingList { return shoppingListSource.getShoppingList() }
     override suspend fun setShoppingList(shoppingList: ShoppingList) { shoppingListSource.setShoppingList(shoppingList) }
     override suspend fun addToShoppingList(purchases: List<Purchase>) { shoppingListSource.addToShoppingList(purchases) }
 
-    override fun getSettings(): Settings { return settingsRepository.getSettings() }
-    override fun getShoppingListByDefault(): Boolean { return settingsRepository.getShoppingListByDefault() }
-    override suspend fun setShoppingListByDefault(isShoppingListDefault: Boolean) { return settingsRepository.setShoppingListByDefault(isShoppingListDefault) }
-    override fun getDataSourceType(): DataSource { return settingsRepository.getDataSourceType() }
-    override suspend fun setDataSourceType(dataSource: DataSource) { return settingsRepository.setDataSourceType(dataSource) }
-    override fun getUserType(): UserType { return settingsRepository.getUserType() }
-    override suspend fun setUserType(userType: UserType) { return settingsRepository.setUserType(userType) }
-    override fun getAppTheme(): AppTheme { return settingsRepository.getAppTheme() }
-    override suspend fun setAppTheme(appTheme: AppTheme) { return settingsRepository.setAppTheme(appTheme) }
-    override fun getAppIcon(): AppIcon { return settingsRepository.getAppIcon() }
-    override suspend fun setAppIcon(appIcon: AppIcon) { return settingsRepository.setAppIcon(appIcon) }
+    override suspend fun listenToUnlockedState(): StateFlow<Boolean> { return encryptionRepository.listenToUnlockedState() }
+    override suspend fun getEncryptionState() : EncryptionState { return encryptionRepository.getEncryptionState() }
+    override suspend fun createEncryptedVault(password: String) { return encryptionRepository.createEncryptedVault(password) }
+    override suspend fun unlockEncryptedVault(password: String) { return encryptionRepository.unlockEncryptedVault(password) }
+    override suspend fun lockEncryptedVault() { return encryptionRepository.lockEncryptedVault() }
+    override suspend fun deleteEncryptedVault() { return encryptionRepository.deleteEncryptedVault() }
+    override suspend fun setRecipeKey(localId: Int, remoteId: Int?, recipeKey: SecretKey) { return encryptionRepository.setRecipeKey(localId, remoteId, recipeKey) }
+    override suspend fun getRecipeKey(localId: Int, remoteId: Int?): SecretKey { return encryptionRepository.getRecipeKey(localId, remoteId) }
+    override suspend fun decryptRecipeData(localId: Int, remoteId: Int?, encryptedData: ByteArray): ByteArray { return encryptionRepository.decryptRecipeData(localId, remoteId, encryptedData) }
+    override suspend fun deleteRecipeKey(localId: Int, remoteId: Int?) { return encryptionRepository.deleteRecipeKey(localId, remoteId) }
+
 }

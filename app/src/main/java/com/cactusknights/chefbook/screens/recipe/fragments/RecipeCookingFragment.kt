@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
@@ -15,7 +14,7 @@ import com.cactusknights.chefbook.common.Utils.forceSubmitList
 import com.cactusknights.chefbook.databinding.FragmentRecipeCookingBinding
 import com.cactusknights.chefbook.screens.recipe.RecipeViewModel
 import com.cactusknights.chefbook.screens.recipe.adapters.CookingAdapter
-import com.cactusknights.chefbook.screens.recipe.models.RecipeActivityState
+import com.cactusknights.chefbook.screens.recipe.models.RecipeScreenState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.collect
@@ -46,7 +45,7 @@ class RecipeCookingFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.recipeState.collect { state ->
-                    if (state is RecipeActivityState.DataUpdated) cookingAdapter.differ.forceSubmitList(state.recipe.cooking)
+                    if (state is RecipeScreenState.DataUpdated) cookingAdapter.differ.forceSubmitList(state.recipe.cooking)
                 }
             }
         }

@@ -14,13 +14,12 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.cactusknights.chefbook.databinding.FragmentRecipeInputDetailsBinding
-import com.cactusknights.chefbook.models.MarkdownString
-import com.cactusknights.chefbook.models.MarkdownTypes
+import com.cactusknights.chefbook.models.*
 import com.cactusknights.chefbook.screens.recipeinput.RecipeInputViewModel
 import com.cactusknights.chefbook.screens.recipeinput.adapters.CookingInputAdapter
 import com.cactusknights.chefbook.screens.recipeinput.adapters.IngredientInputAdapter
 import com.cactusknights.chefbook.screens.recipeinput.models.RecipeInput
-import com.cactusknights.chefbook.screens.recipeinput.models.RecipeInputState
+import com.cactusknights.chefbook.screens.recipeinput.models.RecipeInputScreenState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -56,9 +55,9 @@ class RecipeInputDetailsFragment : Fragment() {
         }
     }
 
-    private fun render(state: RecipeInputState) {
-        if (state is RecipeInputState.NewRecipe || state is RecipeInputState.EditRecipe) {
-            val recipe = if (state is RecipeInputState.NewRecipe) state.recipeInput else (state as RecipeInputState.EditRecipe).recipeInput
+    private fun render(state: RecipeInputScreenState) {
+        if (state is RecipeInputScreenState.NewRecipe || state is RecipeInputScreenState.EditRecipe) {
+            val recipe = if (state is RecipeInputScreenState.NewRecipe) state.recipeInput else (state as RecipeInputScreenState.EditRecipe).recipeInput
 
             binding.rvIngredients.layoutManager = LinearLayoutManager(requireContext())
             ingredientsAdapter = IngredientInputAdapter(recipe.ingredients)
@@ -73,19 +72,19 @@ class RecipeInputDetailsFragment : Fragment() {
             cookingTouchHelper.attachToRecyclerView(binding.rvSteps)
 
             binding.btnAddIngredient.setOnClickListener {
-                recipe.ingredients.add(MarkdownString(""))
+                recipe.ingredients.add(Ingredient())
                 ingredientsAdapter.notifyItemInserted(recipe.ingredients.size-1)
             }
             binding.btnAddIngredientSection.setOnClickListener {
-                recipe.ingredients.add(MarkdownString("", MarkdownTypes.HEADER))
+                recipe.ingredients.add(Ingredient(type = IngredientTypes.SECTION))
                 ingredientsAdapter.notifyItemInserted(recipe.ingredients.size-1)
             }
             binding.btnAddStep.setOnClickListener {
-                recipe.cooking.add(MarkdownString())
+                recipe.cooking.add(CookingStep())
                 cookingAdapter.notifyItemInserted(recipe.cooking.size-1)
             }
             binding.btnAddCookingSection.setOnClickListener {
-                recipe.cooking.add(MarkdownString("", MarkdownTypes.HEADER))
+                recipe.cooking.add(CookingStep(type = CookingStepTypes.SECTION))
                 cookingAdapter.notifyItemInserted(recipe.cooking.size-1)
             }
         }

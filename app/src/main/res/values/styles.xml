@@ -33,4 +33,10 @@
         <item name="android:background">@android:color/transparent</item>
     </style>
 
+    <style name="RecipeCardCover">
+        <item name="cornerSize">12dp</item>
+        <item name="cornerFamily">rounded</item>
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
 </resources>

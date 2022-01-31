@@ -2,17 +2,15 @@ package com.cactusknights.chefbook.screens.main.fragments.settings
 
 import android.content.ComponentName
 import android.content.pm.PackageManager
-import androidx.core.content.ContentProviderCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.cactusknights.chefbook.base.EventHandler
-import com.cactusknights.chefbook.common.Result
+import com.cactusknights.chefbook.SettingsProto
+import com.cactusknights.chefbook.common.mvi.EventHandler
 import com.cactusknights.chefbook.domain.usecases.SettingsUseCases
-import com.cactusknights.chefbook.models.AppIcon
-import com.cactusknights.chefbook.screens.main.fragments.settings.aliases.OldIconAlias
-import com.cactusknights.chefbook.screens.main.fragments.settings.aliases.StandardIconAlias
-import com.cactusknights.chefbook.screens.main.fragments.settings.models.SettingsEvent
-import com.cactusknights.chefbook.screens.main.fragments.settings.models.SettingsState
+import com.cactusknights.chefbook.core.OldIconAlias
+import com.cactusknights.chefbook.core.StandardIconAlias
+import com.cactusknights.chefbook.screens.main.fragments.settings.models.SettingsScreenEvent
+import com.cactusknights.chefbook.screens.main.fragments.settings.models.SettingsScreenState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -21,43 +19,36 @@ import javax.inject.Inject
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
     private val settingsUseCases: SettingsUseCases
-) : ViewModel(), EventHandler<SettingsEvent> {
+) : ViewModel(), EventHandler<SettingsScreenEvent> {
 
-    private val _settingsState: MutableStateFlow<SettingsState> = MutableStateFlow(SettingsState(settingsUseCases.getSettings()))
-    val settingsState: StateFlow<SettingsState> = _settingsState.asStateFlow()
+    private val _settingsState: MutableStateFlow<SettingsScreenState> = MutableStateFlow(SettingsScreenState.Loading)
+    val settingsState: StateFlow<SettingsScreenState> = _settingsState.asStateFlow()
 
-    override fun obtainEvent(event: SettingsEvent) {
+    init {
+        viewModelScope.launch {
+            settingsUseCases.listenToSettings().collect { _settingsState.emit(SettingsScreenState.SettingsLoaded(it)) }
+        }
+    }
+
+    override fun obtainEvent(event: SettingsScreenEvent) {
         viewModelScope.launch {
             when (event) {
-                is SettingsEvent.SetDataSource -> {
-                    settingsUseCases.setDataSource(event.dataSource).collect{ result ->
-                        if (result is Result.Success) _settingsState.emit(SettingsState(settingsState.value.settings.copy(dataSource = event.dataSource)))
-                    }
-                }
-                is SettingsEvent.SetIcon -> {
-                    if (event.icon == AppIcon.STANDARD) {
-                        event.activity.packageManager?.setComponentEnabledSetting(ComponentName(event.activity, StandardIconAlias::class.java), PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP)
-                        event.activity.packageManager?.setComponentEnabledSetting(ComponentName(event.activity, OldIconAlias::class.java), PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP)
-                    } else {
-                        event.activity.packageManager?.setComponentEnabledSetting(ComponentName(event.activity, StandardIconAlias::class.java), PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP)
-                        event.activity.packageManager?.setComponentEnabledSetting(ComponentName(event.activity, OldIconAlias::class.java), PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP)
-                    }
-                    settingsUseCases.setIcon(event.icon).collect{ result ->
-                        if (result is Result.Success) _settingsState.emit(SettingsState(settingsState.value.settings.copy(icon = event.icon)))
-                    }
-                }
-                is SettingsEvent.SetShoppingListDefault -> {
-                    settingsUseCases.setShoppingListDefault(event.isDefault).collect { result ->
-                        if (result is Result.Success) _settingsState.emit(SettingsState(settingsState.value.settings.copy(isShoppingListDefault = event.isDefault)))
-                    }
-
-                }
-                is SettingsEvent.SetTheme -> {
-                    settingsUseCases.setTheme(event.theme).collect { result ->
-                        if (result is Result.Success) _settingsState.emit(SettingsState(settingsState.value.settings.copy(theme = event.theme)))
-                    }
-                }
+                is SettingsScreenEvent.SetDataSource -> { settingsUseCases.setDataSource(event.dataSource).collect{} }
+                is SettingsScreenEvent.SetIcon -> { setIcon(event) }
+                is SettingsScreenEvent.SetDefaultTab -> { settingsUseCases.setDefaultTab(event.tab).collect {} }
+                is SettingsScreenEvent.SetTheme -> { settingsUseCases.setTheme(event.theme).collect {} }
             }
         }
+    }
+
+    private suspend fun setIcon(event: SettingsScreenEvent.SetIcon) {
+        if (event.icon == SettingsProto.AppIcon.STANDARD) {
+            event.activity.packageManager?.setComponentEnabledSetting(ComponentName(event.activity, StandardIconAlias::class.java), PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP)
+            event.activity.packageManager?.setComponentEnabledSetting(ComponentName(event.activity, OldIconAlias::class.java), PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP)
+        } else {
+            event.activity.packageManager?.setComponentEnabledSetting(ComponentName(event.activity, StandardIconAlias::class.java), PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP)
+            event.activity.packageManager?.setComponentEnabledSetting(ComponentName(event.activity, OldIconAlias::class.java), PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP)
+        }
+        settingsUseCases.setIcon(event.icon).collect{}
     }
 }

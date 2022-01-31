@@ -5,9 +5,8 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.cactusknights.chefbook.screens.recipe.fragments.RecipeCookingFragment
-import com.cactusknights.chefbook.screens.recipe.fragments.RecipeIngredientsFragment
-import com.cactusknights.chefbook.models.DecryptedRecipe
 import com.cactusknights.chefbook.screens.recipe.fragments.RecipeInfoFragment
+import com.cactusknights.chefbook.screens.recipe.fragments.RecipeIngredientsFragment
 
 class RecipeViewPagerAdapter(fm: FragmentManager, lifecycle: Lifecycle): FragmentStateAdapter(fm, lifecycle) {
 

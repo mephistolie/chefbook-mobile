@@ -1,17 +1,17 @@
 package com.cactusknights.chefbook.repositories.remote.datasources
 
-import com.cactusknights.chefbook.domain.CategoriesDataSource
 import com.cactusknights.chefbook.models.Category
-import com.cactusknights.chefbook.models.Recipe
-import com.cactusknights.chefbook.repositories.remote.api.ChefBookApi
+import com.cactusknights.chefbook.repositories.CategoriesDataSource
+import com.cactusknights.chefbook.repositories.remote.api.CategoriesApi
 import com.cactusknights.chefbook.repositories.remote.dto.toCategory
 import com.cactusknights.chefbook.repositories.remote.dto.toCategoryDto
-import com.cactusknights.chefbook.repositories.remote.dto.toRecipe
 import java.io.IOException
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class RemoteCategoriesDataSource @Inject constructor(
-    private val api: ChefBookApi
+    private val api: CategoriesApi
 ) : CategoriesDataSource {
     override suspend fun getCategories(): ArrayList<Category> {
         val response = api.getCategories()

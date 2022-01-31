@@ -1,19 +1,54 @@
 package com.cactusknights.chefbook.models
 
+import com.cactusknights.chefbook.PurchaseProto
+import com.cactusknights.chefbook.ShoppingListProto
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
-import java.sql.Timestamp
 import java.util.*
-import kotlin.collections.ArrayList
 
-data class ShoppingList (
+data class ShoppingList(
     var purchases: List<Purchase>,
-    var timestamp : Date = Date()
-): Serializable {}
+    var timestamp: Date = Date()
+) : Serializable {}
 
-data class Purchase (
-    @SerializedName("purchase_id") var id : String = UUID.randomUUID().toString(),
+data class Purchase(
+    var id: String = UUID.randomUUID().toString(),
     var name: String,
-    var multiplier : Int = 1,
-    @SerializedName("is_purchased") var isPurchased: Boolean = false
-): Serializable {}
+    var multiplier: Int = 1,
+    var isPurchased: Boolean = false
+) : Serializable {}
+
+
+fun ShoppingList.toProto(): ShoppingListProto {
+    val purchasesProto = this.purchases.map {
+        PurchaseProto.newBuilder()
+            .setId(it.id)
+            .setName(it.name)
+            .setMultiplier(it.multiplier)
+            .setIsPurchased(it.isPurchased)
+            .build()
+    }
+    return ShoppingListProto.newBuilder()
+        .addAllPurchases(purchasesProto)
+        .setTimestamp(this.timestamp.time)
+        .build()
+}
+
+fun ShoppingListProto.toShoppingList(): ShoppingList {
+    val purchases = this.purchasesList.map {
+        Purchase(
+            id = it.id,
+            name = it.name,
+            multiplier = it.multiplier,
+            isPurchased = it.isPurchased
+        )
+    }
+    return ShoppingList(
+        purchases = purchases,
+        timestamp = Date(this.timestamp)
+    )
+}
+
+fun Selectable<String>.toPurchase() : Purchase {
+    return Purchase(name = this.item?:"")
+}

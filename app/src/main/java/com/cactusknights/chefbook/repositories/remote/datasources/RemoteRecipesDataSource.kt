@@ -1,9 +1,10 @@
 package com.cactusknights.chefbook.repositories.remote.datasources
 
+import android.util.Log
 import android.webkit.URLUtil
-import com.cactusknights.chefbook.domain.ServerRecipeDataSource
 import com.cactusknights.chefbook.models.Recipe
-import com.cactusknights.chefbook.repositories.remote.api.ChefBookApi
+import com.cactusknights.chefbook.repositories.ServerRecipeDataSource
+import com.cactusknights.chefbook.repositories.remote.api.RecipesApi
 import com.cactusknights.chefbook.repositories.remote.dto.DeleteRecipePictureInput
 import com.cactusknights.chefbook.repositories.remote.dto.toRecipe
 import com.cactusknights.chefbook.repositories.remote.dto.toRecipeInputDto
@@ -12,17 +13,26 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
 import java.io.IOException
+import java.util.*
 import javax.inject.Inject
+import javax.inject.Singleton
+import kotlin.collections.ArrayList
 
+@Singleton
 class RemoteRecipesDataSource @Inject constructor(
-    private val api: ChefBookApi
+    private val api: RecipesApi
 ) : ServerRecipeDataSource {
     override suspend fun getRecipes(): ArrayList<Recipe> {
         val response = api.getRecipes()
         val recipeDtos = response.body()
         if (recipeDtos != null) {
             val recipes: ArrayList<Recipe> = arrayListOf()
-            return recipeDtos.map { it.toRecipe() }.toCollection(recipes)
+            try {
+                recipeDtos.map { it.toRecipe() }.toCollection(recipes)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+            return recipes
         } else throw IOException()
     }
 
@@ -71,7 +81,7 @@ class RemoteRecipesDataSource @Inject constructor(
         val newPreview = newRecipe.preview.orEmpty()
 
         // Send local preview to server
-        if (!URLUtil.isValidUrl(newRecipe.preview)) {
+        if (newPreview.isNotEmpty() && !URLUtil.isValidUrl(newPreview)) {
             isUpdateNeed = true
             val preview = File(newPreview)
             val file = preview.asRequestBody(contentType = "image/jpeg".toMediaTypeOrNull())

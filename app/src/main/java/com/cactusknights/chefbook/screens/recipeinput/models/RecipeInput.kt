@@ -1,11 +1,6 @@
 package com.cactusknights.chefbook.screens.recipeinput.models
 
-import com.cactusknights.chefbook.models.DecryptedRecipe
-import com.cactusknights.chefbook.models.MarkdownString
-import com.cactusknights.chefbook.models.Recipe
-import com.cactusknights.chefbook.models.Visibility
-import java.util.*
-import kotlin.collections.ArrayList
+import com.cactusknights.chefbook.models.*
 
 data class RecipeInput (
     var id: Int? = null,
@@ -15,8 +10,8 @@ data class RecipeInput (
 
     var encrypted: Boolean = false,
 
-    var ingredients: ArrayList<MarkdownString> = arrayListOf(MarkdownString()),
-    var cooking: ArrayList<MarkdownString> = arrayListOf(MarkdownString()),
+    var ingredients: ArrayList<Ingredient> = arrayListOf(Ingredient()),
+    var cooking: ArrayList<CookingStep> = arrayListOf(CookingStep()),
 
     var servings: Int = 1,
     var time: Int = 15,
@@ -27,7 +22,7 @@ data class RecipeInput (
     var visibility: Visibility = Visibility.PRIVATE
 )
 
-fun RecipeInput.toRecipe() : Recipe {
+fun RecipeInput.toRecipe() : DecryptedRecipe {
     return DecryptedRecipe(
         id = id,
         remoteId = remoteId,
@@ -40,7 +35,8 @@ fun RecipeInput.toRecipe() : Recipe {
         preview = preview,
         visibility = visibility,
         ingredients = ingredients,
-        cooking = cooking
+        cooking = cooking,
+        encrypted = encrypted,
     )
 }
 
@@ -56,6 +52,7 @@ fun DecryptedRecipe.toRecipeInput() : RecipeInput {
         visibility = visibility,
         ingredients = ingredients,
         preview = preview,
-        cooking = cooking
+        cooking = cooking,
+        encrypted = encrypted
     )
 }

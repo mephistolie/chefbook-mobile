@@ -1,9 +1,8 @@
 package com.cactusknights.chefbook.domain.usecases
 
-import com.cactusknights.chefbook.domain.AuthDataSource
-import com.cactusknights.chefbook.common.Result
+import android.util.Log
+import com.cactusknights.chefbook.common.usecases.Result
 import com.cactusknights.chefbook.domain.AuthRepository
-import com.cactusknights.chefbook.models.User
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -20,8 +19,6 @@ class AuthUseCases @Inject constructor(
             emit(Result.Loading)
             repository.signUp(email, password)
             emit(Result.Success(null))
-        } catch (e: HttpException) {
-            emit(Result.Error(e, e.localizedMessage ?: "An unexpected error occured"))
         } catch (e: IOException) {
             emit(Result.Error(e))
         }
@@ -32,8 +29,6 @@ class AuthUseCases @Inject constructor(
             emit(Result.Loading)
             repository.signIn(email, password)
             emit(Result.Success(null))
-        } catch (e: HttpException) {
-            emit(Result.Error(e, e.localizedMessage ?: "An unexpected error occured"))
         } catch (e: IOException) {
             emit(Result.Error(e))
         }
@@ -44,8 +39,6 @@ class AuthUseCases @Inject constructor(
             emit(Result.Loading)
             repository.signInLocally()
             emit(Result.Success(null))
-        } catch (e: HttpException) {
-            emit(Result.Error(e, e.localizedMessage ?: "An unexpected error occured"))
         } catch (e: IOException) {
             emit(Result.Error(e))
         }
@@ -56,8 +49,6 @@ class AuthUseCases @Inject constructor(
             emit(Result.Loading)
             repository.signOut()
             emit(Result.Success(null))
-        } catch (e: HttpException) {
-            emit(Result.Error(e, e.localizedMessage ?: "An unexpected error occured"))
         } catch (e: IOException) {
             emit(Result.Error(e))
         }

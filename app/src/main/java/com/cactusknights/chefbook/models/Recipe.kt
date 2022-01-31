@@ -1,13 +1,8 @@
 package com.cactusknights.chefbook.models
 
 import android.util.Base64
-import com.cactusknights.chefbook.common.RoomConverters
-import com.cactusknights.chefbook.repositories.sync.SyncEncryptionRepository.Companion.RSA
 import java.io.Serializable
-import java.security.PrivateKey
-import java.security.PublicKey
 import java.util.*
-import javax.crypto.Cipher
 
 enum class Visibility : Serializable {
     PRIVATE, SHARED, PUBLIC;
@@ -46,6 +41,8 @@ abstract class Recipe(
 
     var creationTimestamp: Date = Date(),
     var updateTimestamp: Date = Date(),
+
+    var encrypted: Boolean = false,
 ): Serializable
 
 class DecryptedRecipe(
@@ -66,12 +63,13 @@ class DecryptedRecipe(
     categories: ArrayList<Int> = arrayListOf(),
     visibility: Visibility = Visibility.PRIVATE,
     preview: String? = null,
-    var ingredients: ArrayList<MarkdownString> = arrayListOf(),
-    var cooking: ArrayList<MarkdownString> = arrayListOf(),
+    var ingredients: ArrayList<Ingredient> = arrayListOf(),
+    var cooking: ArrayList<CookingStep> = arrayListOf(),
     creationTimestamp: Date = Date(),
     updateTimestamp: Date = Date(),
+    encrypted: Boolean = false,
 ): Recipe(id, remoteId, name, likes, ownerId, ownerName, isOwned, isFavourite, isLiked, description, servings, time, calories,
-    categories, visibility, preview, creationTimestamp, updateTimestamp)
+    categories, visibility, preview, creationTimestamp, updateTimestamp, encrypted)
 
 class EncryptedRecipe(
     id: Int? = null,
@@ -96,36 +94,35 @@ class EncryptedRecipe(
     creationTimestamp: Date = Date(),
     updateTimestamp: Date = Date(),
 ): Recipe(id, remoteId, name, likes, ownerId, ownerName, isOwned, isFavourite, isLiked, description, servings, time, calories,
-    categories, visibility, preview, creationTimestamp, updateTimestamp)
+    categories, visibility, preview, creationTimestamp, updateTimestamp, true)
 
-fun DecryptedRecipe.encrypt(publicKey: PublicKey): EncryptedRecipe {
-    val cipher: Cipher = Cipher.getInstance(RSA)
-    cipher.init(Cipher.ENCRYPT_MODE, publicKey)
+fun DecryptedRecipe.encrypt(encrypt: (ByteArray) -> ByteArray): EncryptedRecipe {
+    val encryptedName = Base64.encodeToString(encrypt(name.toByteArray()), Base64.DEFAULT)
 
-    val encryptedName = Base64.encodeToString(cipher.doFinal(name.toByteArray()), Base64.DEFAULT)
     val currentDescription = description
-    val encryptedDescription = if (!currentDescription.isNullOrEmpty()) Base64.encodeToString(cipher.doFinal(currentDescription.toByteArray()), Base64.DEFAULT) else currentDescription
-    val encryptedIngredients = Base64.encodeToString(cipher.doFinal(RoomConverters.fromMarkdownString(ingredients).toByteArray()), Base64.DEFAULT)
-    val encryptedCooking = Base64.encodeToString(cipher.doFinal(RoomConverters.fromMarkdownString(cooking).toByteArray()), Base64.DEFAULT)
+    val encryptedDescription = if (!currentDescription.isNullOrEmpty()) Base64.encodeToString(encrypt(currentDescription.toByteArray()), Base64.DEFAULT) else currentDescription
+
+    val encryptedIngredients = Base64.encodeToString(encrypt(ingredients.toJson().toByteArray()), Base64.DEFAULT)
+    val encryptedCooking = Base64.encodeToString(encrypt(cooking.toJson().toByteArray()), Base64.DEFAULT)
 
     val correctVisibility = if (visibility == Visibility.PUBLIC) Visibility.SHARED else visibility
 
     return EncryptedRecipe(
-        id = this.id,
-        remoteId = this.id,
+        id = id,
+        remoteId = id,
         name = encryptedName,
         likes = likes,
         ownerId = ownerId,
         ownerName = ownerName,
-        isOwned = this.isOwned,
-        isFavourite  = this.isFavourite,
-        isLiked = this.isLiked,
+        isOwned = isOwned,
+        isFavourite  = isFavourite,
+        isLiked = isLiked,
 
         description = encryptedDescription,
-        servings = this.servings,
-        time = this.time,
-        calories = this.calories,
-        categories = this.categories,
+        servings = servings,
+        time = time,
+        calories = calories,
+        categories = categories,
 
         visibility = correctVisibility,
         preview = preview,
@@ -133,19 +130,18 @@ fun DecryptedRecipe.encrypt(publicKey: PublicKey): EncryptedRecipe {
         ingredients = encryptedIngredients,
         cooking = encryptedCooking,
 
-        creationTimestamp = this.creationTimestamp,
-        updateTimestamp = this.updateTimestamp,
+        creationTimestamp = creationTimestamp,
+        updateTimestamp = updateTimestamp,
     )
 }
 
-fun EncryptedRecipe.decrypt(privateKey: PrivateKey): DecryptedRecipe {
-    val cipher: Cipher = Cipher.getInstance(RSA)
-    cipher.init(Cipher.DECRYPT_MODE, privateKey)
+fun EncryptedRecipe.decrypt(decrypt: (ByteArray) -> ByteArray): DecryptedRecipe {
+    val decryptedName = String(decrypt(Base64.decode(name, Base64.DEFAULT)))
 
-    val decryptedName = String(cipher.doFinal(Base64.decode(name, Base64.DEFAULT)))
-    val decryptedDescription = if (!description.isNullOrEmpty()) String(cipher.doFinal(Base64.decode(description, Base64.DEFAULT))) else description
-    val decryptedIngredients = RoomConverters.toMarkdownString(String(cipher.doFinal(Base64.decode(ingredients, Base64.DEFAULT))))
-    val decryptedCooking = RoomConverters.toMarkdownString(String(cipher.doFinal(Base64.decode(cooking, Base64.DEFAULT))))
+    val decryptedDescription = if (!description.isNullOrEmpty()) String(decrypt(Base64.decode(description, Base64.DEFAULT))) else description
+
+    val decryptedIngredients = String(decrypt(Base64.decode(ingredients, Base64.DEFAULT))).toIngredients()
+    val decryptedCooking = String(decrypt(Base64.decode(cooking, Base64.DEFAULT))).toCooking()
 
     val correctVisibility = if (visibility == Visibility.PUBLIC) Visibility.SHARED else visibility
 
@@ -172,7 +168,9 @@ fun EncryptedRecipe.decrypt(privateKey: PrivateKey): DecryptedRecipe {
         ingredients = decryptedIngredients,
         cooking = decryptedCooking,
 
-        creationTimestamp = this.creationTimestamp,
-        updateTimestamp = this.updateTimestamp,
+        creationTimestamp = creationTimestamp,
+        updateTimestamp = updateTimestamp,
+
+        encrypted = true,
     )
 }

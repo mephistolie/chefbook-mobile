@@ -2,23 +2,19 @@ package com.cactusknights.chefbook.screens.auth
 
 import android.content.Intent
 import android.os.Bundle
-import android.text.SpannableString
-import android.text.Spanned
-import android.text.style.ForegroundColorSpan
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.cactusknights.chefbook.R
-import com.cactusknights.chefbook.screens.main.MainActivity
-import com.cactusknights.chefbook.databinding.ActivityAuthBinding
 import com.cactusknights.chefbook.common.showToast
-import com.cactusknights.chefbook.screens.auth.models.AuthViewEffect
-import com.cactusknights.chefbook.screens.auth.models.AuthEvent
+import com.cactusknights.chefbook.databinding.ActivityAuthBinding
+import com.cactusknights.chefbook.screens.auth.models.AuthScreenEvent
 import com.cactusknights.chefbook.screens.auth.models.AuthScreenState
+import com.cactusknights.chefbook.screens.auth.models.AuthScreenViewEffect
+import com.cactusknights.chefbook.screens.main.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -39,13 +35,13 @@ open class AuthActivity : AppCompatActivity() {
             when (viewModel.authState.value) {
                 is AuthScreenState.SignInScreen -> {
                     viewModel.obtainEvent(
-                        AuthEvent.SignIn(
+                        AuthScreenEvent.SignIn(
                             binding.inputEmail.text.toString(),
                             binding.inputPassword.text.toString()))
                 }
                 is AuthScreenState.SignUpScreen -> {
                     viewModel.obtainEvent(
-                        AuthEvent.SignUp(
+                        AuthScreenEvent.SignUp(
                             binding.inputEmail.text.toString(),
                             binding.inputPassword.text.toString(),
                             binding.inputRepeatPassword.text.toString()))
@@ -54,15 +50,15 @@ open class AuthActivity : AppCompatActivity() {
             }
         }
 
-        binding.btnLocal.setOnClickListener { viewModel.obtainEvent(AuthEvent.SignInLocally) }
+        binding.btnLocal.setOnClickListener { viewModel.obtainEvent(AuthScreenEvent.SignInLocally) }
 
         binding.textSignUp.setOnClickListener {
-            if (viewModel.authState.value is AuthScreenState.SignInScreen) { viewModel.obtainEvent(AuthEvent.SignUpScreen) }
-            else { viewModel.obtainEvent(AuthEvent.SignInSelected) }
+            if (viewModel.authState.value is AuthScreenState.SignInScreen) { viewModel.obtainEvent(AuthScreenEvent.SignUpScreen) }
+            else { viewModel.obtainEvent(AuthScreenEvent.SignInSelected) }
         }
 
         binding.btnResetPassword.setOnClickListener {
-            viewModel.obtainEvent(AuthEvent.RestorePasswordScreen)
+            viewModel.obtainEvent(AuthScreenEvent.RestorePasswordScreen)
         }
 
         lifecycleScope.launch {
@@ -82,10 +78,10 @@ open class AuthActivity : AppCompatActivity() {
         updateLoginProgressLayout(state.isLoading)
     }
 
-    private fun handleViewEffect(effect: AuthViewEffect) {
+    private fun handleViewEffect(effect: AuthScreenViewEffect) {
         when (effect) {
-            is AuthViewEffect.Message -> applicationContext.showToast(effect.messageId)
-            is AuthViewEffect.SignedIn -> {
+            is AuthScreenViewEffect.Message -> applicationContext.showToast(effect.messageId)
+            is AuthScreenViewEffect.SignedIn -> {
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent) }
         }

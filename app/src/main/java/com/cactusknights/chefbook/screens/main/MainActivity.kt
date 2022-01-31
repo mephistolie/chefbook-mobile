@@ -1,36 +1,37 @@
 package com.cactusknights.chefbook.screens.main
 
 import android.content.Intent
-import android.content.res.Configuration
 import android.os.Bundle
 import android.view.View
-import android.widget.ScrollView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ActivityOptionsCompat
+import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
-import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.NavHostFragment
 import com.cactusknights.chefbook.R
+import com.cactusknights.chefbook.SettingsProto
 import com.cactusknights.chefbook.common.showToast
 import com.cactusknights.chefbook.databinding.ActivityMainBinding
 import com.cactusknights.chefbook.models.Recipe
-import com.cactusknights.chefbook.models.SettingsScheme
 import com.cactusknights.chefbook.screens.auth.AuthActivity
+import com.cactusknights.chefbook.screens.common.encryption.EncryptionDialog
+import com.cactusknights.chefbook.screens.common.encryption.EncryptionViewModel
+import com.cactusknights.chefbook.screens.common.encryption.models.EncryptionScreenState
+import com.cactusknights.chefbook.screens.common.recipes.RecipesViewModel
 import com.cactusknights.chefbook.screens.main.fragments.profile.dialogs.AboutDialog
-import com.cactusknights.chefbook.screens.main.fragments.recipesincategory.RecipesInCategoryFragment
-import com.cactusknights.chefbook.screens.main.models.NavigationEvent
-import com.cactusknights.chefbook.screens.main.models.NavigationEffect
 import com.cactusknights.chefbook.screens.main.fragments.profile.dialogs.BroccoinsDialog
 import com.cactusknights.chefbook.screens.main.fragments.profile.dialogs.SubscriptionDialog
+import com.cactusknights.chefbook.screens.main.fragments.recipesincategory.RecipesInCategoryFragment
+import com.cactusknights.chefbook.screens.main.models.NavigationEffect
+import com.cactusknights.chefbook.screens.main.models.NavigationEvent
 import com.cactusknights.chefbook.screens.recipe.RecipeActivity
 import com.cactusknights.chefbook.screens.recipeinput.RecipeInputActivity
 import com.google.android.material.navigation.NavigationBarView
@@ -44,18 +45,20 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    @Inject
-    lateinit var dataStore : DataStore<Preferences>
+    @Inject lateinit var settings : DataStore<SettingsProto>
 
     companion object {
         const val IS_BACK_BUTTON_VISIBLE = "IS_BACK_BUTTON_VISIBLE"
         const val TITLE = "TITLE"
         const val ABOUT_DIALOG = "About Dialog"
+        const val ENCRYPTION_DIALOG = "Encryption Dialog"
         const val SUBSCRIPTION_DIALOG = "Subscription"
         private var isFirstLaunch = true
     }
 
-    private val viewModel: NavigationViewModel by viewModels()
+    private val navigationViewModel: NavigationViewModel by viewModels()
+    private val recipesViewModel: RecipesViewModel by viewModels()
+    private val encryptionViewModel : EncryptionViewModel by viewModels()
 
     private lateinit var navController: NavController
 
@@ -65,10 +68,9 @@ class MainActivity : AppCompatActivity() {
     private val rootRoutes = listOf(R.id.recipesFragment, R.id.shoppingListFragment, R.id.profileFragment)
     private val profileRoutes = listOf(R.id.profileFragment, R.id.settingsFragment, R.id.editProfileFragment)
 
-    private var isShoppingListDefault = false
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        configureFirstLaunch(settings)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -80,9 +82,16 @@ class MainActivity : AppCompatActivity() {
         }
 
         val navigation = NavigationBarView.OnItemSelectedListener { item ->
-            if (item.itemId == R.id.shopping_list) { viewModel.obtainEvent(NavigationEvent.OpenShoppingListFragment) }
-            else if (item.itemId == R.id.recipes) { viewModel.obtainEvent(NavigationEvent.OpenRecipesFragment) }
-            else { viewModel.obtainEvent(NavigationEvent.OpenProfile) }
+            if (item.itemId == R.id.shopping_list) {
+                binding.ivEncryption.visibility = View.GONE
+                navigationViewModel.obtainEvent(NavigationEvent.OpenShoppingListFragment)
+            } else if (item.itemId == R.id.recipes) {
+                binding.ivEncryption.visibility = View.VISIBLE
+                navigationViewModel.obtainEvent(NavigationEvent.OpenRecipesFragment)
+            } else {
+                binding.ivEncryption.visibility = View.GONE
+                navigationViewModel.obtainEvent(NavigationEvent.OpenProfile)
+            }
             true
         }
 
@@ -91,37 +100,41 @@ class MainActivity : AppCompatActivity() {
         binding.nvNavigation.selectedItemId = R.id.recipes
         binding.nvNavigation.setOnItemSelectedListener(navigation)
         binding.btnBack.setOnClickListener { onBackPressed() }
-
-        // SQLite Migration
-//        val legacyDatabase = File(filesDir, "../databases/ChefBookDB")
-//        if (File(filesDir, "../databases/ChefBookDB").exists())
-//            FirebaseAuthRepository.migrateToFirebase(legacyDatabase, this)
+        binding.ivEncryption.setOnClickListener { EncryptionDialog().show(supportFragmentManager, ENCRYPTION_DIALOG) }
 
         lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                launch { viewModel.viewEffect.collect { handleViewEffect(it) } }
+            repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                recipesViewModel.listenToUpdates()
+                encryptionViewModel.listenToEncryption()
+                launch { navigationViewModel.viewEffect.collect { handleViewEffect(it) } }
+                launch { encryptionViewModel.encryptionState.collect { renderEncryptionIcon(it) } }
             }
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-        CoroutineScope(Dispatchers.IO).launch {
-            val prefs = dataStore.data.first()
-            isShoppingListDefault = prefs[SettingsScheme.FIELD_SHOPPING_LIST_DEFAULT]?:false
-            withContext(Dispatchers.Main) {
-                val systemTheme = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
-                when (prefs[SettingsScheme.FIELD_THEME]?:0) {
-                    1 -> if (systemTheme == Configuration.UI_MODE_NIGHT_YES)AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-                    2 -> if (systemTheme == Configuration.UI_MODE_NIGHT_NO) AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-                }
-                if (isFirstLaunch && isShoppingListDefault) {
-                    isFirstLaunch = false
+    private fun configureFirstLaunch(settings: DataStore<SettingsProto>) {
+        if (!isFirstLaunch) return
+        isFirstLaunch = false
+        CoroutineScope(Dispatchers.Main).launch {
+            val currentSettings = settings.data.first()
+            when (currentSettings.appTheme) {
+                SettingsProto.AppTheme.LIGHT -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                SettingsProto.AppTheme.DARK -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                else -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+            }
+            when (currentSettings.defaultTab) {
+                SettingsProto.Tabs.SHOPPING_LIST -> {
                     binding.nvNavigation.selectedItemId = R.id.shopping_list
+                    binding.ivEncryption.visibility = View.GONE
                     navController.navigate(R.id.shoppingListFragment)
                 }
+                else -> {}
             }
         }
+    }
+
+    private fun renderEncryptionIcon(state: EncryptionScreenState) {
+        binding.ivEncryption.setImageDrawable(ContextCompat.getDrawable(this, if (state is EncryptionScreenState.Unlocked) R.drawable.ic_lock_open else R.drawable.ic_lock))
     }
 
     private fun handleViewEffect(state: NavigationEffect) {
@@ -175,7 +188,6 @@ class MainActivity : AppCompatActivity() {
                 binding.textSection.text = resources.getString(R.string.edit_profile)
             }
             is NavigationEffect.SettingsFragment -> {
-                val sv = findViewById<ScrollView>(R.id.sv_menu)
                 navController.navigate(R.id.action_profileFragment_to_settingsFragment)
                 binding.textSection.text = resources.getString(R.string.settings)
             }
@@ -202,7 +214,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun openRecipe(recipe: Recipe) {
-        val intent = Intent(this, RecipeActivity()::class.java)
+        val intent = Intent(this, RecipeActivity::class.java)
         intent.putExtra("recipe", recipe)
         val options: ActivityOptionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(this)
         startActivity(intent, options.toBundle())
@@ -211,9 +223,9 @@ class MainActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         val destinationId = navController.currentDestination?.id
-        if (destinationId == R.id.categoriesFragment || destinationId == R.id.favouriteRecipesFragment) viewModel.obtainEvent(NavigationEvent.OpenRecipesFragment)
-        else if (destinationId == R.id.settingsFragment) viewModel.obtainEvent(NavigationEvent.OpenProfile)
-        else if (destinationId == R.id.recipesInCategoryFragment) viewModel.obtainEvent(NavigationEvent.OpenCategoriesFragment)
+        if (destinationId == R.id.categoriesFragment || destinationId == R.id.favouriteRecipesFragment) navigationViewModel.obtainEvent(NavigationEvent.OpenRecipesFragment)
+        else if (destinationId == R.id.settingsFragment) navigationViewModel.obtainEvent(NavigationEvent.OpenProfile)
+        else if (destinationId == R.id.recipesInCategoryFragment) navigationViewModel.obtainEvent(NavigationEvent.OpenCategoriesFragment)
         else super.onBackPressed()
     }
 

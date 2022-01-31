@@ -5,17 +5,16 @@ import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.view.LayoutInflater
-import androidx.fragment.app.DialogFragment
-import com.cactusknights.chefbook.databinding.DialogCategoryInputBinding
-import com.cactusknights.chefbook.models.Category
-
 import android.text.InputFilter
 import android.text.InputFilter.LengthFilter
+import android.view.LayoutInflater
 import android.view.View
 import androidx.core.widget.doOnTextChanged
+import androidx.fragment.app.DialogFragment
 import com.cactusknights.chefbook.R
-import com.cactusknights.chefbook.common.ConfirmDialog
+import com.cactusknights.chefbook.databinding.DialogCategoryInputBinding
+import com.cactusknights.chefbook.models.Category
+import com.cactusknights.chefbook.screens.common.ConfirmDialog
 
 
 class CategoryInputDialog(category: Category? = null, val confirmListener: (Category) -> Unit, val deleteListener : (Category) -> Unit = {}) : DialogFragment() {

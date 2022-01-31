@@ -1,6 +1,6 @@
 package com.cactusknights.chefbook.domain.usecases
 
-import com.cactusknights.chefbook.common.Result
+import com.cactusknights.chefbook.common.usecases.Result
 import com.cactusknights.chefbook.domain.CategoriesRepository
 import com.cactusknights.chefbook.models.Category
 

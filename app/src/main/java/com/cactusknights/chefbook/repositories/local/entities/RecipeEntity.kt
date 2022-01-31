@@ -1,8 +1,15 @@
 package com.cactusknights.chefbook.repositories.local.entities
 
-import androidx.room.*
-import com.cactusknights.chefbook.common.RoomConverters
-import com.cactusknights.chefbook.models.*
+import androidx.room.Entity
+import androidx.room.Index
+import androidx.room.PrimaryKey
+import androidx.room.TypeConverters
+import com.cactusknights.chefbook.core.Converters
+import com.cactusknights.chefbook.core.room.RoomConverters
+import com.cactusknights.chefbook.models.DecryptedRecipe
+import com.cactusknights.chefbook.models.EncryptedRecipe
+import com.cactusknights.chefbook.models.Recipe
+import com.cactusknights.chefbook.models.Visibility
 import com.cactusknights.chefbook.repositories.local.entities.RecipeEntity.Companion.TABLE_NAME
 import com.google.gson.annotations.SerializedName
 import java.util.*
@@ -104,8 +111,8 @@ fun RecipeEntity.toRecipe(): Recipe {
             servings = servings,
             time = time,
             calories = calories,
-            ingredients = RoomConverters.toMarkdownString(ingredients),
-            cooking = RoomConverters.toMarkdownString(cooking),
+            ingredients = Converters.jsonToIngredients(ingredients),
+            cooking = Converters.jsonToCooking(cooking),
             visibility = visibility,
             preview = preview,
             creationTimestamp = creationTimestamp,
@@ -115,8 +122,8 @@ fun RecipeEntity.toRecipe(): Recipe {
 
 fun Recipe.toRecipeEntity(): RecipeEntity {
     val recipeCopy = this
-    val ingredients = if (recipeCopy is DecryptedRecipe)  RoomConverters.fromMarkdownString(recipeCopy.ingredients) else (recipeCopy as EncryptedRecipe).ingredients
-    val cooking = if (recipeCopy is DecryptedRecipe)  RoomConverters.fromMarkdownString(recipeCopy.cooking) else (recipeCopy as EncryptedRecipe).cooking
+    val ingredients = if (recipeCopy is DecryptedRecipe)  Converters.ingredientsToJson(recipeCopy.ingredients) else (recipeCopy as EncryptedRecipe).ingredients
+    val cooking = if (recipeCopy is DecryptedRecipe)  Converters.cookingToJson(recipeCopy.cooking) else (recipeCopy as EncryptedRecipe).cooking
     return RecipeEntity(
         id = id,
         remoteId = remoteId,

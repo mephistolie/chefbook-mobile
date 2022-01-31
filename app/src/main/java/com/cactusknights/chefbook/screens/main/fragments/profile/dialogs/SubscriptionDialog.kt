@@ -6,8 +6,8 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import androidx.fragment.app.DialogFragment
-import com.cactusknights.chefbook.databinding.DialogDonateBinding
 import com.cactusknights.chefbook.common.Utils
+import com.cactusknights.chefbook.databinding.DialogDonateBinding
 
 class SubscriptionDialog: DialogFragment() {
 

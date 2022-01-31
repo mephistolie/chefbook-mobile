@@ -1,7 +1,6 @@
 package com.cactusknights.chefbook.repositories.remote.dto
 
 import com.cactusknights.chefbook.models.Category
-import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
 data class CategoryDto(

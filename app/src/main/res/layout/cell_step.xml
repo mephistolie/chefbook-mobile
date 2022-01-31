@@ -1,50 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_step"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/navigation_primary"
+    android:paddingStart="16dp"
+    android:paddingTop="12dp"
+    android:paddingEnd="0dp"
+    android:paddingBottom="4dp">
 
-    <data>
-
-        <variable
-            name="step"
-            type="String" />
-    </data>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/ll_step"
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp"
-        android:orientation="vertical">
+        android:gravity="top"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/text_number"
+            android:layout_width="32dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            android:gravity="start"
+            tools:text="1."
+            android:textColor="@color/deep_orange_light"
+            android:textSize="18sp" />
 
         <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:gravity="top"
-            android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <TextView
-                android:id="@+id/text_number"
-                android:layout_width="32dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="4dp"
-                android:gravity="start"
-                android:text="32."
-                android:textColor="@color/deep_orange_light"
-                android:textSize="20sp" />
+            android:layout_weight="1"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/text_description"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="8dp"
                 android:layout_weight="1"
                 android:gravity="top"
-                android:text="@={step}"
                 android:textColor="@color/monochrome_invert"
-                android:textSize="20sp" />
+                android:textSize="18sp" />
+
+            <View
+                android:id="@+id/separator"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="4dp"
+                android:background="@color/navigation_secondary" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</layout>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</androidx.constraintlayout.widget.ConstraintLayout>

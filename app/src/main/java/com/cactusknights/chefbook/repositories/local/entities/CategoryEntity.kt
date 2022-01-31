@@ -1,8 +1,11 @@
 package com.cactusknights.chefbook.repositories.local.entities
 
-import androidx.room.*
-import com.cactusknights.chefbook.common.RoomConverters
-import com.cactusknights.chefbook.models.*
+import androidx.room.Entity
+import androidx.room.Index
+import androidx.room.PrimaryKey
+import androidx.room.TypeConverters
+import com.cactusknights.chefbook.core.room.RoomConverters
+import com.cactusknights.chefbook.models.Category
 import com.cactusknights.chefbook.repositories.local.entities.CategoryEntity.Companion.TABLE_NAME
 import com.google.gson.annotations.SerializedName
 

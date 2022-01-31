@@ -17,7 +17,7 @@
         app:startDestination="@id/recipesFragment">
         <fragment
             android:id="@+id/recipesFragment"
-            android:name="com.cactusknights.chefbook.screens.main.fragments.recipes.RecipesFragment"
+            android:name="com.cactusknights.chefbook.screens.main.fragments.dashboard.DashboardFragment"
             android:label="RecipesFragment"
             tools:layout="@layout/fragment_recipes_dashboard">
             <action

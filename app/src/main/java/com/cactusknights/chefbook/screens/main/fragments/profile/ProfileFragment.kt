@@ -17,9 +17,9 @@ import coil.load
 import com.cactusknights.chefbook.R
 import com.cactusknights.chefbook.databinding.FragmentProfileBinding
 import com.cactusknights.chefbook.screens.main.NavigationViewModel
+import com.cactusknights.chefbook.screens.main.fragments.profile.models.ProfileScreenEvent
+import com.cactusknights.chefbook.screens.main.fragments.profile.models.ProfileScreenState
 import com.cactusknights.chefbook.screens.main.models.NavigationEvent
-import com.cactusknights.chefbook.screens.main.fragments.profile.models.ProfileEvent
-import com.cactusknights.chefbook.screens.main.fragments.profile.models.ProfileState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -52,15 +52,15 @@ class ProfileFragment: Fragment() {
         binding.cvAppSettings.setOnClickListener { activityViewModel.obtainEvent(NavigationEvent.OpenSettingsDialog) }
         binding.cvRate.setOnClickListener { activityViewModel.obtainEvent(NavigationEvent.RateApp) }
         binding.cvAboutApp.setOnClickListener { activityViewModel.obtainEvent(NavigationEvent.OpenAboutAppDialog) }
-        binding.cvLogout.setOnClickListener { viewModel.obtainEvent(ProfileEvent.SignOut) }
+        binding.cvLogout.setOnClickListener { viewModel.obtainEvent(ProfileScreenEvent.SignOut) }
 
         viewLifecycleOwner.lifecycleScope.launch { viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
             viewModel.profileState.collect { state -> render(state) }
         } }
     }
 
-    private fun render(state: ProfileState) {
-        if (state is ProfileState.ProfileLoaded) {
+    private fun render(state: ProfileScreenState) {
+        if (state is ProfileScreenState.ProfileLoaded) {
             binding.llInfo.visibility = if (state.user.isLocal) View.GONE else View.VISIBLE
             binding.cvSignIn.visibility = if (state.user.isLocal) View.VISIBLE else View.GONE
             binding.cvLogout.visibility = if (state.user.isLocal) View.GONE else View.VISIBLE

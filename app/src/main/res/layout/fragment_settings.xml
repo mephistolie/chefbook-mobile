@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/selector_profile_background"
     android:fadingEdgeLength="12dp"
     android:requiresFadingEdge="vertical"
     android:animateLayoutChanges="true"
@@ -24,7 +23,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="6dp"
             android:foreground="?android:attr/selectableItemBackground"
-            app:cardBackgroundColor="@color/app_background"
+            app:cardBackgroundColor="@color/navigation_primary"
             app:cardCornerRadius="16dp"
             app:cardElevation="0dp"
             app:layout_constraintEnd_toStartOf="@id/cv_theme"
@@ -54,7 +53,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:layout_marginEnd="8dp"
+                    android:layout_marginEnd="12dp"
                     android:orientation="vertical">
 
                     <androidx.appcompat.widget.AppCompatTextView
@@ -81,15 +80,6 @@
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_weight="0"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/ic_forward"
-                    app:tint="@color/secondary_text_tint" />
-
             </androidx.appcompat.widget.LinearLayoutCompat>
 
         </androidx.cardview.widget.CardView>
@@ -101,7 +91,7 @@
             android:layout_marginStart="6dp"
             android:layout_marginTop="16dp"
             android:foreground="?android:attr/selectableItemBackground"
-            app:cardBackgroundColor="@color/app_background"
+            app:cardBackgroundColor="@color/navigation_primary"
             app:cardCornerRadius="16dp"
             app:cardElevation="0dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -147,7 +137,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:layout_marginEnd="8dp"
+                    android:layout_marginEnd="12dp"
                     android:orientation="vertical">
 
                     <androidx.appcompat.widget.AppCompatTextView
@@ -174,15 +164,6 @@
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_weight="0"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/ic_forward"
-                    app:tint="@color/secondary_text_tint" />
-
             </androidx.appcompat.widget.LinearLayoutCompat>
 
         </androidx.cardview.widget.CardView>
@@ -194,7 +175,7 @@
             android:layout_marginTop="12dp"
             android:layout_weight="1"
             android:foreground="?android:attr/selectableItemBackground"
-            app:cardBackgroundColor="@color/app_background"
+            app:cardBackgroundColor="@color/navigation_primary"
             app:cardCornerRadius="16dp"
             app:cardElevation="0dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -281,7 +262,7 @@
             android:layout_marginTop="12dp"
             android:layout_weight="1"
             android:foreground="?android:attr/selectableItemBackground"
-            app:cardBackgroundColor="@color/app_background"
+            app:cardBackgroundColor="@color/navigation_primary"
             app:cardCornerRadius="16dp"
             app:cardElevation="0dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -368,7 +349,7 @@
             android:layout_marginTop="12dp"
             android:layout_weight="1"
             android:foreground="?android:attr/selectableItemBackground"
-            app:cardBackgroundColor="@color/app_background"
+            app:cardBackgroundColor="@color/navigation_primary"
             app:cardCornerRadius="16dp"
             app:cardElevation="0dp"
             app:layout_constraintEnd_toEndOf="parent"

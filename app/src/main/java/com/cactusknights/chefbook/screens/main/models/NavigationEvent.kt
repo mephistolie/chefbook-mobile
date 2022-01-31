@@ -5,7 +5,6 @@ import com.cactusknights.chefbook.models.Recipe
 
 sealed class NavigationEvent {
     object OpenRecipesFragment : NavigationEvent()
-    data class SearchRecipe(val query: String) : NavigationEvent()
     object AddRecipe : NavigationEvent()
     data class OpenRecipe(val recipe: Recipe) : NavigationEvent()
     object OpenFavouriteFragment : NavigationEvent()

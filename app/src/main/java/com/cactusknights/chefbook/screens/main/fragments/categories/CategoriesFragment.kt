@@ -13,12 +13,13 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
 import com.cactusknights.chefbook.common.Utils.forceSubmitList
 import com.cactusknights.chefbook.databinding.FragmentCategoriesBinding
-import com.cactusknights.chefbook.screens.main.fragments.categories.adapters.CategoryAdapter
 import com.cactusknights.chefbook.models.Category
+import com.cactusknights.chefbook.screens.main.NavigationViewModel
+import com.cactusknights.chefbook.screens.main.fragments.categories.adapters.CategoryAdapter
 import com.cactusknights.chefbook.screens.main.fragments.categories.adapters.CategoryItemDecoration
 import com.cactusknights.chefbook.screens.main.fragments.categories.dialogs.CategoryInputDialog
-import com.cactusknights.chefbook.screens.main.fragments.categories.models.CategoriesState
-import com.cactusknights.chefbook.screens.main.NavigationViewModel
+import com.cactusknights.chefbook.screens.main.fragments.categories.models.CategoriesScreenEvent
+import com.cactusknights.chefbook.screens.main.fragments.categories.models.CategoriesScreenState
 import com.cactusknights.chefbook.screens.main.models.NavigationEvent
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -31,8 +32,8 @@ class CategoriesFragment : Fragment() {
     private val activityViewModel by activityViewModels<NavigationViewModel>()
     private val categoriesAdapter = CategoryAdapter(::openCategory, ::addCategory) { updatedCategory ->
         CategoryInputDialog(updatedCategory,
-            confirmListener = { category -> viewModel.updateCategory(category) },
-            deleteListener = { category -> viewModel.deleteCategory(category) })
+            confirmListener = { category -> viewModel.obtainEvent(CategoriesScreenEvent.UpdateCategory(category)) },
+            deleteListener = { category -> viewModel.obtainEvent(CategoriesScreenEvent.DeleteCategory(category)) })
             .show(requireActivity().supportFragmentManager, "Input Category")
     }
 
@@ -56,8 +57,8 @@ class CategoriesFragment : Fragment() {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
-                viewModel.state.collect { state ->
-                    if (state is CategoriesState.CategoriesUpdated) {
+                viewModel.categoriesState.collect { state ->
+                    if (state is CategoriesScreenState.CategoriesUpdated) {
                         categoriesAdapter.differ.forceSubmitList(state.categories.sortedBy { it.name.lowercase() }.toList())
                     }
                 }
@@ -75,6 +76,6 @@ class CategoriesFragment : Fragment() {
     }
 
     private fun addCategory() {
-        CategoryInputDialog(confirmListener = {category: Category-> viewModel.addCategory(category)}).show(requireActivity().supportFragmentManager, "Input Category")
+        CategoryInputDialog(confirmListener = {category: Category-> viewModel.obtainEvent(CategoriesScreenEvent.AddCategory(category))}).show(requireActivity().supportFragmentManager, "Input Category")
     }
 }

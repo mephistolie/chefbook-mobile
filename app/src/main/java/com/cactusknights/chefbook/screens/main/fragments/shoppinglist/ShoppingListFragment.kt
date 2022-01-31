@@ -17,9 +17,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.cactusknights.chefbook.common.Utils.forceSubmitList
 import com.cactusknights.chefbook.databinding.FragmentShoppingListBinding
 import com.cactusknights.chefbook.models.Purchase
+import com.cactusknights.chefbook.models.ShoppingList
 import com.cactusknights.chefbook.screens.main.fragments.shoppinglist.adapters.PurchasesAdapter
-import com.cactusknights.chefbook.screens.main.fragments.shoppinglist.models.ShoppingListEvent
-import com.cactusknights.chefbook.screens.main.fragments.shoppinglist.models.ShoppingListState
+import com.cactusknights.chefbook.screens.main.fragments.shoppinglist.models.ShoppingListScreenEvent
+import com.cactusknights.chefbook.screens.main.fragments.shoppinglist.models.ShoppingListScreenState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -28,11 +29,13 @@ import kotlinx.coroutines.launch
 class ShoppingListFragment: Fragment() {
 
     private val viewModel : ShoppingListFragmentViewModel by viewModels()
-    private val shoppingAdapter = PurchasesAdapter { index: Int -> viewModel.obtainEvent(ShoppingListEvent.ChangePurchasedStatus(index)) }
+    private val shoppingAdapter = PurchasesAdapter { index: Int -> viewModel.obtainEvent(ShoppingListScreenEvent.ChangePurchasedStatus(index)) }
     private val itemTouchHelper = ItemTouchHelper(ItemsCallback())
 
     private var _binding: FragmentShoppingListBinding? = null
     private val binding get() = _binding!!
+
+    private var shoppingList = ShoppingList(arrayListOf())
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -57,26 +60,29 @@ class ShoppingListFragment: Fragment() {
         binding.btnAddItem.setOnClickListener {
             val itemText = binding.inputItem.text.toString()
             if (itemText.isNotEmpty()) {
-                viewModel.obtainEvent(ShoppingListEvent.AddPurchase(Purchase(name = itemText)))
+                viewModel.obtainEvent(ShoppingListScreenEvent.AddPurchase(Purchase(name = itemText)))
                 binding.inputItem.setText("")
             }
         }
-        binding.btnDeletePurchased.setOnClickListener { viewModel.obtainEvent(ShoppingListEvent.DeletePurchased) }
+        binding.btnDeletePurchased.setOnClickListener { viewModel.obtainEvent(ShoppingListScreenEvent.DeletePurchased) }
 
         viewLifecycleOwner.lifecycleScope.launch { viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
-            viewModel.state.collect { state -> render(state) }
+            viewModel.shoppingListState.collect { state -> render(state) }
         } }
     }
 
-    private fun render(state: ShoppingListState) {
-        shoppingAdapter.differ.forceSubmitList(state.shoppingList.purchases.sortedBy { it.isPurchased })
-        val currentBinding = _binding
-        currentBinding?.btnDeletePurchased?.postDelayed(
-            {
-                currentBinding.btnDeletePurchased.visibility =
-                    if (state.shoppingList.purchases.any { it.isPurchased }) View.VISIBLE else View.GONE
-            }, 0
-        )
+    private fun render(state: ShoppingListScreenState) {
+        if (state is ShoppingListScreenState.ShoppingListUpdated) {
+            shoppingList = state.shoppingList
+            shoppingAdapter.differ.forceSubmitList(state.shoppingList.purchases.sortedBy { it.isPurchased })
+            val currentBinding = _binding
+            currentBinding?.btnDeletePurchased?.postDelayed(
+                {
+                    currentBinding.btnDeletePurchased.visibility =
+                        if (state.shoppingList.purchases.any { it.isPurchased }) View.VISIBLE else View.GONE
+                }, 0
+            )
+        }
     }
 
     inner class ItemsCallback: ItemTouchHelper.Callback() {
@@ -96,13 +102,13 @@ class ShoppingListFragment: Fragment() {
         ): Boolean {
             val from = viewHolder.adapterPosition
             val to = target.adapterPosition
-            if (viewModel.state.value.shoppingList.purchases[from].isPurchased || viewModel.state.value.shoppingList.purchases[to].isPurchased) return false
-            viewModel.obtainEvent(ShoppingListEvent.MovePurchase(from, to))
+            if (shoppingList.purchases[from].isPurchased || shoppingList.purchases[to].isPurchased) return false
+            viewModel.obtainEvent(ShoppingListScreenEvent.MovePurchase(from, to))
             return true
         }
 
         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-            viewModel.obtainEvent(ShoppingListEvent.DeletePurchase(viewHolder.adapterPosition))
+            viewModel.obtainEvent(ShoppingListScreenEvent.DeletePurchase(viewHolder.adapterPosition))
         }
 
         override fun onChildDraw(c: Canvas, recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, dX: Float, dY: Float, actionState: Int, isCurrentlyActive: Boolean) {
@@ -113,7 +119,7 @@ class ShoppingListFragment: Fragment() {
     }
 
     override fun onPause() {
-        viewModel.obtainEvent(ShoppingListEvent.ConfirmInput)
+        viewModel.obtainEvent(ShoppingListScreenEvent.ConfirmInput)
         super.onPause()
     }
 

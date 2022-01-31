@@ -9,11 +9,11 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.cactusknights.chefbook.R
-import com.cactusknights.chefbook.databinding.ActivityRecipeInputBinding
-import com.cactusknights.chefbook.common.ConfirmDialog
 import com.cactusknights.chefbook.common.showToast
+import com.cactusknights.chefbook.databinding.ActivityRecipeInputBinding
 import com.cactusknights.chefbook.models.*
-import com.cactusknights.chefbook.screens.recipe.adapters.RecipeViewPagerAdapter
+import com.cactusknights.chefbook.screens.common.ConfirmDialog
+import com.cactusknights.chefbook.screens.common.encryption.EncryptionViewModel
 import com.cactusknights.chefbook.screens.recipeinput.adapters.RecipeInputViewPagerAdapter
 import com.cactusknights.chefbook.screens.recipeinput.models.*
 import com.google.android.material.tabs.TabLayout
@@ -26,7 +26,8 @@ import java.util.*
 @AndroidEntryPoint
 class RecipeInputActivity: AppCompatActivity() {
 
-    val viewModel: RecipeInputViewModel by viewModels()
+    private val recipeInputViewModel: RecipeInputViewModel by viewModels()
+    private val encryptionViewModel : EncryptionViewModel by viewModels()
     private lateinit var binding: ActivityRecipeInputBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,10 +35,10 @@ class RecipeInputActivity: AppCompatActivity() {
         binding = ActivityRecipeInputBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        viewModel.obtainEvent(RecipeInputEvent.CreateRecipe)
+        recipeInputViewModel.obtainEvent(RecipeInputScreenEvent.CreateRecipe)
         if (savedInstanceState == null) {
             val originalRecipe = intent.extras?.get("recipe") as DecryptedRecipe?
-            if (originalRecipe != null) viewModel.obtainEvent(RecipeInputEvent.EditRecipe(originalRecipe))
+            if (originalRecipe != null) recipeInputViewModel.obtainEvent(RecipeInputScreenEvent.EditRecipe(originalRecipe))
         }
 
         binding.vpRecipeInput.adapter = RecipeInputViewPagerAdapter(supportFragmentManager, this.lifecycle)
@@ -64,27 +65,28 @@ class RecipeInputActivity: AppCompatActivity() {
         }
         binding.btnConfirm.setOnClickListener {
             when (binding.vpRecipeInput.currentItem) {
-                1 -> viewModel.obtainEvent(RecipeInputEvent.ConfirmInput)
+                1 -> recipeInputViewModel.obtainEvent(RecipeInputScreenEvent.ConfirmInput)
                 else -> binding.vpRecipeInput.currentItem = binding.vpRecipeInput.currentItem+1
             }
         }
 
         lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                launch { viewModel.recipeInputState.collect { render(it) } }
-                launch { viewModel.viewEffect.collect { handleViewEffect(it) } }
+            repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                encryptionViewModel.listenToEncryption()
+                launch { recipeInputViewModel.recipeInputState.collect { render(it) } }
+                launch { recipeInputViewModel.viewEffect.collect { handleViewEffect(it) } }
             }
         }
     }
 
-    private fun render(state: RecipeInputState) {
-        if (state is RecipeInputState.EditRecipe) { binding.textSection.setText(R.string.edit_recipe) }
+    private fun render(state: RecipeInputScreenState) {
+        if (state is RecipeInputScreenState.EditRecipe) { binding.textSection.setText(R.string.edit_recipe) }
     }
 
-    private fun handleViewEffect(effect: RecipeInputViewEffect) {
+    private fun handleViewEffect(effect: RecipeInputScreenViewEffect) {
         when (effect) {
-            is RecipeInputViewEffect.Message -> this@RecipeInputActivity.showToast(effect.messageId)
-            is RecipeInputViewEffect.InputConfirmed -> {
+            is RecipeInputScreenViewEffect.Message -> this@RecipeInputActivity.showToast(effect.messageId)
+            is RecipeInputScreenViewEffect.InputConfirmed -> {
                 setResult(RESULT_OK, Intent().putExtra("recipe", effect.committedRecipe))
                 finish()
             }
