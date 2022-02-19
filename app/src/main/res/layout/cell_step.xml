@@ -26,9 +26,9 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="4dp"
             android:gravity="start"
-            tools:text="1."
             android:textColor="@color/deep_orange_light"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            tools:text="1." />
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="0dp"
@@ -46,6 +46,20 @@
                 android:gravity="top"
                 android:textColor="@color/monochrome_invert"
                 android:textSize="18sp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_pictures"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="4dp"
+                android:layout_marginEnd="16dp"
+                android:clipToPadding="false"
+                android:columnWidth="108dp"
+                tools:visibility="gone"
+                android:gravity="center"
+                android:requiresFadingEdge="horizontal"
+                tools:itemCount="5"
+                tools:listitem="@layout/cell_step_picture" />
 
             <View
                 android:id="@+id/separator"

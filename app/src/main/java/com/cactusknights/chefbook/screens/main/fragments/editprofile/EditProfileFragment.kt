@@ -67,7 +67,7 @@ class EditProfileFragment: Fragment() {
 
         binding.cvChangeName.setOnClickListener {
             val fm = activity?.supportFragmentManager
-            if (fm != null) ChangeNameDialog(viewModel.currentUser.name) { name -> viewModel.obtainEvent(EditProfileScreenEvent.ChangeName(name)) }.show(fm, "Confirm")
+            if (fm != null) ChangeNameDialog(viewModel.profile.username) { name -> viewModel.obtainEvent(EditProfileScreenEvent.ChangeName(name)) }.show(fm, "Confirm")
         }
 
         viewLifecycleOwner.lifecycleScope.launch { viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {

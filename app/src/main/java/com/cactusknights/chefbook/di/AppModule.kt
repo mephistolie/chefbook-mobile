@@ -4,6 +4,7 @@ import androidx.datastore.core.DataStore
 import com.cactusknights.chefbook.SettingsProto
 import com.cactusknights.chefbook.TokensProto
 import com.cactusknights.chefbook.common.retrofit.CommonApi
+import com.cactusknights.chefbook.core.cache.*
 import com.cactusknights.chefbook.core.datastore.DataStoreSessionManager
 import com.cactusknights.chefbook.core.datastore.DataStoreSettingsManager
 import com.cactusknights.chefbook.core.datastore.SessionManager
@@ -40,6 +41,14 @@ class AppModule {
     fun provideEncryptionManager(): EncryptionManager = EncryptionManagerImpl()
 
     @Provides
+    @Singleton
+    fun provideRecipesCache(): RecipeBookCacheManager = RecipeBookCacheManagerImpl()
+
+    @Provides
+    @Singleton
+    fun provideCategoriesCache(): CategoriesCacheManager = CategoriesCacheManagerImpl()
+
+    @Provides
     fun provideDataProvider(api: CommonApi): UriDataProvider = UriDataProviderImpl(api)
 }
 
@@ -49,4 +58,16 @@ interface AppBindModule {
 
     @Binds
     fun bindEncryptionManagerToCryptor(cryptor: EncryptionManager): Cryptor
+
+    @Binds
+    fun bindRecipeBookCacheReader(manager: RecipeBookCacheManager): RecipeBookCacheReader
+
+    @Binds
+    fun bindRecipeBookCacheWriter(manager: RecipeBookCacheManager): RecipeBookCacheWriter
+
+    @Binds
+    fun bindCategoriesCacheReader(manager: CategoriesCacheManager): CategoriesCacheReader
+
+    @Binds
+    fun bindCategoriesCacheWriter(manager: CategoriesCacheManager): CategoriesCacheWriter
 }

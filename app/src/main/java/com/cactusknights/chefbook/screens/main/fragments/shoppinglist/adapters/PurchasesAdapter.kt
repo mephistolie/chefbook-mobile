@@ -15,8 +15,7 @@ import com.cactusknights.chefbook.models.Purchase
 
 class PurchasesAdapter(val listener: (Int) -> Unit): RecyclerView.Adapter<PurchasesAdapter.ViewHolder>() {
 
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val binding = CellPurchaseBinding.bind(itemView)
+    inner class ViewHolder(val binding: CellPurchaseBinding) : RecyclerView.ViewHolder(binding.root) {
 
         init {
             binding.checkboxSelected.isClickable = false
@@ -52,7 +51,7 @@ class PurchasesAdapter(val listener: (Int) -> Unit): RecyclerView.Adapter<Purcha
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val purchase = differ.currentList[position]
         holder.binding.textName.text = purchase.name
-        holder.binding.textMultiplier.text = "x" + purchase.multiplier.toString()
+        holder.binding.textMultiplier.text = "x${purchase.multiplier}"
         if (purchase.multiplier > 1) holder.binding.textMultiplier.visibility = View.VISIBLE else View.GONE
         holder.binding.checkboxSelected.isChecked = purchase.isPurchased
         if (purchase.isPurchased) {
@@ -67,8 +66,7 @@ class PurchasesAdapter(val listener: (Int) -> Unit): RecyclerView.Adapter<Purcha
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val v = LayoutInflater.from(parent.context).inflate(R.layout.cell_purchase, parent, false)
-        return ViewHolder(v)
+        return ViewHolder(CellPurchaseBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }
 
     override fun getItemCount(): Int {

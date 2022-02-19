@@ -111,9 +111,9 @@
     <string name="rate_gratitude">Thanks for review!</string>
     <string name="type_something">Type something…</string>
     <string name="server_unavailable">Couldn\'t reach server. Check your internet connection.</string>
-    <string name="private_recipe">PRIVATE</string>
-    <string name="shared_recipe">BY LINK</string>
-    <string name="public_recipe">PUBLIC</string>
+    <string name="private_recipe">Private</string>
+    <string name="shared_recipe">By link</string>
+    <string name="public_recipe">Public</string>
     <string name="online">Online</string>
     <string name="signup_successfully">Validation email has been sent to address.</string>
     <string name="delete_purchased">Delete Purchased</string>
@@ -133,7 +133,7 @@
     <string name="profile">Profile</string>
     <string name="broccoins">Broccoins</string>
     <string name="subscription">Subscription</string>
-    <string name="premium_plan">PREMIUM</string>
+    <string name="premium_plan" translatable="false">PREMIUM</string>
     <string name="edit_profile_info">Name, avatar, delete profile</string>
     <string name="settings_info">Default tab, theme, recipe uploading</string>
     <string name="about_app_info">Contacts, support</string>
@@ -190,6 +190,23 @@
     <string name="vault_created">Vault created</string>
     <string name="vault_deleted">Vault deleted</string>
     <string name="link_copied">Link copied</string>
-    <string name="chef">Chef</string>
-    <string name="book">Book</string>
+    <string name="chef" translatable="false">Chef</string>
+    <string name="book" translatable="false">Book</string>
+    <string name="continue_text">Continue</string>
+    <string name="confirm_text">Confirm</string>
+    <string name="private_recipe_description">Visible only to you, even if someone has a link to the recipe</string>
+    <string name="shared_recipe_description">Visible to everyone who has a link to the recipe</string>
+    <string name="public_recipe_description">Visible to everyone. Make sure that you do not violate copyright. Not available if the recipe is encrypted.</string>
+    <string name="visibility">Visibility</string>
+    <string name="loading">Loading…</string>
+    <string name="recipe_creation_failed">Failed to create recipe</string>
+    <string name="recipe_update_failed">Failed to update recipe</string>
+    <string name="recipe_delete_failed">Failed to delete recipe</string>
+    <string name="logout_warning">All local recipes will be removed</string>
+    <string name="encryption">Encryption</string>
+    <string name="disabled">Disabled</string>
+    <string name="enabled">Enabled</string>
+    <string name="standard_recipe_description">Recipe details are stored in human readable form, like in most other apps. Faster.</string>
+    <string name="encrypted_recipe_description">Name, ingredients, cooking and pictures are stored in encrypted form. Max privacy. Such recipes can\'t be public. Available with a Premium subscription.</string>
+    <string name="recipe_encryption_note">NOTE: cannot be changed after creation</string>
 </resources>

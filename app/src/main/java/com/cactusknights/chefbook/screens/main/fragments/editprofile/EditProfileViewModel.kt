@@ -5,8 +5,8 @@ import androidx.lifecycle.viewModelScope
 import com.cactusknights.chefbook.R
 import com.cactusknights.chefbook.common.usecases.Result
 import com.cactusknights.chefbook.common.mvi.EventHandler
-import com.cactusknights.chefbook.domain.usecases.UserUseCases
-import com.cactusknights.chefbook.models.User
+import com.cactusknights.chefbook.domain.usecases.ProfileUseCases
+import com.cactusknights.chefbook.models.Profile
 import com.cactusknights.chefbook.screens.main.fragments.editprofile.models.EditProfileScreenEvent
 import com.cactusknights.chefbook.screens.main.fragments.editprofile.models.EditProfileScreenState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,10 +21,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class EditProfileViewModel @Inject constructor(
-    private val userUseCases: UserUseCases
+    private val profileUseCases: ProfileUseCases
 ) : ViewModel(), EventHandler<EditProfileScreenEvent> {
 
-    var currentUser : User = User()
+    var profile : Profile = Profile()
 
     private val _profileState: MutableStateFlow<EditProfileScreenState> = MutableStateFlow(
         EditProfileScreenState.Loading)
@@ -35,10 +35,10 @@ class EditProfileViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            launch { userUseCases.getUserInfo().collect {} }
-            userUseCases.listenToUser().collect {
+            launch { profileUseCases.getUserInfo().collect {} }
+            profileUseCases.listenToUser().collect {
                 if (it != null) {
-                    currentUser = it
+                    profile = it
                     _profileState.emit(EditProfileScreenState.ProfileLoaded(it)) }
                 }
         }
@@ -55,21 +55,21 @@ class EditProfileViewModel @Inject constructor(
                             resolution(512, 512)
                             size(1048576)
                         }
-                        userUseCases.uploadAvatar(compressedFile.canonicalPath).collect { result ->
+                        profileUseCases.uploadAvatar(compressedFile.canonicalPath).collect { result ->
                             if (result is Result.Success) {
                                 _messageViewEffect.emit(R.string.avatar_updated)
                             }
                         }
                     }
                 }
-                is EditProfileScreenEvent.DeleteAvatar -> { userUseCases.deleteAvatar().collect { result ->
+                is EditProfileScreenEvent.DeleteAvatar -> { profileUseCases.deleteAvatar().collect { result ->
                     if (result is Result.Success) {
                         _messageViewEffect.emit(R.string.avatar_deleted)
                     }
                 } }
                 is EditProfileScreenEvent.ChangeName -> {
-                    if (event.name.isNotEmpty() && event.name != currentUser.name) {
-                        userUseCases.changeName(event.name).collect { result ->
+                    if (event.name.isNotEmpty() && event.name != profile.username) {
+                        profileUseCases.changeName(event.name).collect { result ->
                             if (result is Result.Success) {
                                 _messageViewEffect.emit(R.string.name_changed)
                             }

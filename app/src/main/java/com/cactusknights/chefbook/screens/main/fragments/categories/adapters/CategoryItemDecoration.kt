@@ -4,7 +4,7 @@ import android.graphics.Rect;
 import android.view.View;
 import androidx.recyclerview.widget.RecyclerView
 
-class CategoryItemDecoration : RecyclerView.ItemDecoration() {
+class CategoryItemDecoration(private val spanCount: Int) : RecyclerView.ItemDecoration() {
 
     override fun getItemOffsets(
         outRect: Rect,
@@ -12,9 +12,9 @@ class CategoryItemDecoration : RecyclerView.ItemDecoration() {
         parent: RecyclerView,
         state: RecyclerView.State
     ) {
-        if (parent.getChildLayoutPosition(view) + 1 % 4 != 0) {
-            outRect.right = 28
+        if (parent.getChildLayoutPosition(view) + 1 % spanCount != 0) {
+            outRect.right = 8
         }
-        outRect.bottom = 32
+        outRect.bottom = 12
     }
 }

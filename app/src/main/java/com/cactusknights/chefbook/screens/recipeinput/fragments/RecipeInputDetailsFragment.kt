@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.ActivityResultLauncher
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
@@ -18,8 +19,11 @@ import com.cactusknights.chefbook.models.*
 import com.cactusknights.chefbook.screens.recipeinput.RecipeInputViewModel
 import com.cactusknights.chefbook.screens.recipeinput.adapters.CookingInputAdapter
 import com.cactusknights.chefbook.screens.recipeinput.adapters.IngredientInputAdapter
-import com.cactusknights.chefbook.screens.recipeinput.models.RecipeInput
+import com.cactusknights.chefbook.screens.recipeinput.models.RecipeInputScreenEvent
 import com.cactusknights.chefbook.screens.recipeinput.models.RecipeInputScreenState
+import com.canhub.cropper.CropImageContract
+import com.canhub.cropper.CropImageContractOptions
+import com.canhub.cropper.options
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -45,8 +49,18 @@ class RecipeInputDetailsFragment : Fragment() {
         return binding.root
     }
 
+    private lateinit var cropImage : ActivityResultLauncher<CropImageContractOptions>
+    private var selectedStep = 0
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        cropImage = registerForActivityResult(CropImageContract()) { result ->
+            val uri = result.getUriFilePath(requireContext())
+            if (result.isSuccessful && uri != null) {
+                viewModel.obtainEvent(RecipeInputScreenEvent.AddStepPicture(selectedStep, uri, requireContext()))
+            }
+        }
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -66,7 +80,10 @@ class RecipeInputDetailsFragment : Fragment() {
             ingredientTouchHelper.attachToRecyclerView(binding.rvIngredients)
 
             binding.rvSteps.layoutManager = LinearLayoutManager(requireContext())
-            cookingAdapter = CookingInputAdapter(recipe.cooking)
+            cookingAdapter = CookingInputAdapter(
+                recipe.cooking,
+                { step, picture -> viewModel.obtainEvent(RecipeInputScreenEvent.DeleteStepPicture(step, picture)) },
+                ::addStepPicture)
             binding.rvSteps.adapter = cookingAdapter
             val cookingTouchHelper = ItemTouchHelper(ListInputDragCallback(recipe))
             cookingTouchHelper.attachToRecyclerView(binding.rvSteps)
@@ -90,7 +107,16 @@ class RecipeInputDetailsFragment : Fragment() {
         }
     }
 
-    inner class ListInputDragCallback(val recipe: RecipeInput): ItemTouchHelper.Callback() {
+    private fun addStepPicture(stepIndex: Int) {
+        selectedStep = stepIndex
+        cropImage.launch(
+            options {
+                setAspectRatio(5, 4)
+            }
+        )
+    }
+
+    inner class ListInputDragCallback(val recipe: DecryptedRecipe): ItemTouchHelper.Callback() {
 
         override fun getMovementFlags(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder): Int {
             val dragFlags = ItemTouchHelper.UP or ItemTouchHelper.DOWN

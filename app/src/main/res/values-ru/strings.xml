@@ -103,9 +103,9 @@
     <string name="rate_app">Оценить ChefBook</string>
     <string name="type_something">Напишите что-нибудь…</string>
     <string name="online">Онлайн</string>
-    <string name="public_recipe">ПУБЛИЧНЫЙ</string>
-    <string name="private_recipe">ЛИЧНЫЙ</string>
-    <string name="shared_recipe">ПО ССЫЛКЕ</string>
+    <string name="public_recipe">Публичный</string>
+    <string name="private_recipe">Личный</string>
+    <string name="shared_recipe">По ссылке</string>
     <string name="delete_purchased">Удалить купленное</string>
     <string name="kcal">ккал</string>
     <string name="minutes">мин</string>
@@ -178,4 +178,22 @@
     <string name="vault_unlocked">Хранилище разблокировано. Зашифрованные рецепты теперь отображаются.</string>
     <string name="vault_deleted">Хранилище удалено</string>
     <string name="vault_created">Хранилище создано</string>
+    <string name="private_recipe_description">Видно только вам, даже если кто-то имеет ссылку на рецепт</string>
+    <string name="shared_recipe_description">Видно всем, у кого есть ссылка на рецепт</string>
+    <string name="public_recipe_description">Видно всем. Убедитесь, что не нарушаете авторское право. Недоступно для зашифрованных рецептов.</string>
+    <string name="continue_text">Продолжить</string>
+    <string name="confirm_text">Подтвердить</string>
+    <string name="link_copied">Ссылка скопирована</string>
+    <string name="server_unavailable">Не удалось соединиться с сервером. Провертье интернет-соединение.</string>
+    <string name="visibility">Видимость</string>
+    <string name="loading">Загрузка…</string>
+    <string name="disabled">Выключено</string>
+    <string name="encryption">Шифрование</string>
+    <string name="logout_warning">Все локальные рецепты будут удалены</string>
+    <string name="recipe_delete_failed">Не удалось удалить рецепт</string>
+    <string name="recipe_update_failed">Не удалось обновить рецепт</string>
+    <string name="recipe_creation_failed">Не удалось создать рецепт</string>
+    <string name="enabled">Включено</string>
+    <string name="encrypted_recipe_description">Название, ингредиенты, приготовление и картинки хранятся в зашифрованном виде. Такие рецепты не могут быть публичными. Доступно с Премиумом.</string>
+    <string name="recipe_encryption_note">ВНИМАНИЕ: нельзя изменить после создания</string>
 </resources>

@@ -40,7 +40,7 @@ class RecipeInfoFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.recipeState.collect { state ->
-                    if (state is RecipeScreenState.DataUpdated) {
+                    if (state is RecipeScreenState.DataLoaded) {
                         binding.textServings.text = state.recipe.servings.toString()
                         binding.textTime.text = Utils.minutesToTimeString(state.recipe.time, this@RecipeInfoFragment.resources)
                         if (state.recipe.calories > 0) {

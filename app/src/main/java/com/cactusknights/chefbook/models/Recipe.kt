@@ -18,104 +18,110 @@ enum class Visibility : Serializable {
     }
 }
 
-abstract class Recipe(
+abstract class Recipe : Serializable {
+    abstract var id: Int?
+    abstract var remoteId: Int?
+    abstract var name: String
+    abstract var likes: Int
+    abstract var ownerId: Int
+    abstract var ownerName: String
+    abstract var isOwned: Boolean
+    abstract var isFavourite: Boolean
+    abstract var isLiked: Boolean
 
-    var id: Int? = null,
-    var remoteId: Int? = null,
-    var name: String = "",
-    var likes: Int = 0,
-    var ownerId: Int = 0,
-    var ownerName: String = "",
-    var isOwned: Boolean = false,
-    var isFavourite: Boolean = false,
-    var isLiked: Boolean = false,
+    abstract var description: String?
+    abstract var servings: Int
+    abstract var time: Int
+    abstract var calories: Int
+    abstract var categories: ArrayList<Int>
 
-    var description: String? = null,
-    var servings: Int = 0,
-    var time: Int = 0,
-    var calories: Int = 0,
-    var categories: ArrayList<Int> = arrayListOf(),
+    abstract var visibility: Visibility
+    abstract var preview: String?
 
-    var visibility: Visibility = Visibility.PRIVATE,
-    var preview: String? = null,
+    abstract var creationTimestamp: Date
+    abstract var updateTimestamp: Date
+    abstract var userTimestamp: Date
 
-    var creationTimestamp: Date = Date(),
-    var updateTimestamp: Date = Date(),
+    abstract var isEncrypted: Boolean
+}
 
-    var encrypted: Boolean = false,
-): Serializable
+data class DecryptedRecipe(
+    override var id: Int? = null,
+    override var remoteId: Int? = null,
+    override var name: String = "",
+    override var likes: Int = 0,
+    override var ownerId: Int = 0,
+    override var ownerName: String = "",
+    override var isOwned: Boolean = false,
+    override var isFavourite: Boolean = false,
+    override var isLiked: Boolean = false,
 
-class DecryptedRecipe(
-    id: Int? = null,
-    remoteId: Int? = null,
-    name: String = "",
-    likes: Int = 0,
-    ownerId: Int = 0,
-    ownerName: String = "",
-    isOwned: Boolean = false,
-    isFavourite: Boolean = false,
-    isLiked: Boolean = false,
-
-    description: String? = null,
-    servings: Int = 0,
-    time: Int = 0,
-    calories: Int = 0,
-    categories: ArrayList<Int> = arrayListOf(),
-    visibility: Visibility = Visibility.PRIVATE,
-    preview: String? = null,
+    override var description: String? = null,
+    override var servings: Int = 0,
+    override var time: Int = 0,
+    override var calories: Int = 0,
+    override var categories: ArrayList<Int> = arrayListOf(),
+    override var visibility: Visibility = Visibility.PRIVATE,
+    override var preview: String? = null,
     var ingredients: ArrayList<Ingredient> = arrayListOf(),
     var cooking: ArrayList<CookingStep> = arrayListOf(),
-    creationTimestamp: Date = Date(),
-    updateTimestamp: Date = Date(),
-    encrypted: Boolean = false,
-): Recipe(id, remoteId, name, likes, ownerId, ownerName, isOwned, isFavourite, isLiked, description, servings, time, calories,
-    categories, visibility, preview, creationTimestamp, updateTimestamp, encrypted)
+    override var creationTimestamp: Date = Date(Calendar.getInstance(TimeZone.getTimeZone("UTC")).timeInMillis),
+    override var updateTimestamp: Date = Date(Calendar.getInstance(TimeZone.getTimeZone("UTC")).timeInMillis),
+    override var userTimestamp: Date = Date(Calendar.getInstance(TimeZone.getTimeZone("UTC")).timeInMillis),
+    override var isEncrypted: Boolean = false,
+) : Recipe()
 
-class EncryptedRecipe(
-    id: Int? = null,
-    remoteId: Int? = null,
-    name: String,
-    likes: Int = 0,
-    ownerId: Int = 0,
-    ownerName: String = "",
-    isOwned: Boolean = false,
-    isFavourite: Boolean = false,
-    isLiked: Boolean = false,
+data class EncryptedRecipe(
+    override var id: Int? = null,
+    override var remoteId: Int? = null,
+    override var name: String,
+    override var likes: Int = 0,
+    override var ownerId: Int = 0,
+    override var ownerName: String = "",
+    override var isOwned: Boolean = false,
+    override var isFavourite: Boolean = false,
+    override var isLiked: Boolean = false,
 
-    description: String? = null,
-    servings: Int = 0,
-    time: Int = 0,
-    calories: Int = 0,
-    categories: ArrayList<Int> = arrayListOf(),
-    visibility: Visibility = Visibility.PRIVATE,
-    preview: String? = null,
+    override var description: String? = null,
+    override var servings: Int = 0,
+    override var time: Int = 0,
+    override var calories: Int = 0,
+    override var categories: ArrayList<Int> = arrayListOf(),
+    override var visibility: Visibility = Visibility.PRIVATE,
+    override var preview: String? = null,
     var ingredients: String,
     var cooking: String,
-    creationTimestamp: Date = Date(),
-    updateTimestamp: Date = Date(),
-): Recipe(id, remoteId, name, likes, ownerId, ownerName, isOwned, isFavourite, isLiked, description, servings, time, calories,
-    categories, visibility, preview, creationTimestamp, updateTimestamp, true)
+    override var creationTimestamp: Date = Date(Calendar.getInstance(TimeZone.getTimeZone("UTC")).timeInMillis),
+    override var updateTimestamp: Date = Date(Calendar.getInstance(TimeZone.getTimeZone("UTC")).timeInMillis),
+    override var userTimestamp: Date = Date(Calendar.getInstance(TimeZone.getTimeZone("UTC")).timeInMillis),
+    override var isEncrypted: Boolean = true,
+) : Recipe()
 
 fun DecryptedRecipe.encrypt(encrypt: (ByteArray) -> ByteArray): EncryptedRecipe {
-    val encryptedName = Base64.encodeToString(encrypt(name.toByteArray()), Base64.DEFAULT)
+    var encryptedName = Base64.encodeToString(encrypt(name.toByteArray()), Base64.DEFAULT)
 
-    val currentDescription = description
-    val encryptedDescription = if (!currentDescription.isNullOrEmpty()) Base64.encodeToString(encrypt(currentDescription.toByteArray()), Base64.DEFAULT) else currentDescription
+    var currentDescription = description
+    var encryptedDescription = if (!currentDescription.isNullOrEmpty()) Base64.encodeToString(
+        encrypt(currentDescription.toByteArray()),
+        Base64.DEFAULT
+    ) else currentDescription
 
-    val encryptedIngredients = Base64.encodeToString(encrypt(ingredients.toJson().toByteArray()), Base64.DEFAULT)
-    val encryptedCooking = Base64.encodeToString(encrypt(cooking.toJson().toByteArray()), Base64.DEFAULT)
+    var encryptedIngredients =
+        Base64.encodeToString(encrypt(ingredients.toJson().toByteArray()), Base64.DEFAULT)
+    var encryptedCooking =
+        Base64.encodeToString(encrypt(cooking.toJson().toByteArray()), Base64.DEFAULT)
 
-    val correctVisibility = if (visibility == Visibility.PUBLIC) Visibility.SHARED else visibility
+    var correctVisibility = if (visibility == Visibility.PUBLIC) Visibility.SHARED else visibility
 
     return EncryptedRecipe(
         id = id,
-        remoteId = id,
+        remoteId = remoteId,
         name = encryptedName,
         likes = likes,
         ownerId = ownerId,
         ownerName = ownerName,
         isOwned = isOwned,
-        isFavourite  = isFavourite,
+        isFavourite = isFavourite,
         isLiked = isLiked,
 
         description = encryptedDescription,
@@ -132,28 +138,37 @@ fun DecryptedRecipe.encrypt(encrypt: (ByteArray) -> ByteArray): EncryptedRecipe 
 
         creationTimestamp = creationTimestamp,
         updateTimestamp = updateTimestamp,
+        userTimestamp = userTimestamp,
     )
 }
 
 fun EncryptedRecipe.decrypt(decrypt: (ByteArray) -> ByteArray): DecryptedRecipe {
-    val decryptedName = String(decrypt(Base64.decode(name, Base64.DEFAULT)))
+    var decryptedName = String(decrypt(Base64.decode(name, Base64.DEFAULT)))
 
-    val decryptedDescription = if (!description.isNullOrEmpty()) String(decrypt(Base64.decode(description, Base64.DEFAULT))) else description
+    var decryptedDescription = if (!description.isNullOrEmpty()) String(
+        decrypt(
+            Base64.decode(
+                description,
+                Base64.DEFAULT
+            )
+        )
+    ) else description
 
-    val decryptedIngredients = String(decrypt(Base64.decode(ingredients, Base64.DEFAULT))).toIngredients()
-    val decryptedCooking = String(decrypt(Base64.decode(cooking, Base64.DEFAULT))).toCooking()
+    var decryptedIngredients =
+        String(decrypt(Base64.decode(ingredients, Base64.DEFAULT))).toIngredients()
+    var decryptedCooking = String(decrypt(Base64.decode(cooking, Base64.DEFAULT))).toCooking()
 
-    val correctVisibility = if (visibility == Visibility.PUBLIC) Visibility.SHARED else visibility
+    var correctVisibility = if (visibility == Visibility.PUBLIC) Visibility.SHARED else visibility
 
     return DecryptedRecipe(
         id = id,
-        remoteId = id,
+        remoteId = remoteId,
         name = decryptedName,
         likes = likes,
         ownerId = ownerId,
         ownerName = ownerName,
         isOwned = isOwned,
-        isFavourite  = isFavourite,
+        isFavourite = isFavourite,
         isLiked = isLiked,
 
         description = decryptedDescription,
@@ -170,7 +185,75 @@ fun EncryptedRecipe.decrypt(decrypt: (ByteArray) -> ByteArray): DecryptedRecipe 
 
         creationTimestamp = creationTimestamp,
         updateTimestamp = updateTimestamp,
+        userTimestamp = userTimestamp,
 
-        encrypted = true,
+        isEncrypted = true,
     )
+}
+
+fun DecryptedRecipe.withoutPictures(): DecryptedRecipe =
+    this.copy(
+        preview = null,
+        cooking = this.cooking.map { step ->
+            step.pictures = arrayListOf(); step
+        } as ArrayList<CookingStep>
+    )
+
+data class RecipeInfo(
+
+    var id: Int? = null,
+    var remoteId: Int? = null,
+    var name: String = "",
+    var likes: Int = 0,
+    var ownerId: Int = 0,
+    var ownerName: String = "",
+    var isOwned: Boolean = false,
+    var isFavourite: Boolean = false,
+    var isLiked: Boolean = false,
+
+    var servings: Int = 0,
+    var time: Int = 0,
+    var calories: Int = 0,
+    var categories: List<Int> = listOf(),
+
+    var visibility: Visibility = Visibility.PRIVATE,
+    var preview: String? = null,
+
+    var creationTimestamp: Date = Date(Calendar.getInstance(TimeZone.getTimeZone("UTC")).timeInMillis),
+    var updateTimestamp: Date = Date(Calendar.getInstance(TimeZone.getTimeZone("UTC")).timeInMillis),
+    var userTimestamp: Date = Date(Calendar.getInstance(TimeZone.getTimeZone("UTC")).timeInMillis),
+
+    var isEncrypted: Boolean = false,
+) : Serializable
+
+fun Recipe.info(): RecipeInfo {
+    return RecipeInfo(
+        id = id,
+        remoteId = remoteId,
+        name = name,
+        likes = likes,
+        ownerId = ownerId,
+        ownerName = ownerName,
+        isOwned = isOwned,
+        isFavourite = isFavourite,
+        isLiked = isLiked,
+
+        servings = servings,
+        time = time,
+        calories = calories,
+        categories = categories,
+
+        visibility = visibility,
+        preview = preview,
+
+        creationTimestamp = creationTimestamp,
+        updateTimestamp = updateTimestamp,
+        userTimestamp = userTimestamp,
+
+        isEncrypted = isEncrypted,
+    )
+}
+
+fun RecipeInfo.decrypt(decrypt: (ByteArray) -> ByteArray): RecipeInfo {
+    return this.copy(name = String(decrypt(Base64.decode(name, Base64.DEFAULT))))
 }

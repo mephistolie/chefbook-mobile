@@ -1,9 +1,13 @@
 package com.cactusknights.chefbook.common
 
 import android.content.Context
+import android.content.Intent
 import android.content.res.Resources
+import android.net.Uri
 import android.widget.Toast
-import java.io.IOException
+import androidx.recyclerview.widget.AsyncListDiffer
+import com.cactusknights.chefbook.R
+import java.io.*
 import java.math.BigInteger
 import java.security.MessageDigest
 
@@ -17,6 +21,16 @@ fun <T : Context> T.showToast(message: String) {
 
 fun <T : Context> T.showToast(message: Int) {
     Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+}
+
+fun <T : Context> T.openMail() {
+    val intent = Intent(Intent.ACTION_SENDTO)
+    intent.data = Uri.parse("mailto:" + this.resources.getString(R.string.support_email))
+    this.startActivity(intent)
+}
+
+fun <T> AsyncListDiffer<T>.forceSubmitList(list: List<T>) {
+    this.submitList(list.toList())
 }
 
 val Int.dp: Int get() = (this / Resources.getSystem().displayMetrics.density).toInt()
@@ -44,5 +58,16 @@ private fun hashString(input: String, algorithm: String): String {
     return MessageDigest
         .getInstance(algorithm)
         .digest(input.toByteArray())
-        .fold("", { str, it -> str + "%02x".format(it) })
+        .fold("") { str, it -> str + "%02x".format(it) }
+}
+
+fun <T : Serializable> T.deepCopy(): T {
+    val baos = ByteArrayOutputStream()
+    val oos  = ObjectOutputStream(baos)
+    oos.writeObject(this)
+    oos.close()
+    val bais = ByteArrayInputStream(baos.toByteArray())
+    val ois  = ObjectInputStream(bais)
+    @Suppress("unchecked_cast")
+    return ois.readObject() as T
 }

@@ -29,8 +29,6 @@ interface EncryptionManager : Cryptor {
     fun encryptKeyPairBySymmetricKey(keyPair: KeyPair, key: SecretKey) : ByteArray
     fun decryptKeyPairBySymmetricKey(data: ByteArray, key: SecretKey) : KeyPair
 
-    fun getPublicKeyByEncryptedPair(data: ByteArray) : PublicKey
-
     fun encryptSymmetricKeyByPrivateKey(data: SecretKey, key: PublicKey) : ByteArray
     fun decryptSymmetricKeyByPrivateKey(data: ByteArray, key: PrivateKey) : SecretKey
 }
@@ -93,26 +91,26 @@ class EncryptionManagerImpl : EncryptionManager {
     }
 
     override fun encryptKeyPairBySymmetricKey(keyPair: KeyPair, key: SecretKey): ByteArray {
+        val encryptedPublicKey = encryptDataBySymmetricKey(keyPair.public.encoded, key)
         val encryptedPrivateKey = encryptDataBySymmetricKey(keyPair.private.encoded, key)
-        val publicKeySize : Int = keyPair.public.encoded.size
-        return publicKeySize.toByteArray() + keyPair.public.encoded + encryptedPrivateKey
+        val publicKeySize : Int = encryptedPublicKey.size
+        return publicKeySize.toByteArray() + encryptedPublicKey + encryptedPrivateKey
     }
 
     override fun decryptKeyPairBySymmetricKey(data: ByteArray, key: SecretKey): KeyPair {
         val publicKeySize = data.copyOfRange(0,  Int.SIZE_BYTES).toInt()
+        val encryptedPublicKey = data.copyOfRange(Int.SIZE_BYTES, METADATA_SIZE + publicKeySize)
         val encryptedPrivateKey = data.copyOfRange(METADATA_SIZE + publicKeySize, data.size)
+
+        aesCipher.init(Cipher.DECRYPT_MODE, key, spec)
+        val publicKeyBytes = aesCipher.doFinal(encryptedPublicKey)
         aesCipher.init(Cipher.DECRYPT_MODE, key, spec)
         val privateKeyBytes = aesCipher.doFinal(encryptedPrivateKey)
 
         val privateKey = rsaFactory.generatePrivate(PKCS8EncodedKeySpec(privateKeyBytes))
-        val publicKey = rsaFactory.generatePublic(X509EncodedKeySpec(data.copyOfRange(METADATA_SIZE, METADATA_SIZE + publicKeySize)))
+        val publicKey = rsaFactory.generatePublic(X509EncodedKeySpec(publicKeyBytes))
 
         return KeyPair(publicKey, privateKey)
-    }
-
-    override fun getPublicKeyByEncryptedPair(data: ByteArray) : PublicKey {
-        val publicKeySize = data.copyOfRange(0,  Int.SIZE_BYTES).toInt()
-        return KeyFactory.getInstance(RSA).generatePublic(X509EncodedKeySpec(data.copyOfRange(METADATA_SIZE, METADATA_SIZE + publicKeySize)))
     }
 
     override fun encryptSymmetricKeyByPrivateKey(data: SecretKey, key: PublicKey): ByteArray {

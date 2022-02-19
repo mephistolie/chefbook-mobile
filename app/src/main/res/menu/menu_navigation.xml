@@ -14,7 +14,7 @@
         android:icon="@drawable/ic_recipes" />
 
     <item
-        android:id="@+id/pr"
+        android:id="@+id/profile"
         android:enabled="true"
         android:title="@string/profile"
         android:icon="@drawable/ic_user" />

@@ -5,26 +5,31 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.cactusknights.chefbook.R
+import com.cactusknights.chefbook.common.forceSubmitList
 import com.cactusknights.chefbook.databinding.CellSelectableEditBinding
 import com.cactusknights.chefbook.databinding.CellStepEditBinding
 import com.cactusknights.chefbook.models.CookingStep
 import com.cactusknights.chefbook.models.CookingStepTypes
 
-class CookingInputAdapter(private var steps: MutableList<CookingStep>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class CookingInputAdapter(private var steps: MutableList<CookingStep>,
+                          val deletePictureListener: (Int, Int) -> Unit, val addPictureListener: (Int) -> Unit
+): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder.itemViewType == 0) {
             (holder as StepHolder).binding.inputStep.setText(steps[position].text)
             val sectionsSize = steps.subList(0, position).filter { it.type == CookingStepTypes.SECTION }.size
             holder.binding.textNumber.text = (position+1-sectionsSize).toString()
-            holder.binding.inputStep.requestFocus()
+
+            (holder.binding.rvPictures.adapter as StepPicturesAdapter).differ.forceSubmitList(steps[position].pictures)
         } else {
             (holder as SectionHolder).binding.inputSelectable.setText(steps[position].text)
             holder.binding.inputSelectable.setTypeface(null, Typeface.BOLD)
             holder.binding.inputSelectable.hint = holder.binding.inputSelectable.resources?.getString(R.string.section)
-            holder.binding.inputSelectable.requestFocus()
         }
     }
 
@@ -54,6 +59,12 @@ class CookingInputAdapter(private var steps: MutableList<CookingStep>): Recycler
 
                 override fun afterTextChanged(s: Editable?) {}
             })
+
+            binding.rvPictures.layoutManager = LinearLayoutManager(itemView.context, GridLayoutManager.HORIZONTAL, false)
+            binding.rvPictures.adapter = StepPicturesAdapter(
+                deletePictureListener = { pictureIndex -> deletePictureListener(adapterPosition, pictureIndex) },
+                addPictureListener = { addPictureListener(adapterPosition) }
+            )
 
             binding.btnDeleteStep.setOnClickListener {
                 steps.removeAt(adapterPosition)

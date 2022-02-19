@@ -70,16 +70,6 @@ class RecipeInputInfoFragment : Fragment() {
             viewModel.obtainEvent(RecipeInputScreenEvent.DeletePreview)
         }
 
-        binding.rgVisibility.check(binding.rbPrivate.id)
-        binding.rgVisibility.setOnCheckedChangeListener { _, checkedId ->
-            val visibility = when (checkedId) {
-                R.id.rb_private -> Visibility.PRIVATE
-                R.id.rb_shared -> Visibility.SHARED
-                else -> Visibility.PUBLIC
-            }
-            viewModel.obtainEvent(RecipeInputScreenEvent.SetVisibility(visibility))
-        }
-
         binding.inputName.doOnTextChanged { name, _, _, _ -> viewModel.obtainEvent(RecipeInputScreenEvent.InputName(name.toString())) }
         binding.inputCalories.doOnTextChanged { calories, _, _, _ -> viewModel.obtainEvent(RecipeInputScreenEvent.InputCalories(calories.toString())) }
         binding.inputServings.doOnTextChanged { servings, _, _, _ -> viewModel.obtainEvent(RecipeInputScreenEvent.InputServings(servings.toString())) }
@@ -120,14 +110,6 @@ class RecipeInputInfoFragment : Fragment() {
                 if (recipe.time % 60 != 0) binding.inputMinutes.setText((recipe.time % 60).toString())
             }
 
-            binding.rgVisibility.check(
-                when (recipe.visibility) {
-                    Visibility.PRIVATE -> R.id.rb_private
-                    Visibility.SHARED -> R.id.rb_shared
-                    else -> R.id.rb_public
-                }
-            )
-
             binding.cvMinusServing.setOnClickListener {
                 if (recipe.servings > 1) {
                     binding.inputServings.setText((recipe.servings-1).toString())
@@ -137,16 +119,6 @@ class RecipeInputInfoFragment : Fragment() {
             binding.cvPlusServing.setOnClickListener {
                 if (recipe.servings < 999) {
                     binding.inputServings.setText((recipe.servings+1).toString())
-                }
-            }
-
-            binding.btnEncryption.setOnClickListener {
-                if (encryptionViewModel.encryptionState.value != EncryptionScreenState.Unlocked) {
-                    EncryptionDialog().show(activity!!.supportFragmentManager, MainActivity.ENCRYPTION_DIALOG)
-                } else {
-                    recipe.encrypted = !recipe.encrypted
-                    RecipeInputScreenEvent.SetEncryption(recipe.encrypted)
-                    binding.btnEncryption.setImageDrawable(ContextCompat.getDrawable(requireContext(), if (recipe.encrypted) R.drawable.ic_lock else R.drawable.ic_lock_open))
                 }
             }
         }

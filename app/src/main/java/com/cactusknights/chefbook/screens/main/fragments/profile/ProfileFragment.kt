@@ -16,6 +16,8 @@ import androidx.lifecycle.repeatOnLifecycle
 import coil.load
 import com.cactusknights.chefbook.R
 import com.cactusknights.chefbook.databinding.FragmentProfileBinding
+import com.cactusknights.chefbook.screens.common.ConfirmDialog
+import com.cactusknights.chefbook.screens.common.encryption.models.EncryptionScreenEvent
 import com.cactusknights.chefbook.screens.main.NavigationViewModel
 import com.cactusknights.chefbook.screens.main.fragments.profile.models.ProfileScreenEvent
 import com.cactusknights.chefbook.screens.main.fragments.profile.models.ProfileScreenState
@@ -52,9 +54,11 @@ class ProfileFragment: Fragment() {
         binding.cvAppSettings.setOnClickListener { activityViewModel.obtainEvent(NavigationEvent.OpenSettingsDialog) }
         binding.cvRate.setOnClickListener { activityViewModel.obtainEvent(NavigationEvent.RateApp) }
         binding.cvAboutApp.setOnClickListener { activityViewModel.obtainEvent(NavigationEvent.OpenAboutAppDialog) }
-        binding.cvLogout.setOnClickListener { viewModel.obtainEvent(ProfileScreenEvent.SignOut) }
+        binding.cvLogout.setOnClickListener {
+            ConfirmDialog(R.string.logout_warning) { viewModel.obtainEvent(ProfileScreenEvent.SignOut) }.show(requireActivity().supportFragmentManager, "Confirm")
+        }
 
-        viewLifecycleOwner.lifecycleScope.launch { viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
+        viewLifecycleOwner.lifecycleScope.launch { viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
             viewModel.profileState.collect { state -> render(state) }
         } }
     }
@@ -67,7 +71,8 @@ class ProfileFragment: Fragment() {
             binding.cvAdvertisement.visibility = if (state.user.isLocal) View.GONE else View.VISIBLE
             binding.cvBroccoins.visibility = if (state.user.isLocal) View.GONE else View.VISIBLE
             binding.cvEditProfile.visibility = if (state.user.isLocal) View.GONE else View.VISIBLE
-            if (state.user.premium != null && (state.user.premium.time - Date().time) > 0) {
+            val currentTime = Calendar.getInstance(TimeZone.getTimeZone("UTC")).timeInMillis
+            if (state.user.premium != null && (state.user.premium.time - currentTime) > 0) {
                 binding.textSubscription.text = resources.getString(R.string.premium_plan)
                 binding.ivSubscription.setColorFilter(ContextCompat.getColor(requireContext(), R.color.deep_orange_light))
             } else {
@@ -75,7 +80,7 @@ class ProfileFragment: Fragment() {
                 binding.ivSubscription.setColorFilter(ContextCompat.getColor(requireContext(), R.color.navigation_secondary))
             }
 
-            binding.textName.text = if (state.user.isLocal) resources.getString(R.string.local_profile) else state.user.name
+            binding.textName.text = if (state.user.isLocal) resources.getString(R.string.local_profile) else state.user.username
             binding.textId
             if (!state.user.isLocal) {
                 val idStr = "#${state.user.id}"; binding.textId.text = idStr

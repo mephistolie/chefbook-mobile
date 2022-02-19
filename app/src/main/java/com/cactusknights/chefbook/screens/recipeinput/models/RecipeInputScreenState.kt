@@ -1,7 +1,9 @@
 package com.cactusknights.chefbook.screens.recipeinput.models
 
+import com.cactusknights.chefbook.models.DecryptedRecipe
+
 sealed class RecipeInputScreenState {
-    object Idle : RecipeInputScreenState()
-    class NewRecipe(val recipeInput: RecipeInput) : RecipeInputScreenState()
-    class EditRecipe(val recipeInput: RecipeInput) : RecipeInputScreenState()
+    object Loading : RecipeInputScreenState()
+    class NewRecipe(val recipeInput: DecryptedRecipe) : RecipeInputScreenState()
+    class EditRecipe(val recipeInput: DecryptedRecipe) : RecipeInputScreenState()
 }

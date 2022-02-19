@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+option java_package = "com.cactusknights.chefbook";
+option java_multiple_files = true;
+
+message ProfileProto {
+  int32 id = 1;
+  string email = 2;
+  string username = 3;
+  int64 creationDate = 4;
+  string avatar = 5;
+  int64  premium = 6;
+  int32 broccoins = 7;
+}

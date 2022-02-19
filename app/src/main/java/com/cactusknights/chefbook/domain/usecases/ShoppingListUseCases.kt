@@ -1,17 +1,16 @@
 package com.cactusknights.chefbook.domain.usecases
 
 import com.cactusknights.chefbook.common.usecases.Result
-import com.cactusknights.chefbook.domain.ShoppingListRepository
+import com.cactusknights.chefbook.domain.ShoppingListRepo
 import com.cactusknights.chefbook.models.Purchase
 import com.cactusknights.chefbook.models.ShoppingList
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
 
-class ShoppingListUseCases @Inject constructor(private val repository: ShoppingListRepository) {
+class ShoppingListUseCases @Inject constructor(private val repository: ShoppingListRepo) {
 
     suspend fun listenToShoppingList() = repository.listenToShoppingList()
 

@@ -12,25 +12,17 @@ import java.util.*
 object RoomConverters {
     @TypeConverter
     @JvmStatic
-    fun longToDate(value: Long?): Date? {
-        return value?.let { Date(it) }
-    }
+    fun longToDate(value: Long?): Date? = value?.let { Date(it) }
 
     @TypeConverter
     @JvmStatic
-    fun dateToLong(date: Date?): Long? {
-        return date?.time
-    }
+    fun dateToLong(date: Date?): Long? = date?.time
 
     @TypeConverter
     @JvmStatic
-    fun visibilityToString(visibility: Visibility): String {
-        return visibility.toString()
-    }
+    fun visibilityToString(visibility: Visibility) = visibility.toString()
 
     @TypeConverter
     @JvmStatic
-    fun stringToVisibility(visibility: String): Visibility {
-        return Visibility.valueOf(visibility)
-    }
+    fun stringToVisibility(visibility: String) = Visibility.valueOf(visibility.uppercase())
 }

@@ -14,13 +14,13 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cactusknights.chefbook.R
 import com.cactusknights.chefbook.common.Utils
-import com.cactusknights.chefbook.common.Utils.forceSubmitList
+import com.cactusknights.chefbook.common.forceSubmitList
 import com.cactusknights.chefbook.databinding.FragmentRecipesDashboardBinding
-import com.cactusknights.chefbook.models.Recipe
+import com.cactusknights.chefbook.models.RecipeInfo
 import com.cactusknights.chefbook.screens.main.MainActivity
 import com.cactusknights.chefbook.screens.main.NavigationViewModel
 import com.cactusknights.chefbook.screens.common.recipes.RecipesViewModel
-import com.cactusknights.chefbook.screens.common.recipes.adapters.RecentlyAddedAdapter
+import com.cactusknights.chefbook.screens.common.recipes.adapters.QuckAccessAdapter
 import com.cactusknights.chefbook.screens.common.recipes.adapters.RecipeAdapter
 import com.cactusknights.chefbook.screens.main.models.NavigationEvent
 import com.cactusknights.chefbook.screens.common.recipes.models.RecipesEvent
@@ -32,8 +32,8 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class DashboardFragment : Fragment() {
 
-    private var recipes = listOf<Recipe>()
-    private var recentlyAddedRecipes = listOf<Recipe>()
+    private var recipes = listOf<RecipeInfo>()
+    private var recentlyUpdatedRecipes = listOf<RecipeInfo>()
 
     private val navigationViewModel by activityViewModels<NavigationViewModel>()
     private val recipeViewModel by activityViewModels<RecipesViewModel>()
@@ -44,7 +44,7 @@ class DashboardFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var allAdapter : RecipeAdapter
-    private lateinit var recentlyAddedAdapter : RecentlyAddedAdapter
+    private lateinit var quickAccessAdapter : QuckAccessAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -60,15 +60,13 @@ class DashboardFragment : Fragment() {
 
         mainActivity = activity as MainActivity
         allAdapter = RecipeAdapter(requireActivity()) { navigationViewModel.obtainEvent(NavigationEvent.OpenRecipe(it)) }
-        recentlyAddedAdapter = RecentlyAddedAdapter(requireActivity()) { navigationViewModel.obtainEvent(NavigationEvent.OpenRecipe(it)) }
+        quickAccessAdapter = QuckAccessAdapter(requireActivity()) { navigationViewModel.obtainEvent(NavigationEvent.OpenRecipe(it)) }
 
         binding.rvAllRecipes.layoutManager = LinearLayoutManager(activity)
         binding.rvAllRecipes.adapter = allAdapter
         binding.rvAllRecipes.itemAnimator = null
-        binding.rvQuickAccess.setHasFixedSize(true)
-        binding.rvQuickAccess.layoutManager =
-            LinearLayoutManager(activity, GridLayoutManager.HORIZONTAL, false)
-        binding.rvQuickAccess.adapter = recentlyAddedAdapter
+        binding.rvQuickAccess.layoutManager = LinearLayoutManager(activity, GridLayoutManager.HORIZONTAL, false)
+        binding.rvQuickAccess.adapter = quickAccessAdapter
 
         binding.llAddRecipe.setOnClickListener { navigationViewModel.obtainEvent(NavigationEvent.AddRecipe) }
 
@@ -84,7 +82,7 @@ class DashboardFragment : Fragment() {
             Utils.hideKeyboard(mainActivity)
         }
         viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 recipeViewModel.recipesState.collect { state -> render(state) }
             }
         }
@@ -102,8 +100,6 @@ class DashboardFragment : Fragment() {
             }
             is RecipesState.RecipesUpdated -> {
                 binding.llFunctions.visibility = View.VISIBLE
-                binding.textRecentlyAdded.visibility = if (state.recipes.size >= 4) View.VISIBLE else View.GONE
-                binding.rvQuickAccess.visibility = if (state.recipes.size >= 4) View.VISIBLE else View.GONE
                 binding.rvAllRecipes.visibility = View.VISIBLE
                 binding.btnClearSearch.visibility = View.GONE
                 binding.textAllRecipes.text = resources.getString(R.string.all_recipes)
@@ -112,19 +108,19 @@ class DashboardFragment : Fragment() {
 
                 if (state.keys != null) {
                     allAdapter.setRecipeKeys(state.keys)
-                    recentlyAddedAdapter.setRecipeKeys(state.keys)
+                    quickAccessAdapter.setRecipeKeys(state.keys)
                 }
                 recipes = state.recipes.sortedBy { it.name.lowercase() }
                 setLayout(recipes.size)
                 allAdapter.differ.forceSubmitList(recipes)
 
-                recentlyAddedRecipes = state.recipes.sortedByDescending { it.updateTimestamp }.take(6)
-                recentlyAddedAdapter.differ.forceSubmitList(recentlyAddedRecipes)
+                recentlyUpdatedRecipes = state.recipes.sortedByDescending { it.updateTimestamp }.take(6)
+                quickAccessAdapter.differ.forceSubmitList(recentlyUpdatedRecipes)
                 binding.textEmptyList.visibility = if (recipes.isNotEmpty()) View.GONE else View.VISIBLE
             }
             is RecipesState.SearchResult -> {
                 binding.llFunctions.visibility = View.GONE
-                binding.textRecentlyAdded.visibility = View.GONE
+                binding.textQuickAccess.visibility = View.GONE
                 binding.rvQuickAccess.visibility = View.GONE
                 binding.btnClearSearch.visibility = View.VISIBLE
                 binding.textAllRecipes.text = resources.getString(R.string.search_results)
@@ -155,19 +151,19 @@ class DashboardFragment : Fragment() {
         when {
             recipesCount >= 6 -> {
                 binding.llSearch.visibility = View.VISIBLE
-                binding.textRecentlyAdded.visibility = View.VISIBLE
+                binding.textQuickAccess.visibility = View.VISIBLE
                 binding.rvQuickAccess.visibility = View.VISIBLE
                 binding.textEmptyList.visibility = View.GONE
             }
             recipesCount > 0 -> {
                 binding.llSearch.visibility = View.GONE
-                binding.textRecentlyAdded.visibility = View.GONE
+                binding.textQuickAccess.visibility = View.GONE
                 binding.rvQuickAccess.visibility = View.GONE
                 binding.textEmptyList.visibility = View.GONE
             }
             else -> {
                 binding.llSearch.visibility = View.GONE
-                binding.textRecentlyAdded.visibility = View.GONE
+                binding.textQuickAccess.visibility = View.GONE
                 binding.rvQuickAccess.visibility = View.GONE
                 binding.textEmptyList.visibility = View.VISIBLE
             }

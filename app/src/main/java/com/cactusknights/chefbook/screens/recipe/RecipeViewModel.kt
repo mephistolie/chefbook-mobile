@@ -22,8 +22,7 @@ class RecipeViewModel @Inject constructor(
     private val recipeUseCases: RecipesUseCases,
     private val categoriesUseCases: CategoriesUseCases,
     private val shoppingListUseCases: ShoppingListUseCases,
-    private val encryptionUseCases: EncryptionUseCases,
-    private val commonUseCases: CommonUseCases
+    private val encryptionUseCases: RecipeEncryptionUseCases,
 ) : ViewModel(), EventHandler<RecipeScreenEvent> {
 
     private val _recipeState: MutableStateFlow<RecipeScreenState> = MutableStateFlow(RecipeScreenState.Loading)
@@ -40,8 +39,8 @@ class RecipeViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             categoriesUseCases.listenToCategories().collect { newCategories ->
-                categories = newCategories?: arrayListOf()
-                _recipeState.emit(RecipeScreenState.DataUpdated(recipe, categories, selectedIngredients))
+                categories = newCategories?: listOf()
+                _recipeState.emit(RecipeScreenState.DataLoaded(recipe, categories, selectedIngredients))
             }
         }
     }
@@ -49,8 +48,7 @@ class RecipeViewModel @Inject constructor(
     override fun obtainEvent(event: RecipeScreenEvent) {
         viewModelScope.launch {
             when (event) {
-                is RecipeScreenEvent.LoadRecipe -> loadRecipe(event.recipe, event.context)
-                is RecipeScreenEvent.LoadRecipeByRemoteId -> loadRecipeByRemoteId(event.remoteId)
+                is RecipeScreenEvent.LoadRecipe -> loadRecipe(event.id, event.remoteId)
                 is RecipeScreenEvent.AddRecipeToRecipeBook -> TODO()
                 is RecipeScreenEvent.ChangeFavouriteStatus -> changeRecipeFavouriteStatus()
                 is RecipeScreenEvent.ChangeLikeStatus -> changeRecipeLikeStatus()
@@ -60,35 +58,38 @@ class RecipeViewModel @Inject constructor(
                 is RecipeScreenEvent.EditRecipe -> { _viewEffect.emit(RecipeScreenViewEffect.EditRecipe(recipe)) }
                 is RecipeScreenEvent.DeleteRecipe -> deleteRecipe()
                 is RecipeScreenEvent.SetCategories -> {
-                    recipe.categories = event.categories
+                    recipe = recipe.copy(categories = event.categories)
                     recipeUseCases.setRecipeCategories(recipe).collect {}
                 }
             }
         }
     }
 
-    private suspend fun loadRecipe(loadedRecipe: DecryptedRecipe, context: Context) {
-        recipe = loadedRecipe
-        selectedIngredients = loadedRecipe.ingredients.map { Selectable(it.text) }
-        updateState()
-        if (recipe.encrypted) {
-            encryptionUseCases.getRecipeKey(recipe).collect { result ->
-                if (result is Result.Success) {
-                    key = result.data!!
-                    updateState()
-                }
-            }
+    private suspend fun loadRecipe(id: Int?, remoteId: Int?) {
+        var loadedRecipe : Recipe? = null
+        if (id != null) recipeUseCases.getRecipeById(id).collect { result ->
+            if (result is Result.Success) { loadedRecipe = result.data }
+            if (result !is Result.Loading) { return@collect }
+        } else if (remoteId != null) recipeUseCases.getRecipeByRemoteId(remoteId).collect { result ->
+            if (result is Result.Success) { loadedRecipe = result.data }
+            if (result !is Result.Loading) { return@collect }
         }
-    }
+        if (loadedRecipe == null) { _recipeState.emit(RecipeScreenState.Error); return }
 
-    private suspend fun loadRecipeByRemoteId(remoteId: Int) {
-        recipeUseCases.getRecipeByRemoteId(remoteId).collect { state ->
-            if (state is Result.Success) {
-                recipe = state.data!! as DecryptedRecipe
-                selectedIngredients = recipe.ingredients.map { Selectable(it.text) }
-                updateState()
+        var decryptedRecipe : DecryptedRecipe
+        if (loadedRecipe is DecryptedRecipe) decryptedRecipe = loadedRecipe as DecryptedRecipe
+        else {
+            encryptionUseCases.getRecipeKey(loadedRecipe!!.info()).collect { result ->
+                if (result is Result.Success) { key = result.data!! }
+                if (result !is Result.Loading) { return@collect }
             }
+            if (key == null) { _recipeState.emit(RecipeScreenState.Error); return }
+            decryptedRecipe = (loadedRecipe as EncryptedRecipe).decrypt { data -> encryptionUseCases.decryptRecipeData(data, key!!) }
         }
+
+        recipe = decryptedRecipe
+        selectedIngredients = decryptedRecipe.ingredients.map { Selectable(it.text) }
+        updateState()
     }
 
     private suspend fun deleteRecipe() {
@@ -96,20 +97,19 @@ class RecipeViewModel @Inject constructor(
             when (result) {
                 is Result.Loading -> {}
                 is Result.Success -> { _viewEffect.emit(RecipeScreenViewEffect.RecipeDeleted)}
-                is Result.Error -> {}
+                is Result.Error -> { _viewEffect.emit(RecipeScreenViewEffect.Message(R.string.recipe_delete_failed)) }
             }
         }
     }
 
     private suspend fun changeRecipeFavouriteStatus() {
-        recipe.isFavourite = !recipe.isFavourite
+        recipe = recipe.copy(isFavourite = !recipe.isFavourite)
         updateState()
         recipeUseCases.setRecipeFavouriteStatus(recipe).collect {}
     }
 
     private suspend fun changeRecipeLikeStatus() {
-        recipe.isLiked = !recipe.isLiked
-        recipe.likes = if (recipe.isLiked) recipe.likes+1 else recipe.likes-1
+        recipe = recipe.copy(isLiked = !recipe.isLiked, likes = if (recipe.isLiked) recipe.likes-1 else recipe.likes+1)
         updateState()
         recipeUseCases.setRecipeLikeStatus(recipe).collect {}
     }
@@ -126,7 +126,7 @@ class RecipeViewModel @Inject constructor(
                 is Result.Loading -> {}
                 is Result.Success -> {
                     selectedIngredients = selectedIngredients.map { it.isSelected = false; it }
-                    _recipeState.emit(RecipeScreenState.DataUpdated(recipe, categories, selectedIngredients))
+                    _recipeState.emit(RecipeScreenState.DataLoaded(recipe, categories, selectedIngredients))
                     _viewEffect.emit(RecipeScreenViewEffect.Message(R.string.added_to_shopping_list))
                 }
                 is Result.Error -> {}
@@ -135,6 +135,6 @@ class RecipeViewModel @Inject constructor(
     }
 
     private suspend fun updateState() {
-        _recipeState.emit(RecipeScreenState.DataUpdated(recipe, categories, selectedIngredients, key))
+        _recipeState.emit(RecipeScreenState.DataLoaded(recipe, categories, selectedIngredients, key))
     }
 }

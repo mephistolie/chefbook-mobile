@@ -3,8 +3,9 @@ package com.cactusknights.chefbook.di
 import android.content.Context
 import androidx.room.Room
 import com.cactusknights.chefbook.core.room.ChefBookDatabase
-import com.cactusknights.chefbook.repositories.local.dao.CategoriesDao
-import com.cactusknights.chefbook.repositories.local.dao.RecipesDao
+import com.cactusknights.chefbook.data.sources.local.dao.CategoriesDao
+import com.cactusknights.chefbook.data.sources.local.dao.RecipeBookDao
+import com.cactusknights.chefbook.data.sources.local.dao.RecipeInteractionDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -27,7 +28,11 @@ class RoomModule {
 
     @Provides
     @Singleton
-    fun provideRecipesDao(roomDatabase: ChefBookDatabase) : RecipesDao = roomDatabase.recipesDao()
+    fun provideRecipeBookDao(roomDatabase: ChefBookDatabase) : RecipeBookDao = roomDatabase.recipeBookDao()
+
+    @Provides
+    @Singleton
+    fun provideRecipeInteractionDao(roomDatabase: ChefBookDatabase) : RecipeInteractionDao = roomDatabase.recipeInteractionDao()
 
     @Provides
     @Singleton

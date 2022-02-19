@@ -14,6 +14,7 @@ class IngredientInputAdapter(private var ingredients: ArrayList<Ingredient>): Re
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val ingredient = ingredients[position]
+        holder.binding.inputSelectable.setText(ingredient.text)
         if (ingredient.type == IngredientTypes.SECTION) {
             holder.binding.inputSelectable.setTypeface(null, Typeface.BOLD)
             holder.binding.inputSelectable.hint = holder.binding.inputSelectable.resources?.getString(R.string.section)

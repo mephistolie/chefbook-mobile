@@ -10,7 +10,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.cactusknights.chefbook.common.Utils.forceSubmitList
+import com.cactusknights.chefbook.common.forceSubmitList
 import com.cactusknights.chefbook.databinding.FragmentRecyclerViewBinding
 import com.cactusknights.chefbook.screens.main.NavigationViewModel
 import com.cactusknights.chefbook.screens.common.recipes.RecipesViewModel

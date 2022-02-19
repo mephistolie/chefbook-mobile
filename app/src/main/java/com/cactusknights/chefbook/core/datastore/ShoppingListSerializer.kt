@@ -12,7 +12,7 @@ import java.util.*
 object ShoppingListSerializer : Serializer<ShoppingListProto> {
 
     override val defaultValue: ShoppingListProto = ShoppingListProto.newBuilder()
-        .setTimestamp(Date().time)
+        .setTimestamp(0)
         .build()
 
     override suspend fun readFrom(input: InputStream): ShoppingListProto {

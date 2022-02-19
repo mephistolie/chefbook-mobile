@@ -9,7 +9,6 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
-import androidx.datastore.core.DataStore
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -20,12 +19,13 @@ import com.cactusknights.chefbook.R
 import com.cactusknights.chefbook.SettingsProto
 import com.cactusknights.chefbook.common.showToast
 import com.cactusknights.chefbook.databinding.ActivityMainBinding
-import com.cactusknights.chefbook.models.Recipe
+import com.cactusknights.chefbook.models.RecipeInfo
 import com.cactusknights.chefbook.screens.auth.AuthActivity
 import com.cactusknights.chefbook.screens.common.encryption.EncryptionDialog
 import com.cactusknights.chefbook.screens.common.encryption.EncryptionViewModel
 import com.cactusknights.chefbook.screens.common.encryption.models.EncryptionScreenState
 import com.cactusknights.chefbook.screens.common.recipes.RecipesViewModel
+import com.cactusknights.chefbook.screens.common.recipes.models.RecipesEvent
 import com.cactusknights.chefbook.screens.main.fragments.profile.dialogs.AboutDialog
 import com.cactusknights.chefbook.screens.main.fragments.profile.dialogs.BroccoinsDialog
 import com.cactusknights.chefbook.screens.main.fragments.profile.dialogs.SubscriptionDialog
@@ -39,22 +39,9 @@ import com.google.android.play.core.review.ReviewManagerFactory
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.first
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-
-    @Inject lateinit var settings : DataStore<SettingsProto>
-
-    companion object {
-        const val IS_BACK_BUTTON_VISIBLE = "IS_BACK_BUTTON_VISIBLE"
-        const val TITLE = "TITLE"
-        const val ABOUT_DIALOG = "About Dialog"
-        const val ENCRYPTION_DIALOG = "Encryption Dialog"
-        const val SUBSCRIPTION_DIALOG = "Subscription"
-        private var isFirstLaunch = true
-    }
 
     private val navigationViewModel: NavigationViewModel by viewModels()
     private val recipesViewModel: RecipesViewModel by viewModels()
@@ -70,7 +57,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        configureFirstLaunch(settings)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -82,53 +68,34 @@ class MainActivity : AppCompatActivity() {
         }
 
         val navigation = NavigationBarView.OnItemSelectedListener { item ->
-            if (item.itemId == R.id.shopping_list) {
-                binding.ivEncryption.visibility = View.GONE
-                navigationViewModel.obtainEvent(NavigationEvent.OpenShoppingListFragment)
-            } else if (item.itemId == R.id.recipes) {
-                binding.ivEncryption.visibility = View.VISIBLE
-                navigationViewModel.obtainEvent(NavigationEvent.OpenRecipesFragment)
-            } else {
-                binding.ivEncryption.visibility = View.GONE
-                navigationViewModel.obtainEvent(NavigationEvent.OpenProfile)
+            when (item.itemId) {
+                R.id.shopping_list -> {
+                    binding.ivEncryption.visibility = View.GONE
+                    navigationViewModel.obtainEvent(NavigationEvent.OpenShoppingListFragment)
+                }
+                R.id.recipes -> {
+                    binding.ivEncryption.visibility = View.VISIBLE
+                    navigationViewModel.obtainEvent(NavigationEvent.OpenRecipesFragment)
+                }
+                else -> {
+                    binding.ivEncryption.visibility = View.GONE
+                    navigationViewModel.obtainEvent(NavigationEvent.OpenProfile)
+                }
             }
             true
         }
 
         navController = (supportFragmentManager.findFragmentById(R.id.cv_content) as NavHostFragment).navController
-
-        binding.nvNavigation.selectedItemId = R.id.recipes
         binding.nvNavigation.setOnItemSelectedListener(navigation)
         binding.btnBack.setOnClickListener { onBackPressed() }
         binding.ivEncryption.setOnClickListener { EncryptionDialog().show(supportFragmentManager, ENCRYPTION_DIALOG) }
 
         lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.RESUMED) {
-                recipesViewModel.listenToUpdates()
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                recipesViewModel.obtainEvent(RecipesEvent.ListenRecipes)
                 encryptionViewModel.listenToEncryption()
                 launch { navigationViewModel.viewEffect.collect { handleViewEffect(it) } }
                 launch { encryptionViewModel.encryptionState.collect { renderEncryptionIcon(it) } }
-            }
-        }
-    }
-
-    private fun configureFirstLaunch(settings: DataStore<SettingsProto>) {
-        if (!isFirstLaunch) return
-        isFirstLaunch = false
-        CoroutineScope(Dispatchers.Main).launch {
-            val currentSettings = settings.data.first()
-            when (currentSettings.appTheme) {
-                SettingsProto.AppTheme.LIGHT -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-                SettingsProto.AppTheme.DARK -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-                else -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
-            }
-            when (currentSettings.defaultTab) {
-                SettingsProto.Tabs.SHOPPING_LIST -> {
-                    binding.nvNavigation.selectedItemId = R.id.shopping_list
-                    binding.ivEncryption.visibility = View.GONE
-                    navController.navigate(R.id.shoppingListFragment)
-                }
-                else -> {}
             }
         }
     }
@@ -141,6 +108,8 @@ class MainActivity : AppCompatActivity() {
         if (state is NavigationEffect.SignedOut) return startAuthActivity()
         val destinationId = navController.currentDestination?.id
         when (state) {
+            NavigationEffect.StartRecipesFragment -> binding.nvNavigation.selectedItemId = R.id.recipes
+            NavigationEffect.StartShoppingListFragment -> binding.nvNavigation.selectedItemId = R.id.shopping_list
             is NavigationEffect.ShoppingListFragment -> {
                 if (destinationId != R.id.shoppingListFragment) {
                     val navOptions = createBottomNavOptions(toTheLeft = true)
@@ -159,7 +128,7 @@ class MainActivity : AppCompatActivity() {
             }
             is NavigationEffect.ProfileFragment -> {
                 if (destinationId == R.id.settingsFragment) navController.navigateUp()
-                else if (destinationId == R.id.shoppingListFragment || destinationId == R.id.recipesFragment) {
+                else if (destinationId != R.id.profileFragment) {
                     val navOptions = createBottomNavOptions()
                     navController.navigate(R.id.profileNavigation, null, navOptions)
                 }
@@ -193,13 +162,22 @@ class MainActivity : AppCompatActivity() {
             }
             is NavigationEffect.RateAppScreen -> { requestReviewFlow() }
             is NavigationEffect.AboutAppDialog -> { AboutDialog().show(supportFragmentManager, ABOUT_DIALOG) }
-            is NavigationEffect.AddRecipe -> { addRecipe() }
-            is NavigationEffect.RecipeOpened -> openRecipe(state.recipe)
+            is NavigationEffect.AddRecipe -> { openRecipeCreationScreen() }
+            is NavigationEffect.RecipeOpened -> openRecipeScreen(state.recipe)
             is NavigationEffect.SignedOut -> startAuthActivity()
             is NavigationEffect.SubscriptionDialog -> SubscriptionDialog().show(supportFragmentManager, SUBSCRIPTION_DIALOG)
             NavigationEffect.BroccoinsDialog -> BroccoinsDialog().show(supportFragmentManager, ABOUT_DIALOG)
+            is NavigationEffect.SetTheme -> setTheme(state.theme)
         }
         binding.btnBack.visibility = if (navController.currentDestination?.id in rootRoutes) View.GONE else View.VISIBLE
+    }
+
+    private fun setTheme(theme: SettingsProto.AppTheme) {
+        AppCompatDelegate.setDefaultNightMode(when (theme) {
+            SettingsProto.AppTheme.LIGHT -> AppCompatDelegate.MODE_NIGHT_NO
+            SettingsProto.AppTheme.DARK -> AppCompatDelegate.MODE_NIGHT_YES
+            else -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+        })
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -208,14 +186,15 @@ class MainActivity : AppCompatActivity() {
         outState.putString(TITLE, binding.textSection.text.toString())
     }
 
-    private fun addRecipe() {
+    private fun openRecipeCreationScreen() {
         val intent = Intent(this, RecipeInputActivity()::class.java)
         startActivity(intent)
     }
 
-    private fun openRecipe(recipe: Recipe) {
+    private fun openRecipeScreen(recipe: RecipeInfo) {
         val intent = Intent(this, RecipeActivity::class.java)
-        intent.putExtra("recipe", recipe)
+        intent.putExtra(RecipeActivity.idExtra, recipe.id)
+        intent.putExtra(RecipeActivity.remoteIdExtra, recipe.remoteId)
         val options: ActivityOptionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(this)
         startActivity(intent, options.toBundle())
         this.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
@@ -262,5 +241,13 @@ class MainActivity : AppCompatActivity() {
     override fun finish() {
         super.finish()
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+    }
+
+    companion object {
+        private const val IS_BACK_BUTTON_VISIBLE = "IS_BACK_BUTTON_VISIBLE"
+        private const val TITLE = "TITLE"
+        private const val ABOUT_DIALOG = "About Dialog"
+        const val ENCRYPTION_DIALOG = "Encryption Dialog"
+        private const val SUBSCRIPTION_DIALOG = "Subscription"
     }
 }

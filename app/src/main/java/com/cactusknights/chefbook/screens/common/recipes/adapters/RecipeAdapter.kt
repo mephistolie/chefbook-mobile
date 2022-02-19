@@ -4,9 +4,6 @@ import android.app.Activity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
-import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
@@ -18,26 +15,17 @@ import coil.util.CoilUtils
 import com.cactusknights.chefbook.R
 import com.cactusknights.chefbook.common.Utils
 import com.cactusknights.chefbook.core.retrofit.interceptors.EncryptedDataInterceptor
-import com.cactusknights.chefbook.models.Recipe
+import com.cactusknights.chefbook.databinding.CellRecipeBinding
+import com.cactusknights.chefbook.models.RecipeInfo
 import okhttp3.OkHttpClient
 import javax.crypto.SecretKey
 
 // TODO: Check for leaks by context
-open class RecipeAdapter(private val context: Activity, private val listener: (Recipe) -> Unit) : RecyclerView.Adapter<RecipeAdapter.ViewHolder>() {
+open class RecipeAdapter(private val context: Activity, private val listener: (RecipeInfo) -> Unit) : RecyclerView.Adapter<RecipeAdapter.ViewHolder>() {
 
     private var keys : Map<String, SecretKey> = mapOf()
 
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
-        val name: TextView = itemView.findViewById(R.id.text_name)
-        val favouriteIcon: CardView = itemView.findViewById(R.id.cv_favourite)
-        val likedIcon: CardView = itemView.findViewById(R.id.cv_liked)
-        val lockIcon: CardView = itemView.findViewById(R.id.cv_lock)
-        val time: TextView = itemView.findViewById(R.id.text_time)
-        val calories: TextView = itemView.findViewById(R.id.text_calories)
-        val servings: TextView = itemView.findViewById(R.id.text_servings)
-        val likes: TextView = itemView.findViewById(R.id.text_likes)
-        val coverImage: ImageView = itemView.findViewById(R.id.iv_cover)
+    inner class ViewHolder(val binding: CellRecipeBinding) : RecyclerView.ViewHolder(binding.root) {
 
         init {
             itemView.setOnClickListener {
@@ -46,47 +34,48 @@ open class RecipeAdapter(private val context: Activity, private val listener: (R
         }
 
         fun setTime(time: Int) {
-            this.time.text = Utils.minutesToTimeString(time, itemView.context.resources)
+            this.binding.textTime.text = Utils.minutesToTimeString(time, itemView.context.resources)
         }
 
         fun setCalories(calories: Int) {
             if (calories > 0) {
-                this.calories.text = calories.toString() + " " + itemView.context.resources.getString(R.string.kcal)
+                this.binding.textCalories.text = calories.toString() + " " + itemView.context.resources.getString(R.string.kcal)
             } else {
-                this.calories.text = "-"
+                this.binding.textCalories.text = "-"
             }
         }
     }
 
-    private val differCallback = object : DiffUtil.ItemCallback<Recipe>() {
-        override fun areItemsTheSame(oldRecipe: Recipe, newRecipe: Recipe): Boolean {
+    private val differCallback = object : DiffUtil.ItemCallback<RecipeInfo>() {
+        override fun areItemsTheSame(oldRecipe: RecipeInfo, newRecipe: RecipeInfo): Boolean {
             return oldRecipe.id == newRecipe.id || oldRecipe.remoteId == newRecipe.remoteId
         }
 
-        override fun areContentsTheSame(oldRecipe: Recipe, newRecipe: Recipe): Boolean {
+        override fun areContentsTheSame(oldRecipe: RecipeInfo, newRecipe: RecipeInfo): Boolean {
             return (oldRecipe.name == newRecipe.name &&
                     oldRecipe.time == newRecipe.time &&
                     oldRecipe.calories == newRecipe.calories &&
                     oldRecipe.preview == newRecipe.preview &&
-                    oldRecipe.isFavourite == newRecipe.isFavourite)
+                    oldRecipe.isFavourite == newRecipe.isFavourite &&
+                    oldRecipe.isLiked == newRecipe.isLiked &&
+                    oldRecipe.likes == newRecipe.likes)
         }
-
     }
 
     val differ = AsyncListDiffer(this, differCallback)
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val recipe = differ.currentList[position]
-        holder.favouriteIcon.visibility = if (recipe.isFavourite) View.VISIBLE else View.GONE
-        holder.likedIcon.visibility = if (recipe.isFavourite) View.VISIBLE else View.GONE
-        holder.lockIcon.visibility = if (recipe.encrypted) View.VISIBLE else View.GONE
-        holder.name.text = recipe.name
+        holder.binding.cvFavourite.visibility = if (recipe.isFavourite) View.VISIBLE else View.GONE
+        holder.binding.cvLiked.visibility = if (recipe.isLiked) View.VISIBLE else View.GONE
+        holder.binding.cvLock.visibility = if (recipe.isEncrypted) View.VISIBLE else View.GONE
+        holder.binding.textName.text = recipe.name
         holder.setTime(recipe.time)
-        holder.servings.text =  recipe.servings.toString()
-        holder.likes.text = recipe.likes.toString()
+        holder.binding.textServings.text =  recipe.servings.toString()
+        holder.binding.textLikes.text = recipe.likes.toString()
         holder.setCalories(recipe.calories)
         if (!recipe.preview.isNullOrEmpty()) {
-            if (!recipe.encrypted) holder.coverImage.load(recipe.preview) { crossfade(true) }
+            if (!recipe.isEncrypted) holder.binding.ivCover.load(recipe.preview) { crossfade(true) }
             else {
                 val key = keys[recipe.preview]
                 if (key != null) {
@@ -99,23 +88,22 @@ open class RecipeAdapter(private val context: Activity, private val listener: (R
                         }.build()
                     val request = ImageRequest.Builder(holder.itemView.context)
                         .data(recipe.preview)
-                        .target(holder.coverImage)
+                        .target(holder.binding.ivCover)
                         .crossfade(true)
                         .build()
                     previewLoader.enqueue(request)
                 }
             }} else {
             if (recipe.isFavourite) {
-                holder.coverImage.load(ContextCompat.getDrawable(holder.itemView.context, R.drawable.ic_broccy_heart_eyes)) { crossfade(true) }
+                holder.binding.ivCover.load(ContextCompat.getDrawable(holder.itemView.context, R.drawable.ic_broccy_heart_eyes)) { crossfade(true) }
             } else {
-                holder.coverImage.load(ContextCompat.getDrawable(holder.itemView.context, R.drawable.ic_broccy)) { crossfade(true) }
+                holder.binding.ivCover.load(ContextCompat.getDrawable(holder.itemView.context, R.drawable.ic_broccy)) { crossfade(true) }
             }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val v = LayoutInflater.from(parent.context).inflate(R.layout.cell_recipe, parent, false)
-        return ViewHolder(v)
+        return ViewHolder(CellRecipeBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }
 
     override fun getItemCount(): Int {

@@ -10,10 +10,11 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.cactusknights.chefbook.common.Utils.forceSubmitList
+import com.cactusknights.chefbook.common.forceSubmitList
 import com.cactusknights.chefbook.databinding.FragmentRecipeCookingBinding
 import com.cactusknights.chefbook.screens.recipe.RecipeViewModel
-import com.cactusknights.chefbook.screens.recipe.adapters.CookingAdapter
+import com.cactusknights.chefbook.screens.recipe.adapters.StepAdapter
+import com.cactusknights.chefbook.screens.recipe.dialogs.PictureDialog
 import com.cactusknights.chefbook.screens.recipe.models.RecipeScreenState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.cancel
@@ -24,7 +25,6 @@ import kotlinx.coroutines.launch
 class RecipeCookingFragment : Fragment() {
 
     private val viewModel by activityViewModels<RecipeViewModel>()
-    private var cookingAdapter = CookingAdapter()
 
     private var _binding: FragmentRecipeCookingBinding? = null
     private val binding get() = _binding!!
@@ -41,11 +41,12 @@ class RecipeCookingFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.rvSteps.layoutManager = LinearLayoutManager(context)
+        val cookingAdapter = StepAdapter { uri -> PictureDialog(uri).show(requireActivity().supportFragmentManager, "Picture") }
         binding.rvSteps.adapter = cookingAdapter
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.recipeState.collect { state ->
-                    if (state is RecipeScreenState.DataUpdated) cookingAdapter.differ.forceSubmitList(state.recipe.cooking)
+                    if (state is RecipeScreenState.DataLoaded) cookingAdapter.differ.forceSubmitList(state.recipe.cooking)
                 }
             }
         }

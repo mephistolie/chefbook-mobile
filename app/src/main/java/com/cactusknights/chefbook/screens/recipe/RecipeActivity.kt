@@ -14,7 +14,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import coil.ImageLoader
 import coil.imageLoader
-import coil.request.CachePolicy
 import coil.request.ImageRequest
 import coil.util.CoilUtils
 import com.cactusknights.chefbook.R
@@ -50,10 +49,9 @@ class RecipeActivity : AppCompatActivity() {
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
         if (result.resultCode == RESULT_OK) {
-            val editedRecipe: DecryptedRecipe? =
-                result.data?.extras?.get("recipe") as DecryptedRecipe?
+            val editedRecipe: DecryptedRecipe? = result.data?.extras?.get("recipe") as DecryptedRecipe?
             if (editedRecipe != null) {
-                viewModel.obtainEvent(RecipeScreenEvent.LoadRecipe(editedRecipe, this))
+                viewModel.obtainEvent(RecipeScreenEvent.LoadRecipe(editedRecipe.id, editedRecipe.remoteId))
             } else {
                 applicationContext.showToast(resources.getString(R.string.failed_edit_recipe))
             }
@@ -68,14 +66,18 @@ class RecipeActivity : AppCompatActivity() {
         setContentView(binding.root)
         picturesLoader = imageLoader
 
+        var id: Int? = null
+        var remoteId: Int? = null
+
         val uri = intent.data
         if (uri != null) {
-            val url = uri.toString().substring(uri.toString().indexOfLast { it == '/' } + 1)
-            viewModel.obtainEvent(RecipeScreenEvent.LoadRecipeByRemoteId(url.toInt()))
+            remoteId = uri.lastPathSegment?.toInt()
         } else {
-            val recipe = intent.extras?.get("recipe") as DecryptedRecipe
-            viewModel.obtainEvent(RecipeScreenEvent.LoadRecipe(recipe, this))
+            id = intent.extras?.get(idExtra) as Int?
+            remoteId = intent.extras?.get(remoteIdExtra) as Int?
         }
+
+        viewModel.obtainEvent(RecipeScreenEvent.LoadRecipe(id, remoteId))
 
         binding.svRecipe.adapter = RecipeViewPagerAdapter(supportFragmentManager, this.lifecycle)
         TabLayoutMediator(binding.tlRecipe, binding.svRecipe) { tab, position ->
@@ -105,9 +107,7 @@ class RecipeActivity : AppCompatActivity() {
         })
 
         binding.btnBack.setOnClickListener { onBackPressed() }
-        binding.btnMore.setOnClickListener {
-            recipeMenu.show(supportFragmentManager, "Recipe Menu")
-        }
+        binding.btnMore.setOnClickListener { recipeMenu.show(supportFragmentManager, "Recipe Menu") }
 
         binding.btnLiked.setOnClickListener { viewModel.obtainEvent(RecipeScreenEvent.ChangeLikeStatus) }
         binding.btnFavourite.setOnClickListener { viewModel.obtainEvent(RecipeScreenEvent.ChangeFavouriteStatus) }
@@ -123,7 +123,7 @@ class RecipeActivity : AppCompatActivity() {
     private fun render(state: RecipeScreenState) {
         when (state) {
             RecipeScreenState.Loading -> {}
-            is RecipeScreenState.DataUpdated -> {
+            is RecipeScreenState.DataLoaded -> {
                 if (state.key != null && picturesLoader == imageLoader) {
                     picturesLoader = ImageLoader.Builder(this)
                         .okHttpClient {
@@ -166,7 +166,6 @@ class RecipeActivity : AppCompatActivity() {
 
                 binding.btnAddToRecipes.visibility =
                     if (state.recipe.isOwned) View.GONE else View.VISIBLE
-                binding.btnMore.visibility = if (state.recipe.isOwned) View.VISIBLE else View.GONE
             }
         }
     }
@@ -190,5 +189,10 @@ class RecipeActivity : AppCompatActivity() {
             }
             is RecipeScreenViewEffect.RecipeDeleted -> finish()
         }
+    }
+
+    companion object {
+        const val idExtra = "id"
+        const val remoteIdExtra = "remote_id"
     }
 }

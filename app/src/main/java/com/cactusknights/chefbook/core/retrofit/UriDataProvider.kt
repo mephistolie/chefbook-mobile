@@ -6,19 +6,29 @@ import java.io.File
 import java.io.IOException
 import javax.inject.Inject
 
+enum class UriType {
+    PATH, LINK
+}
+
 interface UriDataProvider {
-    suspend fun getData(uri: String) : ByteArray
+    suspend fun getData(uriString: String) : ByteArray
+    suspend fun getUriType(uriString: String) : UriType
 }
 
 class UriDataProviderImpl @Inject constructor(private val api: CommonApi) : UriDataProvider {
 
-    override suspend fun getData(uri: String) : ByteArray {
-        if (URLUtil.isValidUrl(uri)) {
-            val response = api.getFile(uri)
+    override suspend fun getData(uriString: String) : ByteArray {
+        return if (URLUtil.isValidUrl(uriString)) {
+            val response = api.getFile(uriString)
             if (response.code() != 200 || response.body() == null) throw IOException()
-            return response.body()!!.byteStream().readBytes()
+            response.body()!!.byteStream().readBytes()
         } else {
-            return File(uri).readBytes()
+            File(uriString).readBytes()
         }
+    }
+
+    override suspend fun getUriType(uriString: String) : UriType {
+        return if (URLUtil.isValidUrl(uriString)) { UriType.LINK }
+        else { UriType.PATH }
     }
 }

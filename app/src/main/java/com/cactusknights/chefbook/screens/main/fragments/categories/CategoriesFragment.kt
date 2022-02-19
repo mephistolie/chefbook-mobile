@@ -11,7 +11,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
-import com.cactusknights.chefbook.common.Utils.forceSubmitList
+import com.cactusknights.chefbook.common.forceSubmitList
 import com.cactusknights.chefbook.databinding.FragmentCategoriesBinding
 import com.cactusknights.chefbook.models.Category
 import com.cactusknights.chefbook.screens.main.NavigationViewModel
@@ -51,9 +51,8 @@ class CategoriesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.rvContent.layoutManager = GridLayoutManager(context, 4)
+        binding.rvContent.setHasFixedSize(true)
         binding.rvContent.adapter = categoriesAdapter
-        binding.rvContent.addItemDecoration(CategoryItemDecoration())
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {

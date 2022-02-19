@@ -14,7 +14,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.cactusknights.chefbook.common.Utils.forceSubmitList
+import com.cactusknights.chefbook.common.forceSubmitList
 import com.cactusknights.chefbook.databinding.FragmentShoppingListBinding
 import com.cactusknights.chefbook.models.Purchase
 import com.cactusknights.chefbook.models.ShoppingList

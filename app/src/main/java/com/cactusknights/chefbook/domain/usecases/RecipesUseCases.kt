@@ -1,26 +1,32 @@
 package com.cactusknights.chefbook.domain.usecases
 
 import com.cactusknights.chefbook.common.usecases.Result
-import com.cactusknights.chefbook.domain.RecipesRepository
+import com.cactusknights.chefbook.domain.RecipeBookSyncRepo
+import com.cactusknights.chefbook.domain.RecipeCrudRepo
+import com.cactusknights.chefbook.domain.RecipeInteractionRepo
 import com.cactusknights.chefbook.models.DecryptedRecipe
 import com.cactusknights.chefbook.models.Recipe
+import com.cactusknights.chefbook.models.RecipeInfo
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import retrofit2.HttpException
-import java.io.IOException
+import java.lang.Exception
 import javax.inject.Inject
 
-class RecipesUseCases @Inject constructor(private val repository: RecipesRepository) {
+class RecipesUseCases @Inject constructor(
+    private val recipeBookRepo: RecipeBookSyncRepo,
+    private val recipeCrudRepo: RecipeCrudRepo,
+    private val recipeInteractionRepo: RecipeInteractionRepo,
+) {
 
-    suspend fun listenToRecipes() = repository.listenToUserRecipes()
+    suspend fun listenToRecipes() = recipeBookRepo.listenToRecipeBook()
 
-    suspend fun getRecipes(): Flow<Result<List<Recipe>>> = flow {
+    suspend fun getRecipeBook(): Flow<Result<List<RecipeInfo>>> = flow {
         try {
             emit(Result.Loading)
-            val recipes = repository.getRecipes()
+            val recipes = recipeBookRepo.getRecipeBook()
             emit(Result.Success(recipes))
-        } catch (e: IOException) {
+        } catch (e: Exception) {
             emit(Result.Error(e))
         }
     }
@@ -28,19 +34,19 @@ class RecipesUseCases @Inject constructor(private val repository: RecipesReposit
     suspend fun addRecipe(recipe: DecryptedRecipe): Flow<Result<Recipe>> = flow {
         try {
             emit(Result.Loading)
-            val committedRecipe = repository.addRecipe(recipe)
+            val committedRecipe = recipeCrudRepo.createRecipe(recipe)
             emit(Result.Success(committedRecipe))
-        } catch (e: IOException) {
+        } catch (e: Exception) {
             emit(Result.Error(e))
         }
     }
 
-    suspend fun getRecipe(recipeId: Int): Flow<Result<Recipe>> = flow {
+    suspend fun getRecipeById(recipeId: Int): Flow<Result<Recipe>> = flow {
         try {
             emit(Result.Loading)
-            val recipes = repository.getRecipe(recipeId)
+            val recipes = recipeCrudRepo.getRecipeById(recipeId)
             emit(Result.Success(recipes))
-        } catch (e: IOException) {
+        } catch (e: Exception) {
             emit(Result.Error(e))
         }
     }
@@ -48,9 +54,9 @@ class RecipesUseCases @Inject constructor(private val repository: RecipesReposit
     suspend fun getRecipeByRemoteId(remoteId: Int): Flow<Result<Recipe>> = flow {
         try {
             emit(Result.Loading)
-            val recipes = repository.getRecipeByRemoteId(remoteId)
+            val recipes = recipeCrudRepo.getRecipeByRemoteId(remoteId)
             emit(Result.Success(recipes))
-        } catch (e: IOException) {
+        } catch (e: Exception) {
             emit(Result.Error(e))
         }
     }
@@ -58,9 +64,9 @@ class RecipesUseCases @Inject constructor(private val repository: RecipesReposit
     suspend fun updateRecipe(recipe: DecryptedRecipe): Flow<Result<Recipe>> = flow {
         try {
             emit(Result.Loading)
-            repository.updateRecipe(recipe)
+            recipeCrudRepo.updateRecipe(recipe)
             emit(Result.Success(recipe))
-        } catch (e: IOException) {
+        } catch (e: Exception) {
             emit(Result.Error(e))
         }
     }
@@ -69,9 +75,9 @@ class RecipesUseCases @Inject constructor(private val repository: RecipesReposit
     suspend fun deleteRecipe(recipe: Recipe): Flow<Result<Any>> = flow {
         try {
             emit(Result.Loading)
-            repository.deleteRecipe(recipe)
+            recipeCrudRepo.deleteRecipe(recipe)
             emit(Result.Success(null))
-        } catch (e: IOException) {
+        } catch (e: Exception) {
             emit(Result.Error(e))
         }
     }
@@ -79,9 +85,9 @@ class RecipesUseCases @Inject constructor(private val repository: RecipesReposit
     suspend fun setRecipeFavouriteStatus(recipe: Recipe): Flow<Result<Any>> = flow {
         try {
             emit(Result.Loading)
-            repository.setRecipeFavouriteStatus(recipe)
+            recipeInteractionRepo.setRecipeFavouriteStatus(recipe)
             emit(Result.Success(recipe))
-        } catch (e: IOException) {
+        } catch (e: Exception) {
             emit(Result.Error(e))
         }
     }
@@ -89,9 +95,9 @@ class RecipesUseCases @Inject constructor(private val repository: RecipesReposit
     suspend fun setRecipeLikeStatus(recipe: Recipe): Flow<Result<Any>> = flow {
         try {
             emit(Result.Loading)
-            repository.setRecipeLikeStatus(recipe)
+            recipeInteractionRepo.setRecipeLikeStatus(recipe)
             emit(Result.Success(recipe))
-        } catch (e: IOException) {
+        } catch (e: Exception) {
             emit(Result.Error(e))
         }
     }
@@ -99,9 +105,9 @@ class RecipesUseCases @Inject constructor(private val repository: RecipesReposit
     suspend fun setRecipeCategories(recipe: Recipe): Flow<Result<Any>> = flow {
         try {
             emit(Result.Loading)
-            repository.setRecipeCategories(recipe)
+            recipeInteractionRepo.setRecipeCategories(recipe)
             emit(Result.Success(recipe))
-        } catch (e: IOException) {
+        } catch (e: Exception) {
             emit(Result.Error(e))
         }
     }

@@ -9,12 +9,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.cactusknights.chefbook.R
 import com.cactusknights.chefbook.databinding.CellAddCategoryBinding
 import com.cactusknights.chefbook.databinding.CellCategoryBinding
+import com.cactusknights.chefbook.databinding.CellSelectableEditBinding
 import com.cactusknights.chefbook.models.Category
 
 class CategoryAdapter(val openCategoryListener: (Int) -> Unit, val addCategoryListener: () -> Unit, val updateCategoryListener: (Category) -> Unit) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    inner class CategoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val binding = CellCategoryBinding.bind(itemView)
+    inner class CategoryViewHolder(val binding: CellCategoryBinding) : RecyclerView.ViewHolder(binding.root) {
 
         init {
             binding.root.setOnClickListener {
@@ -53,8 +53,7 @@ class CategoryAdapter(val openCategoryListener: (Int) -> Unit, val addCategoryLi
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return if (viewType == R.layout.cell_category) {
-            val v = LayoutInflater.from(parent.context).inflate(R.layout.cell_category, parent, false)
-            CategoryViewHolder(v)
+            CategoryViewHolder(CellCategoryBinding.inflate(LayoutInflater.from(parent.context), parent, false))
         } else {
             val v = LayoutInflater.from(parent.context).inflate(R.layout.cell_add_category, parent, false)
             AddViewHolder(v)

@@ -7,10 +7,11 @@ import javax.crypto.SecretKey
 
 sealed class RecipeScreenState {
     object Loading : RecipeScreenState()
-    class DataUpdated(
+    class DataLoaded(
         val recipe: DecryptedRecipe,
         val categories: List<Category>,
         val selectedIngredients: List<Selectable<String>>,
         val key: SecretKey? = null
     ) : RecipeScreenState()
+    object Error : RecipeScreenState()
 }

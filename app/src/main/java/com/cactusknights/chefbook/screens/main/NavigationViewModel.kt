@@ -2,21 +2,37 @@ package com.cactusknights.chefbook.screens.main
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.cactusknights.chefbook.SettingsProto
 import com.cactusknights.chefbook.common.mvi.EventHandler
+import com.cactusknights.chefbook.core.datastore.SettingsManager
+import com.cactusknights.chefbook.domain.usecases.SettingsUseCases
 import com.cactusknights.chefbook.screens.main.models.NavigationEffect
 import com.cactusknights.chefbook.screens.main.models.NavigationEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.SharedFlow
-import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class NavigationViewModel @Inject constructor() : ViewModel(), EventHandler<NavigationEvent> {
+class NavigationViewModel @Inject constructor(
+    settings: SettingsUseCases
+) : ViewModel(), EventHandler<NavigationEvent> {
 
     private val _viewEffect: MutableSharedFlow<NavigationEffect> = MutableSharedFlow(replay = 0, extraBufferCapacity = 0)
     val viewEffect: SharedFlow<NavigationEffect> = _viewEffect.asSharedFlow()
+
+    init {
+        viewModelScope.launch {
+            if (settings.getSettings().defaultTab == SettingsProto.Tabs.SHOPPING_LIST) {
+                _viewEffect.emit(NavigationEffect.StartShoppingListFragment)
+            } else {
+                _viewEffect.emit(NavigationEffect.StartRecipesFragment)
+            }
+            settings.listenToSettings().collect { settings ->
+                _viewEffect.emit(NavigationEffect.SetTheme(settings.appTheme))
+            }
+        }
+    }
 
     override fun obtainEvent(event: NavigationEvent) {
         viewModelScope.launch {

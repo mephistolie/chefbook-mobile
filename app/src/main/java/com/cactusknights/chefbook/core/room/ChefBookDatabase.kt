@@ -2,11 +2,12 @@ package com.cactusknights.chefbook.core.room
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.cactusknights.chefbook.repositories.local.dao.CategoriesDao
-import com.cactusknights.chefbook.repositories.local.dao.RecipesDao
-import com.cactusknights.chefbook.repositories.local.entities.CategoryEntity
-import com.cactusknights.chefbook.repositories.local.entities.RecipeEntity
-import com.cactusknights.chefbook.repositories.local.entities.RecipesCategoriesEntity
+import com.cactusknights.chefbook.data.sources.local.dao.CategoriesDao
+import com.cactusknights.chefbook.data.sources.local.dao.RecipeBookDao
+import com.cactusknights.chefbook.data.sources.local.dao.RecipeInteractionDao
+import com.cactusknights.chefbook.data.sources.local.entities.CategoryEntity
+import com.cactusknights.chefbook.data.sources.local.entities.RecipeEntity
+import com.cactusknights.chefbook.data.sources.local.entities.RecipesCategoriesEntity
 
 @Database(
     entities = [
@@ -14,6 +15,7 @@ import com.cactusknights.chefbook.repositories.local.entities.RecipesCategoriesE
     ], version = 1, exportSchema = true
 )
 abstract class ChefBookDatabase: RoomDatabase() {
-    abstract fun recipesDao(): RecipesDao
+    abstract fun recipeBookDao(): RecipeBookDao
+    abstract fun recipeInteractionDao(): RecipeInteractionDao
     abstract fun categoriesDao(): CategoriesDao
 }

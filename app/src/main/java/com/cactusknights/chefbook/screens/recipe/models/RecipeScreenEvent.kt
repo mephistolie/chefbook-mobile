@@ -4,8 +4,7 @@ import android.content.Context
 import com.cactusknights.chefbook.models.DecryptedRecipe
 
 sealed class RecipeScreenEvent {
-    class LoadRecipe(val recipe: DecryptedRecipe, val context: Context) : RecipeScreenEvent()
-    class LoadRecipeByRemoteId(val remoteId: Int) : RecipeScreenEvent()
+    class LoadRecipe(val id: Int?, val remoteId: Int?) : RecipeScreenEvent()
     object ChangeLikeStatus : RecipeScreenEvent()
     object AddRecipeToRecipeBook : RecipeScreenEvent()
     object ChangeFavouriteStatus : RecipeScreenEvent()

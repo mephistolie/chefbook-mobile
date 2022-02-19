@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/shopping_list"
+        android:enabled="true"
+        android:title="@string/private_recipe"
+        android:icon="@drawable/ic_list" />
+
+    <item
+        android:id="@+id/recipes"
+        android:enabled="true"
+        android:title="@string/shared_recipe"
+        android:icon="@drawable/ic_recipes" />
+
+    <item
+        android:id="@+id/pr"
+        android:enabled="true"
+        android:title="@string/public_recipe"
+        android:icon="@drawable/ic_user" />
+
+</menu>

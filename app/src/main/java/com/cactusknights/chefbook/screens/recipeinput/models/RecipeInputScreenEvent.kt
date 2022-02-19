@@ -2,6 +2,7 @@ package com.cactusknights.chefbook.screens.recipeinput.models
 
 import android.content.Context
 import com.cactusknights.chefbook.models.DecryptedRecipe
+import com.cactusknights.chefbook.models.Recipe
 import com.cactusknights.chefbook.models.Visibility
 
 sealed class RecipeInputScreenEvent {
@@ -17,6 +18,8 @@ sealed class RecipeInputScreenEvent {
     class InputDescription(val description: String) : RecipeInputScreenEvent()
     class SetPreview(val uri: String, val context: Context) : RecipeInputScreenEvent()
     object DeletePreview : RecipeInputScreenEvent()
+    class AddStepPicture(val stepIndex: Int, val uri: String, val context: Context) : RecipeInputScreenEvent()
+    class DeleteStepPicture(val stepIndex: Int, val pictureIndex: Int) : RecipeInputScreenEvent()
 
     object ConfirmInput : RecipeInputScreenEvent()
 }

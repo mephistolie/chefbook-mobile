@@ -54,18 +54,9 @@ class SettingsFragment: Fragment() {
 
         binding.cvTheme.setOnClickListener {
             when (settings.appTheme) {
-                SettingsProto.AppTheme.LIGHT -> {
-                    viewModel.obtainEvent(SettingsScreenEvent.SetTheme(SettingsProto.AppTheme.DARK))
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-                }
-                SettingsProto.AppTheme.DARK -> {
-                    viewModel.obtainEvent(SettingsScreenEvent.SetTheme(SettingsProto.AppTheme.SYSTEM))
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
-                }
-                else -> {
-                    viewModel.obtainEvent(SettingsScreenEvent.SetTheme(SettingsProto.AppTheme.LIGHT))
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-                }
+                SettingsProto.AppTheme.LIGHT -> viewModel.obtainEvent(SettingsScreenEvent.SetTheme(SettingsProto.AppTheme.DARK))
+                SettingsProto.AppTheme.DARK -> viewModel.obtainEvent(SettingsScreenEvent.SetTheme(SettingsProto.AppTheme.SYSTEM))
+                else -> viewModel.obtainEvent(SettingsScreenEvent.SetTheme(SettingsProto.AppTheme.LIGHT))
             }
         }
 

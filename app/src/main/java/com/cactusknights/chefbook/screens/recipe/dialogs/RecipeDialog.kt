@@ -62,7 +62,7 @@ class RecipeDialog: BottomSheetDialogFragment() {
         clipboard = getSystemService(requireContext(), ClipboardManager::class.java)
         binding.cvShare.setOnClickListener {
             val recipeState = viewModel.recipeState.value
-            if (recipeState is RecipeScreenState.DataUpdated) {
+            if (recipeState is RecipeScreenState.DataLoaded) {
                 shareRecipe(recipeState.recipe)
             }
         }
@@ -86,7 +86,7 @@ class RecipeDialog: BottomSheetDialogFragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.recipeState.collect { state ->
-                    if (state is RecipeScreenState.DataUpdated) {
+                    if (state is RecipeScreenState.DataLoaded) {
                         val recipe = state.recipe
                         if (recipe.remoteId != null) {
                             binding.cvQrCode.visibility = View.VISIBLE

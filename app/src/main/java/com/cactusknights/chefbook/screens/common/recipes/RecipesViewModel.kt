@@ -5,18 +5,14 @@ import androidx.lifecycle.viewModelScope
 import com.cactusknights.chefbook.common.usecases.Result
 import com.cactusknights.chefbook.common.mvi.EventHandler
 import com.cactusknights.chefbook.domain.usecases.EncryptionUseCases
+import com.cactusknights.chefbook.domain.usecases.RecipeEncryptionUseCases
 import com.cactusknights.chefbook.domain.usecases.RecipesUseCases
-import com.cactusknights.chefbook.models.DecryptedRecipe
-import com.cactusknights.chefbook.models.EncryptedRecipe
-import com.cactusknights.chefbook.models.Recipe
-import com.cactusknights.chefbook.models.decrypt
+import com.cactusknights.chefbook.models.*
 import com.cactusknights.chefbook.screens.common.recipes.models.RecipesEvent
 import com.cactusknights.chefbook.screens.common.recipes.models.RecipesState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.crypto.SecretKey
 import javax.inject.Inject
@@ -24,25 +20,32 @@ import javax.inject.Inject
 @HiltViewModel
 class RecipesViewModel @Inject constructor(
     private val recipeUseCases: RecipesUseCases,
-    private val encryptionUseCases: EncryptionUseCases
+    private val encryptionUseCases: EncryptionUseCases,
+    private val recipeEncryptionUseCases: RecipeEncryptionUseCases
 ) : ViewModel(), EventHandler<RecipesEvent> {
 
     private val _recipesState: MutableStateFlow<RecipesState> = MutableStateFlow(RecipesState.Loading)
     val recipesState: StateFlow<RecipesState> = _recipesState.asStateFlow()
 
-    private var recipes : List<Recipe>? = null
-    private var displayedRecipes: List<DecryptedRecipe> = listOf()
+    private var recipes : List<RecipeInfo>? = null
+    private var displayedRecipes: List<RecipeInfo> = listOf()
 
-    private var storageUnlocked : StateFlow<Boolean> = MutableStateFlow(false).asStateFlow()
+    private var storageUnlocked : Boolean = false
 
     private var keys : MutableMap<String, SecretKey> = mutableMapOf()
 
-    fun listenToUpdates() {
+    private var recipeListeningJob : Job? = null
+
+    init {
         viewModelScope.launch {
-            launch { recipeUseCases.listenToRecipes().collect {  processData(it) } }
+            listenToRecipes()
             launch {
-                storageUnlocked = encryptionUseCases.listenToUnlockedState()
-                storageUnlocked.collect { processData(recipes) }
+                encryptionUseCases.listenToUnlockedState().collect {
+                    if (it != storageUnlocked) {
+                        storageUnlocked = it
+                        processData(recipes)
+                    }
+                }
             }
         }
     }
@@ -50,24 +53,30 @@ class RecipesViewModel @Inject constructor(
     override fun obtainEvent(event: RecipesEvent) {
         viewModelScope.launch {
             when (event) {
+                is RecipesEvent.ListenRecipes -> listenToRecipes()
                 is RecipesEvent.SearchRecipe -> searchRecipe(event.query)
             }
         }
     }
 
-    private suspend fun processData(data: List<Recipe>?) {
+    private fun listenToRecipes() {
+        recipeListeningJob?.cancel()
+        recipeListeningJob = viewModelScope.launch { recipeUseCases.listenToRecipes().collect { processData(it) } }
+    }
+
+    private suspend fun processData(data: List<RecipeInfo>?) {
         if (data != null) {
             recipes = data
-            displayedRecipes = recipes!!.filterIsInstance(DecryptedRecipe::class.java)
-            if (storageUnlocked.value) {
-                val encryptedRecipes = recipes!!.filterIsInstance(EncryptedRecipe::class.java)
-                val decryptedRecipes = arrayListOf<DecryptedRecipe>()
+            displayedRecipes = recipes!!.filter { !it.isEncrypted }
+            if (storageUnlocked) {
+                val encryptedRecipes = recipes!!.filter { it.isEncrypted }
+                val decryptedRecipes = arrayListOf<RecipeInfo>()
                 decryptedRecipes.addAll(displayedRecipes)
                 encryptedRecipes.forEach { recipe ->
                     try {
-                        encryptionUseCases.getRecipeKey(recipe).collect { result ->
+                        recipeEncryptionUseCases.getRecipeKey(recipe).collect { result ->
                             if (result is Result.Success) {
-                                decryptedRecipes.add(recipe.decrypt { data -> encryptionUseCases.decryptRecipeData(data, result.data!!) })
+                                decryptedRecipes.add(recipe.decrypt { data -> recipeEncryptionUseCases.decryptRecipeData(data, result.data!!) })
                                 val preview = recipe.preview
                                 if (preview != null) {
                                     keys[preview] = result.data!!

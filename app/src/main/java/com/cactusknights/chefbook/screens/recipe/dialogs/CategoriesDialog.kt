@@ -10,7 +10,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.cactusknights.chefbook.common.Utils.forceSubmitList
+import com.cactusknights.chefbook.common.forceSubmitList
 import com.cactusknights.chefbook.databinding.DialogCategoriesBinding
 import com.cactusknights.chefbook.models.Selectable
 import com.cactusknights.chefbook.screens.recipe.RecipeViewModel
@@ -49,7 +49,7 @@ class CategoriesDialog : DialogFragment() {
 
         lifecycleScope.launchWhenResumed {
             viewModel.recipeState.collect { state ->
-                if (state is RecipeScreenState.DataUpdated) {
+                if (state is RecipeScreenState.DataLoaded) {
                     val cachedSelectedIds = categoriesAdapter.differ.currentList.filter { it.isSelected }.map { it.item?.id }
                     val newCategories = state.categories.map { Selectable(
                         item = it,

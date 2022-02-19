@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.cactusknights.chefbook.common.mvi.EventHandler
 import com.cactusknights.chefbook.domain.usecases.AuthUseCases
-import com.cactusknights.chefbook.domain.usecases.UserUseCases
+import com.cactusknights.chefbook.domain.usecases.ProfileUseCases
 import com.cactusknights.chefbook.screens.main.fragments.profile.models.ProfileScreenEvent
 import com.cactusknights.chefbook.screens.main.fragments.profile.models.ProfileScreenState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,7 +18,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ProfileFragmentViewModel @Inject constructor(
     private val authUseCases: AuthUseCases,
-    private val userUseCases: UserUseCases
+    private val userUseCases: ProfileUseCases
 ) : ViewModel(), EventHandler<ProfileScreenEvent> {
 
     private val _profileState: MutableStateFlow<ProfileScreenState> = MutableStateFlow(
@@ -28,8 +28,11 @@ class ProfileFragmentViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             launch { userUseCases.getUserInfo().collect {} }
-            userUseCases.listenToUser().collect { if (it != null) _profileState.emit(
-                ProfileScreenState.ProfileLoaded(it)) }
+            launch {
+                userUseCases.listenToUser().collect { if (it != null)
+                    _profileState.emit(ProfileScreenState.ProfileLoaded(it))
+                }
+            }
         }
     }
 

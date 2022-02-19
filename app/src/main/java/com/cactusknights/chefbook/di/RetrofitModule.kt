@@ -4,7 +4,7 @@ import com.cactusknights.chefbook.core.retrofit.interceptors.AuthInterceptor
 import com.cactusknights.chefbook.common.retrofit.CommonApi
 import com.cactusknights.chefbook.core.datastore.SessionManager
 import com.cactusknights.chefbook.core.datastore.SettingsManager
-import com.cactusknights.chefbook.repositories.remote.api.*
+import com.cactusknights.chefbook.data.sources.remote.api.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -78,13 +78,13 @@ class RetrofitModule {
 
     @Provides
     @Singleton
-    fun provideUsersApi(okHttpClient: OkHttpClient): UsersApi =
+    fun provideUsersApi(okHttpClient: OkHttpClient): ProfileApi =
         Retrofit.Builder()
             .baseUrl(API_URL)
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-            .create(UsersApi::class.java)
+            .create(ProfileApi::class.java)
 
     @Provides
     @Singleton

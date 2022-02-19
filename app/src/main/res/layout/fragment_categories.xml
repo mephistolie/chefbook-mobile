@@ -8,11 +8,13 @@
     android:orientation="vertical"
     android:paddingHorizontal="16dp">
 
-    <androidx.recyclerview.widget.RecyclerView
+    <com.cactusknights.chefbook.screens.common.views.AutoFitRecyclerView
         android:id="@+id/rv_content"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="16dp"
+        android:clipToPadding="false"
+        android:columnWidth="80dp"
         android:gravity="center"
         android:layoutAnimation="@anim/anim_layout_recipes"
         android:orientation="vertical"
@@ -23,7 +25,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:spanCount="4"
         tools:itemCount="20"
         tools:listitem="@layout/cell_category" />
 

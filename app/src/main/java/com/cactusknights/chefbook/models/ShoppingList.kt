@@ -8,7 +8,7 @@ import java.util.*
 
 data class ShoppingList(
     var purchases: List<Purchase>,
-    var timestamp: Date = Date()
+    var timestamp: Date = Date(Calendar.getInstance(TimeZone.getTimeZone("UTC")).timeInMillis)
 ) : Serializable {}
 
 data class Purchase(

@@ -5,7 +5,7 @@ import com.cactusknights.chefbook.TokensProto
 import com.cactusknights.chefbook.core.datastore.SettingsManager
 import com.cactusknights.chefbook.core.datastore.SessionManager
 import com.cactusknights.chefbook.core.retrofit.RefreshToken
-import com.cactusknights.chefbook.repositories.remote.api.SessionApi
+import com.cactusknights.chefbook.data.sources.remote.api.SessionApi
 import kotlinx.coroutines.runBlocking
 import okhttp3.*
 import javax.inject.Inject
@@ -24,7 +24,6 @@ class AuthInterceptor @Inject constructor(
             runBlocking {
                 val tokenResponse = api.refreshSession(RefreshToken(session.getRefreshToken()))
                 if (tokenResponse.isSuccessful) {
-                    response.body
                     session.saveTokens(
                         TokensProto.newBuilder()
                             .setAccessToken(tokenResponse.body()?.accessToken)

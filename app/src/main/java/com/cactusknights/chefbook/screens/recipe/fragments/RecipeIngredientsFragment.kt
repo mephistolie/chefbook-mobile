@@ -50,7 +50,7 @@ class RecipeIngredientsFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.recipeState.collect { state ->
-                    if (state is RecipeScreenState.DataUpdated) {
+                    if (state is RecipeScreenState.DataLoaded) {
                         ingredientsAdapter.differ.submitList(state.recipe.ingredients.mapIndexed { index, ingredient -> Selectable(ingredient, state.selectedIngredients[index].isSelected) })
                         binding.btnAddToShoplist.visibility = if (state.selectedIngredients.any { it.isSelected }) View.VISIBLE else View.GONE
                     }

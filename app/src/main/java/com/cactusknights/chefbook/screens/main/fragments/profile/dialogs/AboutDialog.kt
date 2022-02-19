@@ -10,6 +10,7 @@ import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.DialogFragment
 import com.cactusknights.chefbook.common.Utils
+import com.cactusknights.chefbook.common.openMail
 import com.cactusknights.chefbook.databinding.DialogInfoBinding
 
 class AboutDialog: DialogFragment() {
@@ -24,7 +25,7 @@ class AboutDialog: DialogFragment() {
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
         binding.textSupport.setOnClickListener {
-            Utils.sendEmail(requireContext())
+            requireContext().openMail()
         }
 
         binding.cvVk.setOnClickListener { openVkGroup() }

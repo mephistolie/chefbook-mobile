@@ -226,7 +226,7 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/text_recently_added"
+                        android:id="@+id/text_quick_access"
                         style="@style/TextAppearance.ChefBook.Header.3"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -237,7 +237,7 @@
                         android:id="@+id/rv_quick_access"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="12dp"
                         android:layout_marginEnd="8dp"
                         android:fadingEdgeLength="8dp"
                         android:requiresFadingEdge="horizontal"
@@ -247,7 +247,7 @@
                         android:id="@+id/shimmer_quick_access"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="12dp"
                         android:layout_marginEnd="8dp"
                         android:visibility="gone">
 
@@ -292,7 +292,6 @@
                             android:id="@+id/iv_sort"
                             android:layout_width="24dp"
                             android:layout_height="24dp"
-                            android:layout_marginEnd="8dp"
                             android:layout_weight="0"
                             android:src="@drawable/ic_sort" />
 
@@ -303,7 +302,7 @@
                         android:id="@+id/rv_all_recipes"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="12dp"
                         android:nestedScrollingEnabled="false"
                         android:visibility="visible"
                         tools:listitem="@layout/cell_recipe" />
@@ -312,7 +311,7 @@
                         android:id="@+id/shimmer_recipes"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="12dp"
                         android:visibility="gone">
 
                         <LinearLayout
