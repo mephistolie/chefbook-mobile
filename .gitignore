@@ -36,3 +36,8 @@ output.json
 #NDK
 /obj
 .externalNativeBuild
+app/release/
+
+app/google-services.json
+
+app/src/main/res/values/font_certs.xml

@@ -1,23 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="deep_orange">#ff5722</color>
-    <color name="deep_orange_light">#ff8a50</color>
     <color name="deep_orange_dark">#754027</color>
 
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="white_transparent">#00FFFFFF</color>
 
     <color name="ic_launcher_background">@color/white</color>
 
     <color name="monochrome">@color/white</color>
     <color name="monochrome_invert">@color/black</color>
 
-    <color name="app_background">@color/white</color>
-    <color name="input_background">#F2F2F2</color>
+    <color name="app_background">#F6F6F6</color>
     <color name="hint_background">#bfbfbf</color>
     <color name="secondary_text_tint">#3F3F3F</color>
-    <color name="navigation_background">#F7F7F7</color>
+    <color name="navigation_primary">@color/monochrome</color>
+    <color name="navigation_secondary">#e5e5e5</color>
     <color name="navigation_ripple">#666666</color>
     <color name="recently_added_subtext">#e5e5e5</color>
+
+    <color name="app_background_alt">@color/white</color>
+    <color name="navigation_primary_alt">@color/app_background</color>
+    <color name="input_background">#f2f2f2</color>
+    <color name="input_background_nav">#eeeeee</color>
+
+    <color name="text_primary">@color/monochrome_invert</color>
+    <color name="secondary_text">#808080</color>
+
+    <color name="deep_orange_light">#ff8a50</color>
+    <color name="red_light">#ff7961</color>
+    <color name="green_light">#80e27e</color>
+    <color name="blue_light">#6ec6ff</color>
+    <color name="pink_light">#ff6090</color>
+    <color name="purple_light">#d05ce3</color>
+    <color name="deep_purple_light">#9a67ea</color>
+    <color name="indigo_light">#757de8</color>
+    <color name="cyan_light">#62efff</color>
+    <color name="yellow_light">#ffff72</color>
+    <color name="orange_light">#ffc947</color>
+    <color name="brown_light">#a98274</color>
+    <color name="grey_light">#cfcfcf</color>
+    <color name="blue_grey_light">#8eacbb</color>
+
+    <color name="deep_orange_light_background">#3fff8a50</color>
+    <color name="red_light_background">#3fff7961</color>
+    <color name="green_light_background">#3f80e27e</color>
+    <color name="blue_light_background">#3f6ec6ff</color>
+    <color name="pink_light_background">#3fff6090</color>
+    <color name="grey_light_background">#3fcfcfcf</color>
+    <color name="blue_grey_light_background">#3f8eacbb</color>
+    <color name="deep_purple_light_background">#3f9a67ea</color>
+    <color name="orange_light_background">#3fffc947</color>
+    <color name="elevation_color">#0d000000</color>
 
 </resources>

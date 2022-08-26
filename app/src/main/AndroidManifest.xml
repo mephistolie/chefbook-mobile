@@ -2,36 +2,72 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.cactusknights.chefbook">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28" />
 
     <application
-        android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:name="com.cactusknights.ChefBookApp"
+        android:hardwareAccelerated="true"
+        android:icon="@mipmap/ic_broccy_icon"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/ic_broccy_icon_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ChefBook">
-        <activity android:name="com.cactusknights.chefbook.activities.MainActivity"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustPan">
+        <activity
+            android:name="com.cactusknights.chefbook.ui.screens.MainActivity"
+            android:theme="@style/Theme.ChefBook"
+            android:screenOrientation="portrait"
+            android:exported="true">
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="http" android:host="chefbook.space" />
+                <data android:scheme="https" android:host="chefbook.space" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.canhub.cropper.CropImageActivity"
+            android:theme="@style/Base.Theme.AppCompat"/>
+
+        <activity-alias
+            android:name="com.cactusknights.chefbook.core.StandardIconAlias"
+            android:enabled="true"
+            android:exported="true"
+            android:icon="@mipmap/ic_broccy_icon"
+            android:roundIcon="@mipmap/ic_broccy_icon_round"
+            android:label="ChefBook"
+            android:targetActivity="com.cactusknights.chefbook.ui.screens.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity android:name="com.cactusknights.chefbook.activities.LoginActivity"
-            android:noHistory="true"
-            android:excludeFromRecents="true"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
-        <activity android:name="com.cactusknights.chefbook.activities.RecipeCommitActivity"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
-        <activity android:name="com.cactusknights.chefbook.activities.RecipeActivity" />
+        </activity-alias>
+        <activity-alias
+            android:name="com.cactusknights.chefbook.core.OldIconAlias"
+            android:enabled="false"
+            android:exported="true"
+            android:icon="@mipmap/ic_chefbook_icon"
+            android:roundIcon="@mipmap/ic_chefbook_icon_round"
+            android:label="ChefBook"
+            android:targetActivity="com.cactusknights.chefbook.ui.screens.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
 
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-2240420199912180~7045461636"/>
+            android:value="ca-app-pub-2240420199912180~7045461636" />
     </application>
 
 </manifest>
