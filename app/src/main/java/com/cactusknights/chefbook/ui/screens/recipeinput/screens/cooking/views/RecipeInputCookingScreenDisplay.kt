@@ -22,6 +22,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
@@ -109,13 +110,12 @@ fun RecipeInputCookingScreenDisplay(
                 .detectReorderAfterLongPress(reorderableState),
             horizontalAlignment = Alignment.Start,
         ) {
-            itemsIndexed(state.cooking) { index, item ->
+            itemsIndexed(state.cooking, key = { _, item -> item.id}) { index, item ->
                 ReorderableItem(
                     reorderableState = reorderableState,
-                    key = null,
-                    index = index,
-                    modifier = Modifier,
-                ) {
+                    key = item.id,
+                ) { isDragging ->
+                    if (isDragging) haptic.performHapticFeedback(HapticFeedbackType.LongPress)
                     when (item) {
                         is CookingItem.Section -> {
                             SectionField(

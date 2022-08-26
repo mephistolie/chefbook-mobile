@@ -41,6 +41,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlin.math.max
+import kotlin.math.min
 
 @HiltViewModel
 class RecipeInputScreenViewModel @Inject constructor(
@@ -337,8 +338,8 @@ class RecipeInputScreenViewModel @Inject constructor(
                     item
                 } else {
                     when (item) {
-                        is IngredientItem.Section -> item.copy(name = name)
-                        is IngredientItem.Ingredient -> item.copy(name = name)
+                        is IngredientItem.Section -> item.copy(name = name.substring(0, min(name.length, MAX_NAME_LENGTH)))
+                        is IngredientItem.Ingredient -> item.copy(name = name.substring(0, min(name.length, MAX_NAME_LENGTH)))
                         else -> item
                     }
                 }
@@ -425,7 +426,7 @@ class RecipeInputScreenViewModel @Inject constructor(
 
     private suspend fun setCookingItemValue(
         itemIndex: Int,
-        value: String?,
+        value: String,
     ) {
         val currentState = state.value
         val input = currentState.input
@@ -437,8 +438,8 @@ class RecipeInputScreenViewModel @Inject constructor(
                     item
                 } else {
                     when (item) {
-                        is CookingItem.Section -> item.copy(name = value.orEmpty())
-                        is CookingItem.Step -> item.copy(description = value.orEmpty())
+                        is CookingItem.Section -> item.copy(name = value.substring(0, min(value.length, MAX_NAME_LENGTH)))
+                        is CookingItem.Step -> item.copy(description = value.substring(0, min(value.length, MAX_STEP_LENGTH)))
                         else -> item
                     }
                 }
@@ -568,5 +569,6 @@ class RecipeInputScreenViewModel @Inject constructor(
     companion object {
         private const val MAX_NAME_LENGTH = 100
         private const val MAX_DESCRIPTION_LENGTH = 1500
+        private const val MAX_STEP_LENGTH = 6000
     }
 }
