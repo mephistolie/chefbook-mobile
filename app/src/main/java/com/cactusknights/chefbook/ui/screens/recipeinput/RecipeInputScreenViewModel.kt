@@ -29,6 +29,7 @@ import id.zelory.compressor.constraint.quality
 import id.zelory.compressor.constraint.resolution
 import id.zelory.compressor.constraint.size
 import java.io.File
+import java.util.*
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -86,8 +87,14 @@ class RecipeInputScreenViewModel @Inject constructor(
                 is RecipeInputScreenEvent.SetFats -> setFats(event.fats)
                 is RecipeInputScreenEvent.SetCarbohydrates -> setCarbs(event.carbs)
 
-                is RecipeInputScreenEvent.AddIngredient -> addIngredientItem(IngredientItem.Ingredient(Strings.EMPTY))
-                is RecipeInputScreenEvent.AddIngredientSection -> addIngredientItem(IngredientItem.Section(Strings.EMPTY))
+                is RecipeInputScreenEvent.AddIngredient -> addIngredientItem(IngredientItem.Ingredient(
+                    id = UUID.randomUUID().toString(),
+                    name = Strings.EMPTY,
+                ))
+                is RecipeInputScreenEvent.AddIngredientSection -> addIngredientItem(IngredientItem.Section(
+                    id = UUID.randomUUID().toString(),
+                    Strings.EMPTY
+                ))
                 is RecipeInputScreenEvent.OpenIngredientDialog -> _effect.emit(RecipeInputScreenEffect.OnIngredientDialogOpen(event.index))
                 is RecipeInputScreenEvent.SetIngredientItemName -> setIngredientItemName(event.index, event.name)
                 is RecipeInputScreenEvent.SetIngredientAmount -> setIngredientAmount(event.index, event.amount)
@@ -95,8 +102,14 @@ class RecipeInputScreenViewModel @Inject constructor(
                 is RecipeInputScreenEvent.MoveIngredientItem -> moveIngredientItem(event.from, event.to)
                 is RecipeInputScreenEvent.DeleteIngredientItem -> deleteIngredientItem(event.index)
 
-                is RecipeInputScreenEvent.AddStep -> addCookingItem(CookingItem.Step(Strings.EMPTY))
-                is RecipeInputScreenEvent.AddCookingSection -> addCookingItem(CookingItem.Section(Strings.EMPTY))
+                is RecipeInputScreenEvent.AddStep -> addCookingItem(CookingItem.Step(
+                    id = UUID.randomUUID().toString(),
+                    description = Strings.EMPTY
+                ))
+                is RecipeInputScreenEvent.AddCookingSection -> addCookingItem(CookingItem.Section(
+                    id = UUID.randomUUID().toString(),
+                    name = Strings.EMPTY
+                ))
                 is RecipeInputScreenEvent.SetCookingItemValue -> setCookingItemValue(event.index, event.value)
                 is RecipeInputScreenEvent.AddStepPicture -> addStepPicture(event.stepIndex, event.uri, event.context)
                 is RecipeInputScreenEvent.DeleteStepPicture -> removeStepPicture(event.stepIndex, event.pictureIndex)

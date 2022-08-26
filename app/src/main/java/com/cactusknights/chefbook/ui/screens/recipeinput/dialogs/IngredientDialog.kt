@@ -60,8 +60,7 @@ fun IngredientDialog(
     val typography = ChefBookTheme.typography
 
     val viewModelState = viewModel.state.collectAsState()
-    val ingredient = viewModelState.value.input.ingredients[ingredientIndex] as? IngredientItem.Ingredient
-        ?: IngredientItem.Ingredient("")
+    val ingredient = viewModelState.value.input.ingredients[ingredientIndex] as IngredientItem.Ingredient
 
     Column(
         modifier = Modifier
