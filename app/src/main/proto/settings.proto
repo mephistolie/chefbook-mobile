@@ -4,11 +4,7 @@ option java_package = "com.cactusknights.chefbook";
 option java_multiple_files = true;
 
 message SettingsProto {
-  enum DataSource {
-    LOCAL = 0;
-    REMOTE = 1;
-  }
-  enum UserType {
+  enum AppMode {
     OFFLINE = 0;
     ONLINE = 1;
   }
@@ -21,13 +17,15 @@ message SettingsProto {
     LIGHT = 1;
     DARK = 2;
   }
-  enum Tabs {
-    RECIPES = 0;
+  enum Tab {
+    RECIPE_BOOK = 0;
     SHOPPING_LIST = 1;
   }
-  DataSource dataSource = 1;
-  UserType userType = 2;
-  AppIcon appIcon = 3;
-  AppTheme appTheme = 4;
-  Tabs defaultTab = 5;
+  AppMode appMode = 1;
+  AppIcon appIcon = 2;
+  AppTheme appTheme = 3;
+  Tab defaultTab = 4;
+  bool isFirstAppLaunch = 5;
+  string defaultRecipeLanguage = 6;
+  repeated string onlineRecipesLanguages = 7;
 }

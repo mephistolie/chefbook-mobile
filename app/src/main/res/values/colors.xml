@@ -20,10 +20,13 @@
     <color name="navigation_ripple">#666666</color>
     <color name="recently_added_subtext">#e5e5e5</color>
 
-    <color name="app_background_alt">@color/navigation_primary</color>
+    <color name="app_background_alt">@color/white</color>
     <color name="navigation_primary_alt">@color/app_background</color>
-    <color name="input_background">#eeeeee</color>
+    <color name="input_background">#f2f2f2</color>
     <color name="input_background_nav">#eeeeee</color>
+
+    <color name="text_primary">@color/monochrome_invert</color>
+    <color name="secondary_text">#808080</color>
 
     <color name="deep_orange_light">#ff8a50</color>
     <color name="red_light">#ff7961</color>

@@ -4,16 +4,21 @@ import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.core.DataStoreFactory
 import androidx.datastore.dataStoreFile
-import com.cactusknights.chefbook.*
-import com.cactusknights.chefbook.core.datastore.*
+import com.cactusknights.chefbook.LatestRecipesProto
+import com.cactusknights.chefbook.ProfileProto
+import com.cactusknights.chefbook.SettingsProto
+import com.cactusknights.chefbook.ShoppingListProto
+import com.cactusknights.chefbook.TokensProto
+import com.cactusknights.chefbook.core.datastore.LatestRecipesSerializer
+import com.cactusknights.chefbook.core.datastore.ProfileSerializer
+import com.cactusknights.chefbook.core.datastore.SettingsSerializer
+import com.cactusknights.chefbook.core.datastore.ShoppingListSerializer
+import com.cactusknights.chefbook.core.datastore.TokensSerializer
 import dagger.Module
 import dagger.Provides
-import dagger.Reusable
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import java.io.File
-import javax.inject.Qualifier
 import javax.inject.Singleton
 
 @Module
@@ -24,7 +29,7 @@ class DataStoreModule {
         const val SETTINGS_FILE = "settings.proto"
         const val TOKENS_FILE = "tokens.proto"
         const val PROFILE_FILE = "profile.proto"
-        const val SYNC_DATA_FILE = "sync_data.proto"
+        const val LATEST_RECIPES_FILE = "latest_recipes.proto"
         const val SHOPPING_LIST_FILE = "shopping_list.proto"
     }
 
@@ -57,10 +62,10 @@ class DataStoreModule {
 
     @Provides
     @Singleton
-    fun provideSyncData(@ApplicationContext context: Context): DataStore<SyncDataProto> {
+    fun provideLatestRecipeDataStore(@ApplicationContext context: Context): DataStore<LatestRecipesProto> {
         return DataStoreFactory.create(
-            serializer = SyncDataSerializer,
-            produceFile = { context.dataStoreFile(SYNC_DATA_FILE) }
+            serializer = LatestRecipesSerializer,
+            produceFile = { context.dataStoreFile(LATEST_RECIPES_FILE) }
         )
     }
 

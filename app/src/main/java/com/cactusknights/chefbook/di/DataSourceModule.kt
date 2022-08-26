@@ -1,17 +1,35 @@
 package com.cactusknights.chefbook.di
 
-import com.cactusknights.chefbook.data.*
-import com.cactusknights.chefbook.data.sources.local.datasources.LocalCategoriesDataSourceImpl
-import com.cactusknights.chefbook.data.sources.local.datasources.LocalEncryptionDataSourceImpl
-import com.cactusknights.chefbook.data.sources.local.datasources.LocalShoppingListDataSourceImpl
-import com.cactusknights.chefbook.data.sources.local.datasources.LocalProfileDataSourceImpl
-import com.cactusknights.chefbook.data.sources.local.datasources.recipes.LocalRecipeBookDataSourceImpl
-import com.cactusknights.chefbook.data.sources.local.datasources.recipes.LocalRecipeInteractionDataSourceImpl
-import com.cactusknights.chefbook.data.sources.local.datasources.recipes.LocalRecipePicturesDataSourceImpl
-import com.cactusknights.chefbook.data.sources.remote.datasources.*
-import com.cactusknights.chefbook.data.sources.remote.datasources.recipes.RemoteRecipeBookDataSourceImpl
-import com.cactusknights.chefbook.data.sources.remote.datasources.recipes.RemoteRecipeInteractionDataSourceImpl
-import com.cactusknights.chefbook.data.sources.remote.datasources.recipes.RemoteRecipePicturesDataSourceImpl
+import com.cactusknights.chefbook.data.IAuthSource
+import com.cactusknights.chefbook.data.IEncryptionSource
+import com.cactusknights.chefbook.data.IFileSource
+import com.cactusknights.chefbook.data.ILocalCategorySource
+import com.cactusknights.chefbook.data.ILocalProfileSource
+import com.cactusknights.chefbook.data.ILocalRecipeInteractionSource
+import com.cactusknights.chefbook.data.ILocalRecipeSource
+import com.cactusknights.chefbook.data.IRecipeInteractionSource
+import com.cactusknights.chefbook.data.IRecipePictureSource
+import com.cactusknights.chefbook.data.IRemoteCategorySource
+import com.cactusknights.chefbook.data.IRemoteProfileSource
+import com.cactusknights.chefbook.data.IRemoteRecipeSource
+import com.cactusknights.chefbook.data.IShoppingListSource
+import com.cactusknights.chefbook.data.datasources.local.LocalCategorySource
+import com.cactusknights.chefbook.data.datasources.local.LocalEncryptionSource
+import com.cactusknights.chefbook.data.datasources.local.LocalFileSource
+import com.cactusknights.chefbook.data.datasources.local.LocalProfileSource
+import com.cactusknights.chefbook.data.datasources.local.LocalShoppingListSource
+import com.cactusknights.chefbook.data.datasources.local.recipes.LocalRecipeInteractionSource
+import com.cactusknights.chefbook.data.datasources.local.recipes.LocalRecipePictureSource
+import com.cactusknights.chefbook.data.datasources.local.recipes.LocalRecipeSource
+import com.cactusknights.chefbook.data.datasources.remote.RemoteAuthSource
+import com.cactusknights.chefbook.data.datasources.remote.RemoteCategorySource
+import com.cactusknights.chefbook.data.datasources.remote.RemoteEncryptionSource
+import com.cactusknights.chefbook.data.datasources.remote.RemoteFileSource
+import com.cactusknights.chefbook.data.datasources.remote.RemoteProfileSource
+import com.cactusknights.chefbook.data.datasources.remote.RemoteShoppingListSource
+import com.cactusknights.chefbook.data.datasources.remote.recipes.RemoteRecipeInteractionSource
+import com.cactusknights.chefbook.data.datasources.remote.recipes.RemoteRecipePictureSource
+import com.cactusknights.chefbook.data.datasources.remote.recipes.RemoteRecipeSource
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -24,63 +42,72 @@ interface DataSourceBindModule {
 
     @Binds
     @Remote
-    fun bindRemoteAuthDataSource(source: RemoteAuthDataSourceImpl): AuthDataSource
+    fun bindRemoteAuthSource(source: RemoteAuthSource): IAuthSource
 
     @Binds
     @Local
-    fun bindLocalUsersRepo(source: LocalProfileDataSourceImpl): LocalProfileDataSource
+    fun bindLocalProfileSource(source: LocalProfileSource): ILocalProfileSource
 
     @Binds
     @Remote
-    fun bindRemoteUsersRepo(source: RemoteProfileDataSourceImpl): RemoteProfileDataSource
+    fun bindRemoteProfileSource(source: RemoteProfileSource): IRemoteProfileSource
 
     @Binds
     @Local
-    fun bindLocalRecipeEncryptionDataSource(source: LocalEncryptionDataSourceImpl): EncryptionDataSource
+    fun bindLocalRecipeEncryptionSource(source: LocalEncryptionSource): IEncryptionSource
 
     @Binds
     @Remote
-    fun bindRemoteRecipeEncryptionDataSource(source: RemoteEncryptionDataSourceImpl): EncryptionDataSource
+    fun bindRemoteRecipeEncryptionSource(source: RemoteEncryptionSource): IEncryptionSource
 
     @Binds
     @Local
-    fun bindLocalRecipesDataSource(source: LocalRecipeBookDataSourceImpl): LocalRecipeBookDataSource
+    fun bindLocalFileSource(source: LocalFileSource): IFileSource
 
     @Binds
     @Remote
-    fun bindRemoteRecipesDataSource(source: RemoteRecipeBookDataSourceImpl): RecipeCrudDataSource
+    fun bindRemoteFileSource(source: RemoteFileSource): IFileSource
 
     @Binds
     @Local
-    fun bindLocalRecipePicturesDataSource(source: LocalRecipePicturesDataSourceImpl): RecipePicturesDataSource
+    fun bindLocalRecipeSource(source: LocalRecipeSource): ILocalRecipeSource
 
     @Binds
     @Remote
-    fun bindRemoteRecipePicturesDataSource(source: RemoteRecipePicturesDataSourceImpl): RecipePicturesDataSource
+    fun bindRemoteRecipeSource(source: RemoteRecipeSource): IRemoteRecipeSource
 
     @Binds
     @Local
-    fun bindLocalRecipeInteractionDataSource(source: LocalRecipeInteractionDataSourceImpl): LocalRecipeInteractionDataSource
+    fun bindLocalRecipePictureSource(source: LocalRecipePictureSource): IRecipePictureSource
 
     @Binds
     @Remote
-    fun bindRemoteRecipeInteractionDataSource(source: RemoteRecipeInteractionDataSourceImpl): RecipeInteractionDataSource
+    fun bindRemoteRecipePictureSource(source: RemoteRecipePictureSource): IRecipePictureSource
 
     @Binds
     @Local
-    fun bindLocalRecipeCategoriesDataSource(source: LocalCategoriesDataSourceImpl): LocalCategoriesDataSource
+    fun bindLocalRecipeInteractionSource(source: LocalRecipeInteractionSource): ILocalRecipeInteractionSource
 
     @Binds
     @Remote
-    fun bindRemoteRecipeCategoriesDataSource(source: RemoteCategoriesDataSourceImpl): CategoriesDataSource
+    fun bindRemoteRecipeInteractionSource(source: RemoteRecipeInteractionSource): IRecipeInteractionSource
 
     @Binds
     @Local
-    fun bindLocalRecipeShoppingListDataSource(source: LocalShoppingListDataSourceImpl): ShoppingListDataSource
+    fun bindLocalCategorySource(source: LocalCategorySource): ILocalCategorySource
 
     @Binds
     @Remote
-    fun bindRemoteRecipeShoppingListDataSource(source: RemoteShoppingListDataSourceImpl): ShoppingListDataSource
+    fun bindRemoteCategorySource(source: RemoteCategorySource): IRemoteCategorySource
+
+    @Binds
+    @Local
+    fun bindLocalShoppingListSource(source: LocalShoppingListSource): IShoppingListSource
+
+    @Binds
+    @Remote
+    fun bindRemoteShoppingListSource(source: RemoteShoppingListSource): IShoppingListSource
+
 }
 
 

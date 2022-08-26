@@ -1,12 +1,33 @@
 package com.cactusknights.chefbook.di
 
-import com.cactusknights.chefbook.domain.*
-import com.cactusknights.chefbook.data.repositories.*
-import com.cactusknights.chefbook.data.repositories.recipes.RecipeCrudRepoImpl
-import com.cactusknights.chefbook.data.repositories.sync.RecipeBookRepoImpl
-import com.cactusknights.chefbook.data.repositories.recipes.RecipeInteractionRepoImpl
-import com.cactusknights.chefbook.data.repositories.recipes.RecipePicturesRepoImpl
-import com.cactusknights.chefbook.data.repositories.sync.CategoriesSyncRepoImpl
+import com.cactusknights.chefbook.data.repositories.AuthRepo
+import com.cactusknights.chefbook.data.repositories.CategoryRepo
+import com.cactusknights.chefbook.data.repositories.EncryptedVaultRepo
+import com.cactusknights.chefbook.data.repositories.FileRepo
+import com.cactusknights.chefbook.data.repositories.IFileRepo
+import com.cactusknights.chefbook.data.repositories.ProfileRepo
+import com.cactusknights.chefbook.data.repositories.SessionRepo
+import com.cactusknights.chefbook.data.repositories.SettingsRepo
+import com.cactusknights.chefbook.data.repositories.ShoppingListRepo
+import com.cactusknights.chefbook.data.repositories.SourceRepo
+import com.cactusknights.chefbook.data.repositories.recipes.LatestRecipesRepo
+import com.cactusknights.chefbook.data.repositories.recipes.RecipeEncryptionRepo
+import com.cactusknights.chefbook.data.repositories.recipes.RecipeInteractionRepo
+import com.cactusknights.chefbook.data.repositories.recipes.RecipePictureRepo
+import com.cactusknights.chefbook.data.repositories.recipes.RecipeRepo
+import com.cactusknights.chefbook.domain.interfaces.IAuthRepo
+import com.cactusknights.chefbook.domain.interfaces.ICategoryRepo
+import com.cactusknights.chefbook.domain.interfaces.IEncryptedVaultRepo
+import com.cactusknights.chefbook.domain.interfaces.ILatestRecipesRepo
+import com.cactusknights.chefbook.domain.interfaces.IProfileRepo
+import com.cactusknights.chefbook.domain.interfaces.IRecipeEncryptionRepo
+import com.cactusknights.chefbook.domain.interfaces.IRecipeInteractionRepo
+import com.cactusknights.chefbook.domain.interfaces.IRecipePictureRepo
+import com.cactusknights.chefbook.domain.interfaces.IRecipeRepo
+import com.cactusknights.chefbook.domain.interfaces.ISessionRepo
+import com.cactusknights.chefbook.domain.interfaces.ISettingsRepo
+import com.cactusknights.chefbook.domain.interfaces.IShoppingListRepo
+import com.cactusknights.chefbook.domain.interfaces.ISourceRepo
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -17,35 +38,45 @@ import dagger.hilt.components.SingletonComponent
 interface RepositoryBindModule {
 
     @Binds
-    fun bindAuthRepo(repo: AuthRepoImpl): AuthRepo
+    fun bindAuthRepo(repo: AuthRepo): IAuthRepo
 
     @Binds
-    fun bindProfileRepo(repo: ProfileRepoImpl): ProfileRepo
+    fun bindProfileRepo(repo: ProfileRepo): IProfileRepo
 
     @Binds
-    fun bindRecipeBookSyncRepo(repo: RecipeBookRepoImpl): RecipeBookSyncRepo
+    fun bindSettingsRepo(repo: SettingsRepo): ISettingsRepo
 
     @Binds
-    fun bindRecipeCrudRepo(repo: RecipeCrudRepoImpl): RecipeCrudRepo
+    fun bindSourceRepo(repo: SourceRepo): ISourceRepo
 
     @Binds
-    fun bindRecipePicturesRepo(repo: RecipePicturesRepoImpl): RecipePicturesRepo
+    fun bindSessionRepo(repo: SessionRepo): ISessionRepo
 
     @Binds
-    fun bindRecipeInteractionRepo(repo: RecipeInteractionRepoImpl): RecipeInteractionRepo
+    fun bindEncryptedVaultRepo(repo: EncryptedVaultRepo): IEncryptedVaultRepo
 
     @Binds
-    fun bindCategoriesSyncRepo(repo: CategoriesSyncRepoImpl): CategoriesSyncRepo
+    fun bindFileRepo(repo: FileRepo): IFileRepo
 
     @Binds
-    fun bindCategoriesCrudRepo(repo: CategoriesCrudRepoImpl): CategoriesCrudRepo
+    fun bindRecipeRepo(repo: RecipeRepo): IRecipeRepo
 
     @Binds
-    fun bindShoppingListRepo(repo: ShoppingListRepoImpl): ShoppingListRepo
+    fun bindRecipePictureRepo(repo: RecipePictureRepo): IRecipePictureRepo
 
     @Binds
-    fun bindVaultEncryptionRepo(repo: EncryptionRepoImpl): VaultEncryptionRepo
+    fun bindRecipeInteractionRepo(repo: RecipeInteractionRepo): IRecipeInteractionRepo
 
     @Binds
-    fun bindRecipeEncryptionRepo(repo: EncryptionRepoImpl): RecipeEncryptionRepo
+    fun bindRecipeEncryptionRepo(repo: RecipeEncryptionRepo): IRecipeEncryptionRepo
+
+    @Binds
+    fun bindLatestRecipesRepo(repo: LatestRecipesRepo): ILatestRecipesRepo
+
+    @Binds
+    fun bindCategoryRepo(repo: CategoryRepo): ICategoryRepo
+
+    @Binds
+    fun bindShoppingListRepo(repo: ShoppingListRepo): IShoppingListRepo
+
 }

@@ -2,7 +2,6 @@ package com.cactusknights.chefbook.core.datastore
 
 import androidx.datastore.core.Serializer
 import com.cactusknights.chefbook.ProfileProto
-import com.cactusknights.chefbook.SettingsProto
 import com.google.protobuf.InvalidProtocolBufferException
 import java.io.InputStream
 import java.io.OutputStream

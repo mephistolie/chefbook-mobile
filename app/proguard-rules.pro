@@ -20,7 +20,5 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
--keep class com.cactusknights.chefbook.models.* { *; }
--keep class com.cactusknights.chefbook.models.legacy.* { *; }
--keep class com.cactusknights.chefbook.legacy.repositories.* { *; }
--keep class androidx.appcompat.widget.** { *; }
+-keep class * extends com.google.protobuf.GeneratedMessageLite { *; }
+-keep class com.cactusknights.chefbook.data.dto.** { *; }

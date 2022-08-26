@@ -3,10 +3,8 @@ package com.cactusknights.chefbook.core.datastore
 import androidx.datastore.core.Serializer
 import com.cactusknights.chefbook.ShoppingListProto
 import com.google.protobuf.InvalidProtocolBufferException
-import com.google.protobuf.Timestamp
 import java.io.InputStream
 import java.io.OutputStream
-import java.util.*
 
 @Suppress("BlockingMethodInNonBlockingContext")
 object ShoppingListSerializer : Serializer<ShoppingListProto> {

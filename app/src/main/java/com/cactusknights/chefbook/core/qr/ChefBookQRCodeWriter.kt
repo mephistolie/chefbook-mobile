@@ -17,7 +17,17 @@ package com.cactusknights.chefbook.core.qr
  */
 
 import android.content.Context
-import android.graphics.*
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.LinearGradient
+import android.graphics.Paint
+import android.graphics.Path
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffXfermode
+import android.graphics.RectF
+import android.graphics.Region
+import android.graphics.Shader
 import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.VectorDrawable
 import androidx.core.content.ContextCompat
@@ -40,14 +50,14 @@ import kotlin.math.roundToInt
  * Ported from Java to Kotlin and changed for app purposes by Mikhail Levin
  */
 
-class ChefBookQRCodeWriter {
+class QRCodeWriter {
+
     private var input: ByteMatrix? = null
     private val radii = FloatArray(8)
     private var imageBlocks = 0
     private var imageBlockX = 0
     private var sideQuadSize = 0
     private val errorCorrectionLevel = ErrorCorrectionLevel.M
-    private val radiusFactor = 0.75f
 
     fun encode(
         contents: String,
@@ -118,14 +128,14 @@ class ChefBookQRCodeWriter {
             if (isTransparentBackground) {
                 rectF[(x + multiple).toFloat(), (y + multiple).toFloat(), (x + (sideQuadSize - 1) * multiple).toFloat()] =
                     (y + (sideQuadSize - 1) * multiple).toFloat()
-                r = sideQuadSize * multiple / 4.0f * radiusFactor
+                r = sideQuadSize * multiple / 4.0f * RADIUS_FACTOR
                 clipPath.reset()
                 clipPath.addRoundRect(rectF, r, r, Path.Direction.CW)
                 clipPath.close()
                 canvas.save()
                 canvas.clipPath(clipPath, Region.Op.DIFFERENCE)
             }
-            r = sideQuadSize * multiple / 3.0f * radiusFactor
+            r = sideQuadSize * multiple / 3.0f * RADIUS_FACTOR
             Arrays.fill(radii, r)
             rect.setColor(color)
             rect.setBounds(x, y, x + sideQuadSize * multiple, y + sideQuadSize * multiple)
@@ -141,7 +151,7 @@ class ChefBookQRCodeWriter {
                 canvas.restore()
             }
             if (!isTransparentBackground) {
-                r = sideQuadSize * multiple / 4.0f * radiusFactor
+                r = sideQuadSize * multiple / 4.0f * RADIUS_FACTOR
                 Arrays.fill(radii, r)
                 rect.setColor(backgroundColor)
                 rect.setBounds(
@@ -152,7 +162,7 @@ class ChefBookQRCodeWriter {
                 )
                 rect.draw(canvas)
             }
-            r = (sideQuadSize - 2) * multiple / 4.0f * radiusFactor
+            r = (sideQuadSize - 2) * multiple / 4.0f * RADIUS_FACTOR
             Arrays.fill(radii, r)
             rect.setColor(color)
             rect.setBounds(
@@ -163,7 +173,7 @@ class ChefBookQRCodeWriter {
             )
             rect.draw(canvas)
         }
-        val r = multiple / 2.0f * radiusFactor
+        val r = multiple / 2.0f * RADIUS_FACTOR
         var y = 0
         var outputY = padding
         while (y < inputHeight) {
@@ -260,19 +270,29 @@ class ChefBookQRCodeWriter {
 
     companion object {
         private const val QUIET_ZONE_SIZE = 4
+        private const val RADIUS_FACTOR = 0.75f
 
-        fun getGradientQrCode(data: String, context: Context) : Bitmap? {
-            val qrBitmap: Bitmap?
+        fun getGradientQrCode(
+            data: String,
+            context: Context,
+            backgroundColor: Int = Color.WHITE,
+            startColor: Int = Color.BLACK,
+            endColor: Int = Color.BLACK,
+        ) : Bitmap {
             val qrBitmapSize = 1080
             val hints = HashMap<EncodeHintType, Any>()
             hints[EncodeHintType.ERROR_CORRECTION] = ErrorCorrectionLevel.M
-            val writer = ChefBookQRCodeWriter()
+            val writer = QRCodeWriter()
             EncodeHintType.MARGIN
-            qrBitmap = writer.encode(data, qrBitmapSize, null, ContextCompat.getColor(context, R.color.white_transparent), ContextCompat.getColor(context, R.color.monochrome_invert), context)
-            return addGradient(qrBitmap)
+            val qrBitmap = writer.encode(data, qrBitmapSize, null, backgroundColor, startColor, context)
+            return addGradient(qrBitmap, startColor, endColor)
         }
 
-        private fun addGradient(originalBitmap: Bitmap) : Bitmap {
+        private fun addGradient(
+            originalBitmap: Bitmap,
+            startColor: Int,
+            endColor: Int,
+        ) : Bitmap {
             val width: Int = originalBitmap.width
             val height: Int = originalBitmap.height
             val updatedBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
@@ -281,7 +301,7 @@ class ChefBookQRCodeWriter {
             canvas.drawBitmap(originalBitmap, 0f, 0f, null)
 
             val paint = Paint()
-            val shader = LinearGradient(width.toFloat(), 0f, 0f, height.toFloat(), Color.parseColor("#bf6639"), Color.parseColor("#120426"), Shader.TileMode.CLAMP)
+            val shader = LinearGradient(width.toFloat(), 0f, 0f, height.toFloat(), startColor, endColor, Shader.TileMode.CLAMP)
             paint.shader = shader
             paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_IN)
             canvas.drawRect(0f, 0f, width.toFloat(), height.toFloat(), paint)

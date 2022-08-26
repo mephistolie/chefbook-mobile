@@ -2,10 +2,10 @@ package com.cactusknights.chefbook.di
 
 import android.content.Context
 import androidx.room.Room
-import com.cactusknights.chefbook.core.room.ChefBookDatabase
-import com.cactusknights.chefbook.data.sources.local.dao.CategoriesDao
-import com.cactusknights.chefbook.data.sources.local.dao.RecipeBookDao
-import com.cactusknights.chefbook.data.sources.local.dao.RecipeInteractionDao
+import com.cactusknights.chefbook.data.room.ChefBookDatabase
+import com.cactusknights.chefbook.data.room.dao.CategoriesDao
+import com.cactusknights.chefbook.data.room.dao.RecipeBookDao
+import com.cactusknights.chefbook.data.room.dao.RecipeInteractionDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -37,4 +37,5 @@ class RoomModule {
     @Provides
     @Singleton
     fun provideCategoriesDao(roomDatabase: ChefBookDatabase) : CategoriesDao = roomDatabase.categoriesDao()
+
 }

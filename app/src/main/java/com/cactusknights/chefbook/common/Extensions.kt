@@ -1,14 +1,14 @@
 package com.cactusknights.chefbook.common
 
 import android.content.Context
-import android.content.Intent
-import android.content.res.Resources
-import android.net.Uri
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.AsyncListDiffer
-import com.cactusknights.chefbook.R
-import java.io.*
-import java.math.BigInteger
+import java.io.ByteArrayInputStream
+import java.io.ByteArrayOutputStream
+import java.io.IOException
+import java.io.ObjectInputStream
+import java.io.ObjectOutputStream
 import java.security.MessageDigest
 
 private const val MD5 = "MD5"
@@ -23,18 +23,20 @@ fun <T : Context> T.showToast(message: Int) {
     Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
 }
 
-fun <T : Context> T.openMail() {
-    val intent = Intent(Intent.ACTION_SENDTO)
-    intent.data = Uri.parse("mailto:" + this.resources.getString(R.string.support_email))
-    this.startActivity(intent)
+
+fun <T : Fragment> T.showToast(message: Int) {
+    Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
 }
+
+//fun <T : Context> T.openMail() {
+//    val intent = Intent(Intent.ACTION_SENDTO)
+//    intent.data = Uri.parse("mailto:" + this.resources.getString(R.string.support_email))
+//    this.startActivity(intent)
+//}
 
 fun <T> AsyncListDiffer<T>.forceSubmitList(list: List<T>) {
     this.submitList(list.toList())
 }
-
-val Int.dp: Int get() = (this / Resources.getSystem().displayMetrics.density).toInt()
-val Int.px: Int get() = (this * Resources.getSystem().displayMetrics.density).toInt()
 
 fun Int.toByteArray() : ByteArray {
     val buffer = ByteArray(4)
@@ -61,7 +63,7 @@ private fun hashString(input: String, algorithm: String): String {
         .fold("") { str, it -> str + "%02x".format(it) }
 }
 
-fun <T : Serializable> T.deepCopy(): T {
+fun <T > T.deepCopy(): T {
     val baos = ByteArrayOutputStream()
     val oos  = ObjectOutputStream(baos)
     oos.writeObject(this)

@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+option java_package = "com.cactusknights.chefbook";
+option java_multiple_files = true;
+
+message LatestRecipesProto {
+  repeated int32 latestRecipes = 1;
+}

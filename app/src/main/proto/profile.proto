@@ -9,6 +9,6 @@ message ProfileProto {
   string username = 3;
   int64 creationDate = 4;
   string avatar = 5;
-  int64  premium = 6;
+  bool  premium = 6;
   int32 broccoins = 7;
 }

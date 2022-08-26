@@ -15,4 +15,6 @@
     <color name="navigation_primary_alt">@color/app_background</color>
     <color name="input_background">#1c1c1e</color>
     <color name="input_background_nav">#333333</color>
+
+    <color name="secondary_text">#c3c3c3</color>
 </resources>

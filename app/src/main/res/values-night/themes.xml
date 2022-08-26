@@ -25,7 +25,7 @@
         <item name="colorAccent">@color/deep_orange_light</item>
         <item name="colorOnPrimary">@color/black</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">@color/app_background</item>
+        <item name="android:statusBarColor" tools:targetApi="l">@color/navigation_primary</item>
         <!-- Background -->
         <item name="android:windowBackground">@color/app_background</item>
         <item name="android:navigationBarColor" tools:targetApi="p">@color/navigation_primary</item>
