@@ -139,20 +139,19 @@ fun AuthScreenDisplay(
                     when (authState.action) {
                         AuthAction.SIGN_IN -> onEvent(
                             AuthScreenEvent.SignIn(
-                                emailText.value,
-                                passwordText.value
+                                email = emailText.value,
+                                password = passwordText.value,
                             )
                         )
                         AuthAction.SIGN_UP -> onEvent(
                             AuthScreenEvent.SignUp(
-                                emailText.value,
-                                passwordText.value,
-                                repeatPasswordText.value
+                                email = emailText.value,
+                                password = passwordText.value,
                             )
                         )
                         AuthAction.RESET_PASSWORD -> onEvent(
                             AuthScreenEvent.ResetPassword(
-                                emailText.value
+                                email = emailText.value
                             )
                         )
                     }

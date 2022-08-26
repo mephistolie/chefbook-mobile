@@ -47,7 +47,7 @@ class AuthViewModel @Inject constructor(
                 is AuthScreenEvent.OpenSignUpScreen -> _authState.emit(AuthScreenState(action = AuthAction.SIGN_UP))
                 is AuthScreenEvent.OpenPasswordResetScreen -> _authState.emit(AuthScreenState(action = AuthAction.RESET_PASSWORD))
                 is AuthScreenEvent.CloseDialog -> _authState.emit(authState.value.copy(progress = AuthProgress.INPUT))
-                is AuthScreenEvent.SignUp -> signUp(event.email, event.password, event.passwordValidation)
+                is AuthScreenEvent.SignUp -> signUp(event.email, event.password)
                 is AuthScreenEvent.SignIn -> signIn(event.email, event.password)
                 is AuthScreenEvent.ResetPassword -> { /* TODO */ }
                 is AuthScreenEvent.ChooseLocalMode -> signInLocally()
@@ -55,7 +55,7 @@ class AuthViewModel @Inject constructor(
         }
     }
 
-    private suspend fun signUp(email: String, password: String, passwordValidation: String) {
+    private suspend fun signUp(email: String, password: String) {
         signUpUseCase(email, password).collect { result ->
             when (result) {
                 is Loading ->
