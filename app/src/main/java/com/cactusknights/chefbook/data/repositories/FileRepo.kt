@@ -22,9 +22,9 @@ class FileRepo @Inject constructor(
 
     override suspend fun getFile(path: String) : ActionStatus<ByteArray> =
         if (URLUtil.isValidUrl(path)) {
-            local.getFile(path)
-        } else {
             remote.getFile(path)
+        } else {
+            local.getFile(path)
         }
 
 }
