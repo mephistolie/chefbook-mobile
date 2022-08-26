@@ -6,6 +6,7 @@ import com.cactusknights.chefbook.domain.entities.recipe.cooking.CookingItem
 import com.cactusknights.chefbook.domain.entities.recipe.ingredient.IngredientItem
 import com.cactusknights.chefbook.domain.entities.recipe.macronutrients.MacronutrientsInfo
 import java.time.LocalDateTime
+import java.util.*
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
@@ -100,7 +101,7 @@ fun RecipeInput.encrypt(encrypt: (ByteArray) -> String): RecipeInput {
     return copy(
         name = name,
         description = description,
-        ingredients = listOf(IngredientItem.EncryptedData(ingredients)),
-        cooking = listOf(CookingItem.EncryptedData(cooking))
+        ingredients = listOf(IngredientItem.EncryptedData(id = UUID.randomUUID().toString(), content = ingredients)),
+        cooking = listOf(CookingItem.EncryptedData(id = UUID.randomUUID().toString(), content = cooking))
     )
 }

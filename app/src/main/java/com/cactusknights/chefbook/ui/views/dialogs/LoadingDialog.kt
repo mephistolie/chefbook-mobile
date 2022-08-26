@@ -36,9 +36,9 @@ fun LoadingDialog() {
                 .wrapContentSize()
                 .background(
                     color = colors.backgroundPrimary,
-                    shape = RoundedCornerShape(24.dp)
+                    shape = RoundedCornerShape(16.dp)
                 )
-                .padding(32.dp),
+                .padding(24.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             CircularProgressIndicator(

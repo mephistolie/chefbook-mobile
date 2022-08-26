@@ -29,6 +29,7 @@ import id.zelory.compressor.constraint.quality
 import id.zelory.compressor.constraint.resolution
 import id.zelory.compressor.constraint.size
 import java.io.File
+import java.util.*
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -40,6 +41,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlin.math.max
+import kotlin.math.min
 
 @HiltViewModel
 class RecipeInputScreenViewModel @Inject constructor(
@@ -86,8 +88,14 @@ class RecipeInputScreenViewModel @Inject constructor(
                 is RecipeInputScreenEvent.SetFats -> setFats(event.fats)
                 is RecipeInputScreenEvent.SetCarbohydrates -> setCarbs(event.carbs)
 
-                is RecipeInputScreenEvent.AddIngredient -> addIngredientItem(IngredientItem.Ingredient(Strings.EMPTY))
-                is RecipeInputScreenEvent.AddIngredientSection -> addIngredientItem(IngredientItem.Section(Strings.EMPTY))
+                is RecipeInputScreenEvent.AddIngredient -> addIngredientItem(IngredientItem.Ingredient(
+                    id = UUID.randomUUID().toString(),
+                    name = Strings.EMPTY,
+                ))
+                is RecipeInputScreenEvent.AddIngredientSection -> addIngredientItem(IngredientItem.Section(
+                    id = UUID.randomUUID().toString(),
+                    Strings.EMPTY
+                ))
                 is RecipeInputScreenEvent.OpenIngredientDialog -> _effect.emit(RecipeInputScreenEffect.OnIngredientDialogOpen(event.index))
                 is RecipeInputScreenEvent.SetIngredientItemName -> setIngredientItemName(event.index, event.name)
                 is RecipeInputScreenEvent.SetIngredientAmount -> setIngredientAmount(event.index, event.amount)
@@ -95,8 +103,14 @@ class RecipeInputScreenViewModel @Inject constructor(
                 is RecipeInputScreenEvent.MoveIngredientItem -> moveIngredientItem(event.from, event.to)
                 is RecipeInputScreenEvent.DeleteIngredientItem -> deleteIngredientItem(event.index)
 
-                is RecipeInputScreenEvent.AddStep -> addCookingItem(CookingItem.Step(Strings.EMPTY))
-                is RecipeInputScreenEvent.AddCookingSection -> addCookingItem(CookingItem.Section(Strings.EMPTY))
+                is RecipeInputScreenEvent.AddStep -> addCookingItem(CookingItem.Step(
+                    id = UUID.randomUUID().toString(),
+                    description = Strings.EMPTY
+                ))
+                is RecipeInputScreenEvent.AddCookingSection -> addCookingItem(CookingItem.Section(
+                    id = UUID.randomUUID().toString(),
+                    name = Strings.EMPTY
+                ))
                 is RecipeInputScreenEvent.SetCookingItemValue -> setCookingItemValue(event.index, event.value)
                 is RecipeInputScreenEvent.AddStepPicture -> addStepPicture(event.stepIndex, event.uri, event.context)
                 is RecipeInputScreenEvent.DeleteStepPicture -> removeStepPicture(event.stepIndex, event.pictureIndex)
@@ -324,8 +338,8 @@ class RecipeInputScreenViewModel @Inject constructor(
                     item
                 } else {
                     when (item) {
-                        is IngredientItem.Section -> item.copy(name = name)
-                        is IngredientItem.Ingredient -> item.copy(name = name)
+                        is IngredientItem.Section -> item.copy(name = name.substring(0, min(name.length, MAX_NAME_LENGTH)))
+                        is IngredientItem.Ingredient -> item.copy(name = name.substring(0, min(name.length, MAX_NAME_LENGTH)))
                         else -> item
                     }
                 }
@@ -412,7 +426,7 @@ class RecipeInputScreenViewModel @Inject constructor(
 
     private suspend fun setCookingItemValue(
         itemIndex: Int,
-        value: String?,
+        value: String,
     ) {
         val currentState = state.value
         val input = currentState.input
@@ -424,8 +438,8 @@ class RecipeInputScreenViewModel @Inject constructor(
                     item
                 } else {
                     when (item) {
-                        is CookingItem.Section -> item.copy(name = value.orEmpty())
-                        is CookingItem.Step -> item.copy(description = value.orEmpty())
+                        is CookingItem.Section -> item.copy(name = value.substring(0, min(value.length, MAX_NAME_LENGTH)))
+                        is CookingItem.Step -> item.copy(description = value.substring(0, min(value.length, MAX_STEP_LENGTH)))
                         else -> item
                     }
                 }
@@ -555,5 +569,6 @@ class RecipeInputScreenViewModel @Inject constructor(
     companion object {
         private const val MAX_NAME_LENGTH = 100
         private const val MAX_DESCRIPTION_LENGTH = 1500
+        private const val MAX_STEP_LENGTH = 6000
     }
 }

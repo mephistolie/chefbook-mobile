@@ -47,7 +47,7 @@ fun RecipeSavedDialog(
             modifier = Modifier
                 .fillMaxWidth()
                 .wrapContentHeight()
-                .padding(12.dp)
+                .padding(horizontal = 48.dp)
                 .background(
                     color = colors.backgroundPrimary,
                     shape = RoundedCornerShape(24.dp)
