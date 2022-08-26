@@ -5,5 +5,7 @@
         <item>@font/comfortaa_bold</item>
         <item>@font/comfortaa_semibold</item>
         <item>@font/montserrat</item>
+        <item>@font/montserrat_medium</item>
+        <item>@font/montserrat_semibold</item>
     </array>
 </resources>

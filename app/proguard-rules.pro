@@ -1,6 +1,6 @@
 # Add project specific ProGuard rules here.
 # You can control the set of applied configuration files using the
-# proguardFiles setting in build.gradle.
+# proguardFiles setting in build.gradle.kts.
 #
 # For more details, see
 #   http://developer.android.com/guide/developing/tools/proguard.html
@@ -20,5 +20,5 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
--keep class com.cactusknights.chefbook.models.* { *; }
--keep class com.cactusknights.chefbook.repositories.* { *; }
+-keep class * extends com.google.protobuf.GeneratedMessageLite { *; }
+-keep class com.cactusknights.chefbook.data.dto.** { *; }

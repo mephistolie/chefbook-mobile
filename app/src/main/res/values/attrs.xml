@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="ProfileAction">
+        <attr name="actionTitle" format="string"/>
+        <attr name="actionDescription" format="string"/>
+        <attr name="actionIcon" format="integer"/>
+        <attr name="showDivider" format="boolean"/>
+    </declare-styleable>
+</resources>
