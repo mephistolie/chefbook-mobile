@@ -13,9 +13,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
-import com.mephistolie.compost.modifiers.simpleClickable
 import com.cactusknights.chefbook.ui.themes.ChefBookTheme
-import com.cactusknights.chefbook.ui.views.radiobuttons.RadioButton
+import com.mephistolie.compost.modifiers.simpleClickable
+import com.mephistolie.compost.ui.radiobuttons.OutlineRadioButton
 
 @Composable
 fun RadioElement(
@@ -65,9 +65,10 @@ fun RadioElement(
                 )
             }
         }
-        RadioButton(
+        OutlineRadioButton(
             isSelected = isSelected,
-            onSelected = {},
+            onClick = {},
+            color = colors.tintPrimary,
             enabled = false,
         )
     }

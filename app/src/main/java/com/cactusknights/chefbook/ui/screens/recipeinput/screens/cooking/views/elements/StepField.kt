@@ -25,7 +25,7 @@ import com.cactusknights.chefbook.R
 import com.cactusknights.chefbook.domain.entities.recipe.cooking.CookingItem
 import com.cactusknights.chefbook.ui.themes.ChefBookTheme
 import com.cactusknights.chefbook.ui.views.buttons.DynamicButton
-import com.cactusknights.chefbook.ui.views.textfields.IndicatorTextField
+import com.cactusknights.chefbook.ui.views.textfields.ChefBookIndicatorTextField
 import com.mephistolie.compost.modifiers.clippedBackground
 import com.mephistolie.compost.modifiers.simpleClickable
 
@@ -78,7 +78,7 @@ fun StepField(
                         .wrapContentWidth()
                 )
             }
-            IndicatorTextField(
+            ChefBookIndicatorTextField(
                 value = step.description,
                 modifier = Modifier
                     .weight(1F)

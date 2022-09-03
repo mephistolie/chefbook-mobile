@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -23,12 +24,12 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.cactusknights.chefbook.R
 import com.cactusknights.chefbook.ui.themes.ChefBookTheme
-import com.cactusknights.chefbook.ui.views.buttons.CircleImageButton
 import com.cactusknights.chefbook.ui.views.buttons.DynamicButton
 import com.canhub.cropper.CropImageContract
 import com.canhub.cropper.CropImageContractOptions
 import com.canhub.cropper.CropImageOptions
 import com.canhub.cropper.CropImageView
+import com.mephistolie.compost.ui.buttons.CircleIconButton
 
 @Composable
 fun ColumnScope.PreviewBlock(
@@ -73,13 +74,13 @@ fun ColumnScope.PreviewBlock(
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.matchParentSize(),
             )
-            CircleImageButton(
-                image = ImageVector.vectorResource(R.drawable.ic_cross),
+            CircleIconButton(
+                icon = ImageVector.vectorResource(R.drawable.ic_cross),
                 onClick = onPreviewDeleted,
                 modifier = Modifier
                     .padding(12.dp)
                     .size(32.dp),
-                background = colors.foregroundPrimary.copy(alpha = 0.25F),
+                colors = ButtonDefaults.buttonColors(backgroundColor = colors.foregroundPrimary.copy(alpha = 0.25F)),
                 tint = colors.backgroundPrimary
             )
         }

@@ -18,7 +18,7 @@ import com.cactusknights.chefbook.core.ui.localizedName
 import com.cactusknights.chefbook.domain.entities.common.MeasureUnit
 import com.cactusknights.chefbook.domain.entities.recipe.ingredient.IngredientItem
 import com.cactusknights.chefbook.ui.themes.ChefBookTheme
-import com.cactusknights.chefbook.ui.views.checkboxes.CircleCheckbox
+import com.mephistolie.compost.ui.checkboxes.CircleCheckbox
 import kotlin.math.abs
 
 @Composable
@@ -83,8 +83,10 @@ fun Ingredient(
     ) {
         CircleCheckbox(
             isChecked = isChecked,
-            onCheckedChange = { },
-            iconPadding = 2.dp,
+            onClick = { },
+            checkedColor = colors.tintPrimary,
+            checkmarkColor = colors.tintSecondary,
+            checkmarkSize = 20.dp,
             enabled = false,
         )
         Spacer(modifier = Modifier.width(8.dp))

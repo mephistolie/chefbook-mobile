@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Divider
 import androidx.compose.material.ExperimentalMaterialApi
@@ -36,7 +37,6 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.cactusknights.chefbook.R
-import com.mephistolie.compost.modifiers.simpleClickable
 import com.cactusknights.chefbook.ui.screens.recipe.dialogs.RecipeScreenDialogs
 import com.cactusknights.chefbook.ui.screens.recipe.models.RecipeScreenEvent
 import com.cactusknights.chefbook.ui.screens.recipe.models.RecipeScreenState
@@ -45,11 +45,12 @@ import com.cactusknights.chefbook.ui.screens.recipe.views.blocks.ActionBlock
 import com.cactusknights.chefbook.ui.screens.recipe.views.blocks.TabsBlock
 import com.cactusknights.chefbook.ui.screens.recipe.views.pages.RecipeScreenPager
 import com.cactusknights.chefbook.ui.themes.ChefBookTheme
-import com.cactusknights.chefbook.ui.views.buttons.CircleImageButton
 import com.cactusknights.chefbook.ui.views.buttons.DynamicButton
 import com.cactusknights.chefbook.ui.views.dialogs.elements.BottomSheetSlider
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.rememberPagerState
+import com.mephistolie.compost.modifiers.simpleClickable
+import com.mephistolie.compost.ui.buttons.CircleIconButton
 import kotlinx.coroutines.launch
 
 @OptIn(
@@ -260,13 +261,13 @@ fun RecipeScreenDisplay(
                 }
             }
         }
-        CircleImageButton(
-            image = ImageVector.vectorResource(R.drawable.ic_cross),
+        CircleIconButton(
+            icon = ImageVector.vectorResource(R.drawable.ic_cross),
             onClick = { coroutine.launch { sheetState.hide() } },
             modifier = Modifier
                 .padding(12.dp)
                 .size(32.dp),
-            background = colors.foregroundPrimary.copy(alpha = 0.25F),
+            colors = ButtonDefaults.buttonColors(backgroundColor = colors.foregroundPrimary.copy(alpha = 0.25F)),
             tint = colors.backgroundPrimary
         )
     }

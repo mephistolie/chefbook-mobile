@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -24,12 +25,12 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.cactusknights.chefbook.R
 import com.cactusknights.chefbook.ui.themes.ChefBookTheme
-import com.cactusknights.chefbook.ui.views.buttons.CircleImageButton
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.HorizontalPagerIndicator
 import com.google.accompanist.pager.PagerDefaults
 import com.google.accompanist.pager.rememberPagerState
+import com.mephistolie.compost.ui.buttons.CircleIconButton
 import dev.chrisbanes.snapper.ExperimentalSnapperApi
 
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalPagerApi::class, ExperimentalSnapperApi::class)
@@ -92,14 +93,14 @@ fun FullscreenPicturesDialog(
                 inactiveColor = colors.backgroundTertiary,
                 indicatorWidth = 6.dp,
             )
-            CircleImageButton(
-                image = ImageVector.vectorResource(R.drawable.ic_cross),
+            CircleIconButton(
+                icon = ImageVector.vectorResource(R.drawable.ic_cross),
                 onClick = onHide,
                 modifier = Modifier
                     .align(Alignment.TopEnd)
                     .padding(12.dp)
                     .size(48.dp),
-                background = Color.Transparent,
+                colors = ButtonDefaults.buttonColors(backgroundColor = Color.Transparent),
                 tint = colors.foregroundPrimary,
             )
         }

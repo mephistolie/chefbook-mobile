@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -34,8 +35,8 @@ import com.cactusknights.chefbook.R
 import com.cactusknights.chefbook.ui.screens.recipeinput.RecipeInputScreenViewModel
 import com.cactusknights.chefbook.ui.screens.recipeinput.models.RecipeInputScreenEvent
 import com.cactusknights.chefbook.ui.themes.ChefBookTheme
-import com.cactusknights.chefbook.ui.views.buttons.CircleImageButton
-import com.cactusknights.chefbook.ui.views.textfields.IndicatorTextField
+import com.cactusknights.chefbook.ui.views.textfields.ChefBookIndicatorTextField
+import com.mephistolie.compost.ui.buttons.CircleIconButton
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -71,8 +72,8 @@ fun CaloriesDialog(
                     .fillMaxWidth()
                     .padding(vertical = 18.dp)
             )
-            CircleImageButton(
-                image = ImageVector.vectorResource(R.drawable.ic_cross),
+            CircleIconButton(
+                icon = ImageVector.vectorResource(R.drawable.ic_cross),
                 onClick = {
                     keyboardController?.hide()
                     viewModel.obtainEvent(RecipeInputScreenEvent.CloseBottomSheet)
@@ -80,7 +81,7 @@ fun CaloriesDialog(
                 modifier = Modifier
                     .padding(top = 18.dp)
                     .size(28.dp),
-                background = ChefBookTheme.colors.foregroundPrimary.copy(alpha = 0.25F),
+                colors = ButtonDefaults.buttonColors(backgroundColor = colors.foregroundPrimary.copy(alpha = 0.25F)),
                 tint = ChefBookTheme.colors.backgroundPrimary
             )
         }
@@ -90,7 +91,7 @@ fun CaloriesDialog(
                 .fillMaxWidth()
                 .height(1.dp)
         )
-        IndicatorTextField(
+        ChefBookIndicatorTextField(
             value = if (state.calories != null) state.calories.toString() else "",
             modifier = Modifier
                 .focusRequester(focusRequester)
@@ -109,7 +110,7 @@ fun CaloriesDialog(
                 )
             },
         )
-        IndicatorTextField(
+        ChefBookIndicatorTextField(
             value = if (state.macronutrients?.protein != null) state.macronutrients.protein.toString() else "",
             modifier = Modifier
                 .fillMaxWidth(),
@@ -127,7 +128,7 @@ fun CaloriesDialog(
                 )
             },
         )
-        IndicatorTextField(
+        ChefBookIndicatorTextField(
             value = if (state.macronutrients?.fats != null) state.macronutrients.fats.toString() else "",
             modifier = Modifier
                 .fillMaxWidth(),
@@ -145,7 +146,7 @@ fun CaloriesDialog(
                 )
             },
         )
-        IndicatorTextField(
+        ChefBookIndicatorTextField(
             value = if (state.macronutrients?.carbohydrates != null) state.macronutrients.carbohydrates.toString() else "",
             modifier = Modifier
                 .fillMaxWidth(),

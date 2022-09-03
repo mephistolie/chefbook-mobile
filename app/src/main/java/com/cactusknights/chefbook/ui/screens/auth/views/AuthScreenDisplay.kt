@@ -13,6 +13,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Divider
 import androidx.compose.material.Surface
@@ -34,16 +36,15 @@ import androidx.compose.ui.unit.dp
 import com.cactusknights.chefbook.R
 import com.cactusknights.chefbook.core.auth.AuthUtils
 import com.cactusknights.chefbook.core.auth.Password
-import com.mephistolie.compost.modifiers.simpleClickable
 import com.cactusknights.chefbook.ui.screens.auth.models.AuthAction
 import com.cactusknights.chefbook.ui.screens.auth.models.AuthProgress
 import com.cactusknights.chefbook.ui.screens.auth.models.AuthScreenEvent
 import com.cactusknights.chefbook.ui.screens.auth.models.AuthScreenState
 import com.cactusknights.chefbook.ui.themes.ChefBookTheme
-import com.cactusknights.chefbook.ui.themes.DeepOrangeDark
 import com.cactusknights.chefbook.ui.themes.DeepOrangeLight
-import com.cactusknights.chefbook.ui.views.buttons.CircleImageButton
-import com.cactusknights.chefbook.ui.views.buttons.RoundedTextButton
+import com.mephistolie.compost.modifiers.simpleClickable
+import com.mephistolie.compost.ui.buttons.CircleIconButton
+import com.mephistolie.compost.ui.buttons.TextButton
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -129,11 +130,11 @@ fun AuthScreenDisplay(
             }
         }
         AnimatedVisibility(visible = authState.progress != AuthProgress.LOADING) {
-            RoundedTextButton(
+            TextButton(
                 text = when (authState.action) {
-                    AuthAction.SIGN_IN -> stringResource(id = R.string.common_auth_screen_sign_in)
-                    AuthAction.SIGN_UP -> stringResource(id = R.string.common_auth_screen_sign_up)
-                    AuthAction.RESET_PASSWORD -> stringResource(id = R.string.common_auth_screen_reset_password)
+                    AuthAction.SIGN_IN -> stringResource(id = R.string.common_auth_screen_sign_in).uppercase()
+                    AuthAction.SIGN_UP -> stringResource(id = R.string.common_auth_screen_sign_up).uppercase()
+                    AuthAction.RESET_PASSWORD -> stringResource(id = R.string.common_auth_screen_reset_password).uppercase()
                 }, onClick = {
                     keyboardController?.hide()
                     when (authState.action) {
@@ -161,9 +162,15 @@ fun AuthScreenDisplay(
                     AuthAction.SIGN_UP -> emailCheck && passwordCheck == Password.VALID
                     AuthAction.RESET_PASSWORD -> emailCheck
                 },
-                textColor = DeepOrangeDark,
-                color = colors.tintPrimary,
-                modifier = Modifier.fillMaxWidth()
+                colors = ButtonDefaults.buttonColors(
+                    contentColor = colors.tintSecondary,
+                    backgroundColor = colors.tintPrimary,
+                ),
+                shape = RoundedCornerShape(percent = 100),
+                textStyle = typography.body1,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(48.dp),
             )
         }
         AnimatedVisibility(visible = authState.progress == AuthProgress.LOADING) {
@@ -190,26 +197,29 @@ fun AuthScreenDisplay(
                 Row(
                     modifier = Modifier.height(48.dp)
                 ) {
-                    CircleImageButton(
-                        image = ImageVector.vectorResource(R.drawable.ic_google),
+                    CircleIconButton(
+                        icon = ImageVector.vectorResource(R.drawable.ic_google),
                         onClick = { /*TODO*/ },
                         modifier = Modifier
                             .size(48.dp)
-                            .padding(5.dp)
+                            .padding(5.dp),
+                        colors = ButtonDefaults.buttonColors(backgroundColor = colors.backgroundTertiary),
                     )
-                    CircleImageButton(
-                        image = ImageVector.vectorResource(R.drawable.ic_vk),
+                    CircleIconButton(
+                        icon = ImageVector.vectorResource(R.drawable.ic_vk),
                         onClick = { /*TODO*/ },
                         modifier = Modifier
                             .size(48.dp)
-                            .padding(5.dp)
+                            .padding(5.dp),
+                        colors = ButtonDefaults.buttonColors(backgroundColor = colors.backgroundTertiary),
                     )
-                    CircleImageButton(
-                        image = ImageVector.vectorResource(R.drawable.ic_disable_sync),
+                    CircleIconButton(
+                        icon = ImageVector.vectorResource(R.drawable.ic_disable_sync),
                         onClick = { /*TODO*/ },
                         modifier = Modifier
                             .size(48.dp)
-                            .padding(5.dp)
+                            .padding(5.dp),
+                        colors = ButtonDefaults.buttonColors(backgroundColor = colors.backgroundTertiary),
                     )
                 }
             }

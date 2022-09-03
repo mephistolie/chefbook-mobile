@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -32,9 +33,9 @@ import com.cactusknights.chefbook.R
 import com.cactusknights.chefbook.ui.screens.recipe.dialogs.share.models.RecipeShareDialogEvent
 import com.cactusknights.chefbook.ui.screens.recipe.dialogs.share.models.RecipeShareDialogState
 import com.cactusknights.chefbook.ui.themes.ChefBookTheme
-import com.cactusknights.chefbook.ui.views.buttons.CircleImageButton
 import com.cactusknights.chefbook.ui.views.buttons.DynamicButton
 import com.cactusknights.chefbook.ui.views.textfields.CopyLinkField
+import com.mephistolie.compost.ui.buttons.CircleIconButton
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -47,6 +48,9 @@ fun RecipeShareDialogDisplay(
     val context = LocalContext.current
     val resources = context.resources
     val coroutine = rememberCoroutineScope()
+
+    val typography = ChefBookTheme.typography
+    val colors = ChefBookTheme.colors
 
     Dialog(
         onDismissRequest = onHide,
@@ -64,7 +68,7 @@ fun RecipeShareDialogDisplay(
                     .fillMaxWidth()
                     .wrapContentHeight()
                     .background(
-                        color = ChefBookTheme.colors.backgroundPrimary,
+                        color = colors.backgroundPrimary,
                         shape = RoundedCornerShape(32.dp, 32.dp, 24.dp, 24.dp)
                     ),
                 contentAlignment = Alignment.TopEnd
@@ -79,8 +83,8 @@ fun RecipeShareDialogDisplay(
                         text = "${stringResource(R.string.common_general_recipe)} #${state.id}",
                         modifier = Modifier.padding(top = 16.dp),
                         maxLines = 2,
-                        style = ChefBookTheme.typography.h2,
-                        color = ChefBookTheme.colors.foregroundPrimary,
+                        style = typography.h2,
+                        color = colors.foregroundPrimary,
                     )
                     AsyncImage(
                         model = ImageRequest.Builder(context)
@@ -95,7 +99,7 @@ fun RecipeShareDialogDisplay(
                             .fillMaxSize()
                     )
                     Divider(
-                        color = ChefBookTheme.colors.backgroundTertiary,
+                        color = colors.backgroundTertiary,
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(horizontal = 24.dp, vertical = 16.dp)
@@ -120,14 +124,14 @@ fun RecipeShareDialogDisplay(
                         onClick = { onEvent(RecipeShareDialogEvent.CopyAsText(resources)) },
                     )
                 }
-                CircleImageButton(
-                    image = ImageVector.vectorResource(R.drawable.ic_cross),
+                CircleIconButton(
+                    icon = ImageVector.vectorResource(R.drawable.ic_cross),
                     onClick = { coroutine.launch { onHide() } },
                     modifier = Modifier
                         .padding(16.dp)
                         .size(32.dp),
-                    background = ChefBookTheme.colors.foregroundPrimary.copy(alpha = 0.25F),
-                    tint = ChefBookTheme.colors.backgroundPrimary
+                    colors = ButtonDefaults.buttonColors(backgroundColor = colors.foregroundPrimary.copy(alpha = 0.25F)),
+                    tint = colors.backgroundPrimary,
                 )
             }
         }

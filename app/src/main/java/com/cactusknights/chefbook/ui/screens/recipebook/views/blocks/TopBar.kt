@@ -25,9 +25,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import com.cactusknights.chefbook.R
-import com.mephistolie.compost.modifiers.simpleClickable
 import com.cactusknights.chefbook.ui.themes.ChefBookTheme
-import com.cactusknights.chefbook.ui.views.buttons.CircleImageButton
+import com.mephistolie.compost.modifiers.simpleClickable
+import com.mephistolie.compost.ui.buttons.CircleIconButton
 
 @Composable
 fun TopBar(
@@ -90,13 +90,13 @@ fun TopBar(
                 )
             }
         }
-        CircleImageButton(
-            image = ImageVector.vectorResource(id = R.drawable.ic_favourite),
+        CircleIconButton(
+            icon = ImageVector.vectorResource(id = R.drawable.ic_favourite),
             onClick = { onFavouriteButtonClick() },
             modifier = Modifier
                 .padding(start = 8.dp)
                 .size(barSize),
-            background = colors.backgroundTertiary,
+            colors = ButtonDefaults.buttonColors(backgroundColor = colors.backgroundTertiary),
             tint = colors.foregroundPrimary,
             contentPadding = 9.dp
         )
