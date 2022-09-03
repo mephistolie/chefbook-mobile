@@ -13,7 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
-import com.cactusknights.chefbook.core.ui.simpleClickable
+import com.mephistolie.compost.modifiers.simpleClickable
 import com.cactusknights.chefbook.ui.themes.ChefBookTheme
 import com.cactusknights.chefbook.ui.views.radiobuttons.RadioButton
 
@@ -33,7 +33,7 @@ fun RadioElement(
             .padding(top = 18.dp)
             .fillMaxWidth()
             .wrapContentHeight()
-            .simpleClickable(onSelected),
+            .simpleClickable(onClick = onSelected),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Row(

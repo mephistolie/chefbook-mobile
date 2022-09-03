@@ -21,7 +21,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import com.cactusknights.chefbook.R
-import com.cactusknights.chefbook.core.ui.simpleClickable
+import com.mephistolie.compost.modifiers.simpleClickable
 import com.cactusknights.chefbook.ui.themes.ChefBookTheme
 import com.cactusknights.chefbook.ui.views.textfields.IndicatorTextField
 
@@ -80,7 +80,7 @@ fun SectionField(
             tint = colors.foregroundPrimary,
             modifier = Modifier
                 .size(24.dp)
-                .simpleClickable(onDeleteClick)
+                .simpleClickable(onClick = onDeleteClick)
                 .padding(2.dp)
         )
     }

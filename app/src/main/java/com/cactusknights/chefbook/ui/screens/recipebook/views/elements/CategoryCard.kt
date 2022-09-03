@@ -24,10 +24,10 @@ import androidx.compose.ui.unit.ExperimentalUnitApi
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
-import com.cactusknights.chefbook.core.ui.scalingClickable
 import com.cactusknights.chefbook.domain.entities.category.Category
 import com.cactusknights.chefbook.ui.themes.ChefBookTheme
-import com.cactusknights.chefbook.ui.views.common.PressedRipple
+import com.mephistolie.compost.extensions.Shading
+import com.mephistolie.compost.modifiers.scalingClickable
 
 @OptIn(ExperimentalUnitApi::class)
 @Composable
@@ -88,6 +88,6 @@ fun CategoryCard(
                 )
             }
         }
-        PressedRipple(pressed.value)
+        Shading(pressed.value)
     }
 }

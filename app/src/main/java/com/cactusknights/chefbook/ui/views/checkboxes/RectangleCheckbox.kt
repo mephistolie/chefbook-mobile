@@ -25,7 +25,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.cactusknights.chefbook.R
-import com.cactusknights.chefbook.core.ui.simpleClickable
+import com.mephistolie.compost.modifiers.simpleClickable
 import com.cactusknights.chefbook.ui.themes.ChefBookTheme
 
 @Composable
@@ -54,7 +54,7 @@ fun RectangleCheckbox(
         if (enabled) {
             Modifier
                 .size(size)
-                .simpleClickable(onCheckedChange)
+                .simpleClickable(onClick = onCheckedChange)
                 .clip(RoundedCornerShape(cornerRadius))
         } else {
             Modifier

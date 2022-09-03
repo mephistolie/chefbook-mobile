@@ -16,12 +16,12 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import com.cactusknights.chefbook.R
 import com.cactusknights.chefbook.core.ui.gridItems
-import com.cactusknights.chefbook.core.ui.simpleClickable
 import com.cactusknights.chefbook.domain.entities.category.Category
 import com.cactusknights.chefbook.ui.screens.recipebook.views.elements.CategoryCard
 import com.cactusknights.chefbook.ui.screens.recipebook.views.elements.CategoryCardSkeleton
 import com.cactusknights.chefbook.ui.screens.recipebook.views.elements.NewCategoryCard
 import com.cactusknights.chefbook.ui.themes.ChefBookTheme
+import com.mephistolie.compost.modifiers.simpleClickable
 import kotlin.math.min
 
 fun LazyListScope.categoriesBlock(
@@ -59,7 +59,7 @@ fun LazyListScope.categoriesBlock(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .simpleClickable(onExpandClicked)
+                        .simpleClickable(onClick = onExpandClicked)
                         .padding(12.dp, 0.dp),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.End,

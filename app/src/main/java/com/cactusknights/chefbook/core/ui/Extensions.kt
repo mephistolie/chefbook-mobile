@@ -1,14 +1,10 @@
 package com.cactusknights.chefbook.core.ui
 
 import android.content.res.Resources
-import android.view.MotionEvent
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
@@ -22,46 +18,19 @@ import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.material.TabPosition
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.scale
-import androidx.compose.ui.input.pointer.pointerInteropFilter
 import androidx.compose.ui.platform.debugInspectorInfo
 import androidx.compose.ui.unit.Dp
-import androidx.navigation.NavHostController
 import com.cactusknights.chefbook.R
 import com.cactusknights.chefbook.domain.entities.common.Language
 import com.cactusknights.chefbook.domain.entities.common.MeasureUnit
 import kotlinx.coroutines.launch
-
-fun Modifier.wrapContentIndicatorOffset(
-    currentTabPosition: TabPosition,
-    tabWidth: Dp
-): Modifier = composed(
-    inspectorInfo = debugInspectorInfo {
-        name = "customTabIndicatorOffset"
-        value = currentTabPosition
-    }
-) {
-    val currentTabWidth by animateDpAsState(
-        targetValue = tabWidth,
-        animationSpec = tween(durationMillis = 250, easing = FastOutSlowInEasing)
-    )
-    val indicatorOffset by animateDpAsState(
-        targetValue = ((currentTabPosition.left + currentTabPosition.right - tabWidth) / 2),
-        animationSpec = tween(durationMillis = 250, easing = FastOutSlowInEasing)
-    )
-    fillMaxWidth()
-        .wrapContentSize(Alignment.BottomStart)
-        .offset(x = indicatorOffset)
-        .width(currentTabWidth)
-}
 
 fun <T> LazyListScope.gridItems(
     data: List<T>,
@@ -190,43 +159,3 @@ fun Language.localizedName(resources: Resources) =
         Language.PERSIAN -> resources.getString(R.string.common_general_language_persian)
         Language.OTHER -> resources.getString(R.string.common_general_language_other)
     }
-
-@OptIn(ExperimentalComposeUiApi::class)
-fun Modifier.scalingClickable(
-    pressed: MutableState<Boolean>,
-    scaleFactor: Float = 0.975F,
-    onClick: () -> Unit,
-): Modifier = composed {
-
-    val scale = animateFloatAsState(if (!pressed.value) 1F else scaleFactor)
-
-    this
-        .scale(scale.value)
-        .pointerInteropFilter {
-            when (it.action) {
-                MotionEvent.ACTION_DOWN -> pressed.value = true
-                MotionEvent.ACTION_CANCEL -> pressed.value = false
-                MotionEvent.ACTION_UP -> {
-                    onClick()
-                    pressed.value = false
-                }
-            }
-            true
-        }
-}
-
-fun Modifier.simpleClickable(
-    onClick: () -> Unit,
-): Modifier = composed {
-    this.clickable(
-        onClick = onClick,
-        interactionSource = remember { MutableInteractionSource() },
-        indication = null
-    )
-}
-
-fun NavHostController.popBackStackSafely() {
-    if (backQueue.size > 1) {
-        popBackStack()
-    }
-}

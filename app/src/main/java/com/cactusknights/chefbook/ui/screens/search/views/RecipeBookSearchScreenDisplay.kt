@@ -34,7 +34,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import com.cactusknights.chefbook.R
-import com.cactusknights.chefbook.core.ui.simpleClickable
+import com.mephistolie.compost.modifiers.simpleClickable
 import com.cactusknights.chefbook.ui.screens.search.models.RecipeBookSearchScreenEvent
 import com.cactusknights.chefbook.ui.screens.search.models.RecipeBookSearchScreenState
 import com.cactusknights.chefbook.ui.screens.search.views.elements.SearchRecipeCard

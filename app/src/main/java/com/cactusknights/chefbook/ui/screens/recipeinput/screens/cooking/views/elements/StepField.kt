@@ -24,7 +24,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.cactusknights.chefbook.R
-import com.cactusknights.chefbook.core.ui.simpleClickable
+import com.mephistolie.compost.modifiers.simpleClickable
 import com.cactusknights.chefbook.domain.entities.recipe.cooking.CookingItem
 import com.cactusknights.chefbook.ui.themes.ChefBookTheme
 import com.cactusknights.chefbook.ui.views.buttons.DynamicButton
@@ -101,7 +101,7 @@ fun StepField(
                     .height(56.dp)
                     .width(24.dp)
                     .padding(vertical = 16.dp)
-                    .simpleClickable(onDeleteClick)
+                    .simpleClickable(onClick = onDeleteClick)
                     .padding(2.dp)
             )
         }

@@ -25,7 +25,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import com.cactusknights.chefbook.R
-import com.cactusknights.chefbook.core.ui.simpleClickable
+import com.mephistolie.compost.modifiers.simpleClickable
 import com.cactusknights.chefbook.ui.themes.ChefBookTheme
 import com.cactusknights.chefbook.ui.views.buttons.CircleImageButton
 
@@ -52,7 +52,7 @@ fun TopBar(
             tint = colors.tintPrimary,
             modifier = Modifier
                 .width(barSize - 6.dp)
-                .simpleClickable(onCreateRecipeButtonClick)
+                .simpleClickable(onClick = onCreateRecipeButtonClick)
                 .padding(2.dp, 0.dp, 6.dp, 0.dp)
                 .size(28.dp)
         )

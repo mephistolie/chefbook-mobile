@@ -23,9 +23,9 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import com.cactusknights.chefbook.R
-import com.cactusknights.chefbook.core.ui.scalingClickable
 import com.cactusknights.chefbook.ui.themes.ChefBookTheme
-import com.cactusknights.chefbook.ui.views.common.PressedRipple
+import com.mephistolie.compost.extensions.Shading
+import com.mephistolie.compost.modifiers.scalingClickable
 
 @Composable
 fun RecipeBookActionButton(
@@ -104,6 +104,6 @@ fun RecipeBookActionButton(
                 }
             }
         }
-        PressedRipple(pressed.value)
+        Shading(pressed.value)
     }
 }

@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.cactusknights.chefbook.R
-import com.cactusknights.chefbook.core.ui.simpleClickable
+import com.mephistolie.compost.modifiers.simpleClickable
 import com.cactusknights.chefbook.ui.themes.ChefBookTheme
 
 @Composable
@@ -39,7 +39,7 @@ fun StepPicture(
             .clip(RoundedCornerShape(12.dp))
             .background(colors.backgroundSecondary)
             .aspectRatio(1.5F)
-            .simpleClickable(onDeleteClick),
+            .simpleClickable(onClick = onDeleteClick),
         contentAlignment = Alignment.Center,
     ) {
         AsyncImage(

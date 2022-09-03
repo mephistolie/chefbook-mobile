@@ -22,10 +22,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.cactusknights.chefbook.core.ui.scalingClickable
 import com.cactusknights.chefbook.domain.entities.recipe.cooking.CookingItem
 import com.cactusknights.chefbook.ui.themes.ChefBookTheme
-import com.cactusknights.chefbook.ui.views.common.PressedRipple
+import com.mephistolie.compost.extensions.Shading
+import com.mephistolie.compost.modifiers.scalingClickable
 
 @Composable
 fun CookingStep(
@@ -86,7 +86,7 @@ fun CookingStep(
                                         contentScale = ContentScale.Crop,
                                         modifier = Modifier.matchParentSize(),
                                     )
-                                    PressedRipple(isVisible = pressed.value)
+                                    Shading(isVisible = pressed.value)
                                 }
                             } else {
                                 Spacer(modifier = Modifier

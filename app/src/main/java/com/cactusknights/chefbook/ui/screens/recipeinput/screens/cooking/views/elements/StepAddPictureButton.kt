@@ -15,7 +15,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import com.cactusknights.chefbook.R
-import com.cactusknights.chefbook.core.ui.simpleClickable
+import com.mephistolie.compost.modifiers.simpleClickable
 import com.cactusknights.chefbook.ui.themes.ChefBookTheme
 
 @Composable
@@ -31,7 +31,7 @@ fun StepAddPictureButton(
             .clip(RoundedCornerShape(12.dp))
             .background(colors.backgroundSecondary)
             .aspectRatio(1.5F)
-            .simpleClickable(onAddPictureClick),
+            .simpleClickable(onClick = onAddPictureClick),
         contentAlignment = Alignment.Center
     ) {
         Icon(

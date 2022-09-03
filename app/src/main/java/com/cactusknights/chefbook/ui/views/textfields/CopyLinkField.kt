@@ -20,7 +20,7 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.cactusknights.chefbook.R
-import com.cactusknights.chefbook.core.ui.simpleClickable
+import com.mephistolie.compost.modifiers.simpleClickable
 import com.cactusknights.chefbook.ui.themes.ChefBookTheme
 
 @Composable
@@ -56,7 +56,7 @@ fun CopyLinkField(
             modifier = Modifier
                 .fillMaxHeight()
                 .aspectRatio(1F)
-                .simpleClickable(onCopy)
+                .simpleClickable(onClick = onCopy)
                 .background(
                     color = colors.backgroundSecondary,
                     shape = RoundedCornerShape(topEnd = 12.dp, bottomEnd = 12.dp)

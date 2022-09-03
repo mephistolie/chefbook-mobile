@@ -90,6 +90,8 @@ dependencies {
     implementation("com.google.accompanist:accompanist-pager:$accompanistVersion")
     implementation("com.google.accompanist:accompanist-pager-indicators:$accompanistVersion")
 
+    implementation("com.github.mephistolie:compost:0.0.3")
+
     implementation("org.burnoutcrew.composereorderable:reorderable:0.9.2")
 
     // Dependency Injection

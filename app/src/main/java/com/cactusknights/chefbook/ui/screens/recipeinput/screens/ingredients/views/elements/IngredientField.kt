@@ -27,7 +27,7 @@ import androidx.compose.ui.text.input.TransformedText
 import androidx.compose.ui.unit.dp
 import com.cactusknights.chefbook.R
 import com.cactusknights.chefbook.core.ui.localizedName
-import com.cactusknights.chefbook.core.ui.simpleClickable
+import com.mephistolie.compost.modifiers.simpleClickable
 import com.cactusknights.chefbook.domain.entities.recipe.ingredient.IngredientItem
 import com.cactusknights.chefbook.ui.themes.ChefBookTheme
 import com.cactusknights.chefbook.ui.views.textfields.IndicatorTextField
@@ -77,7 +77,7 @@ fun IngredientField(
             modifier = Modifier
                 .weight(1F)
                 .fillMaxWidth()
-                .simpleClickable(onInputClick),
+                .simpleClickable(onClick = onInputClick),
             onValueChange = {},
             visualTransformation = { name ->
                 var text = name
@@ -114,7 +114,7 @@ fun IngredientField(
             tint = colors.foregroundPrimary,
             modifier = Modifier
                 .size(24.dp)
-                .simpleClickable(onDeleteClick)
+                .simpleClickable(onClick = onDeleteClick)
                 .padding(2.dp)
         )
     }

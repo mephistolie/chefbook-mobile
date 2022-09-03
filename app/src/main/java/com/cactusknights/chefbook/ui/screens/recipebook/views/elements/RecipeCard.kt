@@ -34,11 +34,11 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.cactusknights.chefbook.R
 import com.cactusknights.chefbook.common.Utils
-import com.cactusknights.chefbook.core.ui.scalingClickable
 import com.cactusknights.chefbook.domain.entities.recipe.RecipeInfo
 import com.cactusknights.chefbook.ui.themes.ChefBookTheme
 import com.cactusknights.chefbook.ui.themes.Red
-import com.cactusknights.chefbook.ui.views.common.PressedRipple
+import com.mephistolie.compost.extensions.Shading
+import com.mephistolie.compost.modifiers.scalingClickable
 
 @Composable
 fun RecipeCard(
@@ -116,7 +116,7 @@ fun RecipeCard(
                     )
                 }
             }
-            PressedRipple(pressed.value)
+            Shading(pressed.value)
         }
         Text(
             text = recipe.name,
