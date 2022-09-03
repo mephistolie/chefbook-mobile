@@ -1,6 +1,5 @@
 package com.cactusknights.chefbook.ui.screens.recipebook.views.elements
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -27,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import com.cactusknights.chefbook.domain.entities.category.Category
 import com.cactusknights.chefbook.ui.themes.ChefBookTheme
 import com.mephistolie.compost.extensions.Shading
+import com.mephistolie.compost.modifiers.clippedBackground
 import com.mephistolie.compost.modifiers.scalingClickable
 
 @OptIn(ExperimentalUnitApi::class)
@@ -48,8 +48,7 @@ fun CategoryCard(
             .scalingClickable(pressed) {
                 onCategoryClicked(category)
             }
-            .clip(RoundedCornerShape(16.dp))
-            .background(colors.backgroundSecondary,)
+            .clippedBackground(colors.backgroundSecondary, RoundedCornerShape(16.dp))
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,

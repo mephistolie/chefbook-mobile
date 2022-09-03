@@ -1,6 +1,5 @@
 package com.cactusknights.chefbook.ui.screens.recipeinput.screens.cooking.views.elements
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -19,16 +18,16 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.cactusknights.chefbook.R
-import com.mephistolie.compost.modifiers.simpleClickable
 import com.cactusknights.chefbook.domain.entities.recipe.cooking.CookingItem
 import com.cactusknights.chefbook.ui.themes.ChefBookTheme
 import com.cactusknights.chefbook.ui.views.buttons.DynamicButton
 import com.cactusknights.chefbook.ui.views.textfields.IndicatorTextField
+import com.mephistolie.compost.modifiers.clippedBackground
+import com.mephistolie.compost.modifiers.simpleClickable
 
 @Composable
 fun StepField(
@@ -47,8 +46,7 @@ fun StepField(
         modifier = modifier
             .fillMaxWidth()
             .wrapContentHeight()
-            .clip(RoundedCornerShape(8.dp))
-            .background(colors.backgroundPrimary),
+            .clippedBackground(colors.backgroundPrimary, RoundedCornerShape(16.dp))
     ) {
         Row(
             modifier = Modifier.padding(horizontal = 12.dp),

@@ -1,6 +1,5 @@
 package com.cactusknights.chefbook.ui.screens.recipeinput.screens.ingredients.views.elements
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -15,15 +14,15 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import com.cactusknights.chefbook.R
-import com.mephistolie.compost.modifiers.simpleClickable
 import com.cactusknights.chefbook.ui.themes.ChefBookTheme
 import com.cactusknights.chefbook.ui.views.textfields.IndicatorTextField
+import com.mephistolie.compost.modifiers.clippedBackground
+import com.mephistolie.compost.modifiers.simpleClickable
 
 @Composable
 fun SectionField(
@@ -40,8 +39,7 @@ fun SectionField(
             .fillMaxWidth()
             .height(56.dp)
             .padding(horizontal = 8.dp)
-            .clip(RoundedCornerShape(8.dp))
-            .background(colors.backgroundPrimary)
+            .clippedBackground(colors.backgroundPrimary, RoundedCornerShape(8.dp))
             .padding(horizontal = 4.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalAlignment = Alignment.CenterVertically,

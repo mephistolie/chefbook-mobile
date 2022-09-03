@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.cactusknights.chefbook.ui.themes.ChefBookTheme
 import com.mephistolie.compost.extensions.Shading
+import com.mephistolie.compost.modifiers.clippedBackground
 import com.mephistolie.compost.modifiers.scalingClickable
 
 @Composable
@@ -74,8 +75,7 @@ fun DynamicButton(
 
     Box(
         modifier = baseModifier
-            .clip(RoundedCornerShape(cornerRadius))
-            .background(background),
+            .clippedBackground(background, RoundedCornerShape(cornerRadius)),
         contentAlignment = Alignment.Center
     ) {
         Row(

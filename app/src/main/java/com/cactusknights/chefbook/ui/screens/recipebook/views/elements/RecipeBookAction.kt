@@ -1,7 +1,6 @@
 package com.cactusknights.chefbook.ui.screens.recipebook.views.elements
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -17,7 +16,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
@@ -25,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import com.cactusknights.chefbook.R
 import com.cactusknights.chefbook.ui.themes.ChefBookTheme
 import com.mephistolie.compost.extensions.Shading
+import com.mephistolie.compost.modifiers.clippedBackground
 import com.mephistolie.compost.modifiers.scalingClickable
 
 @Composable
@@ -45,8 +44,7 @@ fun RecipeBookActionButton(
     Box(
         modifier = modifier
             .scalingClickable(pressed, onClick = onActionButtonClick)
-            .clip(RoundedCornerShape(12.dp))
-            .background(colors.backgroundSecondary)
+            .clippedBackground(colors.backgroundSecondary, RoundedCornerShape(12.dp))
     ) {
         image?.let {
             Column(

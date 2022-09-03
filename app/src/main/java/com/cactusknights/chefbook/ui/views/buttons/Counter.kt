@@ -34,6 +34,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.cactusknights.chefbook.R
 import com.cactusknights.chefbook.ui.themes.ChefBookTheme
+import com.mephistolie.compost.modifiers.clippedBackground
 
 @OptIn(ExperimentalMaterialApi::class, ExperimentalComposeUiApi::class)
 @Composable
@@ -61,8 +62,7 @@ fun Counter(
         modifier = Modifier
             .wrapContentWidth()
             .height(38.dp)
-            .clip(RoundedCornerShape(12.dp))
-            .background(colors.backgroundSecondary)
+            .clippedBackground(colors.backgroundSecondary, RoundedCornerShape(12.dp))
     ) {
         IconButton(
             onClick = onMinusClicked,

@@ -18,7 +18,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -32,6 +31,7 @@ import com.cactusknights.chefbook.common.Utils
 import com.cactusknights.chefbook.domain.entities.recipe.RecipeInfo
 import com.cactusknights.chefbook.ui.themes.ChefBookTheme
 import com.mephistolie.compost.extensions.Shading
+import com.mephistolie.compost.modifiers.clippedBackground
 import com.mephistolie.compost.modifiers.scalingClickable
 
 @Composable
@@ -60,8 +60,7 @@ fun LatestRecipeCard(
             modifier = Modifier
                 .padding(end = 8.dp)
                 .size(80.dp)
-                .clip(RoundedCornerShape(12.dp))
-                .background(colors.backgroundSecondary)
+                .clippedBackground(colors.backgroundSecondary, RoundedCornerShape(12.dp)),
         ) {
             AsyncImage(
                 model = ImageRequest.Builder(context)

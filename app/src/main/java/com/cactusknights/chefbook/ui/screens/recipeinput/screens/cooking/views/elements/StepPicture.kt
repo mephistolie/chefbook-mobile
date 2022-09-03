@@ -11,7 +11,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -20,8 +19,9 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.cactusknights.chefbook.R
-import com.mephistolie.compost.modifiers.simpleClickable
 import com.cactusknights.chefbook.ui.themes.ChefBookTheme
+import com.mephistolie.compost.modifiers.clippedBackground
+import com.mephistolie.compost.modifiers.simpleClickable
 
 @Composable
 fun StepPicture(
@@ -36,8 +36,7 @@ fun StepPicture(
     Box(
         modifier = modifier
             .width(64.dp)
-            .clip(RoundedCornerShape(12.dp))
-            .background(colors.backgroundSecondary)
+            .clippedBackground(colors.backgroundSecondary, RoundedCornerShape(12.dp))
             .aspectRatio(1.5F)
             .simpleClickable(onClick = onDeleteClick),
         contentAlignment = Alignment.Center,
