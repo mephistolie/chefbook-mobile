@@ -43,7 +43,7 @@ import com.cactusknights.chefbook.ui.screens.recipeinput.RecipeInputScreenViewMo
 import com.cactusknights.chefbook.ui.screens.recipeinput.models.RecipeInputScreenEvent
 import com.cactusknights.chefbook.ui.themes.ChefBookTheme
 import com.cactusknights.chefbook.ui.views.buttons.DynamicButton
-import com.cactusknights.chefbook.ui.views.textfields.ChefBookIndicatorTextField
+import com.cactusknights.chefbook.ui.views.textfields.IndicatorTextField
 import com.google.accompanist.flowlayout.FlowRow
 import com.mephistolie.compost.ui.buttons.CircleIconButton
 
@@ -102,7 +102,7 @@ fun IngredientDialog(
                 .fillMaxWidth()
                 .height(1.dp)
         )
-        ChefBookIndicatorTextField(
+        IndicatorTextField(
             value = ingredient.name,
             modifier = Modifier
                 .focusRequester(focusRequester)
@@ -118,7 +118,7 @@ fun IngredientDialog(
                 )
             },
         )
-        ChefBookIndicatorTextField(
+        IndicatorTextField(
             value = if (ingredient.amount != null) ingredient.amount.toString() else "",
             modifier = Modifier.fillMaxWidth(),
             onValueChange = { amount ->
@@ -132,11 +132,10 @@ fun IngredientDialog(
                 )
             },
         )
-        ChefBookIndicatorTextField(
+        IndicatorTextField(
             value = if (ingredient.unit != null) ingredient.unit.localizedName(resources) else "",
             modifier = Modifier.fillMaxWidth(),
             onValueChange = { unit ->
-                keyboardController?.hide()
                 viewModel.obtainEvent(RecipeInputScreenEvent.SetIngredientUnit(ingredientIndex, MeasureUnitMapper.map(unit, resources)))
             },
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),

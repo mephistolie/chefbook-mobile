@@ -40,7 +40,7 @@ import com.cactusknights.chefbook.ui.screens.recipeinput.screens.details.views.b
 import com.cactusknights.chefbook.ui.themes.ChefBookTheme
 import com.cactusknights.chefbook.ui.views.buttons.DynamicButton
 import com.cactusknights.chefbook.ui.views.common.Toolbar
-import com.cactusknights.chefbook.ui.views.textfields.ChefBookIndicatorTextField
+import com.cactusknights.chefbook.ui.views.textfields.IndicatorTextField
 import com.mephistolie.compost.modifiers.clippedBackground
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -98,14 +98,7 @@ fun RecipeInputDetailsScreenDisplay(
             item {
                 PreviewBlock(
                     preview = state.preview,
-                    onPreviewSet = { uri ->
-                        onEvent(
-                            RecipeInputScreenEvent.SetPreview(
-                                uri,
-                                context
-                            )
-                        )
-                    },
+                    onPreviewSet = { uri -> onEvent(RecipeInputScreenEvent.SetPreview(uri)) },
                     onPreviewDeleted = { onEvent(RecipeInputScreenEvent.RemovePreview) },
                     modifier = Modifier
                         .padding(
@@ -119,7 +112,7 @@ fun RecipeInputDetailsScreenDisplay(
                 )
             }
             item {
-                ChefBookIndicatorTextField(
+                IndicatorTextField(
                     value = state.name,
                     modifier = Modifier
                         .padding(
@@ -220,7 +213,7 @@ fun RecipeInputDetailsScreenDisplay(
             }
             item {
                 AnimatedVisibility(isContinueAvailable(state)) {
-                    ChefBookIndicatorTextField(
+                    IndicatorTextField(
                         value = state.description.orEmpty(),
                         modifier = Modifier
                             .padding(

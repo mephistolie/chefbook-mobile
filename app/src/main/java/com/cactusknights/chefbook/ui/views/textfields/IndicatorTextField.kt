@@ -25,7 +25,7 @@ import com.cactusknights.chefbook.ui.themes.ChefBookTheme
 import com.mephistolie.compost.ui.textfields.IndicatorLineTextField
 
 @Composable
-fun ChefBookIndicatorTextField(
+fun IndicatorTextField(
     value: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
@@ -44,6 +44,7 @@ fun ChefBookIndicatorTextField(
 
     val fieldColors = TextFieldDefaults.textFieldColors(
         textColor = colors.foregroundPrimary,
+        disabledTextColor = colors.foregroundPrimary,
         cursorColor = colors.tintPrimary,
         focusedLabelColor = focusedIndicatorColor,
         focusedIndicatorColor = colors.tintPrimary,
@@ -76,17 +77,17 @@ fun ChefBookIndicatorTextField(
 @Composable
 @Preview(showBackground = true)
 fun PreviewLightIndicatorFields() {
-    ThemedChefBookIndicatorFields(false)
+    ThemedIndicatorFields(false)
 }
 
 @Composable
 @Preview(showBackground = true)
 fun PreviewDarkIndicatorFields() {
-    ThemedChefBookIndicatorFields(true)
+    ThemedIndicatorFields(true)
 }
 
 @Composable
-private fun ThemedChefBookIndicatorFields(
+private fun ThemedIndicatorFields(
     isDarkTheme: Boolean
 ) {
     ChefBookTheme(darkTheme = isDarkTheme) {
@@ -94,14 +95,14 @@ private fun ThemedChefBookIndicatorFields(
             color = ChefBookTheme.colors.backgroundPrimary
         ) {
             Column {
-                ChefBookIndicatorTextField(
+                IndicatorTextField(
                     value = "",
                     onValueChange = {},
                     modifier = Modifier.fillMaxWidth(),
                     label = { Text(stringResource(R.string.common_general_email)) },
                 )
                 Spacer(Modifier.height(8.dp))
-                ChefBookIndicatorTextField(
+                IndicatorTextField(
                     value = "",
                     onValueChange = {},
                     modifier = Modifier.fillMaxWidth(),

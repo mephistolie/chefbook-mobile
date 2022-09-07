@@ -64,7 +64,7 @@ fun RecipeInputCookingScreenDisplay(
         focusStepIndex?.let { index ->
             val uri = result.getUriFilePath(context)
             if (result.isSuccessful && uri != null) {
-                onEvent(RecipeInputScreenEvent.AddStepPicture(index, uri, context))
+                onEvent(RecipeInputScreenEvent.AddStepPicture(index, uri))
             }
         }
     }

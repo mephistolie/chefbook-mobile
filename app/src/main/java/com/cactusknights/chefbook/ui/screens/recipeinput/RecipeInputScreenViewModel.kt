@@ -1,10 +1,11 @@
 package com.cactusknights.chefbook.ui.screens.recipeinput
 
-import android.content.Context
-import androidx.lifecycle.ViewModel
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.cactusknights.chefbook.common.Strings
 import com.cactusknights.chefbook.common.mvi.EventHandler
+import com.cactusknights.chefbook.core.coroutines.AppDispatchers
 import com.cactusknights.chefbook.domain.entities.action.Failure
 import com.cactusknights.chefbook.domain.entities.action.Loading
 import com.cactusknights.chefbook.domain.entities.action.Successful
@@ -40,16 +41,19 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kotlin.math.max
 import kotlin.math.min
 
 @HiltViewModel
 class RecipeInputScreenViewModel @Inject constructor(
+    application: Application,
     private val getRecipeUseCase: IGetRecipeUseCase,
     private val createRecipeUseCase: ICreateRecipeUseCase,
     private val updateRecipeUseCase: IUpdateRecipeUseCase,
     private val setDefaultRecipeLanguageUseCase: ISetDefaultRecipeLanguageUseCase,
-) : ViewModel(), EventHandler<RecipeInputScreenEvent> {
+    private val dispatchers: AppDispatchers,
+) : AndroidViewModel(application), EventHandler<RecipeInputScreenEvent> {
 
     private val _state: MutableStateFlow<RecipeInputScreenState> =
         MutableStateFlow(RecipeInputScreenState())
@@ -78,7 +82,7 @@ class RecipeInputScreenViewModel @Inject constructor(
                 is RecipeInputScreenEvent.OpenLanguagePicker -> _effect.emit(RecipeInputScreenEffect.OnLanguagePickerOpen)
                 is RecipeInputScreenEvent.SetLanguage -> setLanguage(event.language)
                 is RecipeInputScreenEvent.SetDescription -> setDescription(event.description)
-                is RecipeInputScreenEvent.SetPreview -> setCompressedPreview(event.uri, event.context)
+                is RecipeInputScreenEvent.SetPreview -> setCompressedPreview(event.uri)
                 is RecipeInputScreenEvent.RemovePreview -> removePreview()
                 is RecipeInputScreenEvent.SetServings -> setServings(event.servings)
                 is RecipeInputScreenEvent.SetTime -> setTime(event.h, event.min)
@@ -112,7 +116,7 @@ class RecipeInputScreenViewModel @Inject constructor(
                     name = Strings.EMPTY
                 ))
                 is RecipeInputScreenEvent.SetCookingItemValue -> setCookingItemValue(event.index, event.value)
-                is RecipeInputScreenEvent.AddStepPicture -> addStepPicture(event.stepIndex, event.uri, event.context)
+                is RecipeInputScreenEvent.AddStepPicture -> addStepPicture(event.stepIndex, event.uri)
                 is RecipeInputScreenEvent.DeleteStepPicture -> removeStepPicture(event.stepIndex, event.pictureIndex)
                 is RecipeInputScreenEvent.MoveStepItem -> moveCookingItem(event.from, event.to)
                 is RecipeInputScreenEvent.DeleteStepItem -> deleteCookingItem(event.index)
@@ -216,11 +220,11 @@ class RecipeInputScreenViewModel @Inject constructor(
         _state.emit(currentState.copy(input = input.copy(description = croppedDescription)))
     }
 
-    private suspend fun setCompressedPreview(uri: String, context: Context) {
+    private suspend fun setCompressedPreview(uri: String) {
         val currentState = state.value
         val input = currentState.input
 
-        val compressedPreviewPath = compressPicture(uri, context)
+        val compressedPreviewPath = compressPicture(uri)
         _state.emit(currentState.copy(input = input.copy(preview = compressedPreviewPath)))
     }
 
@@ -449,10 +453,9 @@ class RecipeInputScreenViewModel @Inject constructor(
 
     private suspend fun addStepPicture(
         stepIndex: Int,
-        uri: String,
-        context: Context
+        uri: String
     ) {
-        val compressedPicturePath = compressPicture(uri, context)
+        val compressedPicturePath = compressPicture(uri)
 
         val currentState = state.value
         val input = currentState.input
@@ -553,17 +556,16 @@ class RecipeInputScreenViewModel @Inject constructor(
 
     private suspend fun compressPicture(
         path: String,
-        context: Context,
-    ): String {
+    ): String = withContext(dispatchers.default) {
         val file = File(path)
         picturesCounter++
-        val compressedFile = Compressor.compress(context, file) {
+        val compressedFile = Compressor.compress(getApplication<Application>().applicationContext, file) {
             resolution(1284, 1284)
             size(1048576)
             quality(100)
             destination(File(path + "_tmp_$picturesCounter.jpg"))
         }
-        return compressedFile.canonicalPath
+        return@withContext compressedFile.canonicalPath
     }
 
     companion object {
