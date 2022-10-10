@@ -2,7 +2,8 @@ package com.cactusknights.chefbook.data.repositories
 
 import com.cactusknights.chefbook.core.coroutines.CoroutineScopes
 import com.cactusknights.chefbook.core.encryption.IHybridCryptor
-import com.cactusknights.chefbook.data.IEncryptionSource
+import com.cactusknights.chefbook.data.ILocalEncryptionSource
+import com.cactusknights.chefbook.data.IRemoteEncryptionSource
 import com.cactusknights.chefbook.di.Local
 import com.cactusknights.chefbook.di.Remote
 import com.cactusknights.chefbook.domain.entities.action.ActionStatus
@@ -31,8 +32,8 @@ import kotlinx.coroutines.launch
 
 @Singleton
 class EncryptedVaultRepo @Inject constructor(
-    @Local private val localSource: IEncryptionSource,
-    @Remote private val remoteSource: IEncryptionSource,
+    @Local private val localSource: ILocalEncryptionSource,
+    @Remote private val remoteSource: IRemoteEncryptionSource,
 
     private val encryptionManager: IHybridCryptor,
     private val source: ISourceRepo,
@@ -44,7 +45,7 @@ class EncryptedVaultRepo @Inject constructor(
 
     init {
         scopes.repository.launch {
-            getEncryptedVaultState()
+            vaultState.emit(getEncryptedVaultState())
         }
     }
 
@@ -58,9 +59,9 @@ class EncryptedVaultRepo @Inject constructor(
     }
 
     override suspend fun createEncryptedVault(password: String): SimpleAction {
-        val ketPair = encryptionManager.generateKeyPair()
+        val keyPair = encryptionManager.generateKeyPair()
         val key = encryptionManager.generateSymmetricKey(password)
-        val encryptedKeyPair = encryptionManager.encryptKeyPairBySymmetricKey(ketPair, key)
+        val encryptedKeyPair = encryptionManager.encryptKeyPairBySymmetricKey(keyPair, key)
 
         val result = if (source.isOnlineMode()) {
             remoteSource.setUserKey(encryptedKeyPair)
@@ -68,7 +69,11 @@ class EncryptedVaultRepo @Inject constructor(
             localSource.setUserKey(encryptedKeyPair)
         }
 
-        if (result.isSuccess() && source.isOnlineMode()) localSource.setUserKey(encryptedKeyPair)
+        if (result.isSuccess() && source.isOnlineMode()) {
+            localSource.setUserKey(encryptedKeyPair)
+            userKeys = keyPair
+            vaultState.emit(EncryptedVaultState.UNLOCKED)
+        }
 
         return result
     }
@@ -110,16 +115,29 @@ class EncryptedVaultRepo @Inject constructor(
             localSource.deleteUserKey()
         }
 
-        if (result.isSuccess() && source.useRemoteSource()) localSource.deleteUserKey()
+        if (result.isSuccess() && source.useRemoteSource()) {
+            localSource.deleteUserKey()
+            vaultState.emit(EncryptedVaultState.DISABLED)
+        }
         return result
     }
 
     private suspend fun getKeyBySuitableSource(): ActionStatus<ByteArray> {
         var result = localSource.getUserKey()
-        if (result.isFailure() && source.useRemoteSource()) {
-            result = remoteSource.getUserKey()
-            if (result.isSuccess()) {
-                localSource.setUserKey(result.data())
+        if (source.useRemoteSource()) {
+            val remoteLinkResult = remoteSource.getUserKeyLink()
+            when {
+                result.isFailure() && remoteLinkResult.isSuccess() -> {
+                    val remoteResult = remoteSource.getUserKey(remoteLinkResult.data())
+                    if (remoteResult.isSuccess()) {
+                        localSource.setUserKey(remoteResult.data())
+                        result = remoteResult
+                    }
+                }
+
+                remoteLinkResult.isFailure() && result.isSuccess() -> {
+                    localSource.deleteUserKey()
+                }
             }
         }
 

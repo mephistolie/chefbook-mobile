@@ -15,12 +15,12 @@ plugins {
 }
 
 android {
-    compileSdk = 32
+    compileSdk = 33
 
     defaultConfig {
         applicationId = "com.cactusknights.chefbook"
         minSdk = 21
-        targetSdk = 31
+        targetSdk = 33
         versionCode = 41
         versionName = "4.0"
         multiDexEnabled = true
@@ -62,6 +62,8 @@ dependencies {
     implementation("androidx.core:core-ktx:1.8.0")
     implementation("androidx.appcompat:appcompat:1.5.0")
     implementation("com.google.android.material:material:1.6.1")
+
+    implementation("com.github.mephistolie:compost:0.0.2")
 
     // Compose
     val composeVersion = "1.2.1"

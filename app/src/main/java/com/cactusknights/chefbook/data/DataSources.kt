@@ -37,7 +37,6 @@ interface IRemoteProfileSource : IProfileSource {
 }
 
 interface IEncryptionSource {
-    suspend fun getUserKey(): ActionStatus<ByteArray>
     suspend fun setUserKey(data: ByteArray): SimpleAction
     suspend fun deleteUserKey(): SimpleAction
     suspend fun getRecipeKey(recipeId: Int): ActionStatus<ByteArray>
@@ -46,7 +45,12 @@ interface IEncryptionSource {
 }
 
 interface ILocalEncryptionSource: IEncryptionSource {
-    suspend fun clearLocalData()
+    suspend fun getUserKey(): ActionStatus<ByteArray>
+}
+
+interface IRemoteEncryptionSource: IEncryptionSource {
+    suspend fun getUserKeyLink(): ActionStatus<String>
+    suspend fun getUserKey(link: String): ActionStatus<ByteArray>
 }
 
 interface IFileSource {

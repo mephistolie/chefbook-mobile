@@ -20,8 +20,18 @@ import com.cactusknights.chefbook.domain.usecases.category.ObserveCategoriesUseC
 import com.cactusknights.chefbook.domain.usecases.category.UpdateCategoryUseCase
 import com.cactusknights.chefbook.domain.usecases.common.IRefreshDataUseCase
 import com.cactusknights.chefbook.domain.usecases.common.RefreshDataUseCase
+import com.cactusknights.chefbook.domain.usecases.encryption.CreateEncryptedVaultUseCase
+import com.cactusknights.chefbook.domain.usecases.encryption.DeleteEncryptedVaultUseCase
+import com.cactusknights.chefbook.domain.usecases.encryption.GetEncryptedVaultStateUseCase
+import com.cactusknights.chefbook.domain.usecases.encryption.ICreateEncryptedVaultUseCase
+import com.cactusknights.chefbook.domain.usecases.encryption.IDeleteEncryptedVaultUseCase
+import com.cactusknights.chefbook.domain.usecases.encryption.IGetEncryptedVaultStateUseCase
+import com.cactusknights.chefbook.domain.usecases.encryption.ILockEncryptedVaultUseCase
 import com.cactusknights.chefbook.domain.usecases.encryption.IObserveEncryptedVaultStateUseCase
+import com.cactusknights.chefbook.domain.usecases.encryption.IUnlockEncryptedVaultUseCase
+import com.cactusknights.chefbook.domain.usecases.encryption.LockEncryptedVaultUseCase
 import com.cactusknights.chefbook.domain.usecases.encryption.ObserveEncryptedVaultStateUseCase
+import com.cactusknights.chefbook.domain.usecases.encryption.UnlockEncryptedVaultUseCase
 import com.cactusknights.chefbook.domain.usecases.profile.IObserveProfileUseCase
 import com.cactusknights.chefbook.domain.usecases.profile.ObserveProfileUseCase
 import com.cactusknights.chefbook.domain.usecases.recipe.CreateRecipeUseCase
@@ -86,6 +96,21 @@ interface UseCasesBindingModule {
 
     @Binds
     fun bindObserveEncryptedVaultStateUseCase(useCase: ObserveEncryptedVaultStateUseCase): IObserveEncryptedVaultStateUseCase
+
+    @Binds
+    fun bindGetEncryptedVaultStateUseCase(useCase: GetEncryptedVaultStateUseCase): IGetEncryptedVaultStateUseCase
+
+    @Binds
+    fun bindCreateEncryptedVaultUseCase(useCase: CreateEncryptedVaultUseCase): ICreateEncryptedVaultUseCase
+
+    @Binds
+    fun bindUnlockEncryptedVaultUseCase(useCase: UnlockEncryptedVaultUseCase): IUnlockEncryptedVaultUseCase
+
+    @Binds
+    fun bindLockEncryptedVaultUseCase(useCase: LockEncryptedVaultUseCase): ILockEncryptedVaultUseCase
+
+    @Binds
+    fun bindDeleteEncryptedVaultUseCase(useCase: DeleteEncryptedVaultUseCase): IDeleteEncryptedVaultUseCase
 
     @Binds
     fun bindObserveRecipeBookUseCase(useCase: ObserveRecipeBookUseCase): IObserveRecipeBookUseCase
