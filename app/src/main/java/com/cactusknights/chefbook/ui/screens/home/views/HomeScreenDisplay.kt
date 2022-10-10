@@ -58,13 +58,15 @@ import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.cactusknights.chefbook.R
-import com.mephistolie.compost.modifiers.simpleClickable
 import com.cactusknights.chefbook.domain.entities.settings.Tab
 import com.cactusknights.chefbook.ui.navigation.Destination
 import com.cactusknights.chefbook.ui.navigation.hosts.HomeHost
 import com.cactusknights.chefbook.ui.screens.home.models.HomeEvent
 import com.cactusknights.chefbook.ui.screens.main.models.AppState
 import com.cactusknights.chefbook.ui.themes.ChefBookTheme
+import com.cactusknights.chefbook.ui.themes.Shapes
+import com.cactusknights.chefbook.ui.themes.Shapes.RoundedCornerShape12
+import com.mephistolie.compost.modifiers.simpleClickable
 import kotlin.math.pow
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -196,10 +198,10 @@ fun HomeScreenDisplay(
                             val popupInteractionSource = remember { MutableInteractionSource() }
                             Column(
                                 modifier = Modifier
-                                    .shadow(24.dp, shape = RoundedCornerShape(12.dp))
+                                    .shadow(24.dp, shape = RoundedCornerShape12)
                                     .background(
                                         colors.backgroundPrimary,
-                                        RoundedCornerShape(12.dp)
+                                        Shapes.RoundedCornerShape12
                                     )
                                     .width(176.dp)
                             ) {

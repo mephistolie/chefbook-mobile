@@ -20,8 +20,9 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.cactusknights.chefbook.R
-import com.mephistolie.compost.modifiers.simpleClickable
 import com.cactusknights.chefbook.ui.themes.ChefBookTheme
+import com.cactusknights.chefbook.ui.themes.Shapes.RoundedCornerShape12
+import com.mephistolie.compost.modifiers.simpleClickable
 
 @Composable
 fun CopyLinkField(
@@ -37,7 +38,7 @@ fun CopyLinkField(
 
     Row(
         modifier = modifier
-            .background(colors.backgroundTertiary, RoundedCornerShape(12.dp)),
+            .background(colors.backgroundTertiary, RoundedCornerShape12),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Text(

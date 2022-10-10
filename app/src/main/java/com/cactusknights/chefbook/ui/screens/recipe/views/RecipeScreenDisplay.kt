@@ -66,7 +66,6 @@ fun RecipeScreenDisplay(
     sheetState: ModalBottomSheetState,
 ) {
     val context = LocalContext.current
-    val resources = context.resources
     val configuration = LocalConfiguration.current
     val screenHeight = configuration.screenHeightDp.dp
 

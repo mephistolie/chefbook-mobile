@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -22,6 +21,7 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import com.cactusknights.chefbook.R
 import com.cactusknights.chefbook.ui.themes.ChefBookTheme
+import com.cactusknights.chefbook.ui.themes.Shapes.RoundedCornerShape12
 import com.mephistolie.compost.extensions.Shading
 import com.mephistolie.compost.modifiers.clippedBackground
 import com.mephistolie.compost.modifiers.scalingClickable
@@ -44,7 +44,7 @@ fun RecipeBookActionButton(
     Box(
         modifier = modifier
             .scalingClickable(pressed, onClick = onActionButtonClick)
-            .clippedBackground(colors.backgroundSecondary, RoundedCornerShape(12.dp))
+            .clippedBackground(colors.backgroundSecondary, RoundedCornerShape12)
     ) {
         image?.let {
             Column(

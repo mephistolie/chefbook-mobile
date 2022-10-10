@@ -16,7 +16,9 @@
     <string name="common_general_explore">Explore</string>
     <string name="common_general_open">Open</string>
     <string name="common_general_disabled">Disabled</string>
+    <string name="common_general_lock">Lock</string>
     <string name="common_general_locked">Locked</string>
+    <string name="common_general_unlock">Unlock</string>
     <string name="common_general_unlocked">Unlocked</string>
     <string name="common_general_more">More</string>
     <string name="common_general_less">Less</string>
@@ -110,6 +112,7 @@
     <string name="common_general_empty_fields">Please fill in the fields</string>
 
     <string name="common_general_unknown_error">Unknown error</string>
+    <string name="common_general_something_went_wrong">Something went wrong…</string>
     <string name="common_general_network_error">Network error</string>
 
     <string name="common_auth_screen_sign_in">Sign In</string>
@@ -136,6 +139,19 @@
     <string name="common_auth_screen_profile_blocked">Profile is blocked</string>
     <string name="common_auth_screen_profile_exists">Profile with specified email already exists</string>
     <string name="common_auth_screen_unable_send_email">Unable to send mail with activation link. Please, try again</string>
+
+    <string name="common_encrypted_vault_screen_description" translatable="false">ChefBook allows you to recipe data in encrypted form if you need increased privacy.</string>
+    <string name="common_encrypted_vault_screen_note">NOTE: if PIN code is lost, it\'s impossible to restore access to encrypted data.</string>
+    <string name="common_encrypted_vault_enable_encryption">Enable encryption</string>
+    <string name="common_encrypted_vault_screen_pin_code">Enter PIN-code</string>
+    <string name="common_encrypted_vault_screen_pin_code_repeat">Repeat PIN-code</string>
+    <string name="common_encrypted_vault_screen_pin_code_change">Change PIN-code</string>
+    <string name="common_encrypted_vault_screen_pin_code_mismatch">PIN-codes don\'t match</string>
+    <string name="common_encrypted_vault_screen_invalid_pin_code">Invalid PIN-code</string>
+    <string name="common_encrypted_vault_screen_vault_created">Encrypted Vault created</string>
+    <string name="common_encrypted_vault_screen_vault_locked">Encrypted Vault locked</string>
+    <string name="common_encrypted_vault_screen_vault_unlocked">Encrypted Vault unlocked</string>
+    <string name="common_encrypted_vault_screen_vault_deleted">Encrypted Vault deleted</string>
 
     <string name="common_recipe_book_screen_all_recipes">All recipes</string>
     <string name="common_recipe_book_screen_quick_access">Quick access</string>

@@ -99,6 +99,9 @@ fun RecipeInputScreen(
                 is RecipeInputScreenEffect.OnEncryptionStatePickerOpen -> {
                     inputController.navigate(Destination.RecipeInput.Details.Encryption.route)
                 }
+                is RecipeInputScreenEffect.OnEncryptedVaultMenuOpen -> {
+                    appController.navigate(Destination.Encryption.route)
+                }
                 is RecipeInputScreenEffect.OnLanguagePickerOpen -> {
                     inputController.navigate(Destination.RecipeInput.Details.Language.route)
                 }
@@ -109,7 +112,7 @@ fun RecipeInputScreen(
                     inputController.navigate(Destination.RecipeInput.Ingredients.Ingredient.route(effect.index))
                 }
                 is RecipeInputScreenEffect.OnBottomSheetClosed -> {
-                    sheetState.animateTo(ModalBottomSheetValue.Hidden)
+                    sheetState.hide()
                 }
                 is RecipeInputScreenEffect.OnContinue -> {
                     val pageRoute = when (inputController.currentDestination?.route) {

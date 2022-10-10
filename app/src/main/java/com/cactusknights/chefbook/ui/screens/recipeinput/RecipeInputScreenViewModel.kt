@@ -12,10 +12,12 @@ import com.cactusknights.chefbook.domain.entities.action.Successful
 import com.cactusknights.chefbook.domain.entities.common.Language
 import com.cactusknights.chefbook.domain.entities.common.MeasureUnit
 import com.cactusknights.chefbook.domain.entities.common.Visibility
+import com.cactusknights.chefbook.domain.entities.encryption.EncryptedVaultState
 import com.cactusknights.chefbook.domain.entities.recipe.cooking.CookingItem
 import com.cactusknights.chefbook.domain.entities.recipe.ingredient.IngredientItem
 import com.cactusknights.chefbook.domain.entities.recipe.macronutrients.MacronutrientsInfo
 import com.cactusknights.chefbook.domain.entities.recipe.toRecipeInput
+import com.cactusknights.chefbook.domain.usecases.encryption.IGetEncryptedVaultStateUseCase
 import com.cactusknights.chefbook.domain.usecases.recipe.ICreateRecipeUseCase
 import com.cactusknights.chefbook.domain.usecases.recipe.IGetRecipeUseCase
 import com.cactusknights.chefbook.domain.usecases.recipe.IUpdateRecipeUseCase
@@ -52,6 +54,7 @@ class RecipeInputScreenViewModel @Inject constructor(
     private val createRecipeUseCase: ICreateRecipeUseCase,
     private val updateRecipeUseCase: IUpdateRecipeUseCase,
     private val setDefaultRecipeLanguageUseCase: ISetDefaultRecipeLanguageUseCase,
+    private val getEncryptedVaultStateUseCase: IGetEncryptedVaultStateUseCase,
     private val dispatchers: AppDispatchers,
 ) : AndroidViewModel(application), EventHandler<RecipeInputScreenEvent> {
 
@@ -177,6 +180,11 @@ class RecipeInputScreenViewModel @Inject constructor(
     }
 
     private suspend fun setEncryptedState(isEncrypted: Boolean) {
+        if (getEncryptedVaultStateUseCase() != EncryptedVaultState.UNLOCKED) {
+            _effect.emit(RecipeInputScreenEffect.OnEncryptedVaultMenuOpen)
+            return
+        }
+
         val currentState = state.value
         val input = currentState.input
 

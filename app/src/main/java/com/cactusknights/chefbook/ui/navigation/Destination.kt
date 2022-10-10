@@ -31,6 +31,8 @@ sealed class Destination(val route: String) {
 
     }
 
+    object Encryption : Destination("encryption")
+
     object RecipeInput : Destination("recipe_input?$RECIPE_ID_ARGUMENT={$RECIPE_ID_ARGUMENT}") {
 
         fun route(

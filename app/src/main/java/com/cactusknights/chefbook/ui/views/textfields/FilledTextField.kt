@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Icon
@@ -31,6 +30,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.cactusknights.chefbook.R
 import com.cactusknights.chefbook.ui.themes.ChefBookTheme
+import com.cactusknights.chefbook.ui.themes.Shapes.RoundedCornerShape12
 
 @Composable
 fun FilledTextField(
@@ -90,7 +90,7 @@ fun FilledTextField(
         keyboardActions = keyboardActions,
         singleLine = maxLines == 1,
         maxLines = maxLines,
-        shape = RoundedCornerShape(12.dp),
+        shape = RoundedCornerShape12,
         colors = TextFieldDefaults.textFieldColors(
             textColor = colors.foregroundPrimary,
             focusedIndicatorColor = Color.Transparent,

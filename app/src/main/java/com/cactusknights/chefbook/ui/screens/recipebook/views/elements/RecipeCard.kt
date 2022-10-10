@@ -37,6 +37,7 @@ import com.cactusknights.chefbook.common.Utils
 import com.cactusknights.chefbook.domain.entities.recipe.RecipeInfo
 import com.cactusknights.chefbook.ui.themes.ChefBookTheme
 import com.cactusknights.chefbook.ui.themes.Red
+import com.cactusknights.chefbook.ui.themes.Shapes.RoundedCornerShape12
 import com.mephistolie.compost.extensions.Shading
 import com.mephistolie.compost.modifiers.scalingClickable
 
@@ -93,7 +94,7 @@ fun RecipeCard(
                                 start = Offset(0F, Float.POSITIVE_INFINITY),
                                 end = Offset(Float.POSITIVE_INFINITY, 0f)
                             ),
-                            shape = RoundedCornerShape(12.dp)
+                            shape = RoundedCornerShape12
                         ),
                     contentAlignment = Alignment.TopEnd
                 ) {

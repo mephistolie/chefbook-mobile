@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -24,6 +23,7 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.cactusknights.chefbook.domain.entities.recipe.cooking.CookingItem
 import com.cactusknights.chefbook.ui.themes.ChefBookTheme
+import com.cactusknights.chefbook.ui.themes.Shapes.RoundedCornerShape12
 import com.mephistolie.compost.extensions.Shading
 import com.mephistolie.compost.modifiers.scalingClickable
 
@@ -75,7 +75,7 @@ fun CookingStep(
                                             pressed = pressed,
                                             onClick = { onStepPictureClicked(pictures[j]) }
                                         )
-                                        .clip(RoundedCornerShape(12.dp))
+                                        .clip(RoundedCornerShape12)
                                 ) {
                                     AsyncImage(
                                         model = ImageRequest.Builder(context)

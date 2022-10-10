@@ -27,7 +27,7 @@ import com.cactusknights.chefbook.R
 import com.cactusknights.chefbook.core.ui.localizedName
 import com.cactusknights.chefbook.domain.entities.recipe.ingredient.IngredientItem
 import com.cactusknights.chefbook.ui.themes.ChefBookTheme
-import com.cactusknights.chefbook.ui.views.textfields.IndicatorTextField
+import com.cactusknights.chefbook.ui.views.textfields.ThemedIndicatorTextField
 import com.mephistolie.compost.modifiers.clippedBackground
 import com.mephistolie.compost.modifiers.simpleClickable
 
@@ -70,7 +70,7 @@ fun IngredientField(
                 .height(18.dp)
                 .wrapContentWidth()
         )
-        IndicatorTextField(
+        ThemedIndicatorTextField(
             value = ingredient.name,
             modifier = Modifier
                 .weight(1F)

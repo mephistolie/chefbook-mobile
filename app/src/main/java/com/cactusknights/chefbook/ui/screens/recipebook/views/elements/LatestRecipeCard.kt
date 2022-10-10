@@ -30,6 +30,7 @@ import com.cactusknights.chefbook.R
 import com.cactusknights.chefbook.common.Utils
 import com.cactusknights.chefbook.domain.entities.recipe.RecipeInfo
 import com.cactusknights.chefbook.ui.themes.ChefBookTheme
+import com.cactusknights.chefbook.ui.themes.Shapes.RoundedCornerShape12
 import com.mephistolie.compost.extensions.Shading
 import com.mephistolie.compost.modifiers.clippedBackground
 import com.mephistolie.compost.modifiers.scalingClickable
@@ -60,7 +61,7 @@ fun LatestRecipeCard(
             modifier = Modifier
                 .padding(end = 8.dp)
                 .size(80.dp)
-                .clippedBackground(colors.backgroundSecondary, RoundedCornerShape(12.dp)),
+                .clippedBackground(colors.backgroundSecondary, RoundedCornerShape12),
         ) {
             AsyncImage(
                 model = ImageRequest.Builder(context)

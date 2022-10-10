@@ -1,7 +1,6 @@
 package com.cactusknights.chefbook.ui.screens.auth.views
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -17,6 +16,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Divider
+import androidx.compose.material.Icon
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -106,7 +106,7 @@ fun AuthScreenDisplay(
                 modifier = Modifier.padding(0.dp, 0.dp, 0.dp, 16.dp),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                Image(
+                Icon(
                     imageVector = ImageVector.vectorResource(R.drawable.ic_info),
                     contentDescription = "info",
                     modifier = Modifier.size(16.dp)

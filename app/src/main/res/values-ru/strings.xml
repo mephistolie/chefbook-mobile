@@ -163,5 +163,20 @@
     <string name="common_recipe_input_screen_recipe_saved">Рецепт сохранен</string>
     <string name="common_recipe_input_screen_open_recipe">Открыть рецепт</string>
     <string name="common_recipe_input_screen_back_to_recipe_book">Вернуться к рецептам</string>
+    <string name="common_encrypted_vault_screen_pin_code">Введите PIN-код</string>
+    <string name="common_encrypted_vault_screen_pin_code_repeat">Повторите PIN-код</string>
+    <string name="common_general_lock">Заблокировать</string>
+    <string name="common_general_unlock">Разблокировать</string>
+    <string name="common_encrypted_vault_screen_description">ChefBook позволяет хранить данные рецептов в зашифрованном виде, если нужна повышенная конфиденциальность.</string>
+    <string name="common_encrypted_vault_screen_note">ВНИМАНИЕ: при утере PIN-кода восстановить доступ к зашифрованным данным невозможно.</string>
+    <string name="common_encrypted_vault_enable_encryption">Включить шифрование</string>
+    <string name="common_encrypted_vault_screen_vault_unlocked">Зашифрованное Хранилище разблокировано</string>
+    <string name="common_encrypted_vault_screen_invalid_pin_code">Неверный PIN-код</string>
+    <string name="common_encrypted_vault_screen_pin_code_mismatch">PIN-коды не совпадают</string>
+    <string name="common_general_something_went_wrong">Что-то пошло не так…</string>
+    <string name="common_encrypted_vault_screen_vault_created">Зашифрованное Хранилище создано</string>
+    <string name="common_encrypted_vault_screen_vault_locked">Зашифрованное хранилище заблокировано</string>
+    <string name="common_encrypted_vault_screen_vault_deleted">Зашифрованное хранилище удалено</string>
+    <string name="common_encrypted_vault_screen_pin_code_change">Изменить PIN-код</string>
 
 </resources>

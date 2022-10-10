@@ -25,7 +25,7 @@ import com.cactusknights.chefbook.ui.themes.ChefBookTheme
 import com.mephistolie.compost.ui.textfields.IndicatorLineTextField
 
 @Composable
-fun IndicatorTextField(
+fun ThemedIndicatorTextField(
     value: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
@@ -95,14 +95,14 @@ private fun ThemedIndicatorFields(
             color = ChefBookTheme.colors.backgroundPrimary
         ) {
             Column {
-                IndicatorTextField(
+                ThemedIndicatorTextField(
                     value = "",
                     onValueChange = {},
                     modifier = Modifier.fillMaxWidth(),
                     label = { Text(stringResource(R.string.common_general_email)) },
                 )
                 Spacer(Modifier.height(8.dp))
-                IndicatorTextField(
+                ThemedIndicatorTextField(
                     value = "",
                     onValueChange = {},
                     modifier = Modifier.fillMaxWidth(),

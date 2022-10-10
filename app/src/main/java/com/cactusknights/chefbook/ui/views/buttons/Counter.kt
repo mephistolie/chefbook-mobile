@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -34,6 +33,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.cactusknights.chefbook.R
 import com.cactusknights.chefbook.ui.themes.ChefBookTheme
+import com.cactusknights.chefbook.ui.themes.Shapes.RoundedCornerShape12
 import com.mephistolie.compost.modifiers.clippedBackground
 
 @OptIn(ExperimentalMaterialApi::class, ExperimentalComposeUiApi::class)
@@ -62,7 +62,7 @@ fun Counter(
         modifier = Modifier
             .wrapContentWidth()
             .height(38.dp)
-            .clippedBackground(colors.backgroundSecondary, RoundedCornerShape(12.dp))
+            .clippedBackground(colors.backgroundSecondary, RoundedCornerShape12)
     ) {
         IconButton(
             onClick = onMinusClicked,

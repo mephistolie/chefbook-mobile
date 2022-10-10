@@ -39,7 +39,7 @@ fun RecipeBookScreen(
 
                 }
                 is RecipeBookScreenEffect.EncryptionMenuOpened -> {
-
+                    navController.navigate(Destination.Encryption.route)
                 }
                 is RecipeBookScreenEffect.RecipeCreationScreenOpened -> {
                     navController.navigate(Destination.RecipeInput.route())

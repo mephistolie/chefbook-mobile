@@ -35,7 +35,7 @@ import com.cactusknights.chefbook.R
 import com.cactusknights.chefbook.ui.screens.recipeinput.RecipeInputScreenViewModel
 import com.cactusknights.chefbook.ui.screens.recipeinput.models.RecipeInputScreenEvent
 import com.cactusknights.chefbook.ui.themes.ChefBookTheme
-import com.cactusknights.chefbook.ui.views.textfields.IndicatorTextField
+import com.cactusknights.chefbook.ui.views.textfields.ThemedIndicatorTextField
 import com.mephistolie.compost.ui.buttons.CircleIconButton
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -91,7 +91,7 @@ fun CaloriesDialog(
                 .fillMaxWidth()
                 .height(1.dp)
         )
-        IndicatorTextField(
+        ThemedIndicatorTextField(
             value = if (state.calories != null) state.calories.toString() else "",
             modifier = Modifier
                 .focusRequester(focusRequester)
@@ -110,7 +110,7 @@ fun CaloriesDialog(
                 )
             },
         )
-        IndicatorTextField(
+        ThemedIndicatorTextField(
             value = if (state.macronutrients?.protein != null) state.macronutrients.protein.toString() else "",
             modifier = Modifier
                 .fillMaxWidth(),
@@ -128,7 +128,7 @@ fun CaloriesDialog(
                 )
             },
         )
-        IndicatorTextField(
+        ThemedIndicatorTextField(
             value = if (state.macronutrients?.fats != null) state.macronutrients.fats.toString() else "",
             modifier = Modifier
                 .fillMaxWidth(),
@@ -146,7 +146,7 @@ fun CaloriesDialog(
                 )
             },
         )
-        IndicatorTextField(
+        ThemedIndicatorTextField(
             value = if (state.macronutrients?.carbohydrates != null) state.macronutrients.carbohydrates.toString() else "",
             modifier = Modifier
                 .fillMaxWidth(),

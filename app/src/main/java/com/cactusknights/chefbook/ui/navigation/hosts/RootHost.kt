@@ -16,6 +16,7 @@ import com.cactusknights.chefbook.ui.navigation.Destination
 import com.cactusknights.chefbook.ui.navigation.RECIPE_ID_ARGUMENT
 import com.cactusknights.chefbook.ui.screens.auth.AuthScreen
 import com.cactusknights.chefbook.ui.screens.category.CategoryScreen
+import com.cactusknights.chefbook.ui.screens.encryptedvault.EncryptedVaultScreen
 import com.cactusknights.chefbook.ui.screens.favourite.FavouriteScreen
 import com.cactusknights.chefbook.ui.screens.home.HomeScreen
 import com.cactusknights.chefbook.ui.screens.main.models.AppState
@@ -84,6 +85,13 @@ fun RootHost(
                         appController = navController,
                     )
                 }
+            }
+            bottomSheet(
+                route = Destination.Encryption.route,
+            ) {
+                EncryptedVaultScreen(
+                    sheetState = sheetState,
+                )
             }
             bottomSheet(
                 route = Destination.Recipe.route,
