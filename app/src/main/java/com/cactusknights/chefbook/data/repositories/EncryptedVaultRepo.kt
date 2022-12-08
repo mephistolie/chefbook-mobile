@@ -20,7 +20,6 @@ import com.cactusknights.chefbook.domain.entities.action.isSuccess
 import com.cactusknights.chefbook.domain.entities.encryption.EncryptedVaultState
 import com.cactusknights.chefbook.domain.interfaces.IEncryptedVaultRepo
 import com.cactusknights.chefbook.domain.interfaces.ISourceRepo
-import java.security.KeyPair
 import java.security.PrivateKey
 import java.security.PublicKey
 import javax.inject.Inject
@@ -40,8 +39,7 @@ class EncryptedVaultRepo @Inject constructor(
     scopes: CoroutineScopes,
 ): IEncryptedVaultRepo {
 
-    private var userKeys : KeyPair? = null
-    private val vaultState : MutableStateFlow<EncryptedVaultState> = MutableStateFlow(EncryptedVaultState.DISABLED)
+    private val vaultState : MutableStateFlow<EncryptedVaultState> = MutableStateFlow(EncryptedVaultState.Disabled)
 
     init {
         scopes.repository.launch {
@@ -52,10 +50,12 @@ class EncryptedVaultRepo @Inject constructor(
     override suspend fun observeEncryptedVaultState(): StateFlow<EncryptedVaultState> = vaultState.asStateFlow()
 
     override suspend fun getEncryptedVaultState(): EncryptedVaultState {
-        if (userKeys != null) return EncryptedVaultState.UNLOCKED
+        (vaultState.value as? EncryptedVaultState.Unlocked)?.let { state ->
+            return EncryptedVaultState.Unlocked(state.keys)
+        }
         val result = getKeyBySuitableSource()
 
-        return if (result.isSuccess()) EncryptedVaultState.LOCKED else EncryptedVaultState.DISABLED
+        return if (result.isSuccess()) EncryptedVaultState.Locked else EncryptedVaultState.Disabled
     }
 
     override suspend fun createEncryptedVault(password: String): SimpleAction {
@@ -71,8 +71,7 @@ class EncryptedVaultRepo @Inject constructor(
 
         if (result.isSuccess() && source.isOnlineMode()) {
             localSource.setUserKey(encryptedKeyPair)
-            userKeys = keyPair
-            vaultState.emit(EncryptedVaultState.UNLOCKED)
+            vaultState.emit(EncryptedVaultState.Unlocked(keyPair))
         }
 
         return result
@@ -84,8 +83,8 @@ class EncryptedVaultRepo @Inject constructor(
         if (encryptedUserKeyResult.isFailure()) return encryptedUserKeyResult.asEmpty()
 
         return try {
-            userKeys = encryptionManager.decryptKeyPairBySymmetricKey(encryptedUserKeyResult.data(), key)
-            vaultState.emit(EncryptedVaultState.UNLOCKED)
+            val userKeys = encryptionManager.decryptKeyPairBySymmetricKey(encryptedUserKeyResult.data(), key)
+            vaultState.emit(EncryptedVaultState.Unlocked(userKeys))
             SuccessResult
         } catch (e: Exception) {
             Failure(AppError(AppErrorType.UNABLE_DECRYPT))
@@ -93,20 +92,17 @@ class EncryptedVaultRepo @Inject constructor(
     }
 
     override suspend fun lockEncryptedVault(): SimpleAction {
-        userKeys = null
-        vaultState.emit(EncryptedVaultState.LOCKED)
+        vaultState.emit(EncryptedVaultState.Locked)
         return SuccessResult
     }
 
-    override suspend fun getUserPublicKey(): ActionStatus<PublicKey> {
-        val key = userKeys?.public ?: return Failure(AppError(AppErrorType.STORAGE_LOCKED))
-        return DataResult(key)
-    }
+    override suspend fun getUserPublicKey(): ActionStatus<PublicKey> =
+        (vaultState.value as? EncryptedVaultState.Unlocked)?.let { state -> DataResult(state.keys.public) }
+            ?: Failure(AppError(AppErrorType.STORAGE_LOCKED))
 
-    override suspend fun getUserPrivateKey(): ActionStatus<PrivateKey> {
-        val key = userKeys?.private ?: return Failure(AppError(AppErrorType.STORAGE_LOCKED))
-        return DataResult(key)
-    }
+    override suspend fun getUserPrivateKey(): ActionStatus<PrivateKey> =
+        (vaultState.value as? EncryptedVaultState.Unlocked)?.let { state -> DataResult(state.keys.private) }
+            ?: Failure(AppError(AppErrorType.STORAGE_LOCKED))
 
     override suspend fun deleteEncryptedVault(): SimpleAction {
         val result = if (source.useRemoteSource()) {
@@ -117,7 +113,7 @@ class EncryptedVaultRepo @Inject constructor(
 
         if (result.isSuccess() && source.useRemoteSource()) {
             localSource.deleteUserKey()
-            vaultState.emit(EncryptedVaultState.DISABLED)
+            vaultState.emit(EncryptedVaultState.Disabled)
         }
         return result
     }

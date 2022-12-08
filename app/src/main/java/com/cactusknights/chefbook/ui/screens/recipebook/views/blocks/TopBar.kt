@@ -62,8 +62,7 @@ fun TopBar(
                 .height(barSize)
                 .fillMaxWidth()
                 .weight(1f),
-            colors = ButtonDefaults.buttonColors(
-                backgroundColor = colors.backgroundTertiary),
+            colors = ButtonDefaults.buttonColors(backgroundColor = colors.backgroundSecondary),
             contentPadding = PaddingValues(0.dp),
             shape = RoundedCornerShape12,
             elevation = null,
@@ -96,7 +95,7 @@ fun TopBar(
             modifier = Modifier
                 .padding(start = 8.dp)
                 .size(barSize),
-            colors = ButtonDefaults.buttonColors(backgroundColor = colors.backgroundTertiary),
+            colors = ButtonDefaults.buttonColors(backgroundColor = colors.backgroundSecondary),
             tint = colors.foregroundPrimary,
             contentPadding = 9.dp
         )

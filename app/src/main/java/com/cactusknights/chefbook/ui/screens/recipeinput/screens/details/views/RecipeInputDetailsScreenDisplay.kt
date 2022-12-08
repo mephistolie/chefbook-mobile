@@ -108,7 +108,7 @@ fun RecipeInputDetailsScreenDisplay(
                         )
                         .fillMaxWidth()
                         .aspectRatio(2F)
-                        .clippedBackground(colors.backgroundSecondary, RoundedCornerShape(24.dp))
+                        .clippedBackground(colors.backgroundSecondary, RoundedCornerShape(24.dp)),
                 )
             }
             item {

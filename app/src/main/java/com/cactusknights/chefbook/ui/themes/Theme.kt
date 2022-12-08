@@ -9,7 +9,7 @@ import androidx.compose.ui.graphics.Color
 private val LightPalette = ChefBookColors(
     backgroundPrimary = Color.White,
     backgroundSecondary = Monochrome96,
-    backgroundTertiary = Monochrome95,
+    backgroundTertiary = Monochrome92,
 
     foregroundPrimary = Monochrome30,
     foregroundSecondary = Monochrome60,

@@ -33,6 +33,18 @@ fun <T> ActionStatus<T>.data(): T = this.asSuccess().data
 
 fun <T> ActionStatus<T>.asFailure(): ActionStatus.Failure = this as ActionStatus.Failure
 
+fun <T> ActionStatus<T>.letIfSuccess(block: (T) -> Unit) = run {
+    if (this.isSuccess()) {
+        block(this.data())
+    }
+}
+
+fun <T> ActionStatus<T>.letIfFailure(block: (Throwable?) -> Unit) = run {
+    if (this.isFailure()) {
+        block(this.asFailure().error)
+    }
+}
+
 fun <T> ActionStatus<T>.asEmpty(): SimpleAction =
     if (this.isSuccess()) SuccessResult else this.asFailure()
 

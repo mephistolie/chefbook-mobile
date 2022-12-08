@@ -1,4 +1,4 @@
-package com.cactusknights.chefbook.data.repositories.recipes
+package com.cactusknights.chefbook.data.repositories.recipe
 
 import com.cactusknights.chefbook.core.encryption.IHybridCryptor
 import com.cactusknights.chefbook.data.ILocalEncryptionSource

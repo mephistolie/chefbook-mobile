@@ -25,6 +25,7 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
@@ -93,11 +94,11 @@ fun IngredientDialog(
                     .padding(top = 18.dp)
                     .size(28.dp),
                 colors = ButtonDefaults.buttonColors(backgroundColor = colors.foregroundPrimary.copy(alpha = 0.25F)),
-                tint = ChefBookTheme.colors.backgroundPrimary
+                tint = Color.White
             )
         }
         Divider(
-            color = colors.backgroundTertiary,
+            color = colors.backgroundSecondary,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(1.dp)

@@ -9,5 +9,7 @@ sealed class EncryptedVaultScreenEvent {
     object LockVault : EncryptedVaultScreenEvent()
     object ChangePinCode : EncryptedVaultScreenEvent()
     object DeleteVault : EncryptedVaultScreenEvent()
+    object Back : EncryptedVaultScreenEvent()
     object Close : EncryptedVaultScreenEvent()
+    object CloseOnUnlocked : EncryptedVaultScreenEvent()
 }

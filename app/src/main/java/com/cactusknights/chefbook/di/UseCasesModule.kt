@@ -35,12 +35,14 @@ import com.cactusknights.chefbook.domain.usecases.encryption.UnlockEncryptedVaul
 import com.cactusknights.chefbook.domain.usecases.profile.IObserveProfileUseCase
 import com.cactusknights.chefbook.domain.usecases.profile.ObserveProfileUseCase
 import com.cactusknights.chefbook.domain.usecases.recipe.CreateRecipeUseCase
+import com.cactusknights.chefbook.domain.usecases.recipe.DecryptRecipeDataUseCase
 import com.cactusknights.chefbook.domain.usecases.recipe.DeleteRecipeUseCase
 import com.cactusknights.chefbook.domain.usecases.recipe.GetLatestRecipesUseCase
 import com.cactusknights.chefbook.domain.usecases.recipe.GetRecipeAsTextUseCase
 import com.cactusknights.chefbook.domain.usecases.recipe.GetRecipeBookUseCase
 import com.cactusknights.chefbook.domain.usecases.recipe.GetRecipeUseCase
 import com.cactusknights.chefbook.domain.usecases.recipe.ICreateRecipeUseCase
+import com.cactusknights.chefbook.domain.usecases.recipe.IDecryptRecipeDataUseCase
 import com.cactusknights.chefbook.domain.usecases.recipe.IDeleteRecipeUseCase
 import com.cactusknights.chefbook.domain.usecases.recipe.IGetLatestRecipesUseCase
 import com.cactusknights.chefbook.domain.usecases.recipe.IGetRecipeAsTextUseCase
@@ -129,6 +131,9 @@ interface UseCasesBindingModule {
 
     @Binds
     fun bindDeleteRecipeUseCase(useCase: DeleteRecipeUseCase): IDeleteRecipeUseCase
+
+    @Binds
+    fun bindDecryptRecipeDataUseCase(useCase: DecryptRecipeDataUseCase): IDecryptRecipeDataUseCase
 
     @Binds
     fun binSetRecipeLikeStatusUseCase(useCase: SetRecipeLikeStatusUseCase): ISetRecipeLikeStatusUseCase

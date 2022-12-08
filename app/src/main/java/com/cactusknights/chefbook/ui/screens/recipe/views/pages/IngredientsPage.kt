@@ -83,7 +83,7 @@ fun IngredientsPage(
                 )
             }
             Divider(
-                color = colors.backgroundTertiary,
+                color = colors.backgroundSecondary,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = 12.dp)
@@ -110,7 +110,7 @@ fun IngredientsPage(
                         when (ingredients[index + 1]) {
                             is IngredientItem.Section -> {
                                 Divider(
-                                    color = colors.backgroundTertiary,
+                                    color = colors.backgroundSecondary,
                                     modifier = Modifier
                                         .padding(top = 18.dp, bottom = 12.dp)
                                         .fillMaxWidth()
@@ -128,7 +128,7 @@ fun IngredientsPage(
                                         .height((1.5).dp)
                                         .fillMaxWidth()
                                         .background(
-                                            color = colors.backgroundTertiary,
+                                            color = colors.backgroundSecondary,
                                             shape = DashedLineShape(12.dp)
                                         )
                                 )

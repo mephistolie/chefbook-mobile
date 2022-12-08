@@ -36,7 +36,7 @@
 
     <string name="common_general_empty_fields">Пожалуйста, заполните поля</string>
 
-    <string name="common_general_unknown_error">Неизвестаня ошибка</string>
+    <string name="common_general_unknown_error">Неизвестная ошибка</string>
     <string name="common_general_network_error">Ошибка сети</string>
 
     <string name="common_auth_screen_sign_in">Войти</string>

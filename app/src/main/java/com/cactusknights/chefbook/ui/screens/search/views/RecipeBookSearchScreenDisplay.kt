@@ -34,13 +34,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import com.cactusknights.chefbook.R
-import com.mephistolie.compost.modifiers.simpleClickable
 import com.cactusknights.chefbook.ui.screens.search.models.RecipeBookSearchScreenEvent
 import com.cactusknights.chefbook.ui.screens.search.models.RecipeBookSearchScreenState
 import com.cactusknights.chefbook.ui.screens.search.views.elements.SearchRecipeCard
 import com.cactusknights.chefbook.ui.themes.ChefBookTheme
 import com.cactusknights.chefbook.ui.views.buttons.DynamicButton
 import com.google.accompanist.flowlayout.FlowRow
+import com.mephistolie.compost.modifiers.simpleClickable
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable

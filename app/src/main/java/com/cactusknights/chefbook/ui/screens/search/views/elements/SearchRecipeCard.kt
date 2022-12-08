@@ -15,15 +15,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
-import coil.request.ImageRequest
 import com.cactusknights.chefbook.R
 import com.cactusknights.chefbook.common.Utils
+import com.cactusknights.chefbook.core.ui.RecipeEncryptionProvider
 import com.cactusknights.chefbook.domain.entities.recipe.RecipeInfo
 import com.cactusknights.chefbook.ui.themes.ChefBookTheme
+import com.cactusknights.chefbook.ui.views.images.EncryptedImage
 import com.mephistolie.compost.extensions.Shading
 import com.mephistolie.compost.modifiers.clippedBackground
 import com.mephistolie.compost.modifiers.scalingClickable
@@ -41,46 +40,41 @@ fun SearchRecipeCard(
 
     val pressed = remember { mutableStateOf(false) }
 
-    Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .height(48.dp)
-            .scalingClickable(pressed) { onRecipeClicked(recipe) },
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Box(
-            modifier = Modifier
-                .padding(end = 8.dp)
-                .size(48.dp)
-                .clippedBackground(colors.backgroundSecondary, RoundedCornerShape(10.dp))
-        ) {
-            AsyncImage(
-                model = ImageRequest.Builder(context)
-                    .data(recipe.preview ?: R.drawable.ic_broccy)
-                    .crossfade(true)
-                    .build(),
-                contentDescription = null,
-                contentScale = ContentScale.Crop,
-            )
-            Shading(pressed.value)
-        }
-        Column(
-            modifier = Modifier
+    RecipeEncryptionProvider(encryption = recipe.encryptionState) {
+        Row(
+            modifier = modifier
                 .fillMaxWidth()
-                .wrapContentHeight(),
+                .height(48.dp)
+                .scalingClickable(pressed) { onRecipeClicked(recipe) },
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(
-                text = recipe.name,
-                style = typography.headline1,
-                maxLines = 2,
-                color = colors.foregroundPrimary,
-            )
-            recipe.time?.let {
+            Box(
+                modifier = Modifier
+                    .padding(end = 8.dp)
+                    .size(48.dp)
+                    .clippedBackground(colors.backgroundSecondary, RoundedCornerShape(10.dp))
+            ) {
+                EncryptedImage(recipe.preview ?: R.drawable.ic_broccy,)
+                Shading(pressed.value)
+            }
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentHeight(),
+            ) {
                 Text(
-                    text = Utils.minutesToTimeString(recipe.time, context.resources),
-                    style = typography.body2,
-                    color = colors.foregroundSecondary
+                    text = recipe.name,
+                    style = typography.headline1,
+                    maxLines = 2,
+                    color = colors.foregroundPrimary,
                 )
+                recipe.time?.let {
+                    Text(
+                        text = Utils.minutesToTimeString(recipe.time, context.resources),
+                        style = typography.body2,
+                        color = colors.foregroundSecondary
+                    )
+                }
             }
         }
     }

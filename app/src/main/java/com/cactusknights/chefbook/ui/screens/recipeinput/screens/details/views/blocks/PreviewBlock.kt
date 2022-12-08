@@ -15,16 +15,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
-import coil.request.ImageRequest
 import com.cactusknights.chefbook.R
 import com.cactusknights.chefbook.ui.themes.ChefBookTheme
 import com.cactusknights.chefbook.ui.views.buttons.DynamicButton
+import com.cactusknights.chefbook.ui.views.images.EncryptedImage
 import com.canhub.cropper.CropImageContract
 import com.canhub.cropper.CropImageContractOptions
 import com.canhub.cropper.CropImageOptions
@@ -52,11 +50,14 @@ fun ColumnScope.PreviewBlock(
     val imagePickerLauncher =
         rememberLauncherForActivityResult(contract = ActivityResultContracts.GetContent()) { uri: Uri? ->
             val cropOptions = CropImageContractOptions(uri, CropImageOptions())
-                .setScaleType(CropImageView.ScaleType.CENTER_CROP)
                 .setInitialCropWindowPaddingRatio(0F)
                 .setOutputCompressQuality(100)
                 .setGuidelines(CropImageView.Guidelines.ON)
                 .setAspectRatio(5, 4)
+                .setAllowRotation(false)
+                .setAllowFlipping(false)
+                .setImageSource(includeGallery = true, includeCamera = false)
+                .setCropMenuCropButtonIcon(R.drawable.ic_check)
             imageCropLauncher.launch(cropOptions)
         }
 
@@ -65,13 +66,8 @@ fun ColumnScope.PreviewBlock(
             modifier = modifier,
             contentAlignment = Alignment.TopEnd,
         ) {
-            AsyncImage(
-                model = ImageRequest.Builder(context)
-                    .data(preview)
-                    .crossfade(true)
-                    .build(),
-                contentDescription = null,
-                contentScale = ContentScale.Crop,
+            EncryptedImage(
+                data = preview,
                 modifier = Modifier.matchParentSize(),
             )
             CircleIconButton(

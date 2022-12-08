@@ -17,7 +17,7 @@ data class ChefBookColors(
 )
 
 val Monochrome96 = Color(0xFFF6F6F6)
-val Monochrome95 = Color(0xFFF2F2F2)
+val Monochrome92 = Color(0xFFEBEBEB)
 val Monochrome85 = Color(0xFFDADADA)
 val Monochrome75 = Color(0xFFC0C0C0)
 val Monochrome60 = Color(0xFF999999)

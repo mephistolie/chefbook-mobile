@@ -1,4 +1,4 @@
-package com.cactusknights.chefbook.ui.screens.recipebook
+    package com.cactusknights.chefbook.ui.screens.recipebook
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -39,7 +39,7 @@ fun RecipeBookScreen(
 
                 }
                 is RecipeBookScreenEffect.EncryptionMenuOpened -> {
-                    navController.navigate(Destination.Encryption.route)
+                    navController.navigate(Destination.Encryption.route())
                 }
                 is RecipeBookScreenEffect.RecipeCreationScreenOpened -> {
                     navController.navigate(Destination.RecipeInput.route())

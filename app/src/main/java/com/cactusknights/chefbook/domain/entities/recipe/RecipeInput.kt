@@ -1,8 +1,10 @@
 package com.cactusknights.chefbook.domain.entities.recipe
 
+import com.cactusknights.chefbook.data.dto.common.recipe.toSerializable
 import com.cactusknights.chefbook.domain.entities.common.Language
 import com.cactusknights.chefbook.domain.entities.common.Visibility
 import com.cactusknights.chefbook.domain.entities.recipe.cooking.CookingItem
+import com.cactusknights.chefbook.domain.entities.recipe.encryption.EncryptionState
 import com.cactusknights.chefbook.domain.entities.recipe.ingredient.IngredientItem
 import com.cactusknights.chefbook.domain.entities.recipe.macronutrients.MacronutrientsInfo
 import java.time.LocalDateTime
@@ -49,7 +51,7 @@ fun RecipeInput.toRecipe(
         isSaved = isSaved,
         likes = likes,
         visibility = visibility,
-        isEncrypted = isEncrypted,
+        encryptionState = if (isEncrypted) EncryptionState.Encrypted else EncryptionState.Standard,
         language = language,
         description = description,
         preview = preview,
@@ -71,7 +73,7 @@ fun Recipe.toRecipeInput() =
     RecipeInput(
         name = name,
         visibility = visibility,
-        isEncrypted = isEncrypted,
+        isEncrypted = encryptionState != EncryptionState.Standard,
         language = language,
         description = description,
         preview = preview,
@@ -91,12 +93,12 @@ fun RecipeInput.withoutPictures(): RecipeInput =
         cooking = cooking.map { if (it is CookingItem.Step) it.copy(pictures = null) else it }
     )
 
-fun RecipeInput.encrypt(encrypt: (ByteArray) -> String): RecipeInput {
+fun RecipeInput.encrypt(encryptBytes: (ByteArray) -> String): RecipeInput {
 
-    val name = encrypt(name.toByteArray())
-    val description = description?.let { encrypt(it.toByteArray()) }
-    val ingredients = encrypt(Json.encodeToString(ingredients).toByteArray())
-    val cooking = encrypt(Json.encodeToString(cooking).toByteArray())
+    val name = encryptBytes(name.toByteArray())
+    val description = description?.let { encryptBytes(it.toByteArray()) }
+    val ingredients = encryptBytes(Json.encodeToString(ingredients.map { it.toSerializable() }).toByteArray())
+    val cooking = encryptBytes(Json.encodeToString(cooking.map { it.toSerializable() }).toByteArray())
 
     return copy(
         name = name,

@@ -48,6 +48,8 @@ class EncryptedVaultScreenViewModel @Inject constructor(
     private val _effect: MutableSharedFlow<EncryptedVaultScreenEffect> = MutableSharedFlow(replay = 0, extraBufferCapacity = 0)
     val effect: SharedFlow<EncryptedVaultScreenEffect> = _effect.asSharedFlow()
 
+    private var closeOnUnlocked: Boolean = false
+
     private var pinCodeValidation: String? = null
 
     init {
@@ -58,10 +60,11 @@ class EncryptedVaultScreenViewModel @Inject constructor(
         viewModelScope.launch {
             observeEncryptedVaultStateUseCase()
                 .onEach { encryptionState ->
+                    if (encryptionState is EncryptedVaultState.Unlocked && closeOnUnlocked) obtainEvent(EncryptedVaultScreenEvent.Close)
                     _state.emit(when (encryptionState) {
-                        EncryptedVaultState.DISABLED -> EncryptedVaultScreenState.Presentation
-                        EncryptedVaultState.LOCKED -> EncryptedVaultScreenState.PinCodeInput(type = PinCodeInputType.UNLOCKING)
-                        EncryptedVaultState.UNLOCKED -> EncryptedVaultScreenState.Management
+                        is EncryptedVaultState.Disabled -> EncryptedVaultScreenState.Presentation
+                        is EncryptedVaultState.Locked -> EncryptedVaultScreenState.PinCodeInput(type = PinCodeInputType.UNLOCKING)
+                        is EncryptedVaultState.Unlocked -> EncryptedVaultScreenState.Management
                     })
                 }
                 .collect()
@@ -77,7 +80,15 @@ class EncryptedVaultScreenViewModel @Inject constructor(
                 is EncryptedVaultScreenEvent.LockVault -> lockVault()
                 is EncryptedVaultScreenEvent.ChangePinCode -> TODO()
                 is EncryptedVaultScreenEvent.DeleteVault -> deleteVault()
+                is EncryptedVaultScreenEvent.Back -> {
+                    pinCodeValidation = null
+                    _state.emit(EncryptedVaultScreenState.PinCodeInput(type = PinCodeInputType.CREATION))
+                }
                 is EncryptedVaultScreenEvent.Close -> _effect.emit(EncryptedVaultScreenEffect.OnClose)
+                is EncryptedVaultScreenEvent.CloseOnUnlocked -> {
+                    closeOnUnlocked = true
+                    if (state.value is EncryptedVaultScreenState.Management) obtainEvent(EncryptedVaultScreenEvent.Close)
+                }
             }
         }
     }
@@ -140,6 +151,7 @@ class EncryptedVaultScreenViewModel @Inject constructor(
     private suspend fun unlockVault(pinCode: String) {
         when (unlockEncryptedVaultUseCase(pinCode)) {
             is Successful -> {
+
                 _effect.emit(EncryptedVaultScreenEffect.OnClose)
                 _effect.emit(EncryptedVaultScreenEffect.Toast(R.string.common_encrypted_vault_screen_vault_unlocked))
             }

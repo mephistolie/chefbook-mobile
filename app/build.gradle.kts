@@ -59,19 +59,17 @@ dependencies {
 
     // Core
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.3")
-    implementation("androidx.core:core-ktx:1.8.0")
-    implementation("androidx.appcompat:appcompat:1.5.0")
-    implementation("com.google.android.material:material:1.6.1")
-
-    implementation("com.github.mephistolie:compost:0.0.2")
+    implementation("androidx.core:core-ktx:1.9.0")
+    implementation("androidx.appcompat:appcompat:1.5.1")
+    implementation("com.google.android.material:material:1.7.0")
 
     // Compose
     val composeVersion = "1.2.1"
-    implementation("androidx.activity:activity-compose:1.5.1")
+    implementation("androidx.activity:activity-compose:1.6.1")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1")
     implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
     implementation("androidx.compose.animation:animation:$composeVersion")
-    implementation("androidx.compose.compiler:compiler:1.3.0")
+    implementation("androidx.compose.compiler:compiler:1.3.2")
     implementation("androidx.compose.foundation:foundation:$composeVersion")
     implementation("androidx.compose.material:material:$composeVersion")
     implementation("androidx.compose.runtime:runtime:$composeVersion")
@@ -84,13 +82,16 @@ dependencies {
     implementation("androidx.navigation:navigation-compose:$navVersion")
 
     // Accompanist
-    val accompanistVersion = "0.25.1"
+    val accompanistVersion = "0.28.0"
     implementation("com.google.accompanist:accompanist-systemuicontroller:$accompanistVersion")
     implementation("com.google.accompanist:accompanist-flowlayout:$accompanistVersion")
     implementation("com.google.accompanist:accompanist-navigation-material:$accompanistVersion")
     implementation("com.google.accompanist:accompanist-navigation-animation:$accompanistVersion")
     implementation("com.google.accompanist:accompanist-pager:$accompanistVersion")
     implementation("com.google.accompanist:accompanist-pager-indicators:$accompanistVersion")
+
+    // Logging
+    implementation("com.jakewharton.timber:timber:5.0.1")
 
     implementation("com.github.mephistolie:compost:0.0.3")
 
@@ -123,6 +124,7 @@ dependencies {
     implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0")
 
     // Images
+    implementation("io.coil-kt:coil:2.2.2")
     implementation("io.coil-kt:coil-compose:2.1.0")
     implementation("com.github.CanHub:Android-Image-Cropper:4.0.0")
     implementation("id.zelory:compressor:3.0.1")

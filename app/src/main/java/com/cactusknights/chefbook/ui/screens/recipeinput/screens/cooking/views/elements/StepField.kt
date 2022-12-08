@@ -115,7 +115,7 @@ fun StepField(
                         .padding(
                             start = if (index == 0) 36.dp else 0.dp,
                             end = 8.dp
-                        )
+                        ),
                 )
             }
             item {

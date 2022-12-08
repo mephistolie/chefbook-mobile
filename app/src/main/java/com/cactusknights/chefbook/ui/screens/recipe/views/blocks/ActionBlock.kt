@@ -34,7 +34,7 @@ fun ActionBlock(
     val recipe = state.recipe
 
     Divider(
-        color = colors.backgroundTertiary,
+        color = colors.backgroundSecondary,
         modifier = Modifier
             .fillMaxWidth()
             .padding(12.dp, 16.dp, 12.dp, 12.dp)
@@ -90,7 +90,7 @@ fun ActionBlock(
         )
     }
     Divider(
-        color = colors.backgroundTertiary,
+        color = colors.backgroundSecondary,
         modifier = Modifier
             .fillMaxWidth()
             .padding(12.dp, 12.dp, 12.dp)

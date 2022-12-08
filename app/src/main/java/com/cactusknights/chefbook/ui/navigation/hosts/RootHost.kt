@@ -12,6 +12,7 @@ import androidx.navigation.NavType
 import androidx.navigation.navArgument
 import com.cactusknights.chefbook.domain.entities.settings.Settings
 import com.cactusknights.chefbook.ui.navigation.CATEGORY_ID_ARGUMENT
+import com.cactusknights.chefbook.ui.navigation.CLOSE_ON_UNLOCKED_ARGUMENT
 import com.cactusknights.chefbook.ui.navigation.Destination
 import com.cactusknights.chefbook.ui.navigation.RECIPE_ID_ARGUMENT
 import com.cactusknights.chefbook.ui.screens.auth.AuthScreen
@@ -88,10 +89,14 @@ fun RootHost(
             }
             bottomSheet(
                 route = Destination.Encryption.route,
-            ) {
-                EncryptedVaultScreen(
-                    sheetState = sheetState,
-                )
+                arguments = listOf(navArgument(CLOSE_ON_UNLOCKED_ARGUMENT) { type = NavType.BoolType }),
+            ) { backStack ->
+                backStack.arguments?.getBoolean(CLOSE_ON_UNLOCKED_ARGUMENT)?.let { closeOnUnlocked ->
+                    EncryptedVaultScreen(
+                        sheetState = sheetState,
+                        closeOnUnlocked = closeOnUnlocked,
+                    )
+                }
             }
             bottomSheet(
                 route = Destination.Recipe.route,

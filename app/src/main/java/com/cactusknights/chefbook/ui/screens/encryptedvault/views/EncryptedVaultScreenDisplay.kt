@@ -2,6 +2,7 @@ package com.cactusknights.chefbook.ui.screens.encryptedvault.views
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
@@ -12,11 +13,13 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Divider
+import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
@@ -26,7 +29,9 @@ import androidx.compose.ui.unit.dp
 import com.cactusknights.chefbook.R
 import com.cactusknights.chefbook.ui.screens.encryptedvault.models.EncryptedVaultScreenEvent
 import com.cactusknights.chefbook.ui.screens.encryptedvault.models.EncryptedVaultScreenState
+import com.cactusknights.chefbook.ui.screens.encryptedvault.models.PinCodeInputType
 import com.cactusknights.chefbook.ui.themes.ChefBookTheme
+import com.mephistolie.compost.modifiers.simpleClickable
 import com.mephistolie.compost.ui.buttons.CircleIconButton
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -72,11 +77,25 @@ fun EncryptedVaultScreenDisplay(
                     .padding(top = 18.dp, end = 6.dp)
                     .size(28.dp),
                 colors = ButtonDefaults.buttonColors(backgroundColor = colors.foregroundPrimary.copy(alpha = 0.25F)),
-                tint = ChefBookTheme.colors.backgroundPrimary
+                tint = Color.White
             )
+            if (state is EncryptedVaultScreenState.PinCodeInput && state.type == PinCodeInputType.VALIDATION) {
+                Icon(
+                    imageVector = ImageVector.vectorResource(R.drawable.ic_arrow_left),
+                    tint = colors.foregroundSecondary,
+                    modifier = Modifier
+                        .align(Alignment.TopStart)
+                        .padding(start = 6.dp, top = 18.dp)
+                        .size(28.dp)
+                        .padding(2.dp)
+                        .aspectRatio(1F)
+                        .simpleClickable { onEvent(EncryptedVaultScreenEvent.Back) },
+                    contentDescription = null,
+                )
+            }
         }
         Divider(
-            color = colors.backgroundTertiary,
+            color = colors.backgroundSecondary,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(1.dp)

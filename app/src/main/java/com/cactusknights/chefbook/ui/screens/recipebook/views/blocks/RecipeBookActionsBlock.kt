@@ -57,7 +57,7 @@ fun RecipeBookActionsBlock(
 @Composable
 private fun getEncryptionStateTitle(state: EncryptedVaultState) =
     when (state) {
-        EncryptedVaultState.DISABLED -> stringResource(R.string.common_general_disabled)
-        EncryptedVaultState.LOCKED -> stringResource(R.string.common_general_locked)
-        EncryptedVaultState.UNLOCKED -> stringResource(R.string.common_general_unlocked)
+        is EncryptedVaultState.Disabled -> stringResource(R.string.common_general_disabled)
+        is EncryptedVaultState.Locked -> stringResource(R.string.common_general_locked)
+        is EncryptedVaultState.Unlocked -> stringResource(R.string.common_general_unlocked)
     }

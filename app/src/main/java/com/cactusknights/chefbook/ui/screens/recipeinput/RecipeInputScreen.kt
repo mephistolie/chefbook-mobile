@@ -15,6 +15,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.cactusknights.chefbook.R
 import com.cactusknights.chefbook.core.mappers.LanguageMapper
+import com.cactusknights.chefbook.core.ui.DataAccessProvider
+import com.cactusknights.chefbook.core.ui.DataType
 import com.cactusknights.chefbook.domain.entities.common.Language
 import com.cactusknights.chefbook.ui.navigation.Destination
 import com.cactusknights.chefbook.ui.navigation.hosts.RecipeInputHost
@@ -54,32 +56,34 @@ fun RecipeInputScreen(
 
     val state = viewModel.state.collectAsState()
 
-    ModalBottomSheetLayout(
-        bottomSheetNavigator = bottomSheetNavigator,
-        sheetShape = RoundedCornerShape(32.dp, 32.dp, 0.dp, 0.dp),
-        sheetBackgroundColor = ChefBookTheme.colors.backgroundPrimary,
-    ) {
-        RecipeInputHost(
-            viewModel = viewModel,
-            appController = appController,
-            inputController = inputController,
-            sheetState
-        )
+    DataAccessProvider(type = DataType.DECRYPTABLE) {
+        ModalBottomSheetLayout(
+            bottomSheetNavigator = bottomSheetNavigator,
+            sheetShape = RoundedCornerShape(32.dp, 32.dp, 0.dp, 0.dp),
+            sheetBackgroundColor = ChefBookTheme.colors.backgroundPrimary,
+        ) {
+            RecipeInputHost(
+                viewModel = viewModel,
+                appController = appController,
+                inputController = inputController,
+                sheetState
+            )
 
-        val currentState = state.value
-        if (currentState.isCancelDialogOpen) {
-            TwoButtonsDialog(
-                description = stringResource(R.string.common_recipe_input_screen_close_warning),
-                onHide = { viewModel.obtainEvent(RecipeInputScreenEvent.ChangeCancelDialogState(false)) },
-                onRightClick = { viewModel.obtainEvent(RecipeInputScreenEvent.Back) },
-            )
-        }
-        if (currentState.isLoadingDialogOpen) LoadingDialog()
-        if (currentState.isRecipeSavedDialogOpen && currentState.recipeId != null) {
-            RecipeSavedDialog(
-                onOpenRecipe = { viewModel.obtainEvent(RecipeInputScreenEvent.OpenRecipe(currentState.recipeId)) },
-                onBackToRecipes = { viewModel.obtainEvent(RecipeInputScreenEvent.Close) }
-            )
+            val currentState = state.value
+            if (currentState.isCancelDialogOpen) {
+                TwoButtonsDialog(
+                    description = stringResource(R.string.common_recipe_input_screen_close_warning),
+                    onHide = { viewModel.obtainEvent(RecipeInputScreenEvent.ChangeCancelDialogState(false)) },
+                    onRightClick = { viewModel.obtainEvent(RecipeInputScreenEvent.Back) },
+                )
+            }
+            if (currentState.isLoadingDialogOpen) LoadingDialog()
+            if (currentState.isRecipeSavedDialogOpen && currentState.recipeId != null) {
+                RecipeSavedDialog(
+                    onOpenRecipe = { viewModel.obtainEvent(RecipeInputScreenEvent.OpenRecipe(currentState.recipeId)) },
+                    onBackToRecipes = { viewModel.obtainEvent(RecipeInputScreenEvent.Close) }
+                )
+            }
         }
     }
 
@@ -100,7 +104,7 @@ fun RecipeInputScreen(
                     inputController.navigate(Destination.RecipeInput.Details.Encryption.route)
                 }
                 is RecipeInputScreenEffect.OnEncryptedVaultMenuOpen -> {
-                    appController.navigate(Destination.Encryption.route)
+                    appController.navigate(Destination.Encryption.route(closeOnUnlocked = true))
                 }
                 is RecipeInputScreenEffect.OnLanguagePickerOpen -> {
                     inputController.navigate(Destination.RecipeInput.Details.Language.route)

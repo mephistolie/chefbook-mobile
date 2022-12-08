@@ -68,7 +68,7 @@ fun LanguagePickerDialog(
                 .padding(top = 4.dp, bottom = 12.dp)
         )
         Divider(
-            color = colors.backgroundTertiary,
+            color = colors.backgroundSecondary,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(1.dp)

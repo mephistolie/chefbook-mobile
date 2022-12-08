@@ -19,6 +19,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -99,7 +100,7 @@ fun RecipeShareDialogDisplay(
                             .fillMaxSize()
                     )
                     Divider(
-                        color = colors.backgroundTertiary,
+                        color = colors.backgroundSecondary,
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(horizontal = 24.dp, vertical = 16.dp)
@@ -131,7 +132,7 @@ fun RecipeShareDialogDisplay(
                         .padding(16.dp)
                         .size(32.dp),
                     colors = ButtonDefaults.buttonColors(backgroundColor = colors.foregroundPrimary.copy(alpha = 0.25F)),
-                    tint = colors.backgroundPrimary,
+                    tint = Color.White,
                 )
             }
         }

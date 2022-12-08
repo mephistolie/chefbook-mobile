@@ -12,7 +12,6 @@ class UnlockEncryptedVaultUseCase @Inject constructor(
     private val encryptionRepo: IEncryptedVaultRepo,
 ) : IUnlockEncryptedVaultUseCase {
 
-    override suspend operator fun invoke(password: String) =
-        encryptionRepo.unlockEncryptedVault(password)
+    override suspend operator fun invoke(password: String) = encryptionRepo.unlockEncryptedVault(password)
 
 }

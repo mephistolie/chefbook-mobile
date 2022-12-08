@@ -69,8 +69,6 @@ interface ILocalRecipeSource : IRecipeSource {
 }
 
 interface IRemoteRecipeSource : IRecipeSource {
-    suspend fun addRecipeToRecipeBook(recipeId: Int): SimpleAction
-    suspend fun removeFromRecipeToRecipeBook(recipeId: Int): SimpleAction
     suspend fun getRecipesByQuery(query: RecipesFilter): ActionStatus<List<RecipeInfo>>
     suspend fun createRecipe(input: RecipeInput): ActionStatus<Int>
     suspend fun updateRecipe(recipeId: Int, input: RecipeInput): SimpleAction
@@ -80,6 +78,11 @@ interface IRecipeInteractionSource {
     suspend fun setRecipeLikeStatus(recipeId: Int, isLiked: Boolean): SimpleAction
     suspend fun setRecipeFavouriteStatus(recipeId: Int, isFavourite: Boolean): SimpleAction
     suspend fun setRecipeCategories(recipeId: Int, categories: List<Int>): SimpleAction
+}
+
+interface IRemoteRecipeInteractionSource: IRecipeInteractionSource {
+    suspend fun addRecipeToRecipeBook(recipeId: Int): SimpleAction
+    suspend fun removeFromRecipeToRecipeBook(recipeId: Int): SimpleAction
 }
 
 interface ILocalRecipeInteractionSource : IRecipeInteractionSource {

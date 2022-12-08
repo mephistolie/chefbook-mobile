@@ -18,6 +18,7 @@ import com.cactusknights.chefbook.domain.entities.recipe.ingredient.IngredientIt
 import com.cactusknights.chefbook.domain.entities.recipe.macronutrients.MacronutrientsInfo
 import com.cactusknights.chefbook.domain.entities.recipe.toRecipeInput
 import com.cactusknights.chefbook.domain.usecases.encryption.IGetEncryptedVaultStateUseCase
+import com.cactusknights.chefbook.domain.usecases.encryption.IObserveEncryptedVaultStateUseCase
 import com.cactusknights.chefbook.domain.usecases.recipe.ICreateRecipeUseCase
 import com.cactusknights.chefbook.domain.usecases.recipe.IGetRecipeUseCase
 import com.cactusknights.chefbook.domain.usecases.recipe.IUpdateRecipeUseCase
@@ -55,6 +56,7 @@ class RecipeInputScreenViewModel @Inject constructor(
     private val updateRecipeUseCase: IUpdateRecipeUseCase,
     private val setDefaultRecipeLanguageUseCase: ISetDefaultRecipeLanguageUseCase,
     private val getEncryptedVaultStateUseCase: IGetEncryptedVaultStateUseCase,
+    private val observeEncryptedVaultStateUseCase: IObserveEncryptedVaultStateUseCase,
     private val dispatchers: AppDispatchers,
 ) : AndroidViewModel(application), EventHandler<RecipeInputScreenEvent> {
 
@@ -67,6 +69,24 @@ class RecipeInputScreenViewModel @Inject constructor(
     val effect: SharedFlow<RecipeInputScreenEffect> = _effect.asSharedFlow()
 
     private var picturesCounter = 0
+
+    init {
+        observeEncryptedVaultUnlock()
+    }
+
+    private fun observeEncryptedVaultUnlock() {
+        viewModelScope.launch {
+            observeEncryptedVaultStateUseCase()
+                .onEach { vaultState ->
+                    if (vaultState is EncryptedVaultState.Unlocked) {
+                        val currentState = state.value
+                        _state.emit(state.value.copy(input = currentState.input.copy(isEncrypted = true)))
+                        _effect.emit(RecipeInputScreenEffect.OnBottomSheetClosed)
+                    }
+                }
+                .collect()
+        }
+    }
 
     override fun obtainEvent(event: RecipeInputScreenEvent) {
         viewModelScope.launch {
@@ -95,29 +115,41 @@ class RecipeInputScreenViewModel @Inject constructor(
                 is RecipeInputScreenEvent.SetFats -> setFats(event.fats)
                 is RecipeInputScreenEvent.SetCarbohydrates -> setCarbs(event.carbs)
 
-                is RecipeInputScreenEvent.AddIngredient -> addIngredientItem(IngredientItem.Ingredient(
-                    id = UUID.randomUUID().toString(),
-                    name = Strings.EMPTY,
-                ))
-                is RecipeInputScreenEvent.AddIngredientSection -> addIngredientItem(IngredientItem.Section(
-                    id = UUID.randomUUID().toString(),
-                    Strings.EMPTY
-                ))
-                is RecipeInputScreenEvent.OpenIngredientDialog -> _effect.emit(RecipeInputScreenEffect.OnIngredientDialogOpen(event.index))
+                is RecipeInputScreenEvent.AddIngredient -> addIngredientItem(
+                    IngredientItem.Ingredient(
+                        id = UUID.randomUUID().toString(),
+                        name = Strings.EMPTY,
+                    )
+                )
+                is RecipeInputScreenEvent.AddIngredientSection -> addIngredientItem(
+                    IngredientItem.Section(
+                        id = UUID.randomUUID().toString(),
+                        Strings.EMPTY
+                    )
+                )
+                is RecipeInputScreenEvent.OpenIngredientDialog -> _effect.emit(
+                    RecipeInputScreenEffect.OnIngredientDialogOpen(
+                        event.index
+                    )
+                )
                 is RecipeInputScreenEvent.SetIngredientItemName -> setIngredientItemName(event.index, event.name)
                 is RecipeInputScreenEvent.SetIngredientAmount -> setIngredientAmount(event.index, event.amount)
                 is RecipeInputScreenEvent.SetIngredientUnit -> setIngredientUnit(event.index, event.unit)
                 is RecipeInputScreenEvent.MoveIngredientItem -> moveIngredientItem(event.from, event.to)
                 is RecipeInputScreenEvent.DeleteIngredientItem -> deleteIngredientItem(event.index)
 
-                is RecipeInputScreenEvent.AddStep -> addCookingItem(CookingItem.Step(
-                    id = UUID.randomUUID().toString(),
-                    description = Strings.EMPTY
-                ))
-                is RecipeInputScreenEvent.AddCookingSection -> addCookingItem(CookingItem.Section(
-                    id = UUID.randomUUID().toString(),
-                    name = Strings.EMPTY
-                ))
+                is RecipeInputScreenEvent.AddStep -> addCookingItem(
+                    CookingItem.Step(
+                        id = UUID.randomUUID().toString(),
+                        description = Strings.EMPTY
+                    )
+                )
+                is RecipeInputScreenEvent.AddCookingSection -> addCookingItem(
+                    CookingItem.Section(
+                        id = UUID.randomUUID().toString(),
+                        name = Strings.EMPTY
+                    )
+                )
                 is RecipeInputScreenEvent.SetCookingItemValue -> setCookingItemValue(event.index, event.value)
                 is RecipeInputScreenEvent.AddStepPicture -> addStepPicture(event.stepIndex, event.uri)
                 is RecipeInputScreenEvent.DeleteStepPicture -> removeStepPicture(event.stepIndex, event.pictureIndex)
@@ -145,7 +177,12 @@ class RecipeInputScreenViewModel @Inject constructor(
             .onEach { result ->
                 when (result) {
                     is Loading -> _state.emit(state.value.copy(isLoadingDialogOpen = true))
-                    is Successful -> _state.emit(RecipeInputScreenState(input = result.data.toRecipeInput(), recipeId = recipeId))
+                    is Successful -> _state.emit(
+                        RecipeInputScreenState(
+                            input = result.data.toRecipeInput(),
+                            recipeId = recipeId
+                        )
+                    )
                     is Failure -> closeScreen()
                 }
             }
@@ -180,7 +217,7 @@ class RecipeInputScreenViewModel @Inject constructor(
     }
 
     private suspend fun setEncryptedState(isEncrypted: Boolean) {
-        if (getEncryptedVaultStateUseCase() != EncryptedVaultState.UNLOCKED) {
+        if (getEncryptedVaultStateUseCase() !is EncryptedVaultState.Unlocked) {
             _effect.emit(RecipeInputScreenEffect.OnEncryptedVaultMenuOpen)
             return
         }
@@ -350,8 +387,18 @@ class RecipeInputScreenViewModel @Inject constructor(
                     item
                 } else {
                     when (item) {
-                        is IngredientItem.Section -> item.copy(name = name.substring(0, min(name.length, MAX_NAME_LENGTH)))
-                        is IngredientItem.Ingredient -> item.copy(name = name.substring(0, min(name.length, MAX_NAME_LENGTH)))
+                        is IngredientItem.Section -> item.copy(
+                            name = name.substring(
+                                0,
+                                min(name.length, MAX_NAME_LENGTH)
+                            )
+                        )
+                        is IngredientItem.Ingredient -> item.copy(
+                            name = name.substring(
+                                0,
+                                min(name.length, MAX_NAME_LENGTH)
+                            )
+                        )
                         else -> item
                     }
                 }
@@ -450,8 +497,18 @@ class RecipeInputScreenViewModel @Inject constructor(
                     item
                 } else {
                     when (item) {
-                        is CookingItem.Section -> item.copy(name = value.substring(0, min(value.length, MAX_NAME_LENGTH)))
-                        is CookingItem.Step -> item.copy(description = value.substring(0, min(value.length, MAX_STEP_LENGTH)))
+                        is CookingItem.Section -> item.copy(
+                            name = value.substring(
+                                0,
+                                min(value.length, MAX_NAME_LENGTH)
+                            )
+                        )
+                        is CookingItem.Step -> item.copy(
+                            description = value.substring(
+                                0,
+                                min(value.length, MAX_STEP_LENGTH)
+                            )
+                        )
                         else -> item
                     }
                 }
@@ -532,11 +589,16 @@ class RecipeInputScreenViewModel @Inject constructor(
         if (currentState.recipeId == null) {
             createRecipeUseCase(currentState.input)
                 .onEach { result ->
-                    _state.emit(when (result) {
-                        is Loading -> currentState.copy(isLoadingDialogOpen = true)
-                        is Successful -> currentState.copy(recipeId = result.data.id, isRecipeSavedDialogOpen = true)
-                        is Failure -> currentState
-                    })
+                    _state.emit(
+                        when (result) {
+                            is Loading -> currentState.copy(isLoadingDialogOpen = true)
+                            is Successful -> currentState.copy(
+                                recipeId = result.data.id,
+                                isRecipeSavedDialogOpen = true
+                            )
+                            is Failure -> currentState
+                        }
+                    )
                 }
                 .collect()
         } else {

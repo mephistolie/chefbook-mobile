@@ -2,6 +2,7 @@ package com.cactusknights.chefbook.ui.screens.main
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.cactusknights.chefbook.data.network.interceptors.EncryptedImageInterceptor
 import com.cactusknights.chefbook.domain.usecases.profile.IObserveProfileUseCase
 import com.cactusknights.chefbook.domain.usecases.settings.IObserveSettingsUseCase
 import com.cactusknights.chefbook.ui.screens.main.models.AppEffect
@@ -19,12 +20,19 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import okhttp3.OkHttpClient
 
 @HiltViewModel
 class AppViewModel @Inject constructor(
     private val observeSettingsUseCase: IObserveSettingsUseCase,
     private val observeProfileUseCase: IObserveProfileUseCase,
+    encryptedDataInterceptor: EncryptedImageInterceptor,
 ) : ViewModel() {
+
+    val imageClient: OkHttpClient =
+        OkHttpClient.Builder()
+            .addInterceptor(encryptedDataInterceptor)
+            .build()
 
     private val _appState: MutableStateFlow<AppState> = MutableStateFlow(AppState())
     val appState: StateFlow<AppState> = _appState.asStateFlow()

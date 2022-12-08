@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Divider
@@ -42,9 +41,9 @@ import com.cactusknights.chefbook.ui.screens.auth.models.AuthScreenEvent
 import com.cactusknights.chefbook.ui.screens.auth.models.AuthScreenState
 import com.cactusknights.chefbook.ui.themes.ChefBookTheme
 import com.cactusknights.chefbook.ui.themes.DeepOrangeLight
+import com.cactusknights.chefbook.ui.views.buttons.DynamicButton
 import com.mephistolie.compost.modifiers.simpleClickable
 import com.mephistolie.compost.ui.buttons.CircleIconButton
-import com.mephistolie.compost.ui.buttons.TextButton
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -130,7 +129,12 @@ fun AuthScreenDisplay(
             }
         }
         AnimatedVisibility(visible = authState.progress != AuthProgress.LOADING) {
-            TextButton(
+            val isInputValid = when (authState.action) {
+                AuthAction.SIGN_IN -> emailCheck && passwordText.value.isNotEmpty()
+                AuthAction.SIGN_UP -> emailCheck && passwordCheck == Password.VALID
+                AuthAction.RESET_PASSWORD -> emailCheck
+            }
+            DynamicButton(
                 text = when (authState.action) {
                     AuthAction.SIGN_IN -> stringResource(id = R.string.common_auth_screen_sign_in).uppercase()
                     AuthAction.SIGN_UP -> stringResource(id = R.string.common_auth_screen_sign_up).uppercase()
@@ -157,16 +161,8 @@ fun AuthScreenDisplay(
                         )
                     }
                 },
-                enabled = when (authState.action) {
-                    AuthAction.SIGN_IN -> emailCheck && passwordText.value.isNotEmpty()
-                    AuthAction.SIGN_UP -> emailCheck && passwordCheck == Password.VALID
-                    AuthAction.RESET_PASSWORD -> emailCheck
-                },
-                colors = ButtonDefaults.buttonColors(
-                    contentColor = colors.tintSecondary,
-                    backgroundColor = colors.tintPrimary,
-                ),
-                shape = RoundedCornerShape(percent = 100),
+                isEnabled = isInputValid,
+                isSelected = isInputValid,
                 textStyle = typography.body1,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -187,7 +183,7 @@ fun AuthScreenDisplay(
             ) {
                 Spacer(Modifier.height(16.dp))
                 Divider(
-                    color = colors.backgroundTertiary,
+                    color = colors.backgroundSecondary,
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(1.dp)
@@ -203,7 +199,7 @@ fun AuthScreenDisplay(
                         modifier = Modifier
                             .size(48.dp)
                             .padding(5.dp),
-                        colors = ButtonDefaults.buttonColors(backgroundColor = colors.backgroundTertiary),
+                        colors = ButtonDefaults.buttonColors(backgroundColor = colors.backgroundSecondary),
                     )
                     CircleIconButton(
                         icon = ImageVector.vectorResource(R.drawable.ic_vk),
@@ -211,7 +207,7 @@ fun AuthScreenDisplay(
                         modifier = Modifier
                             .size(48.dp)
                             .padding(5.dp),
-                        colors = ButtonDefaults.buttonColors(backgroundColor = colors.backgroundTertiary),
+                        colors = ButtonDefaults.buttonColors(backgroundColor = colors.backgroundSecondary),
                     )
                     CircleIconButton(
                         icon = ImageVector.vectorResource(R.drawable.ic_disable_sync),
@@ -219,7 +215,7 @@ fun AuthScreenDisplay(
                         modifier = Modifier
                             .size(48.dp)
                             .padding(5.dp),
-                        colors = ButtonDefaults.buttonColors(backgroundColor = colors.backgroundTertiary),
+                        colors = ButtonDefaults.buttonColors(backgroundColor = colors.backgroundSecondary),
                     )
                 }
             }

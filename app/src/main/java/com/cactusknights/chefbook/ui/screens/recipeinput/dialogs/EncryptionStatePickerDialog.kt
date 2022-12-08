@@ -49,7 +49,7 @@ fun EncryptionStatePickerDialog(
                 .padding(vertical = 18.dp)
         )
         Divider(
-            color = colors.backgroundTertiary,
+            color = colors.backgroundSecondary,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(1.dp)

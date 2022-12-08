@@ -72,11 +72,14 @@ fun RecipeInputCookingScreenDisplay(
     val imagePickerLauncher =
         rememberLauncherForActivityResult(contract = ActivityResultContracts.GetContent()) { uri: Uri? ->
             val cropOptions = CropImageContractOptions(uri, CropImageOptions())
-                .setScaleType(CropImageView.ScaleType.CENTER_CROP)
                 .setInitialCropWindowPaddingRatio(0F)
                 .setOutputCompressQuality(100)
                 .setGuidelines(CropImageView.Guidelines.ON)
                 .setAspectRatio(5, 4)
+                .setAllowRotation(false)
+                .setAllowFlipping(false)
+                .setImageSource(includeGallery = true, includeCamera = false)
+                .setCropMenuCropButtonIcon(R.drawable.ic_check)
             imageCropLauncher.launch(cropOptions)
         }
 
@@ -139,7 +142,7 @@ fun RecipeInputCookingScreenDisplay(
                                         pictureIndex = pictureIndex
                                     ))
                                 },
-                                onDeleteClick = { onEvent(RecipeInputScreenEvent.DeleteStepItem(index)) }
+                                onDeleteClick = { onEvent(RecipeInputScreenEvent.DeleteStepItem(index)) },
                             )
                         }
                         else -> Unit

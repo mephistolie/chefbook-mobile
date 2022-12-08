@@ -1,8 +1,11 @@
 package com.cactusknights.chefbook.ui.screens.recipe.dialogs
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import com.cactusknights.chefbook.R
+import com.cactusknights.chefbook.ui.screens.main.models.UiState
 import com.cactusknights.chefbook.ui.screens.recipe.dialogs.share.RecipeShareDialog
 import com.cactusknights.chefbook.ui.screens.recipe.models.RecipePicturesDialogState
 import com.cactusknights.chefbook.ui.screens.recipe.models.RecipeScreenEvent
@@ -15,6 +18,7 @@ fun RecipeScreenDialogs(
     state: RecipeScreenState.Success,
     onEvent: (RecipeScreenEvent) -> Unit,
 ) {
+
     if (state.isShareDialogVisible) {
         RecipeShareDialog(
             recipe = state.recipe,
@@ -41,5 +45,11 @@ fun RecipeScreenDialogs(
             onHide = { onEvent(RecipeScreenEvent.ChangeDialogState.Delete(false)) },
             onRightClick = { onEvent(RecipeScreenEvent.DeleteRecipe) },
         )
+    }
+
+    LaunchedEffect(key1 = state) {
+        UiState.backgroundBlur.value =
+            if (state.isShareDialogVisible || state.picturesDialogState is RecipePicturesDialogState.Visible
+                || state.isRemoveFromRecipeBookDialogVisible || state.isDeleteRecipeDialogVisible) 30.dp else 0.dp
     }
 }
