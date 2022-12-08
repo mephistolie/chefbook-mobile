@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
+import com.cactusknights.chefbook.ui.themes.Shapes.RoundedCornerShape12
 import com.cactusknights.chefbook.ui.views.common.shimmer
 
 @Composable
@@ -29,7 +30,7 @@ fun LatestRecipeCardSkeleton() {
             modifier = Modifier
                 .padding(end = 8.dp)
                 .size(80.dp)
-                .clip(RoundedCornerShape(12.dp))
+                .clip(RoundedCornerShape12)
                 .shimmer()
         )
         Column(

@@ -10,25 +10,24 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
-import coil.request.ImageRequest
 import com.cactusknights.chefbook.R
 import com.cactusknights.chefbook.ui.themes.ChefBookTheme
-import com.cactusknights.chefbook.ui.views.buttons.CircleImageButton
 import com.cactusknights.chefbook.ui.views.buttons.DynamicButton
+import com.cactusknights.chefbook.ui.views.images.EncryptedImage
 import com.canhub.cropper.CropImageContract
 import com.canhub.cropper.CropImageContractOptions
 import com.canhub.cropper.CropImageOptions
 import com.canhub.cropper.CropImageView
+import com.mephistolie.compost.ui.buttons.CircleIconButton
 
 @Composable
 fun ColumnScope.PreviewBlock(
@@ -51,11 +50,14 @@ fun ColumnScope.PreviewBlock(
     val imagePickerLauncher =
         rememberLauncherForActivityResult(contract = ActivityResultContracts.GetContent()) { uri: Uri? ->
             val cropOptions = CropImageContractOptions(uri, CropImageOptions())
-                .setScaleType(CropImageView.ScaleType.CENTER_CROP)
                 .setInitialCropWindowPaddingRatio(0F)
                 .setOutputCompressQuality(100)
                 .setGuidelines(CropImageView.Guidelines.ON)
                 .setAspectRatio(5, 4)
+                .setAllowRotation(false)
+                .setAllowFlipping(false)
+                .setImageSource(includeGallery = true, includeCamera = false)
+                .setCropMenuCropButtonIcon(R.drawable.ic_check)
             imageCropLauncher.launch(cropOptions)
         }
 
@@ -64,22 +66,17 @@ fun ColumnScope.PreviewBlock(
             modifier = modifier,
             contentAlignment = Alignment.TopEnd,
         ) {
-            AsyncImage(
-                model = ImageRequest.Builder(context)
-                    .data(preview)
-                    .crossfade(true)
-                    .build(),
-                contentDescription = null,
-                contentScale = ContentScale.Crop,
+            EncryptedImage(
+                data = preview,
                 modifier = Modifier.matchParentSize(),
             )
-            CircleImageButton(
-                image = ImageVector.vectorResource(R.drawable.ic_cross),
+            CircleIconButton(
+                icon = ImageVector.vectorResource(R.drawable.ic_cross),
                 onClick = onPreviewDeleted,
                 modifier = Modifier
                     .padding(12.dp)
                     .size(32.dp),
-                background = colors.foregroundPrimary.copy(alpha = 0.25F),
+                colors = ButtonDefaults.buttonColors(backgroundColor = colors.foregroundPrimary.copy(alpha = 0.25F)),
                 tint = colors.backgroundPrimary
             )
         }

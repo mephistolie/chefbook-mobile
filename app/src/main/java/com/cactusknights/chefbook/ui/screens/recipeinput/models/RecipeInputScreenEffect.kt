@@ -4,6 +4,7 @@ sealed class RecipeInputScreenEffect {
     object OnVisibilityPickerOpen: RecipeInputScreenEffect()
     object OnLanguagePickerOpen: RecipeInputScreenEffect()
     object OnEncryptionStatePickerOpen: RecipeInputScreenEffect()
+    object OnEncryptedVaultMenuOpen: RecipeInputScreenEffect()
     object OnCaloriesDialogOpen: RecipeInputScreenEffect()
     data class OnIngredientDialogOpen(val index: Int): RecipeInputScreenEffect()
     object OnBottomSheetClosed: RecipeInputScreenEffect()

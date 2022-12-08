@@ -36,7 +36,7 @@ class GetRecipeAsTextUseCase @Inject constructor() : IGetRecipeAsTextUseCase {
             }
         }
 
-        if (recipe.hasDietDta()) {
+        if (recipe.hasDietData()) {
             text += "\n\n${resources.getString(R.string.common_general_in_100_g)}:\n"
             recipe.calories?.let { calories ->
                 text += "${resources.getString(R.string.common_general_calories)}: $calories ${resources.getString(R.string.common_general_kcal)}\n"

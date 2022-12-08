@@ -9,6 +9,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.cactusknights.chefbook.core.ui.DependenciesProvider
 import com.cactusknights.chefbook.ui.navigation.Destination
 import com.cactusknights.chefbook.ui.screens.main.models.AppEffect
 import com.cactusknights.chefbook.ui.screens.main.views.AppScreenDisplay
@@ -33,12 +34,16 @@ fun AppScreen(
 
     val appState = viewModel.appState.collectAsState()
 
-    AppScreenDisplay(
-        state = appState.value,
-        navController = navController,
-        bottomSheetNavigator = bottomSheetNavigator,
-        sheetState = sheetState,
-    )
+    DependenciesProvider(
+        imageClient = viewModel.imageClient,
+    ) {
+        AppScreenDisplay(
+            state = appState.value,
+            navController = navController,
+            bottomSheetNavigator = bottomSheetNavigator,
+            sheetState = sheetState,
+        )
+    }
 
     LaunchedEffect(Unit) {
         viewModel.appEffect.collect { effect ->

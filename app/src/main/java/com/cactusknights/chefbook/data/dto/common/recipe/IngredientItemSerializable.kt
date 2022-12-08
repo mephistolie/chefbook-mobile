@@ -10,6 +10,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class IngredientItemSerializable(
+    @SerialName("id")
+    val id: String,
     @SerialName("text")
     val text: String,
     @SerialName("type")
@@ -30,12 +32,15 @@ data class IngredientItemSerializable(
 
 fun IngredientItemSerializable.toEntity(): IngredientItem = when (this.type) {
     CookingItemSerializable.TYPE_SECTION -> IngredientItem.Section(
+        id = id,
         name = text,
     )
     CookingItemSerializable.TYPE_ENCRYPTED_DATA -> IngredientItem.EncryptedData(
+        id = id,
         content = text
     )
     else -> IngredientItem.Ingredient(
+        id = id,
         name = text,
         amount = amount,
         unit = MeasureUnitMapper.map(unit),
@@ -45,6 +50,7 @@ fun IngredientItemSerializable.toEntity(): IngredientItem = when (this.type) {
 
 fun IngredientItem.toSerializable(): IngredientItemSerializable = when (this) {
     is IngredientItem.Ingredient -> IngredientItemSerializable(
+        id = id,
         text = name,
         amount = amount,
         unit = MeasureUnitMapper.map(unit),
@@ -52,11 +58,13 @@ fun IngredientItem.toSerializable(): IngredientItemSerializable = when (this) {
         type = TYPE_INGREDIENT,
     )
     is IngredientItem.Section -> IngredientItemSerializable(
+        id = id,
         text = name,
         type = TYPE_SECTION,
     )
     is IngredientItem.EncryptedData ->
         IngredientItemSerializable(
+            id = id,
             text = content,
             type = TYPE_ENCRYPTED_DATA,
         )

@@ -25,9 +25,10 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.cactusknights.chefbook.core.ui.scalingClickable
 import com.cactusknights.chefbook.ui.themes.ChefBookTheme
-import com.cactusknights.chefbook.ui.views.common.PressedRipple
+import com.mephistolie.compost.extensions.Shading
+import com.mephistolie.compost.modifiers.clippedBackground
+import com.mephistolie.compost.modifiers.scalingClickable
 
 @Composable
 fun DynamicButton(
@@ -74,8 +75,7 @@ fun DynamicButton(
 
     Box(
         modifier = baseModifier
-            .clip(RoundedCornerShape(cornerRadius))
-            .background(background),
+            .clippedBackground(background, RoundedCornerShape(cornerRadius)),
         contentAlignment = Alignment.Center
     ) {
         Row(
@@ -117,6 +117,6 @@ fun DynamicButton(
                 }
             }
         }
-        PressedRipple(pressed.value, Color.Black.copy(alpha = 0.1F))
+        Shading(pressed.value, Color.Black.copy(alpha = 0.1F))
     }
 }

@@ -48,7 +48,7 @@ fun TabsBlock(
         backgroundColor = colors.backgroundPrimary,
         divider = {
             Divider(
-                color = colors.backgroundTertiary,
+                color = colors.backgroundSecondary,
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(1.dp)

@@ -19,11 +19,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import com.cactusknights.chefbook.R
-import com.cactusknights.chefbook.core.ui.simpleClickable
 import com.cactusknights.chefbook.domain.entities.category.Category
 import com.cactusknights.chefbook.ui.themes.ChefBookTheme
 import com.cactusknights.chefbook.ui.views.buttons.DynamicButton
 import com.google.accompanist.flowlayout.FlowRow
+import com.mephistolie.compost.modifiers.simpleClickable
 
 @Composable
 fun CategoriesBlock(
@@ -50,7 +50,7 @@ fun CategoriesBlock(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .simpleClickable(onChangeCategoriesButtonClicked)
+                    .simpleClickable(onClick = onChangeCategoriesButtonClicked)
                     .padding(top = 8.dp, bottom = 4.dp),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
@@ -84,7 +84,7 @@ fun CategoriesBlock(
             }
         }
         Divider(
-            color = colors.backgroundTertiary,
+            color = colors.backgroundSecondary,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 16.dp)

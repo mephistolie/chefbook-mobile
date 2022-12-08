@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.cactusknights.chefbook.common.mvi.EventHandler
 import com.cactusknights.chefbook.domain.entities.action.isSuccess
 import com.cactusknights.chefbook.domain.entities.category.CategoryInput
+import com.cactusknights.chefbook.domain.entities.recipe.encryption.EncryptionState
 import com.cactusknights.chefbook.domain.usecases.category.ICreateCategoryUseCase
 import com.cactusknights.chefbook.domain.usecases.category.IObserveCategoriesUseCase
 import com.cactusknights.chefbook.domain.usecases.encryption.IObserveEncryptedVaultStateUseCase
@@ -25,6 +26,8 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 
 @HiltViewModel
 class RecipeBookScreenViewModel @Inject constructor(
@@ -34,6 +37,8 @@ class RecipeBookScreenViewModel @Inject constructor(
     private val observeEncryptionUseCase: IObserveEncryptedVaultStateUseCase,
     private val createCategoryUseCase: ICreateCategoryUseCase,
 ) : ViewModel(), EventHandler<RecipeBookScreenEvent> {
+
+    private val mutex = Mutex()
 
     private val _state: MutableStateFlow<RecipeBookScreenState> =
         MutableStateFlow(RecipeBookScreenState())
@@ -54,15 +59,21 @@ class RecipeBookScreenViewModel @Inject constructor(
         viewModelScope.launch {
             observeRecipeBookUseCase()
                 .onEach { recipes ->
-                    val latestRecipesIds = observeLatestRecipesUseCase().first()
+                    mutex.withLock {
+                        val currentState = state.value
+                        val latestRecipesIds = observeLatestRecipesUseCase().first()
 
-                    val allRecipes = recipes?.sortedBy { it.name }
-                    val latestRecipes = if (allRecipes != null) {
-                        latestRecipesIds.mapNotNull { id -> allRecipes.firstOrNull { it.id == id } }
-                    } else {
-                        null
+                        val allRecipes = recipes
+                            ?.filter { it.encryptionState !is EncryptionState.Encrypted }
+                            ?.sortedBy { it.name.uppercase() }
+                        val latestRecipes = if (allRecipes != null) {
+                            latestRecipesIds.mapNotNull { id -> allRecipes.firstOrNull { it.id == id } }
+                        } else {
+                            null
+                        }
+                        _state.emit(currentState.copy(allRecipes = allRecipes, latestRecipes = latestRecipes))
                     }
-                    _state.emit(state.value.copy(allRecipes = allRecipes, latestRecipes = latestRecipes))
+
                 }
                 .collect()
         }
@@ -71,7 +82,9 @@ class RecipeBookScreenViewModel @Inject constructor(
     private fun observeCategories() {
         viewModelScope.launch {
             observeCategoriesUseCase().onEach { categories ->
-                _state.emit(state.value.copy(categories = categories?.sortedBy { it.name }))
+                mutex.withLock {
+                    _state.emit(state.value.copy(categories = categories?.sortedBy { it.name }))
+                }
             }.collect()
         }
     }
@@ -80,11 +93,13 @@ class RecipeBookScreenViewModel @Inject constructor(
         viewModelScope.launch {
             observeLatestRecipesUseCase()
                 .onEach { latestRecipesIds ->
-                    val currentState = state.value
+                    mutex.withLock {
+                        val currentState = state.value
 
-                    if (currentState.allRecipes != null) {
-                        val latestRecipes = latestRecipesIds.mapNotNull { id -> currentState.allRecipes.firstOrNull { it.id == id } }
-                        _state.emit(currentState.copy(latestRecipes = latestRecipes))
+                        if (currentState.allRecipes != null) {
+                            val latestRecipes = latestRecipesIds.mapNotNull { id -> currentState.allRecipes.firstOrNull { it.id == id } }
+                            _state.emit(currentState.copy(latestRecipes = latestRecipes))
+                        }
                     }
                 }
                 .collect()
@@ -95,10 +110,16 @@ class RecipeBookScreenViewModel @Inject constructor(
         viewModelScope.launch {
             observeEncryptionUseCase()
                 .onEach { encryption ->
-                    _state.emit(state.value.copy(encryption = encryption))
+                    mutex.withLock {
+                        _state.emit(state.value.copy(encryption = encryption))
+                    }
                 }
                 .collect()
         }
+    }
+
+    private fun handleEncryptedRecipes() {
+
     }
 
     override fun obtainEvent(event: RecipeBookScreenEvent) {

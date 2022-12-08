@@ -1,6 +1,5 @@
 package com.cactusknights.chefbook.ui.screens.recipebook.views.elements
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -19,6 +18,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import com.cactusknights.chefbook.ui.themes.ChefBookTheme
 import com.cactusknights.chefbook.ui.views.common.shimmer
+import com.mephistolie.compost.modifiers.clippedBackground
 
 @Composable
 fun CategoryCardSkeleton() {
@@ -28,8 +28,7 @@ fun CategoryCardSkeleton() {
         modifier = Modifier
             .padding(0.dp, 0.dp, 0.dp, 8.dp)
             .aspectRatio(0.8f)
-            .clip(RoundedCornerShape(16.dp))
-            .background(colors.backgroundSecondary)
+            .clippedBackground(colors.backgroundSecondary, RoundedCornerShape(16.dp))
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,

@@ -22,6 +22,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
@@ -63,7 +64,7 @@ fun RecipeInputCookingScreenDisplay(
         focusStepIndex?.let { index ->
             val uri = result.getUriFilePath(context)
             if (result.isSuccessful && uri != null) {
-                onEvent(RecipeInputScreenEvent.AddStepPicture(index, uri, context))
+                onEvent(RecipeInputScreenEvent.AddStepPicture(index, uri))
             }
         }
     }
@@ -71,11 +72,14 @@ fun RecipeInputCookingScreenDisplay(
     val imagePickerLauncher =
         rememberLauncherForActivityResult(contract = ActivityResultContracts.GetContent()) { uri: Uri? ->
             val cropOptions = CropImageContractOptions(uri, CropImageOptions())
-                .setScaleType(CropImageView.ScaleType.CENTER_CROP)
                 .setInitialCropWindowPaddingRatio(0F)
                 .setOutputCompressQuality(100)
                 .setGuidelines(CropImageView.Guidelines.ON)
                 .setAspectRatio(5, 4)
+                .setAllowRotation(false)
+                .setAllowFlipping(false)
+                .setImageSource(includeGallery = true, includeCamera = false)
+                .setCropMenuCropButtonIcon(R.drawable.ic_check)
             imageCropLauncher.launch(cropOptions)
         }
 
@@ -109,13 +113,12 @@ fun RecipeInputCookingScreenDisplay(
                 .detectReorderAfterLongPress(reorderableState),
             horizontalAlignment = Alignment.Start,
         ) {
-            itemsIndexed(state.cooking) { index, item ->
+            itemsIndexed(state.cooking, key = { _, item -> item.id}) { index, item ->
                 ReorderableItem(
                     reorderableState = reorderableState,
-                    key = null,
-                    index = index,
-                    modifier = Modifier,
-                ) {
+                    key = item.id,
+                ) { isDragging ->
+                    if (isDragging) haptic.performHapticFeedback(HapticFeedbackType.LongPress)
                     when (item) {
                         is CookingItem.Section -> {
                             SectionField(
@@ -139,7 +142,7 @@ fun RecipeInputCookingScreenDisplay(
                                         pictureIndex = pictureIndex
                                     ))
                                 },
-                                onDeleteClick = { onEvent(RecipeInputScreenEvent.DeleteStepItem(index)) }
+                                onDeleteClick = { onEvent(RecipeInputScreenEvent.DeleteStepItem(index)) },
                             )
                         }
                         else -> Unit

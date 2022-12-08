@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Icon
@@ -25,9 +24,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import com.cactusknights.chefbook.R
-import com.cactusknights.chefbook.core.ui.simpleClickable
 import com.cactusknights.chefbook.ui.themes.ChefBookTheme
-import com.cactusknights.chefbook.ui.views.buttons.CircleImageButton
+import com.cactusknights.chefbook.ui.themes.Shapes.RoundedCornerShape12
+import com.mephistolie.compost.modifiers.simpleClickable
+import com.mephistolie.compost.ui.buttons.CircleIconButton
 
 @Composable
 fun TopBar(
@@ -52,7 +52,7 @@ fun TopBar(
             tint = colors.tintPrimary,
             modifier = Modifier
                 .width(barSize - 6.dp)
-                .simpleClickable(onCreateRecipeButtonClick)
+                .simpleClickable(onClick = onCreateRecipeButtonClick)
                 .padding(2.dp, 0.dp, 6.dp, 0.dp)
                 .size(28.dp)
         )
@@ -62,10 +62,9 @@ fun TopBar(
                 .height(barSize)
                 .fillMaxWidth()
                 .weight(1f),
-            colors = ButtonDefaults.buttonColors(
-                backgroundColor = colors.backgroundTertiary),
+            colors = ButtonDefaults.buttonColors(backgroundColor = colors.backgroundSecondary),
             contentPadding = PaddingValues(0.dp),
-            shape = RoundedCornerShape(12.dp),
+            shape = RoundedCornerShape12,
             elevation = null,
         ) {
             Row(
@@ -90,13 +89,13 @@ fun TopBar(
                 )
             }
         }
-        CircleImageButton(
-            image = ImageVector.vectorResource(id = R.drawable.ic_favourite),
+        CircleIconButton(
+            icon = ImageVector.vectorResource(id = R.drawable.ic_favourite),
             onClick = { onFavouriteButtonClick() },
             modifier = Modifier
                 .padding(start = 8.dp)
                 .size(barSize),
-            background = colors.backgroundTertiary,
+            colors = ButtonDefaults.buttonColors(backgroundColor = colors.backgroundSecondary),
             tint = colors.foregroundPrimary,
             contentPadding = 9.dp
         )

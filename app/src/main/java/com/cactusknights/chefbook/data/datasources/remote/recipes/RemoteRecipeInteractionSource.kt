@@ -1,6 +1,6 @@
 package com.cactusknights.chefbook.data.datasources.remote.recipes
 
-import com.cactusknights.chefbook.data.IRecipeInteractionSource
+import com.cactusknights.chefbook.data.IRemoteRecipeInteractionSource
 import com.cactusknights.chefbook.data.dto.remote.common.toActionStatus
 import com.cactusknights.chefbook.data.dto.remote.recipe.RecipeCategoriesRequest
 import com.cactusknights.chefbook.data.network.INetworkHandler
@@ -12,7 +12,13 @@ import javax.inject.Inject
 class RemoteRecipeInteractionSource @Inject constructor(
     private val api: RecipeApi,
     private val handleResponse: INetworkHandler,
-) : IRecipeInteractionSource {
+) : IRemoteRecipeInteractionSource {
+
+    override suspend fun addRecipeToRecipeBook(recipeId: Int): SimpleAction =
+        handleResponse { api.addRecipeToRecipeBook(recipeId) }.toActionStatus().asEmpty()
+
+    override suspend fun removeFromRecipeToRecipeBook(recipeId: Int): SimpleAction =
+        handleResponse { api.removeRecipeFromRecipeBook(recipeId) }.toActionStatus().asEmpty()
 
     override suspend fun setRecipeLikeStatus(recipeId: Int, isLiked: Boolean): SimpleAction =
         if (isLiked) {

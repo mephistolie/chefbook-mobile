@@ -1,4 +1,4 @@
-package com.cactusknights.chefbook.data.repositories.recipes
+package com.cactusknights.chefbook.data.repositories.recipe
 
 import androidx.datastore.core.DataStore
 import com.cactusknights.chefbook.LatestRecipesProto

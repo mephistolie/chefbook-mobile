@@ -9,6 +9,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class CookingItemSerializable(
+    @SerialName("id")
+    val id: String,
     @SerialName("text")
     val text: String,
     @SerialName("type")
@@ -31,12 +33,15 @@ data class CookingItemSerializable(
 
 fun CookingItemSerializable.toEntity(): CookingItem = when (this.type.lowercase()) {
     TYPE_SECTION -> CookingItem.Section(
+        id = id,
         name = text,
     )
     TYPE_ENCRYPTED_DATA -> CookingItem.EncryptedData(
+        id = id,
         content = text
     )
     else -> CookingItem.Step(
+        id = id,
         description = text,
         link = link,
         time = time,
@@ -46,6 +51,7 @@ fun CookingItemSerializable.toEntity(): CookingItem = when (this.type.lowercase(
 
 fun CookingItem.toSerializable(): CookingItemSerializable = when (this) {
     is CookingItem.Step -> CookingItemSerializable(
+        id = id,
         text = description,
         link = link,
         time = time,
@@ -53,10 +59,12 @@ fun CookingItem.toSerializable(): CookingItemSerializable = when (this) {
         type = TYPE_STEP,
     )
     is CookingItem.Section -> CookingItemSerializable(
+        id = id,
         text = name,
         type = TYPE_SECTION,
     )
     is CookingItem.EncryptedData -> CookingItemSerializable(
+        id = id,
         text = content,
         type = TYPE_ENCRYPTED_DATA
     )

@@ -5,6 +5,7 @@ import com.cactusknights.chefbook.core.mappers.VisibilityMapper
 import com.cactusknights.chefbook.data.dto.remote.categories.CategoryResponse
 import com.cactusknights.chefbook.data.dto.remote.categories.toEntity
 import com.cactusknights.chefbook.domain.entities.recipe.RecipeInfo
+import com.cactusknights.chefbook.domain.entities.recipe.encryption.EncryptionState
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import kotlinx.serialization.SerialName
@@ -66,7 +67,7 @@ fun RecipeInfoResponse.toEntity() : RecipeInfo =
         isOwned = isOwned,
         likes = likes,
         visibility = VisibilityMapper.map(visibility),
-        isEncrypted = isEncrypted,
+        encryptionState = if (isEncrypted) EncryptionState.Encrypted else EncryptionState.Standard,
         language = LanguageMapper.map(language),
         preview = preview,
 

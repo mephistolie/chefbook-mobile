@@ -1,10 +1,12 @@
 package com.cactusknights.chefbook.ui.screens.recipebook.views.blocks
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.grid.GridItemSpan
+import androidx.compose.foundation.lazy.grid.LazyGridScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Text
 import androidx.compose.ui.Modifier
@@ -16,12 +18,17 @@ import com.cactusknights.chefbook.ui.screens.recipebook.views.elements.LatestRec
 import com.cactusknights.chefbook.ui.screens.recipebook.views.elements.LatestRecipeCardSkeleton
 import com.cactusknights.chefbook.ui.themes.ChefBookTheme
 
-fun LazyListScope.latestRecipesBlock(
+private const val KEY_PREFIX = "quick_access_card"
+
+@OptIn(ExperimentalFoundationApi::class)
+fun LazyGridScope.quickAccessBlock(
     recipes: List<RecipeInfo>?,
     onRecipeClicked: (Int) -> Unit,
 ) {
     if (recipes == null || recipes.isNotEmpty()) {
-        item {
+        item(
+            span = { GridItemSpan(4) }
+        ) {
             Text(
                 text = stringResource(id = R.string.common_recipe_book_screen_quick_access),
                 style = ChefBookTheme.typography.h3,
@@ -29,31 +36,26 @@ fun LazyListScope.latestRecipesBlock(
                 modifier = Modifier.padding(12.dp, 24.dp, 12.dp, 12.dp),
             )
         }
-        if (recipes != null) {
-            item {
-                recipes.let { recipes ->
-                    LazyRow {
-                        item {
-                            Spacer(modifier = Modifier.width(12.dp))
-                        }
-                        items(recipes) { recipe ->
-                            LatestRecipeCard(
-                                recipe = recipe,
-                                onRecipeClicked = { onRecipeClicked(it.id) }
-                            )
-                        }
-                    }
+        item(
+            span = { GridItemSpan(4) }
+        ) {
+            LazyRow {
+                item {
+                    Spacer(modifier = Modifier.width(12.dp))
                 }
-            }
-        } else {
-            item {
-                LazyRow {
-                    item {
-                        Spacer(modifier = Modifier.width(12.dp))
+                recipes?.let {
+                    items(
+                        items = recipes,
+                        key = { recipe -> "${KEY_PREFIX}_${recipe.id}" }
+                    ) { recipe ->
+                        LatestRecipeCard(
+                            recipe = recipe,
+                            onRecipeClicked = { onRecipeClicked(it.id) },
+                            modifier = Modifier.animateItemPlacement(),
+                        )
                     }
-                    items(2) {
-                        LatestRecipeCardSkeleton()
-                    }
+                } ?: items(2) {
+                    LatestRecipeCardSkeleton()
                 }
             }
         }

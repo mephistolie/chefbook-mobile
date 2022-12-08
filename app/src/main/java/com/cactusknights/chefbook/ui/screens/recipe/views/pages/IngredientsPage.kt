@@ -26,14 +26,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import com.cactusknights.chefbook.R
-import com.cactusknights.chefbook.core.ui.DottedShape
-import com.cactusknights.chefbook.core.ui.simpleClickable
 import com.cactusknights.chefbook.domain.entities.recipe.ingredient.IngredientItem
 import com.cactusknights.chefbook.ui.screens.recipe.views.elements.Ingredient
 import com.cactusknights.chefbook.ui.screens.recipe.views.elements.Section
 import com.cactusknights.chefbook.ui.themes.ChefBookTheme
 import com.cactusknights.chefbook.ui.views.buttons.Counter
 import com.cactusknights.chefbook.ui.views.buttons.DynamicButton
+import com.mephistolie.compost.modifiers.simpleClickable
+import com.mephistolie.compost.shapes.DashedLineShape
 
 @Composable
 fun IngredientsPage(
@@ -83,7 +83,7 @@ fun IngredientsPage(
                 )
             }
             Divider(
-                color = colors.backgroundTertiary,
+                color = colors.backgroundSecondary,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = 12.dp)
@@ -110,7 +110,7 @@ fun IngredientsPage(
                         when (ingredients[index + 1]) {
                             is IngredientItem.Section -> {
                                 Divider(
-                                    color = colors.backgroundTertiary,
+                                    color = colors.backgroundSecondary,
                                     modifier = Modifier
                                         .padding(top = 18.dp, bottom = 12.dp)
                                         .fillMaxWidth()
@@ -128,8 +128,8 @@ fun IngredientsPage(
                                         .height((1.5).dp)
                                         .fillMaxWidth()
                                         .background(
-                                            color = colors.backgroundTertiary,
-                                            shape = DottedShape(12.dp)
+                                            color = colors.backgroundSecondary,
+                                            shape = DashedLineShape(12.dp)
                                         )
                                 )
                             }

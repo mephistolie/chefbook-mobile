@@ -10,11 +10,11 @@ import com.cactusknights.chefbook.data.repositories.SessionRepo
 import com.cactusknights.chefbook.data.repositories.SettingsRepo
 import com.cactusknights.chefbook.data.repositories.ShoppingListRepo
 import com.cactusknights.chefbook.data.repositories.SourceRepo
-import com.cactusknights.chefbook.data.repositories.recipes.LatestRecipesRepo
-import com.cactusknights.chefbook.data.repositories.recipes.RecipeEncryptionRepo
-import com.cactusknights.chefbook.data.repositories.recipes.RecipeInteractionRepo
-import com.cactusknights.chefbook.data.repositories.recipes.RecipePictureRepo
-import com.cactusknights.chefbook.data.repositories.recipes.RecipeRepo
+import com.cactusknights.chefbook.data.repositories.recipe.LatestRecipesRepo
+import com.cactusknights.chefbook.data.repositories.recipe.RecipeEncryptionRepo
+import com.cactusknights.chefbook.data.repositories.recipe.RecipeInteractionRepo
+import com.cactusknights.chefbook.data.repositories.recipe.RecipePictureRepo
+import com.cactusknights.chefbook.data.repositories.recipe.RecipeRepo
 import com.cactusknights.chefbook.domain.interfaces.IAuthRepo
 import com.cactusknights.chefbook.domain.interfaces.ICategoryRepo
 import com.cactusknights.chefbook.domain.interfaces.IEncryptedVaultRepo

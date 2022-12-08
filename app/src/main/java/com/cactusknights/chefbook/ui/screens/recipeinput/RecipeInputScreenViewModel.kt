@@ -1,20 +1,24 @@
 package com.cactusknights.chefbook.ui.screens.recipeinput
 
-import android.content.Context
-import androidx.lifecycle.ViewModel
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.cactusknights.chefbook.common.Strings
 import com.cactusknights.chefbook.common.mvi.EventHandler
+import com.cactusknights.chefbook.core.coroutines.AppDispatchers
 import com.cactusknights.chefbook.domain.entities.action.Failure
 import com.cactusknights.chefbook.domain.entities.action.Loading
 import com.cactusknights.chefbook.domain.entities.action.Successful
 import com.cactusknights.chefbook.domain.entities.common.Language
 import com.cactusknights.chefbook.domain.entities.common.MeasureUnit
 import com.cactusknights.chefbook.domain.entities.common.Visibility
+import com.cactusknights.chefbook.domain.entities.encryption.EncryptedVaultState
 import com.cactusknights.chefbook.domain.entities.recipe.cooking.CookingItem
 import com.cactusknights.chefbook.domain.entities.recipe.ingredient.IngredientItem
 import com.cactusknights.chefbook.domain.entities.recipe.macronutrients.MacronutrientsInfo
 import com.cactusknights.chefbook.domain.entities.recipe.toRecipeInput
+import com.cactusknights.chefbook.domain.usecases.encryption.IGetEncryptedVaultStateUseCase
+import com.cactusknights.chefbook.domain.usecases.encryption.IObserveEncryptedVaultStateUseCase
 import com.cactusknights.chefbook.domain.usecases.recipe.ICreateRecipeUseCase
 import com.cactusknights.chefbook.domain.usecases.recipe.IGetRecipeUseCase
 import com.cactusknights.chefbook.domain.usecases.recipe.IUpdateRecipeUseCase
@@ -29,6 +33,7 @@ import id.zelory.compressor.constraint.quality
 import id.zelory.compressor.constraint.resolution
 import id.zelory.compressor.constraint.size
 import java.io.File
+import java.util.*
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -39,15 +44,21 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kotlin.math.max
+import kotlin.math.min
 
 @HiltViewModel
 class RecipeInputScreenViewModel @Inject constructor(
+    application: Application,
     private val getRecipeUseCase: IGetRecipeUseCase,
     private val createRecipeUseCase: ICreateRecipeUseCase,
     private val updateRecipeUseCase: IUpdateRecipeUseCase,
     private val setDefaultRecipeLanguageUseCase: ISetDefaultRecipeLanguageUseCase,
-) : ViewModel(), EventHandler<RecipeInputScreenEvent> {
+    private val getEncryptedVaultStateUseCase: IGetEncryptedVaultStateUseCase,
+    private val observeEncryptedVaultStateUseCase: IObserveEncryptedVaultStateUseCase,
+    private val dispatchers: AppDispatchers,
+) : AndroidViewModel(application), EventHandler<RecipeInputScreenEvent> {
 
     private val _state: MutableStateFlow<RecipeInputScreenState> =
         MutableStateFlow(RecipeInputScreenState())
@@ -58,6 +69,24 @@ class RecipeInputScreenViewModel @Inject constructor(
     val effect: SharedFlow<RecipeInputScreenEffect> = _effect.asSharedFlow()
 
     private var picturesCounter = 0
+
+    init {
+        observeEncryptedVaultUnlock()
+    }
+
+    private fun observeEncryptedVaultUnlock() {
+        viewModelScope.launch {
+            observeEncryptedVaultStateUseCase()
+                .onEach { vaultState ->
+                    if (vaultState is EncryptedVaultState.Unlocked) {
+                        val currentState = state.value
+                        _state.emit(state.value.copy(input = currentState.input.copy(isEncrypted = true)))
+                        _effect.emit(RecipeInputScreenEffect.OnBottomSheetClosed)
+                    }
+                }
+                .collect()
+        }
+    }
 
     override fun obtainEvent(event: RecipeInputScreenEvent) {
         viewModelScope.launch {
@@ -76,7 +105,7 @@ class RecipeInputScreenViewModel @Inject constructor(
                 is RecipeInputScreenEvent.OpenLanguagePicker -> _effect.emit(RecipeInputScreenEffect.OnLanguagePickerOpen)
                 is RecipeInputScreenEvent.SetLanguage -> setLanguage(event.language)
                 is RecipeInputScreenEvent.SetDescription -> setDescription(event.description)
-                is RecipeInputScreenEvent.SetPreview -> setCompressedPreview(event.uri, event.context)
+                is RecipeInputScreenEvent.SetPreview -> setCompressedPreview(event.uri)
                 is RecipeInputScreenEvent.RemovePreview -> removePreview()
                 is RecipeInputScreenEvent.SetServings -> setServings(event.servings)
                 is RecipeInputScreenEvent.SetTime -> setTime(event.h, event.min)
@@ -86,19 +115,43 @@ class RecipeInputScreenViewModel @Inject constructor(
                 is RecipeInputScreenEvent.SetFats -> setFats(event.fats)
                 is RecipeInputScreenEvent.SetCarbohydrates -> setCarbs(event.carbs)
 
-                is RecipeInputScreenEvent.AddIngredient -> addIngredientItem(IngredientItem.Ingredient(Strings.EMPTY))
-                is RecipeInputScreenEvent.AddIngredientSection -> addIngredientItem(IngredientItem.Section(Strings.EMPTY))
-                is RecipeInputScreenEvent.OpenIngredientDialog -> _effect.emit(RecipeInputScreenEffect.OnIngredientDialogOpen(event.index))
+                is RecipeInputScreenEvent.AddIngredient -> addIngredientItem(
+                    IngredientItem.Ingredient(
+                        id = UUID.randomUUID().toString(),
+                        name = Strings.EMPTY,
+                    )
+                )
+                is RecipeInputScreenEvent.AddIngredientSection -> addIngredientItem(
+                    IngredientItem.Section(
+                        id = UUID.randomUUID().toString(),
+                        Strings.EMPTY
+                    )
+                )
+                is RecipeInputScreenEvent.OpenIngredientDialog -> _effect.emit(
+                    RecipeInputScreenEffect.OnIngredientDialogOpen(
+                        event.index
+                    )
+                )
                 is RecipeInputScreenEvent.SetIngredientItemName -> setIngredientItemName(event.index, event.name)
                 is RecipeInputScreenEvent.SetIngredientAmount -> setIngredientAmount(event.index, event.amount)
                 is RecipeInputScreenEvent.SetIngredientUnit -> setIngredientUnit(event.index, event.unit)
                 is RecipeInputScreenEvent.MoveIngredientItem -> moveIngredientItem(event.from, event.to)
                 is RecipeInputScreenEvent.DeleteIngredientItem -> deleteIngredientItem(event.index)
 
-                is RecipeInputScreenEvent.AddStep -> addCookingItem(CookingItem.Step(Strings.EMPTY))
-                is RecipeInputScreenEvent.AddCookingSection -> addCookingItem(CookingItem.Section(Strings.EMPTY))
+                is RecipeInputScreenEvent.AddStep -> addCookingItem(
+                    CookingItem.Step(
+                        id = UUID.randomUUID().toString(),
+                        description = Strings.EMPTY
+                    )
+                )
+                is RecipeInputScreenEvent.AddCookingSection -> addCookingItem(
+                    CookingItem.Section(
+                        id = UUID.randomUUID().toString(),
+                        name = Strings.EMPTY
+                    )
+                )
                 is RecipeInputScreenEvent.SetCookingItemValue -> setCookingItemValue(event.index, event.value)
-                is RecipeInputScreenEvent.AddStepPicture -> addStepPicture(event.stepIndex, event.uri, event.context)
+                is RecipeInputScreenEvent.AddStepPicture -> addStepPicture(event.stepIndex, event.uri)
                 is RecipeInputScreenEvent.DeleteStepPicture -> removeStepPicture(event.stepIndex, event.pictureIndex)
                 is RecipeInputScreenEvent.MoveStepItem -> moveCookingItem(event.from, event.to)
                 is RecipeInputScreenEvent.DeleteStepItem -> deleteCookingItem(event.index)
@@ -124,7 +177,12 @@ class RecipeInputScreenViewModel @Inject constructor(
             .onEach { result ->
                 when (result) {
                     is Loading -> _state.emit(state.value.copy(isLoadingDialogOpen = true))
-                    is Successful -> _state.emit(RecipeInputScreenState(input = result.data.toRecipeInput(), recipeId = recipeId))
+                    is Successful -> _state.emit(
+                        RecipeInputScreenState(
+                            input = result.data.toRecipeInput(),
+                            recipeId = recipeId
+                        )
+                    )
                     is Failure -> closeScreen()
                 }
             }
@@ -159,6 +217,11 @@ class RecipeInputScreenViewModel @Inject constructor(
     }
 
     private suspend fun setEncryptedState(isEncrypted: Boolean) {
+        if (getEncryptedVaultStateUseCase() !is EncryptedVaultState.Unlocked) {
+            _effect.emit(RecipeInputScreenEffect.OnEncryptedVaultMenuOpen)
+            return
+        }
+
         val currentState = state.value
         val input = currentState.input
 
@@ -202,11 +265,11 @@ class RecipeInputScreenViewModel @Inject constructor(
         _state.emit(currentState.copy(input = input.copy(description = croppedDescription)))
     }
 
-    private suspend fun setCompressedPreview(uri: String, context: Context) {
+    private suspend fun setCompressedPreview(uri: String) {
         val currentState = state.value
         val input = currentState.input
 
-        val compressedPreviewPath = compressPicture(uri, context)
+        val compressedPreviewPath = compressPicture(uri)
         _state.emit(currentState.copy(input = input.copy(preview = compressedPreviewPath)))
     }
 
@@ -324,8 +387,18 @@ class RecipeInputScreenViewModel @Inject constructor(
                     item
                 } else {
                     when (item) {
-                        is IngredientItem.Section -> item.copy(name = name)
-                        is IngredientItem.Ingredient -> item.copy(name = name)
+                        is IngredientItem.Section -> item.copy(
+                            name = name.substring(
+                                0,
+                                min(name.length, MAX_NAME_LENGTH)
+                            )
+                        )
+                        is IngredientItem.Ingredient -> item.copy(
+                            name = name.substring(
+                                0,
+                                min(name.length, MAX_NAME_LENGTH)
+                            )
+                        )
                         else -> item
                     }
                 }
@@ -412,7 +485,7 @@ class RecipeInputScreenViewModel @Inject constructor(
 
     private suspend fun setCookingItemValue(
         itemIndex: Int,
-        value: String?,
+        value: String,
     ) {
         val currentState = state.value
         val input = currentState.input
@@ -424,8 +497,18 @@ class RecipeInputScreenViewModel @Inject constructor(
                     item
                 } else {
                     when (item) {
-                        is CookingItem.Section -> item.copy(name = value.orEmpty())
-                        is CookingItem.Step -> item.copy(description = value.orEmpty())
+                        is CookingItem.Section -> item.copy(
+                            name = value.substring(
+                                0,
+                                min(value.length, MAX_NAME_LENGTH)
+                            )
+                        )
+                        is CookingItem.Step -> item.copy(
+                            description = value.substring(
+                                0,
+                                min(value.length, MAX_STEP_LENGTH)
+                            )
+                        )
                         else -> item
                     }
                 }
@@ -435,10 +518,9 @@ class RecipeInputScreenViewModel @Inject constructor(
 
     private suspend fun addStepPicture(
         stepIndex: Int,
-        uri: String,
-        context: Context
+        uri: String
     ) {
-        val compressedPicturePath = compressPicture(uri, context)
+        val compressedPicturePath = compressPicture(uri)
 
         val currentState = state.value
         val input = currentState.input
@@ -507,11 +589,16 @@ class RecipeInputScreenViewModel @Inject constructor(
         if (currentState.recipeId == null) {
             createRecipeUseCase(currentState.input)
                 .onEach { result ->
-                    _state.emit(when (result) {
-                        is Loading -> currentState.copy(isLoadingDialogOpen = true)
-                        is Successful -> currentState.copy(recipeId = result.data.id, isRecipeSavedDialogOpen = true)
-                        is Failure -> currentState
-                    })
+                    _state.emit(
+                        when (result) {
+                            is Loading -> currentState.copy(isLoadingDialogOpen = true)
+                            is Successful -> currentState.copy(
+                                recipeId = result.data.id,
+                                isRecipeSavedDialogOpen = true
+                            )
+                            is Failure -> currentState
+                        }
+                    )
                 }
                 .collect()
         } else {
@@ -539,21 +626,21 @@ class RecipeInputScreenViewModel @Inject constructor(
 
     private suspend fun compressPicture(
         path: String,
-        context: Context,
-    ): String {
+    ): String = withContext(dispatchers.default) {
         val file = File(path)
         picturesCounter++
-        val compressedFile = Compressor.compress(context, file) {
+        val compressedFile = Compressor.compress(getApplication<Application>().applicationContext, file) {
             resolution(1284, 1284)
             size(1048576)
             quality(100)
             destination(File(path + "_tmp_$picturesCounter.jpg"))
         }
-        return compressedFile.canonicalPath
+        return@withContext compressedFile.canonicalPath
     }
 
     companion object {
         private const val MAX_NAME_LENGTH = 100
         private const val MAX_DESCRIPTION_LENGTH = 1500
+        private const val MAX_STEP_LENGTH = 6000
     }
 }

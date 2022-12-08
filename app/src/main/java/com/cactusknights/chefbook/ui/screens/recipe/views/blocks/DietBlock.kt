@@ -72,7 +72,7 @@ fun DietBlock(
         }
     }
     Divider(
-        color = colors.backgroundTertiary,
+        color = colors.backgroundSecondary,
         modifier = Modifier
             .fillMaxWidth()
             .padding(top = 16.dp)

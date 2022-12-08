@@ -19,7 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
@@ -43,8 +43,6 @@ fun RecipeInputIngredientScreenDisplay(
     state: RecipeInput,
     onEvent: (RecipeInputScreenEvent) -> Unit,
 ) {
-    val context = LocalContext.current
-
     val haptic = LocalHapticFeedback.current
 
     val colors = ChefBookTheme.colors
@@ -80,13 +78,9 @@ fun RecipeInputIngredientScreenDisplay(
                 .detectReorderAfterLongPress(reorderableState),
             horizontalAlignment = Alignment.Start,
         ) {
-            itemsIndexed(state.ingredients) { index, item ->
-                ReorderableItem(
-                    reorderableState = reorderableState,
-                    key = null,
-                    index = index,
-                    modifier = Modifier,
-                ) {
+            itemsIndexed(state.ingredients, key = { _, item -> item.id }) { index, item ->
+                ReorderableItem(reorderableState, key = item.id) { isDragging ->
+                    if (isDragging) haptic.performHapticFeedback(HapticFeedbackType.LongPress)
                     when (item) {
                         is IngredientItem.Section -> {
                             SectionField(
@@ -99,7 +93,7 @@ fun RecipeInputIngredientScreenDisplay(
                             IngredientField(
                                 ingredient = item,
                                 onInputClick = { onEvent(RecipeInputScreenEvent.OpenIngredientDialog(index)) },
-                                onDeleteClick = { onEvent(RecipeInputScreenEvent.DeleteIngredientItem(index)) }
+                                onDeleteClick = { onEvent(RecipeInputScreenEvent.DeleteIngredientItem(index)) },
                             )
                         }
                         else -> Unit

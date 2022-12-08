@@ -1,7 +1,6 @@
 package com.cactusknights.chefbook.ui.screens.recipebook.views.elements
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -9,7 +8,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -17,15 +15,16 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import com.cactusknights.chefbook.R
-import com.cactusknights.chefbook.core.ui.scalingClickable
 import com.cactusknights.chefbook.ui.themes.ChefBookTheme
-import com.cactusknights.chefbook.ui.views.common.PressedRipple
+import com.cactusknights.chefbook.ui.themes.Shapes.RoundedCornerShape12
+import com.mephistolie.compost.extensions.Shading
+import com.mephistolie.compost.modifiers.clippedBackground
+import com.mephistolie.compost.modifiers.scalingClickable
 
 @Composable
 fun RecipeBookActionButton(
@@ -45,8 +44,7 @@ fun RecipeBookActionButton(
     Box(
         modifier = modifier
             .scalingClickable(pressed, onClick = onActionButtonClick)
-            .clip(RoundedCornerShape(12.dp))
-            .background(colors.backgroundSecondary)
+            .clippedBackground(colors.backgroundSecondary, RoundedCornerShape12)
     ) {
         image?.let {
             Column(
@@ -104,6 +102,6 @@ fun RecipeBookActionButton(
                 }
             }
         }
-        PressedRipple(pressed.value)
+        Shading(pressed.value)
     }
 }

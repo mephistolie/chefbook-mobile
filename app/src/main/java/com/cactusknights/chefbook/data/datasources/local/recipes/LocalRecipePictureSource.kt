@@ -4,6 +4,7 @@ import android.content.Context
 import android.net.Uri
 import com.cactusknights.chefbook.core.LocalPaths.PICTURES_DIR
 import com.cactusknights.chefbook.core.LocalPaths.RECIPES_DIR
+import com.cactusknights.chefbook.core.coroutines.AppDispatchers
 import com.cactusknights.chefbook.data.IRecipePictureSource
 import com.cactusknights.chefbook.domain.entities.action.ActionStatus
 import com.cactusknights.chefbook.domain.entities.action.DataResult
@@ -17,20 +18,22 @@ import java.io.File
 import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlinx.coroutines.withContext
 
 @Singleton
 class LocalRecipePictureSource @Inject constructor(
-    @ApplicationContext private val context: Context
+    @ApplicationContext private val context: Context,
+    val dispatchers: AppDispatchers,
 ) : IRecipePictureSource {
 
-    override suspend fun getPictures(recipeId: Int): ActionStatus<List<String>> {
+    override suspend fun getPictures(recipeId: Int): ActionStatus<List<String>> = withContext(dispatchers.io) {
         val picturesDir = File(context.filesDir, "$RECIPES_DIR/$recipeId/$PICTURES_DIR")
         val pictures = picturesDir.listFiles()?: arrayOf()
-        return DataResult(pictures.map { Uri.fromFile(it).toString() })
+        return@withContext DataResult(pictures.map { Uri.fromFile(it).toString() })
     }
 
-    override suspend fun addPicture(recipeId: Int, data: ByteArray): ActionStatus<String> {
-        return try {
+    override suspend fun addPicture(recipeId: Int, data: ByteArray): ActionStatus<String> = withContext(dispatchers.io) {
+        return@withContext try {
             val picturesDir = File(context.filesDir, "$RECIPES_DIR/$recipeId/$PICTURES_DIR")
             val name = UUID.randomUUID().toString()
             if (!picturesDir.exists()) picturesDir.mkdirs()
@@ -42,8 +45,8 @@ class LocalRecipePictureSource @Inject constructor(
         }
     }
 
-    override suspend fun deletePicture(recipeId : Int, name: String): SimpleAction {
-        return try {
+    override suspend fun deletePicture(recipeId : Int, name: String): SimpleAction = withContext(dispatchers.io) {
+        return@withContext try {
             val picture = File(context.filesDir, "$RECIPES_DIR/$recipeId/$PICTURES_DIR/$name")
             if (!picture.delete()) Failure(FileError(FileErrorType.UNABLE_MODIFY))
             SuccessResult
