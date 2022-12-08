@@ -51,7 +51,7 @@ fun CookingPage(
                     )
                     if (index + 1 < cooking.size && cooking[index + 1] is CookingItem.Section) {
                         Divider(
-                            color = colors.backgroundTertiary,
+                            color = colors.backgroundSecondary,
                             modifier = Modifier
                                 .padding(vertical = 8.dp)
                                 .fillMaxWidth()

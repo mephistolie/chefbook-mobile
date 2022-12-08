@@ -1,11 +1,10 @@
 package com.cactusknights.chefbook.ui.screens.home.views
 
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.VectorConverter
+import androidx.compose.animation.core.keyframes
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,116 +19,94 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.BottomSheetScaffold
 import androidx.compose.material.BottomSheetState
 import androidx.compose.material.BottomSheetValue
-import androidx.compose.material.Divider
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
-import androidx.compose.material.Text
 import androidx.compose.material.rememberBottomSheetScaffoldState
 import androidx.compose.material.rememberBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.layout.boundsInRoot
 import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.IntOffset
-import androidx.compose.ui.unit.IntRect
-import androidx.compose.ui.unit.IntSize
-import androidx.compose.ui.unit.LayoutDirection
+import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Popup
-import androidx.compose.ui.window.PopupPositionProvider
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.cactusknights.chefbook.R
-import com.cactusknights.chefbook.core.ui.simpleClickable
 import com.cactusknights.chefbook.domain.entities.settings.Tab
-import com.cactusknights.chefbook.ui.navigation.Destination
 import com.cactusknights.chefbook.ui.navigation.hosts.HomeHost
 import com.cactusknights.chefbook.ui.screens.home.models.HomeEvent
+import com.cactusknights.chefbook.ui.screens.home.models.HomeState
 import com.cactusknights.chefbook.ui.screens.main.models.AppState
 import com.cactusknights.chefbook.ui.themes.ChefBookTheme
+import com.cactusknights.chefbook.ui.views.buttons.DynamicButton
+import kotlinx.coroutines.launch
 import kotlin.math.pow
+
+private val minimalSheetPeekHeight = 1.dp
+
+private val tabsContentHeight = 44.dp
+private val tabsTopPadding = 4.dp
+private val tabsBottomPadding = 12.dp
+private val tabsHeight = tabsContentHeight + tabsTopPadding + tabsBottomPadding
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun HomeScreenDisplay(
     appState: AppState,
     appController: NavHostController,
-    dashboardController: NavHostController,
+    homeState: HomeState,
+    homeController: NavHostController,
     onEvent: (HomeEvent) -> Unit,
 ) {
+    val context = LocalContext.current
     val density = LocalDensity.current
-
     val colors = ChefBookTheme.colors
-    val typography = ChefBookTheme.typography
 
-    var screenHeight by remember { mutableStateOf(0F) }
-    var sheetHeight by rememberSaveable { mutableStateOf(0F) }
+    val coroutineScope = rememberCoroutineScope()
 
-    val sheetState = rememberBottomSheetState(
-        initialValue = BottomSheetValue.Collapsed
-    )
-    val scaffoldState = rememberBottomSheetScaffoldState(
-        bottomSheetState = sheetState
-    )
+    val peekHeight = remember { Animatable(0.dp, Dp.VectorConverter) }
 
-    val progress = progressBySheet(sheetState)
+    val sheetState = rememberBottomSheetState(initialValue = BottomSheetValue.Collapsed)
+    val scaffoldState = rememberBottomSheetScaffoldState(bottomSheetState = sheetState)
+
+    val progress = progressBySheet(sheetState, sheetState.isAnimationRunning)
 
     val startBackground = colors.backgroundSecondary
     val endBackground = colors.backgroundPrimary
     val animatedBackground = animatedColor(startBackground, endBackground, progress)
 
-    var isTabMenuExpanded by remember { mutableStateOf(false) }
-    var tabButtonCoordinates by remember { mutableStateOf(Offset(0F, 0F)) }
-
-    val positionProvider = object : PopupPositionProvider {
-        override fun calculatePosition(
-            anchorBounds: IntRect,
-            windowSize: IntSize,
-            layoutDirection: LayoutDirection,
-            popupContentSize: IntSize
-        ) = IntOffset((tabButtonCoordinates.x - 8F).toInt(), (tabButtonCoordinates.y + 32F).toInt())
-    }
-
-    val context = LocalContext.current
-
     BottomSheetScaffold(
         scaffoldState = scaffoldState,
         modifier = Modifier
             .background(animatedBackground)
-            .fillMaxSize()
             .statusBarsPadding()
-            .onSizeChanged {
-                if (screenHeight == 0F) {
-                    screenHeight = it.height.toFloat()
-                }
+            .fillMaxSize()
+            .onGloballyPositioned { coordinates ->
+                val targetValue = with(density) { coordinates.size.height.toDp() - tabsHeight }
+                coroutineScope.launch { if (targetValue != peekHeight.targetValue) peekHeight.animateTo(targetValue) }
             },
         sheetShape = RoundedCornerShape(16.dp, 16.dp, 0.dp, 0.dp),
         sheetBackgroundColor = colors.backgroundPrimary,
         sheetElevation = 0.dp,
-        sheetPeekHeight = (screenHeight / density.density).dp - (sheetHeight / density.density).dp + 8.dp,
+        sheetPeekHeight = if (peekHeight.value > 0.dp) peekHeight.value else minimalSheetPeekHeight,
         sheetContent = {
             HomeHost(
                 defaultTab = appState.settings?.defaultTab ?: Tab.RECIPE_BOOK,
                 appController = appController,
-                dashboardController = dashboardController,
+                dashboardController = homeController,
                 sheetProgress = progress,
             )
         }
@@ -141,15 +118,11 @@ fun HomeScreenDisplay(
         ) {
             Row(
                 modifier = Modifier
+                    .background(animatedBackground)
                     .statusBarsPadding()
-                    .padding(18.dp, 16.dp, 22.dp, 24.dp)
+                    .padding(16.dp, tabsTopPadding, 16.dp, 0.dp)
                     .fillMaxWidth()
-                    .height(24.dp)
-                    .onGloballyPositioned {
-                        if (sheetHeight == 0F) {
-                            sheetHeight = it.boundsInRoot().bottom
-                        }
-                    }
+                    .height(tabsContentHeight)
                     .alpha(1F - progress),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
@@ -162,107 +135,30 @@ fun HomeScreenDisplay(
                             0.dp,
                             0.dp
                         )
-                        .simpleClickable { isTabMenuExpanded = !isTabMenuExpanded }
-                        .weight(1f)
-                        .onGloballyPositioned { coordinates ->
-                            if (tabButtonCoordinates.x == 0F) {
-                                tabButtonCoordinates = coordinates.boundsInRoot().bottomLeft
-                            }
-                        },
+                        .weight(1f),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    Text(
-                        text = if (dashboardController.currentDestination?.route == Destination.Home.RecipeBook.route) {
-                            stringResource(id = R.string.common_general_recipes)
-                        } else {
-                            stringResource(id = R.string.common_general_purchases)
-                        },
-                        style = typography.h3,
-                        color = colors.foregroundPrimary,
+                    DynamicButton(
+                        onClick = { onEvent(HomeEvent.OpenRecipeBook) },
+                        modifier = Modifier.size(44.dp),
+                        leftIcon = ImageVector.vectorResource(R.drawable.ic_recipes),
+                        isSelected = homeState.currentTab == Tab.RECIPE_BOOK,
+                        selectedForeground = colors.foregroundPrimary,
+                        selectedBackground = colors.backgroundTertiary,
+                        unselectedForeground = colors.foregroundPrimary,
+                        iconsSize = 24.dp
                     )
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_arrow_down),
-                        contentDescription = null,
-                        tint = colors.foregroundSecondary,
-                        modifier = Modifier
-                            .size(24.dp)
-                            .padding(0.dp, 4.dp, 0.dp, 0.dp)
+                    Spacer(modifier = Modifier.width(8.dp))
+                    DynamicButton(
+                        onClick = { onEvent(HomeEvent.OpenShoppingList) },
+                        modifier = Modifier.size(44.dp),
+                        leftIcon = ImageVector.vectorResource(R.drawable.ic_list),
+                        isSelected = homeState.currentTab == Tab.SHOPPING_LIST,
+                        selectedForeground = colors.foregroundPrimary,
+                        selectedBackground = colors.backgroundTertiary,
+                        unselectedForeground = colors.foregroundPrimary,
+                        iconsSize = 24.dp
                     )
-                    if (isTabMenuExpanded && progress == 0F) {
-                        Popup(
-                            popupPositionProvider = positionProvider,
-                            onDismissRequest = { isTabMenuExpanded = false }
-                        ) {
-                            val popupInteractionSource = remember { MutableInteractionSource() }
-                            Column(
-                                modifier = Modifier
-                                    .shadow(24.dp, shape = RoundedCornerShape(12.dp))
-                                    .background(
-                                        colors.backgroundPrimary,
-                                        RoundedCornerShape(12.dp)
-                                    )
-                                    .width(176.dp)
-                            ) {
-                                Row(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .clickable(
-                                            interactionSource = popupInteractionSource,
-                                            onClick = {
-                                                onEvent(HomeEvent.OpenRecipeBook)
-                                                isTabMenuExpanded = false
-                                            },
-                                            indication = null,
-                                        )
-                                        .padding(16.dp, 10.dp),
-                                    horizontalArrangement = Arrangement.SpaceBetween,
-                                    verticalAlignment = Alignment.CenterVertically,
-                                ) {
-                                    Text(
-                                        text = stringResource(id = R.string.common_general_recipes),
-                                        style = typography.headline1,
-                                        color = colors.foregroundPrimary,
-                                    )
-                                    Icon(
-                                        painter = painterResource(id = R.drawable.ic_recipes),
-                                        contentDescription = null,
-                                        tint = colors.foregroundPrimary,
-                                        modifier = Modifier.size(24.dp)
-                                    )
-                                }
-                                Divider()
-                                Row(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .clickable(
-                                            interactionSource = popupInteractionSource,
-                                            onClick = {
-                                                onEvent(HomeEvent.OpenShoppingList)
-                                                isTabMenuExpanded = false
-                                            },
-                                            indication = null,
-                                        )
-                                        .padding(16.dp, 10.dp),
-                                    horizontalArrangement = Arrangement.SpaceBetween,
-                                    verticalAlignment = Alignment.CenterVertically,
-                                ) {
-                                    Text(
-                                        text = stringResource(id = R.string.common_general_purchases),
-                                        style = typography.headline1,
-                                        color = colors.foregroundPrimary,
-                                    )
-                                    Icon(
-                                        painter = painterResource(id = R.drawable.ic_list),
-                                        contentDescription = null,
-                                        tint = colors.foregroundPrimary,
-                                        modifier = Modifier.size(24.dp)
-                                    )
-                                }
-
-                            }
-                        }
-                    }
-
                 }
                 Spacer(
                     modifier = Modifier.width(8.dp)
@@ -298,11 +194,31 @@ fun HomeScreenDisplay(
             }
         }
     }
+
+    LaunchedEffect(homeState.currentTab) {
+        val animation = keyframes {
+            durationMillis = 400
+            if (sheetState.isCollapsed) {
+                peekHeight.targetValue at 0
+                0.dp at 125
+                0.dp at 275
+                peekHeight.targetValue at 400
+            }
+        }
+
+        launch {
+            peekHeight.animateTo(
+                targetValue = peekHeight.targetValue,
+                animationSpec = animation
+            )
+        }
+    }
 }
 
 @OptIn(ExperimentalMaterialApi::class)
-fun progressBySheet(state: BottomSheetState) =
+fun progressBySheet(state: BottomSheetState, isAnimationRunning: Boolean) =
     when {
+        isAnimationRunning -> 0F
         state.direction > 0F -> 1F - state.progress.fraction
         state.direction < 0F && (state.progress.fraction != 1F || state.currentValue != state.targetValue) -> state.progress.fraction
         else ->
@@ -315,5 +231,5 @@ fun progressBySheet(state: BottomSheetState) =
 
 fun animatedColor(start: Color, end: Color, progress: Float): Color {
     val red = start.red + progress.pow(2) * (end.red - start.red)
-    return Color(red, red, red,)
+    return Color(red, red, red)
 }

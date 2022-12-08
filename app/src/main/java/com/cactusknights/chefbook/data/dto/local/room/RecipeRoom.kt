@@ -12,6 +12,7 @@ import com.cactusknights.chefbook.data.dto.common.recipe.toEntity
 import com.cactusknights.chefbook.data.dto.common.recipe.toSerializable
 import com.cactusknights.chefbook.data.dto.local.room.RecipeRoom.Companion.TABLE_NAME
 import com.cactusknights.chefbook.domain.entities.recipe.Recipe
+import com.cactusknights.chefbook.domain.entities.recipe.encryption.EncryptionState
 import com.cactusknights.chefbook.domain.entities.recipe.macronutrients.MacronutrientsInfo
 import java.time.LocalDateTime
 import kotlinx.serialization.decodeFromString
@@ -99,7 +100,7 @@ fun RecipeRoom.toEntity(): Recipe {
         isSaved = isSaved,
         likes = likes,
         visibility = VisibilityMapper.map(visibility),
-        isEncrypted = isEncrypted,
+        encryptionState = if (isEncrypted) EncryptionState.Encrypted else EncryptionState.Standard,
         language = LanguageMapper.map(language),
         description = description,
         preview = preview,
@@ -129,7 +130,7 @@ fun Recipe.toRoom() =
         isSaved = isSaved,
         likes = likes,
         visibility = VisibilityMapper.map(visibility),
-        isEncrypted = isEncrypted,
+        isEncrypted = encryptionState != EncryptionState.Standard,
         language = LanguageMapper.map(language),
         description = description,
         preview = preview,

@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -17,15 +16,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
-import coil.request.ImageRequest
-import com.cactusknights.chefbook.core.ui.scalingClickable
 import com.cactusknights.chefbook.domain.entities.recipe.cooking.CookingItem
 import com.cactusknights.chefbook.ui.themes.ChefBookTheme
-import com.cactusknights.chefbook.ui.views.common.PressedRipple
+import com.cactusknights.chefbook.ui.themes.Shapes.RoundedCornerShape12
+import com.cactusknights.chefbook.ui.views.images.EncryptedImage
+import com.mephistolie.compost.extensions.Shading
+import com.mephistolie.compost.modifiers.scalingClickable
 
 @Composable
 fun CookingStep(
@@ -34,8 +31,6 @@ fun CookingStep(
     onStepPictureClicked: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val context = LocalContext.current
-
     val colors = ChefBookTheme.colors
     val typography = ChefBookTheme.typography
 
@@ -75,18 +70,13 @@ fun CookingStep(
                                             pressed = pressed,
                                             onClick = { onStepPictureClicked(pictures[j]) }
                                         )
-                                        .clip(RoundedCornerShape(12.dp))
+                                        .clip(RoundedCornerShape12)
                                 ) {
-                                    AsyncImage(
-                                        model = ImageRequest.Builder(context)
-                                            .data(pictures[j])
-                                            .crossfade(true)
-                                            .build(),
-                                        contentDescription = null,
-                                        contentScale = ContentScale.Crop,
+                                    EncryptedImage(
+                                        data = pictures[j],
                                         modifier = Modifier.matchParentSize(),
                                     )
-                                    PressedRipple(isVisible = pressed.value)
+                                    Shading(isVisible = pressed.value)
                                 }
                             } else {
                                 Spacer(modifier = Modifier

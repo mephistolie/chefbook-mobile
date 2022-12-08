@@ -1,7 +1,7 @@
 package com.cactusknights.chefbook.data.datasources.remote
 
-import com.cactusknights.chefbook.data.IEncryptionSource
 import com.cactusknights.chefbook.data.IFileSource
+import com.cactusknights.chefbook.data.IRemoteEncryptionSource
 import com.cactusknights.chefbook.data.dto.remote.common.body
 import com.cactusknights.chefbook.data.dto.remote.common.isFailure
 import com.cactusknights.chefbook.data.dto.remote.common.toActionStatus
@@ -28,12 +28,15 @@ class RemoteEncryptionSource @Inject constructor(
     @Remote
     private val fileSource : IFileSource,
     private val handleResponse: INetworkHandler,
-) : IEncryptionSource {
+) : IRemoteEncryptionSource {
 
-    override suspend fun getUserKey(): ActionStatus<ByteArray> {
+    override suspend fun getUserKeyLink(): ActionStatus<String> {
         val result = handleResponse { api.getUserKeyLink() }
         if (result.isFailure()) return result.toActionStatus().asFailure()
-        val link = result.body().link
+        return DataResult(result.body().link)
+    }
+
+    override suspend fun getUserKey(link: String): ActionStatus<ByteArray> {
         val keyResult = fileSource.getFile(link)
         return if (keyResult.isSuccess()) DataResult(keyResult.data()) else Failure(ServerError(ServerErrorType.NOT_FOUND))
     }

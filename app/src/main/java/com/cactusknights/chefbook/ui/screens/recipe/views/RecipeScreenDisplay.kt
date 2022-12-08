@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Divider
 import androidx.compose.material.ExperimentalMaterialApi
@@ -26,17 +27,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
-import coil.request.ImageRequest
 import com.cactusknights.chefbook.R
-import com.cactusknights.chefbook.core.ui.simpleClickable
 import com.cactusknights.chefbook.ui.screens.recipe.dialogs.RecipeScreenDialogs
 import com.cactusknights.chefbook.ui.screens.recipe.models.RecipeScreenEvent
 import com.cactusknights.chefbook.ui.screens.recipe.models.RecipeScreenState
@@ -45,11 +42,13 @@ import com.cactusknights.chefbook.ui.screens.recipe.views.blocks.ActionBlock
 import com.cactusknights.chefbook.ui.screens.recipe.views.blocks.TabsBlock
 import com.cactusknights.chefbook.ui.screens.recipe.views.pages.RecipeScreenPager
 import com.cactusknights.chefbook.ui.themes.ChefBookTheme
-import com.cactusknights.chefbook.ui.views.buttons.CircleImageButton
 import com.cactusknights.chefbook.ui.views.buttons.DynamicButton
 import com.cactusknights.chefbook.ui.views.dialogs.elements.BottomSheetSlider
+import com.cactusknights.chefbook.ui.views.images.EncryptedImage
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.rememberPagerState
+import com.mephistolie.compost.modifiers.simpleClickable
+import com.mephistolie.compost.ui.buttons.CircleIconButton
 import kotlinx.coroutines.launch
 
 @OptIn(
@@ -64,8 +63,6 @@ fun RecipeScreenDisplay(
     onRefresh: () -> Unit,
     sheetState: ModalBottomSheetState,
 ) {
-    val context = LocalContext.current
-    val resources = context.resources
     val configuration = LocalConfiguration.current
     val screenHeight = configuration.screenHeightDp.dp
 
@@ -117,20 +114,17 @@ fun RecipeScreenDisplay(
                             contentAlignment = Alignment.TopCenter
                         ) {
                             recipe.preview?.let { preview ->
-                                AsyncImage(
-                                    model = ImageRequest.Builder(context)
-                                        .data(preview)
-                                        .crossfade(true)
-                                        .build(),
-                                    contentDescription = null,
-                                    contentScale = ContentScale.Crop,
+                                EncryptedImage(
+                                    data = recipe.preview,
                                     modifier = Modifier
                                         .fillMaxSize()
                                         .simpleClickable {
-                                            onEvent(RecipeScreenEvent.ChangeDialogState.Pictures(
-                                                isVisible = true,
-                                                selectedPicture = preview,
-                                            ))
+                                            onEvent(
+                                                RecipeScreenEvent.ChangeDialogState.Pictures(
+                                                    isVisible = true,
+                                                    selectedPicture = preview,
+                                                )
+                                            )
                                         },
                                 )
                             }
@@ -191,10 +185,12 @@ fun RecipeScreenDisplay(
                                 onEvent(RecipeScreenEvent.ConfirmCategoriesChanging(categories))
                             },
                             onStepPictureClicked = { picture ->
-                                onEvent(RecipeScreenEvent.ChangeDialogState.Pictures(
-                                    isVisible = true,
-                                    selectedPicture = picture,
-                                ))
+                                onEvent(
+                                    RecipeScreenEvent.ChangeDialogState.Pictures(
+                                        isVisible = true,
+                                        selectedPicture = picture,
+                                    )
+                                )
                             },
                             onEditRecipeClicked = {
                                 onEvent(RecipeScreenEvent.EditRecipe)
@@ -260,14 +256,14 @@ fun RecipeScreenDisplay(
                 }
             }
         }
-        CircleImageButton(
-            image = ImageVector.vectorResource(R.drawable.ic_cross),
+        CircleIconButton(
+            icon = ImageVector.vectorResource(R.drawable.ic_cross),
             onClick = { coroutine.launch { sheetState.hide() } },
             modifier = Modifier
                 .padding(12.dp)
                 .size(32.dp),
-            background = colors.foregroundPrimary.copy(alpha = 0.25F),
-            tint = colors.backgroundPrimary
+            colors = ButtonDefaults.buttonColors(backgroundColor = colors.foregroundPrimary.copy(alpha = 0.25F)),
+            tint = Color.White
         )
     }
 

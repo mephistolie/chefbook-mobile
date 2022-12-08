@@ -37,7 +37,6 @@ interface IRemoteProfileSource : IProfileSource {
 }
 
 interface IEncryptionSource {
-    suspend fun getUserKey(): ActionStatus<ByteArray>
     suspend fun setUserKey(data: ByteArray): SimpleAction
     suspend fun deleteUserKey(): SimpleAction
     suspend fun getRecipeKey(recipeId: Int): ActionStatus<ByteArray>
@@ -46,7 +45,12 @@ interface IEncryptionSource {
 }
 
 interface ILocalEncryptionSource: IEncryptionSource {
-    suspend fun clearLocalData()
+    suspend fun getUserKey(): ActionStatus<ByteArray>
+}
+
+interface IRemoteEncryptionSource: IEncryptionSource {
+    suspend fun getUserKeyLink(): ActionStatus<String>
+    suspend fun getUserKey(link: String): ActionStatus<ByteArray>
 }
 
 interface IFileSource {
@@ -65,8 +69,6 @@ interface ILocalRecipeSource : IRecipeSource {
 }
 
 interface IRemoteRecipeSource : IRecipeSource {
-    suspend fun addRecipeToRecipeBook(recipeId: Int): SimpleAction
-    suspend fun removeFromRecipeToRecipeBook(recipeId: Int): SimpleAction
     suspend fun getRecipesByQuery(query: RecipesFilter): ActionStatus<List<RecipeInfo>>
     suspend fun createRecipe(input: RecipeInput): ActionStatus<Int>
     suspend fun updateRecipe(recipeId: Int, input: RecipeInput): SimpleAction
@@ -76,6 +78,11 @@ interface IRecipeInteractionSource {
     suspend fun setRecipeLikeStatus(recipeId: Int, isLiked: Boolean): SimpleAction
     suspend fun setRecipeFavouriteStatus(recipeId: Int, isFavourite: Boolean): SimpleAction
     suspend fun setRecipeCategories(recipeId: Int, categories: List<Int>): SimpleAction
+}
+
+interface IRemoteRecipeInteractionSource: IRecipeInteractionSource {
+    suspend fun addRecipeToRecipeBook(recipeId: Int): SimpleAction
+    suspend fun removeFromRecipeToRecipeBook(recipeId: Int): SimpleAction
 }
 
 interface ILocalRecipeInteractionSource : IRecipeInteractionSource {

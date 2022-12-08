@@ -5,6 +5,7 @@ import com.cactusknights.chefbook.core.Endpoints
 
 const val CATEGORY_ID_ARGUMENT = "category_id"
 const val RECIPE_ID_ARGUMENT = "recipe_id"
+const val CLOSE_ON_UNLOCKED_ARGUMENT = "close_on_unlocked"
 
 const val INGREDIENT_INDEX = "ingredient_index"
 
@@ -28,6 +29,14 @@ sealed class Destination(val route: String) {
         }
 
         object ShoppingList : Destination("shopping_list")
+
+    }
+
+    object Encryption : Destination("encryption?$CLOSE_ON_UNLOCKED_ARGUMENT={$CLOSE_ON_UNLOCKED_ARGUMENT}") {
+
+        fun route(
+            closeOnUnlocked: Boolean = false
+        ): String = route.replace("{$CLOSE_ON_UNLOCKED_ARGUMENT}", closeOnUnlocked.toString())
 
     }
 

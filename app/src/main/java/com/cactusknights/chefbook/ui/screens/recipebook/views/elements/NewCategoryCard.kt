@@ -1,6 +1,5 @@
 package com.cactusknights.chefbook.ui.screens.recipebook.views.elements
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.padding
@@ -12,13 +11,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.cactusknights.chefbook.R
-import com.cactusknights.chefbook.core.ui.scalingClickable
 import com.cactusknights.chefbook.ui.themes.ChefBookTheme
-import com.cactusknights.chefbook.ui.views.common.PressedRipple
+import com.mephistolie.compost.extensions.Shading
+import com.mephistolie.compost.modifiers.clippedBackground
+import com.mephistolie.compost.modifiers.scalingClickable
 
 @Composable
 fun NewCategoryCard(
@@ -34,8 +33,7 @@ fun NewCategoryCard(
             .padding(0.dp, 0.dp, 0.dp, 8.dp)
             .aspectRatio(0.8f)
             .scalingClickable(pressed) { onClicked() }
-            .clip(RoundedCornerShape(16.dp))
-            .background(colors.backgroundSecondary),
+            .clippedBackground(colors.backgroundSecondary, RoundedCornerShape(16.dp)),
         contentAlignment = Alignment.Center,
     ) {
         Icon(
@@ -44,6 +42,6 @@ fun NewCategoryCard(
             tint = colors.foregroundPrimary,
             modifier = Modifier.size(32.dp)
         )
-        PressedRipple(pressed.value)
+        Shading(pressed.value)
     }
 }

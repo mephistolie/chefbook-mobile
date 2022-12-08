@@ -1,5 +1,6 @@
 package com.cactusknights.chefbook.ui.screens.recipe
 
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.cactusknights.chefbook.R
@@ -15,6 +16,7 @@ import com.cactusknights.chefbook.domain.usecases.recipe.ISetRecipeCategoriesUse
 import com.cactusknights.chefbook.domain.usecases.recipe.ISetRecipeFavouriteStatusUseCase
 import com.cactusknights.chefbook.domain.usecases.recipe.ISetRecipeLikeStatusUseCase
 import com.cactusknights.chefbook.domain.usecases.recipe.ISetRecipeSaveStatusUseCase
+import com.cactusknights.chefbook.ui.screens.main.models.UiState
 import com.cactusknights.chefbook.ui.screens.recipe.models.RecipePicturesDialogState
 import com.cactusknights.chefbook.ui.screens.recipe.models.RecipeScreenEffect
 import com.cactusknights.chefbook.ui.screens.recipe.models.RecipeScreenEvent
@@ -217,12 +219,19 @@ class RecipeScreenViewModel @Inject constructor(
                         state.copy(picturesDialogState = RecipePicturesDialogState.Hidden)
                     }
                 }
-                is RecipeScreenEvent.ChangeDialogState.RemoveFromRecipeBook -> state.copy(isRemoveFromRecipeBookDialogVisible = event.isVisible)
+                is RecipeScreenEvent.ChangeDialogState.RemoveFromRecipeBook -> state.copy(
+                    isRemoveFromRecipeBookDialogVisible = event.isVisible
+                )
                 is RecipeScreenEvent.ChangeDialogState.Delete -> state.copy(isDeleteRecipeDialogVisible = event.isVisible)
             }
 
             _state.emit(newState)
         }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        UiState.backgroundBlur.value = 0.dp
     }
 
 }

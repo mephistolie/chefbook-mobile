@@ -1,5 +1,15 @@
 package com.cactusknights.chefbook.domain.entities.encryption
 
-enum class EncryptedVaultState {
-    DISABLED, LOCKED, UNLOCKED
+import java.security.KeyPair
+
+sealed class EncryptedVaultState {
+
+    object Disabled : EncryptedVaultState()
+
+    object Locked : EncryptedVaultState()
+
+    data class Unlocked(
+        val keys: KeyPair,
+    ) : EncryptedVaultState()
+
 }

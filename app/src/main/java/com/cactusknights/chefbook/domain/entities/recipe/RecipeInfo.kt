@@ -3,7 +3,9 @@ package com.cactusknights.chefbook.domain.entities.recipe
 import com.cactusknights.chefbook.domain.entities.category.Category
 import com.cactusknights.chefbook.domain.entities.common.Language
 import com.cactusknights.chefbook.domain.entities.common.Visibility
+import com.cactusknights.chefbook.domain.entities.recipe.encryption.EncryptionState
 import java.time.LocalDateTime
+import javax.crypto.SecretKey
 
 data class RecipeInfo(
     val id: Int,
@@ -14,7 +16,7 @@ data class RecipeInfo(
     val isSaved: Boolean = false,
     val likes: Int? = null,
     val visibility: Visibility = Visibility.PRIVATE,
-    val isEncrypted: Boolean = false,
+    val encryptionState: EncryptionState = EncryptionState.Standard,
     val language: Language = Language.ENGLISH,
     val preview: String? = null,
 
@@ -41,7 +43,7 @@ fun Recipe.toRecipeInfo(): RecipeInfo =
         isSaved = isSaved,
         likes = likes,
         visibility = visibility,
-        isEncrypted = isEncrypted,
+        encryptionState = encryptionState,
         language = language,
         preview = preview,
 
@@ -57,3 +59,13 @@ fun Recipe.toRecipeInfo(): RecipeInfo =
 
         calories = calories,
     )
+
+fun RecipeInfo.decrypt(key: SecretKey, decryptString: (String) -> ByteArray): RecipeInfo {
+    if (encryptionState != EncryptionState.Encrypted) return this
+    return copy(name = String(decryptString(name)), encryptionState = EncryptionState.Decrypted(key = key))
+}
+
+fun RecipeInfo.encrypt(encryptBytes: (ByteArray) -> String): RecipeInfo {
+    if (encryptionState !is EncryptionState.Decrypted) return this
+    return copy(name = encryptBytes(name.toByteArray()), encryptionState = EncryptionState.Encrypted)
+}

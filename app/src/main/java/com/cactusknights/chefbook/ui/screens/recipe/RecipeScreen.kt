@@ -9,10 +9,13 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import com.cactusknights.chefbook.core.ui.RecipeEncryptionProvider
+import com.cactusknights.chefbook.domain.entities.recipe.encryption.EncryptionState
 import com.cactusknights.chefbook.ui.navigation.CATEGORY_ID_ARGUMENT
 import com.cactusknights.chefbook.ui.navigation.Destination
 import com.cactusknights.chefbook.ui.screens.recipe.models.RecipeScreenEffect
 import com.cactusknights.chefbook.ui.screens.recipe.models.RecipeScreenEvent
+import com.cactusknights.chefbook.ui.screens.recipe.models.RecipeScreenState
 import com.cactusknights.chefbook.ui.screens.recipe.views.RecipeScreenDisplay
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -28,12 +31,16 @@ fun RecipeScreen(
 
     val recipeState = recipeViewModel.state.collectAsState()
 
-    RecipeScreenDisplay(
-        state = recipeState.value,
-        sheetState = sheetState,
-        onEvent = { event -> recipeViewModel.obtainEvent(event) },
-        onRefresh = {recipeViewModel.obtainEvent(RecipeScreenEvent.LoadRecipe(recipeId)) },
-    )
+    RecipeEncryptionProvider(
+        encryption = (recipeState.value as? RecipeScreenState.Success)?.recipe?.encryptionState ?: EncryptionState.Standard
+    ) {
+        RecipeScreenDisplay(
+            state = recipeState.value,
+            sheetState = sheetState,
+            onEvent = { event -> recipeViewModel.obtainEvent(event) },
+            onRefresh = { recipeViewModel.obtainEvent(RecipeScreenEvent.LoadRecipe(recipeId)) },
+        )
+    }
 
     LaunchedEffect(Unit) {
         recipeViewModel.obtainEvent(RecipeScreenEvent.LoadRecipe(recipeId))

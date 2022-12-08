@@ -20,17 +20,29 @@ import com.cactusknights.chefbook.domain.usecases.category.ObserveCategoriesUseC
 import com.cactusknights.chefbook.domain.usecases.category.UpdateCategoryUseCase
 import com.cactusknights.chefbook.domain.usecases.common.IRefreshDataUseCase
 import com.cactusknights.chefbook.domain.usecases.common.RefreshDataUseCase
+import com.cactusknights.chefbook.domain.usecases.encryption.CreateEncryptedVaultUseCase
+import com.cactusknights.chefbook.domain.usecases.encryption.DeleteEncryptedVaultUseCase
+import com.cactusknights.chefbook.domain.usecases.encryption.GetEncryptedVaultStateUseCase
+import com.cactusknights.chefbook.domain.usecases.encryption.ICreateEncryptedVaultUseCase
+import com.cactusknights.chefbook.domain.usecases.encryption.IDeleteEncryptedVaultUseCase
+import com.cactusknights.chefbook.domain.usecases.encryption.IGetEncryptedVaultStateUseCase
+import com.cactusknights.chefbook.domain.usecases.encryption.ILockEncryptedVaultUseCase
 import com.cactusknights.chefbook.domain.usecases.encryption.IObserveEncryptedVaultStateUseCase
+import com.cactusknights.chefbook.domain.usecases.encryption.IUnlockEncryptedVaultUseCase
+import com.cactusknights.chefbook.domain.usecases.encryption.LockEncryptedVaultUseCase
 import com.cactusknights.chefbook.domain.usecases.encryption.ObserveEncryptedVaultStateUseCase
+import com.cactusknights.chefbook.domain.usecases.encryption.UnlockEncryptedVaultUseCase
 import com.cactusknights.chefbook.domain.usecases.profile.IObserveProfileUseCase
 import com.cactusknights.chefbook.domain.usecases.profile.ObserveProfileUseCase
 import com.cactusknights.chefbook.domain.usecases.recipe.CreateRecipeUseCase
+import com.cactusknights.chefbook.domain.usecases.recipe.DecryptRecipeDataUseCase
 import com.cactusknights.chefbook.domain.usecases.recipe.DeleteRecipeUseCase
 import com.cactusknights.chefbook.domain.usecases.recipe.GetLatestRecipesUseCase
 import com.cactusknights.chefbook.domain.usecases.recipe.GetRecipeAsTextUseCase
 import com.cactusknights.chefbook.domain.usecases.recipe.GetRecipeBookUseCase
 import com.cactusknights.chefbook.domain.usecases.recipe.GetRecipeUseCase
 import com.cactusknights.chefbook.domain.usecases.recipe.ICreateRecipeUseCase
+import com.cactusknights.chefbook.domain.usecases.recipe.IDecryptRecipeDataUseCase
 import com.cactusknights.chefbook.domain.usecases.recipe.IDeleteRecipeUseCase
 import com.cactusknights.chefbook.domain.usecases.recipe.IGetLatestRecipesUseCase
 import com.cactusknights.chefbook.domain.usecases.recipe.IGetRecipeAsTextUseCase
@@ -88,6 +100,21 @@ interface UseCasesBindingModule {
     fun bindObserveEncryptedVaultStateUseCase(useCase: ObserveEncryptedVaultStateUseCase): IObserveEncryptedVaultStateUseCase
 
     @Binds
+    fun bindGetEncryptedVaultStateUseCase(useCase: GetEncryptedVaultStateUseCase): IGetEncryptedVaultStateUseCase
+
+    @Binds
+    fun bindCreateEncryptedVaultUseCase(useCase: CreateEncryptedVaultUseCase): ICreateEncryptedVaultUseCase
+
+    @Binds
+    fun bindUnlockEncryptedVaultUseCase(useCase: UnlockEncryptedVaultUseCase): IUnlockEncryptedVaultUseCase
+
+    @Binds
+    fun bindLockEncryptedVaultUseCase(useCase: LockEncryptedVaultUseCase): ILockEncryptedVaultUseCase
+
+    @Binds
+    fun bindDeleteEncryptedVaultUseCase(useCase: DeleteEncryptedVaultUseCase): IDeleteEncryptedVaultUseCase
+
+    @Binds
     fun bindObserveRecipeBookUseCase(useCase: ObserveRecipeBookUseCase): IObserveRecipeBookUseCase
 
     @Binds
@@ -104,6 +131,9 @@ interface UseCasesBindingModule {
 
     @Binds
     fun bindDeleteRecipeUseCase(useCase: DeleteRecipeUseCase): IDeleteRecipeUseCase
+
+    @Binds
+    fun bindDecryptRecipeDataUseCase(useCase: DecryptRecipeDataUseCase): IDecryptRecipeDataUseCase
 
     @Binds
     fun binSetRecipeLikeStatusUseCase(useCase: SetRecipeLikeStatusUseCase): ISetRecipeLikeStatusUseCase

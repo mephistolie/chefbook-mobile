@@ -4,7 +4,7 @@ import android.content.Context
 import com.cactusknights.chefbook.core.LocalPaths.RECIPES_DIR
 import com.cactusknights.chefbook.core.LocalPaths.RECIPE_KEY_FILE
 import com.cactusknights.chefbook.core.LocalPaths.USER_KEY_FILE
-import com.cactusknights.chefbook.data.IEncryptionSource
+import com.cactusknights.chefbook.data.ILocalEncryptionSource
 import com.cactusknights.chefbook.domain.entities.action.ActionStatus
 import com.cactusknights.chefbook.domain.entities.action.DataResult
 import com.cactusknights.chefbook.domain.entities.action.Failure
@@ -21,7 +21,7 @@ import javax.inject.Singleton
 @Singleton
 class LocalEncryptionSource @Inject constructor(
     @ApplicationContext private val context: Context
-) : IEncryptionSource {
+) : ILocalEncryptionSource {
 
     override suspend fun getUserKey(): ActionStatus<ByteArray> {
         val userKeyFile = File(context.filesDir, USER_KEY_FILE)

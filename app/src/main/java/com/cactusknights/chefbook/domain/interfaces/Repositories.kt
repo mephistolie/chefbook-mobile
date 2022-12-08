@@ -91,18 +91,25 @@ interface IRecipeRepo {
     suspend fun observeRecipeBook(): StateFlow<List<RecipeInfo>?>
     suspend fun getRecipeBook(forceRefresh: Boolean = false): List<RecipeInfo>
     suspend fun getRecipesByQuery(query: RecipesFilter): ActionStatus<List<RecipeInfo>>
-    suspend fun createRecipe(input: RecipeInput): ActionStatus<Recipe>
+    suspend fun createRecipe(input: RecipeInput, key: SecretKey?): ActionStatus<Recipe>
     suspend fun getRecipe(recipeId: Int): ActionStatus<Recipe>
-    suspend fun updateRecipe(recipeId: Int, input: RecipeInput): ActionStatus<Recipe>
+    suspend fun cacheRecipe(recipe: Recipe): SimpleAction
+    suspend fun updateRecipe(recipeId: Int, input: RecipeInput, key: SecretKey?): ActionStatus<Recipe>
     suspend fun deleteRecipe(recipeId: Int): SimpleAction
-    suspend fun setRecipeSavedStatus(recipeId: Int, saved: Boolean): SimpleAction
 }
 
 interface IRecipePictureRepo {
-    suspend fun syncRecipePictures(recipeId: Int, input: RecipeInput, key: SecretKey?): RecipeInput
+    suspend fun uploadRecipePictures(
+        recipeId: Int,
+        input: RecipeInput,
+        key: SecretKey?,
+        isEncrypted: Boolean = key != null,
+        wasEncrypted: Boolean = false
+    ): RecipeInput
 }
 
 interface IRecipeInteractionRepo {
+    suspend fun setRecipeSavedStatus(recipeId: Int, saved: Boolean): SimpleAction
     suspend fun setRecipeLikeStatus(recipeId: Int, liked: Boolean): SimpleAction
     suspend fun setRecipeFavouriteStatus(recipeId: Int, favourite: Boolean): SimpleAction
     suspend fun setRecipeCategories(recipeId: Int, categories: List<Int>): SimpleAction

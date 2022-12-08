@@ -1,7 +1,8 @@
-package com.cactusknights.chefbook.data.repositories.recipes
+package com.cactusknights.chefbook.data.repositories.recipe
 
 import com.cactusknights.chefbook.core.encryption.IHybridCryptor
-import com.cactusknights.chefbook.data.IEncryptionSource
+import com.cactusknights.chefbook.data.ILocalEncryptionSource
+import com.cactusknights.chefbook.data.IRemoteEncryptionSource
 import com.cactusknights.chefbook.data.repositories.SourceRepo
 import com.cactusknights.chefbook.di.Local
 import com.cactusknights.chefbook.di.Remote
@@ -21,8 +22,8 @@ import javax.inject.Singleton
 
 @Singleton
 class RecipeEncryptionRepo @Inject constructor(
-    @Local private val localSource: IEncryptionSource,
-    @Remote private val remoteSource: IEncryptionSource,
+    @Local private val localSource: ILocalEncryptionSource,
+    @Remote private val remoteSource: IRemoteEncryptionSource,
 
     private val cryptor: IHybridCryptor,
     private val sourceRepo: SourceRepo,

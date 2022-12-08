@@ -54,7 +54,7 @@ fun DetailsPage(
             .padding(horizontal = 12.dp)
             .wrapContentHeight()
     ) {
-        if (recipe.hasDietDta()) {
+        if (recipe.hasDietData()) {
             DietBlock(
                 calories = recipe.calories,
                 macronutrients = recipe.macronutrients,
@@ -123,7 +123,7 @@ fun DetailsPage(
         }
         if (recipe.isOwned) {
             Divider(
-                color = colors.backgroundTertiary,
+                color = colors.backgroundSecondary,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 4.dp)

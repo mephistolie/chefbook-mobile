@@ -23,12 +23,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.cactusknights.chefbook.R
 import com.cactusknights.chefbook.core.ui.localizedName
-import com.cactusknights.chefbook.core.ui.simpleClickable
 import com.cactusknights.chefbook.domain.entities.common.Language
 import com.cactusknights.chefbook.ui.screens.recipeinput.RecipeInputScreenViewModel
 import com.cactusknights.chefbook.ui.screens.recipeinput.models.RecipeInputScreenEvent
 import com.cactusknights.chefbook.ui.themes.ChefBookTheme
-import com.cactusknights.chefbook.ui.views.radiobuttons.RadioButton
+import com.mephistolie.compost.modifiers.simpleClickable
+import com.mephistolie.compost.ui.radiobuttons.OutlineRadioButton
 
 @Composable
 fun LanguagePickerDialog(
@@ -68,7 +68,7 @@ fun LanguagePickerDialog(
                 .padding(top = 4.dp, bottom = 12.dp)
         )
         Divider(
-            color = colors.backgroundTertiary,
+            color = colors.backgroundSecondary,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(1.dp)
@@ -94,9 +94,10 @@ fun LanguagePickerDialog(
                             style = typography.headline1,
                             color = colors.foregroundPrimary,
                         )
-                        RadioButton(
+                        OutlineRadioButton(
                             isSelected = state == language,
-                            onSelected = {},
+                            onClick = {},
+                            color = colors.tintPrimary,
                             enabled = false,
                         )
                     }

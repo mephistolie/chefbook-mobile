@@ -1,5 +1,7 @@
-package com.cactusknights.chefbook.data.repositories.recipes
+package com.cactusknights.chefbook.data.repositories.recipe
 
+import android.util.Base64
+import com.cactusknights.chefbook.core.coroutines.AppDispatchers
 import com.cactusknights.chefbook.core.coroutines.CoroutineScopes
 import com.cactusknights.chefbook.data.ILocalRecipeInteractionSource
 import com.cactusknights.chefbook.data.ILocalRecipeSource
@@ -13,24 +15,38 @@ import com.cactusknights.chefbook.domain.entities.action.DataResult
 import com.cactusknights.chefbook.domain.entities.action.Failure
 import com.cactusknights.chefbook.domain.entities.action.SimpleAction
 import com.cactusknights.chefbook.domain.entities.action.SuccessResult
+import com.cactusknights.chefbook.domain.entities.action.Successful
 import com.cactusknights.chefbook.domain.entities.action.asFailure
 import com.cactusknights.chefbook.domain.entities.action.data
 import com.cactusknights.chefbook.domain.entities.action.isFailure
 import com.cactusknights.chefbook.domain.entities.action.isSuccess
+import com.cactusknights.chefbook.domain.entities.encryption.EncryptedVaultState
 import com.cactusknights.chefbook.domain.entities.recipe.Recipe
 import com.cactusknights.chefbook.domain.entities.recipe.RecipeInfo
 import com.cactusknights.chefbook.domain.entities.recipe.RecipeInput
 import com.cactusknights.chefbook.domain.entities.recipe.RecipesFilter
+import com.cactusknights.chefbook.domain.entities.recipe.decrypt
+import com.cactusknights.chefbook.domain.entities.recipe.encrypt
+import com.cactusknights.chefbook.domain.entities.recipe.encryption.EncryptionState
 import com.cactusknights.chefbook.domain.entities.recipe.toRecipe
-import com.cactusknights.chefbook.domain.entities.recipe.toRecipeInfo
 import com.cactusknights.chefbook.domain.interfaces.ICategoryRepo
+import com.cactusknights.chefbook.domain.interfaces.ICryptor
+import com.cactusknights.chefbook.domain.interfaces.IEncryptedVaultRepo
+import com.cactusknights.chefbook.domain.interfaces.IProfileRepo
 import com.cactusknights.chefbook.domain.interfaces.IRecipeBookCache
+import com.cactusknights.chefbook.domain.interfaces.IRecipeEncryptionRepo
 import com.cactusknights.chefbook.domain.interfaces.IRecipeRepo
 import com.cactusknights.chefbook.domain.interfaces.ISourceRepo
+import java.security.PrivateKey
+import java.time.LocalDateTime
+import javax.crypto.SecretKey
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kotlin.math.abs
 
 @Singleton
@@ -40,12 +56,21 @@ class RecipeRepo @Inject constructor(
     @Local private val localInteractionSource: ILocalRecipeInteractionSource,
 
     private val cache: IRecipeBookCache,
+    private val encryptedVaultRepo: IEncryptedVaultRepo,
+    private val recipeEncryptionRepo: IRecipeEncryptionRepo,
     private val categoriesRepo: ICategoryRepo,
+    private val profileRepo: IProfileRepo,
     private val source: ISourceRepo,
+    private val cryptor: ICryptor,
+    private val dispatchers: AppDispatchers,
     private val scopes: CoroutineScopes,
 ) : IRecipeRepo {
 
     private var refreshTimestamp: Long = 0
+
+    init {
+        observeEncryptedVaultState()
+    }
 
     override suspend fun observeRecipeBook(): StateFlow<List<RecipeInfo>?> {
         scopes.repository.launch { refreshData() }
@@ -127,31 +152,42 @@ class RecipeRepo @Inject constructor(
         }
     }
 
-    override suspend fun createRecipe(input: RecipeInput): ActionStatus<Recipe> {
-        val result: ActionStatus<Recipe> = if (source.useRemoteSource()) {
+    override suspend fun createRecipe(input: RecipeInput, key: SecretKey?): ActionStatus<Recipe> {
+        val owner = (profileRepo.getProfile() as? Successful)?.data
+
+        var result: ActionStatus<Recipe> = if (source.useRemoteSource()) {
 
             val remoteResult = remoteSource.createRecipe(input)
             if (remoteResult.isSuccess()) {
-                val newRecipe = input.toRecipe(id = remoteResult.data())
+                val newRecipe = input.toRecipe(id = remoteResult.data(), ownerId = owner?.id, ownerName = owner?.username)
                 localSource.createRecipe(newRecipe)
                 DataResult(newRecipe)
             } else remoteResult.asFailure()
 
         } else {
 
-            val localResult = localSource.createRecipe(input.toRecipe())
+            val localResult = localSource.createRecipe(input.toRecipe(ownerId = owner?.id, ownerName = owner?.username))
             if (localResult.isSuccess()) {
-                DataResult(input.toRecipe(id = localResult.data()))
+                DataResult(input.toRecipe(id = localResult.data(), ownerId = owner?.id, ownerName = owner?.username))
             } else localResult.asFailure()
 
         }
 
-        if (result.isSuccess()) cache.addRecipe(result.data().toRecipeInfo())
+        if (result is Successful) {
+            var recipe = result.data
+            if (recipe.encryptionState is EncryptionState.Encrypted && key != null) {
+                recipe = recipe.decrypt(key) { data -> cryptor.decryptDataBySymmetricKey(Base64.decode(data, Base64.DEFAULT), key) }
+            }
+            cache.putRecipe(recipe)
+            result = DataResult(recipe)
+        }
 
-        return result
+        return decryptResult(result)
     }
 
     override suspend fun getRecipe(recipeId: Int): ActionStatus<Recipe> {
+        cache.getRecipe(recipeId)?.let { return DataResult(it) }
+
         var result = localSource.getRecipe(recipeId)
         if (result.isFailure() && source.useRemoteSource()) {
             result = remoteSource.getRecipe(recipeId)
@@ -160,17 +196,51 @@ class RecipeRepo @Inject constructor(
         return result
     }
 
-    override suspend fun updateRecipe(recipeId: Int, input: RecipeInput): ActionStatus<Recipe> {
+    override suspend fun updateRecipe(recipeId: Int, input: RecipeInput, key: SecretKey?): ActionStatus<Recipe> {
+        val unmodifiedRecipe = (getRecipe(recipeId) as? Successful)?.data
+
         if (source.useRemoteSource()) {
             val result = remoteSource.updateRecipe(recipeId, input)
             if (result.isFailure()) return result.asFailure()
         }
 
-        val updatedRecipe = input.toRecipe(id = recipeId)
+        var updatedRecipe = input.toRecipe(
+            id = recipeId,
+            ownerId = unmodifiedRecipe?.ownerId,
+            ownerName = unmodifiedRecipe?.ownerName,
+            isSaved = unmodifiedRecipe?.isSaved ?: true,
+            likes = unmodifiedRecipe?.likes,
+            creationTimestamp = unmodifiedRecipe?.creationTimestamp ?: LocalDateTime.now(),
+            isFavourite = unmodifiedRecipe?.isFavourite ?: false,
+            isLiked = unmodifiedRecipe?.isLiked ?: false,
+        )
+
         localSource.updateRecipe(updatedRecipe)
-        cache.updateRecipe(updatedRecipe.toRecipeInfo())
+
+        if (updatedRecipe.encryptionState is EncryptionState.Encrypted && key != null) {
+            updatedRecipe = updatedRecipe.decrypt(key) { data -> cryptor.decryptDataBySymmetricKey(Base64.decode(data, Base64.DEFAULT), key) }
+        }
+        cache.putRecipe(updatedRecipe)
 
         return DataResult(updatedRecipe)
+    }
+
+     private suspend fun decryptResult(uploadResult: ActionStatus<Recipe>): ActionStatus<Recipe> {
+        if (uploadResult.isFailure()) return uploadResult
+        var recipe = uploadResult.data()
+        if (recipe.encryptionState is EncryptionState.Encrypted) {
+            val decryptionResult = decryptRecipe(recipe)
+            if (decryptionResult.isFailure()) return decryptionResult.asFailure()
+            recipe = decryptionResult.data()
+        }
+        cache.putRecipe(recipe)
+        return DataResult(recipe)
+    }
+
+    override suspend fun cacheRecipe(recipe: Recipe): SimpleAction {
+        if (recipe.encryptionState is EncryptionState.Encrypted) return Failure(AppError(AppErrorType.UNABLE_DECRYPT))
+        cache.putRecipe(recipe)
+        return SuccessResult
     }
 
     override suspend fun deleteRecipe(recipeId: Int): SimpleAction {
@@ -185,38 +255,51 @@ class RecipeRepo @Inject constructor(
         return SuccessResult
     }
 
-    override suspend fun setRecipeSavedStatus(recipeId: Int, saved: Boolean): SimpleAction {
-        if (!source.isOnlineMode()) return Failure(AppError(AppErrorType.LOCAL_USER))
-
-        val result = if (source.isOnlineMode()) {
-            if (saved) {
-                remoteSource.addRecipeToRecipeBook(recipeId)
-            } else {
-                remoteSource.removeFromRecipeToRecipeBook(recipeId)
-            }
-        } else SuccessResult
-
-        if (result.isSuccess()) {
-            scopes.repository.launch {
-                if (saved) {
-                    val localResult = localSource.getRecipe(recipeId)
-                    if (localResult.isSuccess()) {
-                        cache.addRecipe(localResult.data().toRecipeInfo())
-                    } else {
-                        val remoteResult = remoteSource.getRecipe(recipeId)
-                        if (remoteResult.isSuccess()) {
-                            cache.addRecipe(remoteResult.data().toRecipeInfo())
-                            localSource.createRecipe(remoteResult.data())
-                        }
-                    }
-                } else {
-                    localSource.deleteRecipe(recipeId)
-                    cache.removeRecipe(recipeId)
+    private fun observeEncryptedVaultState() {
+        scopes.repository.launch {
+            encryptedVaultRepo.observeEncryptedVaultState()
+                .onEach { state ->
+                    if (state is EncryptedVaultState.Unlocked) decryptRecipes(state.keys.private) else encryptRecipes()
                 }
-            }
+                .collect()
         }
+    }
 
-        return result
+    private suspend fun decryptRecipes(key: PrivateKey) = withContext(dispatchers.default) {
+        val recipeBook = cache.getRecipeBook()
+        cache.emitRecipeBook(recipeBook.map { recipe ->
+            if (recipe.encryptionState != EncryptionState.Encrypted) return@map recipe
+            decryptRecipe(recipe, key)
+        })
+    }
+
+    private suspend fun decryptRecipe(recipe: Recipe): ActionStatus<Recipe> {
+        val userKeyResult = encryptedVaultRepo.getUserPrivateKey()
+        if (userKeyResult.isFailure()) return userKeyResult.asFailure()
+
+        val recipeKey = getRecipeKey(recipe.id, key = userKeyResult.data()) ?: return Failure(AppError(AppErrorType.UNABLE_DECRYPT))
+        val decryptedRecipe = recipe.decrypt(recipeKey) { data -> cryptor.decryptDataBySymmetricKey(Base64.decode(data, Base64.DEFAULT), recipeKey) }
+        return DataResult(decryptedRecipe)
+    }
+
+    private suspend fun decryptRecipe(recipe: RecipeInfo, key: PrivateKey): RecipeInfo {
+        val recipeKey = getRecipeKey(recipe.id, key) ?: return recipe
+        return recipe.decrypt(recipeKey) { data -> cryptor.decryptDataBySymmetricKey(Base64.decode(data, Base64.DEFAULT), recipeKey) }
+    }
+
+    private suspend fun getRecipeKey(recipeId: Int, key: PrivateKey): SecretKey? {
+        val result = recipeEncryptionRepo.getRecipeKey(recipeId, key)
+        return (result as? Successful)?.data
+    }
+
+    private suspend fun encryptRecipes() {
+        val recipeBook = cache.getRecipeBook()
+        cache.emitRecipeBook(recipeBook.map { recipe ->
+            if (recipe.encryptionState !is EncryptionState.Decrypted) return@map recipe
+            return@map recipe.encrypt { data ->
+                Base64.encodeToString(cryptor.encryptDataBySymmetricKey(data, recipe.encryptionState.key), Base64.DEFAULT)
+            }
+        })
     }
 
     companion object {

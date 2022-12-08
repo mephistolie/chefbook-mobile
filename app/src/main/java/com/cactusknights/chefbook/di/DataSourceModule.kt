@@ -1,16 +1,17 @@
 package com.cactusknights.chefbook.di
 
 import com.cactusknights.chefbook.data.IAuthSource
-import com.cactusknights.chefbook.data.IEncryptionSource
 import com.cactusknights.chefbook.data.IFileSource
 import com.cactusknights.chefbook.data.ILocalCategorySource
+import com.cactusknights.chefbook.data.ILocalEncryptionSource
 import com.cactusknights.chefbook.data.ILocalProfileSource
 import com.cactusknights.chefbook.data.ILocalRecipeInteractionSource
 import com.cactusknights.chefbook.data.ILocalRecipeSource
-import com.cactusknights.chefbook.data.IRecipeInteractionSource
 import com.cactusknights.chefbook.data.IRecipePictureSource
 import com.cactusknights.chefbook.data.IRemoteCategorySource
+import com.cactusknights.chefbook.data.IRemoteEncryptionSource
 import com.cactusknights.chefbook.data.IRemoteProfileSource
+import com.cactusknights.chefbook.data.IRemoteRecipeInteractionSource
 import com.cactusknights.chefbook.data.IRemoteRecipeSource
 import com.cactusknights.chefbook.data.IShoppingListSource
 import com.cactusknights.chefbook.data.datasources.local.LocalCategorySource
@@ -54,11 +55,11 @@ interface DataSourceBindModule {
 
     @Binds
     @Local
-    fun bindLocalRecipeEncryptionSource(source: LocalEncryptionSource): IEncryptionSource
+    fun bindLocalRecipeEncryptionSource(source: LocalEncryptionSource): ILocalEncryptionSource
 
     @Binds
     @Remote
-    fun bindRemoteRecipeEncryptionSource(source: RemoteEncryptionSource): IEncryptionSource
+    fun bindRemoteRecipeEncryptionSource(source: RemoteEncryptionSource): IRemoteEncryptionSource
 
     @Binds
     @Local
@@ -90,7 +91,7 @@ interface DataSourceBindModule {
 
     @Binds
     @Remote
-    fun bindRemoteRecipeInteractionSource(source: RemoteRecipeInteractionSource): IRecipeInteractionSource
+    fun bindRemoteRecipeInteractionSource(source: RemoteRecipeInteractionSource): IRemoteRecipeInteractionSource
 
     @Binds
     @Local

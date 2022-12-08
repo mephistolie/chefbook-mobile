@@ -26,12 +26,6 @@ class RemoteRecipeSource @Inject constructor(
     private val handleResponse: INetworkHandler,
 ) : IRemoteRecipeSource {
 
-    override suspend fun addRecipeToRecipeBook(recipeId: Int): SimpleAction =
-        handleResponse { api.addRecipeToRecipeBook(recipeId) }.toActionStatus().asEmpty()
-
-    override suspend fun removeFromRecipeToRecipeBook(recipeId: Int): SimpleAction =
-        handleResponse { api.removeRecipeFromRecipeBook(recipeId) }.toActionStatus().asEmpty()
-
     override suspend fun getRecipesByQuery(query: RecipesFilter): ActionStatus<List<RecipeInfo>> {
         val result = handleResponse {
             api.getRecipes(

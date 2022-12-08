@@ -19,7 +19,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import com.cactusknights.chefbook.R
-import com.cactusknights.chefbook.core.ui.simpleClickable
+import com.mephistolie.compost.modifiers.simpleClickable
 import com.cactusknights.chefbook.domain.entities.recipe.RecipeInput
 import com.cactusknights.chefbook.ui.themes.ChefBookTheme
 import com.cactusknights.chefbook.ui.views.buttons.DynamicButton
@@ -55,7 +55,7 @@ fun CaloriesBlock(
         if (state.calories != null) {
             Row(
                 modifier = Modifier
-                    .simpleClickable(onCaloriesClick),
+                    .simpleClickable(onClick = onCaloriesClick),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(

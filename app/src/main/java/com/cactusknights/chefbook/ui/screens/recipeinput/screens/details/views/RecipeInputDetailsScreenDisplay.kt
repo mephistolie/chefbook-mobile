@@ -2,7 +2,6 @@ package com.cactusknights.chefbook.ui.screens.recipeinput.screens.details.views
 
 import android.app.TimePickerDialog
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -24,7 +23,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
@@ -42,7 +40,8 @@ import com.cactusknights.chefbook.ui.screens.recipeinput.screens.details.views.b
 import com.cactusknights.chefbook.ui.themes.ChefBookTheme
 import com.cactusknights.chefbook.ui.views.buttons.DynamicButton
 import com.cactusknights.chefbook.ui.views.common.Toolbar
-import com.cactusknights.chefbook.ui.views.textfields.IndicatorTextField
+import com.cactusknights.chefbook.ui.views.textfields.ThemedIndicatorTextField
+import com.mephistolie.compost.modifiers.clippedBackground
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -99,14 +98,7 @@ fun RecipeInputDetailsScreenDisplay(
             item {
                 PreviewBlock(
                     preview = state.preview,
-                    onPreviewSet = { uri ->
-                        onEvent(
-                            RecipeInputScreenEvent.SetPreview(
-                                uri,
-                                context
-                            )
-                        )
-                    },
+                    onPreviewSet = { uri -> onEvent(RecipeInputScreenEvent.SetPreview(uri)) },
                     onPreviewDeleted = { onEvent(RecipeInputScreenEvent.RemovePreview) },
                     modifier = Modifier
                         .padding(
@@ -116,12 +108,11 @@ fun RecipeInputDetailsScreenDisplay(
                         )
                         .fillMaxWidth()
                         .aspectRatio(2F)
-                        .clip(RoundedCornerShape(24.dp))
-                        .background(colors.backgroundSecondary),
+                        .clippedBackground(colors.backgroundSecondary, RoundedCornerShape(24.dp)),
                 )
             }
             item {
-                IndicatorTextField(
+                ThemedIndicatorTextField(
                     value = state.name,
                     modifier = Modifier
                         .padding(
@@ -222,7 +213,7 @@ fun RecipeInputDetailsScreenDisplay(
             }
             item {
                 AnimatedVisibility(isContinueAvailable(state)) {
-                    IndicatorTextField(
+                    ThemedIndicatorTextField(
                         value = state.description.orEmpty(),
                         modifier = Modifier
                             .padding(

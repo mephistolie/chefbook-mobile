@@ -1,7 +1,7 @@
-package com.cactusknights.chefbook.data.repositories.recipes
+package com.cactusknights.chefbook.data.repositories.recipe
 
 import com.cactusknights.chefbook.data.ILocalRecipeInteractionSource
-import com.cactusknights.chefbook.data.IRecipeInteractionSource
+import com.cactusknights.chefbook.data.IRemoteRecipeInteractionSource
 import com.cactusknights.chefbook.data.repositories.SourceRepo
 import com.cactusknights.chefbook.di.Local
 import com.cactusknights.chefbook.di.Remote
@@ -18,11 +18,20 @@ import javax.inject.Singleton
 @Singleton
 class RecipeInteractionRepo @Inject constructor(
     @Local private val localSource: ILocalRecipeInteractionSource,
-    @Remote private val remoteSource: IRecipeInteractionSource,
+    @Remote private val remoteSource: IRemoteRecipeInteractionSource,
 
     private val cache: IRecipeBookCacheWriter,
     private val sourceRepo: SourceRepo,
 ) : IRecipeInteractionRepo {
+
+    override suspend fun setRecipeSavedStatus(recipeId: Int, saved: Boolean): SimpleAction {
+        if (!sourceRepo.isOnlineMode()) return Failure(AppError(AppErrorType.LOCAL_USER))
+        val result = if (saved) remoteSource.addRecipeToRecipeBook(recipeId) else remoteSource.removeFromRecipeToRecipeBook(recipeId)
+
+        if (result.isSuccess()) cache.setRecipeSavedStatus(recipeId, saved)
+
+        return result
+    }
 
     override suspend fun setRecipeLikeStatus(recipeId: Int, liked: Boolean): SimpleAction {
         if (!sourceRepo.isOnlineMode()) return Failure(AppError(AppErrorType.LOCAL_USER))
