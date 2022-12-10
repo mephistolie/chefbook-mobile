@@ -1,5 +1,6 @@
 package com.cactusknights.chefbook.ui.views.images
 
+import android.graphics.drawable.Drawable
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -26,10 +27,9 @@ private const val TYPE = "TYPE"
 fun EncryptedImage(
     data: Any?,
     modifier: Modifier = Modifier,
+    errorDrawable: Drawable? = null,
     contentDescription: String? = null,
     placeholder: Painter? = null,
-    error: Painter? = null,
-    fallback: Painter? = error,
     onLoading: ((AsyncImagePainter.State.Loading) -> Unit)? = null,
     onSuccess: ((AsyncImagePainter.State.Success) -> Unit)? = null,
     onError: ((AsyncImagePainter.State.Error) -> Unit)? = null,
@@ -55,20 +55,18 @@ fun EncryptedImage(
         extras = mapOf(TYPE to dataType.name)
     )
 
-
     AsyncImage(
         model = ImageRequest.Builder(context)
             .diskCacheKey(diskKey)
             .memoryCacheKey(memoryKey)
+            .placeholder(errorDrawable)
+            .error(errorDrawable)
             .data(data)
             .crossfade(true)
             .build(),
         imageLoader = imageLoader,
-        placeholder = placeholder,
         contentDescription = contentDescription,
         modifier = modifier,
-        error = error,
-        fallback = fallback,
         onLoading = onLoading,
         onSuccess = onSuccess,
         onError = onError,

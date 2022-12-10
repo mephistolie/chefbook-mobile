@@ -1,6 +1,5 @@
 package com.cactusknights.chefbook.ui.navigation.hosts
 
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -8,13 +7,16 @@ import androidx.navigation.compose.composable
 import com.cactusknights.chefbook.domain.entities.settings.Tab
 import com.cactusknights.chefbook.ui.navigation.Destination
 import com.cactusknights.chefbook.ui.screens.recipebook.RecipeBookScreen
+import com.cactusknights.chefbook.ui.screens.shoppinglist.ShoppingListScreen
+
+private const val EXPANDED_PROGRESS_VALUE = 1F
 
 @Composable
 fun HomeHost(
     defaultTab: Tab,
     appController: NavHostController,
     dashboardController: NavHostController,
-    sheetProgress: Float,
+    expandProgress: Float,
 ) =
     NavHost(
         navController = dashboardController,
@@ -29,10 +31,10 @@ fun HomeHost(
         composable(Destination.Home.RecipeBook.route) {
             RecipeBookScreen(
                 navController = appController,
-                sheetProgress = sheetProgress,
+                topBarScale = EXPANDED_PROGRESS_VALUE - expandProgress,
             )
         }
         composable(Destination.Home.ShoppingList.route) {
-            Text(text = "Shopping List")
+            ShoppingListScreen()
         }
     }

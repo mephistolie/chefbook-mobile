@@ -3,7 +3,6 @@ package com.cactusknights.chefbook.ui.views.buttons
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColor
 import androidx.compose.animation.core.updateTransition
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
@@ -18,7 +17,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -49,6 +47,7 @@ fun DynamicButton(
     iconsSize: Dp = 24.dp,
     isSelected: Boolean = false,
     isEnabled: Boolean = true,
+    debounceInterval: Long = 300L,
 ) {
 
     val pressed = remember { mutableStateOf(false) }
@@ -69,6 +68,7 @@ fun DynamicButton(
                 pressed = pressed,
                 scaleFactor = 0.95F,
                 onClick = onClick,
+                debounceInterval = debounceInterval,
             )
     else
         modifier
@@ -117,6 +117,6 @@ fun DynamicButton(
                 }
             }
         }
-        Shading(pressed.value, Color.Black.copy(alpha = 0.1F))
+        Shading(pressed.value)
     }
 }

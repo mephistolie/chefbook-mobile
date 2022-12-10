@@ -35,12 +35,12 @@ fun TopBar(
     onSearchFieldClick: () -> Unit,
     onFavouriteButtonClick: () -> Unit,
     modifier: Modifier = Modifier,
-    sheetProgress: Float = 1F,
+    scale: Float = 1F,
 ) {
     val colors = ChefBookTheme.colors
     val typography = ChefBookTheme.typography
 
-    val barSize = 42.dp + ((1 - sheetProgress) * 6).dp
+    val barSize = 42.dp + (scale * 6).dp
 
     Row(
         modifier = modifier.wrapContentHeight(),

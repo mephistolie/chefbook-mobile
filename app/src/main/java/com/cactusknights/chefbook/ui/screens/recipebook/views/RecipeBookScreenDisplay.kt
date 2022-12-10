@@ -25,11 +25,13 @@ import com.cactusknights.chefbook.ui.views.dialogs.CategoryInputDialog
 fun RecipeBookScreenDisplay(
     state: RecipeBookScreenState,
     onEvent: (RecipeBookScreenEvent) -> Unit,
-    sheetProgress: Float = 1F,
+    topBarScale: Float = 1F,
 ) {
     val colors = ChefBookTheme.colors
 
-    Column {
+    Column(
+        modifier = Modifier.background(colors.backgroundPrimary)
+    ) {
         TopBar(
             onCreateRecipeButtonClick = { onEvent(RecipeBookScreenEvent.OpenCreateRecipeScreen) },
             onSearchFieldClick = { onEvent(RecipeBookScreenEvent.OpenRecipeSearch) },
@@ -37,7 +39,7 @@ fun RecipeBookScreenDisplay(
             modifier = Modifier
                 .background(colors.backgroundPrimary)
                 .padding(12.dp, 12.dp, 12.dp, 6.dp),
-            sheetProgress = sheetProgress
+            scale = topBarScale,
         )
         LazyVerticalGrid(
             columns = GridCells.Fixed(4),

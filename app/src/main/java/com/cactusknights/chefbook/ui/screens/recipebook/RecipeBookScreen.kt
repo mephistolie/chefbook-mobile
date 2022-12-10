@@ -1,4 +1,4 @@
-    package com.cactusknights.chefbook.ui.screens.recipebook
+package com.cactusknights.chefbook.ui.screens.recipebook
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -12,7 +12,7 @@ import com.cactusknights.chefbook.ui.screens.recipebook.views.RecipeBookScreenDi
 @Composable
 fun RecipeBookScreen(
     navController: NavHostController,
-    sheetProgress: Float,
+    topBarScale: Float = 1F,
     viewModel: RecipeBookScreenViewModel = hiltViewModel(),
 ) {
     val recipeBookState = viewModel.state.collectAsState()
@@ -20,7 +20,7 @@ fun RecipeBookScreen(
     RecipeBookScreenDisplay(
         state = recipeBookState.value,
         onEvent = viewModel::obtainEvent,
-        sheetProgress = sheetProgress,
+        topBarScale = topBarScale,
     )
 
     LaunchedEffect(Unit) {
