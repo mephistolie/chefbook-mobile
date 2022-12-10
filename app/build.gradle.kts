@@ -93,7 +93,8 @@ dependencies {
     // Logging
     implementation("com.jakewharton.timber:timber:5.0.1")
 
-    implementation("com.github.mephistolie:compost:0.0.3")
+    implementation("com.github.mephistolie.compost:core:0.0.4")
+    implementation("com.github.mephistolie.compost:ui:0.0.4")
 
     implementation("org.burnoutcrew.composereorderable:reorderable:0.9.2")
 

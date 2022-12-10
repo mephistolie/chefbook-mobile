@@ -66,6 +66,14 @@ import com.cactusknights.chefbook.domain.usecases.settings.IObserveSettingsUseCa
 import com.cactusknights.chefbook.domain.usecases.settings.ISetDefaultRecipeLanguageUseCase
 import com.cactusknights.chefbook.domain.usecases.settings.ObserveSettingsUseCase
 import com.cactusknights.chefbook.domain.usecases.settings.SetDefaultRecipeLanguageUseCase
+import com.cactusknights.chefbook.domain.usecases.shopinglist.AddToShoppingListUseCase
+import com.cactusknights.chefbook.domain.usecases.shopinglist.GetShoppingListUseCase
+import com.cactusknights.chefbook.domain.usecases.shopinglist.IAddToShoppingListUseCase
+import com.cactusknights.chefbook.domain.usecases.shopinglist.IGetShoppingListUseCase
+import com.cactusknights.chefbook.domain.usecases.shopinglist.IObserveShoppingListUseCase
+import com.cactusknights.chefbook.domain.usecases.shopinglist.ISetShoppingListUseCase
+import com.cactusknights.chefbook.domain.usecases.shopinglist.ObserveShoppingListUseCase
+import com.cactusknights.chefbook.domain.usecases.shopinglist.SetShoppingListUseCase
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -173,5 +181,17 @@ interface UseCasesBindingModule {
 
     @Binds
     fun bindDeleteCategoryUseCase(useCase: DeleteCategoryUseCase): IDeleteCategoryUseCase
+
+    @Binds
+    fun bindObserveShoppingListUseCase(useCase: ObserveShoppingListUseCase): IObserveShoppingListUseCase
+
+    @Binds
+    fun bindGetShoppingListUseCase(useCase: GetShoppingListUseCase): IGetShoppingListUseCase
+
+    @Binds
+    fun bindSetShoppingListUseCase(useCase: SetShoppingListUseCase): ISetShoppingListUseCase
+
+    @Binds
+    fun bindAddToShoppingListUseCase(useCase: AddToShoppingListUseCase): IAddToShoppingListUseCase
 
 }
