@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.Surface
@@ -20,14 +21,19 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.ExperimentalUnitApi
+import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
 import com.cactusknights.chefbook.R
 import com.cactusknights.chefbook.common.Utils
@@ -39,8 +45,10 @@ import com.cactusknights.chefbook.ui.themes.Red
 import com.cactusknights.chefbook.ui.themes.Shapes
 import com.cactusknights.chefbook.ui.views.images.EncryptedImage
 import com.mephistolie.compost.extensions.Shading
-import com.mephistolie.compost.modifiers.scalingClickable
+import com.mephistolie.compost.modifiers.clippedBackground
+import com.mephistolie.compost.modifiers.scalingClickable   
 
+@OptIn(ExperimentalUnitApi::class)
 @Composable
 fun RecipeCard(
     recipe: RecipeInfo,
@@ -54,6 +62,8 @@ fun RecipeCard(
 
     val pressed = remember { mutableStateOf(false) }
 
+    val placeholder = remember { EmojiProvider.randomFoodEmoji(recipe.id) }
+
     RecipeEncryptionProvider(recipe.encryptionState) {
         Column(
             modifier = modifier
@@ -65,16 +75,24 @@ fun RecipeCard(
                 modifier = Modifier
                     .padding(bottom = 8.dp)
                     .aspectRatio(1F)
-                    .clip(RoundedCornerShape(16.dp))
+                    .clippedBackground(colors.backgroundSecondary, RoundedCornerShape(16.dp))
             ) {
-                EncryptedImage(
-                    data = recipe.preview ?: R.drawable.ic_broccy,
-                    placeholder = painterResource(R.drawable.ic_broccy),
+                Text(
+                    text = placeholder,
+                    style = TextStyle(
+                        fontSize = TextUnit(56F, TextUnitType.Sp),
+                    ),
+                    textAlign = TextAlign.Center,
                     modifier = Modifier
-                        .fillMaxSize()
-                        .background(
-                            color = colors.backgroundSecondary
-                        )
+                        .align(Alignment.Center)
+                        .wrapContentSize()
+                        .padding(bottom = 8.dp)
+                        .alpha(0.85F),
+                )
+                EncryptedImage(
+                    data = recipe.preview,
+                    modifier = Modifier
+                        .fillMaxSize(),
                 )
                 if (recipe.isFavourite) {
                     Box(
@@ -85,7 +103,7 @@ fun RecipeCard(
                                     colors = listOf(
                                         Color(0x00000000),
                                         Color(0x00000000),
-                                        Color(0x33000000)
+                                        Color(0x1A000000)
                                     ),
                                     start = Offset(0F, Float.POSITIVE_INFINITY),
                                     end = Offset(Float.POSITIVE_INFINITY, 0f)
@@ -101,7 +119,7 @@ fun RecipeCard(
                                     brush = Brush.radialGradient(
                                         colors = listOf(
                                             Red.copy(alpha = 0.4F),
-                                            Red.copy(alpha = 0.1F),
+                                            Red.copy(alpha = 0.05F),
                                             Color.Transparent,
                                         ),
                                     ),
