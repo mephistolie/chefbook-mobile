@@ -15,38 +15,39 @@ plugins {
 }
 
 android {
-    compileSdk = 33
+    compileSdk = Project.compileSdk
 
     defaultConfig {
-        applicationId = "com.cactusknights.chefbook"
-        minSdk = 21
-        targetSdk = 33
-        versionCode = 41
-        versionName = "4.0"
+        applicationId = Project.applicationId
+        minSdk = Project.minSdk
+        targetSdk = Project.targetSdk
+        versionCode = Project.version
+        versionName = Project.versionName
         multiDexEnabled = true
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
-        getByName("release") {
+        getByName(BuildTypes.release) {
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
+
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
         isCoreLibraryDesugaringEnabled = true
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.2.0"
+        kotlinCompilerExtensionVersion = Dependencies.Compose.version
     }
 
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8.toString()
+        jvmTarget = JavaVersion.VERSION_11.toString()
     }
 
     buildFeatures {
@@ -56,103 +57,80 @@ android {
 }
 
 dependencies {
-
     // Core
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.3")
-    implementation("androidx.core:core-ktx:1.9.0")
-    implementation("androidx.appcompat:appcompat:1.5.1")
-    implementation("com.google.android.material:material:1.7.0")
+    implementation(Dependencies.AndroidX.core)
+    implementation(Dependencies.AndroidX.appCompat)
 
     // Compose
-    val composeVersion = "1.2.1"
-    implementation("androidx.activity:activity-compose:1.6.1")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1")
-    implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
-    implementation("androidx.compose.animation:animation:$composeVersion")
-    implementation("androidx.compose.compiler:compiler:1.3.2")
-    implementation("androidx.compose.foundation:foundation:$composeVersion")
-    implementation("androidx.compose.material:material:$composeVersion")
-    implementation("androidx.compose.runtime:runtime:$composeVersion")
-    implementation("androidx.compose.ui:ui:$composeVersion")
-    implementation("androidx.constraintlayout:constraintlayout-compose:1.0.1")
-    implementation("androidx.compose.ui:ui-tooling:$composeVersion")
+    implementation(Dependencies.Compose.compiler)
+    implementation(Dependencies.Compose.foundation)
+    implementation(Dependencies.Compose.runtime)
+    implementation(Dependencies.Compose.ui)
+    implementation(Dependencies.Compose.uiTooling)
+    implementation(Dependencies.Compose.material)
+    implementation(Dependencies.Compose.animation)
 
-    // Navigation
-    val navVersion = "2.5.1"
-    implementation("androidx.navigation:navigation-compose:$navVersion")
+    implementation(Dependencies.Accompanist.systemUiController)
+    implementation(Dependencies.Accompanist.flowLayout)
+    implementation(Dependencies.Accompanist.navigationMaterial)
+    implementation(Dependencies.Accompanist.navigationAnimation)
+    implementation(Dependencies.Accompanist.pager)
+    implementation(Dependencies.Accompanist.pagerIndicator)
 
-    // Accompanist
-    val accompanistVersion = "0.28.0"
-    implementation("com.google.accompanist:accompanist-systemuicontroller:$accompanistVersion")
-    implementation("com.google.accompanist:accompanist-flowlayout:$accompanistVersion")
-    implementation("com.google.accompanist:accompanist-navigation-material:$accompanistVersion")
-    implementation("com.google.accompanist:accompanist-navigation-animation:$accompanistVersion")
-    implementation("com.google.accompanist:accompanist-pager:$accompanistVersion")
-    implementation("com.google.accompanist:accompanist-pager-indicators:$accompanistVersion")
+    implementation(Dependencies.Compost.core)
+    implementation(Dependencies.Compost.ui)
+
+    implementation(Dependencies.AndroidX.composeActivity)
+    implementation(Dependencies.AndroidX.composeViewModel)
+    implementation(Dependencies.AndroidX.composeHilt)
+    implementation(Dependencies.AndroidX.composeNavigation)
+
+    implementation(Dependencies.composeReorderable)
 
     // Logging
-    implementation("com.jakewharton.timber:timber:5.0.1")
+    implementation(Dependencies.timber)
 
-    implementation("com.github.mephistolie.compost:core:0.0.4")
-    implementation("com.github.mephistolie.compost:ui:0.0.4")
+    // DI
+    implementation(Dependencies.Hilt.library)
+    kapt(Dependencies.Hilt.compiler)
 
-    implementation("org.burnoutcrew.composereorderable:reorderable:0.9.2")
+    // Data
+    implementation(Dependencies.serialization)
 
-    // Dependency Injection
-    val hiltVersion = "2.42"
-    implementation("com.google.dagger:hilt-android:$hiltVersion")
-    kapt("com.google.dagger:hilt-compiler:$hiltVersion")
-    implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
+    implementation(Dependencies.dataStore)
+    implementation(Dependencies.protobuf)
+    implementation(Dependencies.AndroidX.preference)
 
-    // DataStore
-    implementation("androidx.datastore:datastore:1.0.0")
-    implementation("com.google.protobuf:protobuf-javalite:3.17.2")
-    implementation("androidx.preference:preference-ktx:1.2.0")
+    implementation(Dependencies.Room.runtime)
+    implementation(Dependencies.Room.ktx)
+    kapt(Dependencies.Room.compiler)
 
-    // Room
-    val roomVersion = "2.4.2"
-    implementation("androidx.room:room-runtime:$roomVersion")
-    implementation("androidx.room:room-ktx:$roomVersion")
-    kapt("androidx.room:room-compiler:$roomVersion")
-
-    // Network
-    val okHttpVersion = "4.9.0"
-    val retrofitVersion = "2.9.0"
-    implementation("com.squareup.okhttp3:okhttp:$okHttpVersion")
-    implementation("com.squareup.okhttp3:logging-interceptor:$okHttpVersion")
-    implementation("com.squareup.retrofit2:retrofit:$retrofitVersion")
-
-    implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0")
+    implementation(Dependencies.Network.okHttp)
+    implementation(Dependencies.Network.logging)
+    implementation(Dependencies.Network.retrofit)
+    implementation(Dependencies.Network.kotlinSerialization)
 
     // Images
-    implementation("io.coil-kt:coil:2.2.2")
-    implementation("io.coil-kt:coil-compose:2.1.0")
-    implementation("com.github.CanHub:Android-Image-Cropper:4.0.0")
-    implementation("id.zelory:compressor:3.0.1")
+    implementation(Dependencies.Images.coil)
+    implementation(Dependencies.Images.coilCompose)
+    implementation(Dependencies.Images.imageCropper)
+    implementation(Dependencies.Images.imageCompressor)
+    implementation(Dependencies.Images.zxing)
 
-    // QR
-    val zxingVersion = "3.4.1"
-    implementation("com.google.zxing:core:$zxingVersion")
-
-    // Google Play
-    implementation("com.google.android.play:core-ktx:1.8.1")
-    implementation("com.android.billingclient:billing:5.0.0")
-
-    // Firebase
-    implementation("com.google.firebase:firebase-ads:21.1.0")
-    implementation("com.google.firebase:firebase-crashlytics-ktx:18.2.12")
+    // Analytics
+    implementation(Dependencies.Firebase.crashlytics)
 
     // Tests
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.3")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
+    testImplementation(Dependencies.Tests.jUnit)
+    androidTestImplementation(Dependencies.Tests.jUnitAndroid)
+    androidTestImplementation(Dependencies.Tests.espresso)
 
-    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
+    coreLibraryDesugaring(Dependencies.desugar)
 }
+
 kapt {
     correctErrorTypes = true
 }
-
 
 protobuf {
     protoc {

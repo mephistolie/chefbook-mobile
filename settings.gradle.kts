@@ -1,2 +1,2 @@
-rootProject.name = "ChefBook"
+rootProject.name = "chefbook"
 include(":app")
