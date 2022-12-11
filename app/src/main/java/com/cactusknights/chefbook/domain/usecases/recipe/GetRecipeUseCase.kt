@@ -1,6 +1,5 @@
 package com.cactusknights.chefbook.domain.usecases.recipe
 
-import android.util.Base64
 import com.cactusknights.chefbook.domain.entities.action.ActionStatus
 import com.cactusknights.chefbook.domain.entities.action.DataResult
 import com.cactusknights.chefbook.domain.entities.action.Loading
@@ -19,6 +18,7 @@ import javax.crypto.SecretKey
 import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import org.spongycastle.util.encoders.Base64
 
 interface IGetRecipeUseCase {
     suspend operator fun invoke(recipeId: Int): Flow<ActionStatus<Recipe>>
@@ -63,6 +63,6 @@ class GetRecipeUseCase @Inject constructor(
     }
 
     private fun decryptBytes(data: String, recipeKey: SecretKey) =
-        cryptor.decryptDataBySymmetricKey(Base64.decode(data, Base64.DEFAULT), recipeKey)
+        cryptor.decryptDataBySymmetricKey(Base64.decode(data), recipeKey)
 
 }

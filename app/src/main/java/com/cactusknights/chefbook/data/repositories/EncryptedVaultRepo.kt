@@ -58,9 +58,9 @@ class EncryptedVaultRepo @Inject constructor(
         return if (result.isSuccess()) EncryptedVaultState.Locked else EncryptedVaultState.Disabled
     }
 
-    override suspend fun createEncryptedVault(password: String): SimpleAction {
+    override suspend fun createEncryptedVault(password: String, salt: ByteArray): SimpleAction {
         val keyPair = encryptionManager.generateKeyPair()
-        val key = encryptionManager.generateSymmetricKey(password)
+        val key = encryptionManager.generateSymmetricKey(password, salt)
         val encryptedKeyPair = encryptionManager.encryptKeyPairBySymmetricKey(keyPair, key)
 
         val result = if (source.isOnlineMode()) {
@@ -77,8 +77,8 @@ class EncryptedVaultRepo @Inject constructor(
         return result
     }
 
-    override suspend fun unlockEncryptedVault(password: String): SimpleAction {
-        val key = encryptionManager.generateSymmetricKey(password)
+    override suspend fun unlockEncryptedVault(password: String, salt: ByteArray): SimpleAction {
+        val key = encryptionManager.generateSymmetricKey(password, salt)
         val encryptedUserKeyResult = getKeyBySuitableSource()
         if (encryptedUserKeyResult.isFailure()) return encryptedUserKeyResult.asEmpty()
 

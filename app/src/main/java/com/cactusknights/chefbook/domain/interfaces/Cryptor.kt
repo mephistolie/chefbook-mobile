@@ -8,7 +8,7 @@ import javax.crypto.SecretKey
 interface ICryptor {
     fun generateKeyPair(): KeyPair
     fun generateSymmetricKey(): SecretKey
-    fun generateSymmetricKey(passphrase: String): SecretKey
+    fun generateSymmetricKey(passphrase: String, salt: ByteArray): SecretKey
 
     fun encryptDataBySymmetricKey(data: ByteArray, key: SecretKey) : ByteArray
     fun decryptDataBySymmetricKey(data: ByteArray, key: SecretKey) : ByteArray

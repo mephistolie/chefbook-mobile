@@ -1,6 +1,5 @@
 package com.cactusknights.chefbook.core.encryption
 
-import com.cactusknights.chefbook.common.sha256
 import com.cactusknights.chefbook.common.toByteArray
 import com.cactusknights.chefbook.common.toInt
 import com.cactusknights.chefbook.domain.interfaces.ICryptor
@@ -14,8 +13,15 @@ import java.security.spec.X509EncodedKeySpec
 import javax.crypto.Cipher
 import javax.crypto.KeyGenerator
 import javax.crypto.SecretKey
+import javax.crypto.SecretKeyFactory
 import javax.crypto.spec.GCMParameterSpec
 import javax.crypto.spec.SecretKeySpec
+import org.spongycastle.asn1.DERNull
+import org.spongycastle.asn1.pkcs.PKCSObjectIdentifiers
+import org.spongycastle.asn1.x509.AlgorithmIdentifier
+import org.spongycastle.jcajce.spec.PBKDF2KeySpec
+
+const val AES_SALT_SIZE = 64
 
 interface IHybridCryptor : ICryptor {
 
@@ -29,27 +35,32 @@ interface IHybridCryptor : ICryptor {
 class HybridCryptor : IHybridCryptor {
 
     companion object {
-        val IV = "chefbookchefbook".toByteArray()
-        const val TAG_LENGTH = 16
+        private val IV = "chefbookchefbook".toByteArray()
+        private const val TAG_LENGTH = 16
 
-        const val METADATA_SIZE = Int.SIZE_BYTES
+        private const val METADATA_SIZE = Int.SIZE_BYTES
 
-        const val AES = "AES"
-        const val AES_KEY_LENGTH = 32
-        const val AES_GCM = "AES/GCM/NoPadding"
-        const val AES_SIZE = 256
+        private const val AES = "AES"
+        private const val AES_KEY_LENGTH = 256
+        private const val AES_GCM = "AES/GCM/NoPadding"
+        private const val AES_SIZE = 256
+        private const val AES_ITERATIONS_COUNT = 10000
 
-        const val RSA = "RSA"
-        const val RSA_LENGTH = 4096
+        private const val RSA = "RSA"
+        private const val RSA_LENGTH = 4096
+
+        private val aesGenerator = KeyGenerator.getInstance(AES)
+        private val aesCipher = Cipher.getInstance(AES_GCM)
+        private val keyFactory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256")
+        private val pfr = AlgorithmIdentifier(PKCSObjectIdentifiers.id_hmacWithSHA256, DERNull.INSTANCE);
+        private val spec = GCMParameterSpec(TAG_LENGTH * 8, IV)
+
+        private val rsaGenerator = KeyPairGenerator.getInstance(RSA)
+        private val rsaFactory = KeyFactory.getInstance(RSA)
+        private val rsaCipher = Cipher.getInstance(RSA)
     }
 
-    private val rsaGenerator = KeyPairGenerator.getInstance(RSA)
-    private val rsaFactory = KeyFactory.getInstance(RSA)
-    private val rsaCipher = Cipher.getInstance(RSA)
-
-    private val aesGenerator = KeyGenerator.getInstance(AES)
-    private val aesCipher = Cipher.getInstance(AES_GCM)
-    private val spec = GCMParameterSpec(TAG_LENGTH * 8, IV)
+    private val salt = ByteArray(AES_SALT_SIZE)
 
     override fun generateKeyPair(): KeyPair {
         rsaGenerator.initialize(RSA_LENGTH)
@@ -61,7 +72,10 @@ class HybridCryptor : IHybridCryptor {
         return aesGenerator.generateKey()
     }
 
-    override fun generateSymmetricKey(passphrase: String) = SecretKeySpec(passphrase.sha256.substring(0, AES_KEY_LENGTH).toByteArray(), AES_GCM)
+    override fun generateSymmetricKey(passphrase: String, salt: ByteArray): SecretKey {
+        val spec = PBKDF2KeySpec(passphrase.toCharArray(), salt, AES_ITERATIONS_COUNT, AES_KEY_LENGTH, pfr)
+        return keyFactory.generateSecret(spec)
+    }
 
     override fun encryptDataBySymmetricKey(data: ByteArray, key: SecretKey) : ByteArray {
         aesCipher.init(Cipher.ENCRYPT_MODE, key, spec)

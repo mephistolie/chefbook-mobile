@@ -79,8 +79,8 @@ interface IProfileRepo {
 interface IEncryptedVaultRepo {
     suspend fun observeEncryptedVaultState(): StateFlow<EncryptedVaultState>
     suspend fun getEncryptedVaultState(): EncryptedVaultState
-    suspend fun createEncryptedVault(password: String): SimpleAction
-    suspend fun unlockEncryptedVault(password: String): SimpleAction
+    suspend fun createEncryptedVault(password: String, salt: ByteArray): SimpleAction
+    suspend fun unlockEncryptedVault(password: String, salt: ByteArray): SimpleAction
     suspend fun lockEncryptedVault(): SimpleAction
     suspend fun getUserPublicKey(): ActionStatus<PublicKey>
     suspend fun getUserPrivateKey(): ActionStatus<PrivateKey>

@@ -91,6 +91,11 @@ object Dependencies {
         const val zxing = "com.google.zxing:core:3.4.1"
     }
 
+    object SpongyCastle {
+        const val core = "com.madgag.spongycastle:core:1.58.0.0"
+        const val prov = "com.madgag.spongycastle:prov:1.58.0.0"
+    }
+
     object Firebase {
         const val crashlytics = "com.google.firebase:firebase-crashlytics-ktx:18.3.2"
         const val crashlyticsPlugin = "com.google.firebase:firebase-crashlytics-gradle:2.9.2"

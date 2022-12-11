@@ -1,6 +1,5 @@
 package com.cactusknights.chefbook.data.repositories.recipe
 
-import android.util.Base64
 import com.cactusknights.chefbook.core.coroutines.AppDispatchers
 import com.cactusknights.chefbook.core.coroutines.CoroutineScopes
 import com.cactusknights.chefbook.data.ILocalRecipeInteractionSource
@@ -47,6 +46,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.spongycastle.util.encoders.Base64
 import kotlin.math.abs
 
 @Singleton
@@ -176,7 +176,7 @@ class RecipeRepo @Inject constructor(
         if (result is Successful) {
             var recipe = result.data
             if (recipe.encryptionState is EncryptionState.Encrypted && key != null) {
-                recipe = recipe.decrypt(key) { data -> cryptor.decryptDataBySymmetricKey(Base64.decode(data, Base64.DEFAULT), key) }
+                recipe = recipe.decrypt(key) { data -> cryptor.decryptDataBySymmetricKey(Base64.decode(data), key) }
             }
             cache.putRecipe(recipe)
             result = DataResult(recipe)
@@ -218,7 +218,7 @@ class RecipeRepo @Inject constructor(
         localSource.updateRecipe(updatedRecipe)
 
         if (updatedRecipe.encryptionState is EncryptionState.Encrypted && key != null) {
-            updatedRecipe = updatedRecipe.decrypt(key) { data -> cryptor.decryptDataBySymmetricKey(Base64.decode(data, Base64.DEFAULT), key) }
+            updatedRecipe = updatedRecipe.decrypt(key) { data -> cryptor.decryptDataBySymmetricKey(Base64.decode(data), key) }
         }
         cache.putRecipe(updatedRecipe)
 
@@ -278,13 +278,13 @@ class RecipeRepo @Inject constructor(
         if (userKeyResult.isFailure()) return userKeyResult.asFailure()
 
         val recipeKey = getRecipeKey(recipe.id, key = userKeyResult.data()) ?: return Failure(AppError(AppErrorType.UNABLE_DECRYPT))
-        val decryptedRecipe = recipe.decrypt(recipeKey) { data -> cryptor.decryptDataBySymmetricKey(Base64.decode(data, Base64.DEFAULT), recipeKey) }
+        val decryptedRecipe = recipe.decrypt(recipeKey) { data -> cryptor.decryptDataBySymmetricKey(Base64.decode(data), recipeKey) }
         return DataResult(decryptedRecipe)
     }
 
     private suspend fun decryptRecipe(recipe: RecipeInfo, key: PrivateKey): RecipeInfo {
         val recipeKey = getRecipeKey(recipe.id, key) ?: return recipe
-        return recipe.decrypt(recipeKey) { data -> cryptor.decryptDataBySymmetricKey(Base64.decode(data, Base64.DEFAULT), recipeKey) }
+        return recipe.decrypt(recipeKey) { data -> cryptor.decryptDataBySymmetricKey(Base64.decode(data), recipeKey) }
     }
 
     private suspend fun getRecipeKey(recipeId: Int, key: PrivateKey): SecretKey? {
@@ -297,7 +297,7 @@ class RecipeRepo @Inject constructor(
         cache.emitRecipeBook(recipeBook.map { recipe ->
             if (recipe.encryptionState !is EncryptionState.Decrypted) return@map recipe
             return@map recipe.encrypt { data ->
-                Base64.encodeToString(cryptor.encryptDataBySymmetricKey(data, recipe.encryptionState.key), Base64.DEFAULT)
+                Base64.toBase64String(cryptor.encryptDataBySymmetricKey(data, recipe.encryptionState.key))
             }
         })
     }

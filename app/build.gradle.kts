@@ -117,6 +117,9 @@ dependencies {
     implementation(Dependencies.Images.imageCompressor)
     implementation(Dependencies.Images.zxing)
 
+    implementation(Dependencies.SpongyCastle.core)
+    implementation(Dependencies.SpongyCastle.prov)
+
     // Analytics
     implementation(Dependencies.Firebase.crashlytics)
 
