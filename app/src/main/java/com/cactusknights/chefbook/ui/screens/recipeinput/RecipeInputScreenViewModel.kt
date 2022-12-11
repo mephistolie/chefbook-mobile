@@ -68,6 +68,7 @@ class RecipeInputScreenViewModel @Inject constructor(
         MutableSharedFlow(replay = 0, extraBufferCapacity = 0)
     val effect: SharedFlow<RecipeInputScreenEffect> = _effect.asSharedFlow()
 
+    private var encryptionRequested = false
     private var picturesCounter = 0
 
     init {
@@ -218,6 +219,7 @@ class RecipeInputScreenViewModel @Inject constructor(
 
     private suspend fun setEncryptedState(isEncrypted: Boolean) {
         if (getEncryptedVaultStateUseCase() !is EncryptedVaultState.Unlocked) {
+            encryptionRequested = true
             _effect.emit(RecipeInputScreenEffect.OnEncryptedVaultMenuOpen)
             return
         }

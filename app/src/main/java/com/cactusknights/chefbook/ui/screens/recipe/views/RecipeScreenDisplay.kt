@@ -78,6 +78,7 @@ fun RecipeScreenDisplay(
 
     Box(
         modifier = Modifier
+            .background(colors.backgroundPrimary)
             .fillMaxWidth()
             .height(screenHeight),
         contentAlignment = Alignment.TopEnd

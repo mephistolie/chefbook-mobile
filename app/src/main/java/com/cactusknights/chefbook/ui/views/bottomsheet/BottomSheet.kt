@@ -41,7 +41,6 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import kotlin.math.roundToInt
 
 enum class AnimatedBottomSheetValue {
@@ -191,7 +190,6 @@ fun AnimatedBottomSheet(
                 velocityThreshold = Dp.Infinity
             )
 
-        Timber.e("Tester ${sheetState.currentValue} ${sheetState.targetValue}")
         AnimatedBottomSheetScaffoldStack(
             body = {
                 Surface(

@@ -1,6 +1,7 @@
 package com.cactusknights.chefbook.ui.screens.recipeinput
 
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetValue
@@ -9,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -24,6 +26,7 @@ import com.cactusknights.chefbook.ui.screens.recipeinput.dialogs.RecipeSavedDial
 import com.cactusknights.chefbook.ui.screens.recipeinput.models.RecipeInputScreenEffect
 import com.cactusknights.chefbook.ui.screens.recipeinput.models.RecipeInputScreenEvent
 import com.cactusknights.chefbook.ui.themes.ChefBookTheme
+import com.cactusknights.chefbook.ui.themes.EncryptedDataTheme
 import com.cactusknights.chefbook.ui.views.dialogs.LoadingDialog
 import com.cactusknights.chefbook.ui.views.dialogs.TwoButtonsDialog
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
@@ -56,33 +59,39 @@ fun RecipeInputScreen(
 
     val state = viewModel.state.collectAsState()
 
-    DataAccessProvider(type = DataType.DECRYPTABLE) {
-        ModalBottomSheetLayout(
-            bottomSheetNavigator = bottomSheetNavigator,
-            sheetShape = RoundedCornerShape(32.dp, 32.dp, 0.dp, 0.dp),
-            sheetBackgroundColor = ChefBookTheme.colors.backgroundPrimary,
-        ) {
-            RecipeInputHost(
-                viewModel = viewModel,
-                appController = appController,
-                inputController = inputController,
-                sheetState
-            )
+    EncryptedDataTheme(
+        isEncrypted = state.value.input.isEncrypted
+    ) {
+        DataAccessProvider(type = DataType.DECRYPTABLE) {
+            val colors = ChefBookTheme.colors
+            ModalBottomSheetLayout(
+                bottomSheetNavigator = bottomSheetNavigator,
+                sheetShape = RoundedCornerShape(32.dp, 32.dp, 0.dp, 0.dp),
+                sheetBackgroundColor = ChefBookTheme.colors.backgroundPrimary,
+                modifier = Modifier.background(colors.backgroundPrimary)
+            ) {
+                RecipeInputHost(
+                    viewModel = viewModel,
+                    appController = appController,
+                    inputController = inputController,
+                    sheetState
+                )
 
-            val currentState = state.value
-            if (currentState.isCancelDialogOpen) {
-                TwoButtonsDialog(
-                    description = stringResource(R.string.common_recipe_input_screen_close_warning),
-                    onHide = { viewModel.obtainEvent(RecipeInputScreenEvent.ChangeCancelDialogState(false)) },
-                    onRightClick = { viewModel.obtainEvent(RecipeInputScreenEvent.Back) },
-                )
-            }
-            if (currentState.isLoadingDialogOpen) LoadingDialog()
-            if (currentState.isRecipeSavedDialogOpen && currentState.recipeId != null) {
-                RecipeSavedDialog(
-                    onOpenRecipe = { viewModel.obtainEvent(RecipeInputScreenEvent.OpenRecipe(currentState.recipeId)) },
-                    onBackToRecipes = { viewModel.obtainEvent(RecipeInputScreenEvent.Close) }
-                )
+                val currentState = state.value
+                if (currentState.isCancelDialogOpen) {
+                    TwoButtonsDialog(
+                        description = stringResource(R.string.common_recipe_input_screen_close_warning),
+                        onHide = { viewModel.obtainEvent(RecipeInputScreenEvent.ChangeCancelDialogState(false)) },
+                        onRightClick = { viewModel.obtainEvent(RecipeInputScreenEvent.Back) },
+                    )
+                }
+                if (currentState.isLoadingDialogOpen) LoadingDialog()
+                if (currentState.isRecipeSavedDialogOpen && currentState.recipeId != null) {
+                    RecipeSavedDialog(
+                        onOpenRecipe = { viewModel.obtainEvent(RecipeInputScreenEvent.OpenRecipe(currentState.recipeId)) },
+                        onBackToRecipes = { viewModel.obtainEvent(RecipeInputScreenEvent.Close) }
+                    )
+                }
             }
         }
     }

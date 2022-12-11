@@ -28,6 +28,18 @@ private val DarkPalette = ChefBookColors(
     isDark = true
 )
 
+private val EncryptedDataPalette = ChefBookColors(
+
+    backgroundPrimary = Color(0xFF10101A),
+    backgroundSecondary = Color(0xFF1E1E33),
+    backgroundTertiary = Color(0xFF9A8C98),
+
+    foregroundPrimary = Color(0xFFF2E9E4),
+    foregroundSecondary = Color(0xFFE5C9C3),
+
+    isDark = true
+)
+
 @Composable
 fun ChefBookTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
@@ -36,6 +48,21 @@ fun ChefBookTheme(
     val colors = if (darkTheme) DarkPalette else LightPalette
     val typography = Typography
 
+
+    CompositionLocalProvider(
+        LocalColors provides colors,
+        LocalTypography provides typography,
+        content = content
+    )
+}
+
+@Composable
+fun EncryptedDataTheme(
+    isEncrypted: Boolean = false,
+    content: @Composable () -> Unit
+) {
+    val colors = if (isEncrypted) EncryptedDataPalette else ChefBookTheme.colors
+    val typography = Typography
 
     CompositionLocalProvider(
         LocalColors provides colors,
