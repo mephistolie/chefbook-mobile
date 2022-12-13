@@ -21,10 +21,10 @@ class RemoteRecipePictureSource @Inject constructor(
     private val handleResponse: INetworkHandler,
 ) : IRecipePictureSource {
 
-    override suspend fun getPictures(recipeId: Int): ActionStatus<List<String>> =
+    override suspend fun getPictures(recipeId: String): ActionStatus<List<String>> =
         handleResponse { api.getRecipePictures(recipeId) }.toActionStatus()
 
-    override suspend fun addPicture(recipeId: Int, data: ByteArray): ActionStatus<String> {
+    override suspend fun addPicture(recipeId: String, data: ByteArray): ActionStatus<String> {
         val file =  data.toRequestBody(KEY_CONTENT_TYPE.toMediaTypeOrNull())
         val result =  handleResponse {
             api.uploadRecipePicture(recipeId, MultipartBody.Part.createFormData(KEY_FORM_DATA_NAME, KEY_FIELD_NAME, file))
@@ -34,7 +34,7 @@ class RemoteRecipePictureSource @Inject constructor(
         return DataResult(result.body().link)
     }
 
-    override suspend fun deletePicture(recipeId : Int, name: String): SimpleAction =
+    override suspend fun deletePicture(recipeId : String, name: String): SimpleAction =
         handleResponse { api.deleteRecipePicture(recipeId, name) }.toActionStatus().asEmpty()
 
     companion object {

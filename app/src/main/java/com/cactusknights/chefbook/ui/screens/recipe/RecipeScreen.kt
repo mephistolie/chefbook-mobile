@@ -16,13 +16,15 @@ import com.cactusknights.chefbook.ui.navigation.Destination
 import com.cactusknights.chefbook.ui.screens.recipe.models.RecipeScreenEffect
 import com.cactusknights.chefbook.ui.screens.recipe.models.RecipeScreenEvent
 import com.cactusknights.chefbook.ui.screens.recipe.models.RecipeScreenState
+import com.cactusknights.chefbook.ui.screens.recipe.models.RecipeScreenTab
 import com.cactusknights.chefbook.ui.screens.recipe.views.RecipeScreenDisplay
 import com.cactusknights.chefbook.ui.themes.EncryptedDataTheme
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun RecipeScreen(
-    recipeId: Int,
+    recipeId: String,
+    defaultTab: RecipeScreenTab,
     recipeViewModel: RecipeScreenViewModel = hiltViewModel(),
     navController: NavHostController,
     sheetState: ModalBottomSheetState,
@@ -40,6 +42,7 @@ fun RecipeScreen(
         ) {
             RecipeScreenDisplay(
                 state = recipeState.value,
+                defaultTab = defaultTab,
                 sheetState = sheetState,
                 onEvent = { event -> recipeViewModel.obtainEvent(event) },
                 onRefresh = { recipeViewModel.obtainEvent(RecipeScreenEvent.LoadRecipe(recipeId)) },
@@ -66,7 +69,7 @@ fun RecipeScreen(
                 is RecipeScreenEffect.CategoryScreenOpened -> {
                     val nextRoute = Destination.Home.RecipeBook.Category.route
                     val previousRoute = navController.previousBackStackEntry?.destination?.route
-                    val previousRouteId = navController.previousBackStackEntry?.arguments?.getInt(CATEGORY_ID_ARGUMENT)
+                    val previousRouteId = navController.previousBackStackEntry?.arguments?.getString(CATEGORY_ID_ARGUMENT)
                     if (nextRoute != previousRoute || effect.categoryId != previousRouteId) {
                         sheetState.hide()
                         navController.navigate(Destination.Home.RecipeBook.Category.route(effect.categoryId))

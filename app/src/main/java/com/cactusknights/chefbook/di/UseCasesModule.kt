@@ -71,9 +71,15 @@ import com.cactusknights.chefbook.domain.usecases.shopinglist.GetShoppingListUse
 import com.cactusknights.chefbook.domain.usecases.shopinglist.IAddToShoppingListUseCase
 import com.cactusknights.chefbook.domain.usecases.shopinglist.IGetShoppingListUseCase
 import com.cactusknights.chefbook.domain.usecases.shopinglist.IObserveShoppingListUseCase
+import com.cactusknights.chefbook.domain.usecases.shopinglist.IRemovePurchasedItemsUseCase
 import com.cactusknights.chefbook.domain.usecases.shopinglist.ISetShoppingListUseCase
+import com.cactusknights.chefbook.domain.usecases.shopinglist.ISwitchPurchaseStatusUseCase
+import com.cactusknights.chefbook.domain.usecases.shopinglist.ISyncShoppingListUseCase
 import com.cactusknights.chefbook.domain.usecases.shopinglist.ObserveShoppingListUseCase
+import com.cactusknights.chefbook.domain.usecases.shopinglist.RemovePurchasedItemsUseCase
 import com.cactusknights.chefbook.domain.usecases.shopinglist.SetShoppingListUseCase
+import com.cactusknights.chefbook.domain.usecases.shopinglist.SwitchPurchaseStatusUseCase
+import com.cactusknights.chefbook.domain.usecases.shopinglist.SyncShoppingListUseCase
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -187,6 +193,15 @@ interface UseCasesBindingModule {
 
     @Binds
     fun bindGetShoppingListUseCase(useCase: GetShoppingListUseCase): IGetShoppingListUseCase
+
+    @Binds
+    fun bindSyncShoppingListUseCase(useCase: SyncShoppingListUseCase): ISyncShoppingListUseCase
+
+    @Binds
+    fun bindRemovePurchasedItemsUseCase(useCase: RemovePurchasedItemsUseCase): IRemovePurchasedItemsUseCase
+
+    @Binds
+    fun bindSwitchPurchaseStatusUseCase(useCase: SwitchPurchaseStatusUseCase): ISwitchPurchaseStatusUseCase
 
     @Binds
     fun bindSetShoppingListUseCase(useCase: SetShoppingListUseCase): ISetShoppingListUseCase

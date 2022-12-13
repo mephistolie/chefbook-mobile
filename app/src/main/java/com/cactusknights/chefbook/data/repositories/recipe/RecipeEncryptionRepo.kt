@@ -29,7 +29,7 @@ class RecipeEncryptionRepo @Inject constructor(
     private val sourceRepo: SourceRepo,
 ): IRecipeEncryptionRepo {
 
-    override suspend fun getRecipeKey(recipeId: Int, userKey: PrivateKey): ActionStatus<SecretKey> {
+    override suspend fun getRecipeKey(recipeId: String, userKey: PrivateKey): ActionStatus<SecretKey> {
         var encryptedKeyResult = localSource.getRecipeKey(recipeId)
         if (encryptedKeyResult.isFailure() && sourceRepo.isOnlineMode()) {
             encryptedKeyResult = remoteSource.getRecipeKey(recipeId)
@@ -43,7 +43,7 @@ class RecipeEncryptionRepo @Inject constructor(
     }
 
     override suspend fun setRecipeKey(
-        recipeId: Int,
+        recipeId: String,
         recipeKey: SecretKey,
         userKey: PublicKey
     ): SimpleAction {
@@ -54,7 +54,7 @@ class RecipeEncryptionRepo @Inject constructor(
         return result
     }
 
-    override suspend fun deleteRecipeKey(recipeId: Int): SimpleAction {
+    override suspend fun deleteRecipeKey(recipeId: String): SimpleAction {
         var result = localSource.deleteRecipeKey(recipeId)
         if (sourceRepo.isOnlineMode()) result = remoteSource.deleteRecipeKey(recipeId)
 

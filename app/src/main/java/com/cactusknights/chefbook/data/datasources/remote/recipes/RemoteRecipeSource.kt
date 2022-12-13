@@ -19,6 +19,7 @@ import com.cactusknights.chefbook.domain.entities.recipe.Recipe
 import com.cactusknights.chefbook.domain.entities.recipe.RecipeInfo
 import com.cactusknights.chefbook.domain.entities.recipe.RecipeInput
 import com.cactusknights.chefbook.domain.entities.recipe.RecipesFilter
+import java.util.*
 import javax.inject.Inject
 
 class RemoteRecipeSource @Inject constructor(
@@ -67,24 +68,24 @@ class RemoteRecipeSource @Inject constructor(
         return DataResult(recipes)
     }
 
-    override suspend fun createRecipe(input: RecipeInput): ActionStatus<Int> {
-        val result = handleResponse { api.createRecipe(input.toSerializable()) }
+    override suspend fun createRecipe(input: RecipeInput): ActionStatus<String> {
+        val result = handleResponse { api.createRecipe(input.toSerializable(recipeId = UUID.randomUUID().toString())) }
         if (result.isFailure()) return result.toActionStatus().asFailure()
 
         return DataResult(result.body().id)
     }
 
-    override suspend fun getRecipe(recipeId: Int): ActionStatus<Recipe> {
+    override suspend fun getRecipe(recipeId: String): ActionStatus<Recipe> {
         val result = handleResponse { api.getRecipe(recipeId) }
         if (result.isFailure()) return result.toActionStatus().asFailure()
 
         return DataResult(result.body().toEntity())
     }
 
-    override suspend fun updateRecipe(recipeId: Int, input: RecipeInput): SimpleAction =
+    override suspend fun updateRecipe(recipeId: String, input: RecipeInput): SimpleAction =
         handleResponse { api.updateRecipe(recipeId, input.toSerializable()) }.toActionStatus().asEmpty()
 
-    override suspend fun deleteRecipe(recipeId: Int): SimpleAction =
+    override suspend fun deleteRecipe(recipeId: String): SimpleAction =
         handleResponse { api.deleteRecipe(recipeId) }.toActionStatus().asEmpty()
 
     companion object {

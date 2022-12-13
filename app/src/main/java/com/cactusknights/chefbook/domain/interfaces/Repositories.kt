@@ -92,15 +92,15 @@ interface IRecipeRepo {
     suspend fun getRecipeBook(forceRefresh: Boolean = false): List<RecipeInfo>
     suspend fun getRecipesByQuery(query: RecipesFilter): ActionStatus<List<RecipeInfo>>
     suspend fun createRecipe(input: RecipeInput, key: SecretKey?): ActionStatus<Recipe>
-    suspend fun getRecipe(recipeId: Int): ActionStatus<Recipe>
+    suspend fun getRecipe(recipeId: String): ActionStatus<Recipe>
     suspend fun cacheRecipe(recipe: Recipe): SimpleAction
-    suspend fun updateRecipe(recipeId: Int, input: RecipeInput, key: SecretKey?): ActionStatus<Recipe>
-    suspend fun deleteRecipe(recipeId: Int): SimpleAction
+    suspend fun updateRecipe(recipeId: String, input: RecipeInput, key: SecretKey?): ActionStatus<Recipe>
+    suspend fun deleteRecipe(recipeId: String): SimpleAction
 }
 
 interface IRecipePictureRepo {
     suspend fun uploadRecipePictures(
-        recipeId: Int,
+        recipeId: String,
         input: RecipeInput,
         key: SecretKey?,
         isEncrypted: Boolean = key != null,
@@ -109,36 +109,39 @@ interface IRecipePictureRepo {
 }
 
 interface IRecipeInteractionRepo {
-    suspend fun setRecipeSavedStatus(recipeId: Int, saved: Boolean): SimpleAction
-    suspend fun setRecipeLikeStatus(recipeId: Int, liked: Boolean): SimpleAction
-    suspend fun setRecipeFavouriteStatus(recipeId: Int, favourite: Boolean): SimpleAction
-    suspend fun setRecipeCategories(recipeId: Int, categories: List<Int>): SimpleAction
+    suspend fun setRecipeSavedStatus(recipeId: String, saved: Boolean): SimpleAction
+    suspend fun setRecipeLikeStatus(recipeId: String, liked: Boolean): SimpleAction
+    suspend fun setRecipeFavouriteStatus(recipeId: String, favourite: Boolean): SimpleAction
+    suspend fun setRecipeCategories(recipeId: String, categories: List<String>): SimpleAction
 }
 
 interface IRecipeEncryptionRepo {
-    suspend fun getRecipeKey(recipeId: Int, userKey: PrivateKey): ActionStatus<SecretKey>
-    suspend fun setRecipeKey(recipeId: Int, recipeKey: SecretKey, userKey: PublicKey): SimpleAction
-    suspend fun deleteRecipeKey(recipeId: Int): SimpleAction
+    suspend fun getRecipeKey(recipeId: String, userKey: PrivateKey): ActionStatus<SecretKey>
+    suspend fun setRecipeKey(recipeId: String, recipeKey: SecretKey, userKey: PublicKey): SimpleAction
+    suspend fun deleteRecipeKey(recipeId: String): SimpleAction
 }
 
 interface ILatestRecipesRepo {
-    suspend fun observeLatestRecipes(): Flow<List<Int>>
-    suspend fun getLatestRecipes(): List<Int>
-    suspend fun pushRecipe(recipeId: Int)
+    suspend fun observeLatestRecipes(): Flow<List<String>>
+    suspend fun getLatestRecipes(): List<String>
+    suspend fun pushRecipe(recipeId: String)
 }
 
 interface ICategoryRepo {
     suspend fun observeCategories(): StateFlow<List<Category>?>
     suspend fun getCategories(forceRefresh: Boolean = false): List<Category>
     suspend fun createCategory(input: CategoryInput): ActionStatus<Category>
-    suspend fun getCategory(categoryId: Int): ActionStatus<Category>
-    suspend fun updateCategory(categoryId: Int, input: CategoryInput): ActionStatus<Category>
-    suspend fun deleteCategory(categoryId: Int): SimpleAction
+    suspend fun getCategory(categoryId: String): ActionStatus<Category>
+    suspend fun updateCategory(categoryId: String, input: CategoryInput): ActionStatus<Category>
+    suspend fun deleteCategory(categoryId: String): SimpleAction
 }
 
 interface IShoppingListRepo {
     suspend fun observeShoppingList(): StateFlow<ShoppingList>
     suspend fun getShoppingList(forceRefresh: Boolean = false): ActionStatus<ShoppingList>
+    suspend fun syncShoppingList()
     suspend fun setShoppingList(purchases: List<Purchase>): SimpleAction
+    suspend fun switchPurchaseStatus(purchaseId: String): SimpleAction
+    suspend fun removePurchasedItems(): SimpleAction
     suspend fun addToShoppingList(purchases: List<Purchase>): SimpleAction
 }

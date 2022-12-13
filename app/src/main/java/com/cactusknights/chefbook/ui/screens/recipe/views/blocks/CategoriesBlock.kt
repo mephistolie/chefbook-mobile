@@ -29,7 +29,7 @@ import com.mephistolie.compost.modifiers.simpleClickable
 fun CategoriesBlock(
     categories: List<Category>,
     onChangeCategoriesButtonClicked: () -> Unit,
-    onCategoryButtonClicked: (Int) -> Unit,
+    onCategoryButtonClicked: (String) -> Unit,
 ) {
     val colors = ChefBookTheme.colors
     val typography = ChefBookTheme.typography

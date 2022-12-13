@@ -28,13 +28,14 @@ import com.cactusknights.chefbook.data.dto.local.room.RecipesCategoriesRoom.Comp
 data class RecipesCategoriesRoom constructor(
 
     @PrimaryKey(autoGenerate = true)
-    var Id: Int? = null,
+    @ColumnInfo(name = "id")
+    val id: Int,
 
     @ColumnInfo(name = "recipe_id")
-    var recipeId: Int,
+    val recipeId: String,
 
     @ColumnInfo(name = "category_id")
-    var categoryId: Int
+    val categoryId: String
 ) {
     companion object {
         const val TABLE_NAME = "recipes_categories"

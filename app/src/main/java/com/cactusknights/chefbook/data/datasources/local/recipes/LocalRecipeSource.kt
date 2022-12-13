@@ -39,7 +39,7 @@ class LocalRecipeSource @Inject constructor(
             SuccessResult
         }
 
-    override suspend fun getRecipe(recipeId: Int) =
+    override suspend fun getRecipe(recipeId: String) =
         RoomHandler.handleQuery {
             val baseRecipe = dao.getRecipeById(recipeId)?.toEntity()
                 ?: return@handleQuery Failure(AppError(AppErrorType.NOT_FOUND))
@@ -53,7 +53,7 @@ class LocalRecipeSource @Inject constructor(
             SuccessResult
         }
 
-    override suspend fun deleteRecipe(recipeId: Int) =
+    override suspend fun deleteRecipe(recipeId: String) =
         RoomHandler.handleQuery {
             dao.deleteRecipe(recipeId)
             SuccessResult

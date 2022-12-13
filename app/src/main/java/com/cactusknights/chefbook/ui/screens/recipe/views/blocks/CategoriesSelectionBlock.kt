@@ -27,9 +27,9 @@ import com.google.accompanist.flowlayout.FlowRow
 @Composable
 fun CategoriesSelectionBlock(
     categories: List<Category>,
-    initialSelectedCategories: List<Int>,
+    initialSelectedCategories: List<String>,
     onDiscard: () -> Unit,
-    onConfirm: (List<Int>) -> Unit,
+    onConfirm: (List<String>) -> Unit,
 ) {
     val colors = ChefBookTheme.colors
     val typography = ChefBookTheme.typography

@@ -15,6 +15,7 @@ import com.cactusknights.chefbook.domain.entities.recipe.Recipe
 import com.cactusknights.chefbook.domain.entities.recipe.encryption.EncryptionState
 import com.cactusknights.chefbook.domain.entities.recipe.macronutrients.MacronutrientsInfo
 import java.time.LocalDateTime
+import java.util.*
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -22,13 +23,13 @@ import kotlinx.serialization.json.Json
 @Entity(tableName = TABLE_NAME, indices = [Index(value = ["recipe_id"], unique = true)])
 data class RecipeRoom (
     
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey
     @ColumnInfo(name = "recipe_id")
-    val id: Int = 0,
+    val id: String = UUID.randomUUID().toString(),
     @ColumnInfo(name = "name")
     val name: String,
     @ColumnInfo(name = "owner_id")
-    val ownerId: Int? = null,
+    val ownerId: String? = null,
     @ColumnInfo(name = "owner_name")
     val ownerName: String? = null,
     @ColumnInfo(name = "owned")

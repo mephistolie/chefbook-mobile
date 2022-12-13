@@ -4,7 +4,7 @@ import com.cactusknights.chefbook.domain.entities.recipe.RecipeInput
 
 data class RecipeInputScreenState(
     val input: RecipeInput = RecipeInput(),
-    val recipeId: Int? = null,
+    val recipeId: String? = null,
     val isCancelDialogOpen: Boolean = false,
     val isLoadingDialogOpen: Boolean = false,
     val isRecipeSavedDialogOpen: Boolean = false,

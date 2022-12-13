@@ -5,5 +5,5 @@ import com.cactusknights.chefbook.domain.entities.shoppinglist.Purchase
 data class ShoppingListSection(
     val purchases: List<Purchase>,
     val title: String? = null,
-    val recipeId: Int? = null,
+    val recipeId: String? = null,
 )

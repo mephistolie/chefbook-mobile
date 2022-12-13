@@ -1,8 +1,7 @@
 package com.cactusknights.chefbook.data.dto.remote.profile
 
+import com.cactusknights.chefbook.common.parseTimestampSafely
 import com.cactusknights.chefbook.domain.entities.profile.Profile
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -10,7 +9,7 @@ import kotlinx.serialization.Serializable
 data class ProfileResponse constructor(
 
     @SerialName("id")
-    val id: Int,
+    val id: String,
     @SerialName("email")
     val email: String,
     @SerialName("username")
@@ -30,7 +29,7 @@ fun ProfileResponse.toEntity(): Profile {
         id = id,
         email = email,
         username = username,
-        creationDate = LocalDateTime.parse(creationTimestamp, DateTimeFormatter.ISO_DATE_TIME),
+        creationDate = parseTimestampSafely(creationTimestamp),
         premium = premium,
         avatar = avatar,
         broccoins = broccoins,

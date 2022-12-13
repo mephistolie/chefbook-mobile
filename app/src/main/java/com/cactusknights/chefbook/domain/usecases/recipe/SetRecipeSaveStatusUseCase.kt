@@ -8,14 +8,14 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
 interface ISetRecipeSaveStatusUseCase {
-    suspend operator fun invoke(recipeId: Int, saved: Boolean): Flow<SimpleAction>
+    suspend operator fun invoke(recipeId: String, saved: Boolean): Flow<SimpleAction>
 }
 
 class SetRecipeSaveStatusUseCase @Inject constructor(
     private val recipeRepo: IRecipeInteractionRepo,
 ) : ISetRecipeSaveStatusUseCase {
 
-    override suspend operator fun invoke(recipeId: Int, saved: Boolean): Flow<SimpleAction> = flow {
+    override suspend operator fun invoke(recipeId: String, saved: Boolean): Flow<SimpleAction> = flow {
         emit(Loading)
         emit(recipeRepo.setRecipeSavedStatus(recipeId, saved))
     }

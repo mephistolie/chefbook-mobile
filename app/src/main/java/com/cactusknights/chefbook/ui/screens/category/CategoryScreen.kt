@@ -12,7 +12,7 @@ import com.cactusknights.chefbook.ui.screens.category.views.CategoryScreenDispla
 
 @Composable
 fun CategoryScreen(
-    categoryId: Int,
+    categoryId: String,
     appController: NavHostController,
     categoryScreenViewModel: CategoryScreenViewModel = hiltViewModel(),
 ) {

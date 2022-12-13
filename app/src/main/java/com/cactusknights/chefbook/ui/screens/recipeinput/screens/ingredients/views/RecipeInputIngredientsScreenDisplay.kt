@@ -13,7 +13,7 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -78,22 +78,22 @@ fun RecipeInputIngredientScreenDisplay(
                 .detectReorderAfterLongPress(reorderableState),
             horizontalAlignment = Alignment.Start,
         ) {
-            itemsIndexed(state.ingredients, key = { _, item -> item.id }) { index, item ->
+            items(items = state.ingredients, key = { item -> item.id }) { item ->
                 ReorderableItem(reorderableState, key = item.id) { isDragging ->
                     if (isDragging) haptic.performHapticFeedback(HapticFeedbackType.LongPress)
                     when (item) {
                         is IngredientItem.Section -> {
                             SectionField(
                                 name = item.name,
-                                onNameChange = { name -> onEvent(RecipeInputScreenEvent.SetIngredientItemName(index, name)) },
-                                onDeleteClick = { onEvent(RecipeInputScreenEvent.DeleteIngredientItem(index)) },
+                                onNameChange = { name -> onEvent(RecipeInputScreenEvent.SetIngredientItemName(item.id, name)) },
+                                onDeleteClick = { onEvent(RecipeInputScreenEvent.DeleteIngredientItem(item.id)) },
                             )
                         }
                         is IngredientItem.Ingredient -> {
                             IngredientField(
                                 ingredient = item,
-                                onInputClick = { onEvent(RecipeInputScreenEvent.OpenIngredientDialog(index)) },
-                                onDeleteClick = { onEvent(RecipeInputScreenEvent.DeleteIngredientItem(index)) },
+                                onInputClick = { onEvent(RecipeInputScreenEvent.OpenIngredientDialog(item.id)) },
+                                onDeleteClick = { onEvent(RecipeInputScreenEvent.DeleteIngredientItem(item.id)) },
                             )
                         }
                         else -> Unit

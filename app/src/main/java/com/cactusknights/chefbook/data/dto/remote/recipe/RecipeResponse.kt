@@ -1,5 +1,6 @@
 package com.cactusknights.chefbook.data.dto.remote.recipe
 
+import com.cactusknights.chefbook.common.parseTimestampSafely
 import com.cactusknights.chefbook.core.mappers.LanguageMapper
 import com.cactusknights.chefbook.core.mappers.VisibilityMapper
 import com.cactusknights.chefbook.data.dto.common.recipe.CookingItemSerializable
@@ -9,19 +10,17 @@ import com.cactusknights.chefbook.data.dto.remote.categories.CategoryResponse
 import com.cactusknights.chefbook.data.dto.remote.categories.toEntity
 import com.cactusknights.chefbook.domain.entities.recipe.Recipe
 import com.cactusknights.chefbook.domain.entities.recipe.encryption.EncryptionState
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
 class RecipeResponse(
     @SerialName("id")
-    val id: Int,
+    val id: String,
     @SerialName("name")
     val name: String,
     @SerialName("owner_id")
-    val ownerId: Int,
+    val ownerId: String,
     @SerialName("owner_name")
     val ownerName: String,
     @SerialName("owned")
@@ -84,8 +83,8 @@ fun RecipeResponse.toEntity() : Recipe =
         description = description,
         preview = preview,
 
-        creationTimestamp = LocalDateTime.parse(creationTimestamp, DateTimeFormatter.ISO_DATE_TIME),
-        updateTimestamp = LocalDateTime.parse(updateTimestamp, DateTimeFormatter.ISO_DATE_TIME),
+        creationTimestamp = parseTimestampSafely(creationTimestamp),
+        updateTimestamp = parseTimestampSafely(updateTimestamp),
 
         isSaved = isSaved,
         categories = categories?.map { it.toEntity() } ?: emptyList(),

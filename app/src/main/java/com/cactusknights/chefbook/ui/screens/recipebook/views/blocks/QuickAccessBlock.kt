@@ -23,7 +23,7 @@ private const val KEY_PREFIX = "quick_access_card"
 @OptIn(ExperimentalFoundationApi::class)
 fun LazyGridScope.quickAccessBlock(
     recipes: List<RecipeInfo>?,
-    onRecipeClicked: (Int) -> Unit,
+    onRecipeClicked: (String) -> Unit,
 ) {
     if (recipes == null || recipes.isNotEmpty()) {
         item(

@@ -24,13 +24,13 @@ interface EncryptionApi {
     suspend fun deleteUserKey(): RequestResult<MessageResponse>
 
     @GET("/v1/recipes/{recipe_id}/key")
-    suspend fun getRecipeKeyLink(@Path("recipe_id") recipeId: Int) : RequestResult<LinkResponse>
+    suspend fun getRecipeKeyLink(@Path("recipe_id") recipeId: String) : RequestResult<LinkResponse>
 
     @Multipart
     @POST("/v1/recipes/{recipe_id}/key")
-    suspend fun uploadRecipeKey(@Path("recipe_id") recipeId: Int, @Part key: MultipartBody.Part): RequestResult<LinkResponse>
+    suspend fun uploadRecipeKey(@Path("recipe_id") recipeId: String, @Part key: MultipartBody.Part): RequestResult<LinkResponse>
 
     @DELETE("/v1/recipes/{recipe_id}/key")
-    suspend fun deleteRecipeKey(@Path("recipe_id") recipeId: Int): RequestResult<MessageResponse>
+    suspend fun deleteRecipeKey(@Path("recipe_id") recipeId: String): RequestResult<MessageResponse>
 
 }

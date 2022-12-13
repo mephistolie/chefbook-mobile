@@ -4,7 +4,7 @@ import com.cactusknights.chefbook.domain.interfaces.ILatestRecipesRepo
 import javax.inject.Inject
 
 interface IGetLatestRecipesUseCase {
-    suspend operator fun invoke(): List<Int>
+    suspend operator fun invoke(): List<String>
 }
 
 class GetLatestRecipesUseCase @Inject constructor(

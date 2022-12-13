@@ -247,7 +247,8 @@ fun AuthScreenDisplay(
                     id = R.string.common_auth_screen_already_member
                 ),
                 style = ChefBookTheme.typography.body2,
-                color = ChefBookTheme.colors.foregroundSecondary
+                color = ChefBookTheme.colors.foregroundSecondary,
+                modifier = Modifier.padding(end = 4.dp)
             )
             Text(
                 text = if (authState.action == AuthAction.SIGN_IN) stringResource(id = R.string.common_auth_screen_sign_up) else stringResource(

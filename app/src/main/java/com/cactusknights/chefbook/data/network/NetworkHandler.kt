@@ -14,6 +14,7 @@ import javax.inject.Singleton
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import timber.log.Timber
 
 interface INetworkHandler {
     suspend operator fun <T> invoke(block: suspend () -> RequestResult<T>): RequestResult<T>
@@ -60,12 +61,15 @@ class NetworkHandler @Inject constructor(
     private suspend fun refreshSession(): Boolean =
         if (!mutex.isLocked) {
             mutex.withLock {
+                Timber.i("Refreshing session...")
                 tokensRepo.getRefreshToken()?.let { refreshToken ->
                     val result = api.refreshSession(RefreshTokenRequest(refreshToken))
                     if (result is RequestResult.SuccessResponse) {
+                        Timber.i("Session refreshed")
                         tokensRepo.saveTokens(result.body.toEntity())
                         return true
                     } else if (result is RequestResult.ErrorResponse && result.body.toServerError().type == ServerErrorType.INVALID_REFRESH_TOKEN) {
+                        Timber.i("Session refresh failed. Signing out...")
                         tokensRepo.clearTokens()
                     }
                 }

@@ -11,6 +11,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class RecipeInputRequest(
+    @SerialName("recipe_id")
+    val id: String? = null,
     @SerialName("name")
     val name: String,
     @SerialName("visibility")
@@ -40,7 +42,7 @@ data class RecipeInputRequest(
     val cooking: List<CookingItemSerializable>,
 )
 
-fun RecipeInput.toSerializable() =
+fun RecipeInput.toSerializable(recipeId: String? = null) =
     RecipeInputRequest(
         name = name,
         visibility = VisibilityMapper.map(visibility),

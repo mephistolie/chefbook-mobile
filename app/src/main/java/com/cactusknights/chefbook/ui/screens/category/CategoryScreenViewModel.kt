@@ -70,7 +70,7 @@ class CategoryScreenViewModel @Inject constructor(
         }
     }
 
-    private suspend fun loadRecipesInCategory(categoryId: Int) {
+    private suspend fun loadRecipesInCategory(categoryId: String) {
         getCategoryUseCase(categoryId)
             .onEach { result ->
                 if (result.isSuccess()) {
@@ -132,7 +132,8 @@ class CategoryScreenViewModel @Inject constructor(
         }
     }
 
-    private fun filterRecipes(recipes: List<RecipeInfo>, categoryId: Int): List<RecipeInfo> =
+    private fun filterRecipes(recipes: List<RecipeInfo>, categoryId: String): List<RecipeInfo> =
         recipes.filter { recipe -> categoryId in recipe.categories.map { it.id } }
+            .sortedWith(compareBy({ it.name.uppercase() }, { it.id }))
 
 }

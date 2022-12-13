@@ -3,9 +3,12 @@ package com.cactusknights.chefbook.core
 import com.cactusknights.chefbook.ProfileProto
 import com.cactusknights.chefbook.PurchaseProto
 import com.cactusknights.chefbook.ShoppingListProto
+import com.cactusknights.chefbook.common.Strings
+import com.cactusknights.chefbook.core.mappers.MeasureUnitMapper
 import com.cactusknights.chefbook.domain.entities.profile.Profile
 import com.cactusknights.chefbook.domain.entities.shoppinglist.Purchase
 import com.cactusknights.chefbook.domain.entities.shoppinglist.ShoppingList
+import java.lang.Integer.max
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 
@@ -14,8 +17,12 @@ fun ShoppingList.toProto(): ShoppingListProto {
         PurchaseProto.newBuilder()
             .setId(it.id)
             .setName(it.name)
+            .setAmount(it.amount ?: 0)
+            .setUnit(it.unit?.let { unit -> MeasureUnitMapper.map(unit) } ?: Strings.EMPTY)
             .setMultiplier(it.multiplier)
             .setIsPurchased(it.isPurchased)
+            .setRecipeId(it.recipeId ?: Strings.EMPTY)
+            .setRecipeName(it.recipeName ?: Strings.EMPTY)
             .build()
     }
     return ShoppingListProto.newBuilder()
@@ -29,8 +36,12 @@ fun ShoppingListProto.toEntity(): ShoppingList {
         Purchase(
             id = it.id,
             name = it.name,
-            multiplier = it.multiplier,
-            isPurchased = it.isPurchased
+            amount = if (it.amount > 0) it.amount else null,
+            unit = if (it.unit.isNotEmpty()) MeasureUnitMapper.map(it.unit) else null,
+            multiplier = max(it.multiplier, 1),
+            isPurchased = it.isPurchased,
+            recipeId = it.recipeId.ifEmpty { null },
+            recipeName = it.recipeName.ifEmpty { null },
         )
     }
     return ShoppingList(
@@ -39,19 +50,19 @@ fun ShoppingListProto.toEntity(): ShoppingList {
     )
 }
 
-fun Profile.toProto() : ProfileProto {
+fun Profile.toProto(): ProfileProto {
     return ProfileProto.newBuilder()
         .setId(id)
         .setEmail(email)
         .setUsername(username)
         .setCreationDate(creationDate.toEpochSecond(ZoneOffset.UTC))
-        .setAvatar(avatar?:"")
+        .setAvatar(avatar ?: "")
         .setPremium(premium)
-        .setBroccoins(broccoins?:0)
+        .setBroccoins(broccoins)
         .build()
 }
 
-fun ProfileProto.toEntity() : Profile {
+fun ProfileProto.toEntity(): Profile {
     return Profile(
         id = id,
         email = email,

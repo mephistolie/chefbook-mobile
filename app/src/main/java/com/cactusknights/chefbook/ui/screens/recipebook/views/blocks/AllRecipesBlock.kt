@@ -23,7 +23,7 @@ private const val KEY_PREFIX = "all_recipes_card"
 fun LazyGridScope.allRecipesBlock(
     recipes: List<RecipeInfo>?,
     categories: List<Category>?,
-    onRecipeClicked: (Int) -> Unit,
+    onRecipeClicked: (String) -> Unit,
 ) {
     item(
         span = { GridItemSpan(4) }

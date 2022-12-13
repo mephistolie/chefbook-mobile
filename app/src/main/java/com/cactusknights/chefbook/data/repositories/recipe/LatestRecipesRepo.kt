@@ -17,11 +17,11 @@ class LatestRecipesRepo @Inject constructor(
 
     private val saved get() = dataStore.data.take(1)
 
-    override suspend fun observeLatestRecipes(): Flow<List<Int>> = dataStore.data.map { it.latestRecipesList }
+    override suspend fun observeLatestRecipes(): Flow<List<String>> = dataStore.data.map { it.latestRecipesList }
 
-    override suspend fun getLatestRecipes(): List<Int> = saved.first().latestRecipesList
+    override suspend fun getLatestRecipes(): List<String> = saved.first().latestRecipesList
 
-    override suspend fun pushRecipe(recipeId: Int) {
+    override suspend fun pushRecipe(recipeId: String) {
         val savedLatestRecipes = saved.first().latestRecipesList.filter { it != recipeId }
         var latestRecipes = listOf(recipeId) + savedLatestRecipes
         if (latestRecipes.size > LATEST_RECIPES_CACHE_SIZE) {

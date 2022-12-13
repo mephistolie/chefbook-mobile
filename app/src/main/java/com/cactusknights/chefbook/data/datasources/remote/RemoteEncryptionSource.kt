@@ -50,7 +50,7 @@ class RemoteEncryptionSource @Inject constructor(
     override suspend fun deleteUserKey(): SimpleAction =
         handleResponse { api.deleteUserKey() }.toActionStatus().asEmpty()
 
-    override suspend fun getRecipeKey(recipeId: Int): ActionStatus<ByteArray> {
+    override suspend fun getRecipeKey(recipeId: String): ActionStatus<ByteArray> {
         val result = handleResponse { api.getRecipeKeyLink(recipeId) }
         if (result.isFailure()) return result.toActionStatus().asFailure()
         val link = result.body().link
@@ -58,13 +58,13 @@ class RemoteEncryptionSource @Inject constructor(
         return if (keyResult.isSuccess()) DataResult(keyResult.data()) else Failure(ServerError(ServerErrorType.NOT_FOUND))
     }
 
-    override suspend fun setRecipeKey(recipeId: Int, key: ByteArray): SimpleAction {
+    override suspend fun setRecipeKey(recipeId: String, key: ByteArray): SimpleAction {
         val file = key.toRequestBody(KEY_CONTENT_TYPE.toMediaTypeOrNull())
         return handleResponse { api.uploadRecipeKey(recipeId, MultipartBody.Part.createFormData(
             KEY_FORM_DATA_NAME, KEY_FIELD_NAME, file)) }.toActionStatus().asEmpty()
     }
 
-    override suspend fun deleteRecipeKey(recipeId: Int): SimpleAction =
+    override suspend fun deleteRecipeKey(recipeId: String): SimpleAction =
         handleResponse { api.deleteRecipeKey(recipeId) }.toActionStatus().asEmpty()
 
     companion object {

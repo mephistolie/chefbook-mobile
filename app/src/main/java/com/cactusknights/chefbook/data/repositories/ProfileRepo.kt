@@ -24,6 +24,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 @Singleton
 class ProfileRepo @Inject constructor(
@@ -56,6 +57,7 @@ class ProfileRepo @Inject constructor(
                 if (session == null && source.isOnlineMode()) {
                     profile.emit(null)
                     source.clearLocalData()
+                    Timber.i("Profile signed out")
                 }
             }
         }

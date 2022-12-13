@@ -30,7 +30,7 @@ class LocalCategorySource @Inject constructor(
             SuccessResult
         }
 
-    override suspend fun getCategory(categoryId: Int) =
+    override suspend fun getCategory(categoryId: String) =
         RoomHandler.handleQuery {
             val category = dao.getCategory(categoryId)
             if (category != null) DataResult(category.toEntity()) else Failure(AppError(AppErrorType.NOT_FOUND))
@@ -42,7 +42,7 @@ class LocalCategorySource @Inject constructor(
             SuccessResult
         }
 
-    override suspend fun deleteCategory(categoryId: Int) =
+    override suspend fun deleteCategory(categoryId: String) =
         RoomHandler.handleQuery {
             dao.deleteCategory(categoryId)
             SuccessResult

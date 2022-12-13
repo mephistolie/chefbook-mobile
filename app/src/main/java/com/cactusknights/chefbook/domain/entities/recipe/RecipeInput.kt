@@ -8,6 +8,7 @@ import com.cactusknights.chefbook.domain.entities.recipe.encryption.EncryptionSt
 import com.cactusknights.chefbook.domain.entities.recipe.ingredient.IngredientItem
 import com.cactusknights.chefbook.domain.entities.recipe.macronutrients.MacronutrientsInfo
 import java.time.LocalDateTime
+import java.time.ZoneOffset
 import java.util.*
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -31,14 +32,14 @@ data class RecipeInput(
 )
 
 fun RecipeInput.toRecipe(
-    id: Int = 0,
-    ownerId: Int? = null,
+    id: String = UUID.randomUUID().toString(),
+    ownerId: String? = null,
     ownerName: String? = null,
     isOwned: Boolean = true,
     isSaved: Boolean = true,
     likes: Int? = null,
-    creationTimestamp: LocalDateTime = LocalDateTime.now(),
-    updateTimestamp: LocalDateTime = LocalDateTime.now(),
+    creationTimestamp: LocalDateTime = LocalDateTime.now(ZoneOffset.UTC),
+    updateTimestamp: LocalDateTime = LocalDateTime.now(ZoneOffset.UTC),
     isFavourite: Boolean = false,
     isLiked: Boolean = false,
 ) =

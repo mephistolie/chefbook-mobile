@@ -32,7 +32,7 @@ class RecipePictureRepo @Inject constructor(
 ) : IRecipePictureRepo {
 
     override suspend fun uploadRecipePictures(
-        recipeId: Int,
+        recipeId: String,
         input: RecipeInput,
         key: SecretKey?,
         isEncrypted: Boolean,
@@ -78,7 +78,7 @@ class RecipePictureRepo @Inject constructor(
     }
 
     private suspend fun uploadPicture(
-        recipeId: Int,
+        recipeId: String,
         source: IRecipePictureSource,
         path: String,
         key: SecretKey?,
@@ -115,7 +115,7 @@ class RecipePictureRepo @Inject constructor(
     }
 
     private suspend fun deleteOutdatedPictures(
-        recipeId: Int,
+        recipeId: String,
         recipe: RecipeInput,
         source: IRecipePictureSource,
     ) {
@@ -130,7 +130,7 @@ class RecipePictureRepo @Inject constructor(
         }
     }
 
-    private suspend fun deletePicture(recipeId: Int, path: String) {
+    private suspend fun deletePicture(recipeId: String, path: String) {
         val uri = Uri.parse(path)
         val pictureName = uri.lastPathSegment
         if (pictureName != null) {

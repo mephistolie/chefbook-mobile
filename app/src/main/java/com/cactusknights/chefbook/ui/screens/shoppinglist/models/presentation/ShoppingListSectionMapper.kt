@@ -14,5 +14,6 @@ object ShoppingListSectionMapper {
                     title = section.value.firstOrNull { it.recipeName != null }?.recipeName
                 )
             }
+            .sortedWith(compareBy({ it.title?.uppercase() }, { it.recipeId }))
 
 }

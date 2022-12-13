@@ -14,6 +14,7 @@ import androidx.compose.material.ButtonDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -77,7 +78,7 @@ fun ColumnScope.PreviewBlock(
                     .padding(12.dp)
                     .size(32.dp),
                 colors = ButtonDefaults.buttonColors(backgroundColor = colors.foregroundPrimary.copy(alpha = 0.25F)),
-                tint = colors.backgroundPrimary
+                tint = Color.White
             )
         }
     }

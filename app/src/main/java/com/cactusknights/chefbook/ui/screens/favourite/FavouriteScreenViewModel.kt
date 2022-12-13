@@ -35,7 +35,11 @@ class FavouriteScreenViewModel @Inject constructor(
         viewModelScope.launch {
             observeRecipeBookUseCase()
                 .onEach { recipes ->
-                    _state.emit(FavouriteScreenState(recipes?.filter { it.isFavourite }?.sortedBy { it.name }))
+                    _state.emit(FavouriteScreenState(
+                        recipes
+                            ?.filter { it.isFavourite }
+                            ?.sortedWith(compareBy({ it.name.uppercase() }, { it.id }))
+                    ))
                 }
                 .collect()
         }

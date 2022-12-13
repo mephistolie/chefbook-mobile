@@ -25,7 +25,7 @@ interface RecipeApi {
         @Query("search") search: String? = null,
         @Query("owned") owned: Boolean? = null,
         @Query("saved") saved: Boolean? = null,
-        @Query("author_id") authorId: Int? = null,
+        @Query("author_id") authorId: String? = null,
         @Query("sort_by") sortBy: String? = null,
         @Query("language") languages: List<String>? = null,
         @Query("min_time") minTime: Int? = null,
@@ -42,42 +42,42 @@ interface RecipeApi {
     suspend fun createRecipe(@Body recipe: RecipeInputRequest): RequestResult<IdResponse>
 
     @GET("/v1/recipes/{recipe_id}")
-    suspend fun getRecipe(@Path("recipe_id") recipeId: Int): RequestResult<RecipeResponse>
+    suspend fun getRecipe(@Path("recipe_id") recipeId: String): RequestResult<RecipeResponse>
 
     @PUT("/v1/recipes/{recipe_id}")
-    suspend fun updateRecipe(@Path("recipe_id") recipeId: Int, @Body recipe: RecipeInputRequest): RequestResult<MessageResponse>
+    suspend fun updateRecipe(@Path("recipe_id") recipeId: String, @Body recipe: RecipeInputRequest): RequestResult<MessageResponse>
 
     @DELETE("/v1/recipes/{recipe_id}")
-    suspend fun deleteRecipe(@Path("recipe_id") recipeId: Int): RequestResult<MessageResponse>
+    suspend fun deleteRecipe(@Path("recipe_id") recipeId: String): RequestResult<MessageResponse>
 
     @POST("/v1/recipes/{recipe_id}/save")
-    suspend fun addRecipeToRecipeBook(@Path("recipe_id") recipeId: Int): RequestResult<MessageResponse>
+    suspend fun addRecipeToRecipeBook(@Path("recipe_id") recipeId: String): RequestResult<MessageResponse>
 
     @DELETE("/v1/recipes/{recipe_id}/save")
-    suspend fun removeRecipeFromRecipeBook(@Path("recipe_id") recipeId: Int): RequestResult<MessageResponse>
+    suspend fun removeRecipeFromRecipeBook(@Path("recipe_id") recipeId: String): RequestResult<MessageResponse>
 
     @PUT("/v1/recipes/{recipe_id}/favourite")
-    suspend fun markRecipeFavourite(@Path("recipe_id") recipeId: Int): RequestResult<MessageResponse>
+    suspend fun markRecipeFavourite(@Path("recipe_id") recipeId: String): RequestResult<MessageResponse>
 
     @DELETE("/v1/recipes/{recipe_id}/favourite")
-    suspend fun unmarkRecipeFavourite(@Path("recipe_id") recipeId: Int): RequestResult<MessageResponse>
+    suspend fun unmarkRecipeFavourite(@Path("recipe_id") recipeId: String): RequestResult<MessageResponse>
 
     @PUT("/v1/recipes/{recipe_id}/likes")
-    suspend fun likeRecipe(@Path("recipe_id") recipeId: Int): RequestResult<MessageResponse>
+    suspend fun likeRecipe(@Path("recipe_id") recipeId: String): RequestResult<MessageResponse>
 
     @DELETE("/v1/recipes/{recipe_id}/likes")
-    suspend fun unlikeRecipe(@Path("recipe_id") recipeId: Int): RequestResult<MessageResponse>
+    suspend fun unlikeRecipe(@Path("recipe_id") recipeId: String): RequestResult<MessageResponse>
 
     @PUT("/v1/recipes/{recipe_id}/categories")
-    suspend fun setRecipeCategories(@Path("recipe_id") recipeId: Int, @Body body: RecipeCategoriesRequest): RequestResult<MessageResponse>
+    suspend fun setRecipeCategories(@Path("recipe_id") recipeId: String, @Body body: RecipeCategoriesRequest): RequestResult<MessageResponse>
 
     @GET("/v1/recipes/{recipe_id}/pictures")
-    suspend fun getRecipePictures(@Path("recipe_id") recipeId: Int): RequestResult<List<String>>
+    suspend fun getRecipePictures(@Path("recipe_id") recipeId: String): RequestResult<List<String>>
 
     @Multipart
     @POST("/v1/recipes/{recipe_id}/pictures")
-    suspend fun uploadRecipePicture(@Path("recipe_id") recipeId: Int, @Part picture: MultipartBody.Part): RequestResult<LinkResponse>
+    suspend fun uploadRecipePicture(@Path("recipe_id") recipeId: String, @Part picture: MultipartBody.Part): RequestResult<LinkResponse>
 
     @DELETE("/v1/recipes/{recipe_id}/pictures/{picture_name}")
-    suspend fun deleteRecipePicture(@Path("recipe_id") recipeId: Int, @Path("picture_name") pictureName: String): RequestResult<MessageResponse>
+    suspend fun deleteRecipePicture(@Path("recipe_id") recipeId: String, @Path("picture_name") pictureName: String): RequestResult<MessageResponse>
 }

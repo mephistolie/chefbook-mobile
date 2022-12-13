@@ -110,7 +110,7 @@ class CategoryRepo @Inject constructor(
         return result
     }
 
-    override suspend fun getCategory(categoryId: Int): ActionStatus<Category> {
+    override suspend fun getCategory(categoryId: String): ActionStatus<Category> {
         var result = localSource.getCategory(categoryId)
         if (result.isFailure() && source.useRemoteSource()) {
             result = remoteSource.getCategory(categoryId)
@@ -119,7 +119,7 @@ class CategoryRepo @Inject constructor(
         return result
     }
 
-    override suspend fun updateCategory(categoryId: Int, input: CategoryInput): ActionStatus<Category> {
+    override suspend fun updateCategory(categoryId: String, input: CategoryInput): ActionStatus<Category> {
         if (source.isOnlineMode()) {
             val result = remoteSource.updateCategory(categoryId, input)
             if (result.isFailure()) return result.asFailure()
@@ -132,7 +132,7 @@ class CategoryRepo @Inject constructor(
         return DataResult(updatedCategory)
     }
 
-    override suspend fun deleteCategory(categoryId: Int): SimpleAction {
+    override suspend fun deleteCategory(categoryId: String): SimpleAction {
         if (source.isOnlineMode()) {
             val result = remoteSource.deleteCategory(categoryId)
             if (result.isFailure()) return result.asFailure()

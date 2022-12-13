@@ -23,7 +23,6 @@ class LocalProfileSource @Inject constructor(
     override suspend fun getProfileInfo(): ActionStatus<Profile> =
         DataResult(
             Profile(
-                id = 0,
                 broccoins = 0,
                 username = "Local User",
                 premium = false,

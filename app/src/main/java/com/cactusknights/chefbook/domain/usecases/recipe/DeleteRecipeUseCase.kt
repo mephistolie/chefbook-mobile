@@ -8,14 +8,14 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
 interface IDeleteRecipeUseCase {
-    suspend operator fun invoke(recipeId: Int): Flow<SimpleAction>
+    suspend operator fun invoke(recipeId: String): Flow<SimpleAction>
 }
 
 class DeleteRecipeUseCase @Inject constructor(
     private val recipeRepo: IRecipeRepo,
 ) : IDeleteRecipeUseCase {
 
-    override suspend operator fun invoke(recipeId: Int): Flow<SimpleAction> = flow {
+    override suspend operator fun invoke(recipeId: String): Flow<SimpleAction> = flow {
         emit(Loading)
         emit(recipeRepo.deleteRecipe(recipeId))
     }

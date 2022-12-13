@@ -75,6 +75,6 @@ class RecipeShareDialogViewModel @Inject constructor(
         }
     }
 
-    private fun getRecipeLink(recipeId: Int) = "${Endpoints.RECIPES_ENDPOINT}/$recipeId"
+    private fun getRecipeLink(recipeId: String) = "${Endpoints.RECIPES_ENDPOINT}/$recipeId"
 
 }

@@ -9,6 +9,9 @@ import com.cactusknights.chefbook.domain.entities.action.Failure
 import com.cactusknights.chefbook.domain.entities.action.Loading
 import com.cactusknights.chefbook.domain.entities.action.Successful
 import com.cactusknights.chefbook.domain.entities.recipe.cooking.CookingItem
+import com.cactusknights.chefbook.domain.entities.recipe.encryption.EncryptionState
+import com.cactusknights.chefbook.domain.entities.recipe.ingredient.IngredientItem
+import com.cactusknights.chefbook.domain.entities.shoppinglist.Purchase
 import com.cactusknights.chefbook.domain.usecases.category.IGetCategoriesUseCase
 import com.cactusknights.chefbook.domain.usecases.recipe.IDeleteRecipeUseCase
 import com.cactusknights.chefbook.domain.usecases.recipe.IGetRecipeUseCase
@@ -16,6 +19,7 @@ import com.cactusknights.chefbook.domain.usecases.recipe.ISetRecipeCategoriesUse
 import com.cactusknights.chefbook.domain.usecases.recipe.ISetRecipeFavouriteStatusUseCase
 import com.cactusknights.chefbook.domain.usecases.recipe.ISetRecipeLikeStatusUseCase
 import com.cactusknights.chefbook.domain.usecases.recipe.ISetRecipeSaveStatusUseCase
+import com.cactusknights.chefbook.domain.usecases.shopinglist.IAddToShoppingListUseCase
 import com.cactusknights.chefbook.ui.screens.main.models.UiState
 import com.cactusknights.chefbook.ui.screens.recipe.models.RecipePicturesDialogState
 import com.cactusknights.chefbook.ui.screens.recipe.models.RecipeScreenEffect
@@ -32,6 +36,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import kotlin.math.ceil
 
 @HiltViewModel
 class RecipeScreenViewModel @Inject constructor(
@@ -42,6 +47,7 @@ class RecipeScreenViewModel @Inject constructor(
     private val setRecipeFavouriteStatusUseCase: ISetRecipeFavouriteStatusUseCase,
     private val setRecipeCategoriesUseCase: ISetRecipeCategoriesUseCase,
     private val getCategoriesUseCase: IGetCategoriesUseCase,
+    private val addToShoppingListUseCase: IAddToShoppingListUseCase,
 ) : ViewModel(), EventHandler<RecipeScreenEvent> {
 
     private val _state: MutableStateFlow<RecipeScreenState> =
@@ -68,13 +74,14 @@ class RecipeScreenViewModel @Inject constructor(
                 is RecipeScreenEvent.DiscardCategoriesChanging -> closeCategoriesSelectionBlock()
                 is RecipeScreenEvent.ConfirmCategoriesChanging -> changeRecipeCategories(event.categories)
                 is RecipeScreenEvent.ChangeDialogState -> updateDialog(event)
+                is RecipeScreenEvent.AddIngredientsToShoppingList -> addToShoppingList(event.ingredients, event.multiplier)
                 is RecipeScreenEvent.EditRecipe -> _effect.emit(RecipeScreenEffect.EditRecipe)
                 is RecipeScreenEvent.DeleteRecipe -> deleteRecipe()
             }
         }
     }
 
-    private suspend fun loadRecipe(recipeId: Int) {
+    private suspend fun loadRecipe(recipeId: String) {
         _state.emit(RecipeScreenState.Loading)
         getRecipeUseCase(recipeId)
             .onEach { result ->
@@ -161,7 +168,7 @@ class RecipeScreenViewModel @Inject constructor(
         }
     }
 
-    private suspend fun changeRecipeCategories(newCategoriesIds: List<Int>) {
+    private suspend fun changeRecipeCategories(newCategoriesIds: List<String>) {
         (state.value as? RecipeScreenState.Success)?.let { state ->
 
             val recipe = state.recipe
@@ -226,6 +233,34 @@ class RecipeScreenViewModel @Inject constructor(
             }
 
             _state.emit(newState)
+        }
+    }
+
+    private suspend fun addToShoppingList(
+        ingredients: List<IngredientItem>,
+        multiplier: Float,
+    ) {
+        (state.value as? RecipeScreenState.Success)?.let { state ->
+            val purchases = ingredients
+                .filterIsInstance<IngredientItem.Ingredient>()
+                .map { ingredient ->
+                    Purchase(
+                        id = ingredient.id,
+                        name = ingredient.name,
+                        amount = ingredient.amount?.let { ceil(ingredient.amount * multiplier).toInt() },
+                        unit = ingredient.unit,
+                        multiplier = if (ingredient.amount == null && state.recipe.servings != null) {
+                            ceil(multiplier * state.recipe.servings).toInt()
+                        } else{
+                            multiplier.toInt()
+                        },
+                        recipeId = if (state.recipe.encryptionState is EncryptionState.Standard) state.recipe.id else null,
+                        recipeName = if (state.recipe.encryptionState is EncryptionState.Standard) state.recipe.name else null,
+                    )
+                }
+
+            addToShoppingListUseCase(purchases)
+            _effect.emit(RecipeScreenEffect.Toast(R.string.common_recipe_screen_ingredients_added_to_shopping_list))
         }
     }
 

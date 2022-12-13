@@ -39,6 +39,7 @@ import com.mephistolie.compost.shapes.DashedLineShape
 fun IngredientsPage(
     ingredients: List<IngredientItem>,
     servings: Int? = null,
+    onAddToShoppingListClicked: (List<IngredientItem>, Float) -> Unit,
 ) {
     val colors = ChefBookTheme.colors
     val typography = ChefBookTheme.typography
@@ -49,7 +50,7 @@ fun IngredientsPage(
     val amountRatio = servingsMultiplier.value.toFloat() / (servings?.toFloat()
         ?: servingsMultiplier.value.toFloat())
 
-    val isVisible = selectedIngredients.any { isChecked -> isChecked }
+    val isAddButtonVisible = selectedIngredients.any { isChecked -> isChecked }
 
     Column(
         modifier = Modifier
@@ -101,10 +102,7 @@ fun IngredientsPage(
                         ingredient = item,
                         isChecked = selectedIngredients[index],
                         amountRatio = amountRatio,
-                        modifier = Modifier
-                            .simpleClickable {
-                                selectedIngredients[index] = !selectedIngredients[index]
-                            }
+                        modifier = Modifier.simpleClickable { selectedIngredients[index] = !selectedIngredients[index] }
                     )
                     if (index + 1 < ingredients.size) {
                         when (ingredients[index + 1]) {
@@ -143,7 +141,7 @@ fun IngredientsPage(
             }
         }
         AnimatedVisibility(
-            visible = isVisible,
+            visible = isAddButtonVisible,
             modifier = Modifier.align(Alignment.CenterHorizontally)
         ) {
             DynamicButton(
@@ -153,7 +151,12 @@ fun IngredientsPage(
                 modifier = Modifier
                     .wrapContentWidth()
                     .height(48.dp),
-                onClick = {},
+                onClick = {
+                    val confirmedIngredients = ingredients
+                        .filterIndexed { index, _ -> selectedIngredients[index] }
+                    onAddToShoppingListClicked(confirmedIngredients, amountRatio)
+                    selectedIngredients.replaceAll { false }
+                },
             )
         }
         Spacer(modifier = Modifier.navigationBarsPadding().height(32.dp))

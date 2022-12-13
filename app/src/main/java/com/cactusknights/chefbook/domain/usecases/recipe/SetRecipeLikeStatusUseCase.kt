@@ -8,14 +8,14 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
 interface ISetRecipeLikeStatusUseCase {
-    suspend operator fun invoke(recipeId: Int, liked: Boolean): Flow<SimpleAction>
+    suspend operator fun invoke(recipeId: String, liked: Boolean): Flow<SimpleAction>
 }
 
 class SetRecipeLikeStatusUseCase @Inject constructor(
     private val recipeRepo: IRecipeInteractionRepo,
 ) : ISetRecipeLikeStatusUseCase {
 
-    override suspend operator fun invoke(recipeId: Int, liked: Boolean): Flow<SimpleAction> = flow {
+    override suspend operator fun invoke(recipeId: String, liked: Boolean): Flow<SimpleAction> = flow {
         emit(Loading)
         emit(recipeRepo.setRecipeLikeStatus(recipeId, liked))
     }

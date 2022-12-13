@@ -9,7 +9,7 @@ import javax.inject.Inject
 import kotlinx.coroutines.runBlocking
 
 interface IDecryptRecipeDataUseCase {
-    operator fun invoke(data: ByteArray, recipeId: Int): ByteArray
+    operator fun invoke(data: ByteArray, recipeId: String): ByteArray
 }
 
 class DecryptRecipeDataUseCase @Inject constructor(
@@ -18,7 +18,7 @@ class DecryptRecipeDataUseCase @Inject constructor(
     private val cryptor: ICryptor,
 ) : IDecryptRecipeDataUseCase {
 
-    override operator fun invoke(data: ByteArray, recipeId: Int) = runBlocking {
+    override operator fun invoke(data: ByteArray, recipeId: String) = runBlocking {
         val userKey = encryptedVaultRepo.getUserPrivateKey()
         if (userKey.isFailure()) {
             return@runBlocking data

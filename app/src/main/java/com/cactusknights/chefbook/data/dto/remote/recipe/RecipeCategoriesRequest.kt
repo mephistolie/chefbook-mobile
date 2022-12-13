@@ -6,5 +6,5 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class RecipeCategoriesRequest(
     @SerialName("categories")
-    val categories: List<Int>,
+    val categories: List<String>,
 )

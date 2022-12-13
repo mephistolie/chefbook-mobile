@@ -7,5 +7,5 @@ data class RecipeBookFilter(
     val search: String? = null,
     val sortBy: Sorting = Sorting.NAME,
     val onlyFavourite: Boolean = false,
-    val targetCategoryId: Int? = null,
+    val targetCategoryId: String? = null,
 ) : Serializable

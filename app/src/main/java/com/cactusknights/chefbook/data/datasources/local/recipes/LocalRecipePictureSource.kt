@@ -26,13 +26,13 @@ class LocalRecipePictureSource @Inject constructor(
     val dispatchers: AppDispatchers,
 ) : IRecipePictureSource {
 
-    override suspend fun getPictures(recipeId: Int): ActionStatus<List<String>> = withContext(dispatchers.io) {
+    override suspend fun getPictures(recipeId: String): ActionStatus<List<String>> = withContext(dispatchers.io) {
         val picturesDir = File(context.filesDir, "$RECIPES_DIR/$recipeId/$PICTURES_DIR")
         val pictures = picturesDir.listFiles()?: arrayOf()
         return@withContext DataResult(pictures.map { Uri.fromFile(it).toString() })
     }
 
-    override suspend fun addPicture(recipeId: Int, data: ByteArray): ActionStatus<String> = withContext(dispatchers.io) {
+    override suspend fun addPicture(recipeId: String, data: ByteArray): ActionStatus<String> = withContext(dispatchers.io) {
         return@withContext try {
             val picturesDir = File(context.filesDir, "$RECIPES_DIR/$recipeId/$PICTURES_DIR")
             val name = UUID.randomUUID().toString()
@@ -45,7 +45,7 @@ class LocalRecipePictureSource @Inject constructor(
         }
     }
 
-    override suspend fun deletePicture(recipeId : Int, name: String): SimpleAction = withContext(dispatchers.io) {
+    override suspend fun deletePicture(recipeId : String, name: String): SimpleAction = withContext(dispatchers.io) {
         return@withContext try {
             val picture = File(context.filesDir, "$RECIPES_DIR/$recipeId/$PICTURES_DIR/$name")
             if (!picture.delete()) Failure(FileError(FileErrorType.UNABLE_MODIFY))

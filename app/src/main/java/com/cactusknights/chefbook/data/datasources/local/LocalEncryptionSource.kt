@@ -52,13 +52,13 @@ class LocalEncryptionSource @Inject constructor(
         }
     }
 
-    override suspend fun getRecipeKey(recipeId: Int): ActionStatus<ByteArray> {
+    override suspend fun getRecipeKey(recipeId: String): ActionStatus<ByteArray> {
         val recipeKeyFile = File(context.filesDir, "$RECIPES_DIR/$recipeId/$RECIPE_KEY_FILE")
         if (!recipeKeyFile.exists()) return Failure(FileError(FileErrorType.NOT_EXISTS))
         return DataResult(recipeKeyFile.readBytes())
     }
 
-    override suspend fun setRecipeKey(recipeId: Int, key: ByteArray): SimpleAction {
+    override suspend fun setRecipeKey(recipeId: String, key: ByteArray): SimpleAction {
         return try {
             val recipeDir = File(context.filesDir, "$RECIPES_DIR/$recipeId")
             if (!recipeDir.exists()) recipeDir.mkdirs()
@@ -70,7 +70,7 @@ class LocalEncryptionSource @Inject constructor(
         }
     }
 
-    override suspend fun deleteRecipeKey(recipeId: Int): SimpleAction {
+    override suspend fun deleteRecipeKey(recipeId: String): SimpleAction {
         return try {
             val recipeDir = File(context.filesDir, "$RECIPES_DIR/$recipeId")
             if (!recipeDir.exists()) SuccessResult

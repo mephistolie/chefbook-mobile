@@ -174,6 +174,7 @@
 
     <string name="common_recipe_screen_choose_categories">Choose categories</string>
     <string name="common_recipe_screen_add_to_shopping_list">Add to shopping list</string>
+    <string name="common_recipe_screen_ingredients_added_to_shopping_list">Selected ingredients were added to shopping list</string>
     <string name="common_recipe_screen_unsaving_warning">Favourite status and categories will be reset</string>
     <string name="common_recipe_screen_delete_warning">Recipe will be deleted for everyone</string>
     <string name="common_recipe_screen_recipe_deleted">Recipe deleted</string>

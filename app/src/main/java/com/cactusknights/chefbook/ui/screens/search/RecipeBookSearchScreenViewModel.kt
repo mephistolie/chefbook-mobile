@@ -89,8 +89,12 @@ class RecipeBookSearchScreenViewModel @Inject constructor(
     }
 
     private fun filterRecipes(recipes: List<RecipeInfo>, query: String): List<RecipeInfo> =
-        recipes.filter { recipe -> query.lowercase() in recipe.name.lowercase() }.sortedBy { it.name }
+        recipes
+            .filter { recipe -> query.lowercase() in recipe.name.lowercase() }
+            .sortedWith(compareBy({ it.name.uppercase() }, { it.id }))
 
     private fun filterCategories(categories: List<Category>, query: String): List<Category> =
-        categories.filter { category -> query.lowercase() in category.name.lowercase() }.sortedBy { it.name }
+        categories
+            .filter { category -> query.lowercase() in category.name.lowercase() }
+            .sortedWith(compareBy({ it.name.uppercase() }, { it.id }))
 }

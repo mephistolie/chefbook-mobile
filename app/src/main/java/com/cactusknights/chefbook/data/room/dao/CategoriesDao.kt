@@ -14,7 +14,7 @@ interface CategoriesDao {
     suspend fun getCategories(): List<CategoryRoom>
 
     @Query("SELECT * FROM ${CategoryRoom.TABLE_NAME} WHERE category_id = :categoryId")
-    suspend fun getCategory(categoryId: Int): CategoryRoom?
+    suspend fun getCategory(categoryId: String): CategoryRoom?
 
     @Insert(entity = CategoryRoom::class)
     suspend fun addCategory(categoryEntity: CategoryRoom): Long
@@ -23,7 +23,7 @@ interface CategoriesDao {
     suspend fun updateCategory(categoryEntity: CategoryRoom)
 
     @Query("DELETE FROM ${CategoryRoom.TABLE_NAME} WHERE category_id = :categoryId")
-    suspend fun deleteCategory(categoryId: Int)
+    suspend fun deleteCategory(categoryId: String)
 
     @Query("DELETE FROM ${CategoryRoom.TABLE_NAME}")
     suspend fun clearCategories()

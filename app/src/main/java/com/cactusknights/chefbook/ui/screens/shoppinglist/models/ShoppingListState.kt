@@ -8,6 +8,7 @@ sealed class ShoppingListState {
 
     data class Success(
         val shoppingList: List<ShoppingListSection>,
+        val hasPurchasedItems: Boolean,
     ) : ShoppingListState()
 
     object Error: ShoppingListState()

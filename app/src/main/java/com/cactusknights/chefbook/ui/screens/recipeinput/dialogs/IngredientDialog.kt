@@ -51,7 +51,7 @@ import com.mephistolie.compost.ui.buttons.CircleIconButton
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun IngredientDialog(
-    ingredientIndex: Int,
+    ingredientId: String,
     viewModel: RecipeInputScreenViewModel,
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
@@ -62,7 +62,7 @@ fun IngredientDialog(
     val typography = ChefBookTheme.typography
 
     val viewModelState = viewModel.state.collectAsState()
-    val ingredient = viewModelState.value.input.ingredients[ingredientIndex] as IngredientItem.Ingredient
+    val ingredient = viewModelState.value.input.ingredients.find { it.id == ingredientId } as IngredientItem.Ingredient
 
     Column(
         modifier = Modifier
@@ -109,7 +109,7 @@ fun IngredientDialog(
                 .focusRequester(focusRequester)
                 .fillMaxWidth(),
             onValueChange = { name ->
-                viewModel.obtainEvent(RecipeInputScreenEvent.SetIngredientItemName(ingredientIndex, name))
+                viewModel.obtainEvent(RecipeInputScreenEvent.SetIngredientItemName(ingredientId, name))
             },
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
             label = {
@@ -123,7 +123,7 @@ fun IngredientDialog(
             value = if (ingredient.amount != null) ingredient.amount.toString() else "",
             modifier = Modifier.fillMaxWidth(),
             onValueChange = { amount ->
-                viewModel.obtainEvent(RecipeInputScreenEvent.SetIngredientAmount(ingredientIndex, amount.toIntOrNull()))
+                viewModel.obtainEvent(RecipeInputScreenEvent.SetIngredientAmount(ingredientId, amount.toIntOrNull()))
             },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal, imeAction = ImeAction.Next),
             label = {
@@ -137,7 +137,7 @@ fun IngredientDialog(
             value = if (ingredient.unit != null) ingredient.unit.localizedName(resources) else "",
             modifier = Modifier.fillMaxWidth(),
             onValueChange = { unit ->
-                viewModel.obtainEvent(RecipeInputScreenEvent.SetIngredientUnit(ingredientIndex, MeasureUnitMapper.map(unit, resources)))
+                viewModel.obtainEvent(RecipeInputScreenEvent.SetIngredientUnit(ingredientId, MeasureUnitMapper.map(unit, resources)))
             },
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
             keyboardActions = KeyboardActions {
@@ -162,7 +162,7 @@ fun IngredientDialog(
                     text = unit.localizedName(resources),
                     onClick = {
                         viewModel.obtainEvent(RecipeInputScreenEvent.SetIngredientUnit(
-                            index = ingredientIndex,
+                            ingredientId = ingredient.id,
                             unit = if (ingredient.unit != unit) unit else null,
                         ))
                     },

@@ -13,6 +13,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 @Singleton
 class SessionRepo @Inject constructor(
@@ -61,11 +62,13 @@ class SessionRepo @Inject constructor(
                 .build()
         }
         currentTokens.emit(tokens)
+        Timber.i("Tokens saved")
     }
 
     override suspend fun clearTokens() {
         storage.updateData { TokensSerializer.defaultValue }
         currentTokens.emit(null)
+        Timber.i("Tokens cleared")
     }
 
 }

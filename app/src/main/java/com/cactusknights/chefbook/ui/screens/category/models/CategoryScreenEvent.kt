@@ -3,8 +3,8 @@ package com.cactusknights.chefbook.ui.screens.category.models
 import com.cactusknights.chefbook.domain.entities.category.CategoryInput
 
 sealed class CategoryScreenEvent {
-    data class LoadRecipesInCategory(val categoryId: Int) : CategoryScreenEvent()
-    data class OpenRecipeScreen(val recipeId: Int) : CategoryScreenEvent()
+    data class LoadRecipesInCategory(val categoryId: String) : CategoryScreenEvent()
+    data class OpenRecipeScreen(val recipeId: String) : CategoryScreenEvent()
     data class EditCategory(val input: CategoryInput) : CategoryScreenEvent()
     data class SaveEditCategoryDialogState(val input: CategoryInput?) : CategoryScreenEvent()
     object DeleteCategory : CategoryScreenEvent()

@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
 import com.cactusknights.chefbook.R
+import com.cactusknights.chefbook.common.Strings
 import com.cactusknights.chefbook.common.Utils
 import com.cactusknights.chefbook.core.ui.RecipeEncryptionProvider
 import com.cactusknights.chefbook.domain.entities.recipe.RecipeInfo
@@ -176,7 +177,7 @@ fun RecipeCard(
 fun PreviewDetailedRecipeCard() {
     ThemedRecipeCard(
         recipe = RecipeInfo(
-            id = 0,
+            id = Strings.EMPTY,
             name = "Cupcakes",
             calories = 800,
             time = 60,
@@ -192,7 +193,7 @@ fun PreviewDetailedRecipeCard() {
 fun PreviewMinimalRecipeCard() {
     ThemedRecipeCard(
         recipe = RecipeInfo(
-            id = 0,
+            id = Strings.EMPTY,
             name = "Cupcakes",
             calories = 0,
             time = 60,

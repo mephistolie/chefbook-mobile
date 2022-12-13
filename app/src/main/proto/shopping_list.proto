@@ -8,6 +8,10 @@ message PurchaseProto {
   string name = 2;
   int32 multiplier = 3;
   bool isPurchased = 4;
+  int32 amount = 5;
+  string unit = 6;
+  string recipeId = 7;
+  string recipeName = 8;
 }
 
 message ShoppingListProto {

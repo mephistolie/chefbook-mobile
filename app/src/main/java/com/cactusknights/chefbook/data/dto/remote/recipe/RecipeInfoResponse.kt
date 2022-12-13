@@ -1,24 +1,23 @@
 package com.cactusknights.chefbook.data.dto.remote.recipe
 
+import com.cactusknights.chefbook.common.parseTimestampSafely
 import com.cactusknights.chefbook.core.mappers.LanguageMapper
 import com.cactusknights.chefbook.core.mappers.VisibilityMapper
 import com.cactusknights.chefbook.data.dto.remote.categories.CategoryResponse
 import com.cactusknights.chefbook.data.dto.remote.categories.toEntity
 import com.cactusknights.chefbook.domain.entities.recipe.RecipeInfo
 import com.cactusknights.chefbook.domain.entities.recipe.encryption.EncryptionState
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
 class RecipeInfoResponse(
     @SerialName("id")
-    val id: Int,
+    val id: String,
     @SerialName("name")
     val name: String,
     @SerialName("owner_id")
-    val ownerId: Int,
+    val ownerId: String,
     @SerialName("owner_name")
     val ownerName: String,
     @SerialName("owned")
@@ -71,11 +70,11 @@ fun RecipeInfoResponse.toEntity() : RecipeInfo =
         language = LanguageMapper.map(language),
         preview = preview,
 
-        creationTimestamp = LocalDateTime.parse(creationTimestamp, DateTimeFormatter.ISO_DATE_TIME),
-        updateTimestamp = LocalDateTime.parse(updateTimestamp, DateTimeFormatter.ISO_DATE_TIME),
+        creationTimestamp = parseTimestampSafely(creationTimestamp),
+        updateTimestamp = parseTimestampSafely(updateTimestamp),
 
         isSaved = isSaved,
-        categories = categories?.map { it.toEntity() } ?: emptyList(),
+        categories = categories?.map(CategoryResponse::toEntity) ?: emptyList(),
         isFavourite = isFavourite,
         isLiked = isLiked,
 

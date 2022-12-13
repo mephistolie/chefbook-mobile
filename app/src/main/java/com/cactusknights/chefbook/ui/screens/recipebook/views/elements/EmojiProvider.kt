@@ -15,6 +15,6 @@ object EmojiProvider {
 
     fun randomFoodEmoji() = foodEmojis[Random.nextInt(0, foodEmojis.size)]
 
-    fun randomFoodEmoji(seed: Int): String = foodEmojis[Random(seed).nextInt(0, foodEmojis.size)]
+    fun randomFoodEmoji(seed: String): String = foodEmojis[Random(seed.hashCode()).nextInt(0, foodEmojis.size)]
 
 }

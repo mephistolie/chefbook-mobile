@@ -11,14 +11,15 @@ import com.cactusknights.chefbook.domain.entities.recipe.encryption.EncryptionSt
 import com.cactusknights.chefbook.domain.entities.recipe.ingredient.IngredientItem
 import com.cactusknights.chefbook.domain.entities.recipe.macronutrients.MacronutrientsInfo
 import java.time.LocalDateTime
+import java.time.ZoneOffset
 import javax.crypto.SecretKey
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 
 data class Recipe(
-    val id: Int,
+    val id: String,
     val name: String,
-    val ownerId: Int? = null,
+    val ownerId: String? = null,
     val ownerName: String? = null,
     val isOwned: Boolean = false,
     val isSaved: Boolean = false,
@@ -29,8 +30,8 @@ data class Recipe(
     val description: String? = null,
     val preview: String? = null,
 
-    val creationTimestamp: LocalDateTime = LocalDateTime.now(),
-    val updateTimestamp: LocalDateTime = LocalDateTime.now(),
+    val creationTimestamp: LocalDateTime = LocalDateTime.now(ZoneOffset.UTC),
+    val updateTimestamp: LocalDateTime = LocalDateTime.now(ZoneOffset.UTC),
 
     val categories: List<Category> = emptyList(),
     val isFavourite: Boolean = false,

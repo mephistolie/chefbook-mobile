@@ -15,6 +15,7 @@ import com.cactusknights.chefbook.ui.navigation.CATEGORY_ID_ARGUMENT
 import com.cactusknights.chefbook.ui.navigation.CLOSE_ON_UNLOCKED_ARGUMENT
 import com.cactusknights.chefbook.ui.navigation.Destination
 import com.cactusknights.chefbook.ui.navigation.RECIPE_ID_ARGUMENT
+import com.cactusknights.chefbook.ui.navigation.RECIPE_TAB_ARGUMENT
 import com.cactusknights.chefbook.ui.screens.auth.AuthScreen
 import com.cactusknights.chefbook.ui.screens.category.CategoryScreen
 import com.cactusknights.chefbook.ui.screens.encryptedvault.EncryptedVaultScreen
@@ -22,6 +23,7 @@ import com.cactusknights.chefbook.ui.screens.favourite.FavouriteScreen
 import com.cactusknights.chefbook.ui.screens.home.HomeScreen
 import com.cactusknights.chefbook.ui.screens.main.models.AppState
 import com.cactusknights.chefbook.ui.screens.recipe.RecipeScreen
+import com.cactusknights.chefbook.ui.screens.recipe.models.RecipeScreenTab
 import com.cactusknights.chefbook.ui.screens.recipeinput.RecipeInputScreen
 import com.cactusknights.chefbook.ui.screens.search.RecipeBookSearchScreen
 import com.google.accompanist.navigation.animation.AnimatedNavHost
@@ -78,9 +80,9 @@ fun RootHost(
             }
             composable(
                 route = Destination.Home.RecipeBook.Category.route,
-                arguments = listOf(navArgument(CATEGORY_ID_ARGUMENT) { type = NavType.IntType }),
+                arguments = listOf(navArgument(CATEGORY_ID_ARGUMENT) { type = NavType.StringType }),
             ) { backStack ->
-                backStack.arguments?.getInt(CATEGORY_ID_ARGUMENT)?.let { categoryId ->
+                backStack.arguments?.getString(CATEGORY_ID_ARGUMENT)?.let { categoryId ->
                     CategoryScreen(
                         categoryId = categoryId,
                         appController = navController,
@@ -101,13 +103,15 @@ fun RootHost(
             bottomSheet(
                 route = Destination.Recipe.route,
                 arguments = listOf(
-                    navArgument(RECIPE_ID_ARGUMENT) { type = NavType.IntType }
+                    navArgument(RECIPE_ID_ARGUMENT) { type = NavType.StringType },
+                    navArgument(RECIPE_TAB_ARGUMENT) { type = NavType.StringType }
                 ),
                 deepLinks = Destination.Recipe.deeplinks
             ) { backStack ->
-                backStack.arguments?.getInt(RECIPE_ID_ARGUMENT)?.let { recipeId ->
+                backStack.arguments?.getString(RECIPE_ID_ARGUMENT)?.let { recipeId ->
                     RecipeScreen(
                         recipeId = recipeId,
+                        defaultTab = RecipeScreenTab.byString(backStack.arguments?.getString(RECIPE_TAB_ARGUMENT)),
                         navController = navController,
                         sheetState = sheetState,
                     )
@@ -122,7 +126,7 @@ fun RootHost(
                     }
                 ),
             ) { backStack ->
-                val recipeId = backStack.arguments?.getString(RECIPE_ID_ARGUMENT)?.toIntOrNull()
+                val recipeId = backStack.arguments?.getString(RECIPE_ID_ARGUMENT)
                 RecipeInputScreen(
                     recipeId = recipeId,
                     defaultLanguage = settings.defaultRecipeLanguage,

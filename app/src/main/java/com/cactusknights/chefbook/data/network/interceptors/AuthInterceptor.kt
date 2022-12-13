@@ -10,10 +10,6 @@ class AuthInterceptor @Inject constructor(
     private val tokensRepo: ISessionRepo,
 ) : Interceptor {
 
-    companion object {
-        private const val SERVER_ERROR = 400
-    }
-
     override fun intercept(chain: Interceptor.Chain): Response {
         val authorizedRequest = getAuthRequest(chain.request())
         return chain.proceed(authorizedRequest)

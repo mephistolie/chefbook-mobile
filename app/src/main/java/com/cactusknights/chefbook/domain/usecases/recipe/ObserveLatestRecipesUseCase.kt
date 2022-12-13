@@ -5,7 +5,7 @@ import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 
 interface IObserveLatestRecipesUseCase {
-    suspend operator fun invoke(): Flow<List<Int>>
+    suspend operator fun invoke(): Flow<List<String>>
 }
 
 class ObserveLatestRecipesUseCase @Inject constructor(

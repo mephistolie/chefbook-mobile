@@ -30,12 +30,12 @@ data class IngredientItemSerializable(
     }
 }
 
-fun IngredientItemSerializable.toEntity(): IngredientItem = when (this.type) {
-    CookingItemSerializable.TYPE_SECTION -> IngredientItem.Section(
+fun IngredientItemSerializable.toEntity(): IngredientItem = when (this.type.lowercase()) {
+    TYPE_SECTION -> IngredientItem.Section(
         id = id,
         name = text,
     )
-    CookingItemSerializable.TYPE_ENCRYPTED_DATA -> IngredientItem.EncryptedData(
+    TYPE_ENCRYPTED_DATA -> IngredientItem.EncryptedData(
         id = id,
         content = text
     )

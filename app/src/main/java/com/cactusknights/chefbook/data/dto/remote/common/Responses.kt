@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class IdResponse (
     @SerialName("id")
-    val id: Int,
+    val id: String,
     @SerialName("message")
     val message: String = ""
 )

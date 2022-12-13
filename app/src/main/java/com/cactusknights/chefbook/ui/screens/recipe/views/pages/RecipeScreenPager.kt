@@ -14,6 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.cactusknights.chefbook.domain.entities.recipe.ingredient.IngredientItem
 import com.cactusknights.chefbook.ui.screens.recipe.models.RecipeScreenState
 import com.cactusknights.chefbook.ui.screens.recipe.models.RecipeScreenTab
 import com.google.accompanist.pager.ExperimentalPagerApi
@@ -26,10 +27,11 @@ import dev.chrisbanes.snapper.ExperimentalSnapperApi
 @Composable
 fun RecipeScreenPager(
     state: RecipeScreenState.Success,
-    onCategoryClicked: (Int) -> Unit,
+    onCategoryClicked: (String) -> Unit,
     onChangeCategoriesClicked: () -> Unit,
     onCancelCategoriesSelectionClicked: () -> Unit,
-    onConfirmCategoriesSelectionClicked: (List<Int>) -> Unit,
+    onConfirmCategoriesSelectionClicked: (List<String>) -> Unit,
+    onAddToShoppingListClicked: (List<IngredientItem>, Float) -> Unit,
     onStepPictureClicked: (String) -> Unit,
     onEditRecipeClicked: () -> Unit,
     onDeleteRecipeClicked: () -> Unit,
@@ -81,6 +83,7 @@ fun RecipeScreenPager(
                 RecipeScreenTab.Ingredients -> IngredientsPage(
                     ingredients = recipe.ingredients,
                     servings = recipe.servings,
+                    onAddToShoppingListClicked = onAddToShoppingListClicked,
                 )
                 RecipeScreenTab.Cooking -> CookingPage(
                     cooking = recipe.cooking,

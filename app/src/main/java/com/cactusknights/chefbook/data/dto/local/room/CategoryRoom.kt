@@ -6,13 +6,14 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 import com.cactusknights.chefbook.data.dto.local.room.CategoryRoom.Companion.TABLE_NAME
 import com.cactusknights.chefbook.domain.entities.category.Category
+import java.util.*
 
 @Entity(tableName = TABLE_NAME, indices = [Index(value = ["category_id"], unique = true)])
 data class CategoryRoom constructor(
 
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey
     @ColumnInfo(name = "category_id")
-    val id: Int = 0,
+    val id: String = UUID.randomUUID().toString(),
     @ColumnInfo(name = "name")
     val name: String,
     @ColumnInfo(name = "cover")

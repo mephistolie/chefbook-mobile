@@ -26,7 +26,7 @@ import kotlinx.coroutines.withContext
 import org.spongycastle.util.encoders.Base64
 
 interface IUpdateRecipeUseCase {
-    suspend operator fun invoke(recipeId: Int, input: RecipeInput): Flow<ActionStatus<Recipe>>
+    suspend operator fun invoke(recipeId: String, input: RecipeInput): Flow<ActionStatus<Recipe>>
 }
 
 class UpdateRecipeUseCase @Inject constructor(
@@ -38,7 +38,7 @@ class UpdateRecipeUseCase @Inject constructor(
     private val dispatchers: AppDispatchers,
 ) : IUpdateRecipeUseCase {
 
-    override suspend operator fun invoke(recipeId: Int, input: RecipeInput): Flow<ActionStatus<Recipe>> =
+    override suspend operator fun invoke(recipeId: String, input: RecipeInput): Flow<ActionStatus<Recipe>> =
         withContext(dispatchers.default) {
             flow {
                 emit(Loading)

@@ -38,6 +38,7 @@ import com.cactusknights.chefbook.domain.interfaces.IRecipeRepo
 import com.cactusknights.chefbook.domain.interfaces.ISourceRepo
 import java.security.PrivateKey
 import java.time.LocalDateTime
+import java.time.ZoneOffset
 import javax.crypto.SecretKey
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -47,6 +48,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.spongycastle.util.encoders.Base64
+import timber.log.Timber
 import kotlin.math.abs
 
 @Singleton
@@ -185,7 +187,7 @@ class RecipeRepo @Inject constructor(
         return decryptResult(result)
     }
 
-    override suspend fun getRecipe(recipeId: Int): ActionStatus<Recipe> {
+    override suspend fun getRecipe(recipeId: String): ActionStatus<Recipe> {
         cache.getRecipe(recipeId)?.let { return DataResult(it) }
 
         var result = localSource.getRecipe(recipeId)
@@ -196,7 +198,7 @@ class RecipeRepo @Inject constructor(
         return result
     }
 
-    override suspend fun updateRecipe(recipeId: Int, input: RecipeInput, key: SecretKey?): ActionStatus<Recipe> {
+    override suspend fun updateRecipe(recipeId: String, input: RecipeInput, key: SecretKey?): ActionStatus<Recipe> {
         val unmodifiedRecipe = (getRecipe(recipeId) as? Successful)?.data
 
         if (source.useRemoteSource()) {
@@ -210,7 +212,7 @@ class RecipeRepo @Inject constructor(
             ownerName = unmodifiedRecipe?.ownerName,
             isSaved = unmodifiedRecipe?.isSaved ?: true,
             likes = unmodifiedRecipe?.likes,
-            creationTimestamp = unmodifiedRecipe?.creationTimestamp ?: LocalDateTime.now(),
+            creationTimestamp = unmodifiedRecipe?.creationTimestamp ?: LocalDateTime.now(ZoneOffset.UTC),
             isFavourite = unmodifiedRecipe?.isFavourite ?: false,
             isLiked = unmodifiedRecipe?.isLiked ?: false,
         )
@@ -243,7 +245,7 @@ class RecipeRepo @Inject constructor(
         return SuccessResult
     }
 
-    override suspend fun deleteRecipe(recipeId: Int): SimpleAction {
+    override suspend fun deleteRecipe(recipeId: String): SimpleAction {
         if (source.useRemoteSource()) {
             val result = remoteSource.deleteRecipe(recipeId)
             if (result.isFailure()) return result.asFailure()
@@ -287,7 +289,7 @@ class RecipeRepo @Inject constructor(
         return recipe.decrypt(recipeKey) { data -> cryptor.decryptDataBySymmetricKey(Base64.decode(data), recipeKey) }
     }
 
-    private suspend fun getRecipeKey(recipeId: Int, key: PrivateKey): SecretKey? {
+    private suspend fun getRecipeKey(recipeId: String, key: PrivateKey): SecretKey? {
         val result = recipeEncryptionRepo.getRecipeKey(recipeId, key)
         return (result as? Successful)?.data
     }

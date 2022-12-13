@@ -21,7 +21,7 @@ import kotlinx.coroutines.flow.flow
 import org.spongycastle.util.encoders.Base64
 
 interface IGetRecipeUseCase {
-    suspend operator fun invoke(recipeId: Int): Flow<ActionStatus<Recipe>>
+    suspend operator fun invoke(recipeId: String): Flow<ActionStatus<Recipe>>
 }
 
 class GetRecipeUseCase @Inject constructor(
@@ -32,7 +32,7 @@ class GetRecipeUseCase @Inject constructor(
     private val cryptor: ICryptor,
 ) : IGetRecipeUseCase {
 
-    override suspend operator fun invoke(recipeId: Int): Flow<ActionStatus<Recipe>> = flow {
+    override suspend operator fun invoke(recipeId: String): Flow<ActionStatus<Recipe>> = flow {
         emit(Loading)
 
         val result = recipeRepo.getRecipe(recipeId)

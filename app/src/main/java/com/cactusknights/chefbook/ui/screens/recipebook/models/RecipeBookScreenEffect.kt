@@ -6,6 +6,6 @@ sealed class RecipeBookScreenEffect {
     object CommunityRecipesOpened : RecipeBookScreenEffect()
     object EncryptionMenuOpened : RecipeBookScreenEffect()
     object RecipeCreationScreenOpened : RecipeBookScreenEffect()
-    data class RecipeOpened(val recipeId: Int) : RecipeBookScreenEffect()
-    data class CategoryOpened(val categoryId: Int) : RecipeBookScreenEffect()
+    data class RecipeOpened(val recipeId: String) : RecipeBookScreenEffect()
+    data class CategoryOpened(val categoryId: String) : RecipeBookScreenEffect()
 }

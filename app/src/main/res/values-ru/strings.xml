@@ -137,6 +137,7 @@
     <string name="common_recipe_screen_delete_warning">Рецепт будет удален для всех</string>
     <string name="common_general_cant_perform_operation">Не удалось выполнить операцию</string>
     <string name="common_recipe_screen_recipe_deleted">Рецепт удален</string>
+    <string name="common_recipe_screen_ingredients_added_to_shopping_list">Выбранные ингредиенты добавлены в список покупок</string>
     <string name="common_recipe_screen_unsaving_warning">Статус Избранного и категории будут сброшены</string>
     <string name="common_category_screen_category_delete_warning">Категория будет удалена</string>
     <string name="common_general_nothing_found">Ничего не найдено</string>

@@ -2,12 +2,14 @@ package com.cactusknights.chefbook.ui.navigation
 
 import androidx.navigation.navDeepLink
 import com.cactusknights.chefbook.core.Endpoints
+import com.cactusknights.chefbook.ui.screens.recipe.models.RecipeScreenTab
 
 const val CATEGORY_ID_ARGUMENT = "category_id"
 const val RECIPE_ID_ARGUMENT = "recipe_id"
+const val RECIPE_TAB_ARGUMENT = "recipe_tab"
 const val CLOSE_ON_UNLOCKED_ARGUMENT = "close_on_unlocked"
 
-const val INGREDIENT_INDEX = "ingredient_index"
+const val INGREDIENT_ID = "ingredient_id"
 
 sealed class Destination(val route: String) {
 
@@ -23,8 +25,8 @@ sealed class Destination(val route: String) {
 
             object Category : Destination("${RecipeBook.route}/categories/{$CATEGORY_ID_ARGUMENT}") {
                 fun route(
-                    categoryId: Int
-                ): String = route.replace("{$CATEGORY_ID_ARGUMENT}", categoryId.toString())
+                    categoryId: String
+                ): String = route.replace("{$CATEGORY_ID_ARGUMENT}", categoryId)
             }
         }
 
@@ -43,8 +45,8 @@ sealed class Destination(val route: String) {
     object RecipeInput : Destination("recipe_input?$RECIPE_ID_ARGUMENT={$RECIPE_ID_ARGUMENT}") {
 
         fun route(
-            recipeId: Int? = null
-        ): String = route.replace("{$RECIPE_ID_ARGUMENT}", recipeId.toString())
+            recipeId: String? = null
+        ): String = if (recipeId != null) route.replace("{$RECIPE_ID_ARGUMENT}", recipeId) else route.substringBefore("?")
 
         object Details : Destination("${RecipeInput.route}/details") {
 
@@ -60,10 +62,10 @@ sealed class Destination(val route: String) {
 
         object Ingredients : Destination("${RecipeInput.route}/ingredients") {
 
-            object Ingredient : Destination("${Ingredients.route}/{$INGREDIENT_INDEX}") {
+            object Ingredient : Destination("${Ingredients.route}/{$INGREDIENT_ID}") {
                 fun route(
-                    ingredientIndex: Int
-                ): String = route.replace("{$INGREDIENT_INDEX}", ingredientIndex.toString())
+                    ingredientId: String
+                ): String = route.replace("{$INGREDIENT_ID}", ingredientId)
             }
 
         }
@@ -74,8 +76,13 @@ sealed class Destination(val route: String) {
 
     object CommunityRecipes : Destination("community_recipes")
 
-    object Recipe : Destination("recipe/{$RECIPE_ID_ARGUMENT}") {
-        val deeplinks = Endpoints.recipesEndpointVariants.map { endpoint -> navDeepLink { uriPattern = "${endpoint}/{$RECIPE_ID_ARGUMENT}" } }
-        fun route(recipeId: Int): String = route.replace("{$RECIPE_ID_ARGUMENT}", recipeId.toString())
+    object Recipe : Destination("recipe/{$RECIPE_ID_ARGUMENT}?$RECIPE_TAB_ARGUMENT={$RECIPE_TAB_ARGUMENT}") {
+        val deeplinks = Endpoints.recipesEndpointVariants.map { endpoint -> navDeepLink { uriPattern = "${endpoint}/{$RECIPE_ID_ARGUMENT}?$RECIPE_TAB_ARGUMENT={$RECIPE_TAB_ARGUMENT}" } }
+        fun route(
+            recipeId: String,
+            defaultTab: RecipeScreenTab = RecipeScreenTab.Details,
+        ): String = route
+            .replace("{$RECIPE_ID_ARGUMENT}", recipeId)
+            .replace("{$RECIPE_TAB_ARGUMENT}", defaultTab.id)
     }
 }

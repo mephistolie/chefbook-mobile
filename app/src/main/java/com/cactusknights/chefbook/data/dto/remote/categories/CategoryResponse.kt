@@ -7,7 +7,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class CategoryResponse(
     @SerialName("id")
-    val id: Int,
+    val id: String,
     @SerialName("name")
     val name: String,
     @SerialName("cover")

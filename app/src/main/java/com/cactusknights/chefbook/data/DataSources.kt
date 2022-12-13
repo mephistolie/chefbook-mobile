@@ -39,9 +39,9 @@ interface IRemoteProfileSource : IProfileSource {
 interface IEncryptionSource {
     suspend fun setUserKey(data: ByteArray): SimpleAction
     suspend fun deleteUserKey(): SimpleAction
-    suspend fun getRecipeKey(recipeId: Int): ActionStatus<ByteArray>
-    suspend fun setRecipeKey(recipeId: Int, key: ByteArray): SimpleAction
-    suspend fun deleteRecipeKey(recipeId: Int): SimpleAction
+    suspend fun getRecipeKey(recipeId: String): ActionStatus<ByteArray>
+    suspend fun setRecipeKey(recipeId: String, key: ByteArray): SimpleAction
+    suspend fun deleteRecipeKey(recipeId: String): SimpleAction
 }
 
 interface ILocalEncryptionSource: IEncryptionSource {
@@ -59,56 +59,56 @@ interface IFileSource {
 
 interface IRecipeSource {
     suspend fun getRecipeBook(): ActionStatus<List<RecipeInfo>>
-    suspend fun getRecipe(recipeId: Int): ActionStatus<Recipe>
-    suspend fun deleteRecipe(recipeId: Int): SimpleAction
+    suspend fun getRecipe(recipeId: String): ActionStatus<Recipe>
+    suspend fun deleteRecipe(recipeId: String): SimpleAction
 }
 
 interface ILocalRecipeSource : IRecipeSource {
-    suspend fun createRecipe(recipe: Recipe): ActionStatus<Int>
+    suspend fun createRecipe(recipe: Recipe): ActionStatus<String>
     suspend fun updateRecipe(recipe: Recipe): SimpleAction
 }
 
 interface IRemoteRecipeSource : IRecipeSource {
     suspend fun getRecipesByQuery(query: RecipesFilter): ActionStatus<List<RecipeInfo>>
-    suspend fun createRecipe(input: RecipeInput): ActionStatus<Int>
-    suspend fun updateRecipe(recipeId: Int, input: RecipeInput): SimpleAction
+    suspend fun createRecipe(input: RecipeInput): ActionStatus<String>
+    suspend fun updateRecipe(recipeId: String, input: RecipeInput): SimpleAction
 }
 
 interface IRecipeInteractionSource {
-    suspend fun setRecipeLikeStatus(recipeId: Int, isLiked: Boolean): SimpleAction
-    suspend fun setRecipeFavouriteStatus(recipeId: Int, isFavourite: Boolean): SimpleAction
-    suspend fun setRecipeCategories(recipeId: Int, categories: List<Int>): SimpleAction
+    suspend fun setRecipeLikeStatus(recipeId: String, isLiked: Boolean): SimpleAction
+    suspend fun setRecipeFavouriteStatus(recipeId: String, isFavourite: Boolean): SimpleAction
+    suspend fun setRecipeCategories(recipeId: String, categories: List<String>): SimpleAction
 }
 
 interface IRemoteRecipeInteractionSource: IRecipeInteractionSource {
-    suspend fun addRecipeToRecipeBook(recipeId: Int): SimpleAction
-    suspend fun removeFromRecipeToRecipeBook(recipeId: Int): SimpleAction
+    suspend fun addRecipeToRecipeBook(recipeId: String): SimpleAction
+    suspend fun removeFromRecipeToRecipeBook(recipeId: String): SimpleAction
 }
 
 interface ILocalRecipeInteractionSource : IRecipeInteractionSource {
-    suspend fun setRecipeLikes(recipeId: Int, likes: Int?): SimpleAction
+    suspend fun setRecipeLikes(recipeId: String, likes: Int?): SimpleAction
 }
 
 interface IRecipePictureSource {
-    suspend fun getPictures(recipeId: Int): ActionStatus<List<String>>
-    suspend fun addPicture(recipeId: Int, data: ByteArray): ActionStatus<String>
-    suspend fun deletePicture(recipeId: Int, name: String): SimpleAction
+    suspend fun getPictures(recipeId: String): ActionStatus<List<String>>
+    suspend fun addPicture(recipeId: String, data: ByteArray): ActionStatus<String>
+    suspend fun deletePicture(recipeId: String, name: String): SimpleAction
 }
 
 interface ICategorySource {
     suspend fun getCategories(): ActionStatus<List<Category>>
-    suspend fun getCategory(categoryId: Int): ActionStatus<Category>
-    suspend fun deleteCategory(categoryId: Int): SimpleAction
+    suspend fun getCategory(categoryId: String): ActionStatus<Category>
+    suspend fun deleteCategory(categoryId: String): SimpleAction
 }
 
 interface ILocalCategorySource : ICategorySource {
-    suspend fun createCategory(category: Category): ActionStatus<Int>
+    suspend fun createCategory(category: Category): ActionStatus<String>
     suspend fun updateCategory(category: Category): SimpleAction
 }
 
 interface IRemoteCategorySource : ICategorySource {
-    suspend fun createCategory(input: CategoryInput): ActionStatus<Int>
-    suspend fun updateCategory(categoryId: Int, input: CategoryInput): SimpleAction
+    suspend fun createCategory(input: CategoryInput): ActionStatus<String>
+    suspend fun updateCategory(categoryId: String, input: CategoryInput): SimpleAction
 }
 
 interface IShoppingListSource {

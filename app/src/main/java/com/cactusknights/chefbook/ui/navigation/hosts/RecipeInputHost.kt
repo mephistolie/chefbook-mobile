@@ -5,13 +5,12 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.ModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
 import com.cactusknights.chefbook.ui.navigation.Destination
-import com.cactusknights.chefbook.ui.navigation.INGREDIENT_INDEX
+import com.cactusknights.chefbook.ui.navigation.INGREDIENT_ID
 import com.cactusknights.chefbook.ui.screens.recipeinput.RecipeInputScreenViewModel
 import com.cactusknights.chefbook.ui.screens.recipeinput.dialogs.CaloriesDialog
 import com.cactusknights.chefbook.ui.screens.recipeinput.dialogs.EncryptionStatePickerDialog
@@ -32,9 +31,7 @@ import com.google.accompanist.navigation.material.bottomSheet
 @Composable
 fun RecipeInputHost(
     viewModel: RecipeInputScreenViewModel,
-    appController: NavHostController,
     inputController: NavHostController,
-    sheetState: ModalBottomSheetState,
 ) =
     AnimatedNavHost(
         navController = inputController,
@@ -89,11 +86,11 @@ fun RecipeInputHost(
         }
         bottomSheet(
             route = Destination.RecipeInput.Ingredients.Ingredient.route,
-            arguments = listOf(navArgument(INGREDIENT_INDEX) { type = NavType.IntType }),
+            arguments = listOf(navArgument(INGREDIENT_ID) { type = NavType.StringType }),
         ) { backStack ->
-            backStack.arguments?.getInt(INGREDIENT_INDEX)?.let { index ->
+            backStack.arguments?.getString(INGREDIENT_ID)?.let { ingredientId ->
                 IngredientDialog(
-                    ingredientIndex = index,
+                    ingredientId = ingredientId,
                     viewModel = viewModel,
                 )
             }

@@ -15,6 +15,7 @@ import com.cactusknights.chefbook.domain.entities.action.SimpleAction
 import com.cactusknights.chefbook.domain.entities.action.asEmpty
 import com.cactusknights.chefbook.domain.entities.action.asFailure
 import com.cactusknights.chefbook.domain.entities.common.Tokens
+import java.util.*
 import javax.inject.Inject
 
 class RemoteAuthSource @Inject constructor(
@@ -23,7 +24,7 @@ class RemoteAuthSource @Inject constructor(
 ) : IAuthSource {
 
     override suspend fun signUp(email: String, password: String) =
-        handleResponse { api.signUp(CredentialsBody(email = email, password = password)) }
+        handleResponse { api.signUp(CredentialsBody(email = email, password = password, userId = UUID.randomUUID().toString())) }
             .toActionStatus().asEmpty()
 
     override suspend fun signIn(email: String, password: String): ActionStatus<Tokens> {

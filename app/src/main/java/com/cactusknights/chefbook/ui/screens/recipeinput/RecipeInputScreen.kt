@@ -38,7 +38,7 @@ import kotlinx.coroutines.flow.collectLatest
 @OptIn(ExperimentalMaterialApi::class, ExperimentalMaterialNavigationApi::class, ExperimentalAnimationApi::class)
 @Composable
 fun RecipeInputScreen(
-    recipeId: Int?,
+    recipeId: String?,
     defaultLanguage: String,
     appController: NavHostController,
     viewModel: RecipeInputScreenViewModel = hiltViewModel(),
@@ -72,9 +72,7 @@ fun RecipeInputScreen(
             ) {
                 RecipeInputHost(
                     viewModel = viewModel,
-                    appController = appController,
                     inputController = inputController,
-                    sheetState
                 )
 
                 val currentState = state.value
@@ -122,7 +120,7 @@ fun RecipeInputScreen(
                     inputController.navigate(Destination.RecipeInput.Details.Calories.route)
                 }
                 is RecipeInputScreenEffect.OnIngredientDialogOpen -> {
-                    inputController.navigate(Destination.RecipeInput.Ingredients.Ingredient.route(effect.index))
+                    inputController.navigate(Destination.RecipeInput.Ingredients.Ingredient.route(effect.ingredientId))
                 }
                 is RecipeInputScreenEffect.OnBottomSheetClosed -> {
                     sheetState.hide()

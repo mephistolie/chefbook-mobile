@@ -57,10 +57,10 @@ class EncryptedImageInterceptor @Inject constructor(
             .body(body?.toResponseBody())
             .build()
 
-    private fun getRecipeId(url: HttpUrl): Int? {
+    private fun getRecipeId(url: HttpUrl): String? {
         val pathSegments = url.pathSegments
         val recipesSegmentIndex = pathSegments.indexOf(recipesSegment)
-        return pathSegments.getOrNull(recipesSegmentIndex+1)?.toIntOrNull()
+        return pathSegments.getOrNull(recipesSegmentIndex+1)
 
     }
 }

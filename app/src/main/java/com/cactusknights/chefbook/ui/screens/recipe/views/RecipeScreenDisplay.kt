@@ -22,6 +22,7 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetState
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -59,6 +60,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun RecipeScreenDisplay(
     state: RecipeScreenState,
+    defaultTab: RecipeScreenTab,
     onEvent: (RecipeScreenEvent) -> Unit,
     onRefresh: () -> Unit,
     sheetState: ModalBottomSheetState,
@@ -185,6 +187,9 @@ fun RecipeScreenDisplay(
                             onConfirmCategoriesSelectionClicked = { categories ->
                                 onEvent(RecipeScreenEvent.ConfirmCategoriesChanging(categories))
                             },
+                            onAddToShoppingListClicked = { ingredients, multiplier ->
+                                onEvent(RecipeScreenEvent.AddIngredientsToShoppingList(ingredients, multiplier))
+                            },
                             onStepPictureClicked = { picture ->
                                 onEvent(
                                     RecipeScreenEvent.ChangeDialogState.Pictures(
@@ -275,6 +280,12 @@ fun RecipeScreenDisplay(
         )
     }
 
+    LaunchedEffect(defaultTab) {
+        if (defaultTab != RecipeScreenTab.Details) {
+            pagerState.scrollToPage(tabs.indexOf(defaultTab))
+            columnState.animateScrollToItem(3)
+        }
+    }
 }
 
 private val tabs =

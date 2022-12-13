@@ -35,10 +35,10 @@ import java.time.format.FormatStyle
 @Composable
 fun DetailsPage(
     state: RecipeScreenState.Success,
-    onCategoryClicked: (Int) -> Unit,
+    onCategoryClicked: (String) -> Unit,
     onChangeCategoriesClicked: () -> Unit,
     onCancelCategoriesSelectionClicked: () -> Unit,
-    onConfirmCategoriesSelectionClicked: (List<Int>) -> Unit,
+    onConfirmCategoriesSelectionClicked: (List<String>) -> Unit,
     onEditRecipeClicked: () -> Unit,
     onDeleteRecipeClicked: () -> Unit,
 ) {

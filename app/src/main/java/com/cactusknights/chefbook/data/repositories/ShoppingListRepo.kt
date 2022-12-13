@@ -6,7 +6,9 @@ import com.cactusknights.chefbook.di.Local
 import com.cactusknights.chefbook.di.Remote
 import com.cactusknights.chefbook.domain.entities.action.ActionStatus
 import com.cactusknights.chefbook.domain.entities.action.DataResult
+import com.cactusknights.chefbook.domain.entities.action.Failure
 import com.cactusknights.chefbook.domain.entities.action.SimpleAction
+import com.cactusknights.chefbook.domain.entities.action.SuccessResult
 import com.cactusknights.chefbook.domain.entities.action.data
 import com.cactusknights.chefbook.domain.entities.action.isFailure
 import com.cactusknights.chefbook.domain.entities.action.isSuccess
@@ -20,6 +22,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import kotlin.math.abs
 
 @Singleton
@@ -45,6 +48,9 @@ class ShoppingListRepo @Inject constructor(
         return DataResult(shoppingList.value)
     }
 
+    override suspend fun syncShoppingList() {
+        scopes.repository.launch { refreshData(forceRefresh = true) }
+    }
 
     private suspend fun refreshData(forceRefresh: Boolean = false) {
         if (source.useRemoteSource()) {
@@ -71,6 +77,7 @@ class ShoppingListRepo @Inject constructor(
 
     private suspend fun applyShoppingListChanges(localData: ShoppingList, remoteData: ShoppingList): ShoppingList {
         if (abs(localData.timestamp.toEpochSecond(ZoneOffset.UTC) - remoteData.timestamp.toEpochSecond(ZoneOffset.UTC)) < TIMESTAMP_THRESHOLD) return localData
+        Timber.e("Test ${localData.timestamp} ${remoteData.timestamp}")
         return if (localData.timestamp > remoteData.timestamp) {
             remoteSource.setShoppingList(localData.purchases)
             localData
@@ -89,6 +96,20 @@ class ShoppingListRepo @Inject constructor(
 
         if (result.isSuccess()) shoppingList.emit(localSource.getShoppingList().data())
         return result
+    }
+
+    override suspend fun switchPurchaseStatus(purchaseId: String) = processPurchases { purchases ->
+        purchases.map { if (it.id == purchaseId) it.copy(isPurchased = !it.isPurchased) else it }
+    }
+
+    override suspend fun removePurchasedItems() = processPurchases { purchases -> purchases.filter { !it.isPurchased } }
+
+    private suspend fun processPurchases(process: (List<Purchase>) -> List<Purchase>): SimpleAction {
+        val currentShoppingList = (getShoppingList() as? ActionStatus.Success)?.data ?: return Failure()
+        val purchases = process(currentShoppingList.purchases)
+        shoppingList.emit(ShoppingList(purchases))
+        localSource.setShoppingList(purchases)
+        return SuccessResult
     }
 
     override suspend fun addToShoppingList(purchases: List<Purchase>): SimpleAction {

@@ -31,7 +31,7 @@ class CategoriesCache @Inject constructor() : ICategoriesCache {
         cachedList.emit(cachedList.value?.map { if (it.id != category.id) it else category })
     }
 
-    override suspend fun removeCategory(categoryId: Int) {
+    override suspend fun removeCategory(categoryId: String) {
         cachedList.emit(cachedList.value?.filter { it.id != categoryId })
     }
 

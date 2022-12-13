@@ -16,10 +16,10 @@ interface RecipeBookDao {
     suspend fun getRecipes(): List<RecipeRoom>
 
     @Query("SELECT * FROM ${RecipeRoom.TABLE_NAME} WHERE recipe_id = :recipeId")
-    suspend fun getRecipeById(recipeId: Int): RecipeRoom?
+    suspend fun getRecipeById(recipeId: String): RecipeRoom?
 
     @Query("SELECT * FROM ${CategoryRoom.TABLE_NAME} WHERE category_id IN (SELECT category_id FROM ${RecipesCategoriesRoom.TABLE_NAME} WHERE recipe_id = :recipeId)")
-    suspend fun getRecipeCategories(recipeId: Int): List<CategoryRoom>
+    suspend fun getRecipeCategories(recipeId: String): List<CategoryRoom>
 
     @Insert(entity = RecipeRoom::class)
     suspend fun addRecipe(recipeEntity: RecipeRoom)
@@ -28,5 +28,5 @@ interface RecipeBookDao {
     suspend fun updateRecipe(recipeEntity: RecipeRoom)
 
     @Query("DELETE FROM ${RecipeRoom.TABLE_NAME} WHERE recipe_id = :recipeId")
-    suspend fun deleteRecipe(recipeId: Int)
+    suspend fun deleteRecipe(recipeId: String)
 }

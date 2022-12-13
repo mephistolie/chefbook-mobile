@@ -24,7 +24,7 @@ class RecipeInteractionRepo @Inject constructor(
     private val sourceRepo: SourceRepo,
 ) : IRecipeInteractionRepo {
 
-    override suspend fun setRecipeSavedStatus(recipeId: Int, saved: Boolean): SimpleAction {
+    override suspend fun setRecipeSavedStatus(recipeId: String, saved: Boolean): SimpleAction {
         if (!sourceRepo.isOnlineMode()) return Failure(AppError(AppErrorType.LOCAL_USER))
         val result = if (saved) remoteSource.addRecipeToRecipeBook(recipeId) else remoteSource.removeFromRecipeToRecipeBook(recipeId)
 
@@ -33,7 +33,7 @@ class RecipeInteractionRepo @Inject constructor(
         return result
     }
 
-    override suspend fun setRecipeLikeStatus(recipeId: Int, liked: Boolean): SimpleAction {
+    override suspend fun setRecipeLikeStatus(recipeId: String, liked: Boolean): SimpleAction {
         if (!sourceRepo.isOnlineMode()) return Failure(AppError(AppErrorType.LOCAL_USER))
         val result = remoteSource.setRecipeLikeStatus(recipeId, liked)
 
@@ -45,7 +45,7 @@ class RecipeInteractionRepo @Inject constructor(
         return result
     }
 
-    override suspend fun setRecipeFavouriteStatus(recipeId: Int, favourite: Boolean): SimpleAction {
+    override suspend fun setRecipeFavouriteStatus(recipeId: String, favourite: Boolean): SimpleAction {
         val result = if (sourceRepo.isOnlineMode()) {
             remoteSource.setRecipeFavouriteStatus(recipeId, favourite)
         } else {
@@ -60,7 +60,7 @@ class RecipeInteractionRepo @Inject constructor(
         return result
     }
 
-    override suspend fun setRecipeCategories(recipeId: Int, categories: List<Int>): SimpleAction {
+    override suspend fun setRecipeCategories(recipeId: String, categories: List<String>): SimpleAction {
         val result = if (sourceRepo.isOnlineMode()) {
             remoteSource.setRecipeCategories(recipeId, categories)
         } else {

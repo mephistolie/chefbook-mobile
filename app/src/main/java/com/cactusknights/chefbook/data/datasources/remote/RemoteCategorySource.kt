@@ -14,6 +14,7 @@ import com.cactusknights.chefbook.domain.entities.action.asEmpty
 import com.cactusknights.chefbook.domain.entities.action.asFailure
 import com.cactusknights.chefbook.domain.entities.category.Category
 import com.cactusknights.chefbook.domain.entities.category.CategoryInput
+import java.util.*
 import javax.inject.Inject
 
 class RemoteCategorySource @Inject constructor(
@@ -27,23 +28,23 @@ class RemoteCategorySource @Inject constructor(
         return DataResult(result.body().map { it.toEntity() })
     }
 
-    override suspend fun createCategory(input: CategoryInput): ActionStatus<Int> {
-        val result = handleResponse { api.addCategory(input.toRequest()) }
+    override suspend fun createCategory(input: CategoryInput): ActionStatus<String> {
+        val result = handleResponse { api.addCategory(input.toRequest(categoryId = UUID.randomUUID().toString())) }
         if (result.isFailure()) return result.toActionStatus().asFailure()
 
         return DataResult(result.body().id)
     }
 
-    override suspend fun getCategory(categoryId: Int): ActionStatus<Category> {
+    override suspend fun getCategory(categoryId: String): ActionStatus<Category> {
         val result = handleResponse { api.getCategory(categoryId) }
         if (result.isFailure()) return result.toActionStatus().asFailure()
 
         return DataResult(result.body().toEntity())
     }
 
-    override suspend fun updateCategory(categoryId: Int, input: CategoryInput) =
+    override suspend fun updateCategory(categoryId: String, input: CategoryInput) =
         handleResponse { api.updateCategory(categoryId, input.toRequest()) }.toActionStatus().asEmpty()
 
-    override suspend fun deleteCategory(categoryId: Int) =
+    override suspend fun deleteCategory(categoryId: String) =
         handleResponse { api.deleteCategory(categoryId) }.toActionStatus().asEmpty()
 }

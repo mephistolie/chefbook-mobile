@@ -5,7 +5,7 @@ import com.cactusknights.chefbook.domain.entities.common.MeasureUnit
 import com.cactusknights.chefbook.domain.entities.common.Visibility
 
 sealed class RecipeInputScreenEvent {
-    data class SetRecipe(val recipeId: Int) : RecipeInputScreenEvent()
+    data class SetRecipe(val recipeId: String) : RecipeInputScreenEvent()
 
     data class SetName(val name: String) : RecipeInputScreenEvent()
 
@@ -30,12 +30,12 @@ sealed class RecipeInputScreenEvent {
 
     object AddIngredient : RecipeInputScreenEvent()
     object AddIngredientSection : RecipeInputScreenEvent()
-    data class OpenIngredientDialog(val index: Int) : RecipeInputScreenEvent()
-    data class SetIngredientItemName(val index: Int, val name: String) : RecipeInputScreenEvent()
-    data class SetIngredientAmount(val index: Int, val amount: Int?) : RecipeInputScreenEvent()
-    data class SetIngredientUnit(val index: Int, val unit: MeasureUnit?) : RecipeInputScreenEvent()
+    data class OpenIngredientDialog(val ingredientId: String) : RecipeInputScreenEvent()
+    data class SetIngredientItemName(val ingredientId: String, val name: String) : RecipeInputScreenEvent()
+    data class SetIngredientAmount(val ingredientId: String, val amount: Int?) : RecipeInputScreenEvent()
+    data class SetIngredientUnit(val ingredientId: String, val unit: MeasureUnit?) : RecipeInputScreenEvent()
     data class MoveIngredientItem(val from: Int, val to: Int) : RecipeInputScreenEvent()
-    data class DeleteIngredientItem(val index: Int) : RecipeInputScreenEvent()
+    data class DeleteIngredientItem(val ingredientId: String) : RecipeInputScreenEvent()
 
     object AddStep : RecipeInputScreenEvent()
     object AddCookingSection : RecipeInputScreenEvent()
@@ -50,7 +50,7 @@ sealed class RecipeInputScreenEvent {
     data class ChangeCancelDialogState(val isVisible: Boolean) : RecipeInputScreenEvent()
     object CloseBottomSheet : RecipeInputScreenEvent()
     object Back : RecipeInputScreenEvent()
-    data class OpenRecipe(val id: Int) : RecipeInputScreenEvent()
+    data class OpenRecipe(val id: String) : RecipeInputScreenEvent()
     object Close : RecipeInputScreenEvent()
     object Continue : RecipeInputScreenEvent()
 }

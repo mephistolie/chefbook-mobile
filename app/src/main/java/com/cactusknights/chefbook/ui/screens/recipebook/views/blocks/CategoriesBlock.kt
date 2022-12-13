@@ -32,7 +32,7 @@ private const val BUTTON_NEW = "new"
 fun LazyGridScope.categoriesBlock(
     categories: List<Category>?,
     isCategoriesExpanded: Boolean,
-    onCategoryClicked: (Int) -> Unit,
+    onCategoryClicked: (String) -> Unit,
     onNewCategoryClicked: () -> Unit,
     onExpandClicked: () -> Unit
 ) {

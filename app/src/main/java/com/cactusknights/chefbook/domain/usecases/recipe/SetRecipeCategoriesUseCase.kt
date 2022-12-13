@@ -8,14 +8,14 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
 interface ISetRecipeCategoriesUseCase {
-    suspend operator fun invoke(recipeId: Int, categories: List<Int>): Flow<SimpleAction>
+    suspend operator fun invoke(recipeId: String, categories: List<String>): Flow<SimpleAction>
 }
 
 class SetRecipeCategoriesUseCase @Inject constructor(
     private val recipeRepo: IRecipeInteractionRepo,
 ) : ISetRecipeCategoriesUseCase {
 
-    override suspend operator fun invoke(recipeId: Int, categories: List<Int>): Flow<SimpleAction> = flow {
+    override suspend operator fun invoke(recipeId: String, categories: List<String>): Flow<SimpleAction> = flow {
         emit(Loading)
         emit(recipeRepo.setRecipeCategories(recipeId, categories))
     }

@@ -7,7 +7,7 @@ data class RecipesFilter(
     val search: String? = null,
     val owned: Boolean = false,
     val saved: Boolean = false,
-    val authorId: Int? = null,
+    val authorId: String? = null,
     val sortBy: Sorting? = null,
     val languages: List<Language>? = null,
     val minTime: Int? = null,

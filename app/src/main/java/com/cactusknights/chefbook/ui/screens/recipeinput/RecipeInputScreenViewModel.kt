@@ -79,7 +79,7 @@ class RecipeInputScreenViewModel @Inject constructor(
         viewModelScope.launch {
             observeEncryptedVaultStateUseCase()
                 .onEach { vaultState ->
-                    if (vaultState is EncryptedVaultState.Unlocked) {
+                    if (vaultState is EncryptedVaultState.Unlocked && encryptionRequested) {
                         val currentState = state.value
                         _state.emit(state.value.copy(input = currentState.input.copy(isEncrypted = true)))
                         _effect.emit(RecipeInputScreenEffect.OnBottomSheetClosed)
@@ -129,15 +129,13 @@ class RecipeInputScreenViewModel @Inject constructor(
                     )
                 )
                 is RecipeInputScreenEvent.OpenIngredientDialog -> _effect.emit(
-                    RecipeInputScreenEffect.OnIngredientDialogOpen(
-                        event.index
-                    )
+                    RecipeInputScreenEffect.OnIngredientDialogOpen(event.ingredientId)
                 )
-                is RecipeInputScreenEvent.SetIngredientItemName -> setIngredientItemName(event.index, event.name)
-                is RecipeInputScreenEvent.SetIngredientAmount -> setIngredientAmount(event.index, event.amount)
-                is RecipeInputScreenEvent.SetIngredientUnit -> setIngredientUnit(event.index, event.unit)
+                is RecipeInputScreenEvent.SetIngredientItemName -> setIngredientItemName(event.ingredientId, event.name)
+                is RecipeInputScreenEvent.SetIngredientAmount -> setIngredientAmount(event.ingredientId, event.amount)
+                is RecipeInputScreenEvent.SetIngredientUnit -> setIngredientUnit(event.ingredientId, event.unit)
                 is RecipeInputScreenEvent.MoveIngredientItem -> moveIngredientItem(event.from, event.to)
-                is RecipeInputScreenEvent.DeleteIngredientItem -> deleteIngredientItem(event.index)
+                is RecipeInputScreenEvent.DeleteIngredientItem -> deleteIngredientItem(event.ingredientId)
 
                 is RecipeInputScreenEvent.AddStep -> addCookingItem(
                     CookingItem.Step(
@@ -173,7 +171,7 @@ class RecipeInputScreenViewModel @Inject constructor(
         }
     }
 
-    private suspend fun setRecipe(recipeId: Int) {
+    private suspend fun setRecipe(recipeId: String) {
         getRecipeUseCase(recipeId)
             .onEach { result ->
                 when (result) {
@@ -376,7 +374,7 @@ class RecipeInputScreenViewModel @Inject constructor(
     }
 
     private suspend fun setIngredientItemName(
-        itemIndex: Int,
+        ingredientId: String,
         name: String,
     ) {
         val currentState = state.value
@@ -384,8 +382,8 @@ class RecipeInputScreenViewModel @Inject constructor(
         val ingredients = input.ingredients.toMutableList()
 
         _state.emit(currentState.copy(input = input.copy(
-            ingredients = ingredients.mapIndexed { index, item ->
-                if (index != itemIndex) {
+            ingredients = ingredients.map { item ->
+                if (item.id != ingredientId) {
                     item
                 } else {
                     when (item) {
@@ -409,7 +407,7 @@ class RecipeInputScreenViewModel @Inject constructor(
     }
 
     private suspend fun setIngredientAmount(
-        ingredientIndex: Int,
+        ingredientId: String,
         amount: Int?,
     ) {
         val currentState = state.value
@@ -417,8 +415,8 @@ class RecipeInputScreenViewModel @Inject constructor(
         val ingredients = input.ingredients.toMutableList()
 
         _state.emit(currentState.copy(input = input.copy(
-            ingredients = ingredients.mapIndexed { index, item ->
-                if (index == ingredientIndex && item is IngredientItem.Ingredient) {
+            ingredients = ingredients.map { item ->
+                if (item.id == ingredientId && item is IngredientItem.Ingredient) {
                     item.copy(amount = amount)
                 } else {
                     item
@@ -428,7 +426,7 @@ class RecipeInputScreenViewModel @Inject constructor(
     }
 
     private suspend fun setIngredientUnit(
-        ingredientIndex: Int,
+        ingredientId: String,
         unit: MeasureUnit?,
     ) {
         val currentState = state.value
@@ -436,8 +434,8 @@ class RecipeInputScreenViewModel @Inject constructor(
         val ingredients = input.ingredients.toMutableList()
 
         _state.emit(currentState.copy(input = input.copy(
-            ingredients = ingredients.mapIndexed { index, item ->
-                if (index == ingredientIndex && item is IngredientItem.Ingredient) {
+            ingredients = ingredients.map { item ->
+                if (item.id == ingredientId && item is IngredientItem.Ingredient) {
                     item.copy(unit = unit)
                 } else {
                     item
@@ -463,14 +461,14 @@ class RecipeInputScreenViewModel @Inject constructor(
     }
 
     private suspend fun deleteIngredientItem(
-        itemIndex: Int,
+        ingredientId: String,
     ) {
         val currentState = state.value
         val input = currentState.input
 
         _effect.emit(RecipeInputScreenEffect.OnBottomSheetClosed)
         _state.emit(currentState.copy(input = input.copy(
-            ingredients = input.ingredients.filterIndexed { index, _ -> index != itemIndex }
+            ingredients = input.ingredients.filter { ingredient -> ingredient.id != ingredientId }
         )))
     }
 
@@ -616,7 +614,7 @@ class RecipeInputScreenViewModel @Inject constructor(
         }
     }
 
-    private suspend fun openRecipe(recipeId: Int) {
+    private suspend fun openRecipe(recipeId: String) {
         _state.emit(state.value.copy(isRecipeSavedDialogOpen = false))
         _effect.emit(RecipeInputScreenEffect.OnOpenRecipe(recipeId))
     }

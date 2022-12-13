@@ -5,12 +5,13 @@ import com.cactusknights.chefbook.domain.entities.common.Language
 import com.cactusknights.chefbook.domain.entities.common.Visibility
 import com.cactusknights.chefbook.domain.entities.recipe.encryption.EncryptionState
 import java.time.LocalDateTime
+import java.time.ZoneOffset
 import javax.crypto.SecretKey
 
 data class RecipeInfo(
-    val id: Int,
+    val id: String,
     val name: String,
-    val ownerId: Int? = null,
+    val ownerId: String? = null,
     val ownerName: String? = null,
     val isOwned: Boolean = false,
     val isSaved: Boolean = false,
@@ -20,8 +21,8 @@ data class RecipeInfo(
     val language: Language = Language.ENGLISH,
     val preview: String? = null,
 
-    val creationTimestamp: LocalDateTime = LocalDateTime.now(),
-    val updateTimestamp: LocalDateTime = LocalDateTime.now(),
+    val creationTimestamp: LocalDateTime = LocalDateTime.now(ZoneOffset.UTC),
+    val updateTimestamp: LocalDateTime = LocalDateTime.now(ZoneOffset.UTC),
 
     val categories: List<Category> = listOf(),
     val isFavourite: Boolean = false,

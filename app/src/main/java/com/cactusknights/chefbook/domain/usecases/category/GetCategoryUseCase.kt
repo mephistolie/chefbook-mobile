@@ -9,14 +9,14 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
 interface IGetCategoryUseCase {
-    suspend operator fun invoke(categoryId: Int): Flow<ActionStatus<Category>>
+    suspend operator fun invoke(categoryId: String): Flow<ActionStatus<Category>>
 }
 
 class GetCategoryUseCase @Inject constructor(
     private val repo: ICategoryRepo,
 ) : IGetCategoryUseCase {
 
-    override suspend operator fun invoke(categoryId: Int): Flow<ActionStatus<Category>> = flow {
+    override suspend operator fun invoke(categoryId: String): Flow<ActionStatus<Category>> = flow {
         emit(Loading)
         emit(repo.getCategory(categoryId))
     }

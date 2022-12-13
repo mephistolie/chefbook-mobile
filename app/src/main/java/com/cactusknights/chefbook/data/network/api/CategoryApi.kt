@@ -21,12 +21,12 @@ interface CategoryApi {
     suspend fun addCategory(@Body category: CategoryInputRequest): RequestResult<IdResponse>
 
     @GET("/v1/categories/{category_id}")
-    suspend fun getCategory(@Path("category_id") categoryId: Int): RequestResult<CategoryResponse>
+    suspend fun getCategory(@Path("category_id") categoryId: String): RequestResult<CategoryResponse>
 
     @PUT("/v1/categories/{category_id}")
-    suspend fun updateCategory(@Path("category_id") categoryId: Int, @Body category: CategoryInputRequest): RequestResult<MessageResponse>
+    suspend fun updateCategory(@Path("category_id") categoryId: String, @Body category: CategoryInputRequest): RequestResult<MessageResponse>
 
     @DELETE("/v1/categories/{category_id}")
-    suspend fun deleteCategory(@Path("category_id") categoryId: Int): RequestResult<MessageResponse>
+    suspend fun deleteCategory(@Path("category_id") categoryId: String): RequestResult<MessageResponse>
 
 }

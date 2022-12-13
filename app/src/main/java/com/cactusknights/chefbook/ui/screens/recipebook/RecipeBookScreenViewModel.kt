@@ -65,7 +65,7 @@ class RecipeBookScreenViewModel @Inject constructor(
 
                         val allRecipes = recipes
                             ?.filter { it.encryptionState !is EncryptionState.Encrypted }
-                            ?.sortedBy { it.name.uppercase() }
+                            ?.sortedWith(compareBy({ it.name.uppercase() }, { it.id }))
                         val latestRecipes = if (allRecipes != null) {
                             latestRecipesIds.mapNotNull { id -> allRecipes.firstOrNull { it.id == id } }
                         } else {

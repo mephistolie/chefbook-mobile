@@ -6,6 +6,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.cactusknights.chefbook.domain.entities.settings.Tab
 import com.cactusknights.chefbook.ui.navigation.Destination
+import com.cactusknights.chefbook.ui.screens.recipe.models.RecipeScreenTab
 import com.cactusknights.chefbook.ui.screens.recipebook.RecipeBookScreen
 import com.cactusknights.chefbook.ui.screens.shoppinglist.ShoppingListScreen
 
@@ -35,6 +36,10 @@ fun HomeHost(
             )
         }
         composable(Destination.Home.ShoppingList.route) {
-            ShoppingListScreen()
+            ShoppingListScreen(
+                onOpenRecipe = { recipeId ->
+                    appController.navigate(Destination.Recipe.route(recipeId, defaultTab = RecipeScreenTab.Ingredients))
+                }
+            )
         }
     }

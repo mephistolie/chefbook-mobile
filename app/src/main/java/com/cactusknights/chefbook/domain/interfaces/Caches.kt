@@ -14,7 +14,7 @@ interface ICategoriesCacheWriter {
     suspend fun emitCategories(categories: List<Category>)
     suspend fun addCategory(category: Category)
     suspend fun updateCategory(category: Category)
-    suspend fun removeCategory(categoryId: Int)
+    suspend fun removeCategory(categoryId: String)
 }
 
 interface ICategoriesCache : ICategoriesCacheReader, ICategoriesCacheWriter
@@ -22,18 +22,18 @@ interface ICategoriesCache : ICategoriesCacheReader, ICategoriesCacheWriter
 interface IRecipeBookCacheReader {
     suspend fun observeRecipeBook(): StateFlow<List<RecipeInfo>?>
     suspend fun getRecipeBook(): List<RecipeInfo>
-    suspend fun getRecipe(recipeId: Int): Recipe?
+    suspend fun getRecipe(recipeId: String): Recipe?
 }
 
 interface IRecipeBookCacheWriter {
     suspend fun emitRecipeBook(recipes: List<RecipeInfo>)
     suspend fun putRecipe(recipe: Recipe)
-    suspend fun removeRecipe(recipeId: Int)
+    suspend fun removeRecipe(recipeId: String)
 
-    suspend fun setRecipeSavedStatus(recipeId: Int, saved: Boolean)
-    suspend fun setRecipeLikeStatus(recipeId: Int, liked: Boolean)
-    suspend fun setRecipeFavouriteStatus(recipeId: Int, favourite: Boolean)
-    suspend fun setRecipeCategories(recipeId: Int, categories: List<Int>)
+    suspend fun setRecipeSavedStatus(recipeId: String, saved: Boolean)
+    suspend fun setRecipeLikeStatus(recipeId: String, liked: Boolean)
+    suspend fun setRecipeFavouriteStatus(recipeId: String, favourite: Boolean)
+    suspend fun setRecipeCategories(recipeId: String, categories: List<String>)
 
 }
 
