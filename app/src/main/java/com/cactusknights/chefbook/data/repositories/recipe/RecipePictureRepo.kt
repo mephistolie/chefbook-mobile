@@ -4,9 +4,6 @@ import android.net.Uri
 import com.cactusknights.chefbook.core.encryption.ImageValidator
 import com.cactusknights.chefbook.data.IRecipePictureSource
 import com.cactusknights.chefbook.data.repositories.IFileRepo
-import com.cactusknights.chefbook.data.repositories.SourceRepo
-import com.cactusknights.chefbook.di.Local
-import com.cactusknights.chefbook.di.Remote
 import com.cactusknights.chefbook.domain.entities.action.Successful
 import com.cactusknights.chefbook.domain.entities.action.asFailure
 import com.cactusknights.chefbook.domain.entities.action.data
@@ -16,19 +13,17 @@ import com.cactusknights.chefbook.domain.entities.recipe.RecipeInput
 import com.cactusknights.chefbook.domain.entities.recipe.cooking.CookingItem
 import com.cactusknights.chefbook.domain.interfaces.ICryptor
 import com.cactusknights.chefbook.domain.interfaces.IRecipePictureRepo
+import com.cactusknights.chefbook.domain.interfaces.ISourceRepo
 import javax.crypto.SecretKey
-import javax.inject.Inject
-import javax.inject.Singleton
 import timber.log.Timber
 
-@Singleton
-class RecipePictureRepo @Inject constructor(
-    @Local private val localSource: IRecipePictureSource,
-    @Remote private val remoteSource: IRecipePictureSource,
+class RecipePictureRepo(
+    private val localSource: IRecipePictureSource,
+    private val remoteSource: IRecipePictureSource,
 
     private val fileProvider: IFileRepo,
     private val cryptor: ICryptor,
-    private val source: SourceRepo,
+    private val source: ISourceRepo,
 ) : IRecipePictureRepo {
 
     override suspend fun uploadRecipePictures(

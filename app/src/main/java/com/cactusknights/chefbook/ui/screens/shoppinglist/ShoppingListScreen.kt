@@ -3,14 +3,14 @@ package com.cactusknights.chefbook.ui.screens.shoppinglist
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.cactusknights.chefbook.ui.screens.shoppinglist.models.ShoppingListEffect
 import com.cactusknights.chefbook.ui.screens.shoppinglist.views.ShoppingListScreenDisplay
+import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun ShoppingListScreen(
     onOpenRecipe: (String) -> Unit,
-    viewModel: ShoppingListScreenViewModel = hiltViewModel(),
+    viewModel: ShoppingListScreenViewModel = getViewModel(),
 ) {
     val state = viewModel.state.collectAsState()
 

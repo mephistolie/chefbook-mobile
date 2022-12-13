@@ -1,6 +1,6 @@
 package com.cactusknights.chefbook.data.dto.remote.recipe
 
-import com.cactusknights.chefbook.common.parseTimestampSafely
+import com.mysty.chefbook.core.parseTimestampSafely
 import com.cactusknights.chefbook.core.mappers.LanguageMapper
 import com.cactusknights.chefbook.core.mappers.VisibilityMapper
 import com.cactusknights.chefbook.data.dto.common.recipe.CookingItemSerializable

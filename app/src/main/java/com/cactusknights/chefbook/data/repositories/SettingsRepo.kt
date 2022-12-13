@@ -12,14 +12,13 @@ import com.cactusknights.chefbook.domain.entities.settings.Tab
 import com.cactusknights.chefbook.domain.entities.settings.Theme
 import com.cactusknights.chefbook.domain.interfaces.ISettingsRepo
 import java.io.IOException
-import javax.inject.Inject
 import javax.inject.Singleton
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.take
 
 @Singleton
-class SettingsRepo @Inject constructor(
+class SettingsRepo(
     private val settings: DataStore<SettingsProto>
 ): ISettingsRepo {
 

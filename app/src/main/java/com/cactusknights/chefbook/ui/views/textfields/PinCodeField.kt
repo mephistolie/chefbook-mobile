@@ -33,7 +33,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.cactusknights.chefbook.common.Strings
+import com.mysty.chefbook.core.constants.Strings
 import com.cactusknights.chefbook.ui.themes.ChefBookTheme
 import com.mephistolie.compost.ui.textfields.TextField
 

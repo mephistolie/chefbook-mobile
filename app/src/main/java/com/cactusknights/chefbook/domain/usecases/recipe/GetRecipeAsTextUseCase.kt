@@ -2,18 +2,17 @@ package com.cactusknights.chefbook.domain.usecases.recipe
 
 import android.content.res.Resources
 import com.cactusknights.chefbook.R
-import com.cactusknights.chefbook.common.Utils.minutesToTimeString
 import com.cactusknights.chefbook.core.ui.localizedName
 import com.cactusknights.chefbook.domain.entities.recipe.Recipe
 import com.cactusknights.chefbook.domain.entities.recipe.cooking.CookingItem
 import com.cactusknights.chefbook.domain.entities.recipe.ingredient.IngredientItem
-import javax.inject.Inject
+import com.mysty.chefbook.core.ui.utils.TimeUtils.minutesToTimeString
 
 interface IGetRecipeAsTextUseCase {
     suspend operator fun invoke(recipe: Recipe, resources: Resources): String
 }
 
-class GetRecipeAsTextUseCase @Inject constructor() : IGetRecipeAsTextUseCase {
+class GetRecipeAsTextUseCase : IGetRecipeAsTextUseCase {
 
     override suspend operator fun invoke(recipe: Recipe, resources: Resources): String {
         var text = recipe.name.uppercase()

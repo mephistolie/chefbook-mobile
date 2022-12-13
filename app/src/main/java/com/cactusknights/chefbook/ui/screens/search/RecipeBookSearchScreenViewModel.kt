@@ -2,7 +2,6 @@ package com.cactusknights.chefbook.ui.screens.search
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.cactusknights.chefbook.common.mvi.EventHandler
 import com.cactusknights.chefbook.domain.entities.category.Category
 import com.cactusknights.chefbook.domain.entities.recipe.RecipeInfo
 import com.cactusknights.chefbook.domain.usecases.category.IObserveCategoriesUseCase
@@ -10,8 +9,7 @@ import com.cactusknights.chefbook.domain.usecases.recipe.IObserveRecipeBookUseCa
 import com.cactusknights.chefbook.ui.screens.search.models.RecipeBookSearchScreenEffect
 import com.cactusknights.chefbook.ui.screens.search.models.RecipeBookSearchScreenEvent
 import com.cactusknights.chefbook.ui.screens.search.models.RecipeBookSearchScreenState
-import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
+import com.mysty.chefbook.core.mvi.EventHandler
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -22,8 +20,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
-@HiltViewModel
-class RecipeBookSearchScreenViewModel @Inject constructor(
+class RecipeBookSearchScreenViewModel(
     private val observeRecipeBookUseCase: IObserveRecipeBookUseCase,
     private val observeCategoriesUseCase: IObserveCategoriesUseCase,
 ) : ViewModel(), EventHandler<RecipeBookSearchScreenEvent> {

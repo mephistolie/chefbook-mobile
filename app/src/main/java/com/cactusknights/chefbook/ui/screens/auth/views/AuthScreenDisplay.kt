@@ -33,8 +33,8 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.cactusknights.chefbook.R
-import com.cactusknights.chefbook.core.auth.AuthUtils
-import com.cactusknights.chefbook.core.auth.Password
+import com.cactusknights.chefbook.ui.screens.auth.auth.AuthUtils
+import com.cactusknights.chefbook.ui.screens.auth.auth.Password
 import com.cactusknights.chefbook.ui.screens.auth.models.AuthAction
 import com.cactusknights.chefbook.ui.screens.auth.models.AuthProgress
 import com.cactusknights.chefbook.ui.screens.auth.models.AuthScreenEvent

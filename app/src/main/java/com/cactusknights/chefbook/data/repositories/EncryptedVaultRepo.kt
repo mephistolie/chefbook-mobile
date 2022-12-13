@@ -1,11 +1,8 @@
 package com.cactusknights.chefbook.data.repositories
 
-import com.cactusknights.chefbook.core.coroutines.CoroutineScopes
 import com.cactusknights.chefbook.core.encryption.IHybridCryptor
 import com.cactusknights.chefbook.data.ILocalEncryptionSource
 import com.cactusknights.chefbook.data.IRemoteEncryptionSource
-import com.cactusknights.chefbook.di.Local
-import com.cactusknights.chefbook.di.Remote
 import com.cactusknights.chefbook.domain.entities.action.ActionStatus
 import com.cactusknights.chefbook.domain.entities.action.AppError
 import com.cactusknights.chefbook.domain.entities.action.AppErrorType
@@ -20,19 +17,17 @@ import com.cactusknights.chefbook.domain.entities.action.isSuccess
 import com.cactusknights.chefbook.domain.entities.encryption.EncryptedVaultState
 import com.cactusknights.chefbook.domain.interfaces.IEncryptedVaultRepo
 import com.cactusknights.chefbook.domain.interfaces.ISourceRepo
+import com.mysty.chefbook.core.coroutines.CoroutineScopes
 import java.security.PrivateKey
 import java.security.PublicKey
-import javax.inject.Inject
-import javax.inject.Singleton
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-@Singleton
-class EncryptedVaultRepo @Inject constructor(
-    @Local private val localSource: ILocalEncryptionSource,
-    @Remote private val remoteSource: IRemoteEncryptionSource,
+class EncryptedVaultRepo(
+    private val localSource: ILocalEncryptionSource,
+    private val remoteSource: IRemoteEncryptionSource,
 
     private val encryptionManager: IHybridCryptor,
     private val source: ISourceRepo,

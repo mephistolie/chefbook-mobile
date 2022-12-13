@@ -1,80 +1,43 @@
 package com.cactusknights.chefbook.di
 
 import android.content.Context
-import androidx.datastore.core.DataStore
 import androidx.datastore.core.DataStoreFactory
+import androidx.datastore.core.Serializer
 import androidx.datastore.dataStoreFile
-import com.cactusknights.chefbook.LatestRecipesProto
-import com.cactusknights.chefbook.ProfileProto
-import com.cactusknights.chefbook.SettingsProto
-import com.cactusknights.chefbook.ShoppingListProto
-import com.cactusknights.chefbook.TokensProto
-import com.cactusknights.chefbook.core.datastore.LatestRecipesSerializer
-import com.cactusknights.chefbook.core.datastore.ProfileSerializer
-import com.cactusknights.chefbook.core.datastore.SettingsSerializer
-import com.cactusknights.chefbook.core.datastore.ShoppingListSerializer
-import com.cactusknights.chefbook.core.datastore.TokensSerializer
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
-import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
+import com.cactusknights.chefbook.data.datastore.LatestRecipesSerializer
+import com.cactusknights.chefbook.data.datastore.ProfileSerializer
+import com.cactusknights.chefbook.data.datastore.SettingsSerializer
+import com.cactusknights.chefbook.data.datastore.ShoppingListSerializer
+import com.cactusknights.chefbook.data.datastore.TokensSerializer
+import com.mysty.chefbook.core.di.Qualifiers
+import org.koin.core.module.dsl.named
+import org.koin.core.module.dsl.singleOf
+import org.koin.dsl.module
 
-@Module
-@InstallIn(SingletonComponent::class)
-class DataStoreModule {
+const val SETTINGS_FILE = "settings.proto"
+const val TOKENS_FILE = "tokens.proto"
+const val PROFILE_FILE = "profile.proto"
+const val LATEST_RECIPES_FILE = "latest_recipes.proto"
+const val SHOPPING_LIST_FILE = "shopping_list.proto"
 
-    companion object {
-        const val SETTINGS_FILE = "settings.proto"
-        const val TOKENS_FILE = "tokens.proto"
-        const val PROFILE_FILE = "profile.proto"
-        const val LATEST_RECIPES_FILE = "latest_recipes.proto"
-        const val SHOPPING_LIST_FILE = "shopping_list.proto"
-    }
+val dataStoreModule = module {
 
-    @Provides
-    @Singleton
-    fun provideSettingsDataStore(@ApplicationContext context: Context): DataStore<SettingsProto> {
-        return DataStoreFactory.create(
-            serializer = SettingsSerializer,
-            produceFile = { context.dataStoreFile(SETTINGS_FILE) }
-        )
-    }
+    singleOf(::createSettingsDataStore) { named(Qualifiers.DataStore.SETTINGS) }
+    singleOf(::createTokensDataStore) { named(Qualifiers.DataStore.TOKENS) }
+    singleOf(::createProfileCacheDataStore) { named(Qualifiers.DataStore.PROFILE) }
+    singleOf(::createLatestRecipesDataStore) { named(Qualifiers.DataStore.LATEST_RECIPES) }
+    singleOf(::createShoppingListDataStore) { named(Qualifiers.DataStore.SHOPPING_LIST) }
 
-    @Provides
-    @Singleton
-    fun provideTokensDataStore(@ApplicationContext context: Context): DataStore<TokensProto> {
-        return DataStoreFactory.create(
-            serializer = TokensSerializer,
-            produceFile = { context.dataStoreFile(TOKENS_FILE) }
-        )
-    }
-
-    @Provides
-    @Singleton
-    fun provideProfileCache(@ApplicationContext context: Context): DataStore<ProfileProto> {
-        return DataStoreFactory.create(
-            serializer = ProfileSerializer,
-            produceFile = { context.dataStoreFile(PROFILE_FILE) }
-        )
-    }
-
-    @Provides
-    @Singleton
-    fun provideLatestRecipeDataStore(@ApplicationContext context: Context): DataStore<LatestRecipesProto> {
-        return DataStoreFactory.create(
-            serializer = LatestRecipesSerializer,
-            produceFile = { context.dataStoreFile(LATEST_RECIPES_FILE) }
-        )
-    }
-
-    @Provides
-    @Singleton
-    fun provideShoppingListDataStore(@ApplicationContext context: Context): DataStore<ShoppingListProto> {
-        return DataStoreFactory.create(
-            serializer = ShoppingListSerializer,
-            produceFile = { context.dataStoreFile(SHOPPING_LIST_FILE) }
-        )
-    }
 }
+
+private fun createSettingsDataStore(context: Context) = createDataStore(context, SETTINGS_FILE, SettingsSerializer)
+private fun createTokensDataStore(context: Context) = createDataStore(context, TOKENS_FILE, TokensSerializer)
+private fun createProfileCacheDataStore(context: Context) = createDataStore(context, PROFILE_FILE, ProfileSerializer)
+private fun createLatestRecipesDataStore(context: Context) = createDataStore(context, LATEST_RECIPES_FILE, LatestRecipesSerializer)
+private fun createShoppingListDataStore(context: Context) = createDataStore(context, SHOPPING_LIST_FILE, ShoppingListSerializer)
+
+private fun <T> createDataStore(context: Context, file: String, serializer: Serializer<T>) =
+    DataStoreFactory.create(
+        serializer = serializer,
+        produceFile = { context.dataStoreFile(file) }
+    )

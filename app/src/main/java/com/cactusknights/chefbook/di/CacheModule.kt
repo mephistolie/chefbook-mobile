@@ -8,31 +8,11 @@ import com.cactusknights.chefbook.domain.interfaces.ICategoriesCacheWriter
 import com.cactusknights.chefbook.domain.interfaces.IRecipeBookCache
 import com.cactusknights.chefbook.domain.interfaces.IRecipeBookCacheReader
 import com.cactusknights.chefbook.domain.interfaces.IRecipeBookCacheWriter
-import dagger.Binds
-import dagger.Module
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
+import org.koin.core.module.dsl.singleOf
+import org.koin.dsl.binds
+import org.koin.dsl.module
 
-@Module
-@InstallIn(SingletonComponent::class)
-interface CacheModule {
-
-    @Binds
-    fun bindCategoriesCache(cache: CategoriesCache): ICategoriesCache
-
-    @Binds
-    fun bindCategoriesCacheReader(cache: ICategoriesCache): ICategoriesCacheReader
-
-    @Binds
-    fun bindCategoriesCacheWriter(cache: ICategoriesCache): ICategoriesCacheWriter
-
-    @Binds
-    fun bindRecipeBookCache(cache: RecipeBookCache): IRecipeBookCache
-
-    @Binds
-    fun bindRecipeBookCacheReader(cache: IRecipeBookCache): IRecipeBookCacheReader
-
-    @Binds
-    fun bindRecipeBookCacheWriter(cache: IRecipeBookCache): IRecipeBookCacheWriter
-
+val cacheModule = module {
+    singleOf(::CategoriesCache) binds arrayOf(ICategoriesCache::class, ICategoriesCacheReader::class, ICategoriesCacheWriter::class)
+    singleOf(::RecipeBookCache) binds arrayOf(IRecipeBookCache::class, IRecipeBookCacheReader::class, IRecipeBookCacheWriter::class)
 }

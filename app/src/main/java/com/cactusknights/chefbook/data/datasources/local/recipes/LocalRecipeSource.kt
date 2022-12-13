@@ -13,11 +13,10 @@ import com.cactusknights.chefbook.domain.entities.action.SuccessResult
 import com.cactusknights.chefbook.domain.entities.recipe.Recipe
 import com.cactusknights.chefbook.domain.entities.recipe.RecipeInfo
 import com.cactusknights.chefbook.domain.entities.recipe.toRecipeInfo
-import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class LocalRecipeSource @Inject constructor(
+class LocalRecipeSource(
     private val dao: RecipeBookDao,
 ) : ILocalRecipeSource {
 

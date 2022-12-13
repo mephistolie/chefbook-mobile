@@ -3,7 +3,6 @@ package com.cactusknights.chefbook.ui.screens.auth
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.cactusknights.chefbook.R
-import com.cactusknights.chefbook.common.mvi.EventHandler
 import com.cactusknights.chefbook.domain.entities.action.Failure
 import com.cactusknights.chefbook.domain.entities.action.Loading
 import com.cactusknights.chefbook.domain.entities.action.Successful
@@ -14,8 +13,7 @@ import com.cactusknights.chefbook.ui.screens.auth.models.AuthProgress
 import com.cactusknights.chefbook.ui.screens.auth.models.AuthScreenEffect
 import com.cactusknights.chefbook.ui.screens.auth.models.AuthScreenEvent
 import com.cactusknights.chefbook.ui.screens.auth.models.AuthScreenState
-import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
+import com.mysty.chefbook.core.mvi.EventHandler
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -28,8 +26,7 @@ enum class PasswordStates {
     VALID, SHORT, UPPER, LOWER, NUMBER, SPACE
 }
 
-@HiltViewModel
-class AuthViewModel @Inject constructor(
+class AuthViewModel(
     private val signInUseCase: ISignInUseCase,
     private val signUpUseCase: ISignUpUseCase,
 ) : ViewModel(), EventHandler<AuthScreenEvent> {

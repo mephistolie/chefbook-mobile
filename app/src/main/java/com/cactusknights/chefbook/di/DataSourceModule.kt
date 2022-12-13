@@ -31,91 +31,37 @@ import com.cactusknights.chefbook.data.datasources.remote.RemoteShoppingListSour
 import com.cactusknights.chefbook.data.datasources.remote.recipes.RemoteRecipeInteractionSource
 import com.cactusknights.chefbook.data.datasources.remote.recipes.RemoteRecipePictureSource
 import com.cactusknights.chefbook.data.datasources.remote.recipes.RemoteRecipeSource
-import dagger.Binds
-import dagger.Module
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import javax.inject.Qualifier
+import com.mysty.chefbook.core.di.Qualifiers
+import org.koin.core.qualifier.named
+import org.koin.dsl.bind
+import org.koin.dsl.module
 
-@Module
-@InstallIn(SingletonComponent::class)
-interface DataSourceBindModule {
+val dataSourceModule = module {
 
-    @Binds
-    @Remote
-    fun bindRemoteAuthSource(source: RemoteAuthSource): IAuthSource
+    single(named(Qualifiers.REMOTE)) { RemoteAuthSource(get(), get()) } bind IAuthSource::class
 
-    @Binds
-    @Local
-    fun bindLocalProfileSource(source: LocalProfileSource): ILocalProfileSource
+    single(named(Qualifiers.LOCAL)) { LocalProfileSource(get(named(Qualifiers.DataStore.PROFILE))) } bind ILocalProfileSource::class
+    single(named(Qualifiers.REMOTE)) { RemoteProfileSource(get(), get()) } bind IRemoteProfileSource::class
 
-    @Binds
-    @Remote
-    fun bindRemoteProfileSource(source: RemoteProfileSource): IRemoteProfileSource
+    single(named(Qualifiers.LOCAL)) { LocalEncryptionSource(get()) } bind ILocalEncryptionSource::class
+    single(named(Qualifiers.REMOTE)) { RemoteEncryptionSource(get(), get(named(Qualifiers.REMOTE)), get()) } bind IRemoteEncryptionSource::class
 
-    @Binds
-    @Local
-    fun bindLocalRecipeEncryptionSource(source: LocalEncryptionSource): ILocalEncryptionSource
+    single(named(Qualifiers.LOCAL)) { LocalFileSource(get()) } bind IFileSource::class
+    single(named(Qualifiers.REMOTE)) { RemoteFileSource(get()) } bind IFileSource::class
 
-    @Binds
-    @Remote
-    fun bindRemoteRecipeEncryptionSource(source: RemoteEncryptionSource): IRemoteEncryptionSource
+    single(named(Qualifiers.LOCAL)) { LocalRecipeSource(get()) } bind ILocalRecipeSource::class
+    single(named(Qualifiers.REMOTE)) { RemoteRecipeSource(get(), get()) } bind IRemoteRecipeSource::class
 
-    @Binds
-    @Local
-    fun bindLocalFileSource(source: LocalFileSource): IFileSource
+    single(named(Qualifiers.LOCAL)) { LocalRecipePictureSource(get(), get()) } bind IRecipePictureSource::class
+    single(named(Qualifiers.REMOTE)) { RemoteRecipePictureSource(get(), get()) } bind IRecipePictureSource::class
 
-    @Binds
-    @Remote
-    fun bindRemoteFileSource(source: RemoteFileSource): IFileSource
+    single(named(Qualifiers.LOCAL)) { LocalRecipeInteractionSource(get()) } bind ILocalRecipeInteractionSource::class
+    single(named(Qualifiers.REMOTE)) { RemoteRecipeInteractionSource(get(), get()) } bind IRemoteRecipeInteractionSource::class
 
-    @Binds
-    @Local
-    fun bindLocalRecipeSource(source: LocalRecipeSource): ILocalRecipeSource
+    single(named(Qualifiers.LOCAL)) { LocalCategorySource(get()) } bind ILocalCategorySource::class
+    single(named(Qualifiers.REMOTE)) { RemoteCategorySource(get(), get()) } bind IRemoteCategorySource::class
 
-    @Binds
-    @Remote
-    fun bindRemoteRecipeSource(source: RemoteRecipeSource): IRemoteRecipeSource
-
-    @Binds
-    @Local
-    fun bindLocalRecipePictureSource(source: LocalRecipePictureSource): IRecipePictureSource
-
-    @Binds
-    @Remote
-    fun bindRemoteRecipePictureSource(source: RemoteRecipePictureSource): IRecipePictureSource
-
-    @Binds
-    @Local
-    fun bindLocalRecipeInteractionSource(source: LocalRecipeInteractionSource): ILocalRecipeInteractionSource
-
-    @Binds
-    @Remote
-    fun bindRemoteRecipeInteractionSource(source: RemoteRecipeInteractionSource): IRemoteRecipeInteractionSource
-
-    @Binds
-    @Local
-    fun bindLocalCategorySource(source: LocalCategorySource): ILocalCategorySource
-
-    @Binds
-    @Remote
-    fun bindRemoteCategorySource(source: RemoteCategorySource): IRemoteCategorySource
-
-    @Binds
-    @Local
-    fun bindLocalShoppingListSource(source: LocalShoppingListSource): IShoppingListSource
-
-    @Binds
-    @Remote
-    fun bindRemoteShoppingListSource(source: RemoteShoppingListSource): IShoppingListSource
+    single(named(Qualifiers.LOCAL)) { LocalShoppingListSource(get(named(Qualifiers.DataStore.SHOPPING_LIST))) } bind IShoppingListSource::class
+    single(named(Qualifiers.REMOTE)) { RemoteShoppingListSource(get(), get()) } bind IShoppingListSource::class
 
 }
-
-
-@Qualifier
-@Retention(AnnotationRetention.RUNTIME)
-annotation class Local
-
-@Qualifier
-@Retention(AnnotationRetention.RUNTIME)
-annotation class Remote

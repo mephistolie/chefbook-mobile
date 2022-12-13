@@ -2,9 +2,6 @@ package com.cactusknights.chefbook.data.repositories.recipe
 
 import com.cactusknights.chefbook.data.ILocalRecipeInteractionSource
 import com.cactusknights.chefbook.data.IRemoteRecipeInteractionSource
-import com.cactusknights.chefbook.data.repositories.SourceRepo
-import com.cactusknights.chefbook.di.Local
-import com.cactusknights.chefbook.di.Remote
 import com.cactusknights.chefbook.domain.entities.action.AppError
 import com.cactusknights.chefbook.domain.entities.action.AppErrorType
 import com.cactusknights.chefbook.domain.entities.action.Failure
@@ -12,16 +9,14 @@ import com.cactusknights.chefbook.domain.entities.action.SimpleAction
 import com.cactusknights.chefbook.domain.entities.action.isSuccess
 import com.cactusknights.chefbook.domain.interfaces.IRecipeBookCacheWriter
 import com.cactusknights.chefbook.domain.interfaces.IRecipeInteractionRepo
-import javax.inject.Inject
-import javax.inject.Singleton
+import com.cactusknights.chefbook.domain.interfaces.ISourceRepo
 
-@Singleton
-class RecipeInteractionRepo @Inject constructor(
-    @Local private val localSource: ILocalRecipeInteractionSource,
-    @Remote private val remoteSource: IRemoteRecipeInteractionSource,
+class RecipeInteractionRepo constructor(
+    private val localSource: ILocalRecipeInteractionSource,
+    private val remoteSource: IRemoteRecipeInteractionSource,
 
     private val cache: IRecipeBookCacheWriter,
-    private val sourceRepo: SourceRepo,
+    private val sourceRepo: ISourceRepo,
 ) : IRecipeInteractionRepo {
 
     override suspend fun setRecipeSavedStatus(recipeId: String, saved: Boolean): SimpleAction {

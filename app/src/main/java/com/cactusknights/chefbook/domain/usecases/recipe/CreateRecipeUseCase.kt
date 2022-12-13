@@ -1,6 +1,5 @@
 package com.cactusknights.chefbook.domain.usecases.recipe
 
-import com.cactusknights.chefbook.core.coroutines.AppDispatchers
 import com.cactusknights.chefbook.domain.entities.action.ActionStatus
 import com.cactusknights.chefbook.domain.entities.action.Loading
 import com.cactusknights.chefbook.domain.entities.action.asFailure
@@ -15,8 +14,8 @@ import com.cactusknights.chefbook.domain.interfaces.IEncryptedVaultRepo
 import com.cactusknights.chefbook.domain.interfaces.IRecipeEncryptionRepo
 import com.cactusknights.chefbook.domain.interfaces.IRecipePictureRepo
 import com.cactusknights.chefbook.domain.interfaces.IRecipeRepo
+import com.mysty.chefbook.core.coroutines.AppDispatchers
 import javax.crypto.SecretKey
-import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withContext
@@ -26,7 +25,7 @@ interface ICreateRecipeUseCase {
     suspend operator fun invoke(input: RecipeInput): Flow<ActionStatus<Recipe>>
 }
 
-class CreateRecipeUseCase @Inject constructor(
+class CreateRecipeUseCase(
     private val recipeRepo: IRecipeRepo,
     private val pictureRepo: IRecipePictureRepo,
     private val vaultRepo: IEncryptedVaultRepo,

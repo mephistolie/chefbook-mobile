@@ -15,9 +15,8 @@ import com.cactusknights.chefbook.domain.entities.action.asEmpty
 import com.cactusknights.chefbook.domain.entities.action.asFailure
 import com.cactusknights.chefbook.domain.entities.shoppinglist.Purchase
 import com.cactusknights.chefbook.domain.entities.shoppinglist.ShoppingList
-import javax.inject.Inject
 
-class RemoteShoppingListSource @Inject constructor(
+class RemoteShoppingListSource(
     private val api: ShoppingListApi,
     private val handleResponse: INetworkHandler,
 ) : IShoppingListSource {

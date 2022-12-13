@@ -1,6 +1,6 @@
 package com.cactusknights.chefbook.data.dto.remote.profile
 
-import com.cactusknights.chefbook.common.parseTimestampSafely
+import com.mysty.chefbook.core.parseTimestampSafely
 import com.cactusknights.chefbook.domain.entities.profile.Profile
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

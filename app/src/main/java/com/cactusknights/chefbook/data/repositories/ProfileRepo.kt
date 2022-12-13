@@ -1,10 +1,7 @@
 package com.cactusknights.chefbook.data.repositories
 
-import com.cactusknights.chefbook.core.coroutines.CoroutineScopes
 import com.cactusknights.chefbook.data.ILocalProfileSource
 import com.cactusknights.chefbook.data.IRemoteProfileSource
-import com.cactusknights.chefbook.di.Local
-import com.cactusknights.chefbook.di.Remote
 import com.cactusknights.chefbook.domain.entities.action.ActionStatus
 import com.cactusknights.chefbook.domain.entities.action.AppError
 import com.cactusknights.chefbook.domain.entities.action.AppErrorType
@@ -18,20 +15,19 @@ import com.cactusknights.chefbook.domain.entities.action.isSuccess
 import com.cactusknights.chefbook.domain.entities.profile.Profile
 import com.cactusknights.chefbook.domain.interfaces.IProfileRepo
 import com.cactusknights.chefbook.domain.interfaces.ISessionRepo
-import javax.inject.Inject
-import javax.inject.Singleton
+import com.cactusknights.chefbook.domain.interfaces.ISourceRepo
+import com.mysty.chefbook.core.coroutines.CoroutineScopes
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
-@Singleton
-class ProfileRepo @Inject constructor(
-    @Local private val localSource: ILocalProfileSource,
-    @Remote private val remoteSource: IRemoteProfileSource,
+class ProfileRepo(
+    private val localSource: ILocalProfileSource,
+    private val remoteSource: IRemoteProfileSource,
 
-    private val source: SourceRepo,
+    private val source: ISourceRepo,
     private val session: ISessionRepo,
     private val scopes: CoroutineScopes
 ) : IProfileRepo {

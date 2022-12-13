@@ -1,23 +1,14 @@
 package com.cactusknights.chefbook.di
 
-import com.cactusknights.chefbook.core.coroutines.AppDispatchers
-import com.cactusknights.chefbook.core.coroutines.CoroutineScopes
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
+import com.mysty.chefbook.core.coroutines.AppDispatchers
+import com.mysty.chefbook.core.coroutines.CoroutineScopes
+import org.koin.core.module.dsl.createdAtStart
+import org.koin.core.module.dsl.singleOf
+import org.koin.dsl.module
 
-@Module
-@InstallIn(SingletonComponent::class)
-class CoroutinesModule {
+val coroutinesModule = module {
 
-    @Provides
-    @Singleton
-    fun provideDispatchers(): AppDispatchers = AppDispatchers()
-
-    @Provides
-    @Singleton
-    fun provideCoroutineScopes(dispatchers: AppDispatchers): CoroutineScopes = CoroutineScopes(dispatchers)
+    single(createdAtStart = true) { AppDispatchers() }
+    singleOf(::CoroutineScopes) { createdAtStart() }
 
 }

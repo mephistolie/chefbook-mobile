@@ -2,14 +2,13 @@ package com.cactusknights.chefbook.data.cache
 
 import com.cactusknights.chefbook.domain.entities.category.Category
 import com.cactusknights.chefbook.domain.interfaces.ICategoriesCache
-import javax.inject.Inject
 import javax.inject.Singleton
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
 @Singleton
-class CategoriesCache @Inject constructor() : ICategoriesCache {
+class CategoriesCache : ICategoriesCache {
 
     private val cachedList = MutableStateFlow<List<Category>?>(null)
 

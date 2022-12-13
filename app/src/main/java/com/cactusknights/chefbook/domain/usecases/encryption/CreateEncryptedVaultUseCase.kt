@@ -1,12 +1,11 @@
 package com.cactusknights.chefbook.domain.usecases.encryption
 
-import com.cactusknights.chefbook.common.sha1
 import com.cactusknights.chefbook.core.encryption.AES_SALT_SIZE
 import com.cactusknights.chefbook.domain.entities.action.SimpleAction
 import com.cactusknights.chefbook.domain.entities.action.Successful
 import com.cactusknights.chefbook.domain.interfaces.IEncryptedVaultRepo
 import com.cactusknights.chefbook.domain.interfaces.IProfileRepo
-import javax.inject.Inject
+import com.mysty.chefbook.core.sha1
 
 const val DEFAULT_USER_ID = 1
 
@@ -14,7 +13,7 @@ interface ICreateEncryptedVaultUseCase {
     suspend operator fun invoke(password: String): SimpleAction
 }
 
-class CreateEncryptedVaultUseCase @Inject constructor(
+class CreateEncryptedVaultUseCase(
     private val encryptionRepo: IEncryptedVaultRepo,
     private val profileRepo: IProfileRepo,
 ) : ICreateEncryptedVaultUseCase {

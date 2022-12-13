@@ -2,19 +2,16 @@ package com.cactusknights.chefbook.ui.screens.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.cactusknights.chefbook.common.mvi.EventHandler
 import com.cactusknights.chefbook.domain.entities.settings.Tab
 import com.cactusknights.chefbook.ui.screens.home.models.HomeEvent
 import com.cactusknights.chefbook.ui.screens.home.models.HomeState
-import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
+import com.mysty.chefbook.core.mvi.EventHandler
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-@HiltViewModel
-class HomeViewModel @Inject constructor() : ViewModel(), EventHandler<HomeEvent> {
+class HomeViewModel : ViewModel(), EventHandler<HomeEvent> {
 
     private val _homeState: MutableStateFlow<HomeState> = MutableStateFlow(HomeState())
     val homeState = _homeState.asStateFlow()

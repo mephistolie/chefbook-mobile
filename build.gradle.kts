@@ -11,7 +11,6 @@ buildscript {
         classpath(Dependencies.gmsPlugin)
         classpath(Dependencies.Firebase.crashlyticsPlugin)
 
-        classpath(Dependencies.Hilt.plugin)
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.20")
     }
 }

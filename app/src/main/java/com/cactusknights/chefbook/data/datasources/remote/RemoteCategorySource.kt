@@ -15,9 +15,8 @@ import com.cactusknights.chefbook.domain.entities.action.asFailure
 import com.cactusknights.chefbook.domain.entities.category.Category
 import com.cactusknights.chefbook.domain.entities.category.CategoryInput
 import java.util.*
-import javax.inject.Inject
 
-class RemoteCategorySource @Inject constructor(
+class RemoteCategorySource(
     private val api: CategoryApi,
     private val handleResponse: INetworkHandler,
 ) : IRemoteCategorySource {

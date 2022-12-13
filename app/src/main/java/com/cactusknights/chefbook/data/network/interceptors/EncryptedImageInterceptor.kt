@@ -1,13 +1,12 @@
 package com.cactusknights.chefbook.data.network.interceptors
 
-import com.cactusknights.chefbook.core.coroutines.AppDispatchers
 import com.cactusknights.chefbook.core.encryption.IHybridCryptor
 import com.cactusknights.chefbook.core.encryption.ImageValidator
 import com.cactusknights.chefbook.domain.entities.action.ActionStatus
 import com.cactusknights.chefbook.domain.interfaces.IEncryptedVaultRepo
 import com.cactusknights.chefbook.domain.interfaces.IRecipeEncryptionRepo
+import com.mysty.chefbook.core.coroutines.AppDispatchers
 import javax.crypto.AEADBadTagException
-import javax.inject.Inject
 import kotlinx.coroutines.runBlocking
 import okhttp3.HttpUrl
 import okhttp3.Interceptor
@@ -15,7 +14,7 @@ import okhttp3.Response
 import okhttp3.ResponseBody.Companion.toResponseBody
 import timber.log.Timber
 
-class EncryptedImageInterceptor @Inject constructor(
+class EncryptedImageInterceptor(
     private val encryptedVaultRepo: IEncryptedVaultRepo,
     private val recipeEncryptionRepo: IRecipeEncryptionRepo,
     private val cryptor: IHybridCryptor,

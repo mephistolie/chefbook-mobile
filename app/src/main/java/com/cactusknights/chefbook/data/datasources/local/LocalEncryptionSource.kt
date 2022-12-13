@@ -12,15 +12,13 @@ import com.cactusknights.chefbook.domain.entities.action.FileError
 import com.cactusknights.chefbook.domain.entities.action.FileErrorType
 import com.cactusknights.chefbook.domain.entities.action.SimpleAction
 import com.cactusknights.chefbook.domain.entities.action.SuccessResult
-import dagger.hilt.android.qualifiers.ApplicationContext
 import java.io.File
 import java.io.IOException
-import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class LocalEncryptionSource @Inject constructor(
-    @ApplicationContext private val context: Context
+class LocalEncryptionSource(
+    private val context: Context
 ) : ILocalEncryptionSource {
 
     override suspend fun getUserKey(): ActionStatus<ByteArray> {

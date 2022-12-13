@@ -5,7 +5,6 @@ import com.cactusknights.chefbook.domain.entities.action.Loading
 import com.cactusknights.chefbook.domain.entities.category.Category
 import com.cactusknights.chefbook.domain.entities.category.CategoryInput
 import com.cactusknights.chefbook.domain.interfaces.ICategoryRepo
-import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
@@ -13,7 +12,7 @@ interface IUpdateCategoryUseCase {
     suspend operator fun invoke(categoryId: String, input: CategoryInput): Flow<ActionStatus<Category>>
 }
 
-class UpdateCategoryUseCase @Inject constructor(
+class UpdateCategoryUseCase(
     private val repo: ICategoryRepo,
 ) : IUpdateCategoryUseCase {
 

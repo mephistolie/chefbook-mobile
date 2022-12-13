@@ -31,7 +31,6 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
 import com.cactusknights.chefbook.R
-import com.cactusknights.chefbook.common.Utils
 import com.cactusknights.chefbook.core.ui.RecipeEncryptionProvider
 import com.cactusknights.chefbook.domain.entities.recipe.RecipeInfo
 import com.cactusknights.chefbook.ui.themes.ChefBookTheme
@@ -40,6 +39,7 @@ import com.cactusknights.chefbook.ui.views.images.EncryptedImage
 import com.mephistolie.compost.extensions.Shading
 import com.mephistolie.compost.modifiers.clippedBackground
 import com.mephistolie.compost.modifiers.scalingClickable
+import com.mysty.chefbook.core.ui.utils.TimeUtils
 
 @OptIn(ExperimentalUnitApi::class)
 @Composable
@@ -101,7 +101,7 @@ fun LatestRecipeCard(
                     )
                     recipe.time?.let {
                         Text(
-                            text = Utils.minutesToTimeString(recipe.time, context.resources),
+                            text = TimeUtils.minutesToTimeString(recipe.time, context.resources),
                             style = typography.subhead1,
                             color = colors.foregroundSecondary
                         )

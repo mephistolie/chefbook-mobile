@@ -3,19 +3,19 @@ package com.cactusknights.chefbook.ui.screens.home
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.cactusknights.chefbook.domain.entities.settings.Tab
 import com.cactusknights.chefbook.ui.navigation.Destination
 import com.cactusknights.chefbook.ui.screens.home.views.HomeScreenDisplay
 import com.cactusknights.chefbook.ui.screens.main.models.AppState
+import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun HomeScreen(
     appState: AppState,
     appController: NavHostController,
-    homeViewModel: HomeViewModel = hiltViewModel()
+    homeViewModel: HomeViewModel = getViewModel()
 ) {
     val homeController = rememberNavController()
     val homeState = homeViewModel.homeState.collectAsState()

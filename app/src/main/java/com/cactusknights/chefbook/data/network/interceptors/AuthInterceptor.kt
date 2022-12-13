@@ -1,12 +1,11 @@
 package com.cactusknights.chefbook.data.network.interceptors
 
 import com.cactusknights.chefbook.domain.interfaces.ISessionRepo
-import javax.inject.Inject
 import okhttp3.Interceptor
 import okhttp3.Request
 import okhttp3.Response
 
-class AuthInterceptor @Inject constructor(
+class AuthInterceptor(
     private val tokensRepo: ISessionRepo,
 ) : Interceptor {
 

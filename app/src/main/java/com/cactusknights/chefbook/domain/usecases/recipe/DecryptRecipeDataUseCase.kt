@@ -5,14 +5,13 @@ import com.cactusknights.chefbook.domain.entities.action.isFailure
 import com.cactusknights.chefbook.domain.interfaces.ICryptor
 import com.cactusknights.chefbook.domain.interfaces.IEncryptedVaultRepo
 import com.cactusknights.chefbook.domain.interfaces.IRecipeEncryptionRepo
-import javax.inject.Inject
 import kotlinx.coroutines.runBlocking
 
 interface IDecryptRecipeDataUseCase {
     operator fun invoke(data: ByteArray, recipeId: String): ByteArray
 }
 
-class DecryptRecipeDataUseCase @Inject constructor(
+class DecryptRecipeDataUseCase(
     private val encryptedVaultRepo: IEncryptedVaultRepo,
     private val recipeEncryptionRepo: IRecipeEncryptionRepo,
     private val cryptor: ICryptor,

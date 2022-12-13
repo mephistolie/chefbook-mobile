@@ -1,6 +1,6 @@
 package com.cactusknights.chefbook.ui.screens.encryptedvault.models
 
-import com.cactusknights.chefbook.common.Strings
+import com.mysty.chefbook.core.constants.Strings
 
 sealed class EncryptedVaultScreenState {
 

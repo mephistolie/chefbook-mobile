@@ -4,7 +4,6 @@ import com.cactusknights.chefbook.data.repositories.ShoppingListRepo
 import com.cactusknights.chefbook.domain.interfaces.ICategoryRepo
 import com.cactusknights.chefbook.domain.interfaces.IProfileRepo
 import com.cactusknights.chefbook.domain.interfaces.IRecipeRepo
-import javax.inject.Inject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -13,7 +12,7 @@ interface IRefreshDataUseCase {
     suspend operator fun invoke()
 }
 
-class RefreshDataUseCase @Inject constructor(
+class RefreshDataUseCase(
     private val profileRepo: IProfileRepo,
     private val recipeRepo: IRecipeRepo,
     private val categoriesRepo: ICategoryRepo,

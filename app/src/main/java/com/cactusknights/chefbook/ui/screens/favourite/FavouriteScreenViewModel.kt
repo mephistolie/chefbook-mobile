@@ -2,13 +2,11 @@ package com.cactusknights.chefbook.ui.screens.favourite
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.cactusknights.chefbook.common.mvi.EventHandler
 import com.cactusknights.chefbook.domain.usecases.recipe.IObserveRecipeBookUseCase
 import com.cactusknights.chefbook.ui.screens.favourite.models.FavouriteScreenEffect
 import com.cactusknights.chefbook.ui.screens.favourite.models.FavouriteScreenEvent
 import com.cactusknights.chefbook.ui.screens.favourite.models.FavouriteScreenState
-import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
+import com.mysty.chefbook.core.mvi.EventHandler
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -19,8 +17,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
-@HiltViewModel
-class FavouriteScreenViewModel @Inject constructor(
+class FavouriteScreenViewModel(
     private val observeRecipeBookUseCase: IObserveRecipeBookUseCase,
 ) : ViewModel(), EventHandler<FavouriteScreenEvent> {
 

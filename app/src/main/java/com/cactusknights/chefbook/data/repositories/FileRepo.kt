@@ -2,13 +2,9 @@ package com.cactusknights.chefbook.data.repositories
 
 import android.webkit.URLUtil
 import com.cactusknights.chefbook.data.IFileSource
-import com.cactusknights.chefbook.di.Local
-import com.cactusknights.chefbook.di.Remote
 import com.cactusknights.chefbook.domain.entities.action.ActionStatus
 import com.cactusknights.chefbook.domain.entities.action.asFailure
 import com.cactusknights.chefbook.domain.entities.action.isSuccess
-import javax.inject.Inject
-import javax.inject.Singleton
 import timber.log.Timber
 
 interface IFileRepo {
@@ -16,11 +12,8 @@ interface IFileRepo {
     suspend fun isOnlineSource(path: String): Boolean
 }
 
-@Singleton
-class FileRepo @Inject constructor(
-    @Local
+class FileRepo(
     private val local: IFileSource,
-    @Remote
     private val remote: IFileSource,
 ) : IFileRepo {
 

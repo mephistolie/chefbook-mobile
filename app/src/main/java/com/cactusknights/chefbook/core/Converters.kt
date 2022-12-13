@@ -3,7 +3,7 @@ package com.cactusknights.chefbook.core
 import com.cactusknights.chefbook.ProfileProto
 import com.cactusknights.chefbook.PurchaseProto
 import com.cactusknights.chefbook.ShoppingListProto
-import com.cactusknights.chefbook.common.Strings
+import com.mysty.chefbook.core.constants.Strings
 import com.cactusknights.chefbook.core.mappers.MeasureUnitMapper
 import com.cactusknights.chefbook.domain.entities.profile.Profile
 import com.cactusknights.chefbook.domain.entities.shoppinglist.Purchase

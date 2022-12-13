@@ -28,55 +28,26 @@ import com.cactusknights.chefbook.domain.interfaces.ISessionRepo
 import com.cactusknights.chefbook.domain.interfaces.ISettingsRepo
 import com.cactusknights.chefbook.domain.interfaces.IShoppingListRepo
 import com.cactusknights.chefbook.domain.interfaces.ISourceRepo
-import dagger.Binds
-import dagger.Module
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
+import com.mysty.chefbook.core.di.Qualifiers
+import org.koin.core.qualifier.named
+import org.koin.dsl.module
 
-@Module
-@InstallIn(SingletonComponent::class)
-interface RepositoryBindModule {
+val repositoryModule = module {
 
-    @Binds
-    fun bindAuthRepo(repo: AuthRepo): IAuthRepo
-
-    @Binds
-    fun bindProfileRepo(repo: ProfileRepo): IProfileRepo
-
-    @Binds
-    fun bindSettingsRepo(repo: SettingsRepo): ISettingsRepo
-
-    @Binds
-    fun bindSourceRepo(repo: SourceRepo): ISourceRepo
-
-    @Binds
-    fun bindSessionRepo(repo: SessionRepo): ISessionRepo
-
-    @Binds
-    fun bindEncryptedVaultRepo(repo: EncryptedVaultRepo): IEncryptedVaultRepo
-
-    @Binds
-    fun bindFileRepo(repo: FileRepo): IFileRepo
-
-    @Binds
-    fun bindRecipeRepo(repo: RecipeRepo): IRecipeRepo
-
-    @Binds
-    fun bindRecipePictureRepo(repo: RecipePictureRepo): IRecipePictureRepo
-
-    @Binds
-    fun bindRecipeInteractionRepo(repo: RecipeInteractionRepo): IRecipeInteractionRepo
-
-    @Binds
-    fun bindRecipeEncryptionRepo(repo: RecipeEncryptionRepo): IRecipeEncryptionRepo
-
-    @Binds
-    fun bindLatestRecipesRepo(repo: LatestRecipesRepo): ILatestRecipesRepo
-
-    @Binds
-    fun bindCategoryRepo(repo: CategoryRepo): ICategoryRepo
-
-    @Binds
-    fun bindShoppingListRepo(repo: ShoppingListRepo): IShoppingListRepo
+    single<IAuthRepo> { AuthRepo(get(named(Qualifiers.REMOTE))) }
+    single<IProfileRepo> { ProfileRepo(get(named(Qualifiers.LOCAL)), get(named(Qualifiers.REMOTE)), get(), get(), get()) }
+    single<ISettingsRepo> { SettingsRepo(get(named(Qualifiers.DataStore.SETTINGS))) }
+    single<ISourceRepo> { SourceRepo(get(), get(), get()) }
+    single<ISessionRepo> { SessionRepo(get(named(Qualifiers.DataStore.TOKENS)), get()) }
+    single<IEncryptedVaultRepo> { EncryptedVaultRepo(get(named(Qualifiers.LOCAL)), get(named(Qualifiers.REMOTE)), get(), get(), get()) }
+    single<IFileRepo> { FileRepo(get(named(Qualifiers.LOCAL)), get(named(Qualifiers.REMOTE))) }
+    single<IRecipeRepo> { RecipeRepo(get(named(Qualifiers.LOCAL)), get(named(Qualifiers.REMOTE)), get(named(Qualifiers.LOCAL)),
+        get(), get(), get(), get(), get(), get(), get(), get(), get()) }
+    single<IRecipePictureRepo> { RecipePictureRepo(get(named(Qualifiers.LOCAL)), get(named(Qualifiers.REMOTE)), get(), get(), get()) }
+    single<IRecipeInteractionRepo> { RecipeInteractionRepo(get(named(Qualifiers.LOCAL)), get(named(Qualifiers.REMOTE)), get(), get()) }
+    single<IRecipeEncryptionRepo> { RecipeEncryptionRepo(get(named(Qualifiers.LOCAL)), get(named(Qualifiers.REMOTE)), get(), get()) }
+    single<ILatestRecipesRepo> { LatestRecipesRepo(get(named(Qualifiers.DataStore.LATEST_RECIPES))) }
+    single<ICategoryRepo> { CategoryRepo(get(named(Qualifiers.LOCAL)), get(named(Qualifiers.REMOTE)), get(), get(), get()) }
+    single<IShoppingListRepo> { ShoppingListRepo(get(named(Qualifiers.LOCAL)), get(named(Qualifiers.REMOTE)), get(), get()) }
 
 }

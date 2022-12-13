@@ -1,20 +1,18 @@
 package com.cactusknights.chefbook.data.cache
 
-import com.cactusknights.chefbook.core.coroutines.AppDispatchers
 import com.cactusknights.chefbook.domain.entities.recipe.Recipe
 import com.cactusknights.chefbook.domain.entities.recipe.RecipeInfo
 import com.cactusknights.chefbook.domain.entities.recipe.toRecipeInfo
 import com.cactusknights.chefbook.domain.interfaces.ICategoriesCacheReader
 import com.cactusknights.chefbook.domain.interfaces.IRecipeBookCache
-import javax.inject.Inject
+import com.mysty.chefbook.core.coroutines.AppDispatchers
 import javax.inject.Singleton
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import timber.log.Timber
 
-@Singleton
-class RecipeBookCache @Inject constructor(
+class RecipeBookCache(
     private val categoriesCache: ICategoriesCacheReader,
     private val dispatchers: AppDispatchers,
 ) : IRecipeBookCache {

@@ -3,39 +3,24 @@ package com.cactusknights.chefbook.di
 import android.content.Context
 import androidx.room.Room
 import com.cactusknights.chefbook.data.room.ChefBookDatabase
-import com.cactusknights.chefbook.data.room.dao.CategoriesDao
-import com.cactusknights.chefbook.data.room.dao.RecipeBookDao
-import com.cactusknights.chefbook.data.room.dao.RecipeInteractionDao
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
-import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
+import org.koin.core.module.dsl.singleOf
+import org.koin.dsl.module
 
-@Module
-@InstallIn(SingletonComponent::class)
-class RoomModule {
+val databaseModule = module {
 
-    @Provides
-    @Singleton
-    fun provideDatabase(@ApplicationContext context: Context) =
-        Room.databaseBuilder(
-            context,
-            ChefBookDatabase::class.java,
-            "chefbook_database"
-        ).build()
-
-    @Provides
-    @Singleton
-    fun provideRecipeBookDao(roomDatabase: ChefBookDatabase) : RecipeBookDao = roomDatabase.recipeBookDao()
-
-    @Provides
-    @Singleton
-    fun provideRecipeInteractionDao(roomDatabase: ChefBookDatabase) : RecipeInteractionDao = roomDatabase.recipeInteractionDao()
-
-    @Provides
-    @Singleton
-    fun provideCategoriesDao(roomDatabase: ChefBookDatabase) : CategoriesDao = roomDatabase.categoriesDao()
-
+    singleOf(::getDatabase)
+    singleOf(::getRecipeBookDao)
+    singleOf(::getRecipeInteractionDao)
+    singleOf(::getCategoriesDao)
 }
+
+private fun getDatabase(context: Context) =
+    Room.databaseBuilder(
+        context,
+        ChefBookDatabase::class.java,
+        "chefbook_database"
+    ).build()
+
+private fun getRecipeBookDao(db: ChefBookDatabase) = db.recipeBookDao()
+private fun getRecipeInteractionDao(db: ChefBookDatabase) = db.recipeInteractionDao()
+private fun getCategoriesDao(db: ChefBookDatabase) = db.categoriesDao()

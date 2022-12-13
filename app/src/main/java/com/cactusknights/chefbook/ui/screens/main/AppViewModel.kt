@@ -7,8 +7,6 @@ import com.cactusknights.chefbook.domain.usecases.profile.IObserveProfileUseCase
 import com.cactusknights.chefbook.domain.usecases.settings.IObserveSettingsUseCase
 import com.cactusknights.chefbook.ui.screens.main.models.AppEffect
 import com.cactusknights.chefbook.ui.screens.main.models.AppState
-import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -22,8 +20,7 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import okhttp3.OkHttpClient
 
-@HiltViewModel
-class AppViewModel @Inject constructor(
+class AppViewModel(
     private val observeSettingsUseCase: IObserveSettingsUseCase,
     private val observeProfileUseCase: IObserveProfileUseCase,
     encryptedDataInterceptor: EncryptedImageInterceptor,
@@ -37,7 +34,7 @@ class AppViewModel @Inject constructor(
     private val _appState: MutableStateFlow<AppState> = MutableStateFlow(AppState())
     val appState: StateFlow<AppState> = _appState.asStateFlow()
 
-    private val _appEffect: MutableSharedFlow<AppEffect> =  MutableSharedFlow(replay = 0, extraBufferCapacity = 0)
+    private val _appEffect: MutableSharedFlow<AppEffect> = MutableSharedFlow(replay = 0, extraBufferCapacity = 0)
     val appEffect: SharedFlow<AppEffect> = _appEffect.asSharedFlow()
 
     private val mutex = Mutex()

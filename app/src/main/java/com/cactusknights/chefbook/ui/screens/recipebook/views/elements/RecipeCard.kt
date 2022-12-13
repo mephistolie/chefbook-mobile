@@ -36,8 +36,8 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
 import com.cactusknights.chefbook.R
-import com.cactusknights.chefbook.common.Strings
-import com.cactusknights.chefbook.common.Utils
+import com.mysty.chefbook.core.constants.Strings
+import com.mysty.chefbook.core.ui.utils.TimeUtils
 import com.cactusknights.chefbook.core.ui.RecipeEncryptionProvider
 import com.cactusknights.chefbook.domain.entities.recipe.RecipeInfo
 import com.cactusknights.chefbook.domain.entities.recipe.encryption.EncryptionState
@@ -154,7 +154,7 @@ fun RecipeCard(
                 }
                 if (recipe.time != null) {
                     Text(
-                        text = Utils.minutesToTimeString(recipe.time, context.resources),
+                        text = TimeUtils.minutesToTimeString(recipe.time, context.resources),
                         style = typography.subhead1,
                         color = colors.foregroundSecondary
                     )

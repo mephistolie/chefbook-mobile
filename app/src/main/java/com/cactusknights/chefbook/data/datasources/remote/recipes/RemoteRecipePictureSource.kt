@@ -11,12 +11,11 @@ import com.cactusknights.chefbook.domain.entities.action.DataResult
 import com.cactusknights.chefbook.domain.entities.action.SimpleAction
 import com.cactusknights.chefbook.domain.entities.action.asEmpty
 import com.cactusknights.chefbook.domain.entities.action.asFailure
-import javax.inject.Inject
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.toRequestBody
 
-class RemoteRecipePictureSource @Inject constructor(
+class RemoteRecipePictureSource(
     private val api: RecipeApi,
     private val handleResponse: INetworkHandler,
 ) : IRecipePictureSource {

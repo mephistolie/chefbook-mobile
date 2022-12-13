@@ -80,133 +80,56 @@ import com.cactusknights.chefbook.domain.usecases.shopinglist.RemovePurchasedIte
 import com.cactusknights.chefbook.domain.usecases.shopinglist.SetShoppingListUseCase
 import com.cactusknights.chefbook.domain.usecases.shopinglist.SwitchPurchaseStatusUseCase
 import com.cactusknights.chefbook.domain.usecases.shopinglist.SyncShoppingListUseCase
-import dagger.Binds
-import dagger.Module
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
+import org.koin.core.module.dsl.factoryOf
+import org.koin.dsl.bind
+import org.koin.dsl.module
 
-@Module
-@InstallIn(SingletonComponent::class)
-interface UseCasesBindingModule {
-
-    @Binds
-    fun bindObserveSettingsUseCase(useCase: ObserveSettingsUseCase): IObserveSettingsUseCase
-
-    @Binds
-    fun bindSetDefaultRecipeLanguageUseCase(useCase: SetDefaultRecipeLanguageUseCase): ISetDefaultRecipeLanguageUseCase
-
-    @Binds
-    fun bindRefreshDataUseCase(useCase: RefreshDataUseCase): IRefreshDataUseCase
-
-    @Binds
-    fun bindSignUpUseCase(useCase: SignUpUseCase): ISignUpUseCase
-
-    @Binds
-    fun bindSignInUseCase(useCase: SignInUseCase): ISignInUseCase
-
-    @Binds
-    fun bindChooseLocalModeUseCase(useCase: ChooseLocalModeUseCase): IChooseLocalModeUseCase
-
-    @Binds
-    fun bindObserveProfileUseCase(useCase: ObserveProfileUseCase): IObserveProfileUseCase
-
-    @Binds
-    fun bindObserveEncryptedVaultStateUseCase(useCase: ObserveEncryptedVaultStateUseCase): IObserveEncryptedVaultStateUseCase
-
-    @Binds
-    fun bindGetEncryptedVaultStateUseCase(useCase: GetEncryptedVaultStateUseCase): IGetEncryptedVaultStateUseCase
-
-    @Binds
-    fun bindCreateEncryptedVaultUseCase(useCase: CreateEncryptedVaultUseCase): ICreateEncryptedVaultUseCase
-
-    @Binds
-    fun bindUnlockEncryptedVaultUseCase(useCase: UnlockEncryptedVaultUseCase): IUnlockEncryptedVaultUseCase
-
-    @Binds
-    fun bindLockEncryptedVaultUseCase(useCase: LockEncryptedVaultUseCase): ILockEncryptedVaultUseCase
-
-    @Binds
-    fun bindDeleteEncryptedVaultUseCase(useCase: DeleteEncryptedVaultUseCase): IDeleteEncryptedVaultUseCase
-
-    @Binds
-    fun bindObserveRecipeBookUseCase(useCase: ObserveRecipeBookUseCase): IObserveRecipeBookUseCase
-
-    @Binds
-    fun bindGetRecipeBookUseCase(useCase: GetRecipeBookUseCase): IGetRecipeBookUseCase
-
-    @Binds
-    fun bindGetRecipeUseCase(useCase: GetRecipeUseCase): IGetRecipeUseCase
-
-    @Binds
-    fun bindCreateRecipeUseCase(useCase: CreateRecipeUseCase): ICreateRecipeUseCase
-
-    @Binds
-    fun bindUpdateRecipeUseCase(useCase: UpdateRecipeUseCase): IUpdateRecipeUseCase
-
-    @Binds
-    fun bindDeleteRecipeUseCase(useCase: DeleteRecipeUseCase): IDeleteRecipeUseCase
-
-    @Binds
-    fun bindDecryptRecipeDataUseCase(useCase: DecryptRecipeDataUseCase): IDecryptRecipeDataUseCase
-
-    @Binds
-    fun binSetRecipeLikeStatusUseCase(useCase: SetRecipeLikeStatusUseCase): ISetRecipeLikeStatusUseCase
-
-    @Binds
-    fun bindSetRecipeSaveStatusUseCase(useCase: SetRecipeSaveStatusUseCase): ISetRecipeSaveStatusUseCase
-
-    @Binds
-    fun bindSetRecipeFavouriteStatusUseCase(useCase: SetRecipeFavouriteStatusUseCase): ISetRecipeFavouriteStatusUseCase
-
-    @Binds
-    fun bindSetRecipeCategoriesUseCase(useCase: SetRecipeCategoriesUseCase): ISetRecipeCategoriesUseCase
-
-    @Binds
-    fun bindGetRecipeAsTextUseCase(useCase: GetRecipeAsTextUseCase): IGetRecipeAsTextUseCase
-
-    @Binds
-    fun bindObserveLatestRecipesUseCase(useCase: ObserveLatestRecipesUseCase): IObserveLatestRecipesUseCase
-
-    @Binds
-    fun bindGetLatestRecipesUseCase(useCase: GetLatestRecipesUseCase): IGetLatestRecipesUseCase
-
-    @Binds
-    fun bindObserveCategoriesUseCase(useCase: ObserveCategoriesUseCase): IObserveCategoriesUseCase
-
-    @Binds
-    fun bindGetCategoriesUseCase(useCase: GetCategoriesUseCase): IGetCategoriesUseCase
-
-    @Binds
-    fun bindGetCategoryUseCase(useCase: GetCategoryUseCase): IGetCategoryUseCase
-
-    @Binds
-    fun bindCreateCategoryUseCase(useCase: CreateCategoryUseCase): ICreateCategoryUseCase
-
-    @Binds
-    fun bindUpdateCategoryUseCase(useCase: UpdateCategoryUseCase): IUpdateCategoryUseCase
-
-    @Binds
-    fun bindDeleteCategoryUseCase(useCase: DeleteCategoryUseCase): IDeleteCategoryUseCase
-
-    @Binds
-    fun bindObserveShoppingListUseCase(useCase: ObserveShoppingListUseCase): IObserveShoppingListUseCase
-
-    @Binds
-    fun bindGetShoppingListUseCase(useCase: GetShoppingListUseCase): IGetShoppingListUseCase
-
-    @Binds
-    fun bindSyncShoppingListUseCase(useCase: SyncShoppingListUseCase): ISyncShoppingListUseCase
-
-    @Binds
-    fun bindRemovePurchasedItemsUseCase(useCase: RemovePurchasedItemsUseCase): IRemovePurchasedItemsUseCase
-
-    @Binds
-    fun bindSwitchPurchaseStatusUseCase(useCase: SwitchPurchaseStatusUseCase): ISwitchPurchaseStatusUseCase
-
-    @Binds
-    fun bindSetShoppingListUseCase(useCase: SetShoppingListUseCase): ISetShoppingListUseCase
-
-    @Binds
-    fun bindAddToShoppingListUseCase(useCase: AddToShoppingListUseCase): IAddToShoppingListUseCase
-
+val useCasesModule = module {
+    factoryOf(::ObserveSettingsUseCase) bind IObserveSettingsUseCase::class
+    factoryOf(::SetDefaultRecipeLanguageUseCase) bind ISetDefaultRecipeLanguageUseCase::class
+    
+    factoryOf(::RefreshDataUseCase) bind IRefreshDataUseCase::class
+    
+    factoryOf(::SignUpUseCase) bind ISignUpUseCase::class
+    factoryOf(::SignInUseCase) bind ISignInUseCase::class
+    factoryOf(::ChooseLocalModeUseCase) bind IChooseLocalModeUseCase::class
+    
+    factoryOf(::ObserveProfileUseCase) bind IObserveProfileUseCase::class
+    
+    factoryOf(::ObserveEncryptedVaultStateUseCase) bind IObserveEncryptedVaultStateUseCase::class
+    factoryOf(::GetEncryptedVaultStateUseCase) bind IGetEncryptedVaultStateUseCase::class
+    factoryOf(::CreateEncryptedVaultUseCase) bind ICreateEncryptedVaultUseCase::class
+    factoryOf(::UnlockEncryptedVaultUseCase) bind IUnlockEncryptedVaultUseCase::class
+    factoryOf(::LockEncryptedVaultUseCase) bind ILockEncryptedVaultUseCase::class
+    factoryOf(::DeleteEncryptedVaultUseCase) bind IDeleteEncryptedVaultUseCase::class
+        
+    factoryOf(::ObserveRecipeBookUseCase) bind IObserveRecipeBookUseCase::class
+    factoryOf(::ObserveLatestRecipesUseCase) bind IObserveLatestRecipesUseCase::class
+    factoryOf(::GetRecipeBookUseCase) bind IGetRecipeBookUseCase::class
+    factoryOf(::GetLatestRecipesUseCase) bind IGetLatestRecipesUseCase::class
+    factoryOf(::GetRecipeUseCase) bind IGetRecipeUseCase::class
+    factoryOf(::CreateRecipeUseCase) bind ICreateRecipeUseCase::class
+    factoryOf(::UpdateRecipeUseCase) bind IUpdateRecipeUseCase::class
+    factoryOf(::DeleteRecipeUseCase) bind IDeleteRecipeUseCase::class
+    factoryOf(::DecryptRecipeDataUseCase) bind IDecryptRecipeDataUseCase::class
+    factoryOf(::SetRecipeLikeStatusUseCase) bind ISetRecipeLikeStatusUseCase::class
+    factoryOf(::SetRecipeSaveStatusUseCase) bind ISetRecipeSaveStatusUseCase::class
+    factoryOf(::SetRecipeFavouriteStatusUseCase) bind ISetRecipeFavouriteStatusUseCase::class
+    factoryOf(::SetRecipeCategoriesUseCase) bind ISetRecipeCategoriesUseCase::class
+    factoryOf(::GetRecipeAsTextUseCase) bind IGetRecipeAsTextUseCase::class
+    
+    factoryOf(::ObserveCategoriesUseCase) bind IObserveCategoriesUseCase::class
+    factoryOf(::GetCategoriesUseCase) bind IGetCategoriesUseCase::class
+    factoryOf(::GetCategoryUseCase) bind IGetCategoryUseCase::class
+    factoryOf(::CreateCategoryUseCase) bind ICreateCategoryUseCase::class
+    factoryOf(::UpdateCategoryUseCase) bind IUpdateCategoryUseCase::class
+    factoryOf(::DeleteCategoryUseCase) bind IDeleteCategoryUseCase::class
+    
+    factoryOf(::ObserveShoppingListUseCase) bind IObserveShoppingListUseCase::class
+    factoryOf(::GetShoppingListUseCase) bind IGetShoppingListUseCase::class
+    factoryOf(::SyncShoppingListUseCase) bind ISyncShoppingListUseCase::class
+    factoryOf(::RemovePurchasedItemsUseCase) bind IRemovePurchasedItemsUseCase::class
+    factoryOf(::SwitchPurchaseStatusUseCase) bind ISwitchPurchaseStatusUseCase::class
+    factoryOf(::SetShoppingListUseCase) bind ISetShoppingListUseCase::class
+    factoryOf(::AddToShoppingListUseCase) bind IAddToShoppingListUseCase::class
 }

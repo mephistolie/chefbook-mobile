@@ -6,16 +6,14 @@ import android.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.cactusknights.chefbook.R
-import com.cactusknights.chefbook.common.mvi.EventHandler
 import com.cactusknights.chefbook.core.Endpoints
-import com.cactusknights.chefbook.core.qr.QRCodeWriter
 import com.cactusknights.chefbook.domain.entities.recipe.Recipe
 import com.cactusknights.chefbook.domain.usecases.recipe.IGetRecipeAsTextUseCase
 import com.cactusknights.chefbook.ui.screens.recipe.dialogs.share.models.RecipeShareDialogEffect
 import com.cactusknights.chefbook.ui.screens.recipe.dialogs.share.models.RecipeShareDialogEvent
 import com.cactusknights.chefbook.ui.screens.recipe.dialogs.share.models.RecipeShareDialogState
-import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
+import com.mysty.chefbook.core.mvi.EventHandler
+import com.mysty.chefbook.core.ui.qr.QRCodeWriter
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -24,8 +22,7 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-@HiltViewModel
-class RecipeShareDialogViewModel @Inject constructor(
+class RecipeShareDialogViewModel(
     private val getRecipeAsTextUseCase: IGetRecipeAsTextUseCase,
 ) : ViewModel(), EventHandler<RecipeShareDialogEvent> {
 

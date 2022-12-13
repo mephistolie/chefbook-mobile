@@ -20,9 +20,8 @@ import com.cactusknights.chefbook.domain.entities.recipe.RecipeInfo
 import com.cactusknights.chefbook.domain.entities.recipe.RecipeInput
 import com.cactusknights.chefbook.domain.entities.recipe.RecipesFilter
 import java.util.*
-import javax.inject.Inject
 
-class RemoteRecipeSource @Inject constructor(
+class RemoteRecipeSource(
     private val api: RecipeApi,
     private val handleResponse: INetworkHandler,
 ) : IRemoteRecipeSource {

@@ -2,7 +2,6 @@ package com.cactusknights.chefbook.ui.screens.category
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.cactusknights.chefbook.common.mvi.EventHandler
 import com.cactusknights.chefbook.domain.entities.action.Failure
 import com.cactusknights.chefbook.domain.entities.action.data
 import com.cactusknights.chefbook.domain.entities.action.isSuccess
@@ -16,8 +15,7 @@ import com.cactusknights.chefbook.domain.usecases.recipe.IObserveRecipeBookUseCa
 import com.cactusknights.chefbook.ui.screens.category.models.CategoryScreenEffect
 import com.cactusknights.chefbook.ui.screens.category.models.CategoryScreenEvent
 import com.cactusknights.chefbook.ui.screens.category.models.CategoryScreenState
-import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
+import com.mysty.chefbook.core.mvi.EventHandler
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -28,8 +26,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
-@HiltViewModel
-class CategoryScreenViewModel @Inject constructor(
+class CategoryScreenViewModel(
     private val getCategoryUseCase: IGetCategoryUseCase,
     private val updateCategoryUseCase: IUpdateCategoryUseCase,
     private val deleteCategoryUseCase: IDeleteCategoryUseCase,

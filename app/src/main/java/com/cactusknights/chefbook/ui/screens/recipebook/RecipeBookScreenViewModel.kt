@@ -2,7 +2,7 @@ package com.cactusknights.chefbook.ui.screens.recipebook
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.cactusknights.chefbook.common.mvi.EventHandler
+import com.mysty.chefbook.core.mvi.EventHandler
 import com.cactusknights.chefbook.domain.entities.action.isSuccess
 import com.cactusknights.chefbook.domain.entities.category.CategoryInput
 import com.cactusknights.chefbook.domain.entities.recipe.encryption.EncryptionState
@@ -14,8 +14,6 @@ import com.cactusknights.chefbook.domain.usecases.recipe.IObserveRecipeBookUseCa
 import com.cactusknights.chefbook.ui.screens.recipebook.models.RecipeBookScreenEffect
 import com.cactusknights.chefbook.ui.screens.recipebook.models.RecipeBookScreenEvent
 import com.cactusknights.chefbook.ui.screens.recipebook.models.RecipeBookScreenState
-import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -29,8 +27,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 
-@HiltViewModel
-class RecipeBookScreenViewModel @Inject constructor(
+class RecipeBookScreenViewModel(
     private val observeRecipeBookUseCase: IObserveRecipeBookUseCase,
     private val observeLatestRecipesUseCase: IObserveLatestRecipesUseCase,
     private val observeCategoriesUseCase: IObserveCategoriesUseCase,

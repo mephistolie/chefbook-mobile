@@ -6,11 +6,9 @@ import com.cactusknights.chefbook.data.room.dao.RecipeInteractionDao
 import com.cactusknights.chefbook.domain.entities.action.DataResult
 import com.cactusknights.chefbook.domain.entities.action.SuccessResult
 import com.cactusknights.chefbook.domain.entities.action.asEmpty
-import javax.inject.Inject
 import javax.inject.Singleton
 
-@Singleton
-class LocalRecipeInteractionSource @Inject constructor(
+class LocalRecipeInteractionSource(
     private val dao: RecipeInteractionDao,
 ) : ILocalRecipeInteractionSource {
 

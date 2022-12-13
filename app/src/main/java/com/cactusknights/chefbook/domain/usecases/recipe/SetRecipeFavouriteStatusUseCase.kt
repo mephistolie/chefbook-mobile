@@ -3,7 +3,6 @@ package com.cactusknights.chefbook.domain.usecases.recipe
 import com.cactusknights.chefbook.domain.entities.action.Loading
 import com.cactusknights.chefbook.domain.entities.action.SimpleAction
 import com.cactusknights.chefbook.domain.interfaces.IRecipeInteractionRepo
-import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
@@ -11,7 +10,7 @@ interface ISetRecipeFavouriteStatusUseCase {
     suspend operator fun invoke(recipeId: String, favourite: Boolean): Flow<SimpleAction>
 }
 
-class SetRecipeFavouriteStatusUseCase @Inject constructor(
+class SetRecipeFavouriteStatusUseCase(
     private val recipeRepo: IRecipeInteractionRepo,
 ) : ISetRecipeFavouriteStatusUseCase {
 

@@ -1,7 +1,7 @@
 package com.cactusknights.chefbook.data.dto.common.recipe
 
-import com.cactusknights.chefbook.common.parseTimestampSafely
 import com.cactusknights.chefbook.domain.entities.shoppinglist.ShoppingList
+import com.mysty.chefbook.core.parseTimestampSafely
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

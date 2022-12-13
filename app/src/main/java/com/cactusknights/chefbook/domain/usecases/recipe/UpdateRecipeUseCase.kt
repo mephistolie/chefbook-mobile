@@ -1,6 +1,6 @@
 package com.cactusknights.chefbook.domain.usecases.recipe
 
-import com.cactusknights.chefbook.core.coroutines.AppDispatchers
+import com.mysty.chefbook.core.coroutines.AppDispatchers
 import com.cactusknights.chefbook.domain.entities.action.ActionStatus
 import com.cactusknights.chefbook.domain.entities.action.Loading
 import com.cactusknights.chefbook.domain.entities.action.Successful
@@ -29,7 +29,7 @@ interface IUpdateRecipeUseCase {
     suspend operator fun invoke(recipeId: String, input: RecipeInput): Flow<ActionStatus<Recipe>>
 }
 
-class UpdateRecipeUseCase @Inject constructor(
+class UpdateRecipeUseCase(
     private val recipeRepo: IRecipeRepo,
     private val pictureRepo: IRecipePictureRepo,
     private val vaultRepo: IEncryptedVaultRepo,

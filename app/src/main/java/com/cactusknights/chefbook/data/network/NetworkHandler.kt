@@ -9,8 +9,6 @@ import com.cactusknights.chefbook.data.network.api.AuthApi
 import com.cactusknights.chefbook.domain.entities.action.ServerErrorType
 import com.cactusknights.chefbook.domain.interfaces.ISessionRepo
 import com.cactusknights.chefbook.domain.interfaces.ISourceRepo
-import javax.inject.Inject
-import javax.inject.Singleton
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
@@ -20,8 +18,7 @@ interface INetworkHandler {
     suspend operator fun <T> invoke(block: suspend () -> RequestResult<T>): RequestResult<T>
 }
 
-@Singleton
-class NetworkHandler @Inject constructor(
+class NetworkHandler(
     private val api: AuthApi,
     private val sourceRepo: ISourceRepo,
     private val tokensRepo: ISessionRepo,

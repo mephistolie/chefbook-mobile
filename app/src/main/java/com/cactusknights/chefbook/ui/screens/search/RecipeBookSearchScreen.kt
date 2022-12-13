@@ -5,17 +5,17 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.cactusknights.chefbook.ui.navigation.Destination
 import com.cactusknights.chefbook.ui.screens.search.models.RecipeBookSearchScreenEffect
 import com.cactusknights.chefbook.ui.screens.search.views.RecipeBookSearchScreenDisplay
+import org.koin.androidx.compose.getViewModel
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun RecipeBookSearchScreen(
     navController: NavHostController,
-    viewModel: RecipeBookSearchScreenViewModel = hiltViewModel(),
+    viewModel: RecipeBookSearchScreenViewModel = getViewModel(),
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
 

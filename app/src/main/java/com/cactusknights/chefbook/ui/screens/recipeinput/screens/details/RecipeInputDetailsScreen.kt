@@ -2,13 +2,13 @@ package com.cactusknights.chefbook.ui.screens.recipeinput.screens.details
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.cactusknights.chefbook.ui.screens.recipeinput.RecipeInputScreenViewModel
 import com.cactusknights.chefbook.ui.screens.recipeinput.screens.details.views.RecipeInputDetailsScreenDisplay
+import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun RecipeInputDetailsScreen(
-    viewModel: RecipeInputScreenViewModel = hiltViewModel(),
+    viewModel: RecipeInputScreenViewModel = getViewModel(),
 ) {
     val state = viewModel.state.collectAsState()
 

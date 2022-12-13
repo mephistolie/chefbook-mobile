@@ -3,7 +3,6 @@ package com.cactusknights.chefbook.data.repositories.recipe
 import androidx.datastore.core.DataStore
 import com.cactusknights.chefbook.LatestRecipesProto
 import com.cactusknights.chefbook.domain.interfaces.ILatestRecipesRepo
-import javax.inject.Inject
 import javax.inject.Singleton
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
@@ -11,7 +10,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.take
 
 @Singleton
-class LatestRecipesRepo @Inject constructor(
+class LatestRecipesRepo(
     private val dataStore: DataStore<LatestRecipesProto>,
 ): ILatestRecipesRepo {
 

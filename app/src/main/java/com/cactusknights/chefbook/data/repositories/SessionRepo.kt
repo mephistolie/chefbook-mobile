@@ -2,12 +2,11 @@ package com.cactusknights.chefbook.data.repositories
 
 import androidx.datastore.core.DataStore
 import com.cactusknights.chefbook.TokensProto
-import com.cactusknights.chefbook.core.coroutines.CoroutineScopes
-import com.cactusknights.chefbook.core.datastore.TokensSerializer
+import com.cactusknights.chefbook.data.datastore.TokensSerializer
 import com.cactusknights.chefbook.domain.entities.common.Tokens
 import com.cactusknights.chefbook.domain.interfaces.ISessionRepo
+import com.mysty.chefbook.core.coroutines.CoroutineScopes
 import java.lang.Thread.sleep
-import javax.inject.Inject
 import javax.inject.Singleton
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,7 +15,7 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 
 @Singleton
-class SessionRepo @Inject constructor(
+class SessionRepo(
     private val storage: DataStore<TokensProto>,
     private val scopes: CoroutineScopes
 ) : ISessionRepo {

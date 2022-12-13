@@ -24,7 +24,7 @@ interface IGetRecipeUseCase {
     suspend operator fun invoke(recipeId: String): Flow<ActionStatus<Recipe>>
 }
 
-class GetRecipeUseCase @Inject constructor(
+class GetRecipeUseCase(
     private val recipeRepo: IRecipeRepo,
     private val latestRecipesRepo: ILatestRecipesRepo,
     private val encryptedVaultRepo: IEncryptedVaultRepo,

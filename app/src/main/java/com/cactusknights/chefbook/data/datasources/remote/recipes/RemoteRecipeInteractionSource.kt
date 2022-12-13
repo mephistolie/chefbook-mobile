@@ -7,9 +7,8 @@ import com.cactusknights.chefbook.data.network.INetworkHandler
 import com.cactusknights.chefbook.data.network.api.RecipeApi
 import com.cactusknights.chefbook.domain.entities.action.SimpleAction
 import com.cactusknights.chefbook.domain.entities.action.asEmpty
-import javax.inject.Inject
 
-class RemoteRecipeInteractionSource @Inject constructor(
+class RemoteRecipeInteractionSource(
     private val api: RecipeApi,
     private val handleResponse: INetworkHandler,
 ) : IRemoteRecipeInteractionSource {

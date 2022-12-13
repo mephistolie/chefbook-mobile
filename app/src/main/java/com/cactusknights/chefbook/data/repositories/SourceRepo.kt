@@ -7,19 +7,15 @@ import com.cactusknights.chefbook.data.room.ChefBookDatabase
 import com.cactusknights.chefbook.domain.entities.settings.Mode
 import com.cactusknights.chefbook.domain.interfaces.ISettingsRepo
 import com.cactusknights.chefbook.domain.interfaces.ISourceRepo
-import dagger.hilt.android.qualifiers.ApplicationContext
 import java.io.File
-import javax.inject.Inject
-import javax.inject.Singleton
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
-@Singleton
-class SourceRepo @Inject constructor(
+class SourceRepo(
     private val settings: ISettingsRepo,
     private val database: ChefBookDatabase,
-    @ApplicationContext private val context: Context
+    private val context: Context
 ) : ISourceRepo {
 
     private val remoteAccess = MutableStateFlow(true)

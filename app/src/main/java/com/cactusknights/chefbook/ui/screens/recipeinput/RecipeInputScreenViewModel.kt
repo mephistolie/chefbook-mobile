@@ -3,9 +3,6 @@ package com.cactusknights.chefbook.ui.screens.recipeinput
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.cactusknights.chefbook.common.Strings
-import com.cactusknights.chefbook.common.mvi.EventHandler
-import com.cactusknights.chefbook.core.coroutines.AppDispatchers
 import com.cactusknights.chefbook.domain.entities.action.Failure
 import com.cactusknights.chefbook.domain.entities.action.Loading
 import com.cactusknights.chefbook.domain.entities.action.Successful
@@ -26,7 +23,9 @@ import com.cactusknights.chefbook.domain.usecases.settings.ISetDefaultRecipeLang
 import com.cactusknights.chefbook.ui.screens.recipeinput.models.RecipeInputScreenEffect
 import com.cactusknights.chefbook.ui.screens.recipeinput.models.RecipeInputScreenEvent
 import com.cactusknights.chefbook.ui.screens.recipeinput.models.RecipeInputScreenState
-import dagger.hilt.android.lifecycle.HiltViewModel
+import com.mysty.chefbook.core.constants.Strings
+import com.mysty.chefbook.core.coroutines.AppDispatchers
+import com.mysty.chefbook.core.mvi.EventHandler
 import id.zelory.compressor.Compressor
 import id.zelory.compressor.constraint.destination
 import id.zelory.compressor.constraint.quality
@@ -34,7 +33,6 @@ import id.zelory.compressor.constraint.resolution
 import id.zelory.compressor.constraint.size
 import java.io.File
 import java.util.*
-import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -48,8 +46,7 @@ import kotlinx.coroutines.withContext
 import kotlin.math.max
 import kotlin.math.min
 
-@HiltViewModel
-class RecipeInputScreenViewModel @Inject constructor(
+class RecipeInputScreenViewModel(
     application: Application,
     private val getRecipeUseCase: IGetRecipeUseCase,
     private val createRecipeUseCase: ICreateRecipeUseCase,

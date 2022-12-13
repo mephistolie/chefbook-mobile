@@ -7,7 +7,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.platform.LocalContext
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.cactusknights.chefbook.core.ui.RecipeEncryptionProvider
 import com.cactusknights.chefbook.domain.entities.recipe.encryption.EncryptionState
@@ -19,13 +18,14 @@ import com.cactusknights.chefbook.ui.screens.recipe.models.RecipeScreenState
 import com.cactusknights.chefbook.ui.screens.recipe.models.RecipeScreenTab
 import com.cactusknights.chefbook.ui.screens.recipe.views.RecipeScreenDisplay
 import com.cactusknights.chefbook.ui.themes.EncryptedDataTheme
+import org.koin.androidx.compose.getViewModel
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun RecipeScreen(
     recipeId: String,
     defaultTab: RecipeScreenTab,
-    recipeViewModel: RecipeScreenViewModel = hiltViewModel(),
+    recipeViewModel: RecipeScreenViewModel = getViewModel(),
     navController: NavHostController,
     sheetState: ModalBottomSheetState,
 ) {

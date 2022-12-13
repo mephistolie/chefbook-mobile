@@ -1,9 +1,6 @@
 package com.cactusknights.chefbook.data.repositories
 
-import com.cactusknights.chefbook.core.coroutines.CoroutineScopes
 import com.cactusknights.chefbook.data.IShoppingListSource
-import com.cactusknights.chefbook.di.Local
-import com.cactusknights.chefbook.di.Remote
 import com.cactusknights.chefbook.domain.entities.action.ActionStatus
 import com.cactusknights.chefbook.domain.entities.action.DataResult
 import com.cactusknights.chefbook.domain.entities.action.Failure
@@ -15,9 +12,9 @@ import com.cactusknights.chefbook.domain.entities.action.isSuccess
 import com.cactusknights.chefbook.domain.entities.shoppinglist.Purchase
 import com.cactusknights.chefbook.domain.entities.shoppinglist.ShoppingList
 import com.cactusknights.chefbook.domain.interfaces.IShoppingListRepo
+import com.cactusknights.chefbook.domain.interfaces.ISourceRepo
+import com.mysty.chefbook.core.coroutines.CoroutineScopes
 import java.time.ZoneOffset
-import javax.inject.Inject
-import javax.inject.Singleton
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -25,12 +22,11 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 import kotlin.math.abs
 
-@Singleton
-class ShoppingListRepo @Inject constructor(
-    @Local private val localSource: IShoppingListSource,
-    @Remote private val remoteSource: IShoppingListSource,
+class ShoppingListRepo(
+    private val localSource: IShoppingListSource,
+    private val remoteSource: IShoppingListSource,
 
-    private val source: SourceRepo,
+    private val source: ISourceRepo,
     private val scopes: CoroutineScopes,
 ) : IShoppingListRepo {
 

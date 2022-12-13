@@ -10,7 +10,6 @@ import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.AnnotatedString
 import androidx.core.content.ContextCompat
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.cactusknights.chefbook.domain.entities.recipe.Recipe
 import com.cactusknights.chefbook.ui.screens.recipe.dialogs.share.models.RecipeShareDialogEffect
 import com.cactusknights.chefbook.ui.screens.recipe.dialogs.share.models.RecipeShareDialogEvent
@@ -18,12 +17,13 @@ import com.cactusknights.chefbook.ui.screens.recipe.dialogs.share.views.RecipeSh
 import com.cactusknights.chefbook.ui.themes.ChefBookTheme
 import com.cactusknights.chefbook.ui.themes.Monochrome20
 import com.cactusknights.chefbook.ui.themes.Monochrome30
+import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun RecipeShareDialog(
     recipe: Recipe,
     onHide: () -> Unit,
-    viewModel: RecipeShareDialogViewModel = hiltViewModel(),
+    viewModel: RecipeShareDialogViewModel = getViewModel(),
 ) {
     val context = LocalContext.current
     val resources = context.resources

@@ -12,11 +12,10 @@ import com.cactusknights.chefbook.domain.entities.action.DataResult
 import com.cactusknights.chefbook.domain.entities.action.Failure
 import com.cactusknights.chefbook.domain.entities.action.SuccessResult
 import com.cactusknights.chefbook.domain.entities.category.Category
-import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class LocalCategorySource @Inject constructor(
+class LocalCategorySource(
     private val dao: CategoriesDao,
 ) : ILocalCategorySource {
 

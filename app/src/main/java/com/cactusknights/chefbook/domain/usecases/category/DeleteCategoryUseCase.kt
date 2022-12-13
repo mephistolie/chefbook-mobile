@@ -4,7 +4,6 @@ import com.cactusknights.chefbook.domain.entities.action.ActionStatus
 import com.cactusknights.chefbook.domain.entities.action.Loading
 import com.cactusknights.chefbook.domain.entities.category.Category
 import com.cactusknights.chefbook.domain.interfaces.ICategoryRepo
-import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
@@ -12,7 +11,7 @@ interface IDeleteCategoryUseCase {
     suspend operator fun invoke(categoryId: String): Flow<ActionStatus<Category>>
 }
 
-class DeleteCategoryUseCase @Inject constructor(
+class DeleteCategoryUseCase(
     private val repo: ICategoryRepo,
 ) : IDeleteCategoryUseCase {
 

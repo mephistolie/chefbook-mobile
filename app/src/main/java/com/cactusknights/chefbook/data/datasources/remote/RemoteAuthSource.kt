@@ -16,9 +16,8 @@ import com.cactusknights.chefbook.domain.entities.action.asEmpty
 import com.cactusknights.chefbook.domain.entities.action.asFailure
 import com.cactusknights.chefbook.domain.entities.common.Tokens
 import java.util.*
-import javax.inject.Inject
 
-class RemoteAuthSource @Inject constructor(
+class RemoteAuthSource(
     private val api: AuthApi,
     private val handleResponse: INetworkHandler,
 ) : IAuthSource {

@@ -10,7 +10,6 @@ plugins {
     id("kotlin-kapt")
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
-    id("dagger.hilt.android.plugin")
     id("com.google.protobuf") version "0.8.18"
 }
 
@@ -57,6 +56,9 @@ android {
 }
 
 dependencies {
+    implementation(project(Modules.Common.core))
+    implementation(project(Modules.Common.coreUi))
+
     // Core
     implementation(Dependencies.AndroidX.core)
     implementation(Dependencies.AndroidX.appCompat)
@@ -82,7 +84,6 @@ dependencies {
 
     implementation(Dependencies.AndroidX.composeActivity)
     implementation(Dependencies.AndroidX.composeViewModel)
-    implementation(Dependencies.AndroidX.composeHilt)
     implementation(Dependencies.AndroidX.composeNavigation)
 
     implementation(Dependencies.composeReorderable)
@@ -91,8 +92,9 @@ dependencies {
     implementation(Dependencies.timber)
 
     // DI
-    implementation(Dependencies.Hilt.library)
-    kapt(Dependencies.Hilt.compiler)
+    implementation(Dependencies.Koin.core)
+    implementation(Dependencies.Koin.android)
+    implementation(Dependencies.Koin.androidCompose)
 
     // Data
     implementation(Dependencies.serialization)

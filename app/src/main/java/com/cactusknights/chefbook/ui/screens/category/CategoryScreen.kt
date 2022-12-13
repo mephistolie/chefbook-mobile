@@ -3,18 +3,18 @@ package com.cactusknights.chefbook.ui.screens.category
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.cactusknights.chefbook.ui.navigation.Destination
 import com.cactusknights.chefbook.ui.screens.category.models.CategoryScreenEffect
 import com.cactusknights.chefbook.ui.screens.category.models.CategoryScreenEvent
 import com.cactusknights.chefbook.ui.screens.category.views.CategoryScreenDisplay
+import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun CategoryScreen(
     categoryId: String,
     appController: NavHostController,
-    categoryScreenViewModel: CategoryScreenViewModel = hiltViewModel(),
+    categoryScreenViewModel: CategoryScreenViewModel = getViewModel(),
 ) {
     val state = categoryScreenViewModel.state.collectAsState()
 

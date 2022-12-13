@@ -1,17 +1,16 @@
 package com.cactusknights.chefbook.data.datasources.local
 
-import com.cactusknights.chefbook.core.coroutines.AppDispatchers
 import com.cactusknights.chefbook.data.IFileSource
 import com.cactusknights.chefbook.domain.entities.action.ActionStatus
 import com.cactusknights.chefbook.domain.entities.action.DataResult
 import com.cactusknights.chefbook.domain.entities.action.Failure
 import com.cactusknights.chefbook.domain.entities.action.FileError
 import com.cactusknights.chefbook.domain.entities.action.FileErrorType
+import com.mysty.chefbook.core.coroutines.AppDispatchers
 import java.io.File
-import javax.inject.Inject
 import kotlinx.coroutines.withContext
 
-class LocalFileSource @Inject constructor(
+class LocalFileSource(
     private val dispatchers: AppDispatchers,
 ): IFileSource {
 

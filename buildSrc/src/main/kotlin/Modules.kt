@@ -2,10 +2,11 @@ object Modules {
 
     const val app = ":app"
 
-    object Core {
-        private const val prefix = "core"
+    object Common {
+        private const val prefix = ":common"
 
-        const val common = ":$prefix:common"
-        const val design = ":$prefix:design"
+        const val core = "$prefix:core"
+        const val coreUi = "$prefix:core-ui"
+        const val design = "$prefix:design"
     }
 }

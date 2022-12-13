@@ -8,9 +8,8 @@ import com.cactusknights.chefbook.domain.entities.action.ActionStatus
 import com.cactusknights.chefbook.domain.entities.action.DataResult
 import com.cactusknights.chefbook.domain.entities.action.ServerError
 import com.cactusknights.chefbook.domain.entities.action.ServerErrorType
-import javax.inject.Inject
 
-class RemoteFileSource @Inject constructor(
+class RemoteFileSource(
     private val api: FileApi,
 ) : IFileSource {
 

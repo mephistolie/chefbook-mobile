@@ -3,8 +3,6 @@ package com.cactusknights.chefbook.ui.screens.encryptedvault
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.cactusknights.chefbook.R
-import com.cactusknights.chefbook.common.mvi.EventHandler
-import com.cactusknights.chefbook.core.coroutines.AppDispatchers
 import com.cactusknights.chefbook.domain.entities.action.Failure
 import com.cactusknights.chefbook.domain.entities.action.Successful
 import com.cactusknights.chefbook.domain.entities.encryption.EncryptedVaultState
@@ -18,8 +16,8 @@ import com.cactusknights.chefbook.ui.screens.encryptedvault.models.EncryptedVaul
 import com.cactusknights.chefbook.ui.screens.encryptedvault.models.EncryptedVaultScreenState
 import com.cactusknights.chefbook.ui.screens.encryptedvault.models.EncryptedVaultScreenState.Companion.PIN_CODE_LENGTH
 import com.cactusknights.chefbook.ui.screens.encryptedvault.models.PinCodeInputType
-import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
+import com.mysty.chefbook.core.coroutines.AppDispatchers
+import com.mysty.chefbook.core.mvi.EventHandler
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -31,8 +29,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-@HiltViewModel
-class EncryptedVaultScreenViewModel @Inject constructor(
+class EncryptedVaultScreenViewModel(
     private val observeEncryptedVaultStateUseCase: IObserveEncryptedVaultStateUseCase,
     private val createEncryptedVaultUseCase: ICreateEncryptedVaultUseCase,
     private val unlockEncryptedVaultUseCase: IUnlockEncryptedVaultUseCase,

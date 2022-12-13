@@ -1,12 +1,8 @@
 package com.cactusknights.chefbook.data.repositories.recipe
 
-import com.cactusknights.chefbook.core.coroutines.AppDispatchers
-import com.cactusknights.chefbook.core.coroutines.CoroutineScopes
 import com.cactusknights.chefbook.data.ILocalRecipeInteractionSource
 import com.cactusknights.chefbook.data.ILocalRecipeSource
 import com.cactusknights.chefbook.data.IRemoteRecipeSource
-import com.cactusknights.chefbook.di.Local
-import com.cactusknights.chefbook.di.Remote
 import com.cactusknights.chefbook.domain.entities.action.ActionStatus
 import com.cactusknights.chefbook.domain.entities.action.AppError
 import com.cactusknights.chefbook.domain.entities.action.AppErrorType
@@ -36,26 +32,24 @@ import com.cactusknights.chefbook.domain.interfaces.IRecipeBookCache
 import com.cactusknights.chefbook.domain.interfaces.IRecipeEncryptionRepo
 import com.cactusknights.chefbook.domain.interfaces.IRecipeRepo
 import com.cactusknights.chefbook.domain.interfaces.ISourceRepo
+import com.mysty.chefbook.core.coroutines.AppDispatchers
+import com.mysty.chefbook.core.coroutines.CoroutineScopes
 import java.security.PrivateKey
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 import javax.crypto.SecretKey
-import javax.inject.Inject
-import javax.inject.Singleton
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.spongycastle.util.encoders.Base64
-import timber.log.Timber
 import kotlin.math.abs
 
-@Singleton
-class RecipeRepo @Inject constructor(
-    @Local private val localSource: ILocalRecipeSource,
-    @Remote private val remoteSource: IRemoteRecipeSource,
-    @Local private val localInteractionSource: ILocalRecipeInteractionSource,
+class RecipeRepo(
+    private val localSource: ILocalRecipeSource,
+    private val remoteSource: IRemoteRecipeSource,
+    private val localInteractionSource: ILocalRecipeInteractionSource,
 
     private val cache: IRecipeBookCache,
     private val encryptedVaultRepo: IEncryptedVaultRepo,
@@ -161,7 +155,8 @@ class RecipeRepo @Inject constructor(
 
             val remoteResult = remoteSource.createRecipe(input)
             if (remoteResult.isSuccess()) {
-                val newRecipe = input.toRecipe(id = remoteResult.data(), ownerId = owner?.id, ownerName = owner?.username)
+                val newRecipe =
+                    input.toRecipe(id = remoteResult.data(), ownerId = owner?.id, ownerName = owner?.username)
                 localSource.createRecipe(newRecipe)
                 DataResult(newRecipe)
             } else remoteResult.asFailure()
@@ -220,14 +215,15 @@ class RecipeRepo @Inject constructor(
         localSource.updateRecipe(updatedRecipe)
 
         if (updatedRecipe.encryptionState is EncryptionState.Encrypted && key != null) {
-            updatedRecipe = updatedRecipe.decrypt(key) { data -> cryptor.decryptDataBySymmetricKey(Base64.decode(data), key) }
+            updatedRecipe =
+                updatedRecipe.decrypt(key) { data -> cryptor.decryptDataBySymmetricKey(Base64.decode(data), key) }
         }
         cache.putRecipe(updatedRecipe)
 
         return DataResult(updatedRecipe)
     }
 
-     private suspend fun decryptResult(uploadResult: ActionStatus<Recipe>): ActionStatus<Recipe> {
+    private suspend fun decryptResult(uploadResult: ActionStatus<Recipe>): ActionStatus<Recipe> {
         if (uploadResult.isFailure()) return uploadResult
         var recipe = uploadResult.data()
         if (recipe.encryptionState is EncryptionState.Encrypted) {
@@ -279,8 +275,10 @@ class RecipeRepo @Inject constructor(
         val userKeyResult = encryptedVaultRepo.getUserPrivateKey()
         if (userKeyResult.isFailure()) return userKeyResult.asFailure()
 
-        val recipeKey = getRecipeKey(recipe.id, key = userKeyResult.data()) ?: return Failure(AppError(AppErrorType.UNABLE_DECRYPT))
-        val decryptedRecipe = recipe.decrypt(recipeKey) { data -> cryptor.decryptDataBySymmetricKey(Base64.decode(data), recipeKey) }
+        val recipeKey =
+            getRecipeKey(recipe.id, key = userKeyResult.data()) ?: return Failure(AppError(AppErrorType.UNABLE_DECRYPT))
+        val decryptedRecipe =
+            recipe.decrypt(recipeKey) { data -> cryptor.decryptDataBySymmetricKey(Base64.decode(data), recipeKey) }
         return DataResult(decryptedRecipe)
     }
 

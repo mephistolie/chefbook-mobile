@@ -1,13 +1,12 @@
 package com.cactusknights.chefbook.domain.usecases.recipe
 
 import com.cactusknights.chefbook.domain.interfaces.ILatestRecipesRepo
-import javax.inject.Inject
 
 interface IGetLatestRecipesUseCase {
     suspend operator fun invoke(): List<String>
 }
 
-class GetLatestRecipesUseCase @Inject constructor(
+class GetLatestRecipesUseCase(
     private val recipeRepo: ILatestRecipesRepo,
 ) : IGetLatestRecipesUseCase {
 

@@ -2,7 +2,6 @@ package com.cactusknights.chefbook.ui.screens.shoppinglist
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.cactusknights.chefbook.common.mvi.EventHandler
 import com.cactusknights.chefbook.domain.usecases.shopinglist.IAddToShoppingListUseCase
 import com.cactusknights.chefbook.domain.usecases.shopinglist.IObserveShoppingListUseCase
 import com.cactusknights.chefbook.domain.usecases.shopinglist.IRemovePurchasedItemsUseCase
@@ -12,8 +11,7 @@ import com.cactusknights.chefbook.ui.screens.shoppinglist.models.ShoppingListEff
 import com.cactusknights.chefbook.ui.screens.shoppinglist.models.ShoppingListScreenEvent
 import com.cactusknights.chefbook.ui.screens.shoppinglist.models.ShoppingListState
 import com.cactusknights.chefbook.ui.screens.shoppinglist.models.presentation.ShoppingListSectionMapper
-import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
+import com.mysty.chefbook.core.mvi.EventHandler
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -28,8 +26,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 
-@HiltViewModel
-class ShoppingListScreenViewModel @Inject constructor(
+class ShoppingListScreenViewModel(
     private val observeShoppingListUseCase: IObserveShoppingListUseCase,
     private val switchPurchaseStatusUseCase: ISwitchPurchaseStatusUseCase,
     private val removePurchasedItemsUseCase: IRemovePurchasedItemsUseCase,

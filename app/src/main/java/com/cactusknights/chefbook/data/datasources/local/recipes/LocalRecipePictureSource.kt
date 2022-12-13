@@ -4,7 +4,6 @@ import android.content.Context
 import android.net.Uri
 import com.cactusknights.chefbook.core.LocalPaths.PICTURES_DIR
 import com.cactusknights.chefbook.core.LocalPaths.RECIPES_DIR
-import com.cactusknights.chefbook.core.coroutines.AppDispatchers
 import com.cactusknights.chefbook.data.IRecipePictureSource
 import com.cactusknights.chefbook.domain.entities.action.ActionStatus
 import com.cactusknights.chefbook.domain.entities.action.DataResult
@@ -13,16 +12,15 @@ import com.cactusknights.chefbook.domain.entities.action.FileError
 import com.cactusknights.chefbook.domain.entities.action.FileErrorType
 import com.cactusknights.chefbook.domain.entities.action.SimpleAction
 import com.cactusknights.chefbook.domain.entities.action.SuccessResult
-import dagger.hilt.android.qualifiers.ApplicationContext
+import com.mysty.chefbook.core.coroutines.AppDispatchers
 import java.io.File
 import java.util.*
-import javax.inject.Inject
 import javax.inject.Singleton
 import kotlinx.coroutines.withContext
 
 @Singleton
-class LocalRecipePictureSource @Inject constructor(
-    @ApplicationContext private val context: Context,
+class LocalRecipePictureSource(
+    private val context: Context,
     val dispatchers: AppDispatchers,
 ) : IRecipePictureSource {
 

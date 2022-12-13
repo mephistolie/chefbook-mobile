@@ -4,7 +4,6 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.cactusknights.chefbook.R
-import com.cactusknights.chefbook.common.mvi.EventHandler
 import com.cactusknights.chefbook.domain.entities.action.Failure
 import com.cactusknights.chefbook.domain.entities.action.Loading
 import com.cactusknights.chefbook.domain.entities.action.Successful
@@ -25,8 +24,7 @@ import com.cactusknights.chefbook.ui.screens.recipe.models.RecipePicturesDialogS
 import com.cactusknights.chefbook.ui.screens.recipe.models.RecipeScreenEffect
 import com.cactusknights.chefbook.ui.screens.recipe.models.RecipeScreenEvent
 import com.cactusknights.chefbook.ui.screens.recipe.models.RecipeScreenState
-import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
+import com.mysty.chefbook.core.mvi.EventHandler
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -38,8 +36,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlin.math.ceil
 
-@HiltViewModel
-class RecipeScreenViewModel @Inject constructor(
+class RecipeScreenViewModel(
     private val getRecipeUseCase: IGetRecipeUseCase,
     private val deleteRecipeUseCase: IDeleteRecipeUseCase,
     private val setRecipeLikeStatusUseCase: ISetRecipeLikeStatusUseCase,

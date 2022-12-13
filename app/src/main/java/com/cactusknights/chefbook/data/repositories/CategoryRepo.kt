@@ -1,10 +1,7 @@
 package com.cactusknights.chefbook.data.repositories
 
-import com.cactusknights.chefbook.core.coroutines.CoroutineScopes
 import com.cactusknights.chefbook.data.ILocalCategorySource
 import com.cactusknights.chefbook.data.IRemoteCategorySource
-import com.cactusknights.chefbook.di.Local
-import com.cactusknights.chefbook.di.Remote
 import com.cactusknights.chefbook.domain.entities.action.ActionStatus
 import com.cactusknights.chefbook.domain.entities.action.DataResult
 import com.cactusknights.chefbook.domain.entities.action.SimpleAction
@@ -18,19 +15,18 @@ import com.cactusknights.chefbook.domain.entities.category.CategoryInput
 import com.cactusknights.chefbook.domain.entities.category.toCategory
 import com.cactusknights.chefbook.domain.interfaces.ICategoriesCache
 import com.cactusknights.chefbook.domain.interfaces.ICategoryRepo
-import javax.inject.Inject
-import javax.inject.Singleton
+import com.cactusknights.chefbook.domain.interfaces.ISourceRepo
+import com.mysty.chefbook.core.coroutines.CoroutineScopes
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import kotlin.math.abs
 
-@Singleton
-class CategoryRepo @Inject constructor(
-    @Local private val localSource: ILocalCategorySource,
-    @Remote private val remoteSource: IRemoteCategorySource,
+class CategoryRepo(
+    private val localSource: ILocalCategorySource,
+    private val remoteSource: IRemoteCategorySource,
 
     private val cache: ICategoriesCache,
-    private val source: SourceRepo,
+    private val source: ISourceRepo,
     private val scopes: CoroutineScopes,
 ) : ICategoryRepo {
 

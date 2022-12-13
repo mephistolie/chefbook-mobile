@@ -11,150 +11,80 @@ import com.cactusknights.chefbook.data.network.api.ProfileApi
 import com.cactusknights.chefbook.data.network.api.RecipeApi
 import com.cactusknights.chefbook.data.network.api.ShoppingListApi
 import com.cactusknights.chefbook.data.network.interceptors.AuthInterceptor
-import com.cactusknights.chefbook.domain.interfaces.ISessionRepo
+import com.cactusknights.chefbook.data.network.interceptors.EncryptedImageInterceptor
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
-import dagger.Binds
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import javax.inject.Qualifier
-import javax.inject.Singleton
+import com.mysty.chefbook.core.di.Qualifiers
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import org.koin.core.module.dsl.named
+import org.koin.core.module.dsl.singleOf
+import org.koin.core.qualifier.named
+import org.koin.dsl.bind
+import org.koin.dsl.module
 import retrofit2.Retrofit
 
-@Module
-@InstallIn(SingletonComponent::class)
-class NetworkModule {
+private const val API_URL = "https://api.chefbook.space/"
 
-    companion object {
-        const val API_URL = "https://api.chefbook.space/"
+private val jsonType = "application/json".toMediaType()
 
-        val jsonType = "application/json".toMediaType()
-    }
+val networkModule = module {
+    singleOf(::loggingInterceptor)
+    singleOf(::AuthInterceptor)
+    singleOf(::EncryptedImageInterceptor)
 
-    @Provides
-    @Singleton
-    fun provideLoggingInterceptor(): HttpLoggingInterceptor =
-        HttpLoggingInterceptor().apply {
-            this.level = HttpLoggingInterceptor.Level.BODY
-        }
+    singleOf(::baseRetrofit) { named(Qualifiers.ANONYMOUS) }
+    single { createAuthApi(get(named(Qualifiers.ANONYMOUS))) }
 
-    @OptIn(ExperimentalSerializationApi::class)
-    @Provides
-    @Singleton
-    @BaseRetrofit
-    fun provideBaseRetrofit(): Retrofit =
-        Retrofit.Builder()
-            .baseUrl(API_URL)
-            .addConverterFactory(Json.asConverterFactory(jsonType))
-            .addCallAdapterFactory(ResultAdapterFactory())
-            .build()
+    singleOf(::createAuthorizedOkHttpClient) { named(Qualifiers.AUTHORIZED) }
+    single(named(Qualifiers.AUTHORIZED)) { createAuthorizedRetrofit(get(named(Qualifiers.AUTHORIZED))) }
 
-    @Provides
-    @Singleton
-    fun provideAuthApi(
-        @BaseRetrofit
-        retrofit: Retrofit
-    ): AuthApi = retrofit.create(AuthApi::class.java)
+    single { createFileApi(get(named(Qualifiers.AUTHORIZED))) }
+    single { createProfileApi(get(named(Qualifiers.AUTHORIZED))) }
+    single { createEncryptionApi(get(named(Qualifiers.AUTHORIZED))) }
+    single { createRecipeApi(get(named(Qualifiers.AUTHORIZED))) }
+    single { createCategoryApi(get(named(Qualifiers.AUTHORIZED))) }
+    single { createShoppingListApi(get(named(Qualifiers.AUTHORIZED))) }
 
-    @Provides
-    @Singleton
-    fun provideAuthInterceptor(
-        session: ISessionRepo,
-    ): AuthInterceptor =
-        AuthInterceptor(session)
-
-    @Provides
-    @Singleton
-    fun provideAuthorizedHttpClient(
-        httpLoggingInterceptor: HttpLoggingInterceptor,
-        authInterceptor: AuthInterceptor,
-    ): OkHttpClient =
-        OkHttpClient.Builder()
-            .addInterceptor(authInterceptor)
-            .addInterceptor(httpLoggingInterceptor)
-            .build()
-
-    @OptIn(ExperimentalSerializationApi::class)
-    @Provides
-    @Singleton
-    @AuthorizedRetrofit
-    fun provideAuthorizedRetrofit(
-        okHttpClient: OkHttpClient,
-    ): Retrofit =
-        Retrofit.Builder()
-            .baseUrl(API_URL)
-            .client(okHttpClient)
-            .addConverterFactory(Json.asConverterFactory(jsonType))
-            .addCallAdapterFactory(ResultAdapterFactory())
-            .build()
-
-    @Provides
-    @Singleton
-    fun provideCommonApi(
-        @AuthorizedRetrofit
-        retrofit: Retrofit
-    ): FileApi = retrofit.create(FileApi::class.java)
-
-    @Provides
-    @Singleton
-    fun provideUsersApi(
-        @AuthorizedRetrofit
-        retrofit: Retrofit
-    ): ProfileApi = retrofit.create(ProfileApi::class.java)
-
-    @Provides
-    @Singleton
-    fun provideEncryptionApi(
-        @AuthorizedRetrofit
-        retrofit: Retrofit
-    ): EncryptionApi =
-        retrofit.create(EncryptionApi::class.java)
-
-    @Provides
-    @Singleton
-    fun provideRecipesApi(
-        @AuthorizedRetrofit
-        retrofit: Retrofit
-    ): RecipeApi =
-        retrofit.create(RecipeApi::class.java)
-
-    @Provides
-    @Singleton
-    fun provideCategoriesApi(
-        @AuthorizedRetrofit
-        retrofit: Retrofit
-    ): CategoryApi =
-        retrofit.create(CategoryApi::class.java)
-
-    @Provides
-    @Singleton
-    fun provideShoppingListApi(
-        @AuthorizedRetrofit
-        retrofit: Retrofit
-    ): ShoppingListApi =
-        retrofit.create(ShoppingListApi::class.java)
-
+    singleOf(::NetworkHandler) bind INetworkHandler::class
 }
 
-@Module
-@InstallIn(SingletonComponent::class)
-interface NetworkBindModule {
-
-    @Binds
-    fun bindNetworkHandler(handler: NetworkHandler): INetworkHandler
-
+private val loggingInterceptor = HttpLoggingInterceptor().apply {
+    this.level = HttpLoggingInterceptor.Level.BODY
 }
 
-@Qualifier
-@Retention(AnnotationRetention.RUNTIME)
-annotation class BaseRetrofit
+@OptIn(ExperimentalSerializationApi::class)
+private val baseRetrofit: Retrofit = Retrofit.Builder()
+    .baseUrl(API_URL)
+    .addConverterFactory(Json.asConverterFactory(jsonType))
+    .addCallAdapterFactory(ResultAdapterFactory())
+    .build()
 
-@Qualifier
-@Retention(AnnotationRetention.RUNTIME)
-annotation class AuthorizedRetrofit
+private fun createAuthorizedOkHttpClient(
+    loggingInterceptor: HttpLoggingInterceptor,
+    authInterceptor: AuthInterceptor,
+) = OkHttpClient.Builder()
+    .addInterceptor(authInterceptor)
+    .addInterceptor(loggingInterceptor)
+    .build()
+
+@OptIn(ExperimentalSerializationApi::class)
+private fun createAuthorizedRetrofit(
+    okHttpClient: OkHttpClient,
+): Retrofit =
+    Retrofit.Builder()
+        .baseUrl(API_URL)
+        .client(okHttpClient)
+        .addConverterFactory(Json.asConverterFactory(jsonType))
+        .addCallAdapterFactory(ResultAdapterFactory())
+        .build()
+
+private fun createAuthApi(retrofit: Retrofit) = retrofit.create(AuthApi::class.java)
+private fun createFileApi(retrofit: Retrofit) = retrofit.create(FileApi::class.java)
+private fun createProfileApi(retrofit: Retrofit) = retrofit.create(ProfileApi::class.java)
+private fun createEncryptionApi(retrofit: Retrofit) = retrofit.create(EncryptionApi::class.java)
+private fun createRecipeApi(retrofit: Retrofit) = retrofit.create(RecipeApi::class.java)
+private fun createCategoryApi(retrofit: Retrofit) = retrofit.create(CategoryApi::class.java)
+private fun createShoppingListApi(retrofit: Retrofit) = retrofit.create(ShoppingListApi::class.java)

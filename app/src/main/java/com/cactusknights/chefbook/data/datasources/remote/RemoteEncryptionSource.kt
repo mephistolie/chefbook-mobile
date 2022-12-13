@@ -7,7 +7,6 @@ import com.cactusknights.chefbook.data.dto.remote.common.isFailure
 import com.cactusknights.chefbook.data.dto.remote.common.toActionStatus
 import com.cactusknights.chefbook.data.network.INetworkHandler
 import com.cactusknights.chefbook.data.network.api.EncryptionApi
-import com.cactusknights.chefbook.di.Remote
 import com.cactusknights.chefbook.domain.entities.action.ActionStatus
 import com.cactusknights.chefbook.domain.entities.action.DataResult
 import com.cactusknights.chefbook.domain.entities.action.Failure
@@ -18,14 +17,12 @@ import com.cactusknights.chefbook.domain.entities.action.asEmpty
 import com.cactusknights.chefbook.domain.entities.action.asFailure
 import com.cactusknights.chefbook.domain.entities.action.data
 import com.cactusknights.chefbook.domain.entities.action.isSuccess
-import javax.inject.Inject
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.toRequestBody
 
-class RemoteEncryptionSource @Inject constructor(
+class RemoteEncryptionSource(
     private val api: EncryptionApi,
-    @Remote
     private val fileSource : IFileSource,
     private val handleResponse: INetworkHandler,
 ) : IRemoteEncryptionSource {

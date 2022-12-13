@@ -10,11 +10,10 @@ import com.cactusknights.chefbook.domain.entities.action.DataResult
 import com.cactusknights.chefbook.domain.entities.action.SimpleAction
 import com.cactusknights.chefbook.domain.entities.action.SuccessResult
 import com.cactusknights.chefbook.domain.entities.profile.Profile
-import javax.inject.Inject
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.take
 
-class LocalProfileSource @Inject constructor(
+class LocalProfileSource(
     private val dataStore: DataStore<ProfileProto>,
 ): ILocalProfileSource {
 

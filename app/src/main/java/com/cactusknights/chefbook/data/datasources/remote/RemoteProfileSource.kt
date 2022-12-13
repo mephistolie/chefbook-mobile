@@ -16,12 +16,11 @@ import com.cactusknights.chefbook.domain.entities.action.asEmpty
 import com.cactusknights.chefbook.domain.entities.action.asFailure
 import com.cactusknights.chefbook.domain.entities.profile.Profile
 import java.io.File
-import javax.inject.Inject
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 
-class RemoteProfileSource @Inject constructor(
+class RemoteProfileSource(
     private val api: ProfileApi,
     private val handleResponse: INetworkHandler
 ) : IRemoteProfileSource {

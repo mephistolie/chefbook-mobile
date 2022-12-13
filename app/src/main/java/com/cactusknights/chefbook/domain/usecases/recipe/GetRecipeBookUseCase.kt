@@ -4,7 +4,6 @@ import com.cactusknights.chefbook.domain.entities.common.Sorting
 import com.cactusknights.chefbook.domain.entities.recipe.RecipeBookFilter
 import com.cactusknights.chefbook.domain.entities.recipe.RecipeInfo
 import com.cactusknights.chefbook.domain.interfaces.IRecipeRepo
-import javax.inject.Inject
 
 interface IGetRecipeBookUseCase {
     suspend operator fun invoke(
@@ -12,7 +11,7 @@ interface IGetRecipeBookUseCase {
     ): List<RecipeInfo>
 }
 
-class GetRecipeBookUseCase @Inject constructor(
+class GetRecipeBookUseCase(
     private val recipesRepo: IRecipeRepo,
 ) : IGetRecipeBookUseCase {
 

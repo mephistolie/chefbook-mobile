@@ -14,13 +14,12 @@ import com.cactusknights.chefbook.domain.entities.shoppinglist.Purchase
 import com.cactusknights.chefbook.domain.entities.shoppinglist.ShoppingList
 import java.time.LocalDateTime
 import java.time.ZoneOffset
-import javax.inject.Inject
 import javax.inject.Singleton
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.take
 
 @Singleton
-class LocalShoppingListSource @Inject constructor(
+class LocalShoppingListSource(
     private val dataStore: DataStore<ShoppingListProto>,
 ): IShoppingListSource {
 

@@ -13,7 +13,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.cactusknights.chefbook.R
 import com.cactusknights.chefbook.core.mappers.LanguageMapper
@@ -34,6 +33,7 @@ import com.google.accompanist.navigation.material.BottomSheetNavigator
 import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
 import com.google.accompanist.navigation.material.ModalBottomSheetLayout
 import kotlinx.coroutines.flow.collectLatest
+import org.koin.androidx.compose.getViewModel
 
 @OptIn(ExperimentalMaterialApi::class, ExperimentalMaterialNavigationApi::class, ExperimentalAnimationApi::class)
 @Composable
@@ -41,7 +41,7 @@ fun RecipeInputScreen(
     recipeId: String?,
     defaultLanguage: String,
     appController: NavHostController,
-    viewModel: RecipeInputScreenViewModel = hiltViewModel(),
+    viewModel: RecipeInputScreenViewModel = getViewModel(),
 ) {
     val detailsRoute = Destination.RecipeInput.Details.route
     val ingredientsRoute = Destination.RecipeInput.Ingredients.route

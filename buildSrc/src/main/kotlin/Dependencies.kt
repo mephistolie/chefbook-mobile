@@ -4,6 +4,10 @@ object Dependencies {
     const val kotlinPlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Project.kotlinVersion}"
     const val gmsPlugin = "com.google.gms:google-services:4.3.14"
 
+    object Coroutines {
+        const val core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4"
+    }
+
     object AndroidX {
         const val core = "androidx.core:core-ktx:1.9.0"
         const val appCompat = "androidx.appcompat:appcompat:1.5.1"
@@ -11,7 +15,6 @@ object Dependencies {
 
         const val composeActivity = "androidx.activity:activity-compose:1.6.1"
         const val composeViewModel = "androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1"
-        const val composeHilt = "androidx.hilt:hilt-navigation-compose:1.0.0"
         const val composeNavigation = "androidx.navigation:navigation-compose:2.5.3"
     }
 
@@ -49,12 +52,12 @@ object Dependencies {
 
     const val timber = "com.jakewharton.timber:timber:5.0.1"
 
-    object Hilt {
-        private const val version = "2.42"
-
-        const val plugin = "com.google.dagger:hilt-android-gradle-plugin:$version"
-        const val library = "com.google.dagger:hilt-android:$version"
-        const val compiler = "com.google.dagger:hilt-compiler:$version"
+    object Koin {
+        private const val version = "3.2.2"
+        const val core = "io.insert-koin:koin-core:$version"
+        const val android = "io.insert-koin:koin-android:$version"
+        const val androidCompat = "io.insert-koin:koin-android-compat:$version"
+        const val androidCompose = "io.insert-koin:koin-androidx-compose:$version"
     }
 
     const val serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.3"
@@ -63,7 +66,7 @@ object Dependencies {
     const val protobuf = "com.google.protobuf:protobuf-javalite:3.17.2"
 
     object Room {
-        private const val version = "2.4.2"
+        private const val version = "2.4.3"
 
         const val runtime = "androidx.room:room-runtime:$version"
         const val ktx = "androidx.room:room-ktx:$version"

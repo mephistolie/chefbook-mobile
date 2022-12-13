@@ -10,7 +10,6 @@ import com.cactusknights.chefbook.domain.interfaces.IAuthRepo
 import com.cactusknights.chefbook.domain.interfaces.ISessionRepo
 import com.cactusknights.chefbook.domain.interfaces.ISettingsRepo
 import com.cactusknights.chefbook.domain.usecases.common.IRefreshDataUseCase
-import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
@@ -18,7 +17,7 @@ interface ISignInUseCase {
     suspend operator fun invoke(email: String, password: String): Flow<SimpleAction>
 }
 
-class SignInUseCase @Inject constructor(
+class SignInUseCase(
     private val authRepo: IAuthRepo,
     private val tokensRepo: ISessionRepo,
     private val settingsRepo: ISettingsRepo,

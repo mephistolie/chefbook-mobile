@@ -3,16 +3,16 @@ package com.cactusknights.chefbook.ui.screens.auth
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.cactusknights.chefbook.ui.navigation.Destination
 import com.cactusknights.chefbook.ui.screens.auth.models.AuthScreenEffect
 import com.cactusknights.chefbook.ui.screens.auth.views.AuthScreenDisplay
+import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun AuthScreen(
     appNavController: NavController,
-    authViewModel: AuthViewModel = hiltViewModel()
+    authViewModel: AuthViewModel = getViewModel()
 ) {
     val authState = authViewModel.authState.collectAsState()
 

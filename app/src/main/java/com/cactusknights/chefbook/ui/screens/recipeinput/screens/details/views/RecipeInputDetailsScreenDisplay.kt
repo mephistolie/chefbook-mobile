@@ -30,7 +30,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import com.cactusknights.chefbook.R
-import com.cactusknights.chefbook.common.Utils
+import com.mysty.chefbook.core.ui.utils.TimeUtils
 import com.cactusknights.chefbook.domain.entities.recipe.RecipeInput
 import com.cactusknights.chefbook.ui.screens.recipeinput.models.RecipeInputScreenEvent
 import com.cactusknights.chefbook.ui.screens.recipeinput.screens.details.views.blocks.CaloriesBlock
@@ -183,7 +183,7 @@ fun RecipeInputDetailsScreenDisplay(
                         )
                         DynamicButton(
                             text = if (state.time != null && state.time > 0)
-                                Utils.minutesToTimeString(state.time, resources)
+                                TimeUtils.minutesToTimeString(state.time, resources)
                             else
                                 stringResource(R.string.common_general_specify),
                             unselectedForeground = colors.foregroundPrimary,
