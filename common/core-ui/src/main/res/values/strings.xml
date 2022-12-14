@@ -6,6 +6,8 @@
     <string name="common_general_continue">Continue</string>
     <string name="common_general_confirm">Confirm</string>
     <string name="common_general_cancel">Cancel</string>
+    <string name="common_general_add">Add</string>
+    <string name="common_general_remove">Remove</string>
     <string name="common_general_email">Email</string>
     <string name="common_general_password">Password</string>
     <string name="common_general_search">Search</string>

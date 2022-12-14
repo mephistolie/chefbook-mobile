@@ -26,9 +26,9 @@ import com.cactusknights.chefbook.core.ui.localizedName
 import com.cactusknights.chefbook.domain.entities.common.Language
 import com.cactusknights.chefbook.ui.screens.recipeinput.RecipeInputScreenViewModel
 import com.cactusknights.chefbook.ui.screens.recipeinput.models.RecipeInputScreenEvent
-import com.cactusknights.chefbook.ui.themes.ChefBookTheme
 import com.mephistolie.compost.modifiers.simpleClickable
-import com.mephistolie.compost.ui.radiobuttons.OutlineRadioButton
+import com.mysty.chefbook.core.ui.compose.providers.theme.LocalTheme
+import com.mysty.chefbook.design.components.radibuttons.RadioButton
 
 @Composable
 fun LanguagePickerDialog(
@@ -36,8 +36,8 @@ fun LanguagePickerDialog(
 ) {
     val resources = LocalContext.current.resources
 
-    val colors = ChefBookTheme.colors
-    val typography = ChefBookTheme.typography
+    val colors = LocalTheme.colors
+    val typography = LocalTheme.typography
 
     val viewModelState = viewModel.state.collectAsState()
     val state = viewModelState.value.input.language
@@ -94,11 +94,10 @@ fun LanguagePickerDialog(
                             style = typography.headline1,
                             color = colors.foregroundPrimary,
                         )
-                        OutlineRadioButton(
+                        RadioButton(
                             isSelected = state == language,
                             onClick = {},
-                            color = colors.tintPrimary,
-                            enabled = false,
+                            isEnabled = false,
                         )
                     }
                 }

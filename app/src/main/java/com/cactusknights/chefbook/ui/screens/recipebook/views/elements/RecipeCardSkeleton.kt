@@ -11,38 +11,43 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.cactusknights.chefbook.ui.themes.ChefBookTheme
-import com.cactusknights.chefbook.ui.views.common.shimmer
+import com.mephistolie.compost.modifiers.clippedBackground
+import com.mysty.chefbook.core.ui.compose.modifiers.shimmer
+import com.mysty.chefbook.core.ui.compose.providers.theme.LocalTheme
+import com.mysty.chefbook.design.theme.ChefBookTheme
+import com.mysty.chefbook.design.theme.shapes.RoundedCornerShape16
 
 @Composable
-fun RecipeCardSkeleton() {
+fun RecipeCardSkeleton(
+    modifier: Modifier = Modifier,
+) {
+    val colors = LocalTheme.colors
+
     Column(
-        modifier = Modifier.fillMaxWidth()
+        modifier = modifier
+            .fillMaxWidth()
+            .shimmer()
     ) {
         Box(
             modifier = Modifier
                 .padding(bottom = 8.dp)
                 .aspectRatio(1F)
-                .clip(RoundedCornerShape(16.dp))
-                .shimmer()
+                .clippedBackground(colors.backgroundSecondary, RoundedCornerShape16)
         )
         Box(
             modifier = Modifier
                 .padding(bottom = 6.dp)
                 .width(144.dp)
                 .height(10.dp)
-                .clip(RoundedCornerShape(7.dp))
-                .shimmer()
+                .clippedBackground(colors.backgroundSecondary, RoundedCornerShape(7.dp))
         )
         Box(
             modifier = Modifier
                 .width(72.dp)
                 .height(8.dp)
-                .clip(RoundedCornerShape(5.dp))
-                .shimmer()
+                .clippedBackground(colors.backgroundSecondary, RoundedCornerShape(5.dp))
         )
     }
 }
@@ -65,7 +70,7 @@ private fun ThemedRecipeCardSkeleton(
 ) {
     ChefBookTheme(darkTheme = isDarkTheme) {
         Surface(
-            color = ChefBookTheme.colors.backgroundPrimary
+            color = LocalTheme.colors.backgroundPrimary
         ) {
             RecipeCardSkeleton()
         }

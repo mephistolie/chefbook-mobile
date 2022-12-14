@@ -12,8 +12,8 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import com.cactusknights.chefbook.R
-import com.cactusknights.chefbook.ui.themes.ChefBookTheme
-import com.cactusknights.chefbook.ui.themes.Shapes.RoundedCornerShape12
+import com.mysty.chefbook.core.ui.compose.providers.theme.LocalTheme
+import com.mysty.chefbook.design.theme.shapes.RoundedCornerShape12
 import com.mephistolie.compost.modifiers.clippedBackground
 import com.mephistolie.compost.modifiers.simpleClickable
 
@@ -22,7 +22,7 @@ fun StepAddPictureButton(
     onAddPictureClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val colors = ChefBookTheme.colors
+    val colors = LocalTheme.colors
 
     Box(
         modifier = modifier

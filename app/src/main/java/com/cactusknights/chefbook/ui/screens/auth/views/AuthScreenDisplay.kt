@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Divider
 import androidx.compose.material.Icon
@@ -39,11 +38,12 @@ import com.cactusknights.chefbook.ui.screens.auth.models.AuthAction
 import com.cactusknights.chefbook.ui.screens.auth.models.AuthProgress
 import com.cactusknights.chefbook.ui.screens.auth.models.AuthScreenEvent
 import com.cactusknights.chefbook.ui.screens.auth.models.AuthScreenState
-import com.cactusknights.chefbook.ui.themes.ChefBookTheme
-import com.cactusknights.chefbook.ui.themes.DeepOrangeLight
-import com.cactusknights.chefbook.ui.views.buttons.DynamicButton
 import com.mephistolie.compost.modifiers.simpleClickable
-import com.mephistolie.compost.ui.buttons.CircleIconButton
+import com.mysty.chefbook.core.ui.compose.providers.theme.LocalTheme
+import com.mysty.chefbook.design.components.buttons.CircleIconButton
+import com.mysty.chefbook.design.components.buttons.DynamicButton
+import com.mysty.chefbook.design.theme.ChefBookTheme
+import com.mysty.chefbook.design.theme.colors.DeepOrangeLight
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -55,8 +55,8 @@ fun AuthScreenDisplay(
     val focusManager = LocalFocusManager.current
     val keyboardController = LocalSoftwareKeyboardController.current
 
-    val colors = ChefBookTheme.colors
-    val typography = ChefBookTheme.typography
+    val colors = LocalTheme.colors
+    val typography = LocalTheme.typography
 
     val emailText = remember { mutableStateOf("") }
     val passwordText = remember { mutableStateOf("") }
@@ -66,7 +66,7 @@ fun AuthScreenDisplay(
     val passwordCheck = AuthUtils.validatePassword(passwordText.value, repeatPasswordText.value)
 
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .padding(48.dp),
         verticalArrangement = Arrangement.Center,
@@ -194,28 +194,25 @@ fun AuthScreenDisplay(
                     modifier = Modifier.height(48.dp)
                 ) {
                     CircleIconButton(
-                        icon = ImageVector.vectorResource(R.drawable.ic_google),
+                        iconId = R.drawable.ic_google,
                         onClick = { /*TODO*/ },
                         modifier = Modifier
                             .size(48.dp)
                             .padding(5.dp),
-                        colors = ButtonDefaults.buttonColors(backgroundColor = colors.backgroundSecondary),
                     )
                     CircleIconButton(
-                        icon = ImageVector.vectorResource(R.drawable.ic_vk),
+                        iconId = R.drawable.ic_vk,
                         onClick = { /*TODO*/ },
                         modifier = Modifier
                             .size(48.dp)
                             .padding(5.dp),
-                        colors = ButtonDefaults.buttonColors(backgroundColor = colors.backgroundSecondary),
                     )
                     CircleIconButton(
-                        icon = ImageVector.vectorResource(R.drawable.ic_disable_sync),
+                        iconId = R.drawable.ic_disable_sync,
                         onClick = { /*TODO*/ },
                         modifier = Modifier
                             .size(48.dp)
                             .padding(5.dp),
-                        colors = ButtonDefaults.buttonColors(backgroundColor = colors.backgroundSecondary),
                     )
                 }
             }
@@ -236,7 +233,7 @@ fun AuthScreenDisplay(
                     focusManager.clearFocus(force = true)
                     onEvent(AuthScreenEvent.OpenPasswordResetScreen)
                 },
-                style = ChefBookTheme.typography.body2,
+                style = LocalTheme.typography.body2,
                 color = DeepOrangeLight
             )
         }
@@ -246,8 +243,8 @@ fun AuthScreenDisplay(
                 text = if (authState.action != AuthAction.SIGN_UP) stringResource(id = R.string.common_auth_screen_not_member) else stringResource(
                     id = R.string.common_auth_screen_already_member
                 ),
-                style = ChefBookTheme.typography.body2,
-                color = ChefBookTheme.colors.foregroundSecondary,
+                style = LocalTheme.typography.body2,
+                color = LocalTheme.colors.foregroundSecondary,
                 modifier = Modifier.padding(end = 4.dp)
             )
             Text(
@@ -261,7 +258,7 @@ fun AuthScreenDisplay(
                     else
                         onEvent(AuthScreenEvent.OpenSignInScreen)
                 },
-                style = ChefBookTheme.typography.body2,
+                style = LocalTheme.typography.body2,
                 color = DeepOrangeLight
             )
         }
@@ -307,7 +304,7 @@ private fun ThemedAuthScreen(
 ) {
     ChefBookTheme(darkTheme = isDarkTheme) {
         Surface(
-            color = ChefBookTheme.colors.backgroundPrimary
+            color = LocalTheme.colors.backgroundPrimary
         ) {
             AuthScreenDisplay(
                 authState = viewState,

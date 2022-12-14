@@ -16,7 +16,7 @@ import com.cactusknights.chefbook.R
 import com.cactusknights.chefbook.domain.entities.recipe.RecipeInfo
 import com.cactusknights.chefbook.ui.screens.recipebook.views.elements.LatestRecipeCard
 import com.cactusknights.chefbook.ui.screens.recipebook.views.elements.LatestRecipeCardSkeleton
-import com.cactusknights.chefbook.ui.themes.ChefBookTheme
+import com.mysty.chefbook.core.ui.compose.providers.theme.LocalTheme
 
 private const val KEY_PREFIX = "quick_access_card"
 
@@ -31,8 +31,8 @@ fun LazyGridScope.quickAccessBlock(
         ) {
             Text(
                 text = stringResource(id = R.string.common_recipe_book_screen_quick_access),
-                style = ChefBookTheme.typography.h3,
-                color = ChefBookTheme.colors.foregroundPrimary,
+                style = LocalTheme.typography.h3,
+                color = LocalTheme.colors.foregroundPrimary,
                 modifier = Modifier.padding(12.dp, 24.dp, 12.dp, 12.dp),
             )
         }

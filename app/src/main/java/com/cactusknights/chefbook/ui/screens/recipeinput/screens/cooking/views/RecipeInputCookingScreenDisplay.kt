@@ -34,9 +34,9 @@ import com.cactusknights.chefbook.domain.entities.recipe.cooking.CookingItem
 import com.cactusknights.chefbook.ui.screens.recipeinput.models.RecipeInputScreenEvent
 import com.cactusknights.chefbook.ui.screens.recipeinput.screens.cooking.views.elements.StepField
 import com.cactusknights.chefbook.ui.screens.recipeinput.screens.ingredients.views.elements.SectionField
-import com.cactusknights.chefbook.ui.themes.ChefBookTheme
-import com.cactusknights.chefbook.ui.views.buttons.DynamicButton
-import com.cactusknights.chefbook.ui.views.common.Toolbar
+import com.mysty.chefbook.core.ui.compose.providers.theme.LocalTheme
+import com.mysty.chefbook.design.components.buttons.DynamicButton
+import com.mysty.chefbook.design.components.toolbar.Toolbar
 import com.canhub.cropper.CropImageContract
 import com.canhub.cropper.CropImageContractOptions
 import com.canhub.cropper.CropImageOptions
@@ -55,8 +55,8 @@ fun RecipeInputCookingScreenDisplay(
 
     val haptic = LocalHapticFeedback.current
 
-    val colors = ChefBookTheme.colors
-    val typography = ChefBookTheme.typography
+    val colors = LocalTheme.colors
+    val typography = LocalTheme.typography
 
     var focusStepIndex: Int? = null
 

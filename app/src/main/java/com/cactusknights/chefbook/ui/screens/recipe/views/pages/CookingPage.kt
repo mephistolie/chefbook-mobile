@@ -14,14 +14,14 @@ import androidx.compose.ui.unit.dp
 import com.cactusknights.chefbook.domain.entities.recipe.cooking.CookingItem
 import com.cactusknights.chefbook.ui.screens.recipe.views.elements.CookingStep
 import com.cactusknights.chefbook.ui.screens.recipe.views.elements.Section
-import com.cactusknights.chefbook.ui.themes.ChefBookTheme
+import com.mysty.chefbook.core.ui.compose.providers.theme.LocalTheme
 
 @Composable
 fun CookingPage(
     cooking: List<CookingItem>,
     onStepPictureClicked: (String) -> Unit,
 ) {
-    val colors = ChefBookTheme.colors
+    val colors = LocalTheme.colors
 
     Column(
         modifier = Modifier

@@ -27,8 +27,8 @@ import com.cactusknights.chefbook.ui.screens.recipe.views.blocks.CategoriesBlock
 import com.cactusknights.chefbook.ui.screens.recipe.views.blocks.CategoriesSelectionBlock
 import com.cactusknights.chefbook.ui.screens.recipe.views.blocks.DietBlock
 import com.cactusknights.chefbook.ui.screens.recipe.views.elements.InfoElement
-import com.cactusknights.chefbook.ui.themes.ChefBookTheme
-import com.cactusknights.chefbook.ui.views.buttons.DynamicButton
+import com.mysty.chefbook.core.ui.compose.providers.theme.LocalTheme
+import com.mysty.chefbook.design.components.buttons.DynamicButton
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 
@@ -44,7 +44,7 @@ fun DetailsPage(
 ) {
     val resources = LocalContext.current.resources
 
-    val colors = ChefBookTheme.colors
+    val colors = LocalTheme.colors
 
     val recipe = state.recipe
 

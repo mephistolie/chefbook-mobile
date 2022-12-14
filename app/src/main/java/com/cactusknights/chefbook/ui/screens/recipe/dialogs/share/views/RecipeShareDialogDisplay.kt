@@ -8,10 +8,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -19,7 +17,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -33,10 +30,10 @@ import coil.request.ImageRequest
 import com.cactusknights.chefbook.R
 import com.cactusknights.chefbook.ui.screens.recipe.dialogs.share.models.RecipeShareDialogEvent
 import com.cactusknights.chefbook.ui.screens.recipe.dialogs.share.models.RecipeShareDialogState
-import com.cactusknights.chefbook.ui.themes.ChefBookTheme
-import com.cactusknights.chefbook.ui.views.buttons.DynamicButton
-import com.cactusknights.chefbook.ui.views.textfields.CopyLinkField
-import com.mephistolie.compost.ui.buttons.CircleIconButton
+import com.cactusknights.chefbook.ui.screens.recipe.views.elements.CopyLinkField
+import com.mysty.chefbook.core.ui.compose.providers.theme.LocalTheme
+import com.mysty.chefbook.design.components.buttons.BottomSheetCloseButton
+import com.mysty.chefbook.design.components.buttons.DynamicButton
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -50,8 +47,8 @@ fun RecipeShareDialogDisplay(
     val resources = context.resources
     val coroutine = rememberCoroutineScope()
 
-    val typography = ChefBookTheme.typography
-    val colors = ChefBookTheme.colors
+    val typography = LocalTheme.typography
+    val colors = LocalTheme.colors
 
     Dialog(
         onDismissRequest = onHide,
@@ -125,15 +122,7 @@ fun RecipeShareDialogDisplay(
                         onClick = { onEvent(RecipeShareDialogEvent.CopyAsText(resources)) },
                     )
                 }
-                CircleIconButton(
-                    icon = ImageVector.vectorResource(R.drawable.ic_cross),
-                    onClick = { coroutine.launch { onHide() } },
-                    modifier = Modifier
-                        .padding(16.dp)
-                        .size(32.dp),
-                    colors = ButtonDefaults.buttonColors(backgroundColor = colors.foregroundPrimary.copy(alpha = 0.25F)),
-                    tint = Color.White,
-                )
+                BottomSheetCloseButton { coroutine.launch { onHide() } }
             }
         }
     }

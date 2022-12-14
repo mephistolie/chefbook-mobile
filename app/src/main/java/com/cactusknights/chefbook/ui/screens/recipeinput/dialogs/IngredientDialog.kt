@@ -26,11 +26,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
@@ -42,11 +40,11 @@ import com.cactusknights.chefbook.domain.entities.common.MeasureUnit
 import com.cactusknights.chefbook.domain.entities.recipe.ingredient.IngredientItem
 import com.cactusknights.chefbook.ui.screens.recipeinput.RecipeInputScreenViewModel
 import com.cactusknights.chefbook.ui.screens.recipeinput.models.RecipeInputScreenEvent
-import com.cactusknights.chefbook.ui.themes.ChefBookTheme
-import com.cactusknights.chefbook.ui.views.buttons.DynamicButton
-import com.cactusknights.chefbook.ui.views.textfields.ThemedIndicatorTextField
 import com.google.accompanist.flowlayout.FlowRow
-import com.mephistolie.compost.ui.buttons.CircleIconButton
+import com.mysty.chefbook.core.ui.compose.providers.theme.LocalTheme
+import com.mysty.chefbook.design.components.buttons.CircleIconButton
+import com.mysty.chefbook.design.components.buttons.DynamicButton
+import com.mysty.chefbook.design.components.textfields.ThemedIndicatorTextField
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -58,8 +56,8 @@ fun IngredientDialog(
     val resources = LocalContext.current.resources
     val focusRequester = remember { FocusRequester() }
 
-    val colors = ChefBookTheme.colors
-    val typography = ChefBookTheme.typography
+    val colors = LocalTheme.colors
+    val typography = LocalTheme.typography
 
     val viewModelState = viewModel.state.collectAsState()
     val ingredient = viewModelState.value.input.ingredients.find { it.id == ingredientId } as IngredientItem.Ingredient
@@ -85,7 +83,7 @@ fun IngredientDialog(
                     .padding(vertical = 18.dp)
             )
             CircleIconButton(
-                icon = ImageVector.vectorResource(R.drawable.ic_cross),
+                iconId = R.drawable.ic_cross,
                 onClick = {
                     keyboardController?.hide()
                     viewModel.obtainEvent(RecipeInputScreenEvent.CloseBottomSheet)

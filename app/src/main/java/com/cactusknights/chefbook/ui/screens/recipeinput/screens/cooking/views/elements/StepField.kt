@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -23,11 +22,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.cactusknights.chefbook.R
 import com.cactusknights.chefbook.domain.entities.recipe.cooking.CookingItem
-import com.cactusknights.chefbook.ui.themes.ChefBookTheme
-import com.cactusknights.chefbook.ui.views.buttons.DynamicButton
-import com.cactusknights.chefbook.ui.views.textfields.ThemedIndicatorTextField
 import com.mephistolie.compost.modifiers.clippedBackground
 import com.mephistolie.compost.modifiers.simpleClickable
+import com.mysty.chefbook.core.ui.compose.providers.theme.LocalTheme
+import com.mysty.chefbook.design.components.buttons.DynamicButton
+import com.mysty.chefbook.design.components.textfields.ThemedIndicatorTextField
+import com.mysty.chefbook.design.theme.shapes.RoundedCornerShape16
 
 @Composable
 fun StepField(
@@ -39,14 +39,14 @@ fun StepField(
     onDeleteClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val colors = ChefBookTheme.colors
-    val typography = ChefBookTheme.typography
+    val colors = LocalTheme.colors
+    val typography = LocalTheme.typography
 
     Column(
         modifier = modifier
             .fillMaxWidth()
             .wrapContentHeight()
-            .clippedBackground(colors.backgroundPrimary, RoundedCornerShape(16.dp))
+            .clippedBackground(colors.backgroundPrimary, RoundedCornerShape16)
     ) {
         Row(
             modifier = Modifier.padding(horizontal = 12.dp),

@@ -10,8 +10,8 @@ import com.cactusknights.chefbook.ui.screens.recipe.dialogs.share.RecipeShareDia
 import com.cactusknights.chefbook.ui.screens.recipe.models.RecipePicturesDialogState
 import com.cactusknights.chefbook.ui.screens.recipe.models.RecipeScreenEvent
 import com.cactusknights.chefbook.ui.screens.recipe.models.RecipeScreenState
-import com.cactusknights.chefbook.ui.views.dialogs.FullscreenPicturesDialog
-import com.cactusknights.chefbook.ui.views.dialogs.TwoButtonsDialog
+import com.mysty.chefbook.design.components.dialogs.FullscreenPicturesDialog
+import com.mysty.chefbook.design.components.dialogs.TwoButtonsDialog
 
 @Composable
 fun RecipeScreenDialogs(

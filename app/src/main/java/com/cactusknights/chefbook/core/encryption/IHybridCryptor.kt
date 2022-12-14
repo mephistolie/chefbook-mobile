@@ -1,8 +1,8 @@
 package com.cactusknights.chefbook.core.encryption
 
+import com.cactusknights.chefbook.domain.interfaces.ICryptor
 import com.mysty.chefbook.core.toByteArray
 import com.mysty.chefbook.core.toInt
-import com.cactusknights.chefbook.domain.interfaces.ICryptor
 import java.security.KeyFactory
 import java.security.KeyPair
 import java.security.KeyPairGenerator

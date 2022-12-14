@@ -6,7 +6,7 @@ import com.cactusknights.chefbook.R
 import com.cactusknights.chefbook.domain.entities.action.NetworkError
 import com.cactusknights.chefbook.domain.entities.action.ServerError
 import com.cactusknights.chefbook.domain.entities.action.ServerErrorType
-import com.cactusknights.chefbook.ui.views.dialogs.OneButtonDialog
+import com.mysty.chefbook.design.components.dialogs.OneButtonDialog
 
 @Composable
 fun AuthErrorDialog(

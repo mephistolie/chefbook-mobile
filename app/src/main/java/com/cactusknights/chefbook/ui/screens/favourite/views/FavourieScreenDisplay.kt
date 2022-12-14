@@ -29,16 +29,16 @@ import com.cactusknights.chefbook.R
 import com.cactusknights.chefbook.ui.screens.favourite.models.FavouriteScreenEvent
 import com.cactusknights.chefbook.ui.screens.favourite.models.FavouriteScreenState
 import com.cactusknights.chefbook.ui.screens.recipebook.views.elements.RecipeCard
-import com.cactusknights.chefbook.ui.themes.ChefBookTheme
-import com.cactusknights.chefbook.ui.views.common.Toolbar
+import com.mysty.chefbook.core.ui.compose.providers.theme.LocalTheme
+import com.mysty.chefbook.design.components.toolbar.Toolbar
 
 @Composable
 fun FavouriteScreenDisplay(
     state: FavouriteScreenState,
     onEvent: (FavouriteScreenEvent) -> Unit,
 ) {
-    val colors = ChefBookTheme.colors
-    val typography = ChefBookTheme.typography
+    val colors = LocalTheme.colors
+    val typography = LocalTheme.typography
 
     Box(
         modifier = Modifier

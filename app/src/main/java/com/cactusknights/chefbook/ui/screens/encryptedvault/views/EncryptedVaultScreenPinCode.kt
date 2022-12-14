@@ -25,9 +25,10 @@ import androidx.compose.ui.unit.dp
 import com.cactusknights.chefbook.R
 import com.cactusknights.chefbook.ui.screens.encryptedvault.models.EncryptedVaultScreenState
 import com.cactusknights.chefbook.ui.screens.encryptedvault.models.PinCodeInputType
-import com.cactusknights.chefbook.ui.themes.ChefBookTheme
-import com.cactusknights.chefbook.ui.views.textfields.PinCodeField
 import com.mephistolie.compost.modifiers.simpleClickable
+import com.mysty.chefbook.core.ui.compose.providers.theme.LocalTheme
+import com.mysty.chefbook.design.components.textfields.PinCodeField
+import com.mysty.chefbook.design.theme.ChefBookTheme
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -36,8 +37,8 @@ fun EncryptedVaultScreenPinCode(
     onPinCodeNumAdd: (Int) -> Unit,
     onPinCodeNumRemove: () -> Unit,
 ) {
-    val colors = ChefBookTheme.colors
-    val typography = ChefBookTheme.typography
+    val colors = LocalTheme.colors
+    val typography = LocalTheme.typography
 
     val focusRequesters = remember {
         Array(EncryptedVaultScreenState.PIN_CODE_LENGTH) { FocusRequester() }
@@ -111,7 +112,7 @@ private fun ThemedEncryptedVaultScreenPinCode(
 ) {
     ChefBookTheme(darkTheme = isDarkTheme) {
         Surface(
-            color = ChefBookTheme.colors.backgroundPrimary
+            color = LocalTheme.colors.backgroundPrimary
         ) {
             EncryptedVaultScreenPinCode(
                 state = EncryptedVaultScreenState.PinCodeInput(

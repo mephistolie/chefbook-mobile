@@ -10,25 +10,29 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
-import com.cactusknights.chefbook.ui.themes.ChefBookTheme
-import com.cactusknights.chefbook.ui.views.common.shimmer
 import com.mephistolie.compost.modifiers.clippedBackground
+import com.mysty.chefbook.core.ui.compose.modifiers.shimmer
+import com.mysty.chefbook.core.ui.compose.providers.theme.LocalTheme
+import com.mysty.chefbook.design.theme.shapes.RoundedCornerShape16
+import com.mysty.chefbook.design.theme.shapes.RoundedCornerShape28
+import com.mysty.chefbook.design.theme.shapes.RoundedCornerShape4
 
 @Composable
-fun CategoryCardSkeleton() {
-    val colors = ChefBookTheme.colors
+fun CategoryCardSkeleton(
+    modifier: Modifier = Modifier,
+) {
+    val colors = LocalTheme.colors
 
     Box(
-        modifier = Modifier
+        modifier = modifier
             .padding(0.dp, 0.dp, 0.dp, 8.dp)
             .aspectRatio(0.8f)
-            .clippedBackground(colors.backgroundSecondary, RoundedCornerShape(16.dp))
+            .clippedBackground(colors.backgroundSecondary, RoundedCornerShape16)
+            .shimmer()
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -45,24 +49,21 @@ fun CategoryCardSkeleton() {
                     modifier = Modifier
                         .width(50.dp)
                         .height(6.dp)
-                        .clip(RoundedCornerShape(4.dp))
-                        .shimmer()
+                        .clippedBackground(colors.backgroundTertiary, RoundedCornerShape4)
                 )
                 Box(
                     modifier = Modifier
                         .padding(top = 4.dp)
                         .width(30.dp)
                         .height(6.dp)
-                        .clip(RoundedCornerShape(4.dp))
-                        .shimmer()
+                        .clippedBackground(colors.backgroundTertiary, RoundedCornerShape4)
                 )
             }
             Box(
                 modifier = Modifier
                     .size(56.dp)
                     .offset(18.dp, 6.dp)
-                    .clip(RoundedCornerShape(90.dp))
-                    .shimmer(),
+                    .clippedBackground(colors.backgroundTertiary, RoundedCornerShape28),
             )
         }
     }

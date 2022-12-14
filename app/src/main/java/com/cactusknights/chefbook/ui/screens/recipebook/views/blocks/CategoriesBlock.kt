@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridItemSpan
+import androidx.compose.foundation.lazy.grid.LazyGridItemScope
 import androidx.compose.foundation.lazy.grid.LazyGridScope
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
@@ -21,8 +22,8 @@ import com.cactusknights.chefbook.domain.entities.category.Category
 import com.cactusknights.chefbook.ui.screens.recipebook.views.elements.CategoryCard
 import com.cactusknights.chefbook.ui.screens.recipebook.views.elements.CategoryCardSkeleton
 import com.cactusknights.chefbook.ui.screens.recipebook.views.elements.NewCategoryCard
-import com.cactusknights.chefbook.ui.themes.ChefBookTheme
 import com.mephistolie.compost.modifiers.simpleClickable
+import com.mysty.chefbook.core.ui.compose.providers.theme.LocalTheme
 import kotlin.math.min
 
 private const val KEY_PREFIX = "category_card"
@@ -41,8 +42,8 @@ fun LazyGridScope.categoriesBlock(
     ) {
         Text(
             text = stringResource(id = R.string.common_general_categories),
-            style = ChefBookTheme.typography.h3,
-            color = ChefBookTheme.colors.foregroundPrimary,
+            style = LocalTheme.typography.h3,
+            color = LocalTheme.colors.foregroundPrimary,
             modifier = Modifier.padding(12.dp, 24.dp, 12.dp, 12.dp),
         )
     }
@@ -51,33 +52,15 @@ fun LazyGridScope.categoriesBlock(
             count =  if (!isCategoriesExpanded) min(categories.size + 1, 4) else categories.size + 1,
             key = { index -> if (index < categories.size) "${KEY_PREFIX}_${categories[index].id}" else "STUB" }
         ) { index ->
-            val position = index % 4
-            val modifier = Modifier
-                .padding(
-                    start = when (position) {
-                        1 -> 8.dp
-                        2 -> 4.dp
-                        3 -> 0.dp
-                        else -> 12.dp
-                    },
-                    end = when (position) {
-                        1 -> 4.dp
-                        2 -> 8.dp
-                        3 -> 12.dp
-                        else -> 0.dp
-                    }
-                )
-                .animateItemPlacement()
-
             if (index < categories.size) {
                 CategoryCard(
                     category = categories[index],
-                    modifier = modifier,
+                    modifier = categoryCardModifier(index),
                 ) { onCategoryClicked(it.id) }
             } else {
                 NewCategoryCard(
                     onClicked = onNewCategoryClicked,
-                    modifier = modifier,
+                    modifier = categoryCardModifier(index),
                 )
             }
         }
@@ -98,8 +81,8 @@ fun LazyGridScope.categoriesBlock(
                         text = if (!isCategoriesExpanded) stringResource(id = R.string.common_general_more) else stringResource(
                             id = R.string.common_general_less
                         ),
-                        style = ChefBookTheme.typography.headline1,
-                        color = ChefBookTheme.colors.foregroundSecondary,
+                        style = LocalTheme.typography.headline1,
+                        color = LocalTheme.colors.foregroundSecondary,
                     )
                     Icon(
                         imageVector =
@@ -107,7 +90,7 @@ fun LazyGridScope.categoriesBlock(
                             ImageVector.vectorResource(R.drawable.ic_arrow_down)
                         else
                             ImageVector.vectorResource(R.drawable.ic_arrow_up),
-                        tint = ChefBookTheme.colors.foregroundSecondary,
+                        tint = LocalTheme.colors.foregroundSecondary,
                         modifier = Modifier
                             .size(14.dp),
                         contentDescription = null,
@@ -116,8 +99,29 @@ fun LazyGridScope.categoriesBlock(
             }
         }
     } else {
-        items(4) {
-            CategoryCardSkeleton()
+        items(4) { index ->
+            CategoryCardSkeleton(modifier = categoryCardModifier(index))
         }
     }
+}
+
+@OptIn(ExperimentalFoundationApi::class)
+private fun LazyGridItemScope.categoryCardModifier(index: Int): Modifier {
+    val position = index % 4
+    return Modifier
+        .padding(
+            start = when (position) {
+                1 -> 8.dp
+                2 -> 4.dp
+                3 -> 0.dp
+                else -> 12.dp
+            },
+            end = when (position) {
+                1 -> 4.dp
+                2 -> 8.dp
+                3 -> 12.dp
+                else -> 0.dp
+            }
+        )
+        .animateItemPlacement()
 }

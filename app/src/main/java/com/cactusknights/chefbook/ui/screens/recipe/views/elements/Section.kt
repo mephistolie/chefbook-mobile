@@ -3,15 +3,15 @@ package com.cactusknights.chefbook.ui.screens.recipe.views.elements
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.cactusknights.chefbook.ui.themes.ChefBookTheme
+import com.mysty.chefbook.core.ui.compose.providers.theme.LocalTheme
 
 @Composable
 fun Section(
     name: String,
     modifier: Modifier = Modifier,
 ) {
-    val colors = ChefBookTheme.colors
-    val typography = ChefBookTheme.typography
+    val colors = LocalTheme.colors
+    val typography = LocalTheme.typography
 
     Text(
         text = name,

@@ -14,15 +14,15 @@ import androidx.compose.ui.unit.dp
 import com.cactusknights.chefbook.R
 import com.cactusknights.chefbook.domain.entities.recipe.macronutrients.MacronutrientsInfo
 import com.cactusknights.chefbook.ui.screens.recipe.views.elements.DietElement
-import com.cactusknights.chefbook.ui.themes.ChefBookTheme
+import com.mysty.chefbook.core.ui.compose.providers.theme.LocalTheme
 
 @Composable
 fun DietBlock(
     calories: Int?,
     macronutrients: MacronutrientsInfo?,
 ) {
-    val colors = ChefBookTheme.colors
-    val typography = ChefBookTheme.typography
+    val colors = LocalTheme.colors
+    val typography = LocalTheme.typography
 
     Text(
         text = stringResource(R.string.common_general_in_100_g),

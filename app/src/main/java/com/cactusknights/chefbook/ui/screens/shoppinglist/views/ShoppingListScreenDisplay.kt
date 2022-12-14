@@ -7,13 +7,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import com.cactusknights.chefbook.ui.screens.shoppinglist.models.ShoppingListScreenEvent
 import com.cactusknights.chefbook.ui.screens.shoppinglist.models.ShoppingListState
+import com.mysty.chefbook.design.theme.shapes.BottomSheetShape
 
 @Composable
 fun ShoppingListScreenDisplay(
@@ -30,7 +30,7 @@ fun ShoppingListScreenDisplay(
                     .weight(1F, false)
                     .wrapContentHeight()
                     .padding(horizontal = 6.dp)
-                    .clip(RoundedCornerShape(28.dp, 28.dp, 0.dp, 0.dp))
+                    .clip(BottomSheetShape)
                     .animateContentSize(),
                 verticalArrangement = Arrangement.Bottom,
             ) {
@@ -41,7 +41,6 @@ fun ShoppingListScreenDisplay(
                             onEvent(ShoppingListScreenEvent.SwitchPurchasedStatus(purchaseId))
                         },
                         onRecipeOpen = { recipeId -> onEvent(ShoppingListScreenEvent.OpenRecipe(recipeId)) },
-                        onAddPurchase = {},
                         modifier = Modifier.padding(bottom = if (index < state.shoppingList.lastIndex) 6.dp else 0.dp)
                     )
                 }

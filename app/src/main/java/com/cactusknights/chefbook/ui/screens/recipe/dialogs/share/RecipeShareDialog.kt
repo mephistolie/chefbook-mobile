@@ -14,9 +14,9 @@ import com.cactusknights.chefbook.domain.entities.recipe.Recipe
 import com.cactusknights.chefbook.ui.screens.recipe.dialogs.share.models.RecipeShareDialogEffect
 import com.cactusknights.chefbook.ui.screens.recipe.dialogs.share.models.RecipeShareDialogEvent
 import com.cactusknights.chefbook.ui.screens.recipe.dialogs.share.views.RecipeShareDialogDisplay
-import com.cactusknights.chefbook.ui.themes.ChefBookTheme
-import com.cactusknights.chefbook.ui.themes.Monochrome20
-import com.cactusknights.chefbook.ui.themes.Monochrome30
+import com.mysty.chefbook.core.ui.compose.providers.theme.LocalTheme
+import com.mysty.chefbook.design.theme.colors.Monochrome20
+import com.mysty.chefbook.design.theme.colors.Monochrome30
 import org.koin.androidx.compose.getViewModel
 
 @Composable
@@ -28,7 +28,7 @@ fun RecipeShareDialog(
     val context = LocalContext.current
     val resources = context.resources
     val clipboardManager = LocalClipboardManager.current
-    val colors = ChefBookTheme.colors
+    val colors = LocalTheme.colors
 
     val state = viewModel.state.collectAsState()
 

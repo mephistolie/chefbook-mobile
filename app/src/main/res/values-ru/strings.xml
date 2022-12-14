@@ -27,8 +27,6 @@
     <string name="common_recipe_book_screen_all_recipes">Все рецепты</string>
     <string name="common_recipe_book_screen_quick_access">Быстрый доступ</string>
     <string name="common_recipe_book_screen_community_recipes">Рецепты сообщества</string>
-    <string name="common_global_encrypted_vault">Зашифрованное хранилище</string>
-    <string name="common_global_encryption">Шифрование</string>
     <string name="common_recipe_screen_add_to_shopping_list">Добавить к покупкам</string>
     <string name="common_recipe_screen_choose_categories">Выбрать категории</string>
     <string name="common_recipe_share_dialog_recipe_copied_as_text">Рецепт скопирован как текст</string>

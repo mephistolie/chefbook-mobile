@@ -16,7 +16,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import com.cactusknights.chefbook.R
-import com.cactusknights.chefbook.ui.views.textfields.FilledTextField
+import com.mysty.chefbook.design.components.textfields.FilledTextField
 
 @Composable
 @OptIn(ExperimentalComposeUiApi::class)

@@ -50,7 +50,6 @@ android {
     }
 
     buildFeatures {
-        viewBinding = true
         compose = true
     }
 }
@@ -58,6 +57,7 @@ android {
 dependencies {
     implementation(project(Modules.Common.core))
     implementation(project(Modules.Common.coreUi))
+    implementation(project(Modules.Common.design))
 
     // Core
     implementation(Dependencies.AndroidX.core)
@@ -80,7 +80,6 @@ dependencies {
     implementation(Dependencies.Accompanist.pagerIndicator)
 
     implementation(Dependencies.Compost.core)
-    implementation(Dependencies.Compost.ui)
 
     implementation(Dependencies.AndroidX.composeActivity)
     implementation(Dependencies.AndroidX.composeViewModel)
@@ -117,7 +116,6 @@ dependencies {
     implementation(Dependencies.Images.coilCompose)
     implementation(Dependencies.Images.imageCropper)
     implementation(Dependencies.Images.imageCompressor)
-    implementation(Dependencies.Images.zxing)
 
     implementation(Dependencies.SpongyCastle.core)
     implementation(Dependencies.SpongyCastle.prov)

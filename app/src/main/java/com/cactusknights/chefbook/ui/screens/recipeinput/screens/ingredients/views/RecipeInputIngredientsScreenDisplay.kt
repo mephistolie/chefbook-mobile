@@ -30,9 +30,9 @@ import com.cactusknights.chefbook.domain.entities.recipe.ingredient.IngredientIt
 import com.cactusknights.chefbook.ui.screens.recipeinput.models.RecipeInputScreenEvent
 import com.cactusknights.chefbook.ui.screens.recipeinput.screens.ingredients.views.elements.IngredientField
 import com.cactusknights.chefbook.ui.screens.recipeinput.screens.ingredients.views.elements.SectionField
-import com.cactusknights.chefbook.ui.themes.ChefBookTheme
-import com.cactusknights.chefbook.ui.views.buttons.DynamicButton
-import com.cactusknights.chefbook.ui.views.common.Toolbar
+import com.mysty.chefbook.core.ui.compose.providers.theme.LocalTheme
+import com.mysty.chefbook.design.components.buttons.DynamicButton
+import com.mysty.chefbook.design.components.toolbar.Toolbar
 import org.burnoutcrew.reorderable.ReorderableItem
 import org.burnoutcrew.reorderable.detectReorderAfterLongPress
 import org.burnoutcrew.reorderable.rememberReorderableLazyListState
@@ -45,8 +45,8 @@ fun RecipeInputIngredientScreenDisplay(
 ) {
     val haptic = LocalHapticFeedback.current
 
-    val colors = ChefBookTheme.colors
-    val typography = ChefBookTheme.typography
+    val colors = LocalTheme.colors
+    val typography = LocalTheme.typography
 
     val reorderableState = rememberReorderableLazyListState({ from, to ->
         onEvent(RecipeInputScreenEvent.MoveIngredientItem(from.index, to.index))

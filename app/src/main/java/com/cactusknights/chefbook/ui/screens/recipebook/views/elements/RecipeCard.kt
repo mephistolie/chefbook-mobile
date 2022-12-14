@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -36,18 +35,22 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
 import com.cactusknights.chefbook.R
-import com.mysty.chefbook.core.constants.Strings
-import com.mysty.chefbook.core.ui.utils.TimeUtils
 import com.cactusknights.chefbook.core.ui.RecipeEncryptionProvider
 import com.cactusknights.chefbook.domain.entities.recipe.RecipeInfo
 import com.cactusknights.chefbook.domain.entities.recipe.encryption.EncryptionState
-import com.cactusknights.chefbook.ui.themes.ChefBookTheme
-import com.cactusknights.chefbook.ui.themes.Red
-import com.cactusknights.chefbook.ui.themes.Shapes
-import com.cactusknights.chefbook.ui.views.images.EncryptedImage
 import com.mephistolie.compost.extensions.Shading
 import com.mephistolie.compost.modifiers.clippedBackground
-import com.mephistolie.compost.modifiers.scalingClickable   
+import com.mephistolie.compost.modifiers.scalingClickable
+import com.mysty.chefbook.core.constants.Strings
+import com.mysty.chefbook.core.ui.compose.providers.theme.LocalTheme
+import com.mysty.chefbook.core.ui.utils.EmojiUtils
+import com.mysty.chefbook.core.ui.utils.minutesToTimeString
+import com.mysty.chefbook.core.utils.TimeUtils
+import com.mysty.chefbook.design.components.images.EncryptedImage
+import com.mysty.chefbook.design.theme.ChefBookTheme
+import com.mysty.chefbook.design.theme.colors.Red
+import com.mysty.chefbook.design.theme.shapes.RoundedCornerShape12
+import com.mysty.chefbook.design.theme.shapes.RoundedCornerShape16
 
 @OptIn(ExperimentalUnitApi::class)
 @Composable
@@ -58,12 +61,12 @@ fun RecipeCard(
 ) {
     val context = LocalContext.current
 
-    val colors = ChefBookTheme.colors
-    val typography = ChefBookTheme.typography
+    val colors = LocalTheme.colors
+    val typography = LocalTheme.typography
 
     val pressed = remember { mutableStateOf(false) }
 
-    val placeholder = remember { EmojiProvider.randomFoodEmoji(recipe.id) }
+    val placeholder = remember { EmojiUtils.randomFoodEmoji(recipe.id) }
 
     RecipeEncryptionProvider(recipe.encryptionState) {
         Column(
@@ -76,7 +79,7 @@ fun RecipeCard(
                 modifier = Modifier
                     .padding(bottom = 8.dp)
                     .aspectRatio(1F)
-                    .clippedBackground(colors.backgroundSecondary, RoundedCornerShape(16.dp))
+                    .clippedBackground(colors.backgroundSecondary, RoundedCornerShape16)
             ) {
                 Text(
                     text = placeholder,
@@ -109,7 +112,7 @@ fun RecipeCard(
                                     start = Offset(0F, Float.POSITIVE_INFINITY),
                                     end = Offset(Float.POSITIVE_INFINITY, 0f)
                                 ),
-                                shape = Shapes.RoundedCornerShape12
+                                shape = RoundedCornerShape12
                             ),
                         contentAlignment = Alignment.TopEnd
                     ) {
@@ -209,7 +212,7 @@ private fun ThemedRecipeCard(
 ) {
     ChefBookTheme(darkTheme = isDarkTheme) {
         Surface(
-            color = ChefBookTheme.colors.backgroundPrimary
+            color = LocalTheme.colors.backgroundPrimary
         ) {
             RecipeCard(
                 recipe = recipe,

@@ -6,7 +6,6 @@ import androidx.compose.animation.core.animateDp
 import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetState
 import androidx.compose.runtime.Composable
@@ -17,17 +16,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.graphics.Color.Companion.Transparent
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.cactusknights.chefbook.domain.entities.settings.Theme
 import com.cactusknights.chefbook.ui.navigation.hosts.RootHost
 import com.cactusknights.chefbook.ui.screens.main.models.AppState
 import com.cactusknights.chefbook.ui.screens.main.models.UiState
-import com.cactusknights.chefbook.ui.themes.ChefBookTheme
 import com.google.accompanist.navigation.material.BottomSheetNavigator
 import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
 import com.google.accompanist.navigation.material.ModalBottomSheetLayout
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.mysty.chefbook.core.ui.compose.providers.theme.LocalTheme
+import com.mysty.chefbook.design.theme.ChefBookTheme
+import com.mysty.chefbook.design.theme.shapes.ModalBottomSheetShape
 
 @OptIn(ExperimentalMaterialNavigationApi::class, ExperimentalMaterialApi::class)
 @Composable
@@ -48,13 +48,13 @@ fun AppScreenDisplay(
         ChefBookTheme(
             darkTheme = isDarkTheme(settings.theme, resources)
         ) {
-            val colors = ChefBookTheme.colors
+            val colors = LocalTheme.colors
 
             val systemUiController = rememberSystemUiController()
 
             ModalBottomSheetLayout(
                 bottomSheetNavigator = bottomSheetNavigator,
-                sheetShape = RoundedCornerShape(32.dp, 32.dp, 0.dp, 0.dp),
+                sheetShape = ModalBottomSheetShape,
                 sheetBackgroundColor = colors.backgroundPrimary,
                 modifier = Modifier
                     .fillMaxSize()

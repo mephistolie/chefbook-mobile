@@ -15,7 +15,7 @@ import com.cactusknights.chefbook.domain.entities.category.Category
 import com.cactusknights.chefbook.domain.entities.recipe.RecipeInfo
 import com.cactusknights.chefbook.ui.screens.recipebook.views.elements.RecipeCard
 import com.cactusknights.chefbook.ui.screens.recipebook.views.elements.RecipeCardSkeleton
-import com.cactusknights.chefbook.ui.themes.ChefBookTheme
+import com.mysty.chefbook.core.ui.compose.providers.theme.LocalTheme
 
 private const val KEY_PREFIX = "all_recipes_card"
 
@@ -32,8 +32,8 @@ fun LazyGridScope.allRecipesBlock(
             if (categories == null || categories.size < 4) 16.dp else 0.dp
         Text(
             text = stringResource(id = R.string.common_recipe_book_screen_all_recipes),
-            style = ChefBookTheme.typography.h3,
-            color = ChefBookTheme.colors.foregroundPrimary,
+            style = LocalTheme.typography.h3,
+            color = LocalTheme.colors.foregroundPrimary,
             modifier = Modifier
                 .padding(12.dp, topPadding, 12.dp, 12.dp)
                 .animateItemPlacement(),
@@ -58,8 +58,17 @@ fun LazyGridScope.allRecipesBlock(
             ) { onRecipeClicked(it.id) }
         }
     } else {
-        items(4) {
-            RecipeCardSkeleton()
+        items(4, span = { GridItemSpan(2) },) { index ->
+            val isSecondColumn = index % 2 == 1
+            RecipeCardSkeleton(
+                modifier = Modifier
+                    .padding(
+                        start = if (isSecondColumn) 6.dp else 12.dp,
+                        end = if (isSecondColumn) 12.dp else 6.dp,
+                        bottom = 16.dp,
+                    )
+                    .animateItemPlacement()
+            )
         }
     }
     item {

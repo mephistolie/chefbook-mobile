@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Divider
 import androidx.compose.material.ExperimentalMaterialApi
@@ -28,7 +27,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
@@ -42,14 +40,14 @@ import com.cactusknights.chefbook.ui.screens.recipe.models.RecipeScreenTab
 import com.cactusknights.chefbook.ui.screens.recipe.views.blocks.ActionBlock
 import com.cactusknights.chefbook.ui.screens.recipe.views.blocks.TabsBlock
 import com.cactusknights.chefbook.ui.screens.recipe.views.pages.RecipeScreenPager
-import com.cactusknights.chefbook.ui.themes.ChefBookTheme
-import com.cactusknights.chefbook.ui.views.buttons.DynamicButton
-import com.cactusknights.chefbook.ui.views.dialogs.elements.BottomSheetSlider
-import com.cactusknights.chefbook.ui.views.images.EncryptedImage
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.rememberPagerState
 import com.mephistolie.compost.modifiers.simpleClickable
-import com.mephistolie.compost.ui.buttons.CircleIconButton
+import com.mysty.chefbook.core.ui.compose.providers.theme.LocalTheme
+import com.mysty.chefbook.design.components.bottomsheet.BottomSheetSlider
+import com.mysty.chefbook.design.components.buttons.BottomSheetCloseButton
+import com.mysty.chefbook.design.components.buttons.DynamicButton
+import com.mysty.chefbook.design.components.images.EncryptedImage
 import kotlinx.coroutines.launch
 
 @OptIn(
@@ -68,8 +66,8 @@ fun RecipeScreenDisplay(
     val configuration = LocalConfiguration.current
     val screenHeight = configuration.screenHeightDp.dp
 
-    val colors = ChefBookTheme.colors
-    val typography = ChefBookTheme.typography
+    val colors = LocalTheme.colors
+    val typography = LocalTheme.typography
 
     val coroutine = rememberCoroutineScope()
 
@@ -262,15 +260,7 @@ fun RecipeScreenDisplay(
                 }
             }
         }
-        CircleIconButton(
-            icon = ImageVector.vectorResource(R.drawable.ic_cross),
-            onClick = { coroutine.launch { sheetState.hide() } },
-            modifier = Modifier
-                .padding(12.dp)
-                .size(32.dp),
-            colors = ButtonDefaults.buttonColors(backgroundColor = colors.foregroundPrimary.copy(alpha = 0.25F)),
-            tint = Color.White
-        )
+        BottomSheetCloseButton { coroutine.launch { sheetState.hide() } }
     }
 
     if (state is RecipeScreenState.Success) {

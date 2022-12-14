@@ -16,32 +16,32 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredWidth
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import com.cactusknights.chefbook.R
-import com.mysty.chefbook.core.ui.utils.TimeUtils
 import com.cactusknights.chefbook.domain.entities.recipe.RecipeInput
 import com.cactusknights.chefbook.ui.screens.recipeinput.models.RecipeInputScreenEvent
 import com.cactusknights.chefbook.ui.screens.recipeinput.screens.details.views.blocks.CaloriesBlock
 import com.cactusknights.chefbook.ui.screens.recipeinput.screens.details.views.blocks.ParametersBlock
 import com.cactusknights.chefbook.ui.screens.recipeinput.screens.details.views.blocks.PreviewBlock
 import com.cactusknights.chefbook.ui.screens.recipeinput.screens.details.views.blocks.ServingsBlock
-import com.cactusknights.chefbook.ui.themes.ChefBookTheme
-import com.cactusknights.chefbook.ui.views.buttons.DynamicButton
-import com.cactusknights.chefbook.ui.views.common.Toolbar
-import com.cactusknights.chefbook.ui.views.textfields.ThemedIndicatorTextField
 import com.mephistolie.compost.modifiers.clippedBackground
+import com.mysty.chefbook.core.ui.compose.providers.theme.LocalTheme
+import com.mysty.chefbook.core.ui.utils.minutesToTimeString
+import com.mysty.chefbook.core.utils.TimeUtils
+import com.mysty.chefbook.design.components.buttons.DynamicButton
+import com.mysty.chefbook.design.components.textfields.ThemedIndicatorTextField
+import com.mysty.chefbook.design.components.toolbar.Toolbar
+import com.mysty.chefbook.design.theme.dimens.ButtonSmallHeight
+import com.mysty.chefbook.design.theme.shapes.RoundedCornerShape24
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -54,8 +54,8 @@ fun RecipeInputDetailsScreenDisplay(
 
     val keyboardController = LocalSoftwareKeyboardController.current
 
-    val colors = ChefBookTheme.colors
-    val typography = ChefBookTheme.typography
+    val colors = LocalTheme.colors
+    val typography = LocalTheme.typography
 
     val timePicker = TimePickerDialog(
         context,
@@ -72,7 +72,7 @@ fun RecipeInputDetailsScreenDisplay(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Toolbar(
-            leftButtonIcon = ImageVector.vectorResource(R.drawable.ic_cross),
+            leftButtonIconId = R.drawable.ic_cross,
             onLeftButtonClick = {
                 if (state.name.isNotEmpty()) {
                     onEvent(RecipeInputScreenEvent.ChangeCancelDialogState(true))
@@ -108,7 +108,7 @@ fun RecipeInputDetailsScreenDisplay(
                         )
                         .fillMaxWidth()
                         .aspectRatio(2F)
-                        .clippedBackground(colors.backgroundSecondary, RoundedCornerShape(24.dp)),
+                        .clippedBackground(colors.backgroundSecondary, RoundedCornerShape24),
                 )
             }
             item {
@@ -190,7 +190,7 @@ fun RecipeInputDetailsScreenDisplay(
                             onClick = { timePicker.show() },
                             modifier = Modifier
                                 .requiredWidth(128.dp)
-                                .height(38.dp),
+                                .height(ButtonSmallHeight),
                         )
                     }
                 }

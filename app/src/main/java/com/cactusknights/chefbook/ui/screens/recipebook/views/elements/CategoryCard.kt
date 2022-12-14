@@ -24,10 +24,11 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
 import com.cactusknights.chefbook.domain.entities.category.Category
-import com.cactusknights.chefbook.ui.themes.ChefBookTheme
 import com.mephistolie.compost.extensions.Shading
 import com.mephistolie.compost.modifiers.clippedBackground
 import com.mephistolie.compost.modifiers.scalingClickable
+import com.mysty.chefbook.core.ui.compose.providers.theme.LocalTheme
+import com.mysty.chefbook.design.theme.shapes.RoundedCornerShape16
 
 @OptIn(ExperimentalUnitApi::class)
 @Composable
@@ -36,8 +37,8 @@ fun CategoryCard(
     modifier: Modifier = Modifier,
     onCategoryClicked: (Category) -> Unit,
 ) {
-    val colors = ChefBookTheme.colors
-    val typography = ChefBookTheme.typography
+    val colors = LocalTheme.colors
+    val typography = LocalTheme.typography
 
     val pressed = remember { mutableStateOf(false) }
 
@@ -79,7 +80,7 @@ fun CategoryCard(
                     modifier = Modifier
                         .fillMaxSize()
                         .weight(2F)
-                        .clip(RoundedCornerShape(16.dp))
+                        .clip(RoundedCornerShape16)
                         .offset(12.dp, 8.dp),
                     textAlign = TextAlign.End,
                     maxLines = 1,

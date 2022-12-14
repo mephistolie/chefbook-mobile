@@ -18,8 +18,8 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import com.cactusknights.chefbook.R
 import com.cactusknights.chefbook.ui.screens.recipe.models.RecipeScreenState
-import com.cactusknights.chefbook.ui.themes.ChefBookTheme
-import com.cactusknights.chefbook.ui.views.buttons.DynamicButton
+import com.mysty.chefbook.core.ui.compose.providers.theme.LocalTheme
+import com.mysty.chefbook.design.components.buttons.DynamicButton
 
 @Composable
 fun ActionBlock(
@@ -29,7 +29,7 @@ fun ActionBlock(
     onFavouriteClicked: () -> Unit,
     onShareClicked: () -> Unit,
 ) {
-    val colors = ChefBookTheme.colors
+    val colors = LocalTheme.colors
 
     val recipe = state.recipe
 

@@ -24,10 +24,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
@@ -35,9 +33,9 @@ import androidx.compose.ui.unit.dp
 import com.cactusknights.chefbook.R
 import com.cactusknights.chefbook.ui.screens.recipeinput.RecipeInputScreenViewModel
 import com.cactusknights.chefbook.ui.screens.recipeinput.models.RecipeInputScreenEvent
-import com.cactusknights.chefbook.ui.themes.ChefBookTheme
-import com.cactusknights.chefbook.ui.views.textfields.ThemedIndicatorTextField
-import com.mephistolie.compost.ui.buttons.CircleIconButton
+import com.mysty.chefbook.core.ui.compose.providers.theme.LocalTheme
+import com.mysty.chefbook.design.components.buttons.CircleIconButton
+import com.mysty.chefbook.design.components.textfields.ThemedIndicatorTextField
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -47,8 +45,8 @@ fun CaloriesDialog(
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusRequester = remember { FocusRequester() }
 
-    val colors = ChefBookTheme.colors
-    val typography = ChefBookTheme.typography
+    val colors = LocalTheme.colors
+    val typography = LocalTheme.typography
 
     val viewModelState = viewModel.state.collectAsState()
     val state = viewModelState.value.input
@@ -74,7 +72,7 @@ fun CaloriesDialog(
                     .padding(vertical = 18.dp)
             )
             CircleIconButton(
-                icon = ImageVector.vectorResource(R.drawable.ic_cross),
+                iconId = R.drawable.ic_cross,
                 onClick = {
                     keyboardController?.hide()
                     viewModel.obtainEvent(RecipeInputScreenEvent.CloseBottomSheet)

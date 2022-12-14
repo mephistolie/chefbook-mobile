@@ -7,8 +7,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
-import com.cactusknights.chefbook.ui.themes.ChefBookTheme
-import com.cactusknights.chefbook.ui.views.buttons.DynamicButton
+import com.mysty.chefbook.core.ui.compose.providers.theme.LocalTheme
+import com.mysty.chefbook.design.components.buttons.DynamicButton
 
 @Composable
 fun TabButton(
@@ -16,7 +16,7 @@ fun TabButton(
     @DrawableRes iconId: Int,
     isSelected: Boolean,
 ) {
-    val colors = ChefBookTheme.colors
+    val colors = LocalTheme.colors
 
     DynamicButton(
         onClick = onClick,

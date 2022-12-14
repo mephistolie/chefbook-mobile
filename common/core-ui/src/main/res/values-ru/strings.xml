@@ -3,6 +3,8 @@
     <string name="common_general_continue">Продолжить</string>
     <string name="common_general_confirm">Подтвердить</string>
     <string name="common_general_cancel">Отмена</string>
+    <string name="common_general_add">Добавить</string>
+    <string name="common_general_remove">Удалить</string>
     <string name="common_general_email">Почта</string>
     <string name="common_general_password">Пароль</string>
     <string name="common_general_search">Поиск</string>

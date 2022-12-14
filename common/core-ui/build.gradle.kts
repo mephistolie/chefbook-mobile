@@ -22,15 +22,33 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
+    composeOptions {
+        kotlinCompilerExtensionVersion = Dependencies.Compose.version
+    }
+
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = JavaVersion.VERSION_11.toString()
+    }
+
+    buildFeatures {
+        compose = true
     }
 }
 
 dependencies {
+    implementation(project(Modules.Common.core))
+
     implementation(Dependencies.AndroidX.core)
     implementation(Dependencies.Images.zxing)
+
+    implementation(Dependencies.Compose.runtime)
+    implementation(Dependencies.Compose.ui)
+    implementation(Dependencies.Compose.animation)
+
+    implementation(Dependencies.composeShimmer)
+
+    implementation(Dependencies.Network.okHttp)
 }

@@ -1,7 +1,7 @@
 package com.cactusknights.chefbook.data.repositories.recipe
 
 import android.net.Uri
-import com.cactusknights.chefbook.core.encryption.ImageValidator
+import com.mysty.chefbook.core.utils.ImageUtils
 import com.cactusknights.chefbook.data.IRecipePictureSource
 import com.cactusknights.chefbook.data.repositories.IFileRepo
 import com.cactusknights.chefbook.domain.entities.action.Successful
@@ -135,7 +135,7 @@ class RecipePictureRepo(
         }
     }
 
-    private fun isImageEncrypted(data: ByteArray): Boolean = !ImageValidator.isImage(data)
+    private fun isImageEncrypted(data: ByteArray): Boolean = !ImageUtils.isImage(data)
 
 }
 

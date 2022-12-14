@@ -18,9 +18,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import com.cactusknights.chefbook.domain.entities.recipe.cooking.CookingItem
-import com.cactusknights.chefbook.ui.themes.ChefBookTheme
-import com.cactusknights.chefbook.ui.themes.Shapes.RoundedCornerShape12
-import com.cactusknights.chefbook.ui.views.images.EncryptedImage
+import com.mysty.chefbook.core.ui.compose.providers.theme.LocalTheme
+import com.mysty.chefbook.design.theme.shapes.RoundedCornerShape12
+import com.mysty.chefbook.design.components.images.EncryptedImage
 import com.mephistolie.compost.extensions.Shading
 import com.mephistolie.compost.modifiers.scalingClickable
 
@@ -31,8 +31,8 @@ fun CookingStep(
     onStepPictureClicked: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val colors = ChefBookTheme.colors
-    val typography = ChefBookTheme.typography
+    val colors = LocalTheme.colors
+    val typography = LocalTheme.typography
 
     Row(
         verticalAlignment = Alignment.Top,

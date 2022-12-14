@@ -6,8 +6,8 @@ import com.cactusknights.chefbook.R
 import com.cactusknights.chefbook.domain.entities.category.toCategory
 import com.cactusknights.chefbook.ui.screens.category.models.CategoryScreenEvent
 import com.cactusknights.chefbook.ui.screens.category.models.CategoryScreenState
-import com.cactusknights.chefbook.ui.views.dialogs.CategoryInputDialog
-import com.cactusknights.chefbook.ui.views.dialogs.TwoButtonsDialog
+import com.mysty.chefbook.design.components.dialogs.CategoryInputDialog
+import com.mysty.chefbook.design.components.dialogs.TwoButtonsDialog
 
 @Composable
 fun CategoryScreenDialogs(

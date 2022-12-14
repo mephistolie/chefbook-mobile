@@ -19,10 +19,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import com.cactusknights.chefbook.R
-import com.mephistolie.compost.modifiers.simpleClickable
 import com.cactusknights.chefbook.domain.entities.recipe.RecipeInput
-import com.cactusknights.chefbook.ui.themes.ChefBookTheme
-import com.cactusknights.chefbook.ui.views.buttons.DynamicButton
+import com.mephistolie.compost.modifiers.simpleClickable
+import com.mysty.chefbook.core.ui.compose.providers.theme.LocalTheme
+import com.mysty.chefbook.design.components.buttons.DynamicButton
+import com.mysty.chefbook.design.theme.dimens.ButtonSmallHeight
 
 @Composable
 fun CaloriesBlock(
@@ -30,8 +31,8 @@ fun CaloriesBlock(
     onCaloriesClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val colors = ChefBookTheme.colors
-    val typography = ChefBookTheme.typography
+    val colors = LocalTheme.colors
+    val typography = LocalTheme.typography
 
     Row(
         modifier = modifier,
@@ -80,7 +81,7 @@ fun CaloriesBlock(
                 onClick = onCaloriesClick,
                 modifier = Modifier
                     .width(128.dp)
-                    .height(38.dp),
+                    .height(ButtonSmallHeight),
             )
         }
     }

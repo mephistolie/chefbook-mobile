@@ -37,8 +37,8 @@ import com.cactusknights.chefbook.R
 import com.cactusknights.chefbook.ui.screens.search.models.RecipeBookSearchScreenEvent
 import com.cactusknights.chefbook.ui.screens.search.models.RecipeBookSearchScreenState
 import com.cactusknights.chefbook.ui.screens.search.views.elements.SearchRecipeCard
-import com.cactusknights.chefbook.ui.themes.ChefBookTheme
-import com.cactusknights.chefbook.ui.views.buttons.DynamicButton
+import com.mysty.chefbook.core.ui.compose.providers.theme.LocalTheme
+import com.mysty.chefbook.design.components.buttons.DynamicButton
 import com.google.accompanist.flowlayout.FlowRow
 import com.mephistolie.compost.modifiers.simpleClickable
 
@@ -50,8 +50,8 @@ fun RecipeBookSearchScreenDisplay(
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
 
-    val colors = ChefBookTheme.colors
-    val typography = ChefBookTheme.typography
+    val colors = LocalTheme.colors
+    val typography = LocalTheme.typography
 
     val focusRequester = remember { FocusRequester() }
 

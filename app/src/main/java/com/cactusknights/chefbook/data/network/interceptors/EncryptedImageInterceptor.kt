@@ -1,7 +1,7 @@
 package com.cactusknights.chefbook.data.network.interceptors
 
 import com.cactusknights.chefbook.core.encryption.IHybridCryptor
-import com.cactusknights.chefbook.core.encryption.ImageValidator
+import com.mysty.chefbook.core.utils.ImageUtils
 import com.cactusknights.chefbook.domain.entities.action.ActionStatus
 import com.cactusknights.chefbook.domain.interfaces.IEncryptedVaultRepo
 import com.cactusknights.chefbook.domain.interfaces.IRecipeEncryptionRepo
@@ -29,7 +29,7 @@ class EncryptedImageInterceptor(
         val response = chain.proceed(chain.request())
 
         val data = response.body?.bytes()
-        if (data == null || data.isEmpty() || ImageValidator.isImage(data)) return@runBlocking  makeResponseWithBody(response, data)
+        if (data == null || data.isEmpty() || ImageUtils.isImage(data)) return@runBlocking  makeResponseWithBody(response, data)
 
         val url = chain.request().url
         val recipeId = getRecipeId(url) ?: return@runBlocking makeResponseWithBody(response, data)

@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
@@ -24,28 +23,28 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.cactusknights.chefbook.R
 import com.cactusknights.chefbook.ui.screens.shoppinglist.models.presentation.ShoppingListSection
-import com.cactusknights.chefbook.ui.themes.ChefBookTheme
 import com.mephistolie.compost.extensions.Shading
 import com.mephistolie.compost.modifiers.clippedBackground
 import com.mephistolie.compost.modifiers.scalingClickable
 import com.mephistolie.compost.modifiers.simpleClickable
+import com.mysty.chefbook.core.ui.compose.providers.theme.LocalTheme
+import com.mysty.chefbook.design.theme.shapes.RoundedCornerShape28
 
 @Composable
 fun ShoppingListSection(
     state: ShoppingListSection,
     onPurchaseClicked: (String) -> Unit,
     onRecipeOpen: (String) -> Unit,
-    onAddPurchase: (Int?) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val colors = ChefBookTheme.colors
-    val typography = ChefBookTheme.typography
+    val colors = LocalTheme.colors
+    val typography = LocalTheme.typography
 
     Column(
         modifier = modifier
             .fillMaxWidth()
             .wrapContentHeight()
-            .clippedBackground(background = colors.backgroundPrimary, RoundedCornerShape(28.dp))
+            .clippedBackground(background = colors.backgroundPrimary, RoundedCornerShape28)
             .animateContentSize()
     ) {
         if (!state.title.isNullOrBlank()) {

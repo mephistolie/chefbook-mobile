@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentWidth
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
@@ -26,10 +25,11 @@ import androidx.compose.ui.unit.dp
 import com.cactusknights.chefbook.R
 import com.cactusknights.chefbook.core.ui.localizedName
 import com.cactusknights.chefbook.domain.entities.recipe.ingredient.IngredientItem
-import com.cactusknights.chefbook.ui.themes.ChefBookTheme
-import com.cactusknights.chefbook.ui.views.textfields.ThemedIndicatorTextField
 import com.mephistolie.compost.modifiers.clippedBackground
 import com.mephistolie.compost.modifiers.simpleClickable
+import com.mysty.chefbook.core.ui.compose.providers.theme.LocalTheme
+import com.mysty.chefbook.design.components.textfields.ThemedIndicatorTextField
+import com.mysty.chefbook.design.theme.shapes.RoundedCornerShape8
 
 @Composable
 fun IngredientField(
@@ -40,8 +40,8 @@ fun IngredientField(
 ) {
     val resources = LocalContext.current.resources
 
-    val colors = ChefBookTheme.colors
-    val typography = ChefBookTheme.typography
+    val colors = LocalTheme.colors
+    val typography = LocalTheme.typography
 
     val secondarySpan = SpanStyle(
         fontSize = typography.headline2.fontSize,
@@ -56,7 +56,7 @@ fun IngredientField(
             .fillMaxWidth()
             .height(56.dp)
             .padding(horizontal = 8.dp)
-            .clippedBackground(colors.backgroundPrimary, RoundedCornerShape(8.dp))
+            .clippedBackground(colors.backgroundPrimary, RoundedCornerShape8)
             .padding(horizontal = 4.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalAlignment = Alignment.CenterVertically,

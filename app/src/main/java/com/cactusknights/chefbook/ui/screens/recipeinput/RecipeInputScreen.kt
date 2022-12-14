@@ -2,7 +2,6 @@ package com.cactusknights.chefbook.ui.screens.recipeinput
 
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.rememberModalBottomSheetState
@@ -12,26 +11,26 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.cactusknights.chefbook.R
 import com.cactusknights.chefbook.core.mappers.LanguageMapper
-import com.cactusknights.chefbook.core.ui.DataAccessProvider
-import com.cactusknights.chefbook.core.ui.DataType
 import com.cactusknights.chefbook.domain.entities.common.Language
 import com.cactusknights.chefbook.ui.navigation.Destination
 import com.cactusknights.chefbook.ui.navigation.hosts.RecipeInputHost
 import com.cactusknights.chefbook.ui.screens.recipeinput.dialogs.RecipeSavedDialog
 import com.cactusknights.chefbook.ui.screens.recipeinput.models.RecipeInputScreenEffect
 import com.cactusknights.chefbook.ui.screens.recipeinput.models.RecipeInputScreenEvent
-import com.cactusknights.chefbook.ui.themes.ChefBookTheme
-import com.cactusknights.chefbook.ui.themes.EncryptedDataTheme
-import com.cactusknights.chefbook.ui.views.dialogs.LoadingDialog
-import com.cactusknights.chefbook.ui.views.dialogs.TwoButtonsDialog
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.google.accompanist.navigation.material.BottomSheetNavigator
 import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
 import com.google.accompanist.navigation.material.ModalBottomSheetLayout
+import com.mysty.chefbook.core.ui.compose.providers.ContentAccessProvider
+import com.mysty.chefbook.core.ui.compose.providers.ContentType
+import com.mysty.chefbook.core.ui.compose.providers.theme.LocalTheme
+import com.mysty.chefbook.design.components.dialogs.LoadingDialog
+import com.mysty.chefbook.design.components.dialogs.TwoButtonsDialog
+import com.mysty.chefbook.design.theme.EncryptedDataTheme
+import com.mysty.chefbook.design.theme.shapes.ModalBottomSheetShape
 import kotlinx.coroutines.flow.collectLatest
 import org.koin.androidx.compose.getViewModel
 
@@ -59,15 +58,13 @@ fun RecipeInputScreen(
 
     val state = viewModel.state.collectAsState()
 
-    EncryptedDataTheme(
-        isEncrypted = state.value.input.isEncrypted
-    ) {
-        DataAccessProvider(type = DataType.DECRYPTABLE) {
-            val colors = ChefBookTheme.colors
+    EncryptedDataTheme(isEncrypted = state.value.input.isEncrypted) {
+        ContentAccessProvider(contentType = ContentType.DECRYPTABLE) {
+            val colors = LocalTheme.colors
             ModalBottomSheetLayout(
                 bottomSheetNavigator = bottomSheetNavigator,
-                sheetShape = RoundedCornerShape(32.dp, 32.dp, 0.dp, 0.dp),
-                sheetBackgroundColor = ChefBookTheme.colors.backgroundPrimary,
+                sheetShape = ModalBottomSheetShape,
+                sheetBackgroundColor = LocalTheme.colors.backgroundPrimary,
                 modifier = Modifier.background(colors.backgroundPrimary)
             ) {
                 RecipeInputHost(

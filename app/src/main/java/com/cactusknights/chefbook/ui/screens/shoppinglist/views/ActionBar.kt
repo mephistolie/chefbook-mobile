@@ -7,16 +7,17 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import com.cactusknights.chefbook.R
-import com.cactusknights.chefbook.ui.themes.ChefBookTheme
-import com.cactusknights.chefbook.ui.views.buttons.DynamicButton
 import com.mephistolie.compost.modifiers.clippedBackground
+import com.mysty.chefbook.core.ui.compose.providers.theme.LocalTheme
+import com.mysty.chefbook.design.components.buttons.DynamicButton
+import com.mysty.chefbook.design.theme.shapes.BottomSheetShape
 
 @Composable
 fun ActionBar(
@@ -25,19 +26,19 @@ fun ActionBar(
     isDoneButtonActive: Boolean,
     modifier: Modifier = Modifier,
 ) {
-    val colors = ChefBookTheme.colors
+    val colors = LocalTheme.colors
 
     Row(
-        modifier = Modifier
+        modifier = modifier
             .padding(top = 6.dp)
             .fillMaxWidth()
             .wrapContentHeight()
-            .clippedBackground(background = colors.backgroundPrimary, RoundedCornerShape(28.dp, 28.dp, 0.dp, 0.dp))
+            .clippedBackground(background = colors.backgroundPrimary, BottomSheetShape)
             .navigationBarsPadding()
             .padding(12.dp, 12.dp, 12.dp, 4.dp)
     ) {
         DynamicButton(
-            text = "Добавить",
+            text = stringResource(R.string.common_general_add),
             leftIcon = ImageVector.vectorResource(id = R.drawable.ic_add),
             onClick = onAddPurchaseClick,
             isSelected = false,

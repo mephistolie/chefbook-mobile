@@ -15,20 +15,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import com.cactusknights.chefbook.R
-import com.cactusknights.chefbook.ui.themes.ChefBookTheme
-import com.cactusknights.chefbook.ui.views.buttons.DynamicButton
-import com.cactusknights.chefbook.ui.views.images.EncryptedImage
 import com.canhub.cropper.CropImageContract
 import com.canhub.cropper.CropImageContractOptions
 import com.canhub.cropper.CropImageOptions
 import com.canhub.cropper.CropImageView
-import com.mephistolie.compost.ui.buttons.CircleIconButton
+import com.mysty.chefbook.core.ui.compose.providers.theme.LocalTheme
+import com.mysty.chefbook.design.components.buttons.CircleIconButton
+import com.mysty.chefbook.design.components.buttons.DynamicButton
+import com.mysty.chefbook.design.components.images.EncryptedImage
 
 @Composable
 fun ColumnScope.PreviewBlock(
@@ -39,7 +37,7 @@ fun ColumnScope.PreviewBlock(
 ) {
     val context = LocalContext.current
 
-    val colors = ChefBookTheme.colors
+    val colors = LocalTheme.colors
 
     val imageCropLauncher = rememberLauncherForActivityResult(CropImageContract()) { result ->
         val uri = result.getUriFilePath(context)
@@ -72,7 +70,7 @@ fun ColumnScope.PreviewBlock(
                 modifier = Modifier.matchParentSize(),
             )
             CircleIconButton(
-                icon = ImageVector.vectorResource(R.drawable.ic_cross),
+                iconId = R.drawable.ic_cross,
                 onClick = onPreviewDeleted,
                 modifier = Modifier
                     .padding(12.dp)

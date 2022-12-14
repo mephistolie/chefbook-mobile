@@ -9,8 +9,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.cactusknights.chefbook.R
 import com.cactusknights.chefbook.domain.entities.recipe.RecipeInput
-import com.cactusknights.chefbook.ui.themes.ChefBookTheme
-import com.cactusknights.chefbook.ui.views.buttons.Counter
+import com.mysty.chefbook.core.ui.compose.providers.theme.LocalTheme
+import com.mysty.chefbook.design.components.buttons.Counter
 
 @Composable
 fun ServingsBlock(
@@ -18,8 +18,8 @@ fun ServingsBlock(
     onSetServings: (Int?) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val colors = ChefBookTheme.colors
-    val typography = ChefBookTheme.typography
+    val colors = LocalTheme.colors
+    val typography = LocalTheme.typography
 
     Row(
         modifier = modifier,

@@ -18,8 +18,8 @@ import com.cactusknights.chefbook.ui.screens.recipebook.views.blocks.TopBar
 import com.cactusknights.chefbook.ui.screens.recipebook.views.blocks.allRecipesBlock
 import com.cactusknights.chefbook.ui.screens.recipebook.views.blocks.categoriesBlock
 import com.cactusknights.chefbook.ui.screens.recipebook.views.blocks.quickAccessBlock
-import com.cactusknights.chefbook.ui.themes.ChefBookTheme
-import com.cactusknights.chefbook.ui.views.dialogs.CategoryInputDialog
+import com.mysty.chefbook.core.ui.compose.providers.theme.LocalTheme
+import com.mysty.chefbook.design.components.dialogs.CategoryInputDialog
 
 @Composable
 fun RecipeBookScreenDisplay(
@@ -27,7 +27,7 @@ fun RecipeBookScreenDisplay(
     onEvent: (RecipeBookScreenEvent) -> Unit,
     topBarScale: Float = 1F,
 ) {
-    val colors = ChefBookTheme.colors
+    val colors = LocalTheme.colors
 
     Column(
         modifier = Modifier.background(colors.backgroundPrimary)

@@ -15,8 +15,9 @@ import com.cactusknights.chefbook.R
 import com.cactusknights.chefbook.core.ui.localizedName
 import com.cactusknights.chefbook.domain.entities.common.Visibility
 import com.cactusknights.chefbook.domain.entities.recipe.RecipeInput
-import com.cactusknights.chefbook.ui.themes.ChefBookTheme
-import com.cactusknights.chefbook.ui.views.buttons.DynamicButton
+import com.mysty.chefbook.core.ui.compose.providers.theme.LocalTheme
+import com.mysty.chefbook.design.components.buttons.DynamicButton
+import com.mysty.chefbook.design.theme.dimens.ButtonSmallHeight
 
 @Composable
 fun ParametersBlock(
@@ -27,8 +28,8 @@ fun ParametersBlock(
 ) {
     val resources = LocalContext.current.resources
 
-    val colors = ChefBookTheme.colors
-    val typography = ChefBookTheme.typography
+    val colors = LocalTheme.colors
+    val typography = LocalTheme.typography
 
     LazyRow(
         modifier = Modifier.padding(top = 12.dp),
@@ -56,7 +57,7 @@ fun ParametersBlock(
                 unselectedForeground = colors.foregroundPrimary,
                 modifier = Modifier
                     .padding(start = 12.dp)
-                    .height(36.dp),
+                    .height(ButtonSmallHeight),
                 onClick = onVisibilityClick,
             )
         }
@@ -73,7 +74,7 @@ fun ParametersBlock(
                 iconsSize = 16.dp,
                 rightIcon = ImageVector.vectorResource(R.drawable.ic_arrow_down),
                 unselectedForeground = colors.foregroundPrimary,
-                modifier = Modifier.height(36.dp),
+                modifier = Modifier.height(ButtonSmallHeight),
                 onClick = onLanguageClick,
             )
         }
@@ -89,7 +90,7 @@ fun ParametersBlock(
                 unselectedForeground = colors.foregroundPrimary,
                 modifier = Modifier
                     .padding(end = 12.dp)
-                    .height(36.dp),
+                    .height(ButtonSmallHeight),
                 onClick = onEncryptionClick,
             )
         }

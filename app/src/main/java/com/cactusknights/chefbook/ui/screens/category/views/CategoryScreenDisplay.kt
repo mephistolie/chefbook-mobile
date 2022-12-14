@@ -27,16 +27,16 @@ import com.cactusknights.chefbook.R
 import com.cactusknights.chefbook.ui.screens.category.models.CategoryScreenEvent
 import com.cactusknights.chefbook.ui.screens.category.models.CategoryScreenState
 import com.cactusknights.chefbook.ui.screens.recipebook.views.elements.RecipeCard
-import com.cactusknights.chefbook.ui.themes.ChefBookTheme
-import com.cactusknights.chefbook.ui.views.common.Toolbar
+import com.mysty.chefbook.core.ui.compose.providers.theme.LocalTheme
+import com.mysty.chefbook.design.components.toolbar.Toolbar
 
 @Composable
 fun CategoryScreenDisplay(
     state: CategoryScreenState,
     onEvent: (CategoryScreenEvent) -> Unit,
 ) {
-    val colors = ChefBookTheme.colors
-    val typography = ChefBookTheme.typography
+    val colors = LocalTheme.colors
+    val typography = LocalTheme.typography
 
     Box(
         modifier = Modifier
@@ -50,9 +50,7 @@ fun CategoryScreenDisplay(
             ) {
                 Toolbar(
                     onLeftButtonClick = { onEvent(CategoryScreenEvent.Back) },
-                    onContentClick = {
-                        onEvent(CategoryScreenEvent.ChangeDialogState.Edit(true))
-                    },
+                    onContentClick = { onEvent(CategoryScreenEvent.ChangeDialogState.Edit(true)) },
                 ) {
                     Row(
                         verticalAlignment = Alignment.CenterVertically,

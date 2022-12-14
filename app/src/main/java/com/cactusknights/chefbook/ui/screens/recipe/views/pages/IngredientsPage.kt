@@ -29,9 +29,9 @@ import com.cactusknights.chefbook.R
 import com.cactusknights.chefbook.domain.entities.recipe.ingredient.IngredientItem
 import com.cactusknights.chefbook.ui.screens.recipe.views.elements.Ingredient
 import com.cactusknights.chefbook.ui.screens.recipe.views.elements.Section
-import com.cactusknights.chefbook.ui.themes.ChefBookTheme
-import com.cactusknights.chefbook.ui.views.buttons.Counter
-import com.cactusknights.chefbook.ui.views.buttons.DynamicButton
+import com.mysty.chefbook.core.ui.compose.providers.theme.LocalTheme
+import com.mysty.chefbook.design.components.buttons.Counter
+import com.mysty.chefbook.design.components.buttons.DynamicButton
 import com.mephistolie.compost.modifiers.simpleClickable
 import com.mephistolie.compost.shapes.DashedLineShape
 
@@ -41,8 +41,8 @@ fun IngredientsPage(
     servings: Int? = null,
     onAddToShoppingListClicked: (List<IngredientItem>, Float) -> Unit,
 ) {
-    val colors = ChefBookTheme.colors
-    val typography = ChefBookTheme.typography
+    val colors = LocalTheme.colors
+    val typography = LocalTheme.typography
 
     val selectedIngredients = remember { ingredients.map { false }.toMutableStateList() }
 

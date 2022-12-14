@@ -10,23 +10,22 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import com.cactusknights.chefbook.domain.entities.shoppinglist.Purchase
-import com.cactusknights.chefbook.ui.themes.ChefBookColors
-import com.cactusknights.chefbook.ui.themes.ChefBookTheme
-import com.cactusknights.chefbook.ui.themes.ChefBookTypography
-import com.mephistolie.compost.ui.checkboxes.CircleCheckbox
+import com.mysty.chefbook.core.ui.compose.providers.theme.LocalTheme
+import com.mysty.chefbook.design.components.checkboxes.Checkbox
 
 @Composable
 fun Purchase(
     purchase: Purchase,
     modifier: Modifier = Modifier,
 ) {
-    val colors = ChefBookTheme.colors
-    val typography = ChefBookTheme.typography
+    val colors = LocalTheme.colors
+    val typography = LocalTheme.typography
 
     Row(
         verticalAlignment = Alignment.Top,
@@ -35,17 +34,14 @@ fun Purchase(
             .fillMaxWidth()
             .wrapContentHeight(),
     ) {
-        CircleCheckbox(
+        Checkbox(
             isChecked = purchase.isPurchased,
             onClick = { },
-            checkedColor = colors.tintPrimary,
-            checkmarkColor = colors.tintSecondary,
-            checkmarkSize = 20.dp,
-            enabled = false,
+            isEnabled = false,
         )
         Spacer(modifier = Modifier.width(8.dp))
         Text(
-            text = getFormattedText(purchase, colors, typography),
+            text = getFormattedText(purchase),
             style = typography.headline1,
             color = colors.foregroundPrimary,
         )
@@ -53,8 +49,10 @@ fun Purchase(
 }
 
 @Composable
-private fun getFormattedText(purchase: Purchase, colors: ChefBookColors, typography: ChefBookTypography) =
-    buildAnnotatedString {
+private fun getFormattedText(purchase: Purchase): AnnotatedString {
+    val colors = LocalTheme.colors
+    val typography = LocalTheme.typography
+    return buildAnnotatedString {
             withStyle(
                 SpanStyle(
                     color = colors.foregroundPrimary,
@@ -73,10 +71,11 @@ private fun getFormattedText(purchase: Purchase, colors: ChefBookColors, typogra
                         fontSize = typography.headline2.fontSize,
                         fontWeight = typography.headline2.fontWeight,
                         fontStyle = typography.headline2.fontStyle,
-                        fontFamily = ChefBookTheme.typography.headline2.fontFamily,
+                        fontFamily = LocalTheme.typography.headline2.fontFamily,
                     )
                 ) {
                     append(" x${purchase.multiplier}")
                 }
             }
         }
+}

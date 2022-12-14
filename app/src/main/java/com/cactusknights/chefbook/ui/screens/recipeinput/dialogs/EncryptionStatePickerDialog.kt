@@ -20,14 +20,14 @@ import com.cactusknights.chefbook.R
 import com.cactusknights.chefbook.ui.screens.recipeinput.RecipeInputScreenViewModel
 import com.cactusknights.chefbook.ui.screens.recipeinput.dialogs.elements.RadioElement
 import com.cactusknights.chefbook.ui.screens.recipeinput.models.RecipeInputScreenEvent
-import com.cactusknights.chefbook.ui.themes.ChefBookTheme
+import com.mysty.chefbook.core.ui.compose.providers.theme.LocalTheme
 
 @Composable
 fun EncryptionStatePickerDialog(
     viewModel: RecipeInputScreenViewModel,
 ) {
-    val colors = ChefBookTheme.colors
-    val typography = ChefBookTheme.typography
+    val colors = LocalTheme.colors
+    val typography = LocalTheme.typography
 
     val viewModelState = viewModel.state.collectAsState()
     val isEncrypted = viewModelState.value.input.isEncrypted

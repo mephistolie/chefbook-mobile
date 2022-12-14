@@ -14,6 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -23,12 +24,11 @@ import coil.request.ImageRequest
 import com.cactusknights.chefbook.R
 import com.cactusknights.chefbook.domain.entities.settings.Tab
 import com.cactusknights.chefbook.ui.screens.home.models.HomeEvent
-import com.cactusknights.chefbook.ui.themes.ChefBookTheme
+import com.mysty.chefbook.core.ui.compose.providers.theme.LocalTheme
 
 private val tabsContentHeight = 44.dp
 private val tabsTopPadding = 4.dp
 private val tabsBottomPadding = 12.dp
-val tabsHeight = tabsContentHeight + tabsTopPadding + tabsBottomPadding
 
 @Composable
 fun TopBar(
@@ -39,8 +39,6 @@ fun TopBar(
     modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
-
-    val colors = ChefBookTheme.colors
 
     Row(
         modifier = modifier
@@ -87,6 +85,7 @@ fun TopBar(
             error = painterResource(R.drawable.ic_user_circle),
             contentDescription = null,
             contentScale = ContentScale.Crop,
+            colorFilter = if (avatar.isNullOrBlank()) ColorFilter.tint(LocalTheme.colors.foregroundSecondary) else null,
             modifier = Modifier
                 .padding(
                     0.dp,

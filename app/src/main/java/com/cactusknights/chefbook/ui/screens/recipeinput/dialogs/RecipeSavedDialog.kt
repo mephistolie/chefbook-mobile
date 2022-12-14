@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -23,8 +22,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.cactusknights.chefbook.R
-import com.cactusknights.chefbook.ui.themes.ChefBookTheme
-import com.cactusknights.chefbook.ui.views.buttons.DynamicButton
+import com.mysty.chefbook.core.ui.compose.providers.theme.LocalTheme
+import com.mysty.chefbook.design.components.buttons.DynamicButton
+import com.mysty.chefbook.design.theme.ChefBookTheme
+import com.mysty.chefbook.design.theme.shapes.RoundedCornerShape24
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -32,8 +33,8 @@ fun RecipeSavedDialog(
     onOpenRecipe: () -> Unit,
     onBackToRecipes: () -> Unit,
 ) {
-    val colors = ChefBookTheme.colors
-    val typography = ChefBookTheme.typography
+    val colors = LocalTheme.colors
+    val typography = LocalTheme.typography
 
     Dialog(
         onDismissRequest = {},
@@ -48,10 +49,7 @@ fun RecipeSavedDialog(
                 .fillMaxWidth()
                 .wrapContentHeight()
                 .padding(horizontal = 48.dp)
-                .background(
-                    color = colors.backgroundPrimary,
-                    shape = RoundedCornerShape(24.dp)
-                )
+                .background(color = colors.backgroundPrimary, shape = RoundedCornerShape24)
                 .padding(16.dp, 24.dp, 16.dp, 16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
@@ -109,7 +107,7 @@ private fun ThemedRecipeSavedDialog(
 ) {
     ChefBookTheme(darkTheme = isDarkTheme) {
         Surface(
-            color = ChefBookTheme.colors.backgroundPrimary
+            color = LocalTheme.colors.backgroundPrimary
         ) {
             RecipeSavedDialog(
                 onOpenRecipe = {},

@@ -49,6 +49,7 @@ object Dependencies {
     }
 
     const val composeReorderable = "org.burnoutcrew.composereorderable:reorderable:0.9.2"
+    const val composeShimmer = "com.valentinilk.shimmer:compose-shimmer:1.0.3"
 
     const val timber = "com.jakewharton.timber:timber:5.0.1"
 

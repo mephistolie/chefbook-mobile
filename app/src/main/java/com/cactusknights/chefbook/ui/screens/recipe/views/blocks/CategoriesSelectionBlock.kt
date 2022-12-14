@@ -20,8 +20,8 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import com.cactusknights.chefbook.R
 import com.cactusknights.chefbook.domain.entities.category.Category
-import com.cactusknights.chefbook.ui.themes.ChefBookTheme
-import com.cactusknights.chefbook.ui.views.buttons.DynamicButton
+import com.mysty.chefbook.core.ui.compose.providers.theme.LocalTheme
+import com.mysty.chefbook.design.components.buttons.DynamicButton
 import com.google.accompanist.flowlayout.FlowRow
 
 @Composable
@@ -31,8 +31,8 @@ fun CategoriesSelectionBlock(
     onDiscard: () -> Unit,
     onConfirm: (List<String>) -> Unit,
 ) {
-    val colors = ChefBookTheme.colors
-    val typography = ChefBookTheme.typography
+    val colors = LocalTheme.colors
+    val typography = LocalTheme.typography
 
     val selectedCategoriesIds = remember { initialSelectedCategories.toMutableStateList() }
 

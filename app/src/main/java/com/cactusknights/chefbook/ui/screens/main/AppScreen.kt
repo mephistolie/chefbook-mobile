@@ -8,13 +8,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
-import com.cactusknights.chefbook.core.ui.DependenciesProvider
 import com.cactusknights.chefbook.ui.navigation.Destination
 import com.cactusknights.chefbook.ui.screens.main.models.AppEffect
 import com.cactusknights.chefbook.ui.screens.main.views.AppScreenDisplay
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.google.accompanist.navigation.material.BottomSheetNavigator
 import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
+import com.mysty.chefbook.core.ui.compose.providers.UiDependenciesProvider
 import org.koin.androidx.compose.getViewModel
 
 @OptIn(ExperimentalMaterialNavigationApi::class, ExperimentalMaterialApi::class, ExperimentalAnimationApi::class)
@@ -34,7 +34,7 @@ fun AppScreen(
 
     val appState = viewModel.appState.collectAsState()
 
-    DependenciesProvider(
+    UiDependenciesProvider(
         imageClient = viewModel.imageClient,
     ) {
         AppScreenDisplay(

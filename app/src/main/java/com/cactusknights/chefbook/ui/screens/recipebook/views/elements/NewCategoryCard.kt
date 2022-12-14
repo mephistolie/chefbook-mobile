@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -14,17 +13,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.cactusknights.chefbook.R
-import com.cactusknights.chefbook.ui.themes.ChefBookTheme
 import com.mephistolie.compost.extensions.Shading
 import com.mephistolie.compost.modifiers.clippedBackground
 import com.mephistolie.compost.modifiers.scalingClickable
+import com.mysty.chefbook.core.ui.compose.providers.theme.LocalTheme
+import com.mysty.chefbook.design.theme.shapes.RoundedCornerShape16
 
 @Composable
 fun NewCategoryCard(
     onClicked: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val colors = ChefBookTheme.colors
+    val colors = LocalTheme.colors
 
     val pressed = remember { mutableStateOf(false) }
 
@@ -33,7 +33,7 @@ fun NewCategoryCard(
             .padding(0.dp, 0.dp, 0.dp, 8.dp)
             .aspectRatio(0.8f)
             .scalingClickable(pressed) { onClicked() }
-            .clippedBackground(colors.backgroundSecondary, RoundedCornerShape(16.dp)),
+            .clippedBackground(colors.backgroundSecondary, RoundedCornerShape16),
         contentAlignment = Alignment.Center,
     ) {
         Icon(

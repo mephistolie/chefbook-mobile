@@ -30,9 +30,9 @@ import com.cactusknights.chefbook.R
 import com.cactusknights.chefbook.ui.screens.encryptedvault.models.EncryptedVaultScreenEvent
 import com.cactusknights.chefbook.ui.screens.encryptedvault.models.EncryptedVaultScreenState
 import com.cactusknights.chefbook.ui.screens.encryptedvault.models.PinCodeInputType
-import com.cactusknights.chefbook.ui.themes.ChefBookTheme
 import com.mephistolie.compost.modifiers.simpleClickable
-import com.mephistolie.compost.ui.buttons.CircleIconButton
+import com.mysty.chefbook.core.ui.compose.providers.theme.LocalTheme
+import com.mysty.chefbook.design.components.buttons.CircleIconButton
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -42,8 +42,8 @@ fun EncryptedVaultScreenDisplay(
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
 
-    val colors = ChefBookTheme.colors
-    val typography = ChefBookTheme.typography
+    val colors = LocalTheme.colors
+    val typography = LocalTheme.typography
 
     Column(
         modifier = Modifier
@@ -68,7 +68,7 @@ fun EncryptedVaultScreenDisplay(
                     .padding(vertical = 18.dp)
             )
             CircleIconButton(
-                icon = ImageVector.vectorResource(R.drawable.ic_cross),
+                iconId = R.drawable.ic_cross,
                 onClick = {
                     keyboardController?.hide()
                     onEvent(EncryptedVaultScreenEvent.Close)

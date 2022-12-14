@@ -17,8 +17,8 @@ import androidx.compose.ui.unit.dp
 import com.cactusknights.chefbook.core.ui.localizedName
 import com.cactusknights.chefbook.domain.entities.common.MeasureUnit
 import com.cactusknights.chefbook.domain.entities.recipe.ingredient.IngredientItem
-import com.cactusknights.chefbook.ui.themes.ChefBookTheme
-import com.mephistolie.compost.ui.checkboxes.CircleCheckbox
+import com.mysty.chefbook.core.ui.compose.providers.theme.LocalTheme
+import com.mysty.chefbook.design.components.checkboxes.Checkbox
 import kotlin.math.abs
 
 @Composable
@@ -30,8 +30,8 @@ fun Ingredient(
 ) {
     val resources = LocalContext.current.resources
 
-    val colors = ChefBookTheme.colors
-    val typography = ChefBookTheme.typography
+    val colors = LocalTheme.colors
+    val typography = LocalTheme.typography
 
     val text = buildAnnotatedString {
         withStyle(SpanStyle(
@@ -50,7 +50,7 @@ fun Ingredient(
                 fontSize = typography.headline2.fontSize,
                 fontWeight = typography.headline2.fontWeight,
                 fontStyle = typography.headline2.fontStyle,
-                fontFamily = ChefBookTheme.typography.headline2.fontFamily,
+                fontFamily = LocalTheme.typography.headline2.fontFamily,
             )) {
                 val amountForServings = amount * amountRatio
                 val epsilon = 0.1F
@@ -81,13 +81,11 @@ fun Ingredient(
         modifier = modifier
             .fillMaxSize(),
     ) {
-        CircleCheckbox(
+        Checkbox(
             isChecked = isChecked,
-            onClick = { },
-            checkedColor = colors.tintPrimary,
-            checkmarkColor = colors.tintSecondary,
+            onClick = {},
             checkmarkSize = 20.dp,
-            enabled = false,
+            isEnabled = false,
         )
         Spacer(modifier = Modifier.width(8.dp))
         Text(

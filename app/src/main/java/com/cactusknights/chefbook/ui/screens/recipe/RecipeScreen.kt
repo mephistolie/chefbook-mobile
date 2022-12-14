@@ -17,7 +17,6 @@ import com.cactusknights.chefbook.ui.screens.recipe.models.RecipeScreenEvent
 import com.cactusknights.chefbook.ui.screens.recipe.models.RecipeScreenState
 import com.cactusknights.chefbook.ui.screens.recipe.models.RecipeScreenTab
 import com.cactusknights.chefbook.ui.screens.recipe.views.RecipeScreenDisplay
-import com.cactusknights.chefbook.ui.themes.EncryptedDataTheme
 import org.koin.androidx.compose.getViewModel
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -34,20 +33,16 @@ fun RecipeScreen(
 
     val recipeState = recipeViewModel.state.collectAsState()
 
-    EncryptedDataTheme(
-        isEncrypted = (recipeState.value as? RecipeScreenState.Success)?.recipe?.encryptionState is EncryptionState.Decrypted
+    RecipeEncryptionProvider(
+        encryption = (recipeState.value as? RecipeScreenState.Success)?.recipe?.encryptionState ?: EncryptionState.Standard
     ) {
-        RecipeEncryptionProvider(
-            encryption = (recipeState.value as? RecipeScreenState.Success)?.recipe?.encryptionState ?: EncryptionState.Standard
-        ) {
-            RecipeScreenDisplay(
-                state = recipeState.value,
-                defaultTab = defaultTab,
-                sheetState = sheetState,
-                onEvent = { event -> recipeViewModel.obtainEvent(event) },
-                onRefresh = { recipeViewModel.obtainEvent(RecipeScreenEvent.LoadRecipe(recipeId)) },
-            )
-        }
+        RecipeScreenDisplay(
+            state = recipeState.value,
+            defaultTab = defaultTab,
+            sheetState = sheetState,
+            onEvent = { event -> recipeViewModel.obtainEvent(event) },
+            onRefresh = { recipeViewModel.obtainEvent(RecipeScreenEvent.LoadRecipe(recipeId)) },
+        )
     }
 
     LaunchedEffect(Unit) {

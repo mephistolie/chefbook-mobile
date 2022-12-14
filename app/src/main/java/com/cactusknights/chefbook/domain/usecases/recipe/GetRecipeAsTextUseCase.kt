@@ -6,7 +6,8 @@ import com.cactusknights.chefbook.core.ui.localizedName
 import com.cactusknights.chefbook.domain.entities.recipe.Recipe
 import com.cactusknights.chefbook.domain.entities.recipe.cooking.CookingItem
 import com.cactusknights.chefbook.domain.entities.recipe.ingredient.IngredientItem
-import com.mysty.chefbook.core.ui.utils.TimeUtils.minutesToTimeString
+import com.mysty.chefbook.core.ui.utils.minutesToTimeString
+import com.mysty.chefbook.core.utils.TimeUtils
 
 interface IGetRecipeAsTextUseCase {
     suspend operator fun invoke(recipe: Recipe, resources: Resources): String
@@ -31,7 +32,7 @@ class GetRecipeAsTextUseCase : IGetRecipeAsTextUseCase {
                 text += "${resources.getString(R.string.common_general_servings)}: ${recipe.servings}"
             }
             recipe.time?.let {
-                text += "\n${resources.getString(R.string.common_general_time)}: ${minutesToTimeString(recipe.time, resources)}"
+                text += "\n${resources.getString(R.string.common_general_time)}: ${TimeUtils.minutesToTimeString(recipe.time, resources)}"
             }
         }
 

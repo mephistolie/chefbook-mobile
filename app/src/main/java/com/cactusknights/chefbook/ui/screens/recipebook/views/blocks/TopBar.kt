@@ -18,16 +18,14 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import com.cactusknights.chefbook.R
-import com.cactusknights.chefbook.ui.themes.ChefBookTheme
-import com.cactusknights.chefbook.ui.themes.Shapes.RoundedCornerShape12
 import com.mephistolie.compost.modifiers.simpleClickable
-import com.mephistolie.compost.ui.buttons.CircleIconButton
+import com.mysty.chefbook.core.ui.compose.providers.theme.LocalTheme
+import com.mysty.chefbook.design.components.buttons.CircleIconButton
+import com.mysty.chefbook.design.theme.shapes.RoundedCornerShape12
 
 @Composable
 fun TopBar(
@@ -37,8 +35,8 @@ fun TopBar(
     modifier: Modifier = Modifier,
     scale: Float = 1F,
 ) {
-    val colors = ChefBookTheme.colors
-    val typography = ChefBookTheme.typography
+    val colors = LocalTheme.colors
+    val typography = LocalTheme.typography
 
     val barSize = 42.dp + (scale * 6).dp
 
@@ -90,13 +88,11 @@ fun TopBar(
             }
         }
         CircleIconButton(
-            icon = ImageVector.vectorResource(id = R.drawable.ic_favourite),
+            iconId = R.drawable.ic_favourite,
             onClick = { onFavouriteButtonClick() },
             modifier = Modifier
                 .padding(start = 8.dp)
                 .size(barSize),
-            colors = ButtonDefaults.buttonColors(backgroundColor = colors.backgroundSecondary),
-            tint = colors.foregroundPrimary,
             contentPadding = 9.dp
         )
     }
