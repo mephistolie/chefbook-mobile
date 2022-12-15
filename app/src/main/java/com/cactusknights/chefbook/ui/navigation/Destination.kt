@@ -34,6 +34,8 @@ sealed class Destination(val route: String) {
 
     }
 
+    object About : Destination("about")
+
     object Encryption : Destination("encryption?$CLOSE_ON_UNLOCKED_ARGUMENT={$CLOSE_ON_UNLOCKED_ARGUMENT}") {
 
         fun route(

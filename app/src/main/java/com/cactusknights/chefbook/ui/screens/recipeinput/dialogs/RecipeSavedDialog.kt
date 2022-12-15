@@ -63,7 +63,7 @@ fun RecipeSavedDialog(
                 contentDescription = null,
                 modifier = Modifier
                     .padding(top = 12.dp)
-                    .size(144.dp)
+                    .size(128.dp)
             )
             DynamicButton(
                 text = stringResource(R.string.common_recipe_input_screen_open_recipe),

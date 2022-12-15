@@ -24,6 +24,7 @@ import coil.request.ImageRequest
 import com.cactusknights.chefbook.R
 import com.cactusknights.chefbook.domain.entities.settings.Tab
 import com.cactusknights.chefbook.ui.screens.home.models.HomeEvent
+import com.mephistolie.compost.modifiers.simpleClickable
 import com.mysty.chefbook.core.ui.compose.providers.theme.LocalTheme
 
 private val tabsContentHeight = 44.dp
@@ -85,7 +86,7 @@ fun TopBar(
             error = painterResource(R.drawable.ic_user_circle),
             contentDescription = null,
             contentScale = ContentScale.Crop,
-            colorFilter = if (avatar.isNullOrBlank()) ColorFilter.tint(LocalTheme.colors.foregroundSecondary) else null,
+            colorFilter = if (avatar.isNullOrBlank()) ColorFilter.tint(LocalTheme.colors.foregroundPrimary) else null,
             modifier = Modifier
                 .padding(
                     0.dp,
@@ -95,6 +96,7 @@ fun TopBar(
                 )
                 .size(24.dp)
                 .clip(CircleShape)
+                .simpleClickable { onEvent(HomeEvent.OpenProfile) }
         )
     }
 }

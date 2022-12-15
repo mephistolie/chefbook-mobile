@@ -68,4 +68,9 @@
     <string name="common_encrypted_vault_screen_vault_deleted">Зашифрованное хранилище удалено</string>
     <string name="common_encrypted_vault_screen_pin_code_change">Изменить PIN-код</string>
 
+    <string name="common_about_title">О приложении</string>
+    <string name="common_about_version">Версия %1$s</string>
+    <string name="common_about_made_by">Сделано Михаилом Левиным</string>
+    <string name="common_about_dedicated_to">Посвящено Т. И.</string>
+
 </resources>

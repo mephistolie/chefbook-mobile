@@ -12,6 +12,6 @@ object Project {
     const val targetSdk = 33
 
     const val version = 41
-    const val versionName = "4.0"
+    const val versionName = "4.0.0"
 
 }

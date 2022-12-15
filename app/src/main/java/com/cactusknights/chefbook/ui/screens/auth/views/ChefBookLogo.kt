@@ -3,8 +3,8 @@ package com.cactusknights.chefbook.ui.screens.auth.views
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -30,9 +30,9 @@ fun ChefBookLogo(
         Image(
             imageVector = ImageVector.vectorResource(R.drawable.ic_broccy),
             contentDescription = "logo",
-            modifier = Modifier.size(64.dp)
+            modifier = Modifier.size(48.dp)
         )
-        Spacer(Modifier.height(4.dp))
+        Spacer(Modifier.width(8.dp))
         Text(
             text = "Chef",
             style = typography.h1,

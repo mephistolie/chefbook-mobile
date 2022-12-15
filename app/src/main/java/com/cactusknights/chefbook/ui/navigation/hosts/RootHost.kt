@@ -16,6 +16,7 @@ import com.cactusknights.chefbook.ui.navigation.CLOSE_ON_UNLOCKED_ARGUMENT
 import com.cactusknights.chefbook.ui.navigation.Destination
 import com.cactusknights.chefbook.ui.navigation.RECIPE_ID_ARGUMENT
 import com.cactusknights.chefbook.ui.navigation.RECIPE_TAB_ARGUMENT
+import com.cactusknights.chefbook.ui.screens.about.AboutScreen
 import com.cactusknights.chefbook.ui.screens.auth.AuthScreen
 import com.cactusknights.chefbook.ui.screens.category.CategoryScreen
 import com.cactusknights.chefbook.ui.screens.encryptedvault.EncryptedVaultScreen
@@ -132,5 +133,10 @@ fun RootHost(
                     defaultLanguage = settings.defaultRecipeLanguage,
                     appController = navController,
                 )
+            }
+            composable(
+                route = Destination.About.route,
+            ) { backStack ->
+                AboutScreen(appController = navController)
             }
         }

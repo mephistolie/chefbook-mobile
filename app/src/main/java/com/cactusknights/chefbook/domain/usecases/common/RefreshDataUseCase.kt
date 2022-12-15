@@ -1,9 +1,9 @@
 package com.cactusknights.chefbook.domain.usecases.common
 
-import com.cactusknights.chefbook.data.repositories.ShoppingListRepo
 import com.cactusknights.chefbook.domain.interfaces.ICategoryRepo
 import com.cactusknights.chefbook.domain.interfaces.IProfileRepo
 import com.cactusknights.chefbook.domain.interfaces.IRecipeRepo
+import com.cactusknights.chefbook.domain.interfaces.IShoppingListRepo
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -16,7 +16,7 @@ class RefreshDataUseCase(
     private val profileRepo: IProfileRepo,
     private val recipeRepo: IRecipeRepo,
     private val categoriesRepo: ICategoryRepo,
-    private val shoppingListRepo: ShoppingListRepo,
+    private val shoppingListRepo: IShoppingListRepo,
 ) : IRefreshDataUseCase {
 
     override suspend operator fun invoke() {

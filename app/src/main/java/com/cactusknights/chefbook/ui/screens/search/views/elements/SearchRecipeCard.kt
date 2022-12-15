@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -15,19 +16,26 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.ExperimentalUnitApi
+import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
-import com.cactusknights.chefbook.R
 import com.cactusknights.chefbook.core.ui.RecipeEncryptionProvider
 import com.cactusknights.chefbook.domain.entities.recipe.RecipeInfo
 import com.mephistolie.compost.extensions.Shading
 import com.mephistolie.compost.modifiers.clippedBackground
 import com.mephistolie.compost.modifiers.scalingClickable
 import com.mysty.chefbook.core.ui.compose.providers.theme.LocalTheme
+import com.mysty.chefbook.core.ui.utils.EmojiUtils
 import com.mysty.chefbook.core.ui.utils.minutesToTimeString
 import com.mysty.chefbook.core.utils.TimeUtils
 import com.mysty.chefbook.design.components.images.EncryptedImage
 
+@OptIn(ExperimentalUnitApi::class)
 @Composable
 fun SearchRecipeCard(
     recipe: RecipeInfo,
@@ -40,6 +48,8 @@ fun SearchRecipeCard(
     val typography = LocalTheme.typography
 
     val pressed = remember { mutableStateOf(false) }
+
+    val placeholder = remember { EmojiUtils.randomFoodEmoji(recipe.id) }
 
     RecipeEncryptionProvider(encryption = recipe.encryptionState) {
         Row(
@@ -55,7 +65,19 @@ fun SearchRecipeCard(
                     .size(48.dp)
                     .clippedBackground(colors.backgroundSecondary, RoundedCornerShape(10.dp))
             ) {
-                EncryptedImage(recipe.preview ?: R.drawable.ic_broccy,)
+                Text(
+                    text = placeholder,
+                    style = TextStyle(
+                        fontSize = TextUnit(24F, TextUnitType.Sp),
+                    ),
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier
+                        .align(Alignment.Center)
+                        .wrapContentSize()
+                        .padding(bottom = 2.dp)
+                        .alpha(0.85F),
+                )
+                EncryptedImage(recipe.preview)
                 Shading(pressed.value)
             }
             Column(

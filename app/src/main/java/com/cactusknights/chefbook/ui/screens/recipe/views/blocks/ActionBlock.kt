@@ -4,12 +4,10 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandHorizontally
 import androidx.compose.animation.shrinkHorizontally
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
-import androidx.compose.material.Divider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -20,6 +18,7 @@ import com.cactusknights.chefbook.R
 import com.cactusknights.chefbook.ui.screens.recipe.models.RecipeScreenState
 import com.mysty.chefbook.core.ui.compose.providers.theme.LocalTheme
 import com.mysty.chefbook.design.components.buttons.DynamicButton
+import com.mysty.chefbook.design.components.dividers.Divider
 
 @Composable
 fun ActionBlock(
@@ -33,13 +32,7 @@ fun ActionBlock(
 
     val recipe = state.recipe
 
-    Divider(
-        color = colors.backgroundSecondary,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(12.dp, 16.dp, 12.dp, 12.dp)
-            .height(1.dp)
-    )
+    Divider(modifier = Modifier.padding(12.dp, 16.dp, 12.dp, 12.dp))
     Row(
         modifier = Modifier
             .wrapContentHeight()
@@ -89,11 +82,5 @@ fun ActionBlock(
             onClick = onShareClicked,
         )
     }
-    Divider(
-        color = colors.backgroundSecondary,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(12.dp, 12.dp, 12.dp)
-            .height(1.dp)
-    )
+    Divider(modifier = Modifier.padding(12.dp, 12.dp, 12.dp))
 }

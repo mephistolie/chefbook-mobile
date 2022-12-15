@@ -76,4 +76,9 @@
     <string name="common_category_input_dialog_new_category">New category</string>
     <string name="common_category_input_dialog_edit_category">Category editing</string>
 
+    <string name="common_about_title">About app</string>
+    <string name="common_about_version">Version %1$s</string>
+    <string name="common_about_made_by">Made by Mikhail Levin</string>
+    <string name="common_about_dedicated_to">Dedicated for T. I.</string>
+
 </resources>

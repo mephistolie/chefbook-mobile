@@ -1,5 +1,6 @@
 package com.cactusknights.chefbook.di
 
+import com.cactusknights.chefbook.ui.screens.about.AboutScreenViewModel
 import com.cactusknights.chefbook.ui.screens.auth.AuthViewModel
 import com.cactusknights.chefbook.ui.screens.category.CategoryScreenViewModel
 import com.cactusknights.chefbook.ui.screens.encryptedvault.EncryptedVaultScreenViewModel
@@ -16,6 +17,7 @@ import org.koin.dsl.module
 
 val viewModelModule = module {
     viewModelOf(::AppViewModel)
+    viewModelOf(::AboutScreenViewModel)
     viewModelOf(::AuthViewModel)
     viewModelOf(::HomeViewModel)
     viewModelOf(::EncryptedVaultScreenViewModel)
