@@ -1,6 +1,6 @@
 package com.cactusknights.chefbook.ui.screens.category.models
 
-import com.cactusknights.chefbook.domain.entities.category.CategoryInput
+import com.mysty.chefbook.api.category.domain.entities.CategoryInput
 
 sealed class CategoryScreenEvent {
     data class LoadRecipesInCategory(val categoryId: String) : CategoryScreenEvent()

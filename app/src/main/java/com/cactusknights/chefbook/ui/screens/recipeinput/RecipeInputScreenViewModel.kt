@@ -3,26 +3,26 @@ package com.cactusknights.chefbook.ui.screens.recipeinput
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.cactusknights.chefbook.domain.entities.action.Failure
-import com.cactusknights.chefbook.domain.entities.action.Loading
-import com.cactusknights.chefbook.domain.entities.action.Successful
-import com.cactusknights.chefbook.domain.entities.common.Language
-import com.cactusknights.chefbook.domain.entities.common.MeasureUnit
-import com.cactusknights.chefbook.domain.entities.common.Visibility
-import com.cactusknights.chefbook.domain.entities.encryption.EncryptedVaultState
-import com.cactusknights.chefbook.domain.entities.recipe.cooking.CookingItem
-import com.cactusknights.chefbook.domain.entities.recipe.ingredient.IngredientItem
-import com.cactusknights.chefbook.domain.entities.recipe.macronutrients.MacronutrientsInfo
-import com.cactusknights.chefbook.domain.entities.recipe.toRecipeInput
-import com.cactusknights.chefbook.domain.usecases.encryption.IGetEncryptedVaultStateUseCase
-import com.cactusknights.chefbook.domain.usecases.encryption.IObserveEncryptedVaultStateUseCase
-import com.cactusknights.chefbook.domain.usecases.recipe.ICreateRecipeUseCase
-import com.cactusknights.chefbook.domain.usecases.recipe.IGetRecipeUseCase
-import com.cactusknights.chefbook.domain.usecases.recipe.IUpdateRecipeUseCase
-import com.cactusknights.chefbook.domain.usecases.settings.ISetDefaultRecipeLanguageUseCase
+import com.mysty.chefbook.api.encryption.domain.entities.EncryptedVaultState
 import com.cactusknights.chefbook.ui.screens.recipeinput.models.RecipeInputScreenEffect
 import com.cactusknights.chefbook.ui.screens.recipeinput.models.RecipeInputScreenEvent
 import com.cactusknights.chefbook.ui.screens.recipeinput.models.RecipeInputScreenState
+import com.mysty.chefbook.api.common.communication.Failure
+import com.mysty.chefbook.api.common.communication.Loading
+import com.mysty.chefbook.api.common.communication.Successful
+import com.mysty.chefbook.api.common.entities.language.Language
+import com.mysty.chefbook.api.common.entities.unit.MeasureUnit
+import com.mysty.chefbook.api.encryption.domain.usecases.IGetEncryptedVaultStateUseCase
+import com.mysty.chefbook.api.encryption.domain.usecases.IObserveEncryptedVaultStateUseCase
+import com.mysty.chefbook.api.recipe.domain.entities.cooking.CookingItem
+import com.mysty.chefbook.api.recipe.domain.entities.ingredient.IngredientItem
+import com.mysty.chefbook.api.recipe.domain.entities.macronutrients.MacronutrientsInfo
+import com.mysty.chefbook.api.recipe.domain.entities.toRecipeInput
+import com.mysty.chefbook.api.recipe.domain.entities.visibility.Visibility
+import com.mysty.chefbook.api.recipe.domain.usecases.ICreateRecipeUseCase
+import com.mysty.chefbook.api.recipe.domain.usecases.IGetRecipeUseCase
+import com.mysty.chefbook.api.recipe.domain.usecases.IUpdateRecipeUseCase
+import com.mysty.chefbook.api.settings.domain.usecases.ISetDefaultRecipeLanguageUseCase
 import com.mysty.chefbook.core.constants.Strings
 import com.mysty.chefbook.core.coroutines.AppDispatchers
 import com.mysty.chefbook.core.mvi.EventHandler
@@ -314,10 +314,7 @@ class RecipeInputScreenViewModel(
         val input = currentState.input
 
         val protein = if (value != null && value > 0) value else null
-        val macronutrients =
-            if (input.macronutrients != null) input.macronutrients.copy(protein = protein) else MacronutrientsInfo(
-                protein = protein
-            )
+        val macronutrients = input.macronutrients?.copy(protein = protein) ?: MacronutrientsInfo(protein = protein)
 
         filterAndEmitMacronutrients(currentState, macronutrients)
     }
@@ -327,10 +324,7 @@ class RecipeInputScreenViewModel(
         val input = currentState.input
 
         val fats = if (value != null && value > 0) value else null
-        val macronutrients =
-            if (input.macronutrients != null) input.macronutrients.copy(fats = fats) else MacronutrientsInfo(
-                fats = fats
-            )
+        val macronutrients = input.macronutrients?.copy(fats = fats) ?: MacronutrientsInfo(fats = fats)
 
         filterAndEmitMacronutrients(currentState, macronutrients)
     }
@@ -340,10 +334,7 @@ class RecipeInputScreenViewModel(
         val input = currentState.input
 
         val carbs = if (value != null && value > 0) value else null
-        val macronutrients =
-            if (input.macronutrients != null) input.macronutrients.copy(carbohydrates = carbs) else MacronutrientsInfo(
-                carbohydrates = carbs
-            )
+        val macronutrients =  input.macronutrients?.copy(carbohydrates = carbs) ?: MacronutrientsInfo(carbohydrates = carbs)
 
         filterAndEmitMacronutrients(currentState, macronutrients)
     }

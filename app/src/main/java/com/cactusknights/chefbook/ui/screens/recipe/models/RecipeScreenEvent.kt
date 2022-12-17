@@ -1,6 +1,7 @@
 package com.cactusknights.chefbook.ui.screens.recipe.models
 
-import com.cactusknights.chefbook.domain.entities.recipe.ingredient.IngredientItem
+import com.mysty.chefbook.api.recipe.domain.entities.ingredient.IngredientItem
+import com.mysty.chefbook.core.constants.Strings
 
 sealed class RecipeScreenEvent {
     data class LoadRecipe(val recipeId: String) : RecipeScreenEvent()
@@ -17,7 +18,7 @@ sealed class RecipeScreenEvent {
 
     sealed class ChangeDialogState(open val isVisible: Boolean) : RecipeScreenEvent() {
         data class Share(override val isVisible: Boolean) : ChangeDialogState(isVisible)
-        data class Pictures(override val isVisible: Boolean, val selectedPicture: String = "") : ChangeDialogState(isVisible)
+        data class Pictures(override val isVisible: Boolean, val selectedPicture: String = Strings.EMPTY) : ChangeDialogState(isVisible)
         data class RemoveFromRecipeBook(override val isVisible: Boolean) : ChangeDialogState(isVisible)
         data class Delete(override val isVisible: Boolean) : ChangeDialogState(isVisible)
     }

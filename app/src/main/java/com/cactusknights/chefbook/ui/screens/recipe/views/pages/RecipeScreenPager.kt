@@ -14,7 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.cactusknights.chefbook.domain.entities.recipe.ingredient.IngredientItem
+import com.mysty.chefbook.api.recipe.domain.entities.ingredient.IngredientItem
 import com.cactusknights.chefbook.ui.screens.recipe.models.RecipeScreenState
 import com.cactusknights.chefbook.ui.screens.recipe.models.RecipeScreenTab
 import com.google.accompanist.pager.ExperimentalPagerApi

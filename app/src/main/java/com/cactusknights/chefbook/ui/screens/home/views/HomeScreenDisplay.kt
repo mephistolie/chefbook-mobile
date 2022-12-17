@@ -8,7 +8,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavHostController
-import com.cactusknights.chefbook.domain.entities.settings.Tab
+import com.mysty.chefbook.api.settings.domain.entities.Tab
 import com.cactusknights.chefbook.ui.navigation.hosts.HomeHost
 import com.cactusknights.chefbook.ui.screens.home.models.HomeEvent
 import com.cactusknights.chefbook.ui.screens.home.models.HomeState

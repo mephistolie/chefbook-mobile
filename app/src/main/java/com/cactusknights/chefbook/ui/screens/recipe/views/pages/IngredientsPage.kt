@@ -26,7 +26,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import com.cactusknights.chefbook.R
-import com.cactusknights.chefbook.domain.entities.recipe.ingredient.IngredientItem
+import com.mysty.chefbook.api.recipe.domain.entities.ingredient.IngredientItem
 import com.cactusknights.chefbook.ui.screens.recipe.views.elements.Ingredient
 import com.cactusknights.chefbook.ui.screens.recipe.views.elements.Section
 import com.mysty.chefbook.core.ui.compose.providers.theme.LocalTheme

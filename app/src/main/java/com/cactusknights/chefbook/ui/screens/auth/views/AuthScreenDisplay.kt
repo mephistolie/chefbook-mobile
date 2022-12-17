@@ -39,6 +39,7 @@ import com.cactusknights.chefbook.ui.screens.auth.models.AuthProgress
 import com.cactusknights.chefbook.ui.screens.auth.models.AuthScreenEvent
 import com.cactusknights.chefbook.ui.screens.auth.models.AuthScreenState
 import com.mephistolie.compost.modifiers.simpleClickable
+import com.mysty.chefbook.core.constants.Strings
 import com.mysty.chefbook.core.ui.compose.providers.theme.LocalTheme
 import com.mysty.chefbook.design.components.buttons.CircleIconButton
 import com.mysty.chefbook.design.components.buttons.DynamicButton
@@ -58,9 +59,9 @@ fun AuthScreenDisplay(
     val colors = LocalTheme.colors
     val typography = LocalTheme.typography
 
-    val emailText = remember { mutableStateOf("") }
-    val passwordText = remember { mutableStateOf("") }
-    val repeatPasswordText = remember { mutableStateOf("") }
+    val emailText = remember { mutableStateOf(Strings.EMPTY) }
+    val passwordText = remember { mutableStateOf(Strings.EMPTY) }
+    val repeatPasswordText = remember { mutableStateOf(Strings.EMPTY) }
 
     val emailCheck = AuthUtils.validateEmail(emailText.value)
     val passwordCheck = AuthUtils.validatePassword(passwordText.value, repeatPasswordText.value)
@@ -268,8 +269,8 @@ fun AuthScreenDisplay(
         AuthErrorDialog(
             error = authState.error,
             onHide = {
-                passwordText.value = ""
-                repeatPasswordText.value = ""
+                passwordText.value = Strings.EMPTY
+                repeatPasswordText.value = Strings.EMPTY
                 onEvent(AuthScreenEvent.CloseDialog)
             }
         )

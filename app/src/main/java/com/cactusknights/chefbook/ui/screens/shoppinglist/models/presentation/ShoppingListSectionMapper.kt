@@ -1,6 +1,6 @@
 package com.cactusknights.chefbook.ui.screens.shoppinglist.models.presentation
 
-import com.cactusknights.chefbook.domain.entities.shoppinglist.ShoppingList
+import com.mysty.chefbook.api.shoppinglist.domain.entities.ShoppingList
 
 object ShoppingListSectionMapper {
 

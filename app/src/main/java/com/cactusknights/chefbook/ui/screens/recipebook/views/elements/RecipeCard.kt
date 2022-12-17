@@ -36,11 +36,11 @@ import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
 import com.cactusknights.chefbook.R
 import com.cactusknights.chefbook.core.ui.RecipeEncryptionProvider
-import com.cactusknights.chefbook.domain.entities.recipe.RecipeInfo
-import com.cactusknights.chefbook.domain.entities.recipe.encryption.EncryptionState
 import com.mephistolie.compost.extensions.Shading
 import com.mephistolie.compost.modifiers.clippedBackground
 import com.mephistolie.compost.modifiers.scalingClickable
+import com.mysty.chefbook.api.recipe.domain.entities.RecipeInfo
+import com.mysty.chefbook.api.recipe.domain.entities.encryption.EncryptionState
 import com.mysty.chefbook.core.constants.Strings
 import com.mysty.chefbook.core.ui.compose.providers.theme.LocalTheme
 import com.mysty.chefbook.core.ui.utils.EmojiUtils
@@ -155,9 +155,9 @@ fun RecipeCard(
                     )
                     Spacer(modifier = Modifier.width(4.dp))
                 }
-                if (recipe.time != null) {
+                recipe.time?.let { time ->
                     Text(
-                        text = TimeUtils.minutesToTimeString(recipe.time, context.resources),
+                        text = TimeUtils.minutesToTimeString(time, context.resources),
                         style = typography.subhead1,
                         color = colors.foregroundSecondary
                     )

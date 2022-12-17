@@ -2,11 +2,11 @@ package com.cactusknights.chefbook.ui.screens.shoppinglist
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.cactusknights.chefbook.domain.usecases.shopinglist.IAddToShoppingListUseCase
-import com.cactusknights.chefbook.domain.usecases.shopinglist.IObserveShoppingListUseCase
-import com.cactusknights.chefbook.domain.usecases.shopinglist.IRemovePurchasedItemsUseCase
-import com.cactusknights.chefbook.domain.usecases.shopinglist.ISwitchPurchaseStatusUseCase
-import com.cactusknights.chefbook.domain.usecases.shopinglist.ISyncShoppingListUseCase
+import com.mysty.chefbook.api.shoppinglist.domain.usecases.IAddToShoppingListUseCase
+import com.mysty.chefbook.api.shoppinglist.domain.usecases.IObserveShoppingListUseCase
+import com.mysty.chefbook.api.shoppinglist.domain.usecases.IRemovePurchasedItemsUseCase
+import com.mysty.chefbook.api.shoppinglist.domain.usecases.ISwitchPurchaseStatusUseCase
+import com.mysty.chefbook.api.shoppinglist.domain.usecases.ISyncShoppingListUseCase
 import com.cactusknights.chefbook.ui.screens.shoppinglist.models.ShoppingListEffect
 import com.cactusknights.chefbook.ui.screens.shoppinglist.models.ShoppingListScreenEvent
 import com.cactusknights.chefbook.ui.screens.shoppinglist.models.ShoppingListState

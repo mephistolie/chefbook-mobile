@@ -54,11 +54,14 @@ object Dependencies {
     const val timber = "com.jakewharton.timber:timber:5.0.1"
 
     object Koin {
-        private const val version = "3.2.2"
+        private const val version = "3.3.0"
+        private const val androidVersion = "3.3.1"
+        private const val composeVersion = "3.4.0"
+
         const val core = "io.insert-koin:koin-core:$version"
-        const val android = "io.insert-koin:koin-android:$version"
+        const val android = "io.insert-koin:koin-android:$androidVersion"
         const val androidCompat = "io.insert-koin:koin-android-compat:$version"
-        const val androidCompose = "io.insert-koin:koin-androidx-compose:$version"
+        const val androidCompose = "io.insert-koin:koin-androidx-compose:$composeVersion"
     }
 
     const val serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.3"
@@ -81,7 +84,7 @@ object Dependencies {
         const val okHttp = "com.squareup.okhttp3:okhttp:$okHttpVersion"
         const val logging = "com.squareup.okhttp3:logging-interceptor:$okHttpVersion"
         const val retrofit = "com.squareup.retrofit2:retrofit:$retrofitVersion"
-        const val kotlinSerialization = "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0"
+        const val serializationConverter = "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0"
     }
 
     object Images {

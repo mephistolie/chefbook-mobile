@@ -1,7 +1,7 @@
 package com.cactusknights.chefbook.ui.screens.recipe.models
 
-import com.cactusknights.chefbook.domain.entities.category.Category
-import com.cactusknights.chefbook.domain.entities.recipe.Recipe
+import com.mysty.chefbook.api.category.domain.entities.Category
+import com.mysty.chefbook.api.recipe.domain.entities.Recipe
 
 sealed class RecipeScreenState {
     object Loading : RecipeScreenState()

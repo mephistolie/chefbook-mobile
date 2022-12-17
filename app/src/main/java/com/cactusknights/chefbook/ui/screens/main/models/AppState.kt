@@ -1,7 +1,7 @@
 package com.cactusknights.chefbook.ui.screens.main.models
 
-import com.cactusknights.chefbook.domain.entities.profile.Profile
-import com.cactusknights.chefbook.domain.entities.settings.Settings
+import com.mysty.chefbook.api.profile.domain.entities.Profile
+import com.mysty.chefbook.api.settings.domain.entities.Settings
 
 data class AppState(
     val profile: Profile = Profile(),

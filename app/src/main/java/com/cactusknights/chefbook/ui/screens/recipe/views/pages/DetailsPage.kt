@@ -20,8 +20,8 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import com.cactusknights.chefbook.R
 import com.cactusknights.chefbook.core.ui.localizedName
-import com.cactusknights.chefbook.domain.entities.common.Language
-import com.cactusknights.chefbook.domain.entities.common.Visibility
+import com.mysty.chefbook.api.common.entities.language.Language
+import com.mysty.chefbook.api.recipe.domain.entities.visibility.Visibility
 import com.cactusknights.chefbook.ui.screens.recipe.models.RecipeScreenState
 import com.cactusknights.chefbook.ui.screens.recipe.views.blocks.CategoriesBlock
 import com.cactusknights.chefbook.ui.screens.recipe.views.blocks.CategoriesSelectionBlock

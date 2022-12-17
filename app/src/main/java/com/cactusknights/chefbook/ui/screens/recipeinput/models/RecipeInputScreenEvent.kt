@@ -1,8 +1,8 @@
 package com.cactusknights.chefbook.ui.screens.recipeinput.models
 
-import com.cactusknights.chefbook.domain.entities.common.Language
-import com.cactusknights.chefbook.domain.entities.common.MeasureUnit
-import com.cactusknights.chefbook.domain.entities.common.Visibility
+import com.mysty.chefbook.api.common.entities.language.Language
+import com.mysty.chefbook.api.common.entities.unit.MeasureUnit
+import com.mysty.chefbook.api.recipe.domain.entities.visibility.Visibility
 
 sealed class RecipeInputScreenEvent {
     data class SetRecipe(val recipeId: String) : RecipeInputScreenEvent()

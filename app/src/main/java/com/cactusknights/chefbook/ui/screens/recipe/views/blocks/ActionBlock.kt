@@ -40,7 +40,10 @@ fun ActionBlock(
     ) {
         DynamicButton(
             leftIcon = ImageVector.vectorResource(R.drawable.ic_like),
-            text = if (recipe.likes != null && recipe.likes > 0) recipe.likes.toString() else null,
+            text = when (val likes = recipe.likes) {
+                0 -> null
+                else -> likes.toString()
+            },
             isSelected = recipe.isLiked,
             modifier = Modifier
                 .height(44.dp)

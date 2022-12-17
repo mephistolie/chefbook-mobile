@@ -3,9 +3,9 @@ package com.cactusknights.chefbook.ui.screens.auth.views
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import com.cactusknights.chefbook.R
-import com.cactusknights.chefbook.domain.entities.action.NetworkError
-import com.cactusknights.chefbook.domain.entities.action.ServerError
-import com.cactusknights.chefbook.domain.entities.action.ServerErrorType
+import com.mysty.chefbook.api.common.communication.errors.NetworkError
+import com.mysty.chefbook.api.common.communication.errors.ServerError
+import com.mysty.chefbook.api.common.communication.errors.ServerErrorType
 import com.mysty.chefbook.design.components.dialogs.OneButtonDialog
 
 @Composable

@@ -1,24 +1,14 @@
 package com.cactusknights.chefbook.core.ui
 
 import android.content.res.Resources
-import androidx.compose.animation.core.Animatable
-import androidx.compose.animation.core.tween
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxScope
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.lazy.LazyListScope
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.draw.scale
 import com.cactusknights.chefbook.R
-import com.cactusknights.chefbook.domain.entities.common.Language
-import com.cactusknights.chefbook.domain.entities.common.MeasureUnit
-import kotlinx.coroutines.launch
+import com.mysty.chefbook.api.common.entities.language.Language
+import com.mysty.chefbook.api.common.entities.unit.MeasureUnit
+import com.mysty.chefbook.api.recipe.domain.entities.Recipe
+import com.mysty.chefbook.api.recipe.domain.entities.cooking.CookingItem
+import com.mysty.chefbook.api.recipe.domain.entities.ingredient.IngredientItem
+import com.mysty.chefbook.core.ui.utils.minutesToTimeString
+import com.mysty.chefbook.core.utils.TimeUtils
 
 fun MeasureUnit.localizedName(resources: Resources) =
     when (this) {
@@ -56,4 +46,95 @@ fun Language.localizedName(resources: Resources) =
         Language.ARABIAN -> resources.getString(R.string.common_general_language_arabian)
         Language.PERSIAN -> resources.getString(R.string.common_general_language_persian)
         Language.OTHER -> resources.getString(R.string.common_general_language_other)
+    }
+
+fun stringToMeasureUnit(unit: String?, resources: Resources): MeasureUnit? {
+    if (unit.isNullOrBlank()) return null
+    val localizedUnitsMap = mapOf(
+        resources.getString(R.string.common_general_g).lowercase() to MeasureUnit.G,
+        resources.getString(R.string.common_general_kg).lowercase() to MeasureUnit.KG,
+        resources.getString(R.string.common_general_ml).lowercase() to MeasureUnit.ML,
+        resources.getString(R.string.common_general_l).lowercase() to MeasureUnit.L,
+        resources.getString(R.string.common_general_pcs).lowercase() to MeasureUnit.PCS,
+        resources.getString(R.string.common_general_tsp).lowercase() to MeasureUnit.TSP,
+        resources.getString(R.string.common_general_tbsp).lowercase() to MeasureUnit.TBSP,
+    )
+    return localizedUnitsMap[unit.lowercase()] ?: MeasureUnit.Custom(unit)
+}
+
+
+fun Recipe.asText(resources: Resources): String {
+        var text = name.uppercase()
+
+        ownerName?.let { author ->
+            text += "\n\n${resources.getString(R.string.common_general_author)}: $author"
+        }
+
+        description?.let { description ->
+            text += "\n\n${resources.getString(R.string.common_general_description)}:\n$description"
+        }
+
+        if (servings != null || time != null) {
+            text += "\n\n"
+            servings?.let {
+                text += "${resources.getString(R.string.common_general_servings)}: ${servings}"
+            }
+            time?.let { time ->
+                text += "\n${resources.getString(R.string.common_general_time)}: ${TimeUtils.minutesToTimeString(time, resources)}"
+            }
+        }
+
+        if (hasDietData()) {
+            text += "\n\n${resources.getString(R.string.common_general_in_100_g)}:\n"
+            calories?.let { calories ->
+                text += "${resources.getString(R.string.common_general_calories)}: $calories ${resources.getString(R.string.common_general_kcal)}\n"
+            }
+            macronutrients?.protein?.let { protein ->
+                text += "${resources.getString(R.string.common_general_protein)}: $protein\n"
+            }
+            macronutrients?.fats?.let { fats ->
+                text += "${resources.getString(R.string.common_general_fats)}: $fats\n"
+            }
+            macronutrients?.carbohydrates?.let { carbohydrates ->
+                text += "${resources.getString(R.string.common_general_carbs)}: $carbohydrates"
+            }
+        }
+
+        text += "\n\n${resources.getString(R.string.common_general_ingredients).uppercase()}\n"
+        for (ingredient in ingredients) {
+            when (ingredient) {
+                is IngredientItem.Section -> {
+                    text += "${ingredient.name}:\n"
+                }
+                is IngredientItem.Ingredient -> {
+                    text += "• ${ingredient.name}"
+                    ingredient.amount?.let { amount ->
+                        text += " - $amount"
+                        ingredient.unit?.let { unit ->
+                            text += " ${unit.localizedName(resources)}"
+                        }
+                    }
+                    text += "\n"
+                }
+                else -> Unit
+            }
+        }
+        text += "\n\n${resources.getString(R.string.common_general_cooking).uppercase()}\n"
+        var stepCount = 1
+        for (cookingItem in cooking) {
+            when (cookingItem) {
+                is CookingItem.Section -> {
+                    text += "${cookingItem.name}:\n"
+                }
+                is CookingItem.Step -> {
+                    text += "$stepCount. ${cookingItem.description}\n"
+                    stepCount++
+                }
+                else -> Unit
+            }
+        }
+
+        text += "\n\n${resources.getString(R.string.common_general_recipe)} #${id}, ${resources.getString(R.string.app_name)}"
+
+        return text
     }

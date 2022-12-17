@@ -1,6 +1,6 @@
 package com.cactusknights.chefbook.ui.screens.recipebook.models
 
-import com.cactusknights.chefbook.domain.entities.category.CategoryInput
+import com.mysty.chefbook.api.category.domain.entities.CategoryInput
 
 sealed class RecipeBookScreenEvent {
     object OpenRecipeSearch : RecipeBookScreenEvent()

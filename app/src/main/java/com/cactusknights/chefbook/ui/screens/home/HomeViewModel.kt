@@ -2,7 +2,7 @@ package com.cactusknights.chefbook.ui.screens.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.cactusknights.chefbook.domain.entities.settings.Tab
+import com.mysty.chefbook.api.settings.domain.entities.Tab
 import com.cactusknights.chefbook.ui.screens.home.models.HomeEffect
 import com.cactusknights.chefbook.ui.screens.home.models.HomeEvent
 import com.cactusknights.chefbook.ui.screens.home.models.HomeState

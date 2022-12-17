@@ -1,8 +1,8 @@
 package com.cactusknights.chefbook.ui.screens.category.models
 
-import com.cactusknights.chefbook.domain.entities.category.Category
-import com.cactusknights.chefbook.domain.entities.category.CategoryInput
-import com.cactusknights.chefbook.domain.entities.recipe.RecipeInfo
+import com.mysty.chefbook.api.category.domain.entities.Category
+import com.mysty.chefbook.api.category.domain.entities.CategoryInput
+import com.mysty.chefbook.api.recipe.domain.entities.RecipeInfo
 
 data class CategoryScreenState(
     val category: Category? = null,

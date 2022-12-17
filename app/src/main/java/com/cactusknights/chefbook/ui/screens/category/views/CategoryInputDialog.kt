@@ -29,7 +29,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.cactusknights.chefbook.R
-import com.cactusknights.chefbook.domain.entities.category.CategoryInput
+import com.mysty.chefbook.api.category.domain.entities.CategoryInput
+import com.mysty.chefbook.core.constants.Strings
 import com.mysty.chefbook.core.ui.compose.providers.theme.LocalTheme
 import com.mysty.chefbook.design.components.buttons.DynamicButton
 import com.mysty.chefbook.design.components.textfields.FilledTextField
@@ -55,8 +56,8 @@ fun CategoryInputDialog(
 
     val coverRegex = Regex("^.*[а-яА-ЯёЁa-zA-Z0-9!@#\$%ˆ&*()_+-=\"№;%:?*]+?")
 
-    var name by remember { mutableStateOf(if (isEditing) initName.orEmpty() else "") }
-    var cover by remember { mutableStateOf(if (isEditing) initCover.orEmpty() else "") }
+    var name by remember { mutableStateOf(if (isEditing) initName.orEmpty() else Strings.EMPTY) }
+    var cover by remember { mutableStateOf(if (isEditing) initCover.orEmpty() else Strings.EMPTY) }
 
     Dialog(
         onDismissRequest = onCancel,

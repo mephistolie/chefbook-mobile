@@ -1,8 +1,8 @@
 package com.cactusknights.chefbook.ui.navigation
 
 import androidx.navigation.navDeepLink
-import com.cactusknights.chefbook.core.Endpoints
 import com.cactusknights.chefbook.ui.screens.recipe.models.RecipeScreenTab
+import com.mysty.chefbook.api.common.constants.Endpoints
 
 const val CATEGORY_ID_ARGUMENT = "category_id"
 const val RECIPE_ID_ARGUMENT = "recipe_id"

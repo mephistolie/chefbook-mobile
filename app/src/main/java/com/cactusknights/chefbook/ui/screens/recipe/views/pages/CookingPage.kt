@@ -11,7 +11,7 @@ import androidx.compose.material.Divider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.cactusknights.chefbook.domain.entities.recipe.cooking.CookingItem
+import com.mysty.chefbook.api.recipe.domain.entities.cooking.CookingItem
 import com.cactusknights.chefbook.ui.screens.recipe.views.elements.CookingStep
 import com.cactusknights.chefbook.ui.screens.recipe.views.elements.Section
 import com.mysty.chefbook.core.ui.compose.providers.theme.LocalTheme

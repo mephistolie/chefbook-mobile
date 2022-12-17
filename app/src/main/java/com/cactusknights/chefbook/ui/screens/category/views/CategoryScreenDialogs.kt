@@ -3,7 +3,7 @@ package com.cactusknights.chefbook.ui.screens.category.views
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import com.cactusknights.chefbook.R
-import com.cactusknights.chefbook.domain.entities.category.toCategory
+import com.mysty.chefbook.api.category.domain.entities.toCategory
 import com.cactusknights.chefbook.ui.screens.category.models.CategoryScreenEvent
 import com.cactusknights.chefbook.ui.screens.category.models.CategoryScreenState
 import com.mysty.chefbook.design.components.dialogs.CategoryInputDialog

@@ -9,7 +9,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import com.cactusknights.chefbook.core.ui.RecipeEncryptionProvider
-import com.cactusknights.chefbook.domain.entities.recipe.encryption.EncryptionState
 import com.cactusknights.chefbook.ui.navigation.CATEGORY_ID_ARGUMENT
 import com.cactusknights.chefbook.ui.navigation.Destination
 import com.cactusknights.chefbook.ui.screens.recipe.models.RecipeScreenEffect
@@ -17,6 +16,8 @@ import com.cactusknights.chefbook.ui.screens.recipe.models.RecipeScreenEvent
 import com.cactusknights.chefbook.ui.screens.recipe.models.RecipeScreenState
 import com.cactusknights.chefbook.ui.screens.recipe.models.RecipeScreenTab
 import com.cactusknights.chefbook.ui.screens.recipe.views.RecipeScreenDisplay
+import com.mysty.chefbook.api.recipe.domain.entities.encryption.EncryptionState
+import com.mysty.chefbook.design.theme.EncryptedDataTheme
 import org.koin.androidx.compose.getViewModel
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -36,13 +37,17 @@ fun RecipeScreen(
     RecipeEncryptionProvider(
         encryption = (recipeState.value as? RecipeScreenState.Success)?.recipe?.encryptionState ?: EncryptionState.Standard
     ) {
-        RecipeScreenDisplay(
-            state = recipeState.value,
-            defaultTab = defaultTab,
-            sheetState = sheetState,
-            onEvent = { event -> recipeViewModel.obtainEvent(event) },
-            onRefresh = { recipeViewModel.obtainEvent(RecipeScreenEvent.LoadRecipe(recipeId)) },
-        )
+        EncryptedDataTheme(
+            isEncrypted = (recipeState.value as? RecipeScreenState.Success)?.recipe?.encryptionState is EncryptionState.Decrypted
+        ) {
+            RecipeScreenDisplay(
+                state = recipeState.value,
+                defaultTab = defaultTab,
+                sheetState = sheetState,
+                onEvent = { event -> recipeViewModel.obtainEvent(event) },
+                onRefresh = { recipeViewModel.obtainEvent(RecipeScreenEvent.LoadRecipe(recipeId)) },
+            )
+        }
     }
 
     LaunchedEffect(Unit) {

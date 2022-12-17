@@ -10,7 +10,7 @@ import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.AnnotatedString
 import androidx.core.content.ContextCompat
-import com.cactusknights.chefbook.domain.entities.recipe.Recipe
+import com.mysty.chefbook.api.recipe.domain.entities.Recipe
 import com.cactusknights.chefbook.ui.screens.recipe.dialogs.share.models.RecipeShareDialogEffect
 import com.cactusknights.chefbook.ui.screens.recipe.dialogs.share.models.RecipeShareDialogEvent
 import com.cactusknights.chefbook.ui.screens.recipe.dialogs.share.views.RecipeShareDialogDisplay

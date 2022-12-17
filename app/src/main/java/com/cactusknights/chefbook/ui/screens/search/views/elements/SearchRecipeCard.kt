@@ -25,10 +25,10 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
 import com.cactusknights.chefbook.core.ui.RecipeEncryptionProvider
-import com.cactusknights.chefbook.domain.entities.recipe.RecipeInfo
 import com.mephistolie.compost.extensions.Shading
 import com.mephistolie.compost.modifiers.clippedBackground
 import com.mephistolie.compost.modifiers.scalingClickable
+import com.mysty.chefbook.api.recipe.domain.entities.RecipeInfo
 import com.mysty.chefbook.core.ui.compose.providers.theme.LocalTheme
 import com.mysty.chefbook.core.ui.utils.EmojiUtils
 import com.mysty.chefbook.core.ui.utils.minutesToTimeString

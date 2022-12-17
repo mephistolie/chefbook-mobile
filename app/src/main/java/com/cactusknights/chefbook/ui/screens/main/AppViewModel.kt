@@ -2,11 +2,10 @@ package com.cactusknights.chefbook.ui.screens.main
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.cactusknights.chefbook.data.network.interceptors.EncryptedImageInterceptor
-import com.cactusknights.chefbook.domain.usecases.profile.IObserveProfileUseCase
-import com.cactusknights.chefbook.domain.usecases.settings.IObserveSettingsUseCase
 import com.cactusknights.chefbook.ui.screens.main.models.AppEffect
 import com.cactusknights.chefbook.ui.screens.main.models.AppState
+import com.mysty.chefbook.api.profile.domain.usecases.IObserveProfileUseCase
+import com.mysty.chefbook.api.settings.domain.usecases.IObserveSettingsUseCase
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -23,13 +22,8 @@ import okhttp3.OkHttpClient
 class AppViewModel(
     private val observeSettingsUseCase: IObserveSettingsUseCase,
     private val observeProfileUseCase: IObserveProfileUseCase,
-    encryptedDataInterceptor: EncryptedImageInterceptor,
+    val imageClient: OkHttpClient,
 ) : ViewModel() {
-
-    val imageClient: OkHttpClient =
-        OkHttpClient.Builder()
-            .addInterceptor(encryptedDataInterceptor)
-            .build()
 
     private val _appState: MutableStateFlow<AppState> = MutableStateFlow(AppState())
     val appState: StateFlow<AppState> = _appState.asStateFlow()

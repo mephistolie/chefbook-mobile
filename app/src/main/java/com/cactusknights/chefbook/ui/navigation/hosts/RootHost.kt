@@ -10,7 +10,6 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
-import com.cactusknights.chefbook.domain.entities.settings.Settings
 import com.cactusknights.chefbook.ui.navigation.CATEGORY_ID_ARGUMENT
 import com.cactusknights.chefbook.ui.navigation.CLOSE_ON_UNLOCKED_ARGUMENT
 import com.cactusknights.chefbook.ui.navigation.Destination
@@ -31,6 +30,7 @@ import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
 import com.google.accompanist.navigation.material.bottomSheet
+import com.mysty.chefbook.api.settings.domain.entities.Settings
 
 @OptIn(ExperimentalMaterialNavigationApi::class, ExperimentalMaterialApi::class, ExperimentalAnimationApi::class)
 @Composable
@@ -136,7 +136,7 @@ fun RootHost(
             }
             composable(
                 route = Destination.About.route,
-            ) { backStack ->
+            ) {
                 AboutScreen(appController = navController)
             }
         }

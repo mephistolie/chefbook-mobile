@@ -1,16 +1,9 @@
-import com.google.protobuf.gradle.generateProtoTasks
-import com.google.protobuf.gradle.plugins
-import com.google.protobuf.gradle.protobuf
-import com.google.protobuf.gradle.protoc
-
 plugins {
-    kotlin("plugin.serialization") version "1.7.0"
     id("com.android.application")
     id("kotlin-android")
     id("kotlin-kapt")
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
-    id("com.google.protobuf") version "0.8.18"
 }
 
 android {
@@ -46,7 +39,7 @@ android {
     }
 
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_11.toString()
+        jvmTarget = "${JavaVersion.VERSION_11}"
     }
 
     buildFeatures {
@@ -58,10 +51,14 @@ dependencies {
     implementation(project(Modules.Common.core))
     implementation(project(Modules.Common.coreUi))
     implementation(project(Modules.Common.design))
+    implementation(project(Modules.Common.core))
+    implementation(project(Modules.api))
 
     // Core
     implementation(Dependencies.AndroidX.core)
     implementation(Dependencies.AndroidX.appCompat)
+
+    implementation(Dependencies.timber)
 
     // Compose
     implementation(Dependencies.Compose.compiler)
@@ -87,29 +84,10 @@ dependencies {
 
     implementation(Dependencies.composeReorderable)
 
-    // Logging
-    implementation(Dependencies.timber)
-
     // DI
     implementation(Dependencies.Koin.core)
     implementation(Dependencies.Koin.android)
     implementation(Dependencies.Koin.androidCompose)
-
-    // Data
-    implementation(Dependencies.serialization)
-
-    implementation(Dependencies.dataStore)
-    implementation(Dependencies.protobuf)
-    implementation(Dependencies.AndroidX.preference)
-
-    implementation(Dependencies.Room.runtime)
-    implementation(Dependencies.Room.ktx)
-    kapt(Dependencies.Room.compiler)
-
-    implementation(Dependencies.Network.okHttp)
-    implementation(Dependencies.Network.logging)
-    implementation(Dependencies.Network.retrofit)
-    implementation(Dependencies.Network.kotlinSerialization)
 
     // Images
     implementation(Dependencies.Images.coil)
@@ -117,7 +95,6 @@ dependencies {
     implementation(Dependencies.Images.imageCropper)
     implementation(Dependencies.Images.imageCompressor)
 
-    implementation(Dependencies.SpongyCastle.core)
     implementation(Dependencies.SpongyCastle.prov)
 
     // Analytics
@@ -133,19 +110,4 @@ dependencies {
 
 kapt {
     correctErrorTypes = true
-}
-
-protobuf {
-    protoc {
-        artifact = "com.google.protobuf:protoc:3.9.2:osx-x86_64"
-    }
-    generateProtoTasks {
-        all().forEach { task ->
-            task.plugins {
-                create("java") {
-                    option("lite")
-                }
-            }
-        }
-    }
 }

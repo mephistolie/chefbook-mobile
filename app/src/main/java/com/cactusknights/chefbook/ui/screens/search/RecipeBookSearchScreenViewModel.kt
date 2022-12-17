@@ -2,10 +2,10 @@ package com.cactusknights.chefbook.ui.screens.search
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.cactusknights.chefbook.domain.entities.category.Category
-import com.cactusknights.chefbook.domain.entities.recipe.RecipeInfo
-import com.cactusknights.chefbook.domain.usecases.category.IObserveCategoriesUseCase
-import com.cactusknights.chefbook.domain.usecases.recipe.IObserveRecipeBookUseCase
+import com.mysty.chefbook.api.category.domain.entities.Category
+import com.mysty.chefbook.api.recipe.domain.entities.RecipeInfo
+import com.mysty.chefbook.api.category.domain.usecases.IObserveCategoriesUseCase
+import com.mysty.chefbook.api.recipe.domain.usecases.IObserveRecipeBookUseCase
 import com.cactusknights.chefbook.ui.screens.search.models.RecipeBookSearchScreenEffect
 import com.cactusknights.chefbook.ui.screens.search.models.RecipeBookSearchScreenEvent
 import com.cactusknights.chefbook.ui.screens.search.models.RecipeBookSearchScreenState

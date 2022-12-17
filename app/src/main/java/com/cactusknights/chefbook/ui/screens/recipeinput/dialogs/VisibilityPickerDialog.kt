@@ -17,7 +17,7 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.cactusknights.chefbook.R
-import com.cactusknights.chefbook.domain.entities.common.Visibility
+import com.mysty.chefbook.api.recipe.domain.entities.visibility.Visibility
 import com.cactusknights.chefbook.ui.screens.recipeinput.RecipeInputScreenViewModel
 import com.cactusknights.chefbook.ui.screens.recipeinput.dialogs.elements.RadioElement
 import com.cactusknights.chefbook.ui.screens.recipeinput.models.RecipeInputScreenEvent

@@ -15,7 +15,7 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
-import com.cactusknights.chefbook.domain.entities.shoppinglist.Purchase
+import com.mysty.chefbook.api.shoppinglist.domain.entities.Purchase
 import com.mysty.chefbook.core.ui.compose.providers.theme.LocalTheme
 import com.mysty.chefbook.design.components.checkboxes.Checkbox
 

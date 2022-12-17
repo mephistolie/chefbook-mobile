@@ -34,13 +34,14 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.cactusknights.chefbook.R
-import com.cactusknights.chefbook.core.mappers.MeasureUnitMapper
 import com.cactusknights.chefbook.core.ui.localizedName
-import com.cactusknights.chefbook.domain.entities.common.MeasureUnit
-import com.cactusknights.chefbook.domain.entities.recipe.ingredient.IngredientItem
+import com.cactusknights.chefbook.core.ui.stringToMeasureUnit
 import com.cactusknights.chefbook.ui.screens.recipeinput.RecipeInputScreenViewModel
 import com.cactusknights.chefbook.ui.screens.recipeinput.models.RecipeInputScreenEvent
 import com.google.accompanist.flowlayout.FlowRow
+import com.mysty.chefbook.api.common.entities.unit.MeasureUnit
+import com.mysty.chefbook.api.recipe.domain.entities.ingredient.IngredientItem
+import com.mysty.chefbook.core.constants.Strings
 import com.mysty.chefbook.core.ui.compose.providers.theme.LocalTheme
 import com.mysty.chefbook.design.components.buttons.CircleIconButton
 import com.mysty.chefbook.design.components.buttons.DynamicButton
@@ -118,7 +119,7 @@ fun IngredientDialog(
             },
         )
         ThemedIndicatorTextField(
-            value = if (ingredient.amount != null) ingredient.amount.toString() else "",
+            value = if (ingredient.amount != null) ingredient.amount.toString() else Strings.EMPTY,
             modifier = Modifier.fillMaxWidth(),
             onValueChange = { amount ->
                 viewModel.obtainEvent(RecipeInputScreenEvent.SetIngredientAmount(ingredientId, amount.toIntOrNull()))
@@ -132,10 +133,10 @@ fun IngredientDialog(
             },
         )
         ThemedIndicatorTextField(
-            value = if (ingredient.unit != null) ingredient.unit.localizedName(resources) else "",
+            value = ingredient.unit?.localizedName(resources) ?: Strings.EMPTY,
             modifier = Modifier.fillMaxWidth(),
             onValueChange = { unit ->
-                viewModel.obtainEvent(RecipeInputScreenEvent.SetIngredientUnit(ingredientId, MeasureUnitMapper.map(unit, resources)))
+                viewModel.obtainEvent(RecipeInputScreenEvent.SetIngredientUnit(ingredientId, stringToMeasureUnit(unit, resources)))
             },
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
             keyboardActions = KeyboardActions {

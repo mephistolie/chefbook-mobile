@@ -17,7 +17,7 @@ import androidx.compose.ui.draw.blur
 import androidx.compose.ui.graphics.Color.Companion.Transparent
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
-import com.cactusknights.chefbook.domain.entities.settings.Theme
+import com.mysty.chefbook.api.settings.domain.entities.Theme
 import com.cactusknights.chefbook.ui.navigation.hosts.RootHost
 import com.cactusknights.chefbook.ui.screens.main.models.AppState
 import com.cactusknights.chefbook.ui.screens.main.models.UiState

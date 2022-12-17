@@ -6,6 +6,7 @@ object Qualifiers {
 
     const val ANONYMOUS = "anonymous"
     const val AUTHORIZED = "authorized"
+    const val ENCRYPTED_IMAGE = "encrypted_image"
 
     object DataStore {
         const val SETTINGS = "settings"

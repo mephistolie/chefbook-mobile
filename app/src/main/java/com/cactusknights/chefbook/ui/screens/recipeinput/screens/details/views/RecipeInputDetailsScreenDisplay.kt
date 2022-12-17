@@ -27,13 +27,13 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.cactusknights.chefbook.R
-import com.cactusknights.chefbook.domain.entities.recipe.RecipeInput
 import com.cactusknights.chefbook.ui.screens.recipeinput.models.RecipeInputScreenEvent
 import com.cactusknights.chefbook.ui.screens.recipeinput.screens.details.views.blocks.CaloriesBlock
 import com.cactusknights.chefbook.ui.screens.recipeinput.screens.details.views.blocks.ParametersBlock
 import com.cactusknights.chefbook.ui.screens.recipeinput.screens.details.views.blocks.PreviewBlock
 import com.cactusknights.chefbook.ui.screens.recipeinput.screens.details.views.blocks.ServingsBlock
 import com.mephistolie.compost.modifiers.clippedBackground
+import com.mysty.chefbook.api.recipe.domain.entities.RecipeInput
 import com.mysty.chefbook.core.ui.compose.providers.theme.LocalTheme
 import com.mysty.chefbook.core.ui.utils.minutesToTimeString
 import com.mysty.chefbook.core.utils.TimeUtils
@@ -57,11 +57,12 @@ fun RecipeInputDetailsScreenDisplay(
     val colors = LocalTheme.colors
     val typography = LocalTheme.typography
 
+    val time = state.time
     val timePicker = TimePickerDialog(
         context,
         { _, hourOfDay, minute -> onEvent(RecipeInputScreenEvent.SetTime(hourOfDay, minute)) },
-        if (state.time != null && state.time > 0) state.time / 60 else 0,
-        if (state.time != null && state.time > 0) state.time % 60 else 15,
+        if (time != null && time > 0) time / 60 else 0,
+        if (time != null && time > 0) time % 60 else 15,
         true,
     )
 
@@ -182,10 +183,10 @@ fun RecipeInputDetailsScreenDisplay(
                             color = colors.foregroundPrimary,
                         )
                         DynamicButton(
-                            text = if (state.time != null && state.time > 0)
-                                TimeUtils.minutesToTimeString(state.time, resources)
-                            else
-                                stringResource(R.string.common_general_specify),
+                            text = when(time) {
+                                null -> stringResource(R.string.common_general_specify)
+                                else -> TimeUtils.minutesToTimeString(time, resources)
+                            },
                             unselectedForeground = colors.foregroundPrimary,
                             onClick = { timePicker.show() },
                             modifier = Modifier

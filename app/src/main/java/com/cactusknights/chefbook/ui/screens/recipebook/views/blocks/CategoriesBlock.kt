@@ -18,7 +18,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import com.cactusknights.chefbook.R
-import com.cactusknights.chefbook.domain.entities.category.Category
+import com.mysty.chefbook.api.category.domain.entities.Category
 import com.cactusknights.chefbook.ui.screens.recipebook.views.elements.CategoryCard
 import com.cactusknights.chefbook.ui.screens.recipebook.views.elements.CategoryCardSkeleton
 import com.cactusknights.chefbook.ui.screens.recipebook.views.elements.NewCategoryCard

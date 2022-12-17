@@ -15,8 +15,8 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import com.cactusknights.chefbook.core.ui.localizedName
-import com.cactusknights.chefbook.domain.entities.common.MeasureUnit
-import com.cactusknights.chefbook.domain.entities.recipe.ingredient.IngredientItem
+import com.mysty.chefbook.api.common.entities.unit.MeasureUnit
+import com.mysty.chefbook.api.recipe.domain.entities.ingredient.IngredientItem
 import com.mysty.chefbook.core.ui.compose.providers.theme.LocalTheme
 import com.mysty.chefbook.design.components.checkboxes.Checkbox
 import kotlin.math.abs
@@ -62,15 +62,17 @@ fun Ingredient(
                 append(" ")
             }
         }
-        if (ingredient.unit != null && (ingredient.unit !is MeasureUnit.Custom || ingredient.unit.name.isNotEmpty())) {
-            withStyle(SpanStyle(
-                color = colors.foregroundSecondary,
-                fontSize = typography.headline2.fontSize,
-                fontWeight = typography.headline2.fontWeight,
-                fontStyle = typography.headline2.fontStyle,
-                fontFamily = typography.headline2.fontFamily,
-            )) {
-                append(ingredient.unit.localizedName(resources))
+        ingredient.unit?.let { unit ->
+            if (unit !is MeasureUnit.Custom || unit.name.isNotEmpty()) {
+                withStyle(SpanStyle(
+                    color = colors.foregroundSecondary,
+                    fontSize = typography.headline2.fontSize,
+                    fontWeight = typography.headline2.fontWeight,
+                    fontStyle = typography.headline2.fontStyle,
+                    fontFamily = typography.headline2.fontFamily,
+                )) {
+                    append(unit.localizedName(resources))
+                }
             }
         }
     }

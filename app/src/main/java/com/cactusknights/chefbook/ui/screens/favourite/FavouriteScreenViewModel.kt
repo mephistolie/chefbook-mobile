@@ -2,7 +2,7 @@ package com.cactusknights.chefbook.ui.screens.favourite
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.cactusknights.chefbook.domain.usecases.recipe.IObserveRecipeBookUseCase
+import com.mysty.chefbook.api.recipe.domain.usecases.IObserveRecipeBookUseCase
 import com.cactusknights.chefbook.ui.screens.favourite.models.FavouriteScreenEffect
 import com.cactusknights.chefbook.ui.screens.favourite.models.FavouriteScreenEvent
 import com.cactusknights.chefbook.ui.screens.favourite.models.FavouriteScreenState

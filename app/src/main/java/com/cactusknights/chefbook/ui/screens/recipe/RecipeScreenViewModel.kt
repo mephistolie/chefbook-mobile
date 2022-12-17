@@ -4,26 +4,26 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.cactusknights.chefbook.R
-import com.cactusknights.chefbook.domain.entities.action.Failure
-import com.cactusknights.chefbook.domain.entities.action.Loading
-import com.cactusknights.chefbook.domain.entities.action.Successful
-import com.cactusknights.chefbook.domain.entities.recipe.cooking.CookingItem
-import com.cactusknights.chefbook.domain.entities.recipe.encryption.EncryptionState
-import com.cactusknights.chefbook.domain.entities.recipe.ingredient.IngredientItem
-import com.cactusknights.chefbook.domain.entities.shoppinglist.Purchase
-import com.cactusknights.chefbook.domain.usecases.category.IGetCategoriesUseCase
-import com.cactusknights.chefbook.domain.usecases.recipe.IDeleteRecipeUseCase
-import com.cactusknights.chefbook.domain.usecases.recipe.IGetRecipeUseCase
-import com.cactusknights.chefbook.domain.usecases.recipe.ISetRecipeCategoriesUseCase
-import com.cactusknights.chefbook.domain.usecases.recipe.ISetRecipeFavouriteStatusUseCase
-import com.cactusknights.chefbook.domain.usecases.recipe.ISetRecipeLikeStatusUseCase
-import com.cactusknights.chefbook.domain.usecases.recipe.ISetRecipeSaveStatusUseCase
-import com.cactusknights.chefbook.domain.usecases.shopinglist.IAddToShoppingListUseCase
 import com.cactusknights.chefbook.ui.screens.main.models.UiState
 import com.cactusknights.chefbook.ui.screens.recipe.models.RecipePicturesDialogState
 import com.cactusknights.chefbook.ui.screens.recipe.models.RecipeScreenEffect
 import com.cactusknights.chefbook.ui.screens.recipe.models.RecipeScreenEvent
 import com.cactusknights.chefbook.ui.screens.recipe.models.RecipeScreenState
+import com.mysty.chefbook.api.category.domain.usecases.IGetCategoriesUseCase
+import com.mysty.chefbook.api.common.communication.Failure
+import com.mysty.chefbook.api.common.communication.Loading
+import com.mysty.chefbook.api.common.communication.Successful
+import com.mysty.chefbook.api.recipe.domain.entities.cooking.CookingItem
+import com.mysty.chefbook.api.recipe.domain.entities.encryption.EncryptionState
+import com.mysty.chefbook.api.recipe.domain.entities.ingredient.IngredientItem
+import com.mysty.chefbook.api.recipe.domain.usecases.IDeleteRecipeUseCase
+import com.mysty.chefbook.api.recipe.domain.usecases.IGetRecipeUseCase
+import com.mysty.chefbook.api.recipe.domain.usecases.ISetRecipeCategoriesUseCase
+import com.mysty.chefbook.api.recipe.domain.usecases.ISetRecipeFavouriteStatusUseCase
+import com.mysty.chefbook.api.recipe.domain.usecases.ISetRecipeLikeStatusUseCase
+import com.mysty.chefbook.api.recipe.domain.usecases.ISetRecipeSaveStatusUseCase
+import com.mysty.chefbook.api.shoppinglist.domain.entities.Purchase
+import com.mysty.chefbook.api.shoppinglist.domain.usecases.IAddToShoppingListUseCase
 import com.mysty.chefbook.core.mvi.EventHandler
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -99,11 +99,7 @@ class RecipeScreenViewModel(
                 state.copy(
                     recipe = recipe.copy(
                         isLiked = !recipe.isLiked,
-                        likes = if (recipe.likes != null) {
-                            if (recipe.isLiked) recipe.likes - 1 else recipe.likes + 1
-                        } else {
-                            1
-                        }
+                        likes = recipe.likes?.let { if (recipe.isLiked) it - 1 else it + 1 },
                     )
                 )
             )
@@ -207,7 +203,7 @@ class RecipeScreenViewModel(
                 is RecipeScreenEvent.ChangeDialogState.Pictures -> {
                     if (event.isVisible) {
                         val pictures = mutableListOf<String>()
-                        if (state.recipe.preview != null) pictures.add(state.recipe.preview)
+                        state.recipe.preview?.let { pictures.add(it) }
                         state.recipe.cooking.onEach { item ->
                             if (item is CookingItem.Step) pictures.addAll(item.pictures ?: emptyList())
                         }
@@ -238,19 +234,16 @@ class RecipeScreenViewModel(
         multiplier: Float,
     ) {
         (state.value as? RecipeScreenState.Success)?.let { state ->
+            val servings = state.recipe.servings
             val purchases = ingredients
                 .filterIsInstance<IngredientItem.Ingredient>()
                 .map { ingredient ->
                     Purchase(
                         id = ingredient.id,
                         name = ingredient.name,
-                        amount = ingredient.amount?.let { ceil(ingredient.amount * multiplier).toInt() },
+                        amount = ingredient.amount?.let { amount -> ceil(amount * multiplier).toInt() },
                         unit = ingredient.unit,
-                        multiplier = if (ingredient.amount == null && state.recipe.servings != null) {
-                            ceil(multiplier * state.recipe.servings).toInt()
-                        } else{
-                            multiplier.toInt()
-                        },
+                        multiplier = if (ingredient.amount == null && servings != null) ceil(multiplier * servings).toInt() else multiplier.toInt(),
                         recipeId = if (state.recipe.encryptionState is EncryptionState.Standard) state.recipe.id else null,
                         recipeName = if (state.recipe.encryptionState is EncryptionState.Standard) state.recipe.name else null,
                     )

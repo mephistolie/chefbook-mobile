@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.cactusknights.chefbook.R
-import com.cactusknights.chefbook.domain.entities.settings.Tab
+import com.mysty.chefbook.api.settings.domain.entities.Tab
 import com.cactusknights.chefbook.ui.screens.home.models.HomeEvent
 import com.mephistolie.compost.modifiers.simpleClickable
 import com.mysty.chefbook.core.ui.compose.providers.theme.LocalTheme

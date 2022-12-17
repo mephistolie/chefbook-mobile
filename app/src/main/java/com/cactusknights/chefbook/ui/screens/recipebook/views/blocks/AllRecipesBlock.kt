@@ -11,8 +11,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.cactusknights.chefbook.R
-import com.cactusknights.chefbook.domain.entities.category.Category
-import com.cactusknights.chefbook.domain.entities.recipe.RecipeInfo
+import com.mysty.chefbook.api.category.domain.entities.Category
+import com.mysty.chefbook.api.recipe.domain.entities.RecipeInfo
 import com.cactusknights.chefbook.ui.screens.recipebook.views.elements.RecipeCard
 import com.cactusknights.chefbook.ui.screens.recipebook.views.elements.RecipeCardSkeleton
 import com.mysty.chefbook.core.ui.compose.providers.theme.LocalTheme

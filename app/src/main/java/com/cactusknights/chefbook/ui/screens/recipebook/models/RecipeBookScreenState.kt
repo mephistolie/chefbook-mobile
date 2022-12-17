@@ -1,8 +1,8 @@
 package com.cactusknights.chefbook.ui.screens.recipebook.models
 
-import com.cactusknights.chefbook.domain.entities.category.Category
-import com.cactusknights.chefbook.domain.entities.encryption.EncryptedVaultState
-import com.cactusknights.chefbook.domain.entities.recipe.RecipeInfo
+import com.mysty.chefbook.api.category.domain.entities.Category
+import com.mysty.chefbook.api.encryption.domain.entities.EncryptedVaultState
+import com.mysty.chefbook.api.recipe.domain.entities.RecipeInfo
 
 data class RecipeBookScreenState(
     val allRecipes: List<RecipeInfo>? = null,

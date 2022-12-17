@@ -17,7 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
-import com.cactusknights.chefbook.domain.entities.recipe.cooking.CookingItem
+import com.mysty.chefbook.api.recipe.domain.entities.cooking.CookingItem
 import com.mysty.chefbook.core.ui.compose.providers.theme.LocalTheme
 import com.mysty.chefbook.design.theme.shapes.RoundedCornerShape12
 import com.mysty.chefbook.design.components.images.EncryptedImage

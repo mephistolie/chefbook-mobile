@@ -1,6 +1,6 @@
 package com.cactusknights.chefbook.ui.screens.favourite.models
 
-import com.cactusknights.chefbook.domain.entities.recipe.RecipeInfo
+import com.mysty.chefbook.api.recipe.domain.entities.RecipeInfo
 
 data class FavouriteScreenState(
     val recipes: List<RecipeInfo>? = null,

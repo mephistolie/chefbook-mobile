@@ -21,7 +21,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.cactusknights.chefbook.R
-import com.cactusknights.chefbook.domain.entities.recipe.cooking.CookingItem
+import com.mysty.chefbook.api.recipe.domain.entities.cooking.CookingItem
 import com.mephistolie.compost.modifiers.clippedBackground
 import com.mephistolie.compost.modifiers.simpleClickable
 import com.mysty.chefbook.core.ui.compose.providers.theme.LocalTheme

@@ -12,11 +12,15 @@ import com.cactusknights.chefbook.ui.screens.recipebook.RecipeBookScreenViewMode
 import com.cactusknights.chefbook.ui.screens.recipeinput.RecipeInputScreenViewModel
 import com.cactusknights.chefbook.ui.screens.search.RecipeBookSearchScreenViewModel
 import com.cactusknights.chefbook.ui.screens.shoppinglist.ShoppingListScreenViewModel
+import com.mysty.chefbook.core.di.Qualifiers
+import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.androidx.viewmodel.dsl.viewModelOf
+import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 val viewModelModule = module {
-    viewModelOf(::AppViewModel)
+
+    viewModel { AppViewModel(get(), get(), get(named(Qualifiers.ENCRYPTED_IMAGE))) }
     viewModelOf(::AboutScreenViewModel)
     viewModelOf(::AuthViewModel)
     viewModelOf(::HomeViewModel)
@@ -28,4 +32,5 @@ val viewModelModule = module {
     viewModelOf(::CategoryScreenViewModel)
     viewModelOf(::RecipeScreenViewModel)
     viewModelOf(::RecipeInputScreenViewModel)
+
 }

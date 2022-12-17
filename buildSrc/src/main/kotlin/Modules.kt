@@ -9,4 +9,6 @@ object Modules {
         const val coreUi = "$prefix:core-ui"
         const val design = "$prefix:design"
     }
+
+    const val api = ":api"
 }

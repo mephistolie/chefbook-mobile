@@ -1,5 +1,6 @@
 package com.mysty.chefbook.core
 
+import com.mysty.chefbook.core.constants.Strings
 import java.io.IOException
 import java.security.MessageDigest
 import java.time.LocalDateTime
@@ -32,7 +33,7 @@ private fun hashString(input: String, algorithm: String): String {
     return MessageDigest
         .getInstance(algorithm)
         .digest(input.toByteArray())
-        .fold("") { str, it -> str + "%02x".format(it) }
+        .fold(Strings.EMPTY) { str, it -> str + "%02x".format(it) }
 }
 
 fun parseTimestampSafely(time: String): LocalDateTime =

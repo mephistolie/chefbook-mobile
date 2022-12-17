@@ -26,6 +26,7 @@ import com.cactusknights.chefbook.R
 import com.cactusknights.chefbook.ui.screens.encryptedvault.models.EncryptedVaultScreenState
 import com.cactusknights.chefbook.ui.screens.encryptedvault.models.PinCodeInputType
 import com.mephistolie.compost.modifiers.simpleClickable
+import com.mysty.chefbook.core.constants.Strings
 import com.mysty.chefbook.core.ui.compose.providers.theme.LocalTheme
 import com.mysty.chefbook.design.components.textfields.PinCodeField
 import com.mysty.chefbook.design.theme.ChefBookTheme
@@ -99,7 +100,7 @@ fun EncryptedVaultScreenPinCode(
 
 @Composable
 @Preview(showBackground = true)
-private fun PreviewLightEncryptedVaultScreenPinCode() = ThemedEncryptedVaultScreenPinCode("", false)
+private fun PreviewLightEncryptedVaultScreenPinCode() = ThemedEncryptedVaultScreenPinCode(Strings.EMPTY, false)
 
 @Composable
 @Preview(showBackground = true)

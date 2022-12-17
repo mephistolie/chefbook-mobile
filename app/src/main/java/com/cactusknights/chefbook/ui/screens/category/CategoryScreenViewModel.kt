@@ -2,16 +2,16 @@ package com.cactusknights.chefbook.ui.screens.category
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.cactusknights.chefbook.domain.entities.action.Failure
-import com.cactusknights.chefbook.domain.entities.action.data
-import com.cactusknights.chefbook.domain.entities.action.isSuccess
-import com.cactusknights.chefbook.domain.entities.category.CategoryInput
-import com.cactusknights.chefbook.domain.entities.category.toCategory
-import com.cactusknights.chefbook.domain.entities.recipe.RecipeInfo
-import com.cactusknights.chefbook.domain.usecases.category.IDeleteCategoryUseCase
-import com.cactusknights.chefbook.domain.usecases.category.IGetCategoryUseCase
-import com.cactusknights.chefbook.domain.usecases.category.IUpdateCategoryUseCase
-import com.cactusknights.chefbook.domain.usecases.recipe.IObserveRecipeBookUseCase
+import com.mysty.chefbook.api.common.communication.Failure
+import com.mysty.chefbook.api.common.communication.data
+import com.mysty.chefbook.api.common.communication.isSuccess
+import com.mysty.chefbook.api.category.domain.entities.CategoryInput
+import com.mysty.chefbook.api.category.domain.entities.toCategory
+import com.mysty.chefbook.api.recipe.domain.entities.RecipeInfo
+import com.mysty.chefbook.api.category.domain.usecases.IDeleteCategoryUseCase
+import com.mysty.chefbook.api.category.domain.usecases.IGetCategoryUseCase
+import com.mysty.chefbook.api.category.domain.usecases.IUpdateCategoryUseCase
+import com.mysty.chefbook.api.recipe.domain.usecases.IObserveRecipeBookUseCase
 import com.cactusknights.chefbook.ui.screens.category.models.CategoryScreenEffect
 import com.cactusknights.chefbook.ui.screens.category.models.CategoryScreenEvent
 import com.cactusknights.chefbook.ui.screens.category.models.CategoryScreenState

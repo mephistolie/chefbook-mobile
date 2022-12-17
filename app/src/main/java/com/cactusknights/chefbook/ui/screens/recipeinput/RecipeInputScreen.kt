@@ -13,8 +13,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
 import com.cactusknights.chefbook.R
-import com.cactusknights.chefbook.core.mappers.LanguageMapper
-import com.cactusknights.chefbook.domain.entities.common.Language
 import com.cactusknights.chefbook.ui.navigation.Destination
 import com.cactusknights.chefbook.ui.navigation.hosts.RecipeInputHost
 import com.cactusknights.chefbook.ui.screens.recipeinput.dialogs.RecipeSavedDialog
@@ -24,6 +22,8 @@ import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.google.accompanist.navigation.material.BottomSheetNavigator
 import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
 import com.google.accompanist.navigation.material.ModalBottomSheetLayout
+import com.mysty.chefbook.api.common.entities.language.Language
+import com.mysty.chefbook.api.common.entities.language.LanguageMapper
 import com.mysty.chefbook.core.ui.compose.providers.ContentAccessProvider
 import com.mysty.chefbook.core.ui.compose.providers.ContentType
 import com.mysty.chefbook.core.ui.compose.providers.theme.LocalTheme

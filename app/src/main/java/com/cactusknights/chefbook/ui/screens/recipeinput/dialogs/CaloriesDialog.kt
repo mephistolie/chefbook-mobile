@@ -33,6 +33,7 @@ import androidx.compose.ui.unit.dp
 import com.cactusknights.chefbook.R
 import com.cactusknights.chefbook.ui.screens.recipeinput.RecipeInputScreenViewModel
 import com.cactusknights.chefbook.ui.screens.recipeinput.models.RecipeInputScreenEvent
+import com.mysty.chefbook.core.constants.Strings
 import com.mysty.chefbook.core.ui.compose.providers.theme.LocalTheme
 import com.mysty.chefbook.design.components.buttons.CircleIconButton
 import com.mysty.chefbook.design.components.textfields.ThemedIndicatorTextField
@@ -91,7 +92,7 @@ fun CaloriesDialog(
                 .height(1.dp)
         )
         ThemedIndicatorTextField(
-            value = if (state.calories != null) state.calories.toString() else "",
+            value = if (state.calories != null) state.calories.toString() else Strings.EMPTY,
             modifier = Modifier
                 .focusRequester(focusRequester)
                 .fillMaxWidth(),
@@ -110,7 +111,7 @@ fun CaloriesDialog(
             },
         )
         ThemedIndicatorTextField(
-            value = if (state.macronutrients?.protein != null) state.macronutrients.protein.toString() else "",
+            value = state.macronutrients?.protein?.toString() ?: Strings.EMPTY,
             modifier = Modifier
                 .fillMaxWidth(),
             onValueChange = { protein ->
@@ -128,7 +129,7 @@ fun CaloriesDialog(
             },
         )
         ThemedIndicatorTextField(
-            value = if (state.macronutrients?.fats != null) state.macronutrients.fats.toString() else "",
+            value = state.macronutrients?.fats?.toString() ?: Strings.EMPTY,
             modifier = Modifier
                 .fillMaxWidth(),
             onValueChange = { fats ->
@@ -146,7 +147,7 @@ fun CaloriesDialog(
             },
         )
         ThemedIndicatorTextField(
-            value = if (state.macronutrients?.carbohydrates != null) state.macronutrients.carbohydrates.toString() else "",
+            value = state.macronutrients?.carbohydrates?.toString() ?: Strings.EMPTY,
             modifier = Modifier
                 .fillMaxWidth(),
             onValueChange = { carbs ->

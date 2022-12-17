@@ -10,7 +10,7 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.cactusknights.chefbook.domain.entities.encryption.EncryptedVaultState
+import com.mysty.chefbook.api.encryption.domain.entities.EncryptedVaultState
 import com.cactusknights.chefbook.ui.screens.recipebook.models.RecipeBookScreenEvent
 import com.cactusknights.chefbook.ui.screens.recipebook.models.RecipeBookScreenState
 import com.cactusknights.chefbook.ui.screens.recipebook.views.blocks.RecipeBookActionsBlock

@@ -24,9 +24,9 @@ import androidx.compose.ui.text.input.TransformedText
 import androidx.compose.ui.unit.dp
 import com.cactusknights.chefbook.R
 import com.cactusknights.chefbook.core.ui.localizedName
-import com.cactusknights.chefbook.domain.entities.recipe.ingredient.IngredientItem
 import com.mephistolie.compost.modifiers.clippedBackground
 import com.mephistolie.compost.modifiers.simpleClickable
+import com.mysty.chefbook.api.recipe.domain.entities.ingredient.IngredientItem
 import com.mysty.chefbook.core.ui.compose.providers.theme.LocalTheme
 import com.mysty.chefbook.design.components.textfields.ThemedIndicatorTextField
 import com.mysty.chefbook.design.theme.shapes.RoundedCornerShape8
@@ -79,15 +79,15 @@ fun IngredientField(
             onValueChange = {},
             visualTransformation = { name ->
                 var text = name
-                if (ingredient.amount != null) {
+                ingredient.amount?.let { amount ->
                     text += AnnotatedString(
-                        text = " ${ingredient.amount}",
+                        text = " $amount",
                         spanStyle = secondarySpan,
                     )
                 }
-                if (ingredient.unit != null) {
+                ingredient.unit?.let { unit ->
                     text += AnnotatedString(
-                        text = " ${ingredient.unit.localizedName(resources)}",
+                        text = " ${unit.localizedName(resources)}",
                         spanStyle = secondarySpan,
                     )
                 }

@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.cactusknights.chefbook.domain.entities.settings.Tab
+import com.mysty.chefbook.api.settings.domain.entities.Tab
 import com.cactusknights.chefbook.ui.navigation.Destination
 import com.cactusknights.chefbook.ui.screens.recipe.models.RecipeScreenTab
 import com.cactusknights.chefbook.ui.screens.recipebook.RecipeBookScreen

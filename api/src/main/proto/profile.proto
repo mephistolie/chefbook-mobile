@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+option java_package = "com.mysty.chefbook.api.profile.data.local.dto";
+option java_multiple_files = true;
+
+message ProfileProto {
+  string id = 1;
+  string email = 2;
+  string username = 3;
+  int64 creationDate = 4;
+  string avatar = 5;
+  bool  premium = 6;
+  int32 broccoins = 7;
+}

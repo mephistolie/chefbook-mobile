@@ -13,8 +13,8 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import com.cactusknights.chefbook.R
 import com.cactusknights.chefbook.core.ui.localizedName
-import com.cactusknights.chefbook.domain.entities.common.Visibility
-import com.cactusknights.chefbook.domain.entities.recipe.RecipeInput
+import com.mysty.chefbook.api.recipe.domain.entities.visibility.Visibility
+import com.mysty.chefbook.api.recipe.domain.entities.RecipeInput
 import com.mysty.chefbook.core.ui.compose.providers.theme.LocalTheme
 import com.mysty.chefbook.design.components.buttons.DynamicButton
 import com.mysty.chefbook.design.theme.dimens.ButtonSmallHeight

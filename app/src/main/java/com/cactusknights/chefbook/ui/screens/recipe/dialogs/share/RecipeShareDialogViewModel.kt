@@ -6,12 +6,12 @@ import android.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.cactusknights.chefbook.R
-import com.cactusknights.chefbook.core.Endpoints
-import com.cactusknights.chefbook.domain.entities.recipe.Recipe
-import com.cactusknights.chefbook.domain.usecases.recipe.IGetRecipeAsTextUseCase
+import com.cactusknights.chefbook.core.ui.asText
 import com.cactusknights.chefbook.ui.screens.recipe.dialogs.share.models.RecipeShareDialogEffect
 import com.cactusknights.chefbook.ui.screens.recipe.dialogs.share.models.RecipeShareDialogEvent
 import com.cactusknights.chefbook.ui.screens.recipe.dialogs.share.models.RecipeShareDialogState
+import com.mysty.chefbook.api.common.constants.Endpoints
+import com.mysty.chefbook.api.recipe.domain.entities.Recipe
 import com.mysty.chefbook.core.mvi.EventHandler
 import com.mysty.chefbook.core.ui.qr.QRCodeWriter
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -22,9 +22,7 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class RecipeShareDialogViewModel(
-    private val getRecipeAsTextUseCase: IGetRecipeAsTextUseCase,
-) : ViewModel(), EventHandler<RecipeShareDialogEvent> {
+class RecipeShareDialogViewModel: ViewModel(), EventHandler<RecipeShareDialogEvent> {
 
     private val _state: MutableStateFlow<RecipeShareDialogState> = MutableStateFlow(RecipeShareDialogState())
     val state: StateFlow<RecipeShareDialogState> = _state.asStateFlow()
@@ -67,7 +65,7 @@ class RecipeShareDialogViewModel(
 
     private suspend fun copyRecipeAsText(resources: Resources) {
         targetRecipe?.let { recipe ->
-            val text = getRecipeAsTextUseCase(recipe, resources)
+            val text = recipe.asText(resources)
             _effect.emit(RecipeShareDialogEffect.ShareText(text))
         }
     }
