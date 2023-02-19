@@ -1,0 +1,23 @@
+<resources>
+
+    <string name="common_auth_screen_sign_in">Sign In</string>
+    <string name="common_auth_screen_sign_up">Sign Up</string>
+    <string name="common_auth_screen_forgot_password">Forgot password?</string>
+    <string name="common_auth_screen_not_member">Not a member yet?</string>
+    <string name="common_auth_screen_already_member">Already a member?</string>
+    <string name="common_auth_screen_repeat_password">Repeat password</string>
+    <string name="common_auth_screen_reset_password">Reset password</string>
+    <string name="common_auth_screen_invalid_email">Type correct email</string>
+    <string name="common_auth_screen_short_password">Password must contain at least 8 characters</string>
+    <string name="common_auth_screen_lower_password">Password must contain at least 1 lower character</string>
+    <string name="common_auth_screen_upper_password">Password must contain at least 1 upper character</string>
+    <string name="common_auth_screen_number_password">Password must contain at least 1 digit</string>
+    <string name="common_auth_screen_space_password">Password mustn\'t contain spaces</string>
+    <string name="common_auth_screen_password_mismatch">Passwords don\'t match</string>
+    <string name="common_auth_screen_sign_in_success">Successful Login</string>
+    <string name="common_auth_screen_sign_up_success">Confirmation link was sent to specified email</string>
+    <string name="common_auth_screen_reset_password_success">Password reset link was sent to email</string>
+    <string name="common_auth_screen_sign_in_google_failure">Failed to sign in via Google</string>
+    <string name="common_auth_screen_unable_send_email">Unable to send mail with activation link. Please, try again</string>
+
+</resources>

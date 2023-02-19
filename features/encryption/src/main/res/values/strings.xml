@@ -1,0 +1,16 @@
+<resources>
+
+    <string name="common_encrypted_vault_screen_description" translatable="false">ChefBook allows you to recipe data in encrypted form if you need increased privacy.</string>
+    <string name="common_encrypted_vault_screen_note">NOTE: if PIN code is lost, it\'s impossible to restore access to encrypted data.</string>
+    <string name="common_encrypted_vault_enable_encryption">Enable encryption</string>
+    <string name="common_encrypted_vault_screen_pin_code">Enter PIN-code</string>
+    <string name="common_encrypted_vault_screen_pin_code_repeat">Repeat PIN-code</string>
+    <string name="common_encrypted_vault_screen_pin_code_change">Change PIN-code</string>
+    <string name="common_encrypted_vault_screen_pin_code_mismatch">PIN-codes don\'t match</string>
+    <string name="common_encrypted_vault_screen_invalid_pin_code">Invalid PIN-code</string>
+    <string name="common_encrypted_vault_screen_vault_created">Encrypted Vault created</string>
+    <string name="common_encrypted_vault_screen_vault_locked">Encrypted Vault locked</string>
+    <string name="common_encrypted_vault_screen_vault_unlocked">Encrypted Vault unlocked</string>
+    <string name="common_encrypted_vault_screen_vault_deleted">Encrypted Vault deleted</string>
+
+</resources>

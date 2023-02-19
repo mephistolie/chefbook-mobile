@@ -1,0 +1,9 @@
+<resources>
+
+    <string name="common_category_screen_category_delete_warning">Категория будет удалена</string>
+
+    <string name="common_category_input_dialog_enter_name">Пожалуйста, введите название</string>
+    <string name="common_category_input_dialog_new_category">Новая категория</string>
+    <string name="common_category_input_dialog_edit_category">Редактирование категории</string>
+
+</resources>
