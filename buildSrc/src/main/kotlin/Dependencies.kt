@@ -1,7 +1,7 @@
 object Dependencies {
 
-    const val gradle = "com.android.tools.build:gradle:${Project.gradleVersion}"
-    const val kotlinPlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Project.kotlinVersion}"
+    const val androidGradlePlugin = "com.android.tools.build:gradle:${Config.gradleVersion}"
+    const val kotlinPlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Config.kotlinVersion}"
     const val gmsPlugin = "com.google.gms:google-services:4.3.14"
 
     object Coroutines {
@@ -19,15 +19,17 @@ object Dependencies {
     }
 
     object Compose {
-        const val version = "1.3.2"
+        const val version = "1.4.2"
+        const val bomVersion = "2023.01.00"
+        const val bom = "androidx.compose:compose-bom:$bomVersion"
 
-        const val compiler = "androidx.compose.compiler:compiler:$version"
+        const val compiler = "androidx.compose.compiler:compiler:1.4.2"
         const val foundation = "androidx.compose.foundation:foundation:1.3.1"
-        const val runtime = "androidx.compose.runtime:runtime:$version"
-        const val ui = "androidx.compose.ui:ui:$version"
-        const val uiTooling = "androidx.compose.ui:ui-tooling:$version"
+        const val runtime = "androidx.compose.runtime:runtime:1.3.3"
+        const val ui = "androidx.compose.ui:ui:1.3.3"
+        const val uiTooling = "androidx.compose.ui:ui-tooling:1.3.3"
         const val material = "androidx.compose.material:material:1.3.1"
-        const val animation = "androidx.compose.animation:animation:$version"
+        const val animation = "androidx.compose.animation:animation:1.3.3"
     }
 
     object Accompanist {
@@ -41,8 +43,15 @@ object Dependencies {
         const val pagerIndicator = "com.google.accompanist:accompanist-pager-indicators:$version"
     }
 
+    object Navigation {
+        private const val version = "1.7.30-beta"
+
+        const val core = "io.github.raamcosta.compose-destinations:animations-core:$version"
+        const val ksp = "io.github.raamcosta.compose-destinations:ksp:$version"
+    }
+
     object Compost {
-        private const val version = "0.0.4"
+        private const val version = "0.0.5"
 
         const val core = "com.github.mephistolie.compost:core:$version"
         const val ui = "com.github.mephistolie.compost:ui:$version"

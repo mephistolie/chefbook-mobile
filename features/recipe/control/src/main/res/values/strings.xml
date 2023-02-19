@@ -1,0 +1,16 @@
+<resources>
+
+    <string name="common_recipe_control_screen_add_to_favourite">Add to favourite</string>
+    <string name="common_recipe_control_screen_remove_from_favourite">Remove from favourite</string>
+    <string name="common_recipe_control_screen_choose_categories">Choose categories</string>
+    <string name="common_recipe_control_screen_add_to_recipe_book">Add to recipe book</string>
+    <string name="common_recipe_control_screen_remove_from_recipe_book">Remove from recipe book</string>
+    <string name="common_recipe_control_screen_remove_from_recipe_book_warning">Favourite status and categories will be reset</string>
+    <string name="common_recipe_control_screen_delete_warning">Recipe will be deleted for everyone</string>
+    <string name="common_recipe_control_screen_edit_recipe">Edit recipe</string>
+    <string name="common_recipe_control_screen_delete_recipe">Delete recipe</string>
+    <string name="common_recipe_control_screen_recipe_deleted">Recipe deleted</string>
+
+    <string name="common_recipe_categories_selection_block_categories_chosen">Categories chosen</string>
+
+</resources>

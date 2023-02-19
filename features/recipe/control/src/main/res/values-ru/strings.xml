@@ -1,0 +1,16 @@
+<resources>
+
+    <string name="common_recipe_control_screen_add_to_favourite">Добавить в избранное</string>
+    <string name="common_recipe_control_screen_remove_from_favourite">Удалить из избранного</string>
+    <string name="common_recipe_control_screen_choose_categories">Выбрать категории</string>
+    <string name="common_recipe_control_screen_add_to_recipe_book">Добавить в книгу рецептов</string>
+    <string name="common_recipe_control_screen_remove_from_recipe_book">Убрать из книги рецептов</string>
+    <string name="common_recipe_control_screen_remove_from_recipe_book_warning">Статус Избранного и категории будут сброшены</string>
+    <string name="common_recipe_control_screen_delete_warning">Рецепт будет удален для всех пользователей</string>
+    <string name="common_recipe_control_screen_edit_recipe">Изменить рецепт</string>
+    <string name="common_recipe_control_screen_delete_recipe">Удалить рецепт</string>
+    <string name="common_recipe_control_screen_recipe_deleted">Рецепт удален</string>
+
+    <string name="common_recipe_categories_selection_block_categories_chosen">Категории выбраны</string>
+
+</resources>

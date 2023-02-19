@@ -16,9 +16,9 @@ import coil.compose.AsyncImagePainter
 import coil.imageLoader
 import coil.memory.MemoryCache
 import coil.request.ImageRequest
-import com.mysty.chefbook.core.ui.compose.providers.ContentType
-import com.mysty.chefbook.core.ui.compose.providers.DataAccess
-import com.mysty.chefbook.core.ui.compose.providers.LocalDependencies
+import com.mysty.chefbook.core.android.compose.providers.ContentType
+import com.mysty.chefbook.core.android.compose.providers.LocalDataAccess
+import com.mysty.chefbook.core.android.compose.providers.LocalDependencies
 
 private const val TYPE = "TYPE"
 
@@ -39,7 +39,7 @@ fun EncryptedImage(
     filterQuality: FilterQuality = DrawScope.DefaultFilterQuality,
 ) {
     val context = LocalContext.current
-    val dataType = DataAccess.type
+    val dataType = LocalDataAccess.type
     val imageLoader = if (dataType == ContentType.DECRYPTABLE) {
         ImageLoader.Builder(context)
             .okHttpClient(LocalDependencies.imageClient)

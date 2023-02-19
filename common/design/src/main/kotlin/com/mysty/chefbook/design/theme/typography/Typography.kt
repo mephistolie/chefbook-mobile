@@ -8,7 +8,7 @@ import androidx.compose.ui.unit.ExperimentalUnitApi
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.sp
-import com.mysty.chefbook.core.ui.compose.providers.theme.Typography
+import com.mysty.chefbook.core.android.compose.providers.theme.Typography
 import com.mysty.chefbook.design.R
 
 private val Inter = FontFamily(

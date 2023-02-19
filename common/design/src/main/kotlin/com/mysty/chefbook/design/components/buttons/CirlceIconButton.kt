@@ -10,7 +10,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.mysty.chefbook.core.ui.compose.providers.theme.LocalTheme
+import com.mysty.chefbook.core.android.compose.providers.theme.LocalTheme
 
 @Composable
 fun CircleIconButton(
@@ -18,6 +18,7 @@ fun CircleIconButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     iconModifier: Modifier = Modifier,
+    enabled: Boolean = true,
     contentPadding: Dp = 0.dp,
     tint: Color = LocalTheme.colors.foregroundPrimary,
     colors: ButtonColors = ButtonDefaults.buttonColors(backgroundColor = LocalTheme.colors.backgroundSecondary),
@@ -26,6 +27,7 @@ fun CircleIconButton(
     com.mephistolie.compost.ui.buttons.CircleIconButton(
         icon = ImageVector.vectorResource(iconId),
         onClick = onClick,
+        enabled = enabled,
         modifier = modifier,
         iconModifier = iconModifier,
         contentPadding = contentPadding,

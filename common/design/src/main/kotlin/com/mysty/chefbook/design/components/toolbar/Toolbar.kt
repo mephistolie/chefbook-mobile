@@ -12,12 +12,13 @@ import androidx.compose.material.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.mephistolie.compost.modifiers.simpleClickable
-import com.mysty.chefbook.core.ui.compose.providers.theme.LocalTheme
+import com.mysty.chefbook.core.android.compose.providers.theme.LocalTheme
 import com.mysty.chefbook.design.R
 import com.mysty.chefbook.design.theme.dimens.DefaultIconSize
 import com.mysty.chefbook.design.theme.dimens.ToolbarHeight
@@ -30,6 +31,8 @@ fun Toolbar(
     onLeftButtonClick: () -> Unit = {},
     @DrawableRes
     rightButtonIconId: Int? = null,
+    rightButtonTint: Color = LocalTheme.colors.foregroundPrimary,
+    rightIconEndPadding: Dp = 0.dp,
     onRightButtonClick: () -> Unit = {},
     onContentClick: () -> Unit = {},
     contentAlignment: Alignment.Horizontal = Alignment.CenterHorizontally,
@@ -55,6 +58,7 @@ fun Toolbar(
                     start = if (rightButtonIconId != null && leftButtonIconId == null) 36.dp else 0.dp,
                     end = if (leftButtonIconId != null && rightButtonIconId == null) 36.dp else 0.dp,
                 )
+                .weight(1F)
                 .fillMaxWidth()
                 .simpleClickable(onClick = onContentClick),
             horizontalAlignment = contentAlignment,
@@ -64,7 +68,9 @@ fun Toolbar(
             ToolbarIcon(
                 iconId = rightButtonIconId,
                 onClick = onRightButtonClick,
+                tint = rightButtonTint,
                 paddingStart = 12.dp,
+                iconPaddingEnd = rightIconEndPadding,
             )
         }
     }
@@ -75,17 +81,18 @@ private fun ToolbarIcon(
     @DrawableRes
     iconId: Int,
     onClick: () -> Unit,
+    tint: Color = LocalTheme.colors.foregroundPrimary,
     paddingStart: Dp = 0.dp,
     paddingEnd: Dp = 0.dp,
+    iconPaddingEnd: Dp = 0.dp,
 ) {
-    val colors = LocalTheme.colors
-
     Icon(
         imageVector = ImageVector.vectorResource(iconId),
-        tint = colors.foregroundPrimary,
+        tint = tint,
         modifier = Modifier
             .padding(start = paddingStart, end = paddingEnd)
             .size(DefaultIconSize)
+            .padding(end = iconPaddingEnd)
             .simpleClickable(onClick = onClick),
         contentDescription = null,
     )

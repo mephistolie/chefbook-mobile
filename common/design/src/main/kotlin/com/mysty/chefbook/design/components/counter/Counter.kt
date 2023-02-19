@@ -32,8 +32,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mephistolie.compost.modifiers.clippedBackground
 import com.mephistolie.compost.ui.textfields.TextField
+import com.mysty.chefbook.core.android.compose.providers.theme.LocalTheme
 import com.mysty.chefbook.core.constants.Strings
-import com.mysty.chefbook.core.ui.compose.providers.theme.LocalTheme
 import com.mysty.chefbook.design.R
 import com.mysty.chefbook.design.theme.ChefBookTheme
 import com.mysty.chefbook.design.theme.dimens.ButtonSmallHeight
@@ -42,115 +42,122 @@ import com.mysty.chefbook.design.theme.shapes.RoundedCornerShape12
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun Counter(
-    count: Int,
-    onMinusClicked: () -> Unit,
-    onPlusClicked: () -> Unit,
-    onValueChange: (String) -> Unit = {},
-    minCount: Int = 1,
-    maxCount: Int = 99,
-    isTextEditable: Boolean = false,
-    isMultiplier: Boolean = false,
+  count: Int,
+  onMinusClicked: () -> Unit,
+  onPlusClicked: () -> Unit,
+  onValueChange: (String) -> Unit = {},
+  minCount: Int = 1,
+  maxCount: Int = 99,
+  isTextEditable: Boolean = false,
+  isMultiplier: Boolean = false,
 ) {
-    val keyboardController = LocalSoftwareKeyboardController.current
+  val keyboardController = LocalSoftwareKeyboardController.current
 
-    val colors = LocalTheme.colors
-    val typography = LocalTheme.typography
+  val colors = LocalTheme.colors
+  val typography = LocalTheme.typography
 
-    val text = when {
-        count == 0 -> Strings.EMPTY
-        isMultiplier -> "x$count"
-        else -> "$count"
-    }
+  val text = when {
+    count == 0 -> Strings.EMPTY
+    isMultiplier -> "x$count"
+    else -> "$count"
+  }
 
-    Row(
-        modifier = Modifier
-            .wrapContentWidth()
-            .height(ButtonSmallHeight)
-            .clippedBackground(colors.backgroundSecondary, RoundedCornerShape12)
+  Row(
+    modifier = Modifier
+      .wrapContentWidth()
+      .height(ButtonSmallHeight)
+      .clippedBackground(colors.backgroundSecondary, RoundedCornerShape12)
+  ) {
+    CounterButton(
+      iconId = R.drawable.ic_remove,
+      isEnabled = count > minCount,
+      onClick = onMinusClicked
+    )
+    CounterDecorator()
+    Box(
+      modifier = Modifier
+        .width(48.dp)
+        .fillMaxHeight()
+        .background(colors.backgroundSecondary),
+      contentAlignment = Alignment.Center,
     ) {
-        CounterButton(iconId = R.drawable.ic_remove, isEnabled = count > minCount, onClick = onMinusClicked)
-        CounterDecorator()
-        Box(
-            modifier = Modifier
-                .width(48.dp)
-                .fillMaxHeight()
-                .background(colors.backgroundSecondary),
-            contentAlignment = Alignment.Center,
-        ) {
-            TextField(
-                value = text,
-                onValueChange = onValueChange,
-                modifier = Modifier.clip(RectangleShape),
-                maxLines = 1,
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Number,
-                    imeAction = ImeAction.Done
-                ),
-                keyboardActions = KeyboardActions(
-                    onDone = { keyboardController?.hide() }
-                ),
-                readOnly = !isTextEditable,
-                textStyle = typography.headline1.copy(color = colors.foregroundPrimary, textAlign = TextAlign.Center),
-                contentPadding = PaddingValues(0.dp)
-            )
-        }
-        CounterDecorator()
-        CounterButton(iconId = R.drawable.ic_add, isEnabled = count < maxCount, onClick = onPlusClicked)
+      TextField(
+        value = text,
+        onValueChange = onValueChange,
+        modifier = Modifier.clip(RectangleShape),
+        maxLines = 1,
+        keyboardOptions = KeyboardOptions(
+          keyboardType = KeyboardType.Number,
+          imeAction = ImeAction.Done
+        ),
+        keyboardActions = KeyboardActions(
+          onDone = { keyboardController?.hide() }
+        ),
+        readOnly = !isTextEditable,
+        textStyle = typography.headline1.copy(
+          color = colors.foregroundPrimary,
+          textAlign = TextAlign.Center
+        ),
+        contentPadding = PaddingValues(0.dp)
+      )
     }
+    CounterDecorator()
+    CounterButton(iconId = R.drawable.ic_add, isEnabled = count < maxCount, onClick = onPlusClicked)
+  }
 }
 
 @Composable
 private fun CounterButton(
-    @DrawableRes iconId: Int,
-    isEnabled: Boolean,
-    onClick: () -> Unit,
+  @DrawableRes iconId: Int,
+  isEnabled: Boolean,
+  onClick: () -> Unit,
 ) =
-    IconButton(
-        onClick = onClick,
-        modifier = Modifier.size(ButtonSmallHeight),
-        enabled = isEnabled,
-    ) {
-        Icon(
-            imageVector = ImageVector.vectorResource(iconId),
-            tint = if (isEnabled) LocalTheme.colors.foregroundPrimary else LocalTheme.colors.foregroundSecondary,
-            contentDescription = null,
-        )
-    }
+  IconButton(
+    onClick = onClick,
+    modifier = Modifier.size(ButtonSmallHeight),
+    enabled = isEnabled,
+  ) {
+    Icon(
+      imageVector = ImageVector.vectorResource(iconId),
+      tint = if (isEnabled) LocalTheme.colors.foregroundPrimary else LocalTheme.colors.foregroundSecondary,
+      contentDescription = null,
+    )
+  }
 
 @Composable
 private fun CounterDecorator() =
-    Spacer(
-        modifier = Modifier
-            .width(2.dp)
-            .fillMaxHeight()
-            .background(LocalTheme.colors.backgroundTertiary)
-    )
+  Spacer(
+    modifier = Modifier
+      .width(2.dp)
+      .fillMaxHeight()
+      .background(LocalTheme.colors.backgroundTertiary)
+  )
 
 @Composable
 @Preview(showBackground = true)
 fun PreviewLightCounter() {
-    ThemedCounter(false)
+  ThemedCounter(false)
 }
 
 @Composable
 @Preview(showBackground = true)
 fun PreviewDarkCounter() {
-    ThemedCounter(true)
+  ThemedCounter(true)
 }
 
 @Composable
 private fun ThemedCounter(
-    isDarkTheme: Boolean
+  isDarkTheme: Boolean
 ) {
-    ChefBookTheme(darkTheme = isDarkTheme) {
-        Surface(
-            color = LocalTheme.colors.backgroundPrimary
-        ) {
-            Counter(
-                count = 1,
-                onMinusClicked = {},
-                onPlusClicked = {},
-            )
-        }
+  ChefBookTheme(darkTheme = isDarkTheme) {
+    Surface(
+      color = LocalTheme.colors.backgroundPrimary
+    ) {
+      Counter(
+        count = 1,
+        onMinusClicked = {},
+        onPlusClicked = {},
+      )
     }
+  }
 }

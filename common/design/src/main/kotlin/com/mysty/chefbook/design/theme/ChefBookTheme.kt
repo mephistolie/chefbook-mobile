@@ -2,7 +2,7 @@ package com.mysty.chefbook.design.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
-import com.mysty.chefbook.core.ui.compose.providers.theme.ThemeProvider
+import com.mysty.chefbook.core.android.compose.providers.theme.ThemeProvider
 import com.mysty.chefbook.design.theme.colors.palettes.DarkPalette
 import com.mysty.chefbook.design.theme.colors.palettes.LightPalette
 import com.mysty.chefbook.design.theme.typography.Typography

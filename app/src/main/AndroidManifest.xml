@@ -17,7 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ChefBook">
         <activity
-            android:name="com.cactusknights.chefbook.ui.screens.MainActivity"
+            android:name="com.cactusknights.chefbook.ui.MainActivity"
             android:theme="@style/Theme.ChefBook"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize"
@@ -37,26 +37,26 @@
             android:theme="@style/Base.Theme.AppCompat"/>
 
         <activity-alias
-            android:name="com.cactusknights.chefbook.core.StandardIconAlias"
+            android:name="com.cactusknights.chefbook.icons.StandardIconAlias"
             android:enabled="true"
             android:exported="true"
             android:icon="@mipmap/ic_broccy_icon"
             android:roundIcon="@mipmap/ic_broccy_icon_round"
             android:label="ChefBook"
-            android:targetActivity="com.cactusknights.chefbook.ui.screens.MainActivity">
+            android:targetActivity="com.cactusknights.chefbook.ui.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity-alias>
         <activity-alias
-            android:name="com.cactusknights.chefbook.core.OldIconAlias"
+            android:name="com.cactusknights.chefbook.icons.OldIconAlias"
             android:enabled="false"
             android:exported="true"
             android:icon="@mipmap/ic_chefbook_icon"
             android:roundIcon="@mipmap/ic_chefbook_icon_round"
             android:label="ChefBook"
-            android:targetActivity="com.cactusknights.chefbook.ui.screens.MainActivity">
+            android:targetActivity="com.cactusknights.chefbook.ui.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

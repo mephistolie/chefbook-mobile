@@ -1,7 +1,7 @@
 package com.mysty.chefbook.design.theme.colors.palettes
 
 import androidx.compose.ui.graphics.Color
-import com.mysty.chefbook.core.ui.compose.providers.theme.Colors
+import com.mysty.chefbook.core.android.compose.providers.theme.Colors
 import com.mysty.chefbook.design.theme.colors.DeepOrangeDark
 import com.mysty.chefbook.design.theme.colors.DeepOrangeLight
 

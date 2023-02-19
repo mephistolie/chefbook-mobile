@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.mephistolie.compost.ui.checkboxes.CircleCheckbox
-import com.mysty.chefbook.core.ui.compose.providers.theme.LocalTheme
+import com.mysty.chefbook.core.android.compose.providers.theme.LocalTheme
 
 @Composable
 fun Checkbox(

@@ -1,47 +1,22 @@
+
+import com.mysty.chefbook.plugins.android.configureCompose
+import com.mysty.chefbook.plugins.android.setNamespace
+
 plugins {
-    id("com.android.library")
-    id("org.jetbrains.kotlin.android")
+  id("common-android-module")
 }
 
-android {
-    namespace = "com.mysty.chefbook.design"
-    compileSdk = Project.compileSdk
-
-    defaultConfig {
-        minSdk = Project.minSdk
-    }
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = Dependencies.Compose.version
-    }
-
-    kotlinOptions {
-        jvmTarget = "${JavaVersion.VERSION_11}"
-    }
-
-    buildFeatures {
-        compose = true
-    }
-}
+setNamespace("com.mysty.chefbook.design")
+configureCompose(
+  extraDependencies = listOf(
+    Dependencies.Compose.material,
+    Dependencies.Compose.uiTooling,
+    Dependencies.Compost.ui,
+    Dependencies.Images.coilCompose,
+  )
+)
 
 dependencies {
-    implementation(project(Modules.Common.core))
-    implementation(project(Modules.Common.coreUi))
-
-    implementation(Dependencies.Compose.runtime)
-    implementation(Dependencies.Compose.ui)
-    implementation(Dependencies.Compose.uiTooling)
-
-    implementation(Dependencies.Accompanist.pager)
-    implementation(Dependencies.Accompanist.pagerIndicator)
-
-    implementation(Dependencies.Compost.core)
-    implementation(Dependencies.Compost.ui)
-
-    implementation(Dependencies.Images.coil)
-    implementation(Dependencies.Images.coilCompose)
+  implementation(project(Modules.Common.core))
+  implementation(project(Modules.Common.coreAndroid))
 }

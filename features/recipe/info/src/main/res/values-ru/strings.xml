@@ -1,0 +1,14 @@
+<resources>
+
+    <string name="common_recipe_screen_in_favourite">В избранном</string>
+    <string name="common_recipe_screen_management">Управление</string>
+    <string name="common_recipe_screen_servings_count">Порций: %1$s</string>
+    <string name="common_recipe_screen_add_to_shopping_list">Добавить к покупкам</string>
+    <string name="common_recipe_screen_ingredients_added_to_shopping_list">Выбранные ингредиенты добавлены в список покупок</string>
+    <string name="common_recipe_screen_recipe_not_found">Рецепт не найден</string>
+    <string name="common_recipe_screen_recipe_not_found_description">Пожалуйста, проверьте, что:\n• Рецепт существует\n• У вас есть доступ</string>
+
+    <string name="common_recipe_share_dialog_recipe_copied_as_text">Рецепт скопирован как текст</string>
+    <string name="common_recipe_share_dialog_send_as_text">Отправить текстом</string>
+
+</resources>

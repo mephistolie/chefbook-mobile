@@ -2,7 +2,7 @@ package com.mysty.chefbook.design.components.radibuttons
 
 import androidx.compose.runtime.Composable
 import com.mephistolie.compost.ui.radiobuttons.OutlineRadioButton
-import com.mysty.chefbook.core.ui.compose.providers.theme.LocalTheme
+import com.mysty.chefbook.core.android.compose.providers.theme.LocalTheme
 
 @Composable
 fun RadioButton(

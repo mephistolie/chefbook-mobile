@@ -21,8 +21,8 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mephistolie.compost.ui.textfields.IndicatorLineTextField
+import com.mysty.chefbook.core.android.compose.providers.theme.LocalTheme
 import com.mysty.chefbook.core.constants.Strings
-import com.mysty.chefbook.core.ui.compose.providers.theme.LocalTheme
 import com.mysty.chefbook.design.R
 import com.mysty.chefbook.design.theme.ChefBookTheme
 import com.mysty.chefbook.design.theme.dimens.DividerHeight

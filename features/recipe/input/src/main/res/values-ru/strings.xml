@@ -1,0 +1,18 @@
+<resources>
+
+    <string name="common_recipe_input_screen_new_recipe">Новый рецепт</string>
+    <string name="common_recipe_input_screen_edit_recipe">Изменить рецепт</string>
+    <string name="common_recipe_input_screen_close_warning">Все изменения будут потеряны</string>
+    <string name="common_recipe_input_screen_add_cover">Добавить обложку</string>
+    <string name="common_recipe_input_screen_per_100_g">на 100 г</string>
+    <string name="common_recipe_input_screen_private_description">Доступно только вам\nНикто не сможет увидеть этот рецепт</string>
+    <string name="common_recipe_input_screen_shared_description">Доступно пользователям по ссылке\nПодходит, чтобы поделиться с друзьями</string>
+    <string name="common_recipe_input_screen_public_description">Доступно в разделе \"Сообщества\"\nУбедитесь, что не нарушаете авторское право</string>
+    <string name="common_recipe_input_screen_standard_description">Рецепт хранится в человекочитаемом виде\nБыстрее, подходит для абсолютного большинства ситуаций</string>
+    <string name="common_recipe_input_screen_encrypted_description">Весь текст и изображения хранятся в зашифрованном виде\nМаксимальная конфиденциальность\nНедоступно для рецептов сообщества</string>
+    <string name="common_recipe_input_screen_language_dialog_description">У ChefBook многоязычное сообщество\nПожалуйста, указывайте язык для публичных рецептов, чтобы пользователям было легче их находить</string>
+    <string name="common_recipe_input_screen_recipe_saved">Рецепт сохранен</string>
+    <string name="common_recipe_input_screen_open_recipe">Открыть рецепт</string>
+    <string name="common_recipe_input_screen_back_to_recipe_book">Вернуться к рецептам</string>
+
+</resources>

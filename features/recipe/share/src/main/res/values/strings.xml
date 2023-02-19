@@ -1,0 +1,7 @@
+<resources>
+
+    <string name="common_recipe_share_dialog_copy_link">Copy Link</string>
+    <string name="common_recipe_share_dialog_send_as_text">Send as text</string>
+    <string name="common_recipe_share_dialog_recipe_copied_as_text">Recipe copied as text</string>
+
+</resources>

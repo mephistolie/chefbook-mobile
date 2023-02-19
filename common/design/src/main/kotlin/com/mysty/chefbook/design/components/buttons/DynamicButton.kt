@@ -26,8 +26,8 @@ import androidx.compose.ui.unit.dp
 import com.mephistolie.compost.extensions.Shading
 import com.mephistolie.compost.modifiers.clippedBackground
 import com.mephistolie.compost.modifiers.scalingClickable
-import com.mysty.chefbook.core.ui.compose.constants.ShortDebounceInterval
-import com.mysty.chefbook.core.ui.compose.providers.theme.LocalTheme
+import com.mysty.chefbook.core.android.compose.constants.ShortDebounceInterval
+import com.mysty.chefbook.core.android.compose.providers.theme.LocalTheme
 import com.mysty.chefbook.design.theme.dimens.DefaultIconSize
 
 @Composable

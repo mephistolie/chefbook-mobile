@@ -8,13 +8,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.mysty.chefbook.core.ui.compose.providers.theme.LocalTheme
+import com.mysty.chefbook.core.android.compose.providers.theme.LocalTheme
 import com.mysty.chefbook.design.R
 import com.mysty.chefbook.design.theme.dimens.MediumIconSize
 
 @Composable
 fun BottomSheetCloseButton(
-    modifier: Modifier = Modifier,
+    horizontalPadding: Dp = 16.dp,
+    verticalPadding: Dp = horizontalPadding,
     iconSize: Dp = MediumIconSize,
     onClick: () -> Unit,
 ) {
@@ -23,8 +24,11 @@ fun BottomSheetCloseButton(
     CircleIconButton(
         iconId = R.drawable.ic_cross,
         onClick = onClick,
-        modifier = modifier
-            .padding(16.dp)
+        modifier = Modifier
+            .padding(
+                horizontal = horizontalPadding,
+                vertical = verticalPadding,
+            )
             .size(iconSize),
         colors = ButtonDefaults.buttonColors(backgroundColor = colors.foregroundPrimary.copy(alpha = 0.25F)),
         tint = Color.White,
