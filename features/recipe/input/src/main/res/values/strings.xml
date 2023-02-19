@@ -1,0 +1,18 @@
+<resources>
+
+    <string name="common_recipe_input_screen_new_recipe">New recipe</string>
+    <string name="common_recipe_input_screen_edit_recipe">Edit recipe</string>
+    <string name="common_recipe_input_screen_close_warning">All changes will be lost</string>
+    <string name="common_recipe_input_screen_add_cover">Add cover</string>
+    <string name="common_recipe_input_screen_per_100_g">per 100 g</string>
+    <string name="common_recipe_input_screen_private_description">Available only to you\nNo one will be able to see this recipe</string>
+    <string name="common_recipe_input_screen_shared_description">Available to users via the link\nSuitable to share with friends</string>
+    <string name="common_recipe_input_screen_public_description">Available at \"Community\" screen\nMake sure you don\'t violate copyright</string>
+    <string name="common_recipe_input_screen_standard_description">Recipe is stored in human-readable form\nFaster, suitable for absolute majority of situations</string>
+    <string name="common_recipe_input_screen_encrypted_description">All text and images are stored encrypted\nMaximum privacy\nNot available to the recipes community</string>
+    <string name="common_recipe_input_screen_language_dialog_description">ChefBook has a multilingual community\nPlease specify language for public recipes to make them easier to find by users</string>
+    <string name="common_recipe_input_screen_recipe_saved">Recipe saved</string>
+    <string name="common_recipe_input_screen_open_recipe">Open recipe</string>
+    <string name="common_recipe_input_screen_back_to_recipe_book">Back to recipes</string>
+
+</resources>

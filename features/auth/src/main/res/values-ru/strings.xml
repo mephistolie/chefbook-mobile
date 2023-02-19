@@ -1,0 +1,23 @@
+<resources>
+
+    <string name="common_auth_screen_sign_in">Войти</string>
+    <string name="common_auth_screen_sign_up">Зарегистрироваться</string>
+    <string name="common_auth_screen_forgot_password">Забыли пароль?</string>
+    <string name="common_auth_screen_not_member">Еще не участник?</string>
+    <string name="common_auth_screen_already_member">Уже участник?</string>
+    <string name="common_auth_screen_repeat_password">Повторите пароль</string>
+    <string name="common_auth_screen_reset_password">Сбросить пароль</string>
+    <string name="common_auth_screen_invalid_email">Введите корректную почту</string>
+    <string name="common_auth_screen_short_password">Пароль должен содержать хотя бы 8 символов</string>
+    <string name="common_auth_screen_lower_password">Пароль должен содержать хотя бы 1 строчную букву</string>
+    <string name="common_auth_screen_upper_password">Пароль должен содержать хотя бы 1 заглавную букву</string>
+    <string name="common_auth_screen_number_password">Пароль должен содержать хотя бы 1 цифру</string>
+    <string name="common_auth_screen_space_password">Пароль не должен содержать пробел</string>
+    <string name="common_auth_screen_password_mismatch">Пароли не совпадают</string>
+    <string name="common_auth_screen_sign_in_success">Успешный вход</string>
+    <string name="common_auth_screen_sign_up_success">Ссылка для подтверждения регистрации была отправлена на указанную почту</string>
+    <string name="common_auth_screen_reset_password_success">Ссылка для сброса пароля была отправлена на указанную почту</string>
+    <string name="common_auth_screen_sign_in_google_failure">Не удалось войти через Google</string>
+    <string name="common_auth_screen_unable_send_email">Не удается отправить письмо на указанную почту. Пожалуйста, повторите попытку</string>
+
+</resources>

@@ -13,8 +13,8 @@ Common information can be found at [main repository](https://github.com/mephisto
 * **Reactive Code**: Kotlin Flow
 * **Build Tool:** Gradle Kotlin DSL
 ### Dependencies
-* **DI Framework:** Hilt
-* **Settings:** Proto DataStore
+* **DI Framework:** Koin
+* **Local storage:** Proto DataStore / Room
 * **Navigation:** Jetpack Navigation Component
 * **Network:** OkHttp3 / Retrofit2
 * **Images:** Coil

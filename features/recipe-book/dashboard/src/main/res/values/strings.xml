@@ -1,0 +1,7 @@
+<resources>
+
+    <string name="common_recipe_book_screen_all_recipes">All recipes</string>
+    <string name="common_recipe_book_screen_quick_access">Quick access</string>
+    <string name="common_recipe_book_screen_community_recipes">Community recipes</string>
+
+</resources>

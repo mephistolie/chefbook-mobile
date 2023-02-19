@@ -1,0 +1,7 @@
+<resources>
+
+    <string name="common_recipe_share_dialog_copy_link">Скопировать ссылку</string>
+    <string name="common_recipe_share_dialog_recipe_copied_as_text">Рецепт скопирован как текст</string>
+    <string name="common_recipe_share_dialog_send_as_text">Отправить текстом</string>
+
+</resources>

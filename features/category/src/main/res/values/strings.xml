@@ -1,0 +1,9 @@
+<resources>
+
+    <string name="common_category_screen_category_delete_warning">Category will be deleted</string>
+
+    <string name="common_category_input_dialog_enter_name">Please, enter name</string>
+    <string name="common_category_input_dialog_new_category">New category</string>
+    <string name="common_category_input_dialog_edit_category">Category editing</string>
+
+</resources>
