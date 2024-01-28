@@ -1,0 +1,33 @@
+CREATE TABLE category (
+    category_id TEXT PRIMARY KEY NOT NULL,
+    owner_id TEXT NOT NULL,
+    name TEXT NOT NULL,
+    emoji TEXT DEFAULT NULL
+);
+
+selectAll:
+SELECT category_id, owner_id, name, emoji
+FROM category;
+
+select:
+SELECT category_id, owner_id, name, emoji
+FROM category WHERE category_id = ?;
+
+insert:
+INSERT INTO category(category_id, owner_id, name, emoji)
+VALUES ?;
+
+update:
+UPDATE category SET name = ?, emoji = ?
+WHERE category_id = ?;
+
+delete:
+DELETE FROM category
+WHERE category_id = ?;
+
+clear:
+DELETE FROM category;
+
+clearExcept:
+DELETE FROM category
+WHERE owner_id <> ?;

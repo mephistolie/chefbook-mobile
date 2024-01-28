@@ -1,0 +1,8 @@
+<resources>
+
+    <string name="common_dashboard_screen_home">Главная</string>
+    <string name="common_dashboard_screen_all_recipes">Все рецепты</string>
+    <string name="common_dashboard_screen_quick_access">Быстрый доступ</string>
+    <string name="common_dashboard_screen_community_recipes">Рецепты сообщества</string>
+
+</resources>

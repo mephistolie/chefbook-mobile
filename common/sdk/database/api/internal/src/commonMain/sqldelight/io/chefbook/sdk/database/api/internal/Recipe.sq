@@ -1,0 +1,141 @@
+CREATE TABLE recipe (
+    recipe_id TEXT PRIMARY KEY NOT NULL,
+    name TEXT NOT NULL,
+
+    owner_id TEXT NOT NULL DEFAULT "LOCAL_PROFILE",
+    owner_name TEXT DEFAULT NULL,
+    owner_avatar TEXT DEFAULT NULL,
+
+    owned INTEGER NOT NULL DEFAULT 0,
+    saved INTEGER NOT NULL DEFAULT 0,
+    visibility TEXT NOT NULL,
+    encrypted INTEGER NOT NULL DEFAULT 0,
+
+    language TEXT DEFAULT NULL,
+    description TEXT DEFAULT NULL,
+
+    creation_timestamp TEXT NOT NULL,
+    update_timestamp TEXT NOT NULL,
+    version INTEGER NOT NULL DEFAULT 1,
+
+    rating REAL NOT NULL DEFAULT 0.0,
+    score INTEGER DEFAULT NULL,
+    votes INTEGER NOT NULL DEFAULT 0,
+
+    tags TEXT NOT NULL DEFAULT "[]",
+    favourite INTEGER NOT NULL DEFAULT 0,
+
+    servings INTEGER DEFAULT NULL,
+    time INTEGER DEFAULT NULL,
+
+    calories INTEGER DEFAULT NULL,
+    protein INTEGER DEFAULT NULL,
+    fats INTEGER DEFAULT NULL,
+    carbohydrates INTEGER DEFAULT NULL,
+
+    ingredients TEXT NOT NULL,
+    cooking TEXT NOT NULL,
+    pictures TEXT NOT NULL DEFAULT "{}"
+);
+
+selectAll:
+SELECT
+    recipe_id, name,
+    owner_id, owner_name, owner_avatar,
+    owned, saved, visibility, encrypted,
+    language, description,
+    creation_timestamp, update_timestamp, version,
+    rating, score, votes,
+    tags, favourite,
+    servings, time,
+    calories, protein, fats, carbohydrates,
+    ingredients, cooking, pictures
+FROM recipe;
+
+select:
+SELECT
+    recipe_id, name,
+    owner_id, owner_name, owner_avatar,
+    owned, saved, visibility, encrypted,
+    language, description,
+    creation_timestamp, update_timestamp, version,
+    rating, score, votes,
+    tags, favourite,
+    servings, time,
+    calories, protein, fats, carbohydrates,
+    ingredients, cooking, pictures
+FROM recipe WHERE recipe_id = ?;
+
+getCategories:
+SELECT
+    category_id, name, emoji
+FROM category WHERE category_id IN (SELECT category_id FROM recipeCategory WHERE recipe_id = ?);
+
+insert:
+INSERT INTO recipe(
+    recipe_id, name,
+    owner_id, owner_name, owner_avatar,
+    owned, saved, visibility, encrypted,
+    language, description,
+    creation_timestamp, update_timestamp, version,
+    rating, score, votes,
+    tags, favourite,
+    servings, time,
+    calories, protein, fats, carbohydrates,
+    ingredients, cooking, pictures
+)
+VALUES ?;
+
+setPictures:
+UPDATE recipe SET pictures = ?
+WHERE recipe_id = ?;
+
+getVersion:
+SELECT version
+FROM recipe WHERE recipe_id = ?;
+
+setVersion:
+UPDATE recipe SET version = ?
+WHERE recipe_id = ?;
+
+update:
+UPDATE recipe
+SET
+    name = ?,
+    owner_id = ?, owner_name = ?, owner_avatar = ?,
+    owned = ?, saved = ?, visibility = ?, encrypted = ?,
+    language = ?, description = ?,
+    creation_timestamp = ?, update_timestamp = ?, version = ?,
+    rating = ?, score = ?, votes = ?,
+    tags = ?, favourite = ?,
+    servings = ?, time = ?,
+    calories = ?, protein = ?, fats = ?, carbohydrates = ?,
+    ingredients = ?, cooking = ?, pictures = ?
+WHERE recipe_id = ?;
+
+delete:
+DELETE FROM recipe
+WHERE recipe_id = ?;
+
+clear:
+DELETE FROM recipe;
+
+clearExceptUser:
+DELETE FROM recipe
+WHERE owner_id <> ?;
+
+setFavourite:
+UPDATE recipe SET favourite = ?
+WHERE recipe_id = ?;
+
+setSaved:
+UPDATE recipe SET saved = ?
+WHERE recipe_id = ?;
+
+setRating:
+UPDATE recipe SET rating = ?, score = ?, votes = ?
+WHERE recipe_id = ?;
+
+setScore:
+UPDATE recipe SET score = ?
+WHERE recipe_id = ?;

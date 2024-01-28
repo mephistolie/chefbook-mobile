@@ -1,7 +1,0 @@
-<resources>
-
-    <string name="common_recipe_book_screen_all_recipes">Все рецепты</string>
-    <string name="common_recipe_book_screen_quick_access">Быстрый доступ</string>
-    <string name="common_recipe_book_screen_community_recipes">Рецепты сообщества</string>
-
-</resources>

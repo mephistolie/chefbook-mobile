@@ -1,9 +1,0 @@
-<resources>
-
-    <string name="common_about_screen_title">О приложении</string>
-    <string name="common_about_screen_version">Версия %1$s</string>
-    <string name="common_about_screen_made_by">Сделано Михаилом Левиным</string>
-    <string name="common_about_screen_dedicated_to">Посвящено Т. И.</string>
-    <string name="common_about_screen_feedback">Обратная связь</string>
-
-</resources>

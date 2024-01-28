@@ -1,0 +1,21 @@
+CREATE TABLE recipeCategory (
+    recipe_id TEXT NOT NULL,
+    category_id TEXT NOT NULL,
+    FOREIGN KEY (recipe_id) REFERENCES recipe(recipe_id) ON DELETE CASCADE,
+    FOREIGN KEY (category_id) REFERENCES category(category_id) ON DELETE CASCADE
+);
+
+selectAll:
+SELECT
+    recipeCategory.recipe_id, recipeCategory.category_id,
+    category.name, category.emoji
+FROM recipeCategory
+LEFT JOIN category ON recipeCategory.category_id = category.category_id;
+
+insert:
+INSERT INTO recipeCategory(recipe_id, category_id)
+VALUES ?;
+
+clearRecipeCategories:
+DELETE FROM recipeCategory
+WHERE recipe_id = ?;

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/ic_list"
+        android:shortcutDisabledMessage="@string/common_general_shopping_list"
+        android:shortcutId="static"
+        android:shortcutLongLabel="@string/common_general_shopping_list"
+        android:shortcutShortLabel="@string/common_general_purchases">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetClass="io.chefbook.ui.MainActivity"
+            android:data="https://chefbook.io/shopping-list"
+            android:targetPackage="com.cactusknights.chefbook" />
+    </shortcut>
+</shortcuts>
