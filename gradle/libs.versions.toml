@@ -3,17 +3,17 @@ compileSdk = "34"
 targetSdk = "34"
 minSdk = "21"
 
-compose-compiler = "1.5.7"
+compose-compiler = "1.5.8"
 
-kotlin = "1.9.21"
+kotlin = "1.9.22"
 kotlin-coroutines = "1.7.3"
 kotlin-datetime = "0.5.0"
 
 jdk-desugar = "2.0.4"
 
-ksp = "1.9.21-1.0.16"
+ksp = "1.9.22-1.0.16"
 
-agp = "8.2.1"
+agp = "8.2.2"
 
 timber = "5.0.1"
 
@@ -29,8 +29,8 @@ spongycastle = "1.58.0.0"
 androidx-core-ktx = "1.12.0"
 androidx-appcompat = "1.6.1"
 androidx-activity-compose = "1.8.2"
-androidx-lifecycle-viewmodel-compose = "2.6.2"
-androidx-composeBom = "2023.10.01"
+androidx-lifecycle-viewmodel-compose = "2.7.0"
+androidx-composeBom = "2024.01.00"
 androidx-navigationCompose = "2.7.6"
 accompanist = "0.32.0"
 
