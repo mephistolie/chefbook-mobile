@@ -1,0 +1,13 @@
+<resources>
+
+    <string name="common_settings_screen_title">Settings</string>
+    <string name="common_settings_screen_theme">App theme</string>
+    <string name="common_settings_screen_icon">App icon</string>
+
+    <string name="common_settings_screen_default_tab">Default Tab</string>
+
+    <string name="common_settings_screen_open_saved_recipe_expanded">Open saved recipe expanded</string>
+
+    <string name="common_settings_screen_open_switch_environment">Switch environment</string>
+
+</resources>

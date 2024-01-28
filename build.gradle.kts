@@ -1,29 +1,10 @@
-buildscript {
-    repositories {
-        google()
-        mavenCentral()
-    }
-    dependencies {
-        classpath(Dependencies.androidGradlePlugin)
-        classpath(Dependencies.kotlinPlugin)
-
-        classpath(Dependencies.gmsPlugin)
-        classpath(Dependencies.Firebase.crashlyticsPlugin)
-
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.20")
-    }
+plugins {
+  alias(libs.plugins.android.application) apply false
+  alias(libs.plugins.android.library) apply false
+  alias(libs.plugins.kotlin.android) apply false
+  alias(libs.plugins.kotlin.multiplatform) apply false
 }
 
-allprojects {
-    repositories {
-        google()
-        mavenCentral()
-        maven(url = "https://jitpack.io")
-    }
-}
-
-tasks.create<Delete>("clean") {
-    delete {
-        rootProject.buildDir
-    }
+tasks.register("clean", Delete::class) {
+  delete(rootProject.parent?.buildDir)
 }

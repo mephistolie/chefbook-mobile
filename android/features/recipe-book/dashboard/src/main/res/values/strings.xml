@@ -1,0 +1,8 @@
+<resources>
+
+    <string name="common_dashboard_screen_home">Home</string>
+    <string name="common_dashboard_screen_all_recipes">All recipes</string>
+    <string name="common_dashboard_screen_quick_access">Quick access</string>
+    <string name="common_dashboard_screen_community_recipes">Community recipes</string>
+
+</resources>

@@ -1,0 +1,14 @@
+<resources>
+
+    <string name="common_profile_screen_data_exporting">Экспорт данных</string>
+    <string name="common_profile_screen_print_recipe_book">Распечатай свою книгу рецептов!</string>
+    <string name="common_profile_screen_profile_editing">Редактирование профиля</string>
+    <string name="common_profile_screen_change_profile">Сменить профиль</string>
+
+    <string name="common_profile_screen_app_settings">Настройки приложения</string>
+    <string name="common_profile_screen_rate_chefbook">Оценить ChefBook</string>
+    <string name="common_profile_screen_about_app">О приложении</string>
+
+    <string name="common_profile_screen_logout_warning">Вы выйдете из профиля на этом устройстве</string>
+
+</resources>

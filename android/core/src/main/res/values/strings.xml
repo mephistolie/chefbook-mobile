@@ -1,0 +1,144 @@
+<resources>
+    <string name="app_name" translatable="false">ChefBook</string>
+
+    <string name="common_general_id" translatable="false">ID</string>
+    <string name="common_general_ok">OK</string>
+    <string name="common_general_continue">Continue</string>
+    <string name="common_general_confirm">Confirm</string>
+    <string name="common_general_cancel">Cancel</string>
+    <string name="common_general_add">Add</string>
+    <string name="common_general_remove">Remove</string>
+    <string name="common_general_email">Email</string>
+    <string name="common_general_password">Password</string>
+    <string name="common_general_search">Search</string>
+    <string name="common_general_online">Online</string>
+    <string name="common_general_profile">Profile</string>
+    <string name="common_general_control">Control</string>
+    <string name="common_global_encrypted_vault">Encrypted Vault</string>
+    <string name="common_global_encryption">Encryption</string>
+    <string name="common_general_manage">Manage</string>
+    <string name="common_general_explore">Explore</string>
+    <string name="common_general_open">Open</string>
+    <string name="common_general_disabled">Disabled</string>
+    <string name="common_general_lock">Lock</string>
+    <string name="common_general_locked">Locked</string>
+    <string name="common_general_unlock">Unlock</string>
+    <string name="common_general_unlocked">Unlocked</string>
+    <string name="common_general_more">More</string>
+    <string name="common_general_less">Less</string>
+    <string name="common_general_favourite">Favourite</string>
+    <string name="common_general_recipes">Recipes</string>
+    <string name="common_general_no_recipes">No recipes</string>
+    <string name="common_general_recipe">Recipe</string>
+    <string name="common_general_name">Name</string>
+    <string name="common_general_cover">Cover</string>
+    <string name="common_general_time">Time</string>
+    <string name="common_general_hours">h</string>
+    <string name="common_general_minutes">min</string>
+    <string name="common_general_calories">Calories</string>
+    <string name="common_general_in_100_g">In 100 grams</string>
+    <string name="common_general_kcal">Kcal</string>
+    <string name="common_general_fats">Fats</string>
+    <string name="common_general_protein">Protein</string>
+    <string name="common_general_carbs">Carbs</string>
+    <string name="common_general_amount">Amount</string>
+    <string name="common_general_unit">Measure unit</string>
+    <string name="common_general_section">Section</string>
+    <string name="common_general_info">Info</string>
+    <string name="common_general_details">Details</string>
+    <string name="common_general_servings">Servings</string>
+    <string name="common_general_multiplier">Multiplier</string>
+    <string name="common_general_ingredients">Ingredients</string>
+    <string name="common_general_ingredient">Ingredient</string>
+    <string name="common_general_g">g</string>
+    <string name="common_general_kg">kg</string>
+    <string name="common_general_ml">ml</string>
+    <string name="common_general_l">l</string>
+    <string name="common_general_pcs">pcs</string>
+    <string name="common_general_tsp">tsp</string>
+    <string name="common_general_tbsp">tbsp</string>
+    <string name="common_general_cooking">Cooking</string>
+    <string name="common_general_step">Step</string>
+    <string name="common_general_categories">Categories</string>
+    <string name="common_general_category">Category</string>
+    <string name="common_general_shopping_list">Shopping List</string>
+    <string name="common_general_purchases">Purchases</string>
+    <string name="common_general_purchase">Purchase</string>
+    <string name="common_general_share">Share</string>
+    <string name="common_general_edit">Edit</string>
+    <string name="common_general_delete">Delete</string>
+    <string name="common_general_author">Author</string>
+    <string name="common_general_description">Description</string>
+    <string name="common_general_visibility">Visibility</string>
+    <string name="common_general_only_author">Only author</string>
+    <string name="common_general_by_link">By link</string>
+    <string name="common_general_community">Community</string>
+    <string name="common_general_creation_date">Creation date</string>
+    <string name="common_general_update_date">Update date</string>
+    <string name="common_general_save">Save</string>
+    <string name="common_general_saved">Saved</string>
+    <string name="common_general_link_copied">Link copied</string>
+    <string name="common_general_visible_to_you">Visible for you</string>
+    <string name="common_general_visible_by_link">Visible by link</string>
+    <string name="common_general_visible_to_everyone">Visible to everyone</string>
+    <string name="common_general_standard">Standard</string>
+    <string name="common_general_encrypted">Encrypted</string>
+    <string name="common_general_refresh">Refresh</string>
+    <string name="common_general_specify">Specify</string>
+    <string name="common_general_are_you_sure">Are you sure?</string>
+    <string name="common_general_cant_perform_operation">Can\'t perform operation</string>
+    <string name="common_general_nothing_found">Nothing found</string>
+
+    <string name="common_general_language">Language</string>
+    <string name="common_general_language_english">English</string>
+    <string name="common_general_language_russian">Russian</string>
+    <string name="common_general_language_ukrainian">Ukrainian</string>
+    <string name="common_general_language_belarusian">Belarusian</string>
+    <string name="common_general_language_kazakh">Kazakh</string>
+    <string name="common_general_language_armenian">Armenian</string>
+    <string name="common_general_language_georgian">Georgian</string>
+    <string name="common_general_language_serbian">Serbian</string>
+    <string name="common_general_language_french">French</string>
+    <string name="common_general_language_german">German</string>
+    <string name="common_general_language_italian">Italian</string>
+    <string name="common_general_language_spanish">Spanish</string>
+    <string name="common_general_language_turkish">Turkish</string>
+    <string name="common_general_language_hindi">Hindi</string>
+    <string name="common_general_language_portuguese">Portuguese</string>
+    <string name="common_general_language_bengali">Bengali</string>
+    <string name="common_general_language_japanese">Japanese</string>
+    <string name="common_general_language_korean">Korean</string>
+    <string name="common_general_language_chinese">Chinese</string>
+    <string name="common_general_language_arabian">Arabian</string>
+    <string name="common_general_language_persian">Persian</string>
+    <string name="common_general_language_other">Other</string>
+
+    <string name="common_general_empty_fields">Please fill in the fields</string>
+
+    <string name="common_general_network_error">Network error</string>
+    <string name="common_general_unknown_error">Unknown error</string>
+    <string name="common_general_something_went_wrong">Something went wrong…</string>
+
+    <string name="common_general_app_error">App error</string>
+    <string name="common_general_app_error_local_user">This action require online profile</string>
+    <string name="common_general_app_error_decryption_failed">Data decryption failed</string>
+    <string name="common_general_app_error_encrypted_vault_locked">Encrypted vault locked</string>
+
+    <string name="common_general_server_error">Server error</string>
+    <string name="common_general_server_error_old_version">Please, update app</string>
+    <string name="common_general_server_error_invalid_credentials">Email or password is incorrect</string>
+    <string name="common_general_server_error_profile_not_activated">Please, activate your profile first</string>
+    <string name="common_general_server_error_profile_blocked">Profile is blocked</string>
+    <string name="common_general_server_error_profile_exists">Profile with specified email already exists</string>
+    <string name="common_general_server_error_access_denied">Access denied</string>
+    <string name="common_general_server_error_authorization_failed">Authorization failed</string>
+    <string name="common_general_server_error_big_file">File being uploaded is too large</string>
+    <string name="common_general_server_error_invalid_activation_code">Invalid activation code</string>
+    <string name="common_general_server_error_invalid_recipe">Invalid recipe</string>
+    <string name="common_general_server_error_not_in_recipe_book">For this action, the recipe must be in your recipe book</string>
+
+    <string name="common_general_subscription">Subscription</string>
+    <string name="common_general_subscription_free" translatable="false">FREE</string>
+    <string name="common_general_subscription_premium" translatable="false">PREMIUM</string>
+
+</resources>

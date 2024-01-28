@@ -1,0 +1,13 @@
+<resources>
+
+    <string name="common_settings_screen_title">Настройки</string>
+    <string name="common_settings_screen_theme">Тема приложения</string>
+    <string name="common_settings_screen_icon">Иконка приложения</string>
+
+    <string name="common_settings_screen_default_tab">Вкладка по умолчанию</string>
+
+    <string name="common_settings_screen_open_saved_recipe_expanded">Открывать сохраненный рецепт в расширенном состоянии</string>
+
+    <string name="common_settings_screen_open_switch_environment">Переключить окружение</string>
+
+</resources>
