@@ -41,7 +41,6 @@ import io.chefbook.design.components.buttons.CircleIconButton
 import io.chefbook.design.theme.shapes.ModalBottomSheetShape
 import io.chefbook.design.theme.shapes.RoundedCornerShape24
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 internal fun EncryptedVaultScreenContent(
   state: EncryptedVaultScreenState,

@@ -8,6 +8,7 @@
     <string name="common_general_cancel">Cancel</string>
     <string name="common_general_add">Add</string>
     <string name="common_general_remove">Remove</string>
+    <string name="common_general_next">Next</string>
     <string name="common_general_email">Email</string>
     <string name="common_general_password">Password</string>
     <string name="common_general_search">Search</string>
@@ -88,6 +89,7 @@
     <string name="common_general_are_you_sure">Are you sure?</string>
     <string name="common_general_cant_perform_operation">Can\'t perform operation</string>
     <string name="common_general_nothing_found">Nothing found</string>
+    <string name="common_general_eula">EULA</string>
 
     <string name="common_general_language">Language</string>
     <string name="common_general_language_english">English</string>
@@ -126,10 +128,10 @@
 
     <string name="common_general_server_error">Server error</string>
     <string name="common_general_server_error_old_version">Please, update app</string>
-    <string name="common_general_server_error_invalid_credentials">Email or password is incorrect</string>
-    <string name="common_general_server_error_profile_not_activated">Please, activate your profile first</string>
+    <string name="common_general_server_error_invalid_credentials">Login or password is incorrect</string>
+    <string name="common_general_server_error_profile_not_activated">Profile not activated</string>
     <string name="common_general_server_error_profile_blocked">Profile is blocked</string>
-    <string name="common_general_server_error_profile_exists">Profile with specified email already exists</string>
+    <string name="common_general_server_error_profile_exists">Profile already exists</string>
     <string name="common_general_server_error_access_denied">Access denied</string>
     <string name="common_general_server_error_authorization_failed">Authorization failed</string>
     <string name="common_general_server_error_big_file">File being uploaded is too large</string>

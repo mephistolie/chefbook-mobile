@@ -1,20 +1,16 @@
 package io.chefbook.navigation.navigators
 
 import android.app.Activity
-import android.app.AlarmManager
-import android.app.PendingIntent
-import android.content.Context
 import android.content.Intent
 import androidx.navigation.NavHostController
 import com.google.accompanist.navigation.material.BottomSheetNavigator
 import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
 import com.ramcosta.composedestinations.navigation.navigate
 import com.ramcosta.composedestinations.navigation.popBackStack
-import io.chefbook.BuildConfig
 import io.chefbook.core.android.compose.providers.ContentType
 import io.chefbook.features.about.ui.destinations.AboutScreenDestination
-import io.chefbook.features.auth.navigation.AuthScreenNavigator
-import io.chefbook.features.auth.ui.destinations.AuthScreenDestination
+import io.chefbook.features.auth.form.navigation.AuthScreenNavigator
+import io.chefbook.features.auth.form.ui.destinations.AuthScreenDestination
 import io.chefbook.features.category.ui.input.destinations.CategoryInputDialogDestination
 import io.chefbook.features.encryption.ui.vault.destinations.EncryptedVaultScreenDestination
 import io.chefbook.features.profile.control.navigation.ProfileScreenNavigator
@@ -59,7 +55,6 @@ import io.chefbook.ui.common.dialogs.destinations.NonDismissibleTwoButtonsDialog
 import io.chefbook.ui.common.dialogs.destinations.PicturesViewerDestination
 import io.chefbook.ui.common.dialogs.utils.ErrorUtils
 import io.chefbook.ui.common.presentation.RecipeScreenPage
-import kotlin.random.Random
 
 
 @OptIn(ExperimentalMaterialNavigationApi::class)
@@ -126,7 +121,7 @@ class AppNavigator(
   }
 
   fun openAuthScreen() {
-    navController.navigate(AuthScreenDestination) {
+    navController.navigate(AuthScreenDestination()) {
       navController.currentDestination?.route?.let { route ->
         popUpTo(route) { inclusive = true}
       }
@@ -148,7 +143,6 @@ class AppNavigator(
   override fun openAboutAppScreen() {
     navController.navigate(AboutScreenDestination)
   }
-
   override fun openDashboardScreen() {
     navController.navigate(DashboardScreenDestination) {
       navController.currentDestination?.route?.let { route ->
@@ -284,6 +278,12 @@ class AppNavigator(
 
   override fun navigateUp(skipAnimation: Boolean) {
     if (skipAnimation || !hideBottomSheet()) navController.navigateUp()
+  }
+
+  override fun popBackStackToCurrent() {
+    navController.currentDestination?.route?.let { route ->
+      navController.popBackStack(route, false)
+    }
   }
 
   override fun restartApp() {

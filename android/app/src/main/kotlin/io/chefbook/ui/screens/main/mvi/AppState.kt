@@ -4,5 +4,6 @@ import io.chefbook.libs.mvi.MviState
 import io.chefbook.sdk.settings.api.external.domain.entities.AppTheme
 
 data class AppState(
+  val isSignedIn: Boolean? = null,
   val theme: AppTheme = AppTheme.SYSTEM,
 ) : MviState

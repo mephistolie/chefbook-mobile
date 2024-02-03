@@ -1,9 +1,9 @@
-package io.chefbook.features.auth.ui.mvi
+package io.chefbook.features.auth.form.ui.mvi
 
 import io.chefbook.libs.mvi.MviSideEffect
 
 internal sealed class AuthScreenEffect : MviSideEffect {
-  data class ShowMessage(val messageId: Int) : AuthScreenEffect()
-  data class OpenErrorDialog(val error: Throwable? = null) : AuthScreenEffect()
-  data object OpenHomeScreen : AuthScreenEffect()
+  data class ToastShown(val message: String) : AuthScreenEffect()
+  data class ErrorDialogOpened(val error: Throwable? = null) : AuthScreenEffect()
+  data object DashboardOpened : AuthScreenEffect()
 }

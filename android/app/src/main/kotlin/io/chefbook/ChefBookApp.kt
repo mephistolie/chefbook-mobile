@@ -22,7 +22,9 @@ class ChefBookApp : Application() {
   }
 
   private fun configureTimber() {
+    if (BuildConfig.DEBUG) {
       Logger.plantDebug()
+    }
   }
 
   private fun configureKoin() {

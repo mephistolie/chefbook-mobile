@@ -1,7 +1,7 @@
 package io.chefbook.di
 
 import io.chefbook.features.about.di.featureAboutModule
-import io.chefbook.features.auth.di.featureAuthModule
+import io.chefbook.features.auth.form.di.featureAuthModule
 import io.chefbook.features.category.di.featureCategoryModule
 import io.chefbook.features.encryption.di.featureEncryptionModule
 import io.chefbook.features.profile.control.di.featureProfileModule

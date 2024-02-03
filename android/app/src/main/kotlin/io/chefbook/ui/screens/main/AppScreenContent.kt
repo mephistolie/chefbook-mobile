@@ -30,9 +30,7 @@ import io.chefbook.features.recipe.info.ui.destinations.RecipeScreenDestination
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.design.theme.ChefBookTheme
 import io.chefbook.design.theme.colors.Monochrome7
-import io.chefbook.features.shoppinglist.control.ui.screen.destinations.ShoppingListScreenDestination
 import io.chefbook.sdk.settings.api.external.domain.entities.AppTheme
-import io.chefbook.sdk.shoppinglist.api.external.domain.entities.ShoppingList
 
 private val blackBackgroundModals =
   listOf(RecipeScreenDestination.route)
@@ -44,6 +42,8 @@ fun AppScreenContent(
   navigator: AppNavigator,
   isBackgroundBlurred: Boolean = false
 ) {
+  if (state.isSignedIn == null) return
+
   val resources = LocalContext.current.resources
 
   val blurRadius = animateDpAsState(
@@ -71,7 +71,10 @@ fun AppScreenContent(
         ModalBottomSheetDefaults.scrimColor
       },
     ) {
-      AppHost(navigator = navigator)
+      AppHost(
+        isSignedIn = state.isSignedIn,
+        navigator = navigator
+      )
     }
 
     AppThemeLaunchedEffect(

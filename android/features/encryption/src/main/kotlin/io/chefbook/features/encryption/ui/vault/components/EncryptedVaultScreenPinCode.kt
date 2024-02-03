@@ -30,7 +30,6 @@ import io.chefbook.design.components.textfields.PinCodeField
 import io.chefbook.design.theme.ChefBookTheme
 import io.chefbook.features.encryption.R
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 internal fun EncryptedVaultScreenPinCode(
   state: EncryptedVaultScreenState.PinCodeInput,
@@ -39,8 +38,6 @@ internal fun EncryptedVaultScreenPinCode(
 ) {
   val colors = LocalTheme.colors
   val typography = LocalTheme.typography
-
-  val view = LocalView.current
 
   val focusRequesters = remember {
     Array(EncryptedVaultScreenState.PIN_CODE_LENGTH) { FocusRequester() }

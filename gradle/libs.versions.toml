@@ -28,6 +28,12 @@ spongycastle = "1.58.0.0"
 
 androidx-core-ktx = "1.12.0"
 androidx-appcompat = "1.6.1"
+
+androidx-credentials = "1.3.0-alpha01"
+credentials-google = "1.1.0"
+
+google-play-core = "1.10.3"
+
 androidx-activity-compose = "1.8.2"
 androidx-lifecycle-viewmodel-compose = "2.7.0"
 androidx-composeBom = "2024.01.00"
@@ -87,7 +93,12 @@ android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", ver
 androidx-coreKtx = { group = "androidx.core", name = "core-ktx", version.ref = "androidx-core-ktx" }
 androidx-appCompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "androidx-appcompat" }
 androidx-datastore = { group = "androidx.datastore", name = "datastore", version.ref = "datastore" }
-androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "androidx-navigationCompose" }
+
+androidx-credentials = { group = "androidx.credentials", name = "credentials", version.ref = "androidx-credentials" }
+androidx-credentials-playServices = { group = "androidx.credentials", name = "credentials-play-services-auth", version.ref = "androidx-credentials" }
+credentials-google = { group = "com.google.android.libraries.identity.googleid", name = "googleid", version.ref = "credentials-google" }
+
+google-play-core = { group = "com.google.android.play", name = "core", version.ref = "google-play-core" }
 
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "androidx-composeBom" }
 androidx-compose-foundation = { group = "androidx.compose.foundation", name = "foundation" }
@@ -99,6 +110,7 @@ androidx-compose-material = { group = "androidx.compose.material", name = "mater
 
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "androidx-activity-compose" }
 androidx-lifecycle-viewmodel-compose = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "androidx-lifecycle-viewmodel-compose" }
+androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "androidx-navigationCompose" }
 
 accompanist-pager-indicators = { group = "com.google.accompanist", name = "accompanist-pager-indicators", version.ref = "accompanist" }
 

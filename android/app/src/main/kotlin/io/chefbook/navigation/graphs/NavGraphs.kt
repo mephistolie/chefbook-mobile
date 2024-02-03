@@ -1,7 +1,6 @@
 package io.chefbook.navigation.graphs
 
 import io.chefbook.features.about.ui.destinations.AboutScreenDestination
-import io.chefbook.features.auth.ui.destinations.AuthScreenDestination
 import io.chefbook.features.category.ui.input.destinations.CategoryInputDialogDestination
 import io.chefbook.features.encryption.ui.vault.destinations.EncryptedVaultScreenDestination
 import io.chefbook.features.profile.control.ui.destinations.ProfileScreenDestination
@@ -29,6 +28,7 @@ import io.chefbook.ui.common.dialogs.destinations.PicturesViewerDestination
 import com.ramcosta.composedestinations.spec.DestinationSpec
 import com.ramcosta.composedestinations.spec.NavGraphSpec
 import com.ramcosta.composedestinations.spec.Route
+import io.chefbook.features.auth.form.ui.destinations.AuthScreenDestination
 import io.chefbook.features.recipebook.dashboard.ui.destinations.DashboardScreenDestination
 import io.chefbook.features.shoppinglist.control.ui.screen.destinations.ShoppingListScreenDestination
 

@@ -1,4 +1,4 @@
-package io.chefbook.features.auth.ui.components
+package io.chefbook.features.auth.form.ui.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Row
@@ -29,7 +29,7 @@ internal fun ChefBookLogo(
     Image(
       imageVector = ImageVector.vectorResource(coreR.drawable.ic_broccy),
       contentDescription = null,
-      modifier = Modifier.size(48.dp)
+      modifier = Modifier.size(40.dp)
     )
     Spacer(Modifier.width(8.dp))
     Text(

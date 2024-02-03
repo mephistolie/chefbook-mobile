@@ -13,6 +13,7 @@ internal data class SignUpRequest(
   val password: String,
 )
 
+@Serializable
 internal data class SignUpResponse(
   @SerialName("userId")
   val userId: String,

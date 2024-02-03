@@ -1,5 +1,6 @@
 package io.chefbook.sdk.auth.impl.data.sources.remote.services.auth
 
+import io.chefbook.sdk.auth.impl.data.sources.remote.services.auth.dto.SignInGoogleRequest
 import io.chefbook.sdk.auth.impl.data.sources.remote.services.auth.dto.SignInRequest
 import io.chefbook.sdk.auth.impl.data.sources.remote.services.auth.dto.SignOutRequest
 import io.chefbook.sdk.auth.impl.data.sources.remote.services.auth.dto.SignUpRequest
@@ -16,7 +17,7 @@ internal class AuthApiServiceImpl(
   client: HttpClient,
 ) : ChefBookApiService(client), AuthApiService {
 
-  override suspend fun signUp(body: SignUpRequest): Result<SignUpResponse> = safeGet {
+  override suspend fun signUp(body: SignUpRequest): Result<SignUpResponse> = safePost {
     url("$AUTH_ROUTE/sign-up")
     setBody(body)
   }
@@ -24,12 +25,17 @@ internal class AuthApiServiceImpl(
   override suspend fun activateProfile(userId: String, code: String): Result<MessageResponse> =
     safeGet {
       url("$AUTH_ROUTE/activate")
-      parameter("userId", userId)
+      parameter("user_id", userId)
       parameter("code", code)
     }
 
   override suspend fun signIn(body: SignInRequest): Result<TokensResponse> = safePost {
     url("$AUTH_ROUTE/sign-in")
+    setBody(body)
+  }
+
+  override suspend fun signInGoogle(body: SignInGoogleRequest): Result<TokensResponse> = safePost {
+    url("$AUTH_ROUTE/google")
     setBody(body)
   }
 

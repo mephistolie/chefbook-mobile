@@ -101,14 +101,14 @@ private fun ThemedIndicatorFields(
           value = "",
           onValueChange = {},
           modifier = Modifier.fillMaxWidth(),
-          label = { Text(stringResource(R.string.common_general_email)) },
+          label = { Text("Email") },
         )
         Spacer(Modifier.height(8.dp))
         ThemedIndicatorTextField(
           value = "",
           onValueChange = {},
           modifier = Modifier.fillMaxWidth(),
-          label = { Text(stringResource(R.string.common_general_password)) },
+          label = { Text("Password") },
         )
       }
     }

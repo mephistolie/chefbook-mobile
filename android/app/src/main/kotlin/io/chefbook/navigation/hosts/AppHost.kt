@@ -6,11 +6,11 @@ import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
 import io.chefbook.navigation.graphs.NavGraphs
 import io.chefbook.navigation.hosts.dependencies.RecipeInputScreenDependencies
 import io.chefbook.navigation.hosts.dependencies.RecipeScreenDependencies
 import io.chefbook.navigation.navigators.AppNavigator
-import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
 import io.chefbook.features.category.ui.input.CategoryInputDialog
 import io.chefbook.features.category.ui.input.destinations.CategoryInputDialogDestination
 import io.chefbook.features.profile.control.ui.ProfileScreen
@@ -34,18 +34,22 @@ import com.ramcosta.composedestinations.manualcomposablecalls.dialogComposable
 import com.ramcosta.composedestinations.navigation.dependency
 import com.ramcosta.composedestinations.scope.resultBackNavigator
 import com.ramcosta.composedestinations.scope.resultRecipient
+import io.chefbook.features.auth.form.ui.destinations.AuthScreenDestination
+import io.chefbook.features.recipebook.dashboard.ui.destinations.DashboardScreenDestination
 import io.chefbook.navigation.results.category.CategoryActionResult
 import io.chefbook.navigation.results.dialogs.TwoButtonsDialogResult
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
 
-@OptIn(ExperimentalAnimationApi::class, ExperimentalMaterialNavigationApi::class)
+@OptIn(ExperimentalMaterialNavigationApi::class, ExperimentalAnimationApi::class)
 @Composable
 fun AppHost(
+  isSignedIn: Boolean,
   navigator: AppNavigator,
 ) {
   DestinationsNavHost(
     navGraph = NavGraphs.root,
+    startRoute = if (isSignedIn) DashboardScreenDestination else AuthScreenDestination,
     engine = rememberAnimatedNavHostEngine(
       rootDefaultAnimations = RootNavGraphDefaultAnimations(
         enterTransition = { slideInHorizontally(animationSpec = tween(300)) { it } },

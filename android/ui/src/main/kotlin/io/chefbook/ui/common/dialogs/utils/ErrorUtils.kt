@@ -27,8 +27,8 @@ object ErrorUtils {
       e.type == ServerException.INVALID_CREDENTIALS -> R.string.common_general_server_error_invalid_credentials
       e.type == ServerException.INVALID_ACTIVATION_LINK -> R.string.common_general_server_error_invalid_activation_code
       e.type == ServerException.ACCESS_DENIED -> R.string.common_general_server_error_access_denied
-      e.type == ServerException.USER_BLOCKED -> R.string.common_general_server_error_profile_blocked
-      e.type == ServerException.USER_EXISTS -> R.string.common_general_server_error_profile_exists
+      e.type == ServerException.PROFILE_BLOCKED -> R.string.common_general_server_error_profile_blocked
+      e.type == ServerException.PROFILE_EXISTS -> R.string.common_general_server_error_profile_exists
       e.type == ServerException.NOT_FOUND -> R.string.common_general_nothing_found
       else -> null
     }

@@ -14,14 +14,11 @@ import io.chefbook.navigation.navigators.AppNavigator
 import io.chefbook.ui.screens.main.mvi.AppEffect
 import com.google.accompanist.navigation.material.BottomSheetNavigator
 import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
-import io.chefbook.features.auth.ui.destinations.AuthScreenDestination
-import com.ramcosta.composedestinations.navigation.navigate
-import com.ramcosta.composedestinations.navigation.popUpTo
 import com.ramcosta.composedestinations.spec.DestinationStyle
 import com.ramcosta.composedestinations.spec.DestinationStyleBottomSheet
 import com.ramcosta.composedestinations.utils.destination
 import io.chefbook.core.android.compose.providers.ui.UiDependenciesProvider
-import io.chefbook.libs.logger.Logger
+import io.chefbook.features.auth.form.ui.destinations.AuthScreenDestination
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 
@@ -74,8 +71,12 @@ fun AppScreen() {
 
   LaunchedEffect(Unit) {
     appViewModel.effect.collect { effect ->
+      if (appState.value.isSignedIn == null) return@collect
+
       when (effect) {
-        is AppEffect.SignedOut -> navigator.openAuthScreen()
+        is AppEffect.SignedOut -> {
+          if (navController.currentBackStackEntry?.destination() != AuthScreenDestination) navigator.openAuthScreen()
+        }
       }
     }
   }

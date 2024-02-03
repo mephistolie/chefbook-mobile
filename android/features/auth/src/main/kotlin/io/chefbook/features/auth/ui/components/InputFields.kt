@@ -1,27 +1,28 @@
-package io.chefbook.features.auth.ui.components
+package io.chefbook.features.auth.form.ui.components
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Lock
-import androidx.compose.material.icons.rounded.Email
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import io.chefbook.core.android.R as coreR
+import io.chefbook.design.R as designR
 import io.chefbook.design.components.textfields.FilledTextField
 
 @Composable
-@OptIn(ExperimentalComposeUiApi::class)
-internal fun EmailInputField(
+internal fun LoginInputField(
   value: String,
   onValueChange: (String) -> Unit,
   modifier: Modifier = Modifier,
+  hint: String = stringResource(coreR.string.common_general_email),
   readOnly: Boolean = false,
   imeAction: ImeAction = ImeAction.Next,
 ) {
@@ -32,8 +33,8 @@ internal fun EmailInputField(
     onValueChange = onValueChange,
     modifier = modifier.fillMaxWidth(),
     readOnly = readOnly,
-    hint = stringResource(coreR.string.common_general_email),
-    icon = Icons.Rounded.Email,
+    hint = hint,
+    icon = ImageVector.vectorResource(designR.drawable.ic_user),
     keyboardOptions = KeyboardOptions(
       autoCorrect = false,
       keyboardType = KeyboardType.Email,
@@ -47,7 +48,6 @@ internal fun EmailInputField(
 }
 
 @Composable
-@OptIn(ExperimentalComposeUiApi::class)
 internal fun PasswordInputField(
   value: String,
   onValueChange: (String) -> Unit,

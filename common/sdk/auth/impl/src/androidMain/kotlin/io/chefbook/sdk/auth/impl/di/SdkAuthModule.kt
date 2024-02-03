@@ -1,6 +1,11 @@
 package io.chefbook.sdk.auth.impl.di
 
 import io.chefbook.sdk.auth.api.external.domain.usecases.ChooseLocalModeUseCase
+import io.chefbook.sdk.auth.api.external.domain.usecases.ActivateProfileUseCase
+import io.chefbook.sdk.auth.api.external.domain.usecases.ChangePasswordUseCase
+import io.chefbook.sdk.auth.api.external.domain.usecases.RequestPasswordResetUseCase
+import io.chefbook.sdk.auth.api.external.domain.usecases.ResetPasswordUseCase
+import io.chefbook.sdk.auth.api.external.domain.usecases.SignInGoogleUseCase
 import io.chefbook.sdk.auth.api.external.domain.usecases.SignInUseCase
 import io.chefbook.sdk.auth.api.external.domain.usecases.SignOutUseCase
 import io.chefbook.sdk.auth.api.external.domain.usecases.SignUpUseCase
@@ -20,7 +25,14 @@ import io.chefbook.sdk.auth.impl.data.sources.remote.services.auth.AuthApiServic
 import io.chefbook.sdk.auth.impl.data.sources.remote.services.auth.AuthApiServiceImpl
 import io.chefbook.sdk.auth.impl.data.sources.remote.services.auth.CurrentSessionApiService
 import io.chefbook.sdk.auth.impl.data.sources.remote.services.auth.CurrentSessionApiServiceImpl
+import io.chefbook.sdk.auth.impl.data.sources.remote.services.password.PasswordApiService
+import io.chefbook.sdk.auth.impl.data.sources.remote.services.password.PasswordApiServiceImpl
 import io.chefbook.sdk.auth.impl.domain.usecases.ChooseLocalModeUseCaseImpl
+import io.chefbook.sdk.auth.impl.domain.usecases.ActivateProfileUseCaseImpl
+import io.chefbook.sdk.auth.impl.domain.usecases.ChangePasswordUseCaseImpl
+import io.chefbook.sdk.auth.impl.domain.usecases.RequestPasswordResetUseCaseImpl
+import io.chefbook.sdk.auth.impl.domain.usecases.ResetPasswordUseCaseImpl
+import io.chefbook.sdk.auth.impl.domain.usecases.SignInGoogleUseCaseImpl
 import io.chefbook.sdk.auth.impl.domain.usecases.SignInUseCaseImpl
 import io.chefbook.sdk.auth.impl.domain.usecases.SignOutUseCaseImpl
 import io.chefbook.sdk.auth.impl.domain.usecases.SignUpUseCaseImpl
@@ -32,6 +44,7 @@ import org.koin.dsl.module
 
 val sdkAuthModule = module {
   singleOf(::AuthApiServiceImpl) bind AuthApiService::class
+  singleOf(::PasswordApiServiceImpl) bind PasswordApiService::class
   singleOf(::CurrentSessionApiServiceImpl) bind CurrentSessionApiService::class
 
   singleOf(::TokensDataSourceImpl) bind TokensDataSource::class
@@ -49,7 +62,12 @@ val sdkAuthModule = module {
   factoryOf(::CurrentSessionRepositoryImpl) bind CurrentSessionRepository::class
 
   factoryOf(::SignUpUseCaseImpl) bind SignUpUseCase::class
+  factoryOf(::ActivateProfileUseCaseImpl) bind ActivateProfileUseCase::class
   factoryOf(::SignInUseCaseImpl) bind SignInUseCase::class
+  factoryOf(::SignInGoogleUseCaseImpl) bind SignInGoogleUseCase::class
   factoryOf(::SignOutUseCaseImpl) bind SignOutUseCase::class
   factoryOf(::ChooseLocalModeUseCaseImpl) bind ChooseLocalModeUseCase::class
+  factoryOf(::RequestPasswordResetUseCaseImpl) bind RequestPasswordResetUseCase::class
+  factoryOf(::ResetPasswordUseCaseImpl) bind ResetPasswordUseCase::class
+  factoryOf(::ChangePasswordUseCaseImpl) bind ChangePasswordUseCase::class
 }

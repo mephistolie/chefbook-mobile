@@ -33,6 +33,7 @@ import io.chefbook.core.android.R as coreR
 import io.chefbook.design.R
 import io.chefbook.design.theme.ChefBookTheme
 import io.chefbook.design.theme.shapes.RoundedCornerShape12
+import io.chefbook.libs.logger.Logger
 
 @Composable
 fun FilledTextField(
@@ -82,7 +83,7 @@ fun FilledTextField(
           Icon(
             imageVector = ImageVector.vectorResource(if (visible.value) R.drawable.ic_eye else R.drawable.ic_eye_closed),
             tint = colors.foregroundSecondary,
-            contentDescription = stringResource(id = coreR.string.common_general_email),
+            contentDescription = null,
           )
         }
       }
@@ -95,6 +96,7 @@ fun FilledTextField(
     shape = RoundedCornerShape12,
     colors = TextFieldDefaults.textFieldColors(
       textColor = colors.foregroundPrimary,
+      cursorColor = colors.tintPrimary,
       focusedIndicatorColor = Color.Transparent,
       disabledIndicatorColor = Color.Transparent,
       unfocusedIndicatorColor = Color.Transparent,
@@ -128,7 +130,7 @@ private fun ThemedInputFields(
           value = "",
           onValueChange = {},
           modifier = Modifier.fillMaxWidth(),
-          hint = stringResource(coreR.string.common_general_email),
+          hint = "Email",
           icon = Icons.Rounded.Email,
           confidential = false
         )
@@ -137,7 +139,7 @@ private fun ThemedInputFields(
           value = "",
           onValueChange = {},
           modifier = Modifier.fillMaxWidth(),
-          hint = stringResource(coreR.string.common_general_password),
+          hint = "Password",
           icon = Icons.Rounded.Lock,
           confidential = true
         )

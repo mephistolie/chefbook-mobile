@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.fir.scopes.impl.overrides
+
 plugins {
   id("android-app-module")
 }

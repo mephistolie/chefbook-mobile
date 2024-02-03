@@ -3,6 +3,8 @@
     <string name="common_about_screen_title">О приложении</string>
     <string name="common_about_screen_version">Версия %1$s</string>
     <string name="common_about_screen_build">Сборка %1$s %2$s</string>
+    <string name="common_about_telegram">Канал Telegram</string>
+    <string name="common_about_vk">Сообщество ВК</string>
     <string name="common_about_screen_feedback">Обратная связь</string>
 
 </resources>

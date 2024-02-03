@@ -1,10 +1,12 @@
 <resources>
 
+    <string name="common_auth_screen_nickname_or_email">Nickname or email</string>
     <string name="common_auth_screen_sign_in">Sign In</string>
     <string name="common_auth_screen_sign_up">Sign Up</string>
+    <string name="common_auth_screen_new_password">New password</string>
     <string name="common_auth_screen_forgot_password">Forgot password?</string>
     <string name="common_auth_screen_not_member">Not a member yet?</string>
-    <string name="common_auth_screen_already_member">Already a member?</string>
+    <string name="common_auth_screen_already_member">Already member</string>
     <string name="common_auth_screen_repeat_password">Repeat password</string>
     <string name="common_auth_screen_reset_password">Reset password</string>
     <string name="common_auth_screen_invalid_email">Type correct email</string>
@@ -14,10 +16,10 @@
     <string name="common_auth_screen_number_password">Password must contain at least 1 digit</string>
     <string name="common_auth_screen_space_password">Password mustn\'t contain spaces</string>
     <string name="common_auth_screen_password_mismatch">Passwords don\'t match</string>
-    <string name="common_auth_screen_sign_in_success">Successful Login</string>
-    <string name="common_auth_screen_sign_up_success">Confirmation link was sent to specified email</string>
-    <string name="common_auth_screen_reset_password_success">Password reset link was sent to email</string>
-    <string name="common_auth_screen_sign_in_google_failure">Failed to sign in via Google</string>
-    <string name="common_auth_screen_unable_send_email">Unable to send mail with activation link. Please, try again</string>
+    <string name="common_auth_screen_agreement">By using app, you accept EULA</string>
+    <string name="common_auth_screen_activation_code">Enter code from mail</string>
+    <string name="common_auth_screen_profile_activated">Profile activated</string>
+    <string name="common_auth_screen_password_reset_mail">If the profile exists, password reset link has been sent to the mail. Open it.</string>
+    <string name="common_auth_screen_password_reset">Password has been reset</string>
 
 </resources>

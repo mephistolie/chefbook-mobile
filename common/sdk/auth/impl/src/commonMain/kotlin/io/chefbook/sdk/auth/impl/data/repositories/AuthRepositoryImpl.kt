@@ -2,8 +2,6 @@ package io.chefbook.sdk.auth.impl.data.repositories
 
 import io.chefbook.libs.coroutines.CoroutineScopes
 import io.chefbook.libs.coroutines.collectIn
-import io.chefbook.libs.logger.Logger
-import io.chefbook.libs.utils.result.EmptyResult
 import io.chefbook.libs.utils.result.asEmpty
 import io.chefbook.sdk.auth.api.internal.data.repositories.AuthRepository
 import io.chefbook.sdk.auth.impl.data.sources.local.TokensDataSource
@@ -31,8 +29,11 @@ internal class AuthRepositoryImpl(
     handleSessionDeath()
   }
 
-  override suspend fun signUp(email: String, password: String): EmptyResult =
+  override suspend fun signUp(email: String, password: String) =
     remoteSource.signUp(email, password)
+
+  override suspend fun activateProfile(userId: String, code: String) =
+    remoteSource.activateProfile(userId, code)
 
   override suspend fun signIn(login: String, password: String) =
     remoteSource.signIn(login, password)
@@ -41,6 +42,24 @@ internal class AuthRepositoryImpl(
         refreshClientTokens()
       }
       .asEmpty()
+
+  override suspend fun signInGoogle(idToken: String) =
+    remoteSource.signInGoogle(idToken)
+      .onSuccess {
+        tokensSource.updateTokens(it)
+        refreshClientTokens()
+      }
+      .asEmpty()
+
+  override suspend fun requestPasswordReset(login: String) =
+    remoteSource.requestPasswordReset(login)
+
+  override suspend fun resetPassword(userId: String, code: String, newPassword: String) =
+    remoteSource.resetPassword(userId, code, newPassword)
+
+  override suspend fun changePassword(oldPassword: String, newPassword: String) =
+    remoteSource.changePassword(oldPassword, newPassword)
+
 
   private fun handleSessionDeath() {
     tokensSource.observeTokens().collectIn(scopes.repository) { session ->

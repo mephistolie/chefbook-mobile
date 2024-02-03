@@ -1,32 +1,44 @@
-package io.chefbook.features.auth.ui
+package io.chefbook.features.auth.form.ui
 
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.animation.animateContentSize
+import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.scrollable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBarsPadding
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import io.chefbook.features.auth.ui.components.AuthButton
-import io.chefbook.features.auth.ui.components.ChefBookLogo
-import io.chefbook.features.auth.ui.components.InputBlock
-import io.chefbook.features.auth.ui.components.InvalidInputHint
-import io.chefbook.features.auth.ui.components.ScenarioSwitcher
-import io.chefbook.features.auth.ui.components.SignInOptionsBlock
-import io.chefbook.features.auth.ui.mvi.AuthAction
-import io.chefbook.features.auth.ui.mvi.AuthScreenIntent
-import io.chefbook.features.auth.ui.mvi.AuthScreenState
+import io.chefbook.core.android.R as coreR
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
-import io.chefbook.design.theme.ChefBookTheme
+import io.chefbook.design.components.text.HyperlinkText
+import io.chefbook.features.auth.form.ui.mvi.AuthScreenIntent
+import io.chefbook.features.auth.form.ui.mvi.AuthScreenState
+import io.chefbook.features.auth.form.R
+import io.chefbook.features.auth.form.ui.blocks.AnimatedAuthForm
+import io.chefbook.features.auth.form.ui.blocks.PasswordResetConfirmationForm
+import io.chefbook.features.auth.form.ui.blocks.PasswordResetForm
+import io.chefbook.features.auth.form.ui.blocks.ProfileActivationForm
+import io.chefbook.features.auth.form.ui.blocks.SignInForm
+import io.chefbook.features.auth.form.ui.blocks.SignInPasswordForm
+import io.chefbook.features.auth.form.ui.blocks.SignUpForm
+import io.chefbook.features.auth.form.ui.blocks.SignUpPasswordForm
+import io.chefbook.features.auth.form.ui.components.ChefBookLogo
 
 @Composable
 internal fun AuthScreenContent(
@@ -35,80 +47,75 @@ internal fun AuthScreenContent(
   modifier: Modifier = Modifier,
 ) {
   val colors = LocalTheme.colors
+  val typography = LocalTheme.typography
 
-  Column(
+  Box(
     modifier = modifier
       .fillMaxSize()
-      .padding(horizontal = 48.dp)
-      .systemBarsPadding()
-      .imePadding(),
-    verticalArrangement = Arrangement.Center,
-    horizontalAlignment = Alignment.CenterHorizontally,
+      .background(colors.backgroundPrimary)
+      .systemBarsPadding(),
+    contentAlignment = Alignment.Center,
   ) {
-    ChefBookLogo(modifier = Modifier.padding(bottom = 16.dp),)
-    InputBlock(
-      state = state,
-      onIntent = onIntent,
-    )
-    Spacer(Modifier.height(16.dp))
-    InvalidInputHint(
-      state = state,
-      modifier = Modifier.padding(bottom = 16.dp),
-    )
-    if (state.isLoading) {
-      CircularProgressIndicator(
-        color = colors.tintPrimary,
-        modifier = Modifier.size(36.dp)
-      )
-    } else {
-      AuthButton(
-        state = state,
-        onClick = { onIntent(AuthScreenIntent.AuthButtonClicked) }
-      )
-    }
-    SignInOptionsBlock(state = state)
-  }
-
-  ScenarioSwitcher(
-    state = state,
-    onIntent = onIntent,
-  )
-}
-
-@Composable
-@Preview(showBackground = true)
-fun PreviewLightSignInScreen() {
-  ThemedAuthScreen(AuthScreenState(action = AuthAction.SIGN_IN), isDarkTheme = false)
-}
-
-@Composable
-@Preview(showBackground = true)
-fun PreviewDarkSignUpScreen() {
-  ThemedAuthScreen(
-    AuthScreenState(action = AuthAction.SIGN_IN, isLoading = true),
-    isDarkTheme = true
-  )
-}
-
-@Composable
-@Preview(showBackground = true)
-fun PreviewDarkResetPasswordScreen() {
-  ThemedAuthScreen(AuthScreenState(action = AuthAction.RESET_PASSWORD), false)
-}
-
-@Composable
-private fun ThemedAuthScreen(
-  viewState: AuthScreenState,
-  isDarkTheme: Boolean
-) {
-  ChefBookTheme(darkTheme = isDarkTheme) {
-    Surface(
-      color = LocalTheme.colors.backgroundPrimary
+    Column(
+      modifier = Modifier
+        .fillMaxWidth()
+        .wrapContentHeight()
+        .animateContentSize()
+        .scrollable(orientation = Orientation.Vertical, state = rememberScrollState()),
+      horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-      AuthScreenContent(
-        state = viewState,
-        onIntent = {},
-      )
+      ChefBookLogo()
+      Spacer(modifier = Modifier.height(20.dp))
+      Box {
+        AnimatedAuthForm<AuthScreenState.Loading>(state) {
+          CircularProgressIndicator(
+            color = colors.tintPrimary,
+            modifier = Modifier
+              .fillMaxWidth()
+              .wrapContentWidth()
+              .padding(24.dp, 24.dp, 24.dp)
+              .size(48.dp),
+            strokeCap = StrokeCap.Round,
+          )
+        }
+        AnimatedAuthForm<AuthScreenState.SignUp>(state) {
+          SignUpForm(state = it, onIntent = onIntent)
+        }
+        AnimatedAuthForm<AuthScreenState.SignUpPassword>(state) {
+          SignUpPasswordForm(state = it, onIntent = onIntent)
+        }
+        AnimatedAuthForm<AuthScreenState.ProfileActivation>(state) {
+          ProfileActivationForm(state = it, onIntent = onIntent)
+        }
+        AnimatedAuthForm<AuthScreenState.SignIn>(state) {
+          SignInForm(state = it, onIntent = onIntent)
+        }
+        AnimatedAuthForm<AuthScreenState.SignIn>(state) {
+          SignInForm(state = it, onIntent = onIntent)
+        }
+        AnimatedAuthForm<AuthScreenState.SignInPassword>(state) {
+          SignInPasswordForm(state = it, onIntent = onIntent)
+        }
+        AnimatedAuthForm<AuthScreenState.PasswordReset>(state) {
+          PasswordResetForm(state = it, onIntent = onIntent)
+        }
+        AnimatedAuthForm<AuthScreenState.PasswordResetConfirmation>(state) {
+          PasswordResetConfirmationForm(state = it, onIntent = onIntent)
+        }
+      }
     }
+
+    HyperlinkText(
+      text = stringResource(R.string.common_auth_screen_agreement),
+      hyperlinks = listOf(stringResource(coreR.string.common_general_eula) to "https://chefbook.io/eula"),
+      modifier = Modifier
+        .align(Alignment.BottomCenter)
+        .padding(
+          start = 48.dp,
+          end = 48.dp,
+          bottom = 48.dp,
+        ),
+      style = typography.body2.copy(textAlign = TextAlign.Center),
+    )
   }
 }
