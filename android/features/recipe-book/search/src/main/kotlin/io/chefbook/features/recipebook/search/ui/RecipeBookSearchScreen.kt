@@ -6,9 +6,9 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import com.ramcosta.composedestinations.annotation.Destination
 import io.chefbook.features.recipebook.search.ui.mvi.RecipeBookSearchScreenEffect
 import io.chefbook.features.recipebook.search.ui.navigation.RecipeBookSearchScreenNavigator
-import com.ramcosta.composedestinations.annotation.Destination
 import org.koin.androidx.compose.getViewModel
 
 @OptIn(ExperimentalComposeUiApi::class)

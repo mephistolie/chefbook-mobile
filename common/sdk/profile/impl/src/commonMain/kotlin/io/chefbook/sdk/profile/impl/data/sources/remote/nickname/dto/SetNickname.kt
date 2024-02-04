@@ -1,4 +1,4 @@
-package io.chefbook.sdk.auth.impl.data.sources.remote.services.nickname.dto
+package io.chefbook.sdk.profile.impl.data.sources.remote.nickname.dto
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

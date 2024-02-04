@@ -17,10 +17,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.features.recipe.info.ui.components.common.tabs.RecipeTabsHeader
 import io.chefbook.features.recipe.info.ui.mvi.RecipeScreenIntent
 import io.chefbook.features.recipe.info.ui.mvi.RecipeScreenState
-import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import kotlinx.coroutines.launch
 
 @OptIn(

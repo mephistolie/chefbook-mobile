@@ -10,7 +10,6 @@ import io.chefbook.sdk.category.impl.data.sources.remote.services.dto.CreateCate
 import io.chefbook.sdk.category.impl.data.sources.remote.services.dto.toCreateCategoryRequest
 import io.chefbook.sdk.category.impl.data.sources.remote.services.dto.toEntity
 import io.chefbook.sdk.category.impl.data.sources.remote.services.dto.toUpdateCategoryRequest
-import io.chefbook.sdk.network.api.internal.service.dto.responses.IdResponse
 
 internal class RemoteCategorySourceImpl(
   private val api: CategoryApiService,

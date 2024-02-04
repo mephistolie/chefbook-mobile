@@ -1,11 +1,11 @@
 package io.chefbook.features.recipe.input.ui.viewmodel
 
-import io.chefbook.sdk.recipe.crud.api.external.domain.entities.RecipeInput.CookingItem
 import io.chefbook.features.recipe.input.ui.mvi.RecipeInputCookingScreenIntent
 import io.chefbook.features.recipe.input.ui.mvi.RecipeInputScreenEffect
 import io.chefbook.features.recipe.input.ui.mvi.RecipeInputScreenState
 import io.chefbook.libs.utils.uuid.generateUUID
 import io.chefbook.sdk.recipe.crud.api.external.domain.entities.RecipeInput
+import io.chefbook.sdk.recipe.crud.api.external.domain.entities.RecipeInput.CookingItem
 import kotlin.math.max
 import kotlin.math.min
 

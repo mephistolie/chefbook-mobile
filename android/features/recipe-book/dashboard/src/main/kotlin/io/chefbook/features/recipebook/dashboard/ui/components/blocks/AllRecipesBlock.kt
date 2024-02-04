@@ -10,11 +10,11 @@ import androidx.compose.material.Text
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import io.chefbook.core.android.compose.providers.theme.LocalTheme
+import io.chefbook.features.recipebook.dashboard.R
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.DecryptedRecipeInfo
 import io.chefbook.ui.common.components.recipe.RecipeCard
 import io.chefbook.ui.common.components.recipe.RecipeCardSkeleton
-import io.chefbook.core.android.compose.providers.theme.LocalTheme
-import io.chefbook.features.recipebook.dashboard.R
 
 const val ALL_RECIPES_CARD_KEY_PREFIX = "all_recipes_card"
 

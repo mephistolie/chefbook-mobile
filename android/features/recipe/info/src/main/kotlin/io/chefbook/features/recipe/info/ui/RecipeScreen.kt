@@ -1,10 +1,8 @@
 package io.chefbook.features.recipe.info.ui
 
 import androidx.compose.material.BottomSheetValue
-import androidx.compose.material.Button
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetValue
-import androidx.compose.material.Text
 import androidx.compose.material.rememberBottomSheetState
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
@@ -14,21 +12,21 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalContext
-import io.chefbook.features.recipe.control.navigation.RecipeControlScreenNavigator
-import io.chefbook.features.recipe.info.ui.mvi.RecipeScreenEffect
-import io.chefbook.features.recipe.info.ui.mvi.RecipeScreenState
-import io.chefbook.features.recipe.info.navigation.RecipeScreenNavigator
-import io.chefbook.ui.common.presentation.RecipeScreenPage
-import io.chefbook.ui.common.providers.RecipeEncryptionProvider
 import com.ramcosta.composedestinations.annotation.DeepLink
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.result.OpenResultRecipient
 import com.ramcosta.composedestinations.spec.DestinationStyleBottomSheet
 import io.chefbook.core.android.compose.providers.ContentType
 import io.chefbook.core.android.showToast
+import io.chefbook.features.recipe.control.navigation.RecipeControlScreenNavigator
+import io.chefbook.features.recipe.info.navigation.RecipeScreenNavigator
+import io.chefbook.features.recipe.info.ui.mvi.RecipeScreenEffect
+import io.chefbook.features.recipe.info.ui.mvi.RecipeScreenState
 import io.chefbook.navigation.params.dialogs.TwoButtonsDialogParams
 import io.chefbook.navigation.results.dialogs.TwoButtonsDialogResult
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.Recipe
+import io.chefbook.ui.common.presentation.RecipeScreenPage
+import io.chefbook.ui.common.providers.RecipeEncryptionProvider
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
@@ -94,12 +92,10 @@ fun RecipeScreen(
         is RecipeScreenEffect.OpenShareDialog -> navigator.openRecipeShareDialog(recipeId = effect.recipeId)
         is RecipeScreenEffect.OpenCategoryScreen -> navigator.openCategoryRecipesScreen(effect.categoryId)
         is RecipeScreenEffect.OpenPicturesViewer -> {
-          val isEncryptionEnabled =
-            (state.value as? RecipeScreenState.Success)?.recipe?.isEncryptionEnabled == true
           navigator.openPicturesViewer(
             pictures = effect.pictures.toTypedArray(),
             startIndex = effect.startIndex,
-            picturesType = if (isEncryptionEnabled) ContentType.DECRYPTABLE else ContentType.DECRYPTED
+            picturesType = if (isEncryptionEnabled.value) ContentType.DECRYPTABLE else ContentType.DECRYPTED
           )
         }
       }

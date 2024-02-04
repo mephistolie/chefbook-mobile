@@ -8,7 +8,6 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import io.chefbook.features.shoppinglist.control.ui.screen.state.ShoppingListSection
-import io.chefbook.libs.utils.uuid.generateUUID
 
 internal fun LazyListScope.shoppingListPurchases(
   shoppingList: List<ShoppingListSection>,

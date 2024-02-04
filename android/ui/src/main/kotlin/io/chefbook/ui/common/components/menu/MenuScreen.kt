@@ -27,10 +27,7 @@ fun MenuScreen(
     horizontalAlignment = Alignment.CenterHorizontally,
   ) {
     toolbar()
-    Column(
-      modifier = Modifier
-        .verticalScroll(rememberScrollState())
-    ) {
+    Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
       content()
     }
     Spacer(modifier = Modifier

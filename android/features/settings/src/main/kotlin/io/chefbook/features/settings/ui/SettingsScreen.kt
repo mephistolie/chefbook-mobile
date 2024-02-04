@@ -4,9 +4,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.platform.LocalContext
-import io.chefbook.features.settings.ui.mvi.SettingsScreenEffect
 import com.ramcosta.composedestinations.annotation.Destination
 import io.chefbook.features.settings.navigation.SettingsScreenNavigator
+import io.chefbook.features.settings.ui.mvi.SettingsScreenEffect
 import org.koin.androidx.compose.getViewModel
 
 @Destination(route = "settings")
@@ -16,8 +16,6 @@ fun SettingsScreen(
 ) {
   val viewModel: ISettingsScreenViewModel = getViewModel<SettingsScreenViewModel>()
   val state = viewModel.state.collectAsState()
-
-  val context = LocalContext.current
 
   SettingsScreenContent(
     state = state.value.settings,

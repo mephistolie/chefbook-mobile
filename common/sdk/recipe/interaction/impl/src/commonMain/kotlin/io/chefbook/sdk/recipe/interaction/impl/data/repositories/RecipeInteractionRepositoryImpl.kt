@@ -2,7 +2,6 @@ package io.chefbook.sdk.recipe.interaction.impl.data.repositories
 
 import io.chefbook.libs.exceptions.LocalProfileException
 import io.chefbook.libs.utils.result.EmptyResult
-import io.chefbook.libs.utils.result.successResult
 import io.chefbook.sdk.core.api.internal.data.repositories.DataSourcesRepository
 import io.chefbook.sdk.recipe.core.api.internal.data.cache.RecipesCache
 import io.chefbook.sdk.recipe.interaction.api.internal.data.sources.local.LocalRecipeInteractionSource

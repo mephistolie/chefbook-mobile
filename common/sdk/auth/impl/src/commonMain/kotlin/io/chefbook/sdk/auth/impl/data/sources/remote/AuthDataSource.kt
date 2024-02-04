@@ -14,10 +14,4 @@ internal interface AuthDataSource {
   suspend fun signInGoogle(token: String): Result<BearerTokens>
 
   suspend fun signOut(refreshToken: String): EmptyResult
-
-  suspend fun requestPasswordReset(login: String): EmptyResult
-
-  suspend fun resetPassword(userId: String, code: String, newPassword: String): EmptyResult
-
-  suspend fun changePassword(oldPassword: String, newPassword: String): EmptyResult
 }

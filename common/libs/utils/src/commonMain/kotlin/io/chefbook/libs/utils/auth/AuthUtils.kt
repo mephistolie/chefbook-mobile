@@ -1,7 +1,5 @@
 package io.chefbook.libs.utils.auth
 
-import io.chefbook.libs.logger.Logger
-
 private val nicknameRegex by lazy { """^[a-zA-Z0-9_]+$""".toRegex() }
 private val nicknameStartLetterRegex by lazy { """^[a-zA-Z]$""".toRegex() }
 private val nicknameEndLetterRegex by lazy { """^[a-zA-Z0-9]$""".toRegex() }
@@ -20,6 +18,10 @@ fun isNickname(str: String) = str.length >= 5
     && str.matches(nicknameRegex)
     && str.first().toString().matches(nicknameStartLetterRegex)
     && str.last().toString().matches(nicknameEndLetterRegex)
+
+fun isNicknameSymbols(str: String) = str.isEmpty() || str.matches(nicknameRegex)
+fun isFirstNicknameSymbol(char: Char?) = char == null || char.toString().matches(nicknameStartLetterRegex)
+fun isLastNicknameSymbol(char: Char?) = char == null || char.toString().matches(nicknameEndLetterRegex)
 
 fun validatePassword(password: String, repeatPassword: String): PasswordRating {
   if (password.isNotEmpty() && !password.matches(spaceValidator)) return PasswordRating.SPACE

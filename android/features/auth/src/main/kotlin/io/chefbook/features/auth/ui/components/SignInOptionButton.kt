@@ -1,4 +1,4 @@
-package io.chefbook.features.auth.form.ui.components
+package io.chefbook.features.auth.ui.components
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size

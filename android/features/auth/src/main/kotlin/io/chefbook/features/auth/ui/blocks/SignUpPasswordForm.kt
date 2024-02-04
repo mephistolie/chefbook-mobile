@@ -1,4 +1,4 @@
-package io.chefbook.features.auth.form.ui.blocks
+package io.chefbook.features.auth.ui.blocks
 
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -9,16 +9,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.design.components.buttons.DynamicButton
-import io.chefbook.features.auth.form.R
-import io.chefbook.features.auth.form.ui.components.PasswordInputField
-import io.chefbook.features.auth.form.ui.mvi.AuthScreenIntent
-import io.chefbook.features.auth.form.ui.mvi.AuthScreenState
+import io.chefbook.features.auth.R
+import io.chefbook.features.auth.ui.components.PasswordInputField
+import io.chefbook.features.auth.ui.mvi.AuthScreenIntent
+import io.chefbook.features.auth.ui.mvi.AuthScreenState
 
 @Composable
 internal fun SignUpPasswordForm(

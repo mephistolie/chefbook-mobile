@@ -1,14 +1,14 @@
 package io.chefbook.features.recipe.input.ui.viewmodel
 
-import io.chefbook.sdk.recipe.core.api.external.domain.entities.Recipe.Macronutrients
-import io.chefbook.sdk.recipe.core.api.external.domain.entities.RecipeMeta
-import io.chefbook.sdk.recipe.core.api.external.domain.entities.RecipeMeta.Visibility
 import io.chefbook.features.recipe.input.ui.mvi.RecipeInputDetailsScreenIntent
 import io.chefbook.features.recipe.input.ui.mvi.RecipeInputScreenEffect
 import io.chefbook.features.recipe.input.ui.mvi.RecipeInputScreenState
 import io.chefbook.libs.models.language.Language
 import io.chefbook.sdk.encryption.vault.api.external.domain.entities.EncryptedVaultState
 import io.chefbook.sdk.encryption.vault.api.external.domain.usecases.GetEncryptedVaultStateUseCase
+import io.chefbook.sdk.recipe.core.api.external.domain.entities.Recipe.Macronutrients
+import io.chefbook.sdk.recipe.core.api.external.domain.entities.RecipeMeta
+import io.chefbook.sdk.recipe.core.api.external.domain.entities.RecipeMeta.Visibility
 import io.chefbook.sdk.recipe.crud.api.external.domain.entities.RecipeInput
 import io.chefbook.sdk.settings.api.external.domain.usecases.SetDefaultRecipeLanguageUseCase
 

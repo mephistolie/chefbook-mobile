@@ -5,8 +5,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
-import io.chefbook.core.android.R as coreR
 import io.chefbook.design.components.textfields.ThemedIndicatorTextField
+import io.chefbook.core.android.R as coreR
 
 @Composable
 internal fun DescriptionBlock(

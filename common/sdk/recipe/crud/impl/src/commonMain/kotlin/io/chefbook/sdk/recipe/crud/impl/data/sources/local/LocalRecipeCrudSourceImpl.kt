@@ -1,11 +1,11 @@
 package io.chefbook.sdk.recipe.crud.impl.data.sources.local
 
-import io.chefbook.sdk.recipe.core.api.external.domain.entities.Recipe
 import io.chefbook.sdk.database.api.internal.ChefBookDatabase
 import io.chefbook.sdk.database.api.internal.DatabaseDataSource
-import io.chefbook.sdk.recipe.crud.api.internal.data.sources.local.LocalRecipeCrudSource
+import io.chefbook.sdk.recipe.core.api.external.domain.entities.Recipe
 import io.chefbook.sdk.recipe.core.api.internal.data.sources.local.sql.dto.toDto
 import io.chefbook.sdk.recipe.core.api.internal.data.sources.local.sql.dto.toEntity
+import io.chefbook.sdk.recipe.crud.api.internal.data.sources.local.LocalRecipeCrudSource
 
 internal class LocalRecipeCrudSourceImpl(
   database: ChefBookDatabase,

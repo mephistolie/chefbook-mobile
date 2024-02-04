@@ -1,4 +1,4 @@
-package io.chefbook.sdk.recipe.crud.impl.data.models
+package io.chefbook.sdk.core.api.internal.data.models
 
 data class PictureUploading(
   val picturePath: String,

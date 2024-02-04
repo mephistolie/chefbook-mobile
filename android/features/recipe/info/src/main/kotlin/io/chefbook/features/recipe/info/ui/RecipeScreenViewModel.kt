@@ -1,31 +1,30 @@
 package io.chefbook.features.recipe.info.ui
 
 import androidx.lifecycle.viewModelScope
+import io.chefbook.features.recipe.info.R
+import io.chefbook.features.recipe.info.ui.mvi.RecipeScreenEffect
+import io.chefbook.features.recipe.info.ui.mvi.RecipeScreenIntent
+import io.chefbook.features.recipe.info.ui.mvi.RecipeScreenState
+import io.chefbook.features.recipe.info.ui.state.RecipeScreenBottomSheetType
+import io.chefbook.libs.mvi.BaseMviViewModel
+import io.chefbook.libs.mvi.MviViewModel
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.DecryptedRecipe
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.Recipe.Decrypted.CookingItem
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.Recipe.Decrypted.IngredientsItem
 import io.chefbook.sdk.recipe.crud.api.external.domain.usecases.GetRecipeUseCase
 import io.chefbook.sdk.recipe.crud.api.external.domain.usecases.ObserveRecipeUseCase
-import io.chefbook.sdk.settings.api.external.domain.usecases.GetSettingsUseCase
-import io.chefbook.libs.mvi.MviViewModel
-import io.chefbook.libs.mvi.BaseMviViewModel
-import io.chefbook.features.recipe.info.ui.mvi.RecipeScreenEffect
-import io.chefbook.features.recipe.info.ui.mvi.RecipeScreenIntent
-import io.chefbook.features.recipe.info.ui.mvi.RecipeScreenState
-import io.chefbook.features.recipe.info.ui.state.RecipeScreenBottomSheetType
-import io.chefbook.features.recipe.info.R
 import io.chefbook.sdk.recipe.interaction.api.external.domain.usecases.SetRecipeSavedStatusUseCase
 import io.chefbook.sdk.recipe.interaction.api.external.domain.usecases.SetRecipeScoreUseCase
+import io.chefbook.sdk.settings.api.external.domain.usecases.GetSettingsUseCase
 import io.chefbook.sdk.shoppinglist.api.external.domain.entities.Purchase
-import io.chefbook.sdk.shoppinglist.api.external.domain.entities.ShoppingList
 import io.chefbook.sdk.shoppinglist.api.external.domain.entities.ShoppingListMeta
 import io.chefbook.sdk.shoppinglist.api.external.domain.usecases.AddToShoppingListUseCase
 import io.chefbook.sdk.shoppinglist.api.external.domain.usecases.GetShoppingListsUseCase
-import kotlin.math.ceil
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlin.math.ceil
 
 internal typealias IRecipeScreenViewModel = MviViewModel<RecipeScreenState, RecipeScreenIntent, RecipeScreenEffect>
 

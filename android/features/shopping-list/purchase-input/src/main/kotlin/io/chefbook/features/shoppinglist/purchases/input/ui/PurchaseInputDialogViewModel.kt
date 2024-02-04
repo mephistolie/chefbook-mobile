@@ -1,23 +1,19 @@
 package io.chefbook.features.shoppinglist.purchases.input.ui
 
 import androidx.lifecycle.viewModelScope
-import io.chefbook.sdk.shoppinglist.api.external.domain.usecases.ObserveShoppingListUseCase
-import io.chefbook.sdk.shoppinglist.api.external.domain.usecases.UpdatePurchaseUseCase
-import io.chefbook.libs.mvi.MviViewModel
-import io.chefbook.libs.mvi.BaseMviViewModel
 import io.chefbook.features.shoppinglist.purchases.input.ui.mvi.PurchaseInputDialogEffect
 import io.chefbook.features.shoppinglist.purchases.input.ui.mvi.PurchaseInputDialogIntent
 import io.chefbook.features.shoppinglist.purchases.input.ui.mvi.PurchaseInputDialogState
 import io.chefbook.libs.models.measureunit.MeasureUnit
+import io.chefbook.libs.mvi.BaseMviViewModel
+import io.chefbook.libs.mvi.MviViewModel
 import io.chefbook.libs.utils.result.onSuccess
 import io.chefbook.sdk.shoppinglist.api.external.domain.entities.Purchase
 import io.chefbook.sdk.shoppinglist.api.external.domain.usecases.GetShoppingListUseCase
+import io.chefbook.sdk.shoppinglist.api.external.domain.usecases.UpdatePurchaseUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.sync.Mutex
-import kotlinx.coroutines.sync.withLock
 
 internal typealias IPurchaseInputDialogViewModel =
   MviViewModel<PurchaseInputDialogState, PurchaseInputDialogIntent, PurchaseInputDialogEffect>

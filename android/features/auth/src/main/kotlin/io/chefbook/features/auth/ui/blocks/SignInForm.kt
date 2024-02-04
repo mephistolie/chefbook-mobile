@@ -1,4 +1,4 @@
-package io.chefbook.features.auth.form.ui.blocks
+package io.chefbook.features.auth.ui.blocks
 
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -17,10 +17,10 @@ import androidx.compose.ui.unit.dp
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.design.components.buttons.DynamicButton
 import io.chefbook.design.components.dividers.Divider
-import io.chefbook.features.auth.form.R
-import io.chefbook.features.auth.form.ui.components.LoginInputField
-import io.chefbook.features.auth.form.ui.mvi.AuthScreenIntent
-import io.chefbook.features.auth.form.ui.mvi.AuthScreenState
+import io.chefbook.features.auth.R
+import io.chefbook.features.auth.ui.components.LoginInputField
+import io.chefbook.features.auth.ui.mvi.AuthScreenIntent
+import io.chefbook.features.auth.ui.mvi.AuthScreenState
 
 @Composable
 internal fun SignInForm(

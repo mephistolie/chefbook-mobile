@@ -1,11 +1,10 @@
 package io.chefbook.sdk.category.impl.data.sources.remote.services
 
-import io.chefbook.sdk.category.impl.data.sources.remote.services.dto.CreateCategoryRequestBody
 import io.chefbook.sdk.category.impl.data.sources.remote.services.dto.CategoryBody
+import io.chefbook.sdk.category.impl.data.sources.remote.services.dto.CreateCategoryRequestBody
 import io.chefbook.sdk.category.impl.data.sources.remote.services.dto.CreateCategoryResponseBody
 import io.chefbook.sdk.category.impl.data.sources.remote.services.dto.UpdateCategoryRequestBody
 import io.chefbook.sdk.network.api.internal.service.ChefBookApiService
-import io.chefbook.sdk.network.api.internal.service.dto.responses.IdResponse
 import io.chefbook.sdk.network.api.internal.service.dto.responses.MessageResponse
 import io.ktor.client.HttpClient
 import io.ktor.client.request.setBody

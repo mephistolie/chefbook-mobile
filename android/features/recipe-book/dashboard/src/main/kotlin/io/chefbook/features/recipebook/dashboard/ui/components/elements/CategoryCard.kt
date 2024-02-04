@@ -25,9 +25,9 @@ import androidx.compose.ui.unit.dp
 import com.mephistolie.compost.extensions.Shading
 import com.mephistolie.compost.modifiers.clippedBackground
 import com.mephistolie.compost.modifiers.scalingClickable
-import io.chefbook.sdk.category.api.external.domain.entities.Category
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.design.theme.shapes.RoundedCornerShape16
+import io.chefbook.sdk.category.api.external.domain.entities.Category
 
 @Composable
 internal fun CategoryCard(

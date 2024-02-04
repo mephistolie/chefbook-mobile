@@ -17,10 +17,10 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import com.mephistolie.compost.modifiers.clippedBackground
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
-import io.chefbook.core.android.R as coreR
 import io.chefbook.design.components.buttons.DynamicButton
-import io.chefbook.design.R as designR
 import io.chefbook.design.theme.shapes.BottomSheetShape
+import io.chefbook.core.android.R as coreR
+import io.chefbook.design.R as designR
 
 internal val shoppingListActionBarHeight = 80.dp
 

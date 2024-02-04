@@ -13,8 +13,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
-import io.chefbook.core.android.R as coreR
 import io.chefbook.features.about.R
+import io.chefbook.core.android.R as coreR
 
 @Composable
 internal fun AboutInfo(

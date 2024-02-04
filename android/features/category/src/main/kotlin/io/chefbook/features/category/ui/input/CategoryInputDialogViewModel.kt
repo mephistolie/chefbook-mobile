@@ -1,17 +1,17 @@
 package io.chefbook.features.category.ui.input
 
 import androidx.lifecycle.viewModelScope
-import io.chefbook.libs.mvi.MviViewModel
+import io.chefbook.features.category.ui.input.mvi.CategoryInputDialogEffect
+import io.chefbook.features.category.ui.input.mvi.CategoryInputDialogIntent
+import io.chefbook.features.category.ui.input.mvi.CategoryInputDialogState
 import io.chefbook.libs.mvi.BaseMviViewModel
+import io.chefbook.libs.mvi.MviViewModel
 import io.chefbook.sdk.category.api.external.domain.entities.CategoryInput
 import io.chefbook.sdk.category.api.external.domain.entities.toInput
 import io.chefbook.sdk.category.api.external.domain.usecases.CreateCategoryUseCase
 import io.chefbook.sdk.category.api.external.domain.usecases.DeleteCategoryUseCase
 import io.chefbook.sdk.category.api.external.domain.usecases.GetCategoryUseCase
 import io.chefbook.sdk.category.api.external.domain.usecases.UpdateCategoryUseCase
-import io.chefbook.features.category.ui.input.mvi.CategoryInputDialogEffect
-import io.chefbook.features.category.ui.input.mvi.CategoryInputDialogIntent
-import io.chefbook.features.category.ui.input.mvi.CategoryInputDialogState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch

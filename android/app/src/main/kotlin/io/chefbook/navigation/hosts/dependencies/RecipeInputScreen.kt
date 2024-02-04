@@ -2,10 +2,10 @@ package io.chefbook.navigation.hosts.dependencies
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import io.chefbook.features.recipe.input.ui.viewmodel.RecipeInputScreenViewModel
-import io.chefbook.navigation.graphs.NavGraphs
 import com.ramcosta.composedestinations.navigation.DependenciesContainerBuilder
 import com.ramcosta.composedestinations.navigation.dependency
+import io.chefbook.features.recipe.input.ui.viewmodel.RecipeInputScreenViewModel
+import io.chefbook.navigation.graphs.NavGraphs
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
 

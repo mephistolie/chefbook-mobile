@@ -10,12 +10,12 @@ import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.AnnotatedString
 import androidx.core.content.ContextCompat
-import io.chefbook.features.recipe.share.ui.mvi.RecipeShareDialogEffect
-import io.chefbook.features.recipe.share.ui.mvi.RecipeShareDialogIntent
 import com.ramcosta.composedestinations.annotation.Destination
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.design.theme.colors.Monochrome20
 import io.chefbook.design.theme.colors.Monochrome30
+import io.chefbook.features.recipe.share.ui.mvi.RecipeShareDialogEffect
+import io.chefbook.features.recipe.share.ui.mvi.RecipeShareDialogIntent
 import io.chefbook.navigation.navigators.BaseNavigator
 import io.chefbook.navigation.styles.DismissibleDialog
 import org.koin.androidx.compose.getViewModel

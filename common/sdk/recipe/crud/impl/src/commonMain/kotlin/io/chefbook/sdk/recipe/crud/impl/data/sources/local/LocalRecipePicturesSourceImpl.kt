@@ -1,10 +1,10 @@
 package io.chefbook.sdk.recipe.crud.impl.data.sources.local
 
 import io.chefbook.libs.utils.uuid.generateUUID
+import io.chefbook.sdk.core.api.internal.data.models.PictureUploading
 import io.chefbook.sdk.database.api.internal.ChefBookDatabase
 import io.chefbook.sdk.database.api.internal.DatabaseDataSource
 import io.chefbook.sdk.recipe.core.api.internal.data.sources.common.dto.PicturesSerializable
-import io.chefbook.sdk.recipe.crud.impl.data.models.PictureUploading
 import io.chefbook.sdk.recipe.crud.impl.data.models.RecipePictures
 import io.chefbook.sdk.recipe.crud.impl.data.models.RecipePicturesUpdate
 import io.chefbook.sdk.recipe.crud.impl.data.sources.RecipePicturesSource

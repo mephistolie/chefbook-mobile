@@ -17,8 +17,9 @@ import com.mephistolie.compost.modifiers.clippedBackground
 import com.mephistolie.compost.modifiers.simpleClickable
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.design.components.images.EncryptedImage
-import io.chefbook.design.R as designR
 import io.chefbook.design.theme.shapes.RoundedCornerShape12
+import io.chefbook.design.R as designR
+
 @Composable
 internal fun StepPicture(
   uri: String,

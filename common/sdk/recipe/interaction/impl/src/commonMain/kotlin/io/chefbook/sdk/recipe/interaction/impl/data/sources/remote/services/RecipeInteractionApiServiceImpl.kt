@@ -1,9 +1,9 @@
 package io.chefbook.sdk.recipe.interaction.impl.data.sources.remote.services
 
-import io.chefbook.sdk.recipe.interaction.impl.data.sources.remote.services.dto.RateRecipeRequest
-import io.chefbook.sdk.recipe.interaction.impl.data.sources.remote.services.dto.SetRecipeCategoriesRequest
 import io.chefbook.sdk.network.api.internal.service.ChefBookApiService
 import io.chefbook.sdk.network.api.internal.service.dto.responses.MessageResponse
+import io.chefbook.sdk.recipe.interaction.impl.data.sources.remote.services.dto.RateRecipeRequest
+import io.chefbook.sdk.recipe.interaction.impl.data.sources.remote.services.dto.SetRecipeCategoriesRequest
 import io.ktor.client.HttpClient
 import io.ktor.client.request.setBody
 import io.ktor.client.request.url

@@ -30,16 +30,15 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.mephistolie.compost.modifiers.clippedBackground
-import io.chefbook.features.recipe.input.ui.mvi.RecipeInputDetailsScreenIntent
-import io.chefbook.features.recipe.input.ui.mvi.RecipeInputScreenIntent
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
-import io.chefbook.core.android.R as coreR
 import io.chefbook.design.components.buttons.CircleIconButton
 import io.chefbook.design.components.textfields.ThemedIndicatorTextField
-import io.chefbook.design.R as designR
 import io.chefbook.design.theme.shapes.ModalBottomSheetShape
-import io.chefbook.features.recipe.input.R
+import io.chefbook.features.recipe.input.ui.mvi.RecipeInputDetailsScreenIntent
+import io.chefbook.features.recipe.input.ui.mvi.RecipeInputScreenIntent
 import io.chefbook.sdk.recipe.crud.api.external.domain.entities.RecipeInput
+import io.chefbook.core.android.R as coreR
+import io.chefbook.design.R as designR
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable

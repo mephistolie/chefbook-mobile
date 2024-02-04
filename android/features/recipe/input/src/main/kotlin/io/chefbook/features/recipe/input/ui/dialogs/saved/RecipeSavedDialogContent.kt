@@ -21,11 +21,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
-import io.chefbook.core.android.R as coreR
 import io.chefbook.design.components.buttons.DynamicButton
 import io.chefbook.design.theme.ChefBookTheme
 import io.chefbook.design.theme.shapes.RoundedCornerShape24
 import io.chefbook.features.recipe.input.R
+import io.chefbook.core.android.R as coreR
 
 @Composable
 internal fun RecipeSavedDialogContent(

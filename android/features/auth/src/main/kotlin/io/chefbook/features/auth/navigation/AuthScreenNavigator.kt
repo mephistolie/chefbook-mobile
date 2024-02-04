@@ -1,4 +1,4 @@
-package io.chefbook.features.auth.form.navigation
+package io.chefbook.features.auth.navigation
 
 import io.chefbook.navigation.navigators.DialogNavigator
 

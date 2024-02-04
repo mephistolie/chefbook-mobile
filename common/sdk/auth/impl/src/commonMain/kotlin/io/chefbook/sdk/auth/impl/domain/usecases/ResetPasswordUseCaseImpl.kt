@@ -1,12 +1,12 @@
 package io.chefbook.sdk.auth.impl.domain.usecases
 
 import io.chefbook.sdk.auth.api.external.domain.usecases.ResetPasswordUseCase
-import io.chefbook.sdk.auth.api.internal.data.repositories.AuthRepository
+import io.chefbook.sdk.auth.api.internal.data.repositories.PasswordRepository
 
 internal class ResetPasswordUseCaseImpl(
-  private val authRepository: AuthRepository,
+  private val repository: PasswordRepository,
 ) : ResetPasswordUseCase {
 
   override suspend operator fun invoke(userId: String, code: String, newPassword: String) =
-    authRepository.resetPassword(userId, code, newPassword)
+    repository.resetPassword(userId, code, newPassword)
 }

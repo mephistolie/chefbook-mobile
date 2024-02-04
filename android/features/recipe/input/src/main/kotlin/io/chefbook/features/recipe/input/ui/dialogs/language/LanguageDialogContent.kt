@@ -22,14 +22,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.mephistolie.compost.modifiers.clippedBackground
 import com.mephistolie.compost.modifiers.simpleClickable
-import io.chefbook.features.recipe.input.ui.mvi.RecipeInputDetailsScreenIntent
-import io.chefbook.ui.common.extensions.localizedName
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.design.components.radibuttons.RadioButton
-import io.chefbook.core.android.R as coreR
 import io.chefbook.design.theme.shapes.ModalBottomSheetShape
 import io.chefbook.features.recipe.input.R
+import io.chefbook.features.recipe.input.ui.mvi.RecipeInputDetailsScreenIntent
 import io.chefbook.libs.models.language.Language
+import io.chefbook.ui.common.extensions.localizedName
+import io.chefbook.core.android.R as coreR
 
 @Composable
 internal fun LanguageDialogContent(

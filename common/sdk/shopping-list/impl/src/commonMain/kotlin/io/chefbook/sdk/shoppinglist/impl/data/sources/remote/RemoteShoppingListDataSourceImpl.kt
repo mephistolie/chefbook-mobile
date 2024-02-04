@@ -1,18 +1,16 @@
 package io.chefbook.sdk.shoppinglist.impl.data.sources.remote
 
-import io.chefbook.libs.logger.Logger
 import io.chefbook.libs.utils.result.asEmpty
 import io.chefbook.libs.utils.result.withCast
 import io.chefbook.libs.utils.result.withListCast
 import io.chefbook.sdk.network.api.internal.service.dto.responses.VersionResponse
 import io.chefbook.sdk.shoppinglist.api.external.domain.entities.Purchase
 import io.chefbook.sdk.shoppinglist.api.external.domain.entities.ShoppingList
-import io.chefbook.sdk.shoppinglist.impl.data.sources.ShoppingListDataSource
 import io.chefbook.sdk.shoppinglist.impl.data.sources.common.dto.ShoppingListMetaSerializable
-import io.chefbook.sdk.shoppinglist.impl.data.sources.remote.api.dto.ShoppingListSerializable
 import io.chefbook.sdk.shoppinglist.impl.data.sources.common.dto.toSerializable
 import io.chefbook.sdk.shoppinglist.impl.data.sources.remote.api.ShoppingListApiService
 import io.chefbook.sdk.shoppinglist.impl.data.sources.remote.api.dto.SetShoppingListRequest
+import io.chefbook.sdk.shoppinglist.impl.data.sources.remote.api.dto.ShoppingListSerializable
 
 internal class RemoteShoppingListDataSourceImpl(
   private val api: ShoppingListApiService,

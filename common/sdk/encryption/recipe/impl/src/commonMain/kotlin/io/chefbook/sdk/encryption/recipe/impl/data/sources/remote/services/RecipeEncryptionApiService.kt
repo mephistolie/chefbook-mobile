@@ -2,7 +2,6 @@ package io.chefbook.sdk.encryption.recipe.impl.data.sources.remote.services
 
 import io.chefbook.sdk.encryption.recipe.impl.data.sources.remote.services.dto.GetRecipeKeyResponse
 import io.chefbook.sdk.encryption.recipe.impl.data.sources.remote.services.dto.UploadRecipeKeyRequest
-import io.chefbook.sdk.network.api.internal.service.dto.responses.LinkResponse
 import io.chefbook.sdk.network.api.internal.service.dto.responses.MessageResponse
 
 internal interface RecipeEncryptionApiService {

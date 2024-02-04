@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-  namespace = "io.chefbook.features.auth.form"
+  namespace = "io.chefbook.features.auth"
 
   buildTypes {
     getByName("release") {

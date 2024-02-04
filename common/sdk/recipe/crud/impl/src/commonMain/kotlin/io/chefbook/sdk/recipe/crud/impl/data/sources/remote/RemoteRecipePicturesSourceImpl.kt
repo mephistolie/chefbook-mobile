@@ -1,7 +1,6 @@
 package io.chefbook.sdk.recipe.crud.impl.data.sources.remote
 
 import io.chefbook.libs.utils.result.withCast
-import io.chefbook.sdk.network.api.internal.service.dto.responses.VersionResponse
 import io.chefbook.sdk.recipe.crud.impl.data.models.RecipePictures
 import io.chefbook.sdk.recipe.crud.impl.data.sources.RecipePicturesSource
 import io.chefbook.sdk.recipe.crud.impl.data.sources.remote.services.RecipePicturesApiService

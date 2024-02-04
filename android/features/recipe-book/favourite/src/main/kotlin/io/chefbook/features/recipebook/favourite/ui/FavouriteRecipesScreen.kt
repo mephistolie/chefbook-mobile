@@ -3,9 +3,9 @@ package io.chefbook.features.recipebook.favourite.ui
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import com.ramcosta.composedestinations.annotation.Destination
 import io.chefbook.features.recipebook.favourite.ui.mvi.FavouriteRecipesScreenEffect
 import io.chefbook.features.recipebook.favourite.ui.navigation.RecipeBookFavouriteScreenNavigator
-import com.ramcosta.composedestinations.annotation.Destination
 import org.koin.androidx.compose.getViewModel
 
 @Destination(route = "recipe_book/favourite")

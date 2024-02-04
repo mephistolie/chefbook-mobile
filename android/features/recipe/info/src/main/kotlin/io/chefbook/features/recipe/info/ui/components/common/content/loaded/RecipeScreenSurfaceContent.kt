@@ -19,13 +19,13 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
+import io.chefbook.design.components.buttons.BottomSheetCloseButton
 import io.chefbook.features.recipe.info.ui.components.common.actions.ActionsWidget
 import io.chefbook.features.recipe.info.ui.components.details.card.DetailsCard
 import io.chefbook.features.recipe.info.ui.components.details.card.ImageCard
 import io.chefbook.features.recipe.info.ui.mvi.RecipeScreenIntent
 import io.chefbook.features.recipe.info.ui.mvi.RecipeScreenState
 import io.chefbook.ui.common.components.common.FlippingCard
-import io.chefbook.design.components.buttons.BottomSheetCloseButton
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable

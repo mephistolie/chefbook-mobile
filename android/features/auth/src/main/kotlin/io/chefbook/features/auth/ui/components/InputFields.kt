@@ -1,21 +1,16 @@
-package io.chefbook.features.auth.form.ui.components
+package io.chefbook.features.auth.ui.components
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import io.chefbook.design.components.textfields.OutlinedTextField
 import io.chefbook.core.android.R as coreR
-import io.chefbook.design.R as designR
-import io.chefbook.design.components.textfields.FilledTextField
 
 @Composable
 internal fun LoginInputField(
@@ -28,13 +23,12 @@ internal fun LoginInputField(
 ) {
   val keyboardController = LocalSoftwareKeyboardController.current
 
-  FilledTextField(
+  OutlinedTextField(
     value = value,
     onValueChange = onValueChange,
     modifier = modifier.fillMaxWidth(),
     readOnly = readOnly,
     hint = hint,
-    icon = ImageVector.vectorResource(designR.drawable.ic_user),
     keyboardOptions = KeyboardOptions(
       autoCorrect = false,
       keyboardType = KeyboardType.Email,
@@ -58,13 +52,12 @@ internal fun PasswordInputField(
 ) {
   val keyboardController = LocalSoftwareKeyboardController.current
 
-  FilledTextField(
+  OutlinedTextField(
     value = value,
     onValueChange = onValueChange,
     modifier = modifier.fillMaxWidth(),
     readOnly = readOnly,
     hint = hint,
-    icon = Icons.Outlined.Lock,
     keyboardOptions = KeyboardOptions(
       autoCorrect = false,
       keyboardType = KeyboardType.Password,

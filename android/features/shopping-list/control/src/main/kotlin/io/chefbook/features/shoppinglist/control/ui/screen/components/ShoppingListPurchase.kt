@@ -21,12 +21,12 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import com.mephistolie.compost.modifiers.simpleClickable
-import io.chefbook.ui.common.extensions.localizedName
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.design.components.checkboxes.Checkbox
-import io.chefbook.design.R as designR
 import io.chefbook.design.theme.dimens.SmallIconSize
 import io.chefbook.sdk.shoppinglist.api.external.domain.entities.Purchase
+import io.chefbook.ui.common.extensions.localizedName
+import io.chefbook.design.R as designR
 
 @Composable
 internal fun ShoppingListPurchase(

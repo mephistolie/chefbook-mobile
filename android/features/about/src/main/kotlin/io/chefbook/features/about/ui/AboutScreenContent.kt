@@ -9,12 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import io.chefbook.ui.common.components.menu.MenuDivider
-import io.chefbook.ui.common.components.menu.MenuGroup
-import io.chefbook.ui.common.components.menu.MenuItem
-import io.chefbook.ui.common.components.menu.MenuScreen
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
-import io.chefbook.core.android.R as coreR
 import io.chefbook.design.theme.ChefBookTheme
 import io.chefbook.features.about.R
 import io.chefbook.features.about.data.EULA_URL
@@ -24,6 +19,11 @@ import io.chefbook.features.about.data.VK_GROUP_URL
 import io.chefbook.features.about.ui.components.AboutInfo
 import io.chefbook.features.about.ui.components.AboutScreenToolbar
 import io.chefbook.features.about.ui.mvi.AboutScreenIntent
+import io.chefbook.ui.common.components.menu.MenuDivider
+import io.chefbook.ui.common.components.menu.MenuGroup
+import io.chefbook.ui.common.components.menu.MenuItem
+import io.chefbook.ui.common.components.menu.MenuScreen
+import io.chefbook.core.android.R as coreR
 
 @Composable
 internal fun AboutScreenContent(

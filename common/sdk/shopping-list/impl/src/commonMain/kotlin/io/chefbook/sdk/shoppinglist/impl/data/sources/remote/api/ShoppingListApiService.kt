@@ -3,10 +3,10 @@ package io.chefbook.sdk.shoppinglist.impl.data.sources.remote.api
 import io.chefbook.sdk.network.api.internal.service.dto.responses.MessageResponse
 import io.chefbook.sdk.network.api.internal.service.dto.responses.VersionResponse
 import io.chefbook.sdk.shoppinglist.impl.data.sources.common.dto.ShoppingListMetaSerializable
-import io.chefbook.sdk.shoppinglist.impl.data.sources.remote.api.dto.ShoppingListSerializable
 import io.chefbook.sdk.shoppinglist.impl.data.sources.remote.api.dto.CreateSharedShoppingListRequest
 import io.chefbook.sdk.shoppinglist.impl.data.sources.remote.api.dto.CreateSharedShoppingListResponse
 import io.chefbook.sdk.shoppinglist.impl.data.sources.remote.api.dto.SetShoppingListRequest
+import io.chefbook.sdk.shoppinglist.impl.data.sources.remote.api.dto.ShoppingListSerializable
 
 internal interface ShoppingListApiService {
 

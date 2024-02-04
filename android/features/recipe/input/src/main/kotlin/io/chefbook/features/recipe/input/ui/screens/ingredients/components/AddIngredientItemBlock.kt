@@ -9,10 +9,10 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
-import io.chefbook.features.recipe.input.ui.mvi.RecipeInputIngredientsScreenIntent
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
-import io.chefbook.core.android.R as coreR
 import io.chefbook.design.components.buttons.DynamicButton
+import io.chefbook.features.recipe.input.ui.mvi.RecipeInputIngredientsScreenIntent
+import io.chefbook.core.android.R as coreR
 import io.chefbook.design.R as designR
 
 @Composable

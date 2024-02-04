@@ -17,8 +17,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
-import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.core.android.R
+import io.chefbook.core.android.compose.providers.theme.LocalTheme
 
 @Composable
 fun BroccoinsBadge(

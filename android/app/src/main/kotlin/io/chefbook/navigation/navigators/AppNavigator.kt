@@ -9,12 +9,13 @@ import com.ramcosta.composedestinations.navigation.navigate
 import com.ramcosta.composedestinations.navigation.popBackStack
 import io.chefbook.core.android.compose.providers.ContentType
 import io.chefbook.features.about.ui.destinations.AboutScreenDestination
-import io.chefbook.features.auth.form.navigation.AuthScreenNavigator
-import io.chefbook.features.auth.form.ui.destinations.AuthScreenDestination
+import io.chefbook.features.auth.navigation.AuthScreenNavigator
+import io.chefbook.features.auth.ui.destinations.AuthScreenDestination
 import io.chefbook.features.category.ui.input.destinations.CategoryInputDialogDestination
 import io.chefbook.features.encryption.ui.vault.destinations.EncryptedVaultScreenDestination
 import io.chefbook.features.profile.control.navigation.ProfileScreenNavigator
 import io.chefbook.features.profile.control.ui.destinations.ProfileScreenDestination
+import io.chefbook.features.profile.editing.ui.destinations.ProfileEditingScreenDestination
 import io.chefbook.features.recipe.control.navigation.RecipeControlScreenNavigator
 import io.chefbook.features.recipe.info.navigation.RecipeScreenNavigator
 import io.chefbook.features.recipe.info.ui.destinations.RecipeScreenDestination
@@ -134,6 +135,10 @@ class AppNavigator(
 
   override fun openProfileScreen() {
     navController.navigate(ProfileScreenDestination)
+  }
+
+  override fun openProfileEditingScreen() {
+    navController.navigate(ProfileEditingScreenDestination)
   }
 
   override fun openAppSettingsScreen() {

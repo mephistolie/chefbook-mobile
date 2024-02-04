@@ -1,4 +1,4 @@
-package io.chefbook.features.auth.form.ui.blocks
+package io.chefbook.features.auth.ui.blocks
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.slideInHorizontally
@@ -16,7 +16,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import io.chefbook.features.auth.form.ui.mvi.AuthScreenState
+import io.chefbook.features.auth.ui.mvi.AuthScreenState
 
 @Composable
 internal inline fun <reified T : AuthScreenState> AnimatedAuthForm(

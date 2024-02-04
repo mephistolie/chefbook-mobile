@@ -1,8 +1,8 @@
-package io.chefbook.features.auth.form.ui.blocks
+package io.chefbook.features.auth.ui.blocks
 
 import androidx.compose.runtime.Composable
-import io.chefbook.features.auth.form.ui.mvi.AuthScreenIntent
-import io.chefbook.features.auth.form.ui.mvi.AuthScreenState
+import io.chefbook.features.auth.ui.mvi.AuthScreenIntent
+import io.chefbook.features.auth.ui.mvi.AuthScreenState
 
 @Composable
 internal inline fun ProfileActivationForm(

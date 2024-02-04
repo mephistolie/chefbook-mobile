@@ -11,11 +11,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import io.chefbook.features.recipebook.dashboard.R
+import io.chefbook.features.recipebook.dashboard.ui.components.elements.RecipeBookActionButton
+import io.chefbook.sdk.encryption.vault.api.external.domain.entities.EncryptedVaultState
 import io.chefbook.core.android.R as coreR
 import io.chefbook.design.R as designR
-import io.chefbook.sdk.encryption.vault.api.external.domain.entities.EncryptedVaultState
-import io.chefbook.features.recipebook.dashboard.ui.components.elements.RecipeBookActionButton
-import io.chefbook.features.recipebook.dashboard.R
 
 @Composable
 internal fun RecipeBookOnlineBlock(

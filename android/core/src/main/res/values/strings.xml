@@ -90,6 +90,7 @@
     <string name="common_general_cant_perform_operation">Can\'t perform operation</string>
     <string name="common_general_nothing_found">Nothing found</string>
     <string name="common_general_eula">EULA</string>
+    <string name="common_general_profile_editing">Profile editing</string>
 
     <string name="common_general_language">Language</string>
     <string name="common_general_language_english">English</string>

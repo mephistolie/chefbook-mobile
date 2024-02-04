@@ -1,6 +1,5 @@
 package io.chefbook.features.recipe.input.ui.screens.cooking
 
-import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Column
@@ -23,24 +22,21 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.canhub.cropper.CropImageContract
 import com.canhub.cropper.CropImageContractOptions
-import com.canhub.cropper.CropImageOptions
-import com.canhub.cropper.CropImageView
+import io.chefbook.core.android.compose.providers.theme.LocalTheme
+import io.chefbook.design.components.buttons.DynamicButton
+import io.chefbook.design.components.toolbar.Toolbar
 import io.chefbook.features.recipe.input.ui.images.cropImageOptions
-import io.chefbook.sdk.recipe.crud.api.external.domain.entities.RecipeInput
-import io.chefbook.sdk.recipe.crud.api.external.domain.entities.RecipeInput.CookingItem
 import io.chefbook.features.recipe.input.ui.mvi.RecipeInputCookingScreenIntent
 import io.chefbook.features.recipe.input.ui.mvi.RecipeInputScreenIntent
 import io.chefbook.features.recipe.input.ui.screens.cooking.components.AddCookingItemBlock
 import io.chefbook.features.recipe.input.ui.screens.cooking.components.cookingItemList
-import io.chefbook.core.android.compose.providers.theme.LocalTheme
-import io.chefbook.design.components.buttons.DynamicButton
-import io.chefbook.design.components.toolbar.Toolbar
 import io.chefbook.features.recipe.input.ui.viewmodel.generatePicturePath
-import io.chefbook.libs.utils.uuid.generateUUID
-import io.chefbook.core.android.R as coreR
+import io.chefbook.sdk.recipe.crud.api.external.domain.entities.RecipeInput
+import io.chefbook.sdk.recipe.crud.api.external.domain.entities.RecipeInput.CookingItem
 import org.burnoutcrew.reorderable.detectReorderAfterLongPress
 import org.burnoutcrew.reorderable.rememberReorderableLazyListState
 import org.burnoutcrew.reorderable.reorderable
+import io.chefbook.core.android.R as coreR
 
 @Composable
 internal fun RecipeInputCookingScreenDisplay(

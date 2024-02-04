@@ -4,18 +4,18 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.result.NavResult
+import com.ramcosta.composedestinations.result.OpenResultRecipient
+import io.chefbook.features.recipe.input.R
 import io.chefbook.features.recipe.input.navigation.RecipeInputDetailsScreenNavigator
 import io.chefbook.features.recipe.input.navigation.handleBaseRecipeInputScreenEffect
 import io.chefbook.features.recipe.input.ui.mvi.RecipeInputScreenEffect
 import io.chefbook.features.recipe.input.ui.mvi.RecipeInputScreenIntent
 import io.chefbook.features.recipe.input.ui.viewmodel.IRecipeInputScreenViewModel
-import io.chefbook.ui.common.dialogs.LoadingDialog
-import com.ramcosta.composedestinations.annotation.Destination
-import com.ramcosta.composedestinations.result.NavResult
-import com.ramcosta.composedestinations.result.OpenResultRecipient
-import io.chefbook.features.recipe.input.R
 import io.chefbook.navigation.params.dialogs.TwoButtonsDialogParams
 import io.chefbook.navigation.results.dialogs.TwoButtonsDialogResult
+import io.chefbook.ui.common.dialogs.LoadingDialog
 import kotlinx.coroutines.flow.collectLatest
 
 private const val CLOSE_RECIPE_INPUT_REQUEST = "CLOSE_RECIPE_INPUT"

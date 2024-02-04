@@ -51,16 +51,6 @@ internal class AuthRepositoryImpl(
       }
       .asEmpty()
 
-  override suspend fun requestPasswordReset(login: String) =
-    remoteSource.requestPasswordReset(login)
-
-  override suspend fun resetPassword(userId: String, code: String, newPassword: String) =
-    remoteSource.resetPassword(userId, code, newPassword)
-
-  override suspend fun changePassword(oldPassword: String, newPassword: String) =
-    remoteSource.changePassword(oldPassword, newPassword)
-
-
   private fun handleSessionDeath() {
     tokensSource.observeTokens().collectIn(scopes.repository) { session ->
       if (session != null) return@collectIn

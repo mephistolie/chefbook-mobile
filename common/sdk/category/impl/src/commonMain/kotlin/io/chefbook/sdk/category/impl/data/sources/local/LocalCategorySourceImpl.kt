@@ -1,10 +1,10 @@
 package io.chefbook.sdk.category.impl.data.sources.local
 
-import io.chefbook.sdk.database.api.internal.DatabaseDataSource
 import io.chefbook.sdk.category.api.external.domain.entities.Category
 import io.chefbook.sdk.category.impl.data.sources.local.sql.dto.toDto
 import io.chefbook.sdk.category.impl.data.sources.local.sql.dto.toEntity
 import io.chefbook.sdk.database.api.internal.ChefBookDatabase
+import io.chefbook.sdk.database.api.internal.DatabaseDataSource
 import io.chefbook.sdk.database.api.internal.Category as CategorySql
 
 internal class LocalCategorySourceImpl(

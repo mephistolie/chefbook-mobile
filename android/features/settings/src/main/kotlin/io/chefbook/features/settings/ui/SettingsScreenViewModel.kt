@@ -1,16 +1,16 @@
 package io.chefbook.features.settings.ui
 
 import androidx.lifecycle.viewModelScope
-import io.chefbook.sdk.settings.api.external.domain.usecases.ObserveSettingsUseCase
-import io.chefbook.sdk.settings.api.external.domain.usecases.SetAppIconUseCase
-import io.chefbook.sdk.settings.api.external.domain.usecases.SetAppThemeUseCase
-import io.chefbook.sdk.settings.api.external.domain.usecases.SetOpenSavedRecipeExpandedUseCase
-import io.chefbook.libs.mvi.MviViewModel
-import io.chefbook.libs.mvi.BaseMviViewModel
 import io.chefbook.features.settings.ui.mvi.SettingsScreenEffect
 import io.chefbook.features.settings.ui.mvi.SettingsScreenIntent
 import io.chefbook.features.settings.ui.mvi.SettingsScreenState
+import io.chefbook.libs.mvi.BaseMviViewModel
+import io.chefbook.libs.mvi.MviViewModel
+import io.chefbook.sdk.settings.api.external.domain.usecases.ObserveSettingsUseCase
+import io.chefbook.sdk.settings.api.external.domain.usecases.SetAppIconUseCase
+import io.chefbook.sdk.settings.api.external.domain.usecases.SetAppThemeUseCase
 import io.chefbook.sdk.settings.api.external.domain.usecases.SetEnvironmentUseCase
+import io.chefbook.sdk.settings.api.external.domain.usecases.SetOpenSavedRecipeExpandedUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 

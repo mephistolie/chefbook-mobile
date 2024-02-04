@@ -3,9 +3,9 @@ package io.chefbook.navigation.params.dialogs
 import android.os.Parcelable
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import io.chefbook.core.android.R as coreR
 import io.chefbook.design.R
 import kotlinx.parcelize.Parcelize
+import io.chefbook.core.android.R as coreR
 
 @Parcelize
 data class TwoButtonsDialogParams(

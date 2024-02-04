@@ -1,7 +1,7 @@
 package io.chefbook.features.shoppinglist.control.ui.screen.mvi
 
-import io.chefbook.libs.mvi.MviState
 import io.chefbook.features.shoppinglist.control.ui.screen.state.ShoppingListSection
+import io.chefbook.libs.mvi.MviState
 
 internal sealed interface ShoppingListScreenState : MviState {
 

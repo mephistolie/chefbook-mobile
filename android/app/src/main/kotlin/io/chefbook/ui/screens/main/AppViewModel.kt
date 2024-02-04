@@ -1,17 +1,15 @@
 package io.chefbook.ui.screens.main
 
 import androidx.lifecycle.viewModelScope
-import io.chefbook.libs.coroutines.collectIn
-import io.chefbook.ui.screens.main.mvi.AppEffect
-import io.chefbook.ui.screens.main.mvi.AppState
-import io.chefbook.sdk.profile.api.external.domain.usecases.ObserveProfileUseCase
-import io.chefbook.sdk.settings.api.external.domain.usecases.ObserveSettingsUseCase
 import io.chefbook.libs.mvi.IStateSideEffectViewModel
 import io.chefbook.libs.mvi.StateSideEffectViewModel
+import io.chefbook.sdk.profile.api.external.domain.usecases.ObserveProfileUseCase
+import io.chefbook.sdk.settings.api.external.domain.usecases.ObserveSettingsUseCase
+import io.chefbook.ui.screens.main.mvi.AppEffect
+import io.chefbook.ui.screens.main.mvi.AppState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 
 interface IAppViewModel : IStateSideEffectViewModel<AppState, AppEffect> {

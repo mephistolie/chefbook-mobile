@@ -1,7 +1,6 @@
 package io.chefbook.sdk.recipe.crud.impl.data.sources.remote.services
 
 import io.chefbook.sdk.network.api.internal.service.ChefBookApiService
-import io.chefbook.sdk.network.api.internal.service.dto.responses.IdResponse
 import io.chefbook.sdk.network.api.internal.service.dto.responses.MessageResponse
 import io.chefbook.sdk.network.api.internal.service.dto.responses.VersionResponse
 import io.chefbook.sdk.recipe.crud.impl.data.sources.remote.services.dto.crud.CreateRecipeResponse

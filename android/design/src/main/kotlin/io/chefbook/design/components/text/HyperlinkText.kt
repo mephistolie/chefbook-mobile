@@ -7,7 +7,6 @@ import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.capitalize
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
 
 private const val URL_TAG = "URL"

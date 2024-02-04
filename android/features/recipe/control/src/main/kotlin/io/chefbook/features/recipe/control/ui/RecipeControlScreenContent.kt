@@ -14,14 +14,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.mephistolie.compost.modifiers.padding
+import io.chefbook.core.android.compose.providers.theme.LocalTheme
+import io.chefbook.design.components.bottomsheet.BottomSheetSlider
+import io.chefbook.design.theme.shapes.ModalBottomSheetShape
 import io.chefbook.features.recipe.control.ui.components.categories.RecipeCategoriesSelectionBlock
 import io.chefbook.features.recipe.control.ui.components.menu.RecipeControlScreenMenu
 import io.chefbook.features.recipe.control.ui.mvi.RecipeControlScreenIntent
 import io.chefbook.features.recipe.control.ui.mvi.RecipeControlScreenState
 import io.chefbook.features.recipe.control.ui.state.RecipeControlScreenPage
-import io.chefbook.core.android.compose.providers.theme.LocalTheme
-import io.chefbook.design.components.bottomsheet.BottomSheetSlider
-import io.chefbook.design.theme.shapes.ModalBottomSheetShape
 import io.chefbook.navigation.navigators.BaseNavigator
 import kotlinx.coroutines.launch
 

@@ -7,10 +7,10 @@ import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import io.chefbook.sdk.recipe.core.api.external.domain.entities.Recipe
 import io.chefbook.features.recipe.info.ui.components.common.actions.buttons.LikeButton
 import io.chefbook.features.recipe.info.ui.components.common.actions.buttons.ManagementButton
 import io.chefbook.features.recipe.info.ui.components.common.actions.buttons.ShareButton
+import io.chefbook.sdk.recipe.core.api.external.domain.entities.Recipe
 
 @Composable
 internal fun ActionsWidget(

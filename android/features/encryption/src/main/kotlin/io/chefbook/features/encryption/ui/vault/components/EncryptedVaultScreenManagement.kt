@@ -14,11 +14,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import io.chefbook.core.android.R as coreR
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.design.components.buttons.DynamicButton
-import io.chefbook.design.R as designR
 import io.chefbook.features.encryption.R
+import io.chefbook.core.android.R as coreR
+import io.chefbook.design.R as designR
 
 @Composable
 internal fun EncryptedVaultScreenManagement(

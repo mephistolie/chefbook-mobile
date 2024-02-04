@@ -1,6 +1,3 @@
-import org.gradle.kotlin.dsl.getValue
-import org.gradle.kotlin.dsl.getting
-
 plugins {
   id("multiplatform-network-module")
   id("multiplatform-database-module")

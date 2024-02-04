@@ -2,18 +2,18 @@ package io.chefbook.features.recipe.share.ui
 
 import android.content.Context
 import android.graphics.Color
-import io.chefbook.sdk.recipe.core.api.external.domain.entities.DecryptedRecipe
-import io.chefbook.sdk.recipe.crud.api.external.domain.usecases.GetRecipeUseCase
-import io.chefbook.libs.mvi.MviViewModel
-import io.chefbook.libs.mvi.BaseMviViewModel
+import io.chefbook.core.android.qr.QRCodeWriter
 import io.chefbook.features.recipe.share.ui.mvi.RecipeShareDialogEffect
 import io.chefbook.features.recipe.share.ui.mvi.RecipeShareDialogIntent
 import io.chefbook.features.recipe.share.ui.mvi.RecipeShareDialogState
+import io.chefbook.libs.mvi.BaseMviViewModel
+import io.chefbook.libs.mvi.MviViewModel
+import io.chefbook.sdk.recipe.core.api.external.domain.entities.DecryptedRecipe
+import io.chefbook.sdk.recipe.crud.api.external.domain.usecases.GetRecipeUseCase
 import io.chefbook.ui.common.extensions.asText
-import io.chefbook.core.android.qr.QRCodeWriter
-import io.chefbook.core.android.R as coreR
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
+import io.chefbook.core.android.R as coreR
 
 internal typealias IRecipeShareDialogViewModel = MviViewModel<RecipeShareDialogState, RecipeShareDialogIntent, RecipeShareDialogEffect>
 

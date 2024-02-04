@@ -2,8 +2,8 @@ package io.chefbook.features.about.ui
 
 import io.chefbook.features.about.ui.mvi.AboutScreenEffect
 import io.chefbook.features.about.ui.mvi.AboutScreenIntent
-import io.chefbook.libs.mvi.IntentSideEffectViewModel
 import io.chefbook.libs.mvi.BaseIntentSideEffectViewModel
+import io.chefbook.libs.mvi.IntentSideEffectViewModel
 
 internal typealias IAboutScreenViewModel = IntentSideEffectViewModel<AboutScreenIntent, AboutScreenEffect>
 

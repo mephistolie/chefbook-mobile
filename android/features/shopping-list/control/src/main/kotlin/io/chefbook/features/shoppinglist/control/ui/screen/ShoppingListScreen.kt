@@ -10,11 +10,8 @@ import androidx.compose.runtime.rememberCoroutineScope
 import com.ramcosta.composedestinations.annotation.DeepLink
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.spec.DestinationStyleBottomSheet
-import io.chefbook.features.shoppinglist.control.ui.screen.mvi.ShoppingListScreenEffect
 import io.chefbook.features.shoppinglist.control.navigation.ShoppingListScreenNavigator
-import io.chefbook.features.shoppinglist.control.ui.screen.mvi.ShoppingListScreenIntent
-import io.chefbook.features.shoppinglist.control.ui.screen.mvi.ShoppingListScreenState
-import io.chefbook.libs.logger.Logger
+import io.chefbook.features.shoppinglist.control.ui.screen.mvi.ShoppingListScreenEffect
 import io.chefbook.navigation.navigators.BaseNavigator
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel

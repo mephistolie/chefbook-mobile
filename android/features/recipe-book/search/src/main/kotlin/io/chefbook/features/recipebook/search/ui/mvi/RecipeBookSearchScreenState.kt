@@ -1,7 +1,7 @@
 package io.chefbook.features.recipebook.search.ui.mvi
 
-import io.chefbook.sdk.recipe.core.api.external.domain.entities.DecryptedRecipeInfo
 import io.chefbook.libs.mvi.MviState
+import io.chefbook.sdk.recipe.core.api.external.domain.entities.DecryptedRecipeInfo
 
 internal data class RecipeBookSearchScreenState(
   val query: String = "",

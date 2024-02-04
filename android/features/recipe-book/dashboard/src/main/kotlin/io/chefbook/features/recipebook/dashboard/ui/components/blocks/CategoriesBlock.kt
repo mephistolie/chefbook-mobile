@@ -17,14 +17,13 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
-import com.mephistolie.compost.modifiers.simpleClickable
+import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.features.recipebook.dashboard.ui.components.elements.CategoryCard
 import io.chefbook.features.recipebook.dashboard.ui.components.elements.CategoryCardSkeleton
 import io.chefbook.features.recipebook.dashboard.ui.components.elements.NewCategoryCard
-import io.chefbook.core.android.compose.providers.theme.LocalTheme
+import kotlin.math.min
 import io.chefbook.core.android.R as coreR
 import io.chefbook.design.R as designR
-import kotlin.math.min
 
 private const val KEY_PREFIX = "category_card"
 

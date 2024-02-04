@@ -6,9 +6,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import io.chefbook.features.recipe.info.R
+import io.chefbook.sdk.recipe.core.api.external.domain.entities.Recipe
 import io.chefbook.core.android.R as coreR
 import io.chefbook.design.R as designR
-import io.chefbook.sdk.recipe.core.api.external.domain.entities.Recipe
 
 @Composable
 internal fun ManagementButton(

@@ -9,7 +9,6 @@ import io.chefbook.sdk.auth.impl.data.sources.local.datastore.dto.TokensSerializ
 import io.chefbook.sdk.auth.impl.data.sources.local.datastore.dto.toModel
 import io.chefbook.sdk.auth.impl.data.sources.local.datastore.dto.toSerializable
 import io.ktor.client.plugins.auth.providers.BearerTokens
-import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 

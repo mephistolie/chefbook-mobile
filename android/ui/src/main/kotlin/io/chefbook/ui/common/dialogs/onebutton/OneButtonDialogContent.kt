@@ -18,12 +18,12 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import io.chefbook.core.android.R as coreR
-import io.chefbook.design.R
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
+import io.chefbook.design.R
 import io.chefbook.design.components.buttons.DynamicButton
 import io.chefbook.design.theme.ChefBookTheme
 import io.chefbook.design.theme.shapes.DialogShape
+import io.chefbook.core.android.R as coreR
 
 @Composable
 fun OneButtonDialogContent(

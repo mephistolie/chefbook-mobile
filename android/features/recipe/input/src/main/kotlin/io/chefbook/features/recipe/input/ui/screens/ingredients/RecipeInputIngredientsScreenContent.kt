@@ -16,19 +16,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import io.chefbook.sdk.recipe.crud.api.external.domain.entities.RecipeInput
-import io.chefbook.sdk.recipe.core.api.external.domain.entities.Recipe.Decrypted.IngredientsItem
+import io.chefbook.core.android.compose.providers.theme.LocalTheme
+import io.chefbook.design.components.buttons.DynamicButton
+import io.chefbook.design.components.toolbar.Toolbar
 import io.chefbook.features.recipe.input.ui.mvi.RecipeInputIngredientsScreenIntent
 import io.chefbook.features.recipe.input.ui.mvi.RecipeInputScreenIntent
 import io.chefbook.features.recipe.input.ui.screens.ingredients.components.AddIngredientItemBlock
 import io.chefbook.features.recipe.input.ui.screens.ingredients.components.ingredientsList
-import io.chefbook.core.android.compose.providers.theme.LocalTheme
-import io.chefbook.design.components.buttons.DynamicButton
-import io.chefbook.core.android.R as coreR
-import io.chefbook.design.components.toolbar.Toolbar
+import io.chefbook.sdk.recipe.core.api.external.domain.entities.Recipe.Decrypted.IngredientsItem
+import io.chefbook.sdk.recipe.crud.api.external.domain.entities.RecipeInput
 import org.burnoutcrew.reorderable.detectReorderAfterLongPress
 import org.burnoutcrew.reorderable.rememberReorderableLazyListState
 import org.burnoutcrew.reorderable.reorderable
+import io.chefbook.core.android.R as coreR
 
 @Composable
 internal fun RecipeInputIngredientScreenContent(

@@ -35,20 +35,19 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import io.chefbook.sdk.recipe.core.api.external.domain.entities.Recipe.Decrypted.IngredientsItem
 import com.mephistolie.compost.modifiers.clippedBackground
-import io.chefbook.features.recipe.input.ui.mvi.RecipeInputIngredientsScreenIntent
-import io.chefbook.features.recipe.input.ui.mvi.RecipeInputScreenIntent
-import io.chefbook.ui.common.extensions.localizedName
-import io.chefbook.ui.common.extensions.stringToMeasureUnit
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.design.components.buttons.CircleIconButton
 import io.chefbook.design.components.buttons.DynamicButton
 import io.chefbook.design.components.textfields.ThemedIndicatorTextField
-import io.chefbook.core.android.R as coreR
 import io.chefbook.design.theme.shapes.ModalBottomSheetShape
-import io.chefbook.features.recipe.input.R
+import io.chefbook.features.recipe.input.ui.mvi.RecipeInputIngredientsScreenIntent
+import io.chefbook.features.recipe.input.ui.mvi.RecipeInputScreenIntent
 import io.chefbook.libs.models.measureunit.standardUnits
+import io.chefbook.sdk.recipe.core.api.external.domain.entities.Recipe.Decrypted.IngredientsItem
+import io.chefbook.ui.common.extensions.localizedName
+import io.chefbook.ui.common.extensions.stringToMeasureUnit
+import io.chefbook.core.android.R as coreR
 import io.chefbook.design.R as designR
 
 

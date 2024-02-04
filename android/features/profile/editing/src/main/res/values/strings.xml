@@ -1,0 +1,15 @@
+<resources>
+
+    <string name="common_profile_editing_screen_nickname">Nickname</string>
+    <string name="common_profile_editing_screen_nickname_short">Minimal nickname length is 5</string>
+    <string name="common_profile_editing_screen_nickname_last_symbol">Nickname last symbol must only be <b><i>a-z</i></b> or <b><i>0-9</i></b></string>
+    <string name="common_profile_editing_screen_nickname_link">Your profile will be available by link</string>
+    <string name="common_profile_editing_screen_nickname_not_available">This nickname isn\'t available</string>
+
+    <string name="common_profile_editing_screen_first_and_last_name">First and last name</string>
+    <string name="common_profile_editing_screen_first_name">First name</string>
+    <string name="common_profile_editing_screen_last_name">Last name</string>
+    <string name="common_profile_editing_screen_about_you">About you</string>
+    <string name="common_profile_editing_screen_about_you_hint">Any details…</string>
+
+</resources>

@@ -1,7 +1,6 @@
 package io.chefbook.sdk.shoppinglist.impl.data.sources.local.datastore
 
 import androidx.datastore.core.Serializer
-import io.chefbook.sdk.shoppinglist.impl.data.sources.local.datastore.dto.ShoppingListSerializable
 import kotlinx.serialization.SerializationException
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json

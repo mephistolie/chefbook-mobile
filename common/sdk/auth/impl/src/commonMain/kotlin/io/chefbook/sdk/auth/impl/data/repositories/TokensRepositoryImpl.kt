@@ -1,6 +1,5 @@
 package io.chefbook.sdk.auth.impl.data.repositories
 
-import io.chefbook.libs.logger.Logger
 import io.chefbook.libs.utils.result.onSuccess
 import io.chefbook.sdk.auth.api.internal.data.repositories.TokensRepository
 import io.chefbook.sdk.auth.impl.data.sources.local.TokensDataSource

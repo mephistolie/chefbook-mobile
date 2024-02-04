@@ -1,19 +1,19 @@
 package io.chefbook.features.recipe.control.ui.components.categories
 
 import androidx.lifecycle.viewModelScope
-import io.chefbook.sdk.recipe.core.api.external.domain.entities.DecryptedRecipeInfo
-import io.chefbook.libs.mvi.MviViewModel
-import io.chefbook.libs.mvi.BaseMviViewModel
+import io.chefbook.features.recipe.control.R
 import io.chefbook.features.recipe.control.ui.components.categories.mvi.RecipeCategoriesSelectionBlockEffect
 import io.chefbook.features.recipe.control.ui.components.categories.mvi.RecipeCategoriesSelectionBlockIntent
 import io.chefbook.features.recipe.control.ui.components.categories.mvi.RecipeCategoriesSelectionBlockState
-import io.chefbook.core.android.R as coreR
-import io.chefbook.features.recipe.control.R
+import io.chefbook.libs.mvi.BaseMviViewModel
+import io.chefbook.libs.mvi.MviViewModel
 import io.chefbook.sdk.category.api.external.domain.usecases.GetCategoriesUseCase
+import io.chefbook.sdk.recipe.core.api.external.domain.entities.DecryptedRecipeInfo
 import io.chefbook.sdk.recipe.interaction.api.external.domain.usecases.SetRecipeCategoriesUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import io.chefbook.core.android.R as coreR
 
 internal typealias IRecipeCategoriesSelectionBlockViewModel = MviViewModel<RecipeCategoriesSelectionBlockState, RecipeCategoriesSelectionBlockIntent, RecipeCategoriesSelectionBlockEffect>
 

@@ -11,11 +11,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import io.chefbook.sdk.recipe.core.api.external.domain.entities.DecryptedRecipeInfo
-import io.chefbook.ui.common.components.recipe.RecipesGrid
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.design.components.progress.CircularProgressIndicator
 import io.chefbook.design.components.toolbar.Toolbar
+import io.chefbook.sdk.recipe.core.api.external.domain.entities.DecryptedRecipeInfo
+import io.chefbook.ui.common.components.recipe.RecipesGrid
 
 @Composable
 fun RecipesScreen(

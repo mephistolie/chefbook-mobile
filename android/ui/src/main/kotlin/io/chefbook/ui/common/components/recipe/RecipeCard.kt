@@ -34,18 +34,18 @@ import androidx.compose.ui.unit.dp
 import com.mephistolie.compost.extensions.Shading
 import com.mephistolie.compost.modifiers.clippedBackground
 import com.mephistolie.compost.modifiers.scalingClickable
-import io.chefbook.sdk.recipe.core.api.external.domain.entities.DecryptedRecipeInfo
-import io.chefbook.sdk.recipe.core.api.external.domain.entities.RecipeInfo
-import io.chefbook.ui.common.providers.RecipeEncryptionProvider
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.core.android.utils.EmojiUtils
 import io.chefbook.core.android.utils.minutesToTimeString
-import io.chefbook.design.theme.colors.Red
-import io.chefbook.design.theme.shapes.RoundedCornerShape12
-import io.chefbook.core.android.R as coreR
 import io.chefbook.design.R
 import io.chefbook.design.components.images.EncryptedImage
+import io.chefbook.design.theme.colors.Red
+import io.chefbook.design.theme.shapes.RoundedCornerShape12
 import io.chefbook.design.theme.shapes.RoundedCornerShape16
+import io.chefbook.sdk.recipe.core.api.external.domain.entities.DecryptedRecipeInfo
+import io.chefbook.sdk.recipe.core.api.external.domain.entities.RecipeInfo
+import io.chefbook.ui.common.providers.RecipeEncryptionProvider
+import io.chefbook.core.android.R as coreR
 
 @Composable
 fun RecipeCard(

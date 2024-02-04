@@ -1,9 +1,9 @@
 package io.chefbook.sdk.recipe.interaction.impl.data.sources.remote
 
+import io.chefbook.libs.utils.result.asEmpty
 import io.chefbook.sdk.recipe.interaction.impl.data.sources.remote.services.RecipeInteractionApiService
 import io.chefbook.sdk.recipe.interaction.impl.data.sources.remote.services.dto.RateRecipeRequest
 import io.chefbook.sdk.recipe.interaction.impl.data.sources.remote.services.dto.SetRecipeCategoriesRequest
-import io.chefbook.libs.utils.result.asEmpty
 
 internal class RemoteRecipeInteractionSourceImpl(
   private val api: RecipeInteractionApiService,

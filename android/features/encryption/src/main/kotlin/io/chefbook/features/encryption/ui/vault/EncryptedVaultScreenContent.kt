@@ -18,7 +18,6 @@ import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -28,6 +27,10 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.mephistolie.compost.modifiers.simpleClickable
+import io.chefbook.core.android.compose.providers.theme.LocalTheme
+import io.chefbook.design.components.buttons.CircleIconButton
+import io.chefbook.design.theme.shapes.ModalBottomSheetShape
+import io.chefbook.design.theme.shapes.RoundedCornerShape24
 import io.chefbook.features.encryption.ui.vault.components.EncryptedVaultScreenManagement
 import io.chefbook.features.encryption.ui.vault.components.EncryptedVaultScreenPinCode
 import io.chefbook.features.encryption.ui.vault.components.EncryptedVaultScreenPresentation
@@ -35,11 +38,7 @@ import io.chefbook.features.encryption.ui.vault.mvi.EncryptedVaultScreenIntent
 import io.chefbook.features.encryption.ui.vault.mvi.EncryptedVaultScreenState
 import io.chefbook.features.encryption.ui.vault.mvi.PinCodeInputType
 import io.chefbook.core.android.R as coreR
-import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.design.R as designR
-import io.chefbook.design.components.buttons.CircleIconButton
-import io.chefbook.design.theme.shapes.ModalBottomSheetShape
-import io.chefbook.design.theme.shapes.RoundedCornerShape24
 
 @Composable
 internal fun EncryptedVaultScreenContent(

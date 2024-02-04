@@ -1,4 +1,4 @@
-package io.chefbook.features.auth.form.data.oauth
+package io.chefbook.features.auth.data.oauth
 
 import android.content.Context
 

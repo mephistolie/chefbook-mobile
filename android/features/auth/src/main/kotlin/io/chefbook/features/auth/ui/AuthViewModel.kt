@@ -1,16 +1,16 @@
-package io.chefbook.features.auth.form.ui
+package io.chefbook.features.auth.ui
 
 import android.content.Context
 import androidx.lifecycle.viewModelScope
-import io.chefbook.features.auth.form.R
-import io.chefbook.features.auth.form.data.oauth.GoogleAuthenticator
-import io.chefbook.libs.mvi.MviViewModel
-import io.chefbook.libs.mvi.BaseMviViewModel
-import io.chefbook.features.auth.form.ui.mvi.AuthScreenEffect
-import io.chefbook.features.auth.form.ui.mvi.AuthScreenIntent
-import io.chefbook.features.auth.form.ui.mvi.AuthScreenState
+import io.chefbook.features.auth.R
+import io.chefbook.features.auth.data.oauth.GoogleAuthenticator
+import io.chefbook.features.auth.ui.mvi.AuthScreenEffect
+import io.chefbook.features.auth.ui.mvi.AuthScreenIntent
+import io.chefbook.features.auth.ui.mvi.AuthScreenState
 import io.chefbook.libs.exceptions.ServerException
 import io.chefbook.libs.logger.Logger
+import io.chefbook.libs.mvi.BaseMviViewModel
+import io.chefbook.libs.mvi.MviViewModel
 import io.chefbook.libs.utils.auth.PasswordRating
 import io.chefbook.libs.utils.auth.isEmail
 import io.chefbook.libs.utils.auth.isNickname
@@ -18,13 +18,13 @@ import io.chefbook.libs.utils.auth.validatePassword
 import io.chefbook.sdk.auth.api.external.domain.usecases.ActivateProfileUseCase
 import io.chefbook.sdk.auth.api.external.domain.usecases.RequestPasswordResetUseCase
 import io.chefbook.sdk.auth.api.external.domain.usecases.ResetPasswordUseCase
-import io.chefbook.core.android.R as coreR
 import io.chefbook.sdk.auth.api.external.domain.usecases.SignInGoogleUseCase
 import io.chefbook.sdk.auth.api.external.domain.usecases.SignInUseCase
 import io.chefbook.sdk.auth.api.external.domain.usecases.SignUpUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import io.chefbook.core.android.R as coreR
 
 internal typealias IAuthViewModel = MviViewModel<AuthScreenState, AuthScreenIntent, AuthScreenEffect>
 
@@ -204,7 +204,6 @@ internal class AuthViewModel(
           }
         }
         _state.emit(getSignInPasswordState())
-        openErrorDialog(error = e)
       }
   }
 
@@ -247,10 +246,6 @@ internal class AuthViewModel(
 
   private suspend fun signInLocally() {
     // TODO
-  }
-
-  private suspend fun openErrorDialog(error: Throwable?) {
-    _effect.emit(AuthScreenEffect.ErrorDialogOpened(error = error))
   }
 
   private suspend fun showToast(messageId: Int) =

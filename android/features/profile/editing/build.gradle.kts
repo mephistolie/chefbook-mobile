@@ -7,4 +7,7 @@ composeDestinationsModuleName("profile-editing")
 
 dependencies {
   implementation(projects.common.sdk.profile.api.external)
+
+  implementation(libs.coil.compose)
+  implementation(libs.imageCropper)
 }

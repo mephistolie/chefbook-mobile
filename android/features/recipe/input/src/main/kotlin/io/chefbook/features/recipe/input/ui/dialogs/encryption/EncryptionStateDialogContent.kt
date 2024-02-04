@@ -16,13 +16,13 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.mephistolie.compost.modifiers.clippedBackground
+import io.chefbook.core.android.compose.providers.theme.LocalTheme
+import io.chefbook.design.theme.shapes.ModalBottomSheetShape
+import io.chefbook.features.recipe.input.R
 import io.chefbook.features.recipe.input.ui.dialogs.components.RadioElement
 import io.chefbook.features.recipe.input.ui.mvi.RecipeInputDetailsScreenIntent
 import io.chefbook.core.android.R as coreR
-import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.design.R as designR
-import io.chefbook.design.theme.shapes.ModalBottomSheetShape
-import io.chefbook.features.recipe.input.R
 
 @Composable
 internal fun EncryptionStateDialogContent(

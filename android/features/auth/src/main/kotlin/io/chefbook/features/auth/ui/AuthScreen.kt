@@ -1,18 +1,14 @@
-package io.chefbook.features.auth.form.ui
+package io.chefbook.features.auth.ui
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.platform.LocalContext
 import com.ramcosta.composedestinations.annotation.DeepLink
-import io.chefbook.features.auth.form.ui.mvi.AuthScreenEffect
-import io.chefbook.features.auth.form.navigation.AuthScreenNavigator
 import com.ramcosta.composedestinations.annotation.Destination
-import com.ramcosta.composedestinations.result.NavResult
-import com.ramcosta.composedestinations.result.OpenResultRecipient
 import io.chefbook.core.android.showToast
-import io.chefbook.features.auth.form.ui.mvi.AuthScreenIntent
-import io.chefbook.libs.logger.Logger
+import io.chefbook.features.auth.navigation.AuthScreenNavigator
+import io.chefbook.features.auth.ui.mvi.AuthScreenEffect
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
 
@@ -48,7 +44,6 @@ fun AuthScreen(
     viewModel.effect.collect { effect ->
       when (effect) {
         is AuthScreenEffect.ToastShown -> context.showToast(effect.message)
-        is AuthScreenEffect.ErrorDialogOpened -> navigator.openErrorInfoDialog(error = effect.error)
         is AuthScreenEffect.DashboardOpened -> navigator.openDashboardScreen()
       }
     }

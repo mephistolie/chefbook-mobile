@@ -23,14 +23,14 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import io.chefbook.features.recipe.share.ui.mvi.RecipeShareDialogIntent
-import io.chefbook.features.recipe.share.ui.mvi.RecipeShareDialogState
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
-import io.chefbook.core.android.R as coreR
 import io.chefbook.design.components.buttons.BottomSheetCloseButton
 import io.chefbook.design.components.buttons.DynamicButton
-import io.chefbook.design.R as designR
 import io.chefbook.features.recipe.share.R
+import io.chefbook.features.recipe.share.ui.mvi.RecipeShareDialogIntent
+import io.chefbook.features.recipe.share.ui.mvi.RecipeShareDialogState
+import io.chefbook.core.android.R as coreR
+import io.chefbook.design.R as designR
 
 @Composable
 internal fun RecipeShareDialogContent(

@@ -1,4 +1,4 @@
-package io.chefbook.features.auth.form.ui
+package io.chefbook.features.auth.ui
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
@@ -24,21 +24,21 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import io.chefbook.core.android.R as coreR
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.design.components.text.HyperlinkText
-import io.chefbook.features.auth.form.ui.mvi.AuthScreenIntent
-import io.chefbook.features.auth.form.ui.mvi.AuthScreenState
-import io.chefbook.features.auth.form.R
-import io.chefbook.features.auth.form.ui.blocks.AnimatedAuthForm
-import io.chefbook.features.auth.form.ui.blocks.PasswordResetConfirmationForm
-import io.chefbook.features.auth.form.ui.blocks.PasswordResetForm
-import io.chefbook.features.auth.form.ui.blocks.ProfileActivationForm
-import io.chefbook.features.auth.form.ui.blocks.SignInForm
-import io.chefbook.features.auth.form.ui.blocks.SignInPasswordForm
-import io.chefbook.features.auth.form.ui.blocks.SignUpForm
-import io.chefbook.features.auth.form.ui.blocks.SignUpPasswordForm
-import io.chefbook.features.auth.form.ui.components.ChefBookLogo
+import io.chefbook.features.auth.R
+import io.chefbook.features.auth.ui.blocks.AnimatedAuthForm
+import io.chefbook.features.auth.ui.blocks.PasswordResetConfirmationForm
+import io.chefbook.features.auth.ui.blocks.PasswordResetForm
+import io.chefbook.features.auth.ui.blocks.ProfileActivationForm
+import io.chefbook.features.auth.ui.blocks.SignInForm
+import io.chefbook.features.auth.ui.blocks.SignInPasswordForm
+import io.chefbook.features.auth.ui.blocks.SignUpForm
+import io.chefbook.features.auth.ui.blocks.SignUpPasswordForm
+import io.chefbook.features.auth.ui.components.ChefBookLogo
+import io.chefbook.features.auth.ui.mvi.AuthScreenIntent
+import io.chefbook.features.auth.ui.mvi.AuthScreenState
+import io.chefbook.core.android.R as coreR
 
 @Composable
 internal fun AuthScreenContent(

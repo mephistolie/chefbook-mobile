@@ -1,11 +1,11 @@
 package io.chefbook.di
 
 import io.chefbook.features.about.di.featureAboutModule
-import io.chefbook.features.auth.form.di.featureAuthModule
+import io.chefbook.features.auth.di.featureAuthModule
 import io.chefbook.features.category.di.featureCategoryModule
 import io.chefbook.features.encryption.di.featureEncryptionModule
 import io.chefbook.features.profile.control.di.featureProfileModule
-import io.chefbook.features.shoppinglist.purchases.input.di.featurePurchaseInputModule
+import io.chefbook.features.profile.editing.di.featureProfileEditingModule
 import io.chefbook.features.recipe.control.di.featureRecipeControlModule
 import io.chefbook.features.recipe.info.di.featureRecipeModule
 import io.chefbook.features.recipe.input.di.featureRecipeInputModule
@@ -16,6 +16,7 @@ import io.chefbook.features.recipebook.favourite.di.featureFavouriteRecipesModul
 import io.chefbook.features.recipebook.search.di.featureRecipeBookSearchModule
 import io.chefbook.features.settings.di.featureSettingsModule
 import io.chefbook.features.shoppinglist.control.di.featureShoppingListModule
+import io.chefbook.features.shoppinglist.purchases.input.di.featurePurchaseInputModule
 import io.chefbook.sdk.auth.impl.di.sdkAuthModule
 import io.chefbook.sdk.category.impl.di.sdkCategoryModule
 import io.chefbook.sdk.core.impl.di.sdkCoreModule
@@ -58,6 +59,7 @@ object Modules {
       featureEncryptionModule,
       featureAuthModule,
       featureProfileModule,
+      featureProfileEditingModule,
       featureSettingsModule,
       featureCategoryModule,
       featureAboutModule,

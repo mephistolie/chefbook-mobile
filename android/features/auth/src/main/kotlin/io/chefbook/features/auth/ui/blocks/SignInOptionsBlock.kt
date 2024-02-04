@@ -1,9 +1,9 @@
-package io.chefbook.features.auth.form.ui.blocks
+package io.chefbook.features.auth.ui.blocks
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.runtime.Composable
 import io.chefbook.design.R
-import io.chefbook.features.auth.form.ui.components.SignInOptionButton
+import io.chefbook.features.auth.ui.components.SignInOptionButton
 
 @Composable
 internal fun SignInOptionsBlock(

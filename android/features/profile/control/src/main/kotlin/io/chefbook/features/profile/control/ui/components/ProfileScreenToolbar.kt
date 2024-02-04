@@ -18,11 +18,11 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import com.mephistolie.compost.modifiers.simpleClickable
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
-import io.chefbook.core.android.R as coreR
-import io.chefbook.design.R as designR
 import io.chefbook.design.theme.dimens.DefaultIconSize
 import io.chefbook.design.theme.dimens.ToolbarHeight
 import io.chefbook.ui.common.components.profile.BroccoinsBadge
+import io.chefbook.core.android.R as coreR
+import io.chefbook.design.R as designR
 
 @Composable
 internal fun ProfileScreenToolbar(

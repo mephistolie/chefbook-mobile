@@ -24,8 +24,8 @@ import coil.request.ImageRequest
 import com.mephistolie.compost.modifiers.simpleClickable
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.features.recipebook.dashboard.R
-import io.chefbook.design.R as designR
 import io.chefbook.features.recipebook.dashboard.ui.mvi.DashboardScreenIntent
+import io.chefbook.design.R as designR
 
 @Composable
 internal fun DashboardTopBar(

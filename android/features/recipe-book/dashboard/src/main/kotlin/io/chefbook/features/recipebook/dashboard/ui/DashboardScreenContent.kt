@@ -3,7 +3,6 @@ package io.chefbook.features.recipebook.dashboard.ui
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -26,16 +25,16 @@ import io.chefbook.core.android.compose.modifiers.shimmer
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.features.recipebook.dashboard.ui.components.blocks.ALL_RECIPES_CARD_KEY_PREFIX
 import io.chefbook.features.recipebook.dashboard.ui.components.blocks.DashboardTopBar
-import io.chefbook.sdk.encryption.vault.api.external.domain.entities.EncryptedVaultState
 import io.chefbook.features.recipebook.dashboard.ui.components.blocks.RecipeBookOnlineBlock
-import io.chefbook.features.recipebook.dashboard.ui.components.blocks.bottombar.BottomBar
 import io.chefbook.features.recipebook.dashboard.ui.components.blocks.allRecipesBlock
+import io.chefbook.features.recipebook.dashboard.ui.components.blocks.bottombar.BottomBar
+import io.chefbook.features.recipebook.dashboard.ui.components.blocks.bottombar.bottomBarHeight
 import io.chefbook.features.recipebook.dashboard.ui.components.blocks.categoriesBlock
 import io.chefbook.features.recipebook.dashboard.ui.components.blocks.quickAccessBlock
+import io.chefbook.features.recipebook.dashboard.ui.mvi.ContentAppearance
 import io.chefbook.features.recipebook.dashboard.ui.mvi.DashboardScreenIntent
 import io.chefbook.features.recipebook.dashboard.ui.mvi.RecipeBookScreenState
-import io.chefbook.features.recipebook.dashboard.ui.components.blocks.bottombar.bottomBarHeight
-import io.chefbook.features.recipebook.dashboard.ui.mvi.ContentAppearance
+import io.chefbook.sdk.encryption.vault.api.external.domain.entities.EncryptedVaultState
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalComposeUiApi::class)

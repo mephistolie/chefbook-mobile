@@ -1,4 +1,4 @@
-package io.chefbook.features.auth.form.ui.components
+package io.chefbook.features.auth.ui.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Row

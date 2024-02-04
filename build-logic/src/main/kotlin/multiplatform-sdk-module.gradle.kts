@@ -1,6 +1,4 @@
 import org.gradle.accessors.dm.LibrariesForLibs
-import org.gradle.kotlin.dsl.getValue
-import org.gradle.kotlin.dsl.getting
 
 plugins {
   id("multiplatform-base-module")

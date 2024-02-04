@@ -5,8 +5,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.ui.hapticfeedback.HapticFeedback
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import io.chefbook.features.recipe.input.ui.mvi.RecipeInputIngredientsScreenIntent
-import org.burnoutcrew.reorderable.ReorderableItem
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.Recipe.Decrypted.IngredientsItem
+import org.burnoutcrew.reorderable.ReorderableItem
 import org.burnoutcrew.reorderable.ReorderableLazyListState
 
 internal fun LazyListScope.ingredientsList(

@@ -21,16 +21,16 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination
-import io.chefbook.navigation.hosts.AppHost
-import io.chefbook.navigation.navigators.AppNavigator
-import io.chefbook.ui.screens.main.mvi.AppState
 import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
 import com.google.accompanist.navigation.material.ModalBottomSheetLayout
-import io.chefbook.features.recipe.info.ui.destinations.RecipeScreenDestination
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.design.theme.ChefBookTheme
 import io.chefbook.design.theme.colors.Monochrome7
+import io.chefbook.features.recipe.info.ui.destinations.RecipeScreenDestination
+import io.chefbook.navigation.hosts.AppHost
+import io.chefbook.navigation.navigators.AppNavigator
 import io.chefbook.sdk.settings.api.external.domain.entities.AppTheme
+import io.chefbook.ui.screens.main.mvi.AppState
 
 private val blackBackgroundModals =
   listOf(RecipeScreenDestination.route)

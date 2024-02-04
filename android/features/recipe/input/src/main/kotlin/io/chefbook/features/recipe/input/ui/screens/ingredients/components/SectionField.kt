@@ -20,9 +20,9 @@ import androidx.compose.ui.unit.dp
 import com.mephistolie.compost.modifiers.clippedBackground
 import com.mephistolie.compost.modifiers.simpleClickable
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
-import io.chefbook.core.android.R as coreR
 import io.chefbook.design.components.textfields.ThemedIndicatorTextField
 import io.chefbook.design.theme.shapes.RoundedCornerShape8
+import io.chefbook.core.android.R as coreR
 import io.chefbook.design.R as designR
 
 @Composable

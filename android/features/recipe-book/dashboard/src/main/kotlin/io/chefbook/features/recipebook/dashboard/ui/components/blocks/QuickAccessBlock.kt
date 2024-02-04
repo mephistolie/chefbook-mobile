@@ -12,10 +12,10 @@ import androidx.compose.material.Text
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import io.chefbook.features.recipebook.dashboard.ui.components.elements.LatestRecipeCard
-import io.chefbook.features.recipebook.dashboard.ui.components.elements.LatestRecipeCardSkeleton
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.features.recipebook.dashboard.R
+import io.chefbook.features.recipebook.dashboard.ui.components.elements.LatestRecipeCard
+import io.chefbook.features.recipebook.dashboard.ui.components.elements.LatestRecipeCardSkeleton
 import io.chefbook.sdk.recipe.book.api.external.domain.entities.LatestRecipeInfo
 
 private const val KEY_PREFIX = "quick_access_card"

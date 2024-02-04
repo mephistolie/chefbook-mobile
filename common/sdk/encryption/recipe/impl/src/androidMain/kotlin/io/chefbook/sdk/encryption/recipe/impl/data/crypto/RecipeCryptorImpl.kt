@@ -2,11 +2,11 @@ package io.chefbook.sdk.encryption.recipe.impl.data.crypto
 
 import io.chefbook.libs.encryption.HybridCryptor
 import io.chefbook.libs.encryption.SymmetricKey
+import io.chefbook.sdk.encryption.recipe.api.internal.data.crypto.RecipeCryptor
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.DecryptedRecipe
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.DecryptedRecipeInfo
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.EncryptedRecipe
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.EncryptedRecipeInfo
-import io.chefbook.sdk.encryption.recipe.api.internal.data.crypto.RecipeCryptor
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.Recipe
 import io.chefbook.sdk.recipe.core.api.internal.data.sources.common.dto.CookingItemSerializable
 import io.chefbook.sdk.recipe.core.api.internal.data.sources.common.dto.IngredientItemSerializable
@@ -18,7 +18,6 @@ import io.ktor.util.decodeBase64Bytes
 import io.ktor.util.encodeBase64
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import org.spongycastle.util.encoders.Base64
 
 internal object RecipeCryptorImpl : RecipeCryptor {
 

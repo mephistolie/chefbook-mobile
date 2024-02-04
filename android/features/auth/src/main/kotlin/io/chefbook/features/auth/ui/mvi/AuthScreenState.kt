@@ -1,4 +1,4 @@
-package io.chefbook.features.auth.form.ui.mvi
+package io.chefbook.features.auth.ui.mvi
 
 import io.chefbook.libs.mvi.MviState
 

@@ -15,12 +15,12 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
-import io.chefbook.ui.common.extensions.localizedName
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.design.components.checkboxes.Checkbox
 import io.chefbook.libs.models.measureunit.MeasureUnit
-import kotlin.math.abs
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.Recipe.Decrypted.IngredientsItem
+import io.chefbook.ui.common.extensions.localizedName
+import kotlin.math.abs
 
 @Composable
 internal fun Ingredient(
