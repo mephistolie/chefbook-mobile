@@ -37,7 +37,7 @@ data class ShoppingList(
       when {
         purchaseById != null && newPurchaseAmount != null && newPurchaseAmount > 0 ->
           updatedPurchases.add(
-            purchaseById.copy(amount = (purchaseById.amount ?: 0) + newPurchaseAmount)
+            purchaseById.copy(amount = (purchaseById.amount ?: 0F) + newPurchaseAmount)
           )
 
         purchaseByName != null ->

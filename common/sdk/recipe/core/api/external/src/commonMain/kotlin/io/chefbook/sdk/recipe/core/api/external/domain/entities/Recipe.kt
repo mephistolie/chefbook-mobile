@@ -71,7 +71,6 @@ sealed class Recipe(
   abstract fun withScore(score: Int?): Recipe
   abstract fun withVersion(version: Int): Recipe
 
-
   data class Decrypted(
     override val info: DecryptedRecipeInfo,
     override val macronutrients: Macronutrients?,
@@ -108,7 +107,7 @@ sealed class Recipe(
       data class Ingredient(
         override val id: String,
         val name: String,
-        val amount: Int? = null,
+        val amount: Float? = null,
         val measureUnit: MeasureUnit? = null,
         val recipeId: String? = null,
       ) : IngredientsItem(id)

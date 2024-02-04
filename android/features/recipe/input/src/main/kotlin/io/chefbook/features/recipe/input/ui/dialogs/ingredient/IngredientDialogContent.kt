@@ -21,9 +21,11 @@ import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
@@ -44,14 +46,15 @@ import io.chefbook.design.theme.shapes.ModalBottomSheetShape
 import io.chefbook.features.recipe.input.ui.mvi.RecipeInputIngredientsScreenIntent
 import io.chefbook.features.recipe.input.ui.mvi.RecipeInputScreenIntent
 import io.chefbook.libs.models.measureunit.standardUnits
+import io.chefbook.libs.utils.numbers.toFormattedFloat
+import io.chefbook.libs.utils.numbers.toFormattedInput
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.Recipe.Decrypted.IngredientsItem
 import io.chefbook.ui.common.extensions.localizedName
 import io.chefbook.ui.common.extensions.stringToMeasureUnit
 import io.chefbook.core.android.R as coreR
 import io.chefbook.design.R as designR
 
-
-@OptIn(ExperimentalComposeUiApi::class, ExperimentalLayoutApi::class)
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 internal fun IngredientDialogContent(
   state: IngredientsItem.Ingredient,
@@ -64,6 +67,8 @@ internal fun IngredientDialogContent(
 
   val colors = LocalTheme.colors
   val typography = LocalTheme.typography
+
+  var wasDotEntered by remember { mutableStateOf(false) }
 
   Column(
     modifier = Modifier
@@ -120,15 +125,19 @@ internal fun IngredientDialogContent(
       },
     )
     ThemedIndicatorTextField(
-      value = if (state.amount != null) state.amount.toString() else "",
+      value = state.amount.toFormattedInput(trimDot = !wasDotEntered),
       modifier = Modifier.fillMaxWidth(),
-      onValueChange = { amount ->
-        onIngredientsIntent(
-          RecipeInputIngredientsScreenIntent.SetIngredientAmount(
-            state.id,
-            amount.toIntOrNull()
+      onValueChange = { input ->
+        val amount = input.toFormattedFloat()
+        if (amount != null || input.isEmpty()) {
+          wasDotEntered = input.contains(",") || input.contains(".")
+          onIngredientsIntent(
+            RecipeInputIngredientsScreenIntent.SetIngredientAmount(
+              state.id,
+              amount,
+            )
           )
-        )
+        }
       },
       keyboardOptions = KeyboardOptions(
         keyboardType = KeyboardType.Decimal,

@@ -16,7 +16,7 @@ sealed class MeasureUnit {
 
   data object TBSP : MeasureUnit()
 
-  class Custom(val name: String) : MeasureUnit()
+  data class Custom(val name: String) : MeasureUnit()
 }
 
 val standardUnits = listOf(

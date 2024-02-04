@@ -137,7 +137,7 @@ internal class RecipeInputScreenViewModelCookingDelegate(
   }
 
   companion object {
-    private const val MAX_SECTION_LENGTH = 80
+    private const val MAX_SECTION_LENGTH = 75
     private const val MAX_STEP_LENGTH = 2500
   }
 }

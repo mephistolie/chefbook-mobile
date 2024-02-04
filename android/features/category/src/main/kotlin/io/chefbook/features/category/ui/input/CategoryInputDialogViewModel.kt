@@ -53,7 +53,8 @@ internal class CategoryInputDialogViewModel(
   }
 
   private fun setName(name: String) {
-    _state.update { state -> state.copy(input = state.input.copy(name = name)) }
+    val formattedName = if (name.length > MAX_NAME_LENGTH) name.substring(0, MAX_NAME_LENGTH) else name
+    _state.update { state -> state.copy(input = state.input.copy(name = formattedName)) }
   }
 
   private suspend fun setCover(newCover: String) {
@@ -68,7 +69,8 @@ internal class CategoryInputDialogViewModel(
   }
 
   private suspend fun confirmInput() {
-    val input = state.value.input
+    var input = state.value.input
+    input = input.copy(name = input.name.trim())
     if (categoryId != null) updateCategory(
       categoryId = categoryId,
       input = input
@@ -101,6 +103,8 @@ internal class CategoryInputDialogViewModel(
   }
 
   companion object {
+    private const val MAX_NAME_LENGTH = 64
+
     private val coverRegex = Regex("^.*[а-яА-ЯёЁa-zA-Z0-9!@#\$%ˆ&*()_+-=\"№;%:?*]+?")
   }
 }

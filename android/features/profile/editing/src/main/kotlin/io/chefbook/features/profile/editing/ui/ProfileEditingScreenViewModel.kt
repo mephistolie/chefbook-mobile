@@ -173,18 +173,18 @@ internal class ProfileEditingScreenViewModel(
       }
       launch {
         val nickname = state.nickname
-        if (nickname != profile?.nickname && isNickname(nickname)) setNicknameUseCase(nickname)
+        if (nickname != profile?.nickname && isNickname(nickname)) setNicknameUseCase(nickname.trim())
       }
       launch {
         val firstName = state.firstName.ifBlank { null }
         val lastName = state.lastName.ifBlank { null }
         if (firstName != profile?.firstName || lastName != profile?.lastName) {
-          setNameUseCase(firstName, lastName)
+          setNameUseCase(firstName?.trim(), lastName?.trim())
         }
       }
       launch {
         val description = state.description.ifBlank { null }
-        if (description != profile?.description) setDescriptionUseCase(description)
+        if (description != profile?.description) setDescriptionUseCase(description?.trim())
       }
     }
     _effect.emit(ProfileEditingScreenEffect.Closed)

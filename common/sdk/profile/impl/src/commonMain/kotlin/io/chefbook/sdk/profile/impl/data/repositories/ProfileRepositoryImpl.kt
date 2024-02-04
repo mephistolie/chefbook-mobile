@@ -20,6 +20,7 @@ import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.shareIn
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 internal class ProfileRepositoryImpl(
@@ -34,8 +35,10 @@ internal class ProfileRepositoryImpl(
 
   private val profileFlow = localSource.observeProfile()
     .onStart {
-      if (profileModeRepository.isProfileModeOnline()) {
-        remoteSource.getProfileInfo().onSuccess(localSource::cacheProfileInfo)
+      scopes.repository.launch {
+        if (profileModeRepository.isProfileModeOnline()) {
+          remoteSource.getProfileInfo().onSuccess(localSource::cacheProfileInfo)
+        }
       }
     }
     .map { profile ->

@@ -6,8 +6,13 @@ android {
   namespace = "io.chefbook"
   defaultConfig {
     applicationId = "com.cactusknights.chefbook"
-    versionCode = 43
-    versionName = "4.0-alpha1"
+    versionCode = 44
+    versionName = "4.0-alpha2"
+  }
+  buildTypes {
+    debug {
+      applicationIdSuffix = ".debug"
+    }
   }
 }
 

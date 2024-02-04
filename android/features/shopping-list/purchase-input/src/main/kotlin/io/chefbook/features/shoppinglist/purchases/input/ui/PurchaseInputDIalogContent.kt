@@ -116,11 +116,13 @@ internal fun PurchaseInputDialogContent(
         )
       },
     )
+    var amount = if (state.amount != null) state.amount.toString() else ""
+    amount = if (amount.lastOrNull() == '0') amount.substring(0, amount.lastIndex) else amount
     ThemedIndicatorTextField(
-      value = if (state.amount != null) state.amount.toString() else "",
+      value = amount,
       modifier = Modifier.fillMaxWidth(),
       onValueChange = { amount ->
-        onIntent(PurchaseInputDialogIntent.SetAmount(amount.toIntOrNull() ?: 0))
+        onIntent(PurchaseInputDialogIntent.SetAmount(amount.toFloatOrNull()))
       },
       keyboardOptions = KeyboardOptions(
         keyboardType = KeyboardType.Decimal,

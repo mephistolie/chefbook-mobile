@@ -16,7 +16,7 @@ internal data class PurchaseSerializable(
   @SerialName("purchased")
   val isPurchased: Boolean? = null,
   @SerialName("amount")
-  val amount: Int? = null,
+  val amount: Float? = null,
   @SerialName("measureUnit")
   val measureUnit: String? = null,
   @SerialName("recipeId")

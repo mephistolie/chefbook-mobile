@@ -132,10 +132,10 @@ class RecipeInputScreenViewModel(
 
     _state.emit(currentState.copy(isLoading = true))
     if (recipeId == null) {
-      createRecipeUseCase(currentState.input)
+      createRecipeUseCase(currentState.input.trim())
         .onSuccess { _effect.emit(RecipeInputScreenEffect.OnSaved) }
     } else {
-      updateRecipeUseCase(currentState.input)
+      updateRecipeUseCase(currentState.input.trim())
         .onSuccess { closeInput(openRecipeScreen = true) }
     }
     _state.emit(currentState)

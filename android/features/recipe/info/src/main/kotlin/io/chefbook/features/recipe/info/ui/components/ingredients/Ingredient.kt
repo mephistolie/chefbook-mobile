@@ -18,6 +18,8 @@ import androidx.compose.ui.unit.dp
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.design.components.checkboxes.Checkbox
 import io.chefbook.libs.models.measureunit.MeasureUnit
+import io.chefbook.libs.utils.numbers.toFormattedInput
+import io.chefbook.libs.utils.numbers.toFormattedText
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.Recipe.Decrypted.IngredientsItem
 import io.chefbook.ui.common.extensions.localizedName
 import kotlin.math.abs
@@ -82,13 +84,7 @@ private fun buildIngredientName(
     append(" ")
     ingredient.amount?.let { amount ->
       withStyle(optionalTextStyle) {
-        val amountForServings = amount * amountRatio
-        val epsilon = 0.1F
-        if (amountForServings > 10 || abs(amountForServings - amountForServings.toInt()) < epsilon) {
-          append("${amountForServings.toInt()}")
-        } else {
-          append(String.format("%.2f", amountForServings))
-        }
+        append((amount * amountRatio).toFormattedText())
         append(" ")
       }
     }

@@ -22,6 +22,11 @@ fun HyperlinkText(
 
   val annotatedString = buildAnnotatedString {
     append(text)
+    addStyle(
+      style = SpanStyle(colors.foregroundPrimary),
+      start = 0,
+      end = text.length
+    )
     hyperlinks.map { it.first }.forEachIndexed { index, link ->
       val startIndex = text.lowercase().indexOf(link.lowercase())
       val endIndex = startIndex + link.length
@@ -37,11 +42,6 @@ fun HyperlinkText(
         end = endIndex
       )
     }
-    addStyle(
-      style = SpanStyle(),
-      start = 0,
-      end = text.length
-    )
   }
 
   val uriHandler = LocalUriHandler.current

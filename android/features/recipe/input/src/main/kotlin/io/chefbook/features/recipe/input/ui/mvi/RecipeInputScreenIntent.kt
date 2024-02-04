@@ -45,7 +45,7 @@ sealed class RecipeInputIngredientsScreenIntent : MviIntent {
   data class SetIngredientItemName(val ingredientId: String, val name: String) :
     RecipeInputIngredientsScreenIntent()
 
-  data class SetIngredientAmount(val ingredientId: String, val amount: Int?) :
+  data class SetIngredientAmount(val ingredientId: String, val amount: Float?) :
     RecipeInputIngredientsScreenIntent()
 
   data class SetIngredientUnit(val ingredientId: String, val unit: MeasureUnit?) :

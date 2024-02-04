@@ -54,7 +54,7 @@ internal class RecipeInputScreenViewModelDetailsDelegate(
     updateState { state -> state.copy(input = state.input.copy(name = croppedName)) }
   }
 
-  private suspend fun setVisibility(visibility: RecipeMeta.Visibility) {
+  private suspend fun setVisibility(visibility: Visibility) {
     updateState { state ->
       val isEncrypted = if (visibility == Visibility.PUBLIC) false else state.input.hasEncryption
       state.copy(input = state.input.copy(visibility = visibility, hasEncryption = isEncrypted))
@@ -112,7 +112,7 @@ internal class RecipeInputScreenViewModelDetailsDelegate(
   private suspend fun setServings(count: Int?) {
     val servings = when {
       count == null -> null
-      count > 99 -> 99
+      count > MAX_SERVINGS -> MAX_SERVINGS
       count < 1 -> 1
       else -> count
     }
@@ -120,17 +120,20 @@ internal class RecipeInputScreenViewModelDetailsDelegate(
   }
 
   private suspend fun setTime(h: Int, min: Int) {
-    val time = h * 60 + min
+    var time = h * 60 + min
+    if (time > MAX_TIME) time = MAX_TIME
     updateState { state -> state.copy(input = state.input.copy(time = if (time > 0) time else null)) }
   }
 
   private suspend fun setCalories(value: Int?) {
-    val calories = if (value != null && value > 0) value else null
+    var calories = if (value != null && value > 0) value else null
+    if (calories != null && calories > MAX_CALORIES) calories = MAX_CALORIES
     updateState { state -> state.copy(input = state.input.copy(calories = calories)) }
   }
 
   private suspend fun setProtein(value: Int?) {
-    val protein = if (value != null && value > 0) value else null
+    var protein = if (value != null && value > 0) value else null
+    if (protein != null && protein > MAX_MACRONUTRIENTS) protein = MAX_MACRONUTRIENTS
     updateState { state ->
       val macronutrients = state.input.macronutrients?.copy(protein = protein)
         ?: Macronutrients(protein = protein)
@@ -139,8 +142,9 @@ internal class RecipeInputScreenViewModelDetailsDelegate(
   }
 
   private suspend fun setFats(value: Int?) {
+    var fats = if (value != null && value > 0) value else null
+    if (fats != null && fats > MAX_MACRONUTRIENTS) fats = MAX_MACRONUTRIENTS
     updateState { state ->
-      val fats = if (value != null && value > 0) value else null
       val macronutrients = state.input.macronutrients?.copy(fats = fats)
         ?: Macronutrients(fats = fats)
       state.copy(input = state.input.copy(macronutrients = macronutrients.filtered()))
@@ -148,8 +152,9 @@ internal class RecipeInputScreenViewModelDetailsDelegate(
   }
 
   private suspend fun setCarbs(value: Int?) {
+    var carbs = if (value != null && value > 0) value else null
+    if (carbs != null && carbs > MAX_MACRONUTRIENTS) carbs = MAX_MACRONUTRIENTS
     updateState { state ->
-      val carbs = if (value != null && value > 0) value else null
       val macronutrients = state.input.macronutrients?.copy(carbohydrates = carbs)
         ?: Macronutrients(carbohydrates = carbs)
       state.copy(input = state.input.copy(macronutrients = macronutrients.filtered()))
@@ -160,7 +165,12 @@ internal class RecipeInputScreenViewModelDetailsDelegate(
     if (protein != null || fats != null || carbohydrates != null) this else null
 
   companion object {
-    private const val MAX_NAME_LENGTH = 100
-    private const val MAX_DESCRIPTION_LENGTH = 1500
+    private const val MAX_NAME_LENGTH = 75
+    private const val MAX_DESCRIPTION_LENGTH = 100
+
+    private const val MAX_SERVINGS = 1000
+    private const val MAX_TIME = 10080
+    private const val MAX_CALORIES = 10000
+    private const val MAX_MACRONUTRIENTS = 500
   }
 }

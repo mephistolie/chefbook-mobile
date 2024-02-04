@@ -1,6 +1,7 @@
 package io.chefbook.sdk.recipe.crud.api.external.domain.entities
 
 import io.chefbook.libs.models.language.Language
+import io.chefbook.libs.models.measureunit.MeasureUnit
 import io.chefbook.libs.utils.uuid.generateUUID
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.Recipe.Decrypted.IngredientsItem
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.Recipe.Macronutrients
@@ -37,18 +38,27 @@ data class RecipeInput(
   sealed class CookingItem(
     open val id: String,
   ) {
+
+    open fun trim() = this
+
     data class Step(
-      override val id: String,
-      val description: String,
+      override val id: String = generateUUID(),
+      val description: String = "",
       val time: Int? = null,
       val pictures: List<Picture> = emptyList(),
       val recipeId: String? = null,
-    ) : CookingItem(id)
+    ) : CookingItem(id) {
+
+      override fun trim() = copy(description = description.trim())
+    }
 
     data class Section(
       override val id: String,
       val name: String,
-    ) : CookingItem(id)
+    ) : CookingItem(id) {
+
+      override fun trim() = copy(name = name.trim())
+    }
   }
 
   data class Pictures(
@@ -72,6 +82,23 @@ data class RecipeInput(
     data class Pending(val source: String) : Picture(source)
   }
 
+  fun trim() =
+    copy(
+      name = name.trim(),
+      description = description?.trim(),
+      ingredients = ingredients.map { it.trim() },
+      cooking = cooking.map(CookingItem::trim),
+    )
+
+  private fun IngredientsItem.trim() =
+    when (this) {
+      is IngredientsItem.Ingredient -> copy(
+        name = name.trim(),
+        measureUnit = (measureUnit as? MeasureUnit.Custom)?.let { MeasureUnit.Custom(it.name.trim()) } ?: measureUnit
+      )
+      is IngredientsItem.Section -> copy(name = name.trim())
+    }
+
   companion object {
     fun new(language: Language = Language.ENGLISH) = RecipeInput(
       id = generateUUID(),
@@ -88,8 +115,8 @@ data class RecipeInput(
       calories = null,
       macronutrients = null,
 
-      ingredients = emptyList(),
-      cooking = emptyList(),
+      ingredients = listOf(IngredientsItem.Ingredient(id = generateUUID(), name = "")),
+      cooking =  listOf(CookingItem.Step()),
 
       version = 1,
     )

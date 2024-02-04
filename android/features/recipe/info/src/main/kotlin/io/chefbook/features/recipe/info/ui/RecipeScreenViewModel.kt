@@ -171,7 +171,7 @@ internal class RecipeScreenViewModel(
           Purchase(
             id = ingredient.id,
             name = ingredient.name,
-            amount = ingredient.amount?.let { amount -> ceil(amount * multiplier).toInt() },
+            amount = ingredient.amount?.let { amount -> amount * multiplier },
             measureUnit = ingredient.measureUnit,
             multiplier = multiplier.toInt(),
             recipeId = recipeId,

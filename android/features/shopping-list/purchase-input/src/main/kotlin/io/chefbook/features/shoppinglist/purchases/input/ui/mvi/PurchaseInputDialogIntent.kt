@@ -5,7 +5,7 @@ import io.chefbook.libs.mvi.MviIntent
 
 sealed class PurchaseInputDialogIntent : MviIntent {
   data class SetName(val name: String) : PurchaseInputDialogIntent()
-  data class SetAmount(val amount: Int?) : PurchaseInputDialogIntent()
+  data class SetAmount(val amount: Float?) : PurchaseInputDialogIntent()
   data class SetMeasureUnit(val unit: MeasureUnit?) : PurchaseInputDialogIntent()
 
   data object Close : PurchaseInputDialogIntent()
