@@ -41,7 +41,6 @@ internal fun ShoppingListScreenContent(
   shoppingListScreenNavigator: BaseNavigator,
 ) {
   val colors = LocalTheme.colors
-  val backgroundColor = if (colors.isDark) Color.Black else colors.backgroundSecondary
 
   ModalBottomSheetLayout(
     sheetState = modalSheetState,
@@ -73,7 +72,7 @@ internal fun ShoppingListScreenContent(
           .statusBarsPadding()
           .imePadding()
           .wrapContentHeight()
-          .clippedBackground(backgroundColor, shape = ModalBottomSheetShape)
+          .clippedBackground(colors.divider, shape = ModalBottomSheetShape)
           .shimmer(isEnabled = state is ShoppingListScreenState.Loading)
           .animateContentSize(),
       ) {

@@ -152,7 +152,7 @@ fun RecipeCard(
       )
       Spacer(modifier = Modifier.width(4.dp))
       Text(
-        text = if (recipe.rating.votes > 0) recipe.rating.index.toString() else "-",
+        text = if (recipe.rating.votes > 0) recipe.rating.index.toString() else "–",
         style = typography.subhead1,
         color = colors.foregroundSecondary
       )

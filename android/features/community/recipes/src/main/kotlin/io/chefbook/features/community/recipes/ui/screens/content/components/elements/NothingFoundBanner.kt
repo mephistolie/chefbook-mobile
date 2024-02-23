@@ -20,6 +20,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.mephistolie.compost.modifiers.simpleClickable
 import io.chefbook.core.android.R as coreR
+import io.chefbook.design.R as designR
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.features.community.recipes.R
 
@@ -41,7 +42,7 @@ internal fun NothingFoundBanner(
     verticalArrangement = Arrangement.Center,
   ) {
     Image(
-      imageVector = ImageVector.vectorResource(coreR.drawable.ic_broccy_grinning_sweat),
+      imageVector = ImageVector.vectorResource(designR.drawable.ic_broccy_grinning_sweat),
       contentDescription = null,
       modifier = Modifier.size(96.dp),
     )

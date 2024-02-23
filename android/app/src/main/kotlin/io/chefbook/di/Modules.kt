@@ -11,6 +11,7 @@ import io.chefbook.features.profile.editing.di.featureProfileEditingModule
 import io.chefbook.features.recipe.control.di.featureRecipeControlModule
 import io.chefbook.features.recipe.info.di.featureRecipeModule
 import io.chefbook.features.recipe.input.di.featureRecipeInputModule
+import io.chefbook.features.recipe.rating.di.featureRecipeRatingModule
 import io.chefbook.features.recipe.share.di.featureRecipeShareModule
 import io.chefbook.features.recipebook.category.di.featureCategoryRecipesModule
 import io.chefbook.features.recipebook.dashboard.di.featureRecipeBookDashboardModule
@@ -75,6 +76,7 @@ object Modules {
       featureRecipeModule,
       featureRecipeShareModule,
       featureRecipeControlModule,
+      featureRecipeRatingModule,
       featureRecipeInputModule,
     )
 

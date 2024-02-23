@@ -16,7 +16,7 @@ import io.chefbook.sdk.recipe.core.api.external.domain.entities.Recipe
 internal fun ActionsWidget(
   recipe: Recipe,
   modifier: Modifier = Modifier,
-  onLikeClick: () -> Unit,
+  onRateClick: () -> Unit,
   onSaveClick: () -> Unit,
   onShareClick: () -> Unit,
 ) {
@@ -33,7 +33,7 @@ internal fun ActionsWidget(
       modifier = Modifier
         .padding(start = 8.dp)
         .wrapContentWidth(),
-      onRateClick = onLikeClick,
+      onRateClick = onRateClick,
     )
     ShareButton(
       modifier = Modifier

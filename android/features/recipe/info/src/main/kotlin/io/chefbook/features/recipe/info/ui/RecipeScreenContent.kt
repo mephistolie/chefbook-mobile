@@ -3,8 +3,8 @@ package io.chefbook.features.recipe.info.ui
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.material.BottomSheetState
@@ -33,6 +33,7 @@ import io.chefbook.features.recipe.info.ui.components.common.content.loaded.Reci
 import io.chefbook.features.recipe.info.ui.mvi.RecipeScreenIntent
 import io.chefbook.features.recipe.info.ui.mvi.RecipeScreenState
 import io.chefbook.features.recipe.info.ui.state.RecipeScreenBottomSheetType
+import io.chefbook.features.recipe.rating.ui.RecipeRatingScreen
 import io.chefbook.navigation.results.dialogs.TwoButtonsDialogResult
 import io.chefbook.ui.common.presentation.RecipeScreenPage
 
@@ -42,7 +43,7 @@ internal fun RecipeScreenBottomSheet(
   state: RecipeScreenState,
   initPage: RecipeScreenPage,
   onIntent: (RecipeScreenIntent) -> Unit,
-  controlNavigator: RecipeControlScreenNavigator,
+  childNavigator: RecipeControlScreenNavigator,
   confirmDialogRecipient: OpenResultRecipient<TwoButtonsDialogResult>,
   sheetState: BottomSheetState = rememberBottomSheetState(initialValue = BottomSheetValue.Collapsed),
   modalSheetState: ModalBottomSheetState = rememberModalBottomSheetState(
@@ -60,6 +61,7 @@ internal fun RecipeScreenBottomSheet(
 
   ModalBottomSheetLayout(
     modifier = Modifier
+      .fillMaxWidth()
       .height(bottomSheetHeight)
       .clippedBackground(colors.backgroundSecondary, ModalBottomSheetShape),
     sheetState = modalSheetState,
@@ -73,15 +75,18 @@ internal fun RecipeScreenBottomSheet(
         if (modalSheetState.isVisible) {
           (state as? RecipeScreenState.Success)?.bottomSheetType?.let { type ->
             when (type) {
-              RecipeScreenBottomSheetType.MENU -> {
-                RecipeControlScreen(
-                  recipeId = state.recipe.id,
-                  navigator = controlNavigator,
-                  confirmDialogRecipient = confirmDialogRecipient,
-                )
-              }
+              RecipeScreenBottomSheetType.MENU -> RecipeControlScreen(
+                recipeId = state.recipe.id,
+                navigator = childNavigator,
+                confirmDialogRecipient = confirmDialogRecipient,
+              )
 
-              RecipeScreenBottomSheetType.DETAILS -> {}
+              RecipeScreenBottomSheetType.RATING -> RecipeRatingScreen(
+                recipeId = state.recipe.id,
+                navigator = childNavigator,
+              )
+
+              RecipeScreenBottomSheetType.DETAILS -> Unit
             }
           }
         }

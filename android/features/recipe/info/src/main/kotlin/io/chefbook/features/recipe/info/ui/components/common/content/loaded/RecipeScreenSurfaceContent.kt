@@ -66,7 +66,7 @@ internal fun RecipeScreenSurfaceContent(
       ActionsWidget(
         recipe = state.recipe,
         modifier = Modifier.padding(top = 12.dp, bottom = 24.dp),
-        onLikeClick = { onIntent(RecipeScreenIntent.ChangeLikeStatus) },
+        onRateClick = { onIntent(RecipeScreenIntent.RateButtonClicked) },
         onSaveClick = {
           if (!state.recipe.isSaved) {
             onIntent(RecipeScreenIntent.AddToRecipeBook)

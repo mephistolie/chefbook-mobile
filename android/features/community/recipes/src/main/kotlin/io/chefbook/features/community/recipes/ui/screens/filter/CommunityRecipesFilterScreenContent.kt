@@ -1,22 +1,17 @@
 package io.chefbook.features.community.recipes.ui.screens.filter
 
-import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import com.mephistolie.compost.modifiers.clippedBackground
-import com.mephistolie.compost.modifiers.simpleClickable
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.design.theme.shapes.ModalBottomSheetShape
 import io.chefbook.features.community.recipes.ui.screens.filter.components.blocks.ButtonsBlock
@@ -36,13 +31,12 @@ internal fun CommunityRecipesFilterScreenContent(
   focusSearch: Boolean,
 ) {
   val colors = LocalTheme.colors
-  val backgroundColor = if (colors.isDark) Color.Black else colors.backgroundSecondary
 
   Box(
     modifier = Modifier
       .fillMaxSize()
       .statusBarsPadding()
-      .clippedBackground(backgroundColor, shape = ModalBottomSheetShape)
+      .clippedBackground(colors.divider, shape = ModalBottomSheetShape)
   ) {
     LazyColumn(
       modifier = Modifier.fillMaxSize(),

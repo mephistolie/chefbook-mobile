@@ -22,10 +22,10 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.design.components.buttons.DynamicButton
+import io.chefbook.design.R as designR
 import io.chefbook.design.theme.ChefBookTheme
 import io.chefbook.design.theme.shapes.RoundedCornerShape24
 import io.chefbook.features.recipe.input.R
-import io.chefbook.core.android.R as coreR
 
 @Composable
 internal fun RecipeSavedDialogContent(
@@ -58,7 +58,7 @@ internal fun RecipeSavedDialogContent(
         color = colors.foregroundPrimary
       )
       Image(
-        imageVector = ImageVector.vectorResource(coreR.drawable.ic_broccy),
+        imageVector = ImageVector.vectorResource(designR.drawable.ic_broccy),
         contentDescription = null,
         modifier = Modifier
           .padding(top = 12.dp)

@@ -1,6 +1,6 @@
 package io.chefbook.features.recipe.info.ui
 
-import androidx.compose.animation.core.TweenSpec
+import androidx.compose.animation.core.SpringSpec
 import androidx.compose.material.BottomSheetValue
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetValue
@@ -61,7 +61,7 @@ fun RecipeScreen(
 
   val modalSheetState = rememberModalBottomSheetState(
     initialValue = ModalBottomSheetValue.Hidden,
-    animationSpec = TweenSpec(),
+    animationSpec = SpringSpec(dampingRatio = 10F, stiffness = 100_000F),
     skipHalfExpanded = true,
   )
 
@@ -75,7 +75,7 @@ fun RecipeScreen(
       onIntent = { event -> viewModel.handleIntent(event) },
       sheetState = sheetState,
       modalSheetState = modalSheetState,
-      controlNavigator = getRecipeControlScreenNavigator(
+      childNavigator = getRecipeControlScreenNavigator(
         navigator = navigator,
         onNavigateUp = { scope.launch { modalSheetState.hide() } }
       ),
@@ -89,7 +89,10 @@ fun RecipeScreen(
       when (effect) {
         is RecipeScreenEffect.ShowToast -> context.showToast(effect.messageId)
         is RecipeScreenEffect.ExpandSheet -> launch { sheetState.expand() }
-        is RecipeScreenEffect.OpenModalBottomSheet -> modalSheetState.show()
+        is RecipeScreenEffect.OpenModalBottomSheet -> {
+          if (modalSheetState.isVisible) modalSheetState.hide()
+          modalSheetState.show()
+        }
         is RecipeScreenEffect.Close -> navigator.closeRecipeScreen()
         is RecipeScreenEffect.OpenShareDialog -> navigator.openRecipeShareDialog(recipeId = effect.recipeId)
         is RecipeScreenEffect.OpenCategoryScreen -> navigator.openCategoryRecipesScreen(effect.categoryId)

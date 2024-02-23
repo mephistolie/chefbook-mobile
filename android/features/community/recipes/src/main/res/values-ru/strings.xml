@@ -4,6 +4,8 @@
     <string name="common_community_recipes_content_screen_public_recipe">публичный рецепт</string>
     <string name="common_community_recipes_content_screen_change_parameters_hint">Попробуйте изменить параметры запроса</string>
 
+    <string name="common_community_recipes_filter_screen_from">От</string>
+    <string name="common_community_recipes_filter_screen_to">До</string>
     <string name="common_community_recipes_filter_screen_specificities">Особенности</string>
     <string name="common_community_recipes_filter_screen_high_rating">Высокий рейтинг</string>
     <string name="common_community_recipes_filter_screen_by_cooking_time">По времени приготовления</string>

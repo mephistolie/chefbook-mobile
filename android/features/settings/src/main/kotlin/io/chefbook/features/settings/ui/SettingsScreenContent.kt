@@ -85,7 +85,7 @@ internal fun SettingsScreenContent(
           .padding(vertical = 14.dp),
       ) {
         MenuSelectableImage(
-          image = ImageVector.vectorResource(coreR.drawable.ic_broccy),
+          image = ImageVector.vectorResource(designR.drawable.ic_broccy),
           isSelected = state.appIcon == AppIcon.STANDARD,
           onClick = { onIntent(SettingsScreenIntent.SetIcon(AppIcon.STANDARD)) },
         )

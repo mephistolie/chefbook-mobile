@@ -14,6 +14,7 @@ dependencies {
   implementation(projects.common.sdk.shoppingList.api.external)
 
   implementation(projects.android.features.recipe.control)
+  implementation(projects.android.features.recipe.rating)
 
   implementation(libs.coil.compose)
 

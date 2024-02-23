@@ -44,6 +44,9 @@ internal class RecipesCacheImpl(
   }
     .shareIn(scopes.repository, started = SharingStarted.Lazily, replay = 1)
 
+  override fun observeRecipes() =
+    cachedRecipeMap
+
   override fun observeRecipeBook(): Flow<RecipeBook?> =
     cachedRecipeBook
 

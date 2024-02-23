@@ -63,6 +63,7 @@ dependencies {
   implementation(projects.android.features.recipeBook.search)
   implementation(projects.android.features.recipe.info)
   implementation(projects.android.features.recipe.control)
+  implementation(projects.android.features.recipe.rating)
   implementation(projects.android.features.recipe.share)
   implementation(projects.android.features.recipe.input)
   implementation(projects.android.features.category)

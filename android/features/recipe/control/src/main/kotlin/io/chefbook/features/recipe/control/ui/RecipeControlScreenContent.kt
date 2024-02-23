@@ -4,6 +4,7 @@ import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
@@ -42,9 +43,9 @@ internal fun RecipeControlScreenContent(
   Column(
     modifier = Modifier
       .background(colors.backgroundSecondary, ModalBottomSheetShape)
+      .fillMaxWidth()
       .navigationBarsPadding()
-      .padding(horizontal = 12.dp)
-      .animateContentSize(),
+      .padding(horizontal = 12.dp),
     horizontalAlignment = Alignment.CenterHorizontally,
   ) {
     BottomSheetSlider()

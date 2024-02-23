@@ -12,11 +12,13 @@ import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.design.theme.shapes.RoundedCornerShape4
 
 @Composable
-fun BottomSheetSlider() {
+fun BottomSheetSlider(
+  modifier: Modifier = Modifier,
+) {
   Box(
-    modifier = Modifier
+    modifier = modifier
       .padding(top = 6.dp)
-      .width(36.dp)
+      .width(28.dp)
       .height(4.dp)
       .clippedBackground(
         LocalTheme.colors.foregroundPrimary.copy(alpha = 0.2F),

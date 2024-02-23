@@ -50,9 +50,9 @@ data class RecipeMeta(
       }
 
       val newVotes = max(lastVotes + votesDiff, 0)
-      val newIndex = (lastIndex * lastVotes + scoreDiff) / newVotes
+      val newIndex = (lastIndex * lastVotes + scoreDiff) / max(newVotes, 1)
 
-      return copy(index = newIndex, score = score, votes = newVotes)
+      return Rating(index = newIndex, score = score, votes = newVotes)
     }
   }
 }

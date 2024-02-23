@@ -23,6 +23,7 @@ import com.mephistolie.compost.modifiers.padding
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.design.components.textfields.OutlinedTextField
 import io.chefbook.design.theme.shapes.RoundedCornerShape28
+import io.chefbook.features.community.recipes.R
 import io.chefbook.core.android.R as coreR
 
 internal fun LazyListScope.caloriesBlock(
@@ -73,10 +74,10 @@ internal fun LazyListScope.caloriesBlock(
           modifier = modifier
             .weight(1F)
             .fillMaxWidth(),
-          hint = "От",
+          hint = stringResource(R.string.common_community_recipes_filter_screen_from),
         )
         Text(
-          text = "-",
+          text = "–",
           style = typography.h1,
           color = colors.foregroundPrimary,
         )
@@ -90,7 +91,7 @@ internal fun LazyListScope.caloriesBlock(
           modifier = modifier
             .weight(1F)
             .fillMaxWidth(),
-          hint = "До",
+          hint = stringResource(R.string.common_community_recipes_filter_screen_to),
         )
       }
     }

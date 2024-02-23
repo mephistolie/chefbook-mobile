@@ -42,7 +42,7 @@ internal fun BoxScope.RecipeScreenErrorContent(
     horizontalAlignment = Alignment.CenterHorizontally,
   ) {
     Image(
-      imageVector = ImageVector.vectorResource(coreR.drawable.ic_broccy_grinning_sweat),
+      imageVector = ImageVector.vectorResource(designR.drawable.ic_broccy_grinning_sweat),
       contentDescription = null,
       modifier = Modifier.size(144.dp)
     )

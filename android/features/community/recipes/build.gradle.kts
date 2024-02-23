@@ -8,6 +8,7 @@ composeDestinationsModuleName("community-recipes")
 dependencies {
   implementation(projects.common.sdk.settings.api.external)
   implementation(projects.common.sdk.profile.api.external)
+  implementation(projects.common.sdk.recipe.crud.api.external)
   implementation(projects.common.sdk.recipe.community.api.external)
   implementation(projects.common.sdk.tag.api.external)
 

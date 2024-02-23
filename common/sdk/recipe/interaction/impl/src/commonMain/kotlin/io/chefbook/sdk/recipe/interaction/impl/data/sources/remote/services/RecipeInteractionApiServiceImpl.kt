@@ -16,7 +16,7 @@ internal class RecipeInteractionApiServiceImpl(
     recipeId: String,
     body: RateRecipeRequest,
   ): Result<MessageResponse> =
-    safePost("$RECIPES_ROUTE/$recipeId/rate")
+    safePost("$RECIPES_ROUTE/$recipeId/rate") { setBody(body) }
 
   override suspend fun saveRecipe(recipeId: String): Result<MessageResponse> =
     safePost("$RECIPES_ROUTE/$recipeId/save")

@@ -5,7 +5,11 @@ import io.chefbook.sdk.recipe.core.api.external.domain.entities.RecipeInfo
 import kotlinx.coroutines.flow.Flow
 
 interface RecipesCacheReader {
+
+  fun observeRecipes(): Flow<Map<String, Recipe>>
+
   fun observeRecipe(recipeId: String): Flow<Recipe?>
+
   suspend fun getRecipe(recipeId: String): Recipe?
 }
 

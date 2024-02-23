@@ -10,7 +10,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
 
 @Composable
@@ -23,7 +22,7 @@ fun MenuScreen(
   Column(
     modifier = Modifier
       .fillMaxSize()
-      .background(if (colors.isDark) Color.Black else colors.backgroundSecondary),
+      .background(colors.divider),
     horizontalAlignment = Alignment.CenterHorizontally,
   ) {
     toolbar()

@@ -6,12 +6,12 @@ import io.chefbook.features.community.recipes.ui.mvi.CommunityRecipesScreenInten
 import io.chefbook.features.community.recipes.ui.mvi.CommunityRecipesScreenState
 import io.chefbook.features.community.recipes.ui.mvi.DashboardState
 import io.chefbook.features.community.recipes.ui.mvi.FilterState
-import io.chefbook.libs.logger.Logger
 import io.chefbook.libs.mvi.BaseMviViewModel
 import io.chefbook.sdk.profile.api.external.domain.usecases.ObserveProfileUseCase
 import io.chefbook.sdk.recipe.community.api.external.domain.entities.RecipesFilter
 import io.chefbook.sdk.recipe.community.api.external.domain.entities.RecipesSorting
 import io.chefbook.sdk.recipe.community.api.external.domain.usecases.GetRecipesUseCase
+import io.chefbook.sdk.recipe.crud.api.external.domain.usecases.ObserveRecipesUseCase
 import io.chefbook.sdk.settings.api.external.domain.usecases.ObserveCommunityRecipesLanguagesUseCase
 import io.chefbook.sdk.tag.api.external.domain.usecases.ObserveTagsUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,10 +21,11 @@ import kotlinx.coroutines.launch
 class CommunityRecipesScreenViewModel(
   private val initialSearch: String = "",
 
+  observeRecipesUseCase: ObserveRecipesUseCase,
+  getRecipesUseCase: GetRecipesUseCase,
   observeProfileUseCase: ObserveProfileUseCase,
   observeLanguagesUseCase: ObserveCommunityRecipesLanguagesUseCase,
   observeTagsUseCase: ObserveTagsUseCase,
-  getRecipesUseCase: GetRecipesUseCase,
 ) :
   BaseMviViewModel<CommunityRecipesScreenState, CommunityRecipesScreenIntent, CommunityRecipesScreenEffect>() {
 
@@ -48,6 +49,7 @@ class CommunityRecipesScreenViewModel(
     scope = viewModelScope,
     observeProfileUseCase = observeProfileUseCase,
     observeLanguagesUseCase = observeLanguagesUseCase,
+    observeRecipesUseCase = observeRecipesUseCase,
   )
 
   private val dashboardDelegate = CommunityRecipesScreenDashboardDelegate(

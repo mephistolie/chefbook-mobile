@@ -17,15 +17,21 @@ internal class RecipeInteractionRepositoryImpl(
 
   override suspend fun setRecipeScore(recipeId: String, score: Int?): EmptyResult {
     if (!sourceRepository.isRemoteSourceEnabled()) return Result.failure(LocalProfileException)
+
+    val originalRating = cache.getRecipe(recipeId)?.rating
+    cache.setRecipeScore(recipeId, score)
+
     return remoteSource.setRecipeScore(recipeId, score)
       .onSuccess {
-        cache.setRecipeScore(recipeId, score)
-        val rating = cache.getRecipe(recipeId)?.rating
+        val rating = originalRating?.withScore(score)
         if (rating != null) {
           localSource.setRecipeRating(recipeId, rating)
         } else {
           localSource.setRecipeScore(recipeId, score)
         }
+      }
+      .onFailure {
+        cache.setRecipeScore(recipeId, originalRating?.score)
       }
   }
 

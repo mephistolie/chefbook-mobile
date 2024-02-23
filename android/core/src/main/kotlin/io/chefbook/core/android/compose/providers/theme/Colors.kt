@@ -14,4 +14,7 @@ data class Colors(
     val foregroundSecondary: Color,
 
     val isDark: Boolean
-)
+) {
+
+    val divider = if (isDark) Color.Black else backgroundSecondary
+}
