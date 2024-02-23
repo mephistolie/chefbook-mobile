@@ -29,9 +29,11 @@ interface SettingsDataSource {
 
   suspend fun setDefaultRecipeLanguage(language: Language)
 
-  suspend fun getOnlineRecipesLanguages(): List<Language>
+  fun observeCommunityRecipesLanguages(): Flow<List<Language>>
 
-  suspend fun setOnlineRecipesLanguages(languages: List<Language>)
+  suspend fun getCommunityRecipesLanguages(): List<Language>
+
+  suspend fun setCommunityRecipesLanguages(languages: List<Language>)
 
   suspend fun getOpenSavedRecipeExpanded(): Boolean
 

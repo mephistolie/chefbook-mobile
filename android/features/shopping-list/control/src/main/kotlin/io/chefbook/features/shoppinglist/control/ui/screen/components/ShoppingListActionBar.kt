@@ -25,7 +25,7 @@ import io.chefbook.design.R as designR
 internal val shoppingListActionBarHeight = 80.dp
 
 @Composable
-fun ShoppingListActionBar(
+internal fun ShoppingListActionBar(
   onAddPurchaseClick: () -> Unit,
   onDoneClick: () -> Unit,
   isDoneButtonActive: Boolean,

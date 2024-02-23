@@ -91,8 +91,7 @@ internal class ProfileRepositoryImpl(
       maxFileSize = uploading.maxSize,
     ).onFailure { return@withContext Result.failure(it) }
 
-    val fileResult = files.getFile(compressedPath.getOrThrow()).onFailure { Logger.e("Tester $it")
-      return@withContext Result.failure(it) }
+    val fileResult = files.getFile(compressedPath.getOrThrow()).onFailure { return@withContext Result.failure(it) }
 
     val file = fileResult.getOrThrow()
 

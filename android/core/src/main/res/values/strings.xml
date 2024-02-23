@@ -6,6 +6,7 @@
     <string name="common_general_continue">Continue</string>
     <string name="common_general_confirm">Confirm</string>
     <string name="common_general_cancel">Cancel</string>
+    <string name="common_general_reset">Reset</string>
     <string name="common_general_add">Add</string>
     <string name="common_general_remove">Remove</string>
     <string name="common_general_next">Next</string>
@@ -91,8 +92,18 @@
     <string name="common_general_nothing_found">Nothing found</string>
     <string name="common_general_eula">EULA</string>
     <string name="common_general_profile_editing">Profile editing</string>
+    <string name="common_general_all_languages">All languages</string>
+    <string name="common_general_sorting">Sorting</string>
+    <string name="common_general_new">New</string>
+    <string name="common_general_popular">Popular</string>
+    <string name="common_general_top">Top</string>
+    <string name="common_general_fast">Fast</string>
+    <string name="common_general_filters">Filters</string>
+    <string name="common_general_tags">Tags</string>
+    <string name="common_general_chefmatch" translatable="false">ChefMatch</string>
 
     <string name="common_general_language">Language</string>
+    <string name="common_general_languages">Languages</string>
     <string name="common_general_language_english">English</string>
     <string name="common_general_language_russian">Russian</string>
     <string name="common_general_language_ukrainian">Ukrainian</string>

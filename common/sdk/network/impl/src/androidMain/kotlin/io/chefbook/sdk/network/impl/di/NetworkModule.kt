@@ -38,10 +38,11 @@ private fun authorizedChefBookClient(
   settingsRepository: SettingsRepository,
 ) =
   ChefBookClientFactory(context = context).create(
-    isDevelop = when {
-      !BuildConfig.DEBUG -> false
-      else -> runBlocking { settingsRepository.getEnvironment() } == Environment.DEVELOP
-    },
+    isDevelop = true,
+//    when {
+//      !BuildConfig.DEBUG -> false
+//      else -> runBlocking { settingsRepository.getEnvironment() } == Environment.DEVELOP
+//    },
     tokensRepository = tokensRepository,
     interceptors = listOf(RateLimitInterceptor),
   )

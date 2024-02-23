@@ -6,9 +6,12 @@ import com.ramcosta.composedestinations.spec.Route
 import io.chefbook.features.about.ui.destinations.AboutScreenDestination
 import io.chefbook.features.auth.ui.destinations.AuthScreenDestination
 import io.chefbook.features.category.ui.input.destinations.CategoryInputDialogDestination
+import io.chefbook.features.community.languages.ui.destinations.CommunityLanguagesScreenDestination
 import io.chefbook.features.encryption.ui.vault.destinations.EncryptedVaultScreenDestination
 import io.chefbook.features.profile.control.ui.destinations.ProfileScreenDestination
 import io.chefbook.features.profile.editing.ui.destinations.ProfileEditingScreenDestination
+import io.chefbook.features.community.recipes.ui.screens.destinations.CommunityRecipesContentScreenDestination
+import io.chefbook.features.community.recipes.ui.screens.destinations.CommunityRecipesFilterScreenDestination
 import io.chefbook.features.recipe.info.ui.destinations.RecipeScreenDestination
 import io.chefbook.features.recipe.input.ui.destinations.CaloriesDialogDestination
 import io.chefbook.features.recipe.input.ui.destinations.EncryptionStateDialogDestination
@@ -21,7 +24,7 @@ import io.chefbook.features.recipe.input.ui.destinations.RecipeSavedDialogDestin
 import io.chefbook.features.recipe.input.ui.destinations.VisibilityDialogDestination
 import io.chefbook.features.recipe.share.ui.destinations.RecipeShareDialogDestination
 import io.chefbook.features.recipebook.category.ui.destinations.CategoryRecipesScreenDestination
-import io.chefbook.features.recipebook.dashboard.ui.destinations.DashboardScreenDestination
+import io.chefbook.features.recipebook.dashboard.ui.destinations.DashboardScreenDestination as RecipeBookDashboardScreenDestination
 import io.chefbook.features.recipebook.favourite.ui.destinations.FavouriteRecipesScreenDestination
 import io.chefbook.features.recipebook.search.ui.destinations.RecipeBookSearchScreenDestination
 import io.chefbook.features.settings.ui.destinations.SettingsScreenDestination
@@ -36,6 +39,7 @@ import io.chefbook.ui.common.dialogs.destinations.PicturesViewerDestination
 object NavGraphs {
 
   const val RECIPE_ID_ARGUMENT = "recipeId"
+  const val SEARCH_ARGUMENT = "search"
 
   val recipe = object : NavGraphSpec {
 
@@ -76,13 +80,41 @@ object NavGraphs {
       recipeInput.route.replace("{$RECIPE_ID_ARGUMENT}", recipeId.toString())
     else "recipe_input"
 
+  val communityRecipes = object : NavGraphSpec {
+
+    override val route = "recipes?$SEARCH_ARGUMENT={$SEARCH_ARGUMENT}"
+    override val startRoute = CommunityRecipesContentScreenDestination
+
+    override val destinationsByRoute = listOf<DestinationSpec<*>>(
+      CommunityRecipesContentScreenDestination,
+      CommunityRecipesFilterScreenDestination,
+    )
+      .associateBy { it.route }
+  }
+
+  fun communityRecipes(initialSearch: String? = null): String =
+    communityRecipes.route.replace("{$SEARCH_ARGUMENT}", initialSearch.orEmpty())
+
+  val community = object : NavGraphSpec {
+
+    override val route = "community"
+    override val startRoute = communityRecipes
+
+    override val destinationsByRoute = listOf(
+      CommunityLanguagesScreenDestination,
+    )
+      .associateBy { it.route }
+
+    override val nestedNavGraphs: List<NavGraphSpec> = listOf(communityRecipes)
+  }
+
   val root = object : NavGraphSpec {
     override val route = "root"
-    override val startRoute = DashboardScreenDestination
+    override val startRoute = RecipeBookDashboardScreenDestination
 
     override val destinationsByRoute = listOf<DestinationSpec<*>>(
       AuthScreenDestination,
-      DashboardScreenDestination,
+      RecipeBookDashboardScreenDestination,
       ProfileScreenDestination,
       ProfileEditingScreenDestination,
       EncryptedVaultScreenDestination,
@@ -103,6 +135,6 @@ object NavGraphs {
     )
       .associateBy { it.route }
 
-    override val nestedNavGraphs = listOf(recipe, recipeInput)
+    override val nestedNavGraphs = listOf(recipe, recipeInput, community)
   }
 }

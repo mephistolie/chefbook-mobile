@@ -14,22 +14,13 @@ internal class PasswordApiServiceImpl(
 ) : ChefBookApiService(client), PasswordApiService {
 
   override suspend fun requestPasswordReset(body: RequestPasswordResetRequest): Result<MessageResponse> =
-    safePost {
-      url(PASSWORD_ROUTE)
-      setBody(body)
-    }
+    safePost(PASSWORD_ROUTE) { setBody(body) }
 
   override suspend fun resetPassword(body: ResetPasswordRequest): Result<MessageResponse> =
-    safePatch {
-      url(PASSWORD_ROUTE)
-      setBody(body)
-    }
+    safePatch(PASSWORD_ROUTE) { setBody(body) }
 
   override suspend fun changePassword(body: ChangePasswordRequest): Result<MessageResponse> =
-    safePut {
-      url(PASSWORD_ROUTE)
-      setBody(body)
-    }
+    safePut(PASSWORD_ROUTE) { setBody(body) }
 
   companion object {
     private const val PASSWORD_ROUTE = "/v1/auth/password"

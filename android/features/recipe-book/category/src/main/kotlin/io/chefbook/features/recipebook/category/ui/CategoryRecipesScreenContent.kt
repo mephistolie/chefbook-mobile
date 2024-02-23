@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import io.chefbook.features.recipebook.category.ui.components.CategoryRecipesToolbarContent
 import io.chefbook.features.recipebook.category.ui.mvi.CategoryScreenIntent
 import io.chefbook.features.recipebook.category.ui.mvi.CategoryScreenState
-import io.chefbook.ui.common.screens.recipe.RecipesScreen
+import io.chefbook.features.recipebook.core.ui.screens.recipe.RecipesScreen
 
 @Composable
 internal fun CategoryScreenContent(

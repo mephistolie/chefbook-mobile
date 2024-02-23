@@ -6,8 +6,8 @@ android {
   namespace = "io.chefbook"
   defaultConfig {
     applicationId = "com.cactusknights.chefbook"
-    versionCode = 44
-    versionName = "4.0-alpha2"
+    versionCode = 45
+    versionName = "4.0-alpha3"
   }
   buildTypes {
     debug {
@@ -39,7 +39,9 @@ dependencies {
   implementation(projects.common.sdk.recipe.crud.impl)
   implementation(projects.common.sdk.recipe.interaction.impl)
   implementation(projects.common.sdk.recipe.book.impl)
+  implementation(projects.common.sdk.recipe.community.impl)
   implementation(projects.common.sdk.category.impl)
+  implementation(projects.common.sdk.tag.impl)
   implementation(projects.common.sdk.shoppingList.impl)
 
   implementation(projects.android.core)
@@ -64,6 +66,8 @@ dependencies {
   implementation(projects.android.features.recipe.share)
   implementation(projects.android.features.recipe.input)
   implementation(projects.android.features.category)
+  implementation(projects.android.features.community.languages)
+  implementation(projects.android.features.community.recipes)
   implementation(projects.android.features.shoppingList.control)
   implementation(projects.android.features.shoppingList.purchaseInput)
 

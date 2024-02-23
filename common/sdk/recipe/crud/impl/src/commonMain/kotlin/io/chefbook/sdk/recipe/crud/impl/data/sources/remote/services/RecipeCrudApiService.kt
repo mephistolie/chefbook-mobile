@@ -4,12 +4,9 @@ import io.chefbook.sdk.network.api.internal.service.dto.responses.MessageRespons
 import io.chefbook.sdk.network.api.internal.service.dto.responses.VersionResponse
 import io.chefbook.sdk.recipe.crud.impl.data.sources.remote.services.dto.crud.CreateRecipeResponse
 import io.chefbook.sdk.recipe.crud.impl.data.sources.remote.services.dto.crud.GetRecipeResponse
-import io.chefbook.sdk.recipe.crud.impl.data.sources.remote.services.dto.crud.GetRecipesRequest
-import io.chefbook.sdk.recipe.crud.impl.data.sources.remote.services.dto.crud.GetRecipesResponse
 import io.chefbook.sdk.recipe.crud.impl.data.sources.remote.services.dto.crud.RecipeInputRequest
 
 internal interface RecipeCrudApiService {
-  suspend fun getRecipes(params: GetRecipesRequest): Result<GetRecipesResponse>
 
   suspend fun getRandomRecipe(): Result<GetRecipeResponse>
 

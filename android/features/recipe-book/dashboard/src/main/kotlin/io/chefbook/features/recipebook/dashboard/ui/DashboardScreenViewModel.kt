@@ -4,7 +4,7 @@ import androidx.lifecycle.viewModelScope
 import io.chefbook.features.recipebook.dashboard.ui.mvi.ContentAppearance
 import io.chefbook.features.recipebook.dashboard.ui.mvi.DashboardScreenEffect
 import io.chefbook.features.recipebook.dashboard.ui.mvi.DashboardScreenIntent
-import io.chefbook.features.recipebook.dashboard.ui.mvi.RecipeBookScreenState
+import io.chefbook.features.recipebook.dashboard.ui.mvi.DashboardScreenState
 import io.chefbook.libs.mvi.BaseMviViewModel
 import io.chefbook.libs.mvi.MviViewModel
 import io.chefbook.sdk.encryption.vault.api.external.domain.usecases.ObserveEncryptedVaultStateUseCase
@@ -17,16 +17,16 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.update
 
-internal typealias IRecipeBookScreenViewModel = MviViewModel<RecipeBookScreenState, DashboardScreenIntent, DashboardScreenEffect>
+internal typealias IRecipeBookScreenViewModel = MviViewModel<DashboardScreenState, DashboardScreenIntent, DashboardScreenEffect>
 
 internal class DashboardScreenViewModel(
   private val observeProfileUseCase: ObserveProfileUseCase,
   private val observeRecipeBookUseCase: ObserveRecipeBookUseCase,
   private val observeLatestRecipesUseCase: ObserveLatestRecipesUseCase,
   private val observeEncryptionUseCase: ObserveEncryptedVaultStateUseCase,
-) : BaseMviViewModel<RecipeBookScreenState, DashboardScreenIntent, DashboardScreenEffect>() {
+) : BaseMviViewModel<DashboardScreenState, DashboardScreenIntent, DashboardScreenEffect>() {
 
-  override val _state = MutableStateFlow(RecipeBookScreenState())
+  override val _state = MutableStateFlow(DashboardScreenState())
 
   init {
     observeRecipes()

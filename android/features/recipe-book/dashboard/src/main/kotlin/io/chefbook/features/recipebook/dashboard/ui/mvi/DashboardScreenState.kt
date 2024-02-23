@@ -6,7 +6,7 @@ import io.chefbook.sdk.encryption.vault.api.external.domain.entities.EncryptedVa
 import io.chefbook.sdk.recipe.book.api.external.domain.entities.LatestRecipeInfo
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.DecryptedRecipeInfo
 
-internal data class RecipeBookScreenState(
+internal data class DashboardScreenState(
   val profileAvatar: String? = null,
   val onlineFeaturesAppearance: ContentAppearance = ContentAppearance.SHIMMERING,
   val encryption: EncryptedVaultState? = null,

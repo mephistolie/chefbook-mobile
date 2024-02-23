@@ -14,8 +14,6 @@ dependencies {
   implementation(projects.android.design)
   implementation(projects.android.navigation)
 
-  implementation(projects.common.sdk.recipe.core.api.external)
-
   implementation(libs.androidx.compose.uiTooling)
   implementation(libs.androidx.compose.material)
 

@@ -13,26 +13,17 @@ internal class EncryptedVaultApiServiceImpl(
   client: HttpClient,
 ) : ChefBookApiService(client), EncryptedVaultApiService {
 
-  override suspend fun getEncryptedVaultKey(): Result<GetEncryptedVaultKeyResponse> = safeGet {
-    url(ENCRYPTED_VAULT_ROUTE)
-  }
+  override suspend fun getEncryptedVaultKey(): Result<GetEncryptedVaultKeyResponse> =
+    safeGet(ENCRYPTED_VAULT_ROUTE)
 
   override suspend fun createEncryptedVault(body: CreateEncryptedVaultRequest): Result<MessageResponse> =
-    safePost {
-      url(ENCRYPTED_VAULT_ROUTE)
-      setBody(body)
-    }
+    safePost(ENCRYPTED_VAULT_ROUTE) { setBody(body) }
 
   override suspend fun requestEncryptedVaultDeletion(): Result<MessageResponse> =
-    safePost {
-      url("$ENCRYPTED_VAULT_ROUTE/delete")
-    }
+    safePost("$ENCRYPTED_VAULT_ROUTE/delete")
 
   override suspend fun deleteEncryptedVault(body: DeleteEncryptedVaultRequest): Result<MessageResponse> =
-    safeDelete {
-      url("$ENCRYPTED_VAULT_ROUTE/delete")
-      setBody(body)
-    }
+    safeDelete("$ENCRYPTED_VAULT_ROUTE/delete") { setBody(body) }
 
   companion object {
     private const val ENCRYPTED_VAULT_ROUTE = "v1/encryption/vault"

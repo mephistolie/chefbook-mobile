@@ -81,12 +81,12 @@ internal val Typography = Typography(
     fontFamily = Inter,
     fontSize = 12.sp,
     fontWeight = FontWeight.Medium,
-    lineHeight = TextUnit(1.4F, TextUnitType.Em)
+    lineHeight = TextUnit(1.3F, TextUnitType.Em)
   ),
   caption2 = TextStyle(
     fontFamily = Inter,
     fontSize = 10.sp,
     fontWeight = FontWeight.Medium,
-    lineHeight = TextUnit(1.4F, TextUnitType.Em)
+    lineHeight = TextUnit(1.3F, TextUnitType.Em)
   )
 )

@@ -1,6 +1,5 @@
 package io.chefbook.sdk.auth.impl.data.sources.remote
 
-import io.chefbook.libs.utils.result.withCast
 import io.chefbook.sdk.auth.impl.data.sources.remote.services.auth.CurrentSessionApiService
 import io.chefbook.sdk.auth.impl.data.sources.remote.services.auth.dto.RefreshTokenRequest
 import io.chefbook.sdk.auth.impl.data.sources.remote.services.auth.dto.TokensResponse
@@ -13,5 +12,5 @@ internal class CurrentSessionDataSourceImpl(
 
   override suspend fun refreshSession(client: HttpClient, refreshToken: String) =
     api.refreshSession(client, RefreshTokenRequest(refreshToken))
-      .withCast(TokensResponse::toBearerTokens)
+      .map(TokensResponse::toBearerTokens)
 }

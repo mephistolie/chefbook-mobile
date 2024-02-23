@@ -44,7 +44,7 @@ fun AuthScreen(
     viewModel.effect.collect { effect ->
       when (effect) {
         is AuthScreenEffect.ToastShown -> context.showToast(effect.message)
-        is AuthScreenEffect.DashboardOpened -> navigator.openDashboardScreen()
+        is AuthScreenEffect.DashboardOpened -> navigator.openRecipeBookDashboardScreen()
       }
     }
   }

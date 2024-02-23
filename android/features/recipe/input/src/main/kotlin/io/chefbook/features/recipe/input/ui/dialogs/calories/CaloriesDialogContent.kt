@@ -29,6 +29,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.core.text.isDigitsOnly
 import com.mephistolie.compost.modifiers.clippedBackground
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.design.components.buttons.CircleIconButton
@@ -99,11 +100,13 @@ internal fun CaloriesDialogContent(
       modifier = Modifier
         .focusRequester(focusRequester)
         .fillMaxWidth(),
-      onValueChange = { calories ->
-        onDetailsIntent(RecipeInputDetailsScreenIntent.SetCalories(calories.toIntOrNull()))
+      onValueChange = { text ->
+        if (text.isDigitsOnly()) {
+          onDetailsIntent(RecipeInputDetailsScreenIntent.SetCalories(text.toIntOrNull()))
+        }
       },
       keyboardOptions = KeyboardOptions(
-        keyboardType = KeyboardType.Decimal,
+        keyboardType = KeyboardType.Number,
         imeAction = ImeAction.Next
       ),
       label = {
@@ -116,11 +119,13 @@ internal fun CaloriesDialogContent(
     ThemedIndicatorTextField(
       value = state.macronutrients?.protein?.toString() ?: "",
       modifier = Modifier.fillMaxWidth(),
-      onValueChange = { protein ->
-        onDetailsIntent(RecipeInputDetailsScreenIntent.SetProtein(protein.toIntOrNull()))
+      onValueChange = { text ->
+        if (text.isDigitsOnly()) {
+          onDetailsIntent(RecipeInputDetailsScreenIntent.SetProtein(text.toIntOrNull()))
+        }
       },
       keyboardOptions = KeyboardOptions(
-        keyboardType = KeyboardType.Decimal,
+        keyboardType = KeyboardType.Number,
         imeAction = ImeAction.Next
       ),
       label = {
@@ -134,11 +139,13 @@ internal fun CaloriesDialogContent(
       value = state.macronutrients?.fats?.toString() ?: "",
       modifier = Modifier
         .fillMaxWidth(),
-      onValueChange = { fats ->
-        onDetailsIntent(RecipeInputDetailsScreenIntent.SetFats(fats.toIntOrNull()))
+      onValueChange = { text ->
+        if (text.isDigitsOnly()) {
+          onDetailsIntent(RecipeInputDetailsScreenIntent.SetFats(text.toIntOrNull()))
+        }
       },
       keyboardOptions = KeyboardOptions(
-        keyboardType = KeyboardType.Decimal,
+        keyboardType = KeyboardType.Number,
         imeAction = ImeAction.Next
       ),
       label = {
@@ -151,11 +158,13 @@ internal fun CaloriesDialogContent(
     ThemedIndicatorTextField(
       value = state.macronutrients?.carbohydrates?.toString() ?: "",
       modifier = Modifier.fillMaxWidth(),
-      onValueChange = { carbs ->
-        onDetailsIntent(RecipeInputDetailsScreenIntent.SetCarbohydrates(carbs.toIntOrNull()))
+      onValueChange = { text ->
+        if (text.isDigitsOnly()) {
+         onDetailsIntent(RecipeInputDetailsScreenIntent.SetCarbohydrates(text.toIntOrNull()))
+        }
       },
       keyboardOptions = KeyboardOptions(
-        keyboardType = KeyboardType.Decimal,
+        keyboardType = KeyboardType.Number,
         imeAction = ImeAction.Done
       ),
       keyboardActions = KeyboardActions {

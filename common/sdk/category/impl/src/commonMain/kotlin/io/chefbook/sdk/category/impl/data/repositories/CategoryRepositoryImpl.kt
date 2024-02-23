@@ -1,10 +1,10 @@
 package io.chefbook.sdk.category.impl.data.repositories
 
+import io.chefbook.libs.coroutines.AppDispatchers
 import io.chefbook.libs.coroutines.CoroutineScopes
 import io.chefbook.libs.utils.result.EmptyResult
 import io.chefbook.libs.utils.result.onSuccess
 import io.chefbook.libs.utils.result.successResult
-import io.chefbook.libs.utils.result.withCast
 import io.chefbook.sdk.category.api.external.domain.entities.Category
 import io.chefbook.sdk.category.api.external.domain.entities.CategoryInput
 import io.chefbook.sdk.category.api.external.domain.entities.toCategory
@@ -16,6 +16,7 @@ import io.chefbook.sdk.core.api.internal.data.repositories.DataSourcesRepository
 import io.chefbook.sdk.profile.api.internal.data.repositories.ProfileRepository
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 internal class CategoryRepositoryImpl(
   private val localSource: LocalCategorySource,
@@ -25,27 +26,28 @@ internal class CategoryRepositoryImpl(
   private val sources: DataSourcesRepository,
   private val cache: CategoriesCache,
   scopes: CoroutineScopes,
+  private val dispatchers: AppDispatchers,
 ) : CategoryRepository {
 
   private val loadInitCategoriesJob = scopes.repository.launch { loadCachedCategories() }
 
   override fun observeCategories(): StateFlow<List<Category>?> = cache.observeCategories()
 
-  override suspend fun getCategories(): List<Category> {
+  override suspend fun getCategories(): List<Category> = withContext(dispatchers.io) {
     loadInitCategoriesJob.join()
-    return cache.getCategories()
+    return@withContext cache.getCategories()
   }
 
   private suspend fun loadCachedCategories() =
     localSource.getCategories().onSuccess(cache::setCategories)
 
-  override suspend fun cacheCategories(categories: List<Category>): EmptyResult {
+  override suspend fun cacheCategories(categories: List<Category>) = withContext(dispatchers.io) {
     loadInitCategoriesJob.join()
 
     cache.setCategories(categories)
     pullChanges(localSource.getCategories().getOrDefault(emptyList()), categories)
 
-    return successResult
+    return@withContext successResult
   }
 
   private suspend fun pullChanges(old: List<Category>, new: List<Category>) {
@@ -72,7 +74,7 @@ internal class CategoryRepositoryImpl(
       }
     } else {
       val category = input.toCategory()
-      localSource.insertCategory(category, ownerId = profileRepository.getProfileId()).withCast { category }
+      localSource.insertCategory(category, ownerId = profileRepository.getProfileId()).map { category }
     }
 
     return result.onSuccess(cache::addCategory)

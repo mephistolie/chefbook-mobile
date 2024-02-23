@@ -7,16 +7,19 @@ import io.chefbook.features.recipebook.search.ui.mvi.RecipeBookSearchScreenState
 import io.chefbook.libs.mvi.BaseMviViewModel
 import io.chefbook.libs.mvi.MviViewModel
 import io.chefbook.sdk.category.api.external.domain.usecases.ObserveCategoriesUseCase
+import io.chefbook.sdk.profile.api.external.domain.usecases.ObserveProfileUseCase
 import io.chefbook.sdk.recipe.book.api.external.domain.usecases.GetRecipeBookUseCase
 import io.chefbook.sdk.recipe.book.api.external.domain.usecases.ObserveRecipeBookUseCase
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.DecryptedRecipeInfo
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.RecipeInfo
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 internal typealias IRecipeBookSearchScreenViewModel = MviViewModel<RecipeBookSearchScreenState, RecipeBookSearchScreenIntent, RecipeBookSearchScreenEffect>
 
 internal class RecipeBookSearchScreenViewModel(
+  private val observeProfileUseCase: ObserveProfileUseCase,
   private val observeRecipeBookUseCase: ObserveRecipeBookUseCase,
   private val getRecipeBookUseCase: GetRecipeBookUseCase,
   private val observeCategoriesUseCase: ObserveCategoriesUseCase,
@@ -27,52 +30,42 @@ internal class RecipeBookSearchScreenViewModel(
     MutableStateFlow(RecipeBookSearchScreenState())
 
   init {
+    observeProfile()
     observeResults()
   }
 
-  private fun observeResults() {
-    viewModelScope.launch {
-      observeRecipeBookUseCase()
-        .collect { recipeBook ->
-          val lastState = state.value
-          if (recipeBook != null && lastState.query.isNotEmpty()) {
-            _state.emit(
-              lastState.copy(
-                recipes = filterRecipes(recipeBook.recipes, lastState.query),
-                categories = filterCategories(recipeBook.categories, lastState.query)
-              )
-            )
-          }
-        }
+  private fun observeProfile() {
+    observeProfileUseCase().collectState { state, profile ->
+      state.copy(showCommunitySearchHint = profile?.isOnline ?: false)
     }
   }
 
-  private fun observeCategories() {
-    viewModelScope.launch {
-      observeCategoriesUseCase()
-        .collect { categories ->
-          val lastState = state.value
-          if (categories != null && lastState.query.isNotEmpty()) {
-            val filteredCategories = filterCategories(categories, lastState.query)
-            _state.emit(lastState.copy(categories = filteredCategories))
+  private fun observeResults() {
+    observeRecipeBookUseCase()
+      .collectInViewModelScope { recipeBook ->
+        if (recipeBook != null && state.value.query.isNotEmpty()) {
+          _state.update {
+            it.copy(
+              recipes = filterRecipes(recipeBook.recipes, it.query),
+              categories = filterCategories(recipeBook.categories, it.query)
+            )
           }
         }
-    }
+      }
   }
 
 
   override suspend fun reduceIntent(intent: RecipeBookSearchScreenIntent) {
     when (intent) {
       is RecipeBookSearchScreenIntent.Search -> search(intent.query)
-      is RecipeBookSearchScreenIntent.OpenCategoryScreen -> _effect.emit(
-        RecipeBookSearchScreenEffect.OnCategoryOpened(intent.categoryId)
-      )
+      is RecipeBookSearchScreenIntent.OpenCategoryScreen ->
+        _effect.emit(RecipeBookSearchScreenEffect.OnCategoryOpened(intent.categoryId))
 
-      is RecipeBookSearchScreenIntent.OpenRecipeScreen -> _effect.emit(
-        RecipeBookSearchScreenEffect.OnRecipeOpened(
-          intent.recipeId
-        )
-      )
+      is RecipeBookSearchScreenIntent.OpenRecipeScreen ->
+        _effect.emit(RecipeBookSearchScreenEffect.OnRecipeOpened(intent.recipeId))
+
+      is RecipeBookSearchScreenIntent.SearchInCommunity ->
+        _effect.emit(RecipeBookSearchScreenEffect.CommunitySearchScreenOpened(state.value.query))
 
       is RecipeBookSearchScreenIntent.Back -> _effect.emit(RecipeBookSearchScreenEffect.Back)
     }
@@ -90,7 +83,7 @@ internal class RecipeBookSearchScreenViewModel(
         )
       )
     } else {
-      _state.emit(RecipeBookSearchScreenState())
+      _state.update { RecipeBookSearchScreenState(showCommunitySearchHint = it.showCommunitySearchHint) }
     }
   }
 

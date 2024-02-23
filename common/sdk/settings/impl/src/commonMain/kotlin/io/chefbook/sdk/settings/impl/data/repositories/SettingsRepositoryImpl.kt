@@ -7,6 +7,7 @@ import io.chefbook.sdk.settings.api.external.domain.entities.Environment
 import io.chefbook.sdk.settings.api.external.domain.entities.ProfileMode
 import io.chefbook.sdk.settings.api.internal.data.repositories.SettingsRepository
 import io.chefbook.sdk.settings.impl.data.sources.SettingsDataSource
+import kotlinx.coroutines.flow.Flow
 
 internal class SettingsRepositoryImpl(
   private val localDataSource: SettingsDataSource
@@ -38,10 +39,13 @@ internal class SettingsRepositoryImpl(
   override suspend fun setDefaultRecipeLanguage(language: Language) =
     localDataSource.setDefaultRecipeLanguage(language)
 
-  override suspend fun getOnlineRecipesLanguages() = localDataSource.getOnlineRecipesLanguages()
+  override fun observeCommunityRecipesLanguages() =
+    localDataSource.observeCommunityRecipesLanguages()
 
-  override suspend fun setOnlineRecipesLanguages(languages: List<Language>) =
-    localDataSource.setOnlineRecipesLanguages(languages)
+  override suspend fun getCommunityRecipesLanguages() = localDataSource.getCommunityRecipesLanguages()
+
+  override suspend fun setCommunityRecipesLanguages(languages: List<Language>) =
+    localDataSource.setCommunityRecipesLanguages(languages)
 
   override suspend fun getOpenSavedRecipeExpanded() = localDataSource.getOpenSavedRecipeExpanded()
 

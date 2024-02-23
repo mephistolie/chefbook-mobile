@@ -5,23 +5,23 @@ import io.chefbook.sdk.category.api.external.domain.entities.Category
 typealias DecryptedRecipeInfo = RecipeInfo.Decrypted
 typealias EncryptedRecipeInfo = RecipeInfo.Encrypted
 
-sealed class RecipeInfo(
-  open val meta: RecipeMeta,
+sealed interface RecipeInfo {
+  val meta: RecipeMeta
 
-  open val name: String,
-  open val preview: String?,
+  val name: String
+  val preview: String?
 
-  open val isOwned: Boolean,
-  open val isSaved: Boolean,
+  val isOwned: Boolean
+  val isSaved: Boolean
 
-  open val categories: List<Category>,
-  open val isFavourite: Boolean,
+  val categories: List<Category>
+  val isFavourite: Boolean
 
-  open val servings: Int?,
-  open val time: Int?,
+  val servings: Int?
+  val time: Int?
 
-  open val calories: Int?,
-) {
+  val calories: Int?
+
   val id
     get() = meta.id
 
@@ -51,13 +51,13 @@ sealed class RecipeInfo(
   val isDecrypted
     get() = !isEncrypted
 
-  abstract fun withSavedStatus(isSaved: Boolean): RecipeInfo
-  abstract fun withCategories(categories: List<Category>): RecipeInfo
-  abstract fun withFavouriteStatus(isFavourite: Boolean): RecipeInfo
+  fun withSavedStatus(isSaved: Boolean): RecipeInfo
+  fun withCategories(categories: List<Category>): RecipeInfo
+  fun withFavouriteStatus(isFavourite: Boolean): RecipeInfo
 
-  abstract fun withId(id: String): RecipeInfo
-  abstract fun withScore(score: Int?): RecipeInfo
-  abstract fun withVersion(version: Int): RecipeInfo
+  fun withId(id: String): RecipeInfo
+  fun withScore(score: Int?): RecipeInfo
+  fun withVersion(version: Int): RecipeInfo
 
   data class Decrypted(
     override val meta: RecipeMeta,
@@ -75,23 +75,7 @@ sealed class RecipeInfo(
 
     override val name: String,
     override val preview: String?,
-  ) : RecipeInfo(
-    meta = meta,
-
-    name = name,
-    preview = preview,
-
-    isOwned = isOwned,
-    isSaved = isSaved,
-
-    categories = categories,
-    isFavourite = isFavourite,
-
-    servings = servings,
-    time = time,
-
-    calories = calories,
-  ) {
+  ) : RecipeInfo {
 
     override val isEncrypted = false
 
@@ -120,23 +104,7 @@ sealed class RecipeInfo(
 
     override val name: String,
     override val preview: String?,
-  ) : RecipeInfo(
-    meta = meta,
-
-    name = name,
-    preview = preview,
-
-    isOwned = isOwned,
-    isSaved = isSaved,
-
-    categories = categories,
-    isFavourite = isFavourite,
-
-    servings = servings,
-    time = time,
-
-    calories = calories,
-  ) {
+  ) : RecipeInfo {
     override val isEncrypted = true
 
     override fun withSavedStatus(isSaved: Boolean) = copy(isSaved = isSaved)

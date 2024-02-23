@@ -1,7 +1,6 @@
 package io.chefbook.sdk.category.impl.data.sources.remote
 
 import io.chefbook.libs.utils.result.asEmpty
-import io.chefbook.libs.utils.result.withCast
 import io.chefbook.libs.utils.uuid.generateUUID
 import io.chefbook.sdk.category.api.external.domain.entities.CategoryInput
 import io.chefbook.sdk.category.impl.data.sources.remote.services.CategoryApiService
@@ -16,11 +15,11 @@ internal class RemoteCategorySourceImpl(
 ) : RemoteCategorySource {
 
   override suspend fun getCategories() =
-    api.getCategories().withCast { categories -> categories.map(CategoryBody::toEntity) }
+    api.getCategories().map { categories -> categories.map(CategoryBody::toEntity) }
 
   override suspend fun createCategory(input: CategoryInput) =
     api.createCategory(input.toCreateCategoryRequest(categoryId = generateUUID()))
-      .withCast(CreateCategoryResponseBody::categoryId)
+      .map(CreateCategoryResponseBody::categoryId)
 
   override suspend fun getCategory(categoryId: String) =
     api.getCategory(categoryId).map(CategoryBody::toEntity)

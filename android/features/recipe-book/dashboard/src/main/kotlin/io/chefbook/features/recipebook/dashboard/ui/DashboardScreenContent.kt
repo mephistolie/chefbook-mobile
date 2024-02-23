@@ -6,7 +6,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
@@ -33,14 +33,14 @@ import io.chefbook.features.recipebook.dashboard.ui.components.blocks.categories
 import io.chefbook.features.recipebook.dashboard.ui.components.blocks.quickAccessBlock
 import io.chefbook.features.recipebook.dashboard.ui.mvi.ContentAppearance
 import io.chefbook.features.recipebook.dashboard.ui.mvi.DashboardScreenIntent
-import io.chefbook.features.recipebook.dashboard.ui.mvi.RecipeBookScreenState
+import io.chefbook.features.recipebook.dashboard.ui.mvi.DashboardScreenState
 import io.chefbook.sdk.encryption.vault.api.external.domain.entities.EncryptedVaultState
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 internal fun DashboardScreenContent(
-  state: RecipeBookScreenState,
+  state: DashboardScreenState,
   onIntent: (DashboardScreenIntent) -> Unit,
 ) {
   val colors = LocalTheme.colors
@@ -58,7 +58,7 @@ internal fun DashboardScreenContent(
     modifier = Modifier
       .fillMaxSize()
       .background(colors.backgroundPrimary)
-      .statusBarsPadding(),
+      .systemBarsPadding(),
   ) {
     LazyVerticalGrid(
       columns = GridCells.Fixed(4),

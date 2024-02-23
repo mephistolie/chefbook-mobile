@@ -16,16 +16,14 @@ internal class RecipePicturesApiServiceImpl(
   override suspend fun generateRecipePicturesUploadLinks(
     recipeId: String,
     body: GenerateRecipePicturesUploadLinksRequest
-  ): Result<List<PictureUploadResponse>> = safePost {
-    url("$RECIPES_ROUTE/$recipeId/pictures")
+  ): Result<List<PictureUploadResponse>> = safePost("$RECIPES_ROUTE/$recipeId/pictures") {
     setBody(body)
   }
 
   override suspend fun setRecipePicture(
     recipeId: String,
     body: SetRecipePicturesRequest
-  ): Result<SetRecipePicturesResponse> = safePut {
-    url("$RECIPES_ROUTE/$recipeId/pictures")
+  ): Result<SetRecipePicturesResponse> = safePut("$RECIPES_ROUTE/$recipeId/pictures") {
     setBody(body)
   }
 

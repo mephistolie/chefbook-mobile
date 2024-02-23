@@ -17,54 +17,44 @@ internal class ShoppingListApiServiceImpl(
   client: HttpClient,
 ) : ChefBookApiService(client), ShoppingListApiService {
 
-  override suspend fun getShoppingLists(): Result<List<ShoppingListMetaSerializable>> = safeGet {
-    url(SHOPPING_LISTS_ROUTE)
-  }
+  override suspend fun getShoppingLists(): Result<List<ShoppingListMetaSerializable>> =
+    safeGet(SHOPPING_LISTS_ROUTE)
 
   override suspend fun createSharedShoppingList(
     body: CreateSharedShoppingListRequest,
-  ): Result<CreateSharedShoppingListResponse> = safePost {
-    url(SHOPPING_LISTS_ROUTE)
+  ): Result<CreateSharedShoppingListResponse> = safePost(SHOPPING_LISTS_ROUTE) {
     setBody(body)
   }
 
-  override suspend fun getPersonalShoppingList(): Result<ShoppingListSerializable> = safeGet {
-    url("$SHOPPING_LISTS_ROUTE/personal")
-  }
+  override suspend fun getPersonalShoppingList(): Result<ShoppingListSerializable> =
+    safeGet("$SHOPPING_LISTS_ROUTE/personal")
 
   override suspend fun getShoppingList(shoppingListId: String): Result<ShoppingListSerializable> =
-    safeGet {
-      url("$SHOPPING_LISTS_ROUTE/$shoppingListId")
-    }
+    safeGet("$SHOPPING_LISTS_ROUTE/$shoppingListId")
 
   override suspend fun setShoppingListName(
     shoppingListId: String,
     name: String?,
-  ): Result<MessageResponse> = safePut {
-    url("$SHOPPING_LISTS_ROUTE/$shoppingListId/name")
+  ): Result<MessageResponse> = safePut("$SHOPPING_LISTS_ROUTE/$shoppingListId/name") {
     setBody(SetShoppingListNameRequest(name))
   }
 
   override suspend fun setShoppingList(
     shoppingListId: String,
     body: SetShoppingListRequest,
-  ): Result<VersionResponse> = safePut {
-    url("$SHOPPING_LISTS_ROUTE/$shoppingListId")
+  ): Result<VersionResponse> = safePut("$SHOPPING_LISTS_ROUTE/$shoppingListId") {
     setBody(body)
   }
 
   override suspend fun addToShoppingList(
     shoppingListId: String,
     body: SetShoppingListRequest,
-  ): Result<VersionResponse> = safePatch {
-    url("$SHOPPING_LISTS_ROUTE/$shoppingListId")
+  ): Result<VersionResponse> = safePatch("$SHOPPING_LISTS_ROUTE/$shoppingListId") {
     setBody(body)
   }
 
   override suspend fun deleteShoppingList(shoppingListId: String): Result<MessageResponse> =
-    safeDelete {
-      url("$SHOPPING_LISTS_ROUTE/$shoppingListId")
-    }
+    safeDelete("$SHOPPING_LISTS_ROUTE/$shoppingListId")
 
   companion object {
     private const val SHOPPING_LISTS_ROUTE = "/v1/shopping-lists"

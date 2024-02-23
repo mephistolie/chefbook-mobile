@@ -76,13 +76,14 @@ internal fun ProfileScreenContent(
         iconId = designR.drawable.ic_credit_card,
         onClick = {},
         endContent = { SubscriptionBadge(isPremium = state.profile.subscriptionPlan != SubscriptionPlan.FREE) },
+        showChevron = false,
       )
-      MenuItem(
-        title = stringResource(R.string.common_profile_screen_data_exporting),
-        subtitle = stringResource(R.string.common_profile_screen_print_recipe_book),
-        iconId = designR.drawable.ic_cloud_down,
-        onClick = {},
-      )
+//      MenuItem(
+//        title = stringResource(R.string.common_profile_screen_data_exporting),
+//        subtitle = stringResource(R.string.common_profile_screen_print_recipe_book),
+//        iconId = designR.drawable.ic_cloud_down,
+//        onClick = {},
+//      )
       MenuItem(
         title = stringResource(coreR.string.common_general_profile_editing),
         iconId = designR.drawable.ic_manage_profile,

@@ -59,7 +59,10 @@ class ChefBookClientFactory(
     }
 
     install(ContentNegotiation) {
-      json(Json { ignoreUnknownKeys = true })
+      this.
+      json(Json {
+        isLenient = true
+        ignoreUnknownKeys = true })
     }
 
     defaultRequest {

@@ -2,7 +2,6 @@ package io.chefbook.sdk.auth.impl.data.sources.remote
 
 import io.chefbook.libs.utils.auth.isEmail
 import io.chefbook.libs.utils.result.asEmpty
-import io.chefbook.libs.utils.result.withCast
 import io.chefbook.libs.utils.uuid.generateUUID
 import io.chefbook.sdk.auth.impl.data.sources.remote.services.auth.AuthApiService
 import io.chefbook.sdk.auth.impl.data.sources.remote.services.auth.dto.SignInGoogleRequest
@@ -36,12 +35,12 @@ internal class AuthDataDataSourceImpl(
 
     val result =
       api.signIn(SignInRequest(email = email, nickname = nickname, password = password))
-    return result.withCast(TokensResponse::toBearerTokens)
+    return result.map(TokensResponse::toBearerTokens)
   }
 
   override suspend fun signInGoogle(idToken: String) =
     api.signInGoogle(SignInGoogleRequest(idToken = idToken))
-      .withCast(TokensResponse::toBearerTokens)
+      .map(TokensResponse::toBearerTokens)
 
   override suspend fun signOut(refreshToken: String) =
     api.signOut(SignOutRequest(refreshToken)).asEmpty()

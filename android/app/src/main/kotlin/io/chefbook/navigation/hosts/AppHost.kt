@@ -30,8 +30,9 @@ import io.chefbook.features.recipe.input.ui.screens.details.RecipeInputDetailsSc
 import io.chefbook.features.recipe.input.ui.viewmodel.RecipeInputScreenViewModel
 import io.chefbook.features.recipebook.category.ui.CategoryRecipesScreen
 import io.chefbook.features.recipebook.category.ui.destinations.CategoryRecipesScreenDestination
-import io.chefbook.features.recipebook.dashboard.ui.destinations.DashboardScreenDestination
+import io.chefbook.features.recipebook.dashboard.ui.destinations.DashboardScreenDestination as RecipeBookDashboardScreenDestination
 import io.chefbook.navigation.graphs.NavGraphs
+import io.chefbook.navigation.hosts.dependencies.CommunityRecipesScreen
 import io.chefbook.navigation.hosts.dependencies.RecipeInputScreenDependencies
 import io.chefbook.navigation.hosts.dependencies.RecipeScreenDependencies
 import io.chefbook.navigation.navigators.AppNavigator
@@ -49,7 +50,7 @@ fun AppHost(
 ) {
   DestinationsNavHost(
     navGraph = NavGraphs.root,
-    startRoute = if (isSignedIn) DashboardScreenDestination else AuthScreenDestination,
+    startRoute = if (isSignedIn) RecipeBookDashboardScreenDestination else AuthScreenDestination,
     engine = rememberAnimatedNavHostEngine(
       rootDefaultAnimations = RootNavGraphDefaultAnimations(
         enterTransition = { slideInHorizontally(animationSpec = tween(300)) { it } },
@@ -63,6 +64,7 @@ fun AppHost(
       dependency(navigator)
       RecipeScreenDependencies()
       RecipeInputScreenDependencies()
+      CommunityRecipesScreen()
     }
   ) {
     composable(ProfileScreenDestination) {

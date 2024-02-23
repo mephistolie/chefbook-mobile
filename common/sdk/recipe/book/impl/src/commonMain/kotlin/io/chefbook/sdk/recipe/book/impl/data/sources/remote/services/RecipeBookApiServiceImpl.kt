@@ -9,9 +9,7 @@ internal class RecipeBookApiServiceImpl(
   client: HttpClient,
 ) : ChefBookApiService(client), RecipeBookApiService {
 
-  override suspend fun getRecipeBook(): Result<GetRecipeBookResponse> = safeGet {
-    url(RECIPE_BOOK_ROUTE)
-  }
+  override suspend fun getRecipeBook(): Result<GetRecipeBookResponse> = safeGet(RECIPE_BOOK_ROUTE)
 
   companion object {
     private const val RECIPE_BOOK_ROUTE = "/v1/recipes/book"

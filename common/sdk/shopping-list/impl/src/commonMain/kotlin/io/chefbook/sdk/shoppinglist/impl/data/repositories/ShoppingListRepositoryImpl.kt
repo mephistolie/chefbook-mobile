@@ -8,7 +8,6 @@ import io.chefbook.libs.utils.result.EmptyResult
 import io.chefbook.libs.utils.result.asEmpty
 import io.chefbook.libs.utils.result.onSuccess
 import io.chefbook.libs.utils.result.successResult
-import io.chefbook.libs.utils.result.withCast
 import io.chefbook.libs.utils.uuid.generateUUID
 import io.chefbook.sdk.core.api.internal.data.repositories.DataSourcesRepository
 import io.chefbook.sdk.shoppinglist.api.external.domain.entities.Purchase
@@ -70,7 +69,7 @@ internal class ShoppingListRepositoryImpl(
 
   override suspend fun createPurchase(shoppingListId: String): Result<String> {
     val purchase = Purchase(id = generateUUID(), name = "")
-    return processPurchases(shoppingListId) { purchases -> purchases.plus(purchase) }.withCast { purchase.id }
+    return processPurchases(shoppingListId) { purchases -> purchases.plus(purchase) }.map { purchase.id }
   }
 
   override suspend fun updatePurchase(shoppingListId: String, purchase: Purchase) =

@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.material.BottomSheetState
@@ -60,13 +61,13 @@ internal fun RecipeScreenBottomSheet(
   ModalBottomSheetLayout(
     modifier = Modifier
       .height(bottomSheetHeight)
-      .clippedBackground(colors.backgroundSecondary, shape = ModalBottomSheetShape),
+      .clippedBackground(colors.backgroundSecondary, ModalBottomSheetShape),
     sheetState = modalSheetState,
     sheetBackgroundColor = Color.Transparent,
     sheetElevation = 0.dp,
     sheetContent = {
       Box(
-        modifier = Modifier.fillMaxHeight(),
+        modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.BottomCenter,
       ) {
         if (modalSheetState.isVisible) {

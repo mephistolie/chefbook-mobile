@@ -39,6 +39,7 @@ import androidx.compose.ui.unit.dp
 import com.mephistolie.compost.modifiers.simpleClickable
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.design.components.buttons.DynamicButton
+import io.chefbook.features.recipebook.search.ui.components.NothingFoundBanner
 import io.chefbook.features.recipebook.search.ui.components.SearchRecipeCard
 import io.chefbook.features.recipebook.search.ui.mvi.RecipeBookSearchScreenIntent
 import io.chefbook.features.recipebook.search.ui.mvi.RecipeBookSearchScreenState
@@ -60,6 +61,7 @@ internal fun RecipeBookSearchScreenContent(
   Box(
     modifier = Modifier
       .statusBarsPadding()
+      .imePadding()
       .fillMaxSize(),
     contentAlignment = Alignment.Center
   ) {
@@ -133,8 +135,7 @@ internal fun RecipeBookSearchScreenContent(
         LazyColumn(
           modifier = Modifier
             .padding(12.dp, 12.dp, 12.dp)
-            .wrapContentHeight()
-            .imePadding(),
+            .wrapContentHeight(),
           horizontalAlignment = Alignment.Start,
           verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
@@ -167,17 +168,9 @@ internal fun RecipeBookSearchScreenContent(
           }
         }
         if (state.query.isNotEmpty() && state.recipes.isEmpty() && state.categories.isEmpty()) {
-          Image(
-            imageVector = ImageVector.vectorResource(coreR.drawable.ic_broccy_think),
-            contentDescription = null,
-            modifier = Modifier
-              .padding(top = 48.dp)
-              .size(144.dp)
-          )
-          Text(
-            text = stringResource(coreR.string.common_general_nothing_found),
-            style = typography.headline1,
-            color = colors.foregroundSecondary
+          NothingFoundBanner(
+            showCommunitySearchHint = state.showCommunitySearchHint,
+            onCommunitySearchClick = { onIntent(RecipeBookSearchScreenIntent.SearchInCommunity) }
           )
         }
       }

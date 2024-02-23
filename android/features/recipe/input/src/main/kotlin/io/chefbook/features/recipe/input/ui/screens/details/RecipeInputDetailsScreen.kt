@@ -4,6 +4,7 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import com.ramcosta.composedestinations.annotation.DeepLink
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.result.NavResult
 import com.ramcosta.composedestinations.result.OpenResultRecipient
@@ -20,7 +21,10 @@ import kotlinx.coroutines.flow.collectLatest
 
 private const val CLOSE_RECIPE_INPUT_REQUEST = "CLOSE_RECIPE_INPUT"
 
-@Destination(route = "details")
+@Destination(
+  route = "details",
+  deepLinks = [DeepLink(uriPattern = "https://chefbook.io/recipes/create")],
+)
 @Composable
 fun RecipeInputDetailsScreen(
   viewModel: IRecipeInputScreenViewModel,

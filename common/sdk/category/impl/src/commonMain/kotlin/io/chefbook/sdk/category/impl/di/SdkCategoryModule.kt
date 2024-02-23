@@ -55,6 +55,7 @@ val sdkCategoryModule = module {
       sources = get(),
       cache = get(),
       scopes = get(),
+      dispatchers = get(),
     )
   }
 

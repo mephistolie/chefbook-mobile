@@ -13,14 +13,10 @@ internal class NicknameApiServiceImpl(
 ) : ChefBookApiService(client), NicknameApiService {
 
   override suspend fun checkNicknameAvailability(nickname: String): Result<CheckNicknameAvailabilityResponse> =
-    safeGet {
-      url("$NICKNAME_ROUTE/$nickname")
-    }
+    safeGet("$NICKNAME_ROUTE/$nickname")
 
-  override suspend fun setNickname(body: SetNicknameRequest): Result<MessageResponse> = safePost {
-    url(NICKNAME_ROUTE)
-    setBody(body)
-  }
+  override suspend fun setNickname(body: SetNicknameRequest): Result<MessageResponse> =
+    safePost(NICKNAME_ROUTE) { setBody(body) }
 
   companion object {
     private const val NICKNAME_ROUTE = "/v1/auth/nickname"

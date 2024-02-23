@@ -44,6 +44,12 @@ internal fun RecipeBookSearchScreen(
           navigator.openRecipeScreen(recipeId = effect.recipeId)
         }
 
+        is RecipeBookSearchScreenEffect.CommunitySearchScreenOpened -> {
+          focusManager.clearFocus(force = true)
+          keyboardController?.hide()
+          navigator.openCommunityRecipeSearch(search = effect.search)
+        }
+
         is RecipeBookSearchScreenEffect.Back -> {
           focusManager.clearFocus(force = true)
           keyboardController?.hide()

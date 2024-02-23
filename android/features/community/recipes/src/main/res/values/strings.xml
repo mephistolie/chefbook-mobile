@@ -1,0 +1,12 @@
+<resources>
+
+    <string name="common_community_recipes_content_screen_create_recipe_hint">It\'s time to create the first</string>
+    <string name="common_community_recipes_content_screen_public_recipe">public recipe</string>
+    <string name="common_community_recipes_content_screen_change_parameters_hint">Try to change the request parameters</string>
+
+    <string name="common_community_recipes_filter_screen_specificities">Specificities</string>
+    <string name="common_community_recipes_filter_screen_high_rating">High rating</string>
+    <string name="common_community_recipes_filter_screen_by_cooking_time">By cooking time</string>
+    <string name="common_community_recipes_filter_screen_by_calories">By calories</string>
+
+</resources>

@@ -78,7 +78,7 @@ internal fun LanguageDialogContent(
         .fillMaxWidth()
         .requiredHeightIn(0.dp, 512.dp)
     ) {
-      for (language in Language.values()) {
+      for (language in Language.entries) {
         item {
           Row(
             modifier = Modifier
@@ -90,7 +90,7 @@ internal fun LanguageDialogContent(
             horizontalArrangement = Arrangement.SpaceBetween,
           ) {
             Text(
-              text = "${language.flag}  ${language.localizedName(resources)}",
+              text = "${language.flag} ${language.localizedName(resources)}",
               style = typography.headline1,
               color = colors.foregroundPrimary,
             )

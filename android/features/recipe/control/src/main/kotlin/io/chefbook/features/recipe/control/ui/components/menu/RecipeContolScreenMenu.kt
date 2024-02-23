@@ -79,18 +79,20 @@ internal fun RecipeControlScreenMenu(
       isLast = true,
     )
 
-    RecipeActionButton(
-      onClick = { onIntent(RecipeControlScreenIntent.EditRecipe) },
-      text = stringResource(R.string.common_recipe_control_screen_edit_recipe),
-      iconId = designR.drawable.ic_edit,
-      isFirst = true,
-    )
-    RecipeActionButton(
-      onClick = { onIntent(RecipeControlScreenIntent.OpenDeleteDialog) },
-      text = stringResource(R.string.common_recipe_control_screen_delete_recipe),
-      textTint = colors.tintPrimary,
-      iconId = designR.drawable.ic_trash,
-      isLast = true,
-    )
+    if (recipe.isOwned) {
+      RecipeActionButton(
+        onClick = { onIntent(RecipeControlScreenIntent.EditRecipe) },
+        text = stringResource(R.string.common_recipe_control_screen_edit_recipe),
+        iconId = designR.drawable.ic_edit,
+        isFirst = true,
+      )
+      RecipeActionButton(
+        onClick = { onIntent(RecipeControlScreenIntent.OpenDeleteDialog) },
+        text = stringResource(R.string.common_recipe_control_screen_delete_recipe),
+        textTint = colors.tintPrimary,
+        iconId = designR.drawable.ic_trash,
+        isLast = true,
+      )
+    }
   }
 }

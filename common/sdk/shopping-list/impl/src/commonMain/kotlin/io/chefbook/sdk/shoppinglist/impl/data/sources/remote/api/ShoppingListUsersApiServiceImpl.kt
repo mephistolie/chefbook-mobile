@@ -13,29 +13,26 @@ internal class ShoppingListUsersApiServiceImpl(
 
   override suspend fun getShoppingListJoinLink(
     shoppingListId: String,
-  ): Result<GetSharedShoppingListLinkResponse> = safeGet {
-    url("$SHOPPING_LISTS_ROUTE/$shoppingListId/link")
-  }
+  ): Result<GetSharedShoppingListLinkResponse> =
+    safeGet("$SHOPPING_LISTS_ROUTE/$shoppingListId/link")
 
   override suspend fun getShoppingListUsers(
     shoppingListId: String,
-  ): Result<List<ProfileInfoSerializable>> = safeGet {
-    url("$SHOPPING_LISTS_ROUTE/$shoppingListId/users")
-  }
+  ): Result<List<ProfileInfoSerializable>> =
+    safeGet("$SHOPPING_LISTS_ROUTE/$shoppingListId/users")
 
   override suspend fun joinShoppingList(
     shoppingListId: String,
     key: String
-  ): Result<MessageResponse> = safePost {
-    url("$SHOPPING_LISTS_ROUTE/$shoppingListId/users")
-  }
+  ): Result<MessageResponse> =
+    safePost("$SHOPPING_LISTS_ROUTE/$shoppingListId/users")
 
+  // TODO
   override suspend fun deleteShoppingListUser(
     shoppingListId: String,
     userId: String
-  ): Result<MessageResponse> = safeDelete {
-    url("$SHOPPING_LISTS_ROUTE/$shoppingListId/users/$userId")
-  }
+  ): Result<MessageResponse> =
+    safeDelete("$SHOPPING_LISTS_ROUTE/$shoppingListId/users/$userId")
 
   companion object {
     private const val SHOPPING_LISTS_ROUTE = "/v1/shopping-lists"

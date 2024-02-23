@@ -15,36 +15,26 @@ internal class RecipeInteractionApiServiceImpl(
   override suspend fun rateRecipe(
     recipeId: String,
     body: RateRecipeRequest,
-  ): Result<MessageResponse> = safePost {
-    url("$RECIPES_ROUTE/$recipeId/rate")
-    setBody(body)
-  }
+  ): Result<MessageResponse> =
+    safePost("$RECIPES_ROUTE/$recipeId/rate")
 
-  override suspend fun saveRecipe(recipeId: String): Result<MessageResponse> = safePost {
-    url("$RECIPES_ROUTE/$recipeId/save")
-  }
+  override suspend fun saveRecipe(recipeId: String): Result<MessageResponse> =
+    safePost("$RECIPES_ROUTE/$recipeId/save")
 
   override suspend fun removeRecipeFromRecipeBook(recipeId: String): Result<MessageResponse> =
-    safeDelete {
-      url("$RECIPES_ROUTE/$recipeId/save")
-    }
+    safeDelete("$RECIPES_ROUTE/$recipeId/save")
 
-  override suspend fun markRecipeFavourite(recipeId: String): Result<MessageResponse> = safePost {
-    url("$RECIPES_ROUTE/$recipeId/favourite")
-  }
+  override suspend fun markRecipeFavourite(recipeId: String): Result<MessageResponse> =
+    safePost("$RECIPES_ROUTE/$recipeId/favourite")
 
   override suspend fun unmarkRecipeFavourite(recipeId: String): Result<MessageResponse> =
-    safeDelete {
-      url("$RECIPES_ROUTE/$recipeId/favourite")
-    }
+    safeDelete("$RECIPES_ROUTE/$recipeId/favourite")
 
   override suspend fun setRecipeCategories(
     recipeId: String,
     body: SetRecipeCategoriesRequest
-  ): Result<MessageResponse> = safePut {
-    url("$RECIPES_ROUTE/$recipeId/categories")
-    setBody(body)
-  }
+  ): Result<MessageResponse> =
+    safePut("$RECIPES_ROUTE/$recipeId/categories") { setBody(body) }
 
   companion object {
     private const val RECIPES_ROUTE = "/v1/recipes"

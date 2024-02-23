@@ -1,7 +1,6 @@
 package io.chefbook.sdk.profile.impl.data.sources.remote
 
 import io.chefbook.libs.utils.result.asEmpty
-import io.chefbook.libs.utils.result.withCast
 import io.chefbook.sdk.profile.impl.data.sources.remote.api.ProfileApiService
 import io.chefbook.sdk.profile.impl.data.sources.remote.api.dto.ConfirmAvatarUploading
 import io.chefbook.sdk.profile.impl.data.sources.remote.api.dto.GenerateAvatarUploadLinkResponse
@@ -17,7 +16,7 @@ internal class RemoteProfileSourceImpl(
 ) : RemoteProfileSource {
 
   override suspend fun getProfileInfo() =
-    profileApi.getProfile().withCast(GetProfileResponse::toEntity)
+    profileApi.getProfile().map(GetProfileResponse::toEntity)
 
   override suspend fun generateAvatarUploading() =
     profileApi.generateAvatarUploadLink().map(GenerateAvatarUploadLinkResponse::toEntity)

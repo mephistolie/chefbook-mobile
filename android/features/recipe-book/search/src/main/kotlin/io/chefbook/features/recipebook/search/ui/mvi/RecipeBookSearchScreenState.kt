@@ -7,5 +7,6 @@ internal data class RecipeBookSearchScreenState(
   val query: String = "",
   val categories: List<io.chefbook.sdk.category.api.external.domain.entities.Category> = emptyList(),
   val recipes: List<DecryptedRecipeInfo> = emptyList(),
+  val showCommunitySearchHint: Boolean = false,
   val isLoading: Boolean = false,
 ) : MviState

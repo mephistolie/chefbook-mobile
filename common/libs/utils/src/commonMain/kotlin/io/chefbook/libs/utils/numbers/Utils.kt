@@ -28,7 +28,6 @@ fun Float.toFormattedText(decimals: Int = 3): String {
     "${this.toInt()}"
   } else {
     val formattedAmount = ((this * multiplier).toInt() / multiplier).toString()
-    Logger.e("Tester $formattedAmount")
     var index = formattedAmount.lastIndex
     while (index > 0 && formattedAmount[index] == '0') {
       index -= 1

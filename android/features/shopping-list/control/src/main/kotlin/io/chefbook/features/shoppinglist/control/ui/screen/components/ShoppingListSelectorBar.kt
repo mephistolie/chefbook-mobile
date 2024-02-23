@@ -27,7 +27,7 @@ import io.chefbook.design.theme.shapes.RoundedCornerShape28
 import io.chefbook.design.R as designR
 
 @Composable
-fun ShoppingListSelectorBar(
+internal fun ShoppingListSelectorBar(
   title: String?,
   onSelectClick: () -> Unit,
   onCloseClick: () -> Unit,

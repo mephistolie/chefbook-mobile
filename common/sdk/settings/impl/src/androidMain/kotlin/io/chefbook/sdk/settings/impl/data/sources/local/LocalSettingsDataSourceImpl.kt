@@ -12,6 +12,7 @@ import io.chefbook.sdk.settings.api.external.domain.entities.ProfileMode
 import io.chefbook.sdk.settings.impl.data.sources.SettingsDataSource
 import io.chefbook.sdk.settings.impl.data.sources.local.datastore.SettingsSerializer
 import io.chefbook.sdk.settings.impl.data.sources.local.datastore.dto.SettingsSerializable
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 
@@ -53,11 +54,14 @@ internal class LocalSettingsDataSourceImpl(
     dataStore.updateData { it.copy(defaultRecipeLanguage = language.code) }
   }
 
-  override suspend fun getOnlineRecipesLanguages(): List<Language> =
-    dataStore.data.first().onlineRecipeLanguages
+  override fun observeCommunityRecipesLanguages() =
+    dataStore.data.map { it.communityRecipesLanguages.map { language -> LanguageMapper.map(language) } }
 
-  override suspend fun setOnlineRecipesLanguages(languages: List<Language>) {
-    dataStore.updateData { it.copy(onlineRecipeLanguages = languages) }
+  override suspend fun getCommunityRecipesLanguages(): List<Language> =
+    dataStore.data.first().communityRecipesLanguages.map { language -> LanguageMapper.map(language) }
+
+  override suspend fun setCommunityRecipesLanguages(languages: List<Language>) {
+    dataStore.updateData { it.copy(communityRecipesLanguages = languages.map(Language::code)) }
   }
 
   override suspend fun getOpenSavedRecipeExpanded() = getSettings().openSavedRecipeExpanded

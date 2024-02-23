@@ -1,6 +1,5 @@
 package io.chefbook.sdk.recipe.crud.impl.data.sources.remote
 
-import io.chefbook.libs.utils.result.withCast
 import io.chefbook.sdk.recipe.crud.impl.data.models.RecipePictures
 import io.chefbook.sdk.recipe.crud.impl.data.sources.RecipePicturesSource
 import io.chefbook.sdk.recipe.crud.impl.data.sources.remote.services.RecipePicturesApiService
@@ -17,7 +16,7 @@ internal class RemoteRecipePicturesSourceImpl(
 
   override suspend fun generatePicturesUploadLinks(recipeId: String, count: Int) =
     api.generateRecipePicturesUploadLinks(recipeId, GenerateRecipePicturesUploadLinksRequest(count))
-      .withCast { uploads -> uploads.map(PictureUploadResponse::toModel) }
+      .map { uploads -> uploads.map(PictureUploadResponse::toModel) }
 
   override suspend fun setPictures(
     recipeId: String,
@@ -28,6 +27,6 @@ internal class RemoteRecipePicturesSourceImpl(
       recipeId = recipeId,
       body = SetRecipePicturesRequest(pictures = pictures.toSerializable(), version = version)
     )
-      .withCast(SetRecipePicturesResponse::toEntity)
+      .map(SetRecipePicturesResponse::toEntity)
 }
 

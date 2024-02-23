@@ -1,5 +1,10 @@
 package io.chefbook.ui.screens.main
 
+import androidx.compose.animation.core.Spring.StiffnessHigh
+import androidx.compose.animation.core.Spring.StiffnessMedium
+import androidx.compose.animation.core.Spring.StiffnessVeryLow
+import androidx.compose.animation.core.SpringSpec
+import androidx.compose.animation.core.TweenSpec
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.rememberModalBottomSheetState
@@ -34,10 +39,11 @@ fun AppScreen() {
   val appState = appViewModel.state.collectAsState()
 
   val sheetState = rememberModalBottomSheetState(
+    animationSpec = SpringSpec(dampingRatio = 10F, stiffness = 100_000F),
     initialValue = ModalBottomSheetValue.Hidden,
     skipHalfExpanded = true,
   )
-  val bottomSheetNavigator = remember(sheetState) { BottomSheetNavigator(sheetState = sheetState) }
+  val bottomSheetNavigator = remember { BottomSheetNavigator(sheetState = sheetState) }
 
   val navController = rememberNavController()
   navController.navigatorProvider += bottomSheetNavigator

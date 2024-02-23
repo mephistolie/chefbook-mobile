@@ -1,5 +1,6 @@
 package io.chefbook.features.recipe.info.ui
 
+import androidx.compose.animation.core.TweenSpec
 import androidx.compose.material.BottomSheetValue
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetValue
@@ -60,7 +61,8 @@ fun RecipeScreen(
 
   val modalSheetState = rememberModalBottomSheetState(
     initialValue = ModalBottomSheetValue.Hidden,
-    skipHalfExpanded = true
+    animationSpec = TweenSpec(),
+    skipHalfExpanded = true,
   )
 
   RecipeEncryptionProvider(

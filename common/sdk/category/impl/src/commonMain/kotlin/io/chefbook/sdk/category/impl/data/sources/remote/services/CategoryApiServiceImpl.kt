@@ -14,30 +14,22 @@ internal class CategoryApiServiceImpl(
   client: HttpClient,
 ) : ChefBookApiService(client), CategoryApiService {
 
-  override suspend fun getCategories(): Result<List<CategoryBody>> = safeGet {
-    url(CATEGORIES_ROUTE)
-  }
+  override suspend fun getCategories(): Result<List<CategoryBody>> = safeGet(CATEGORIES_ROUTE)
 
-  override suspend fun createCategory(category: CreateCategoryRequestBody): Result<CreateCategoryResponseBody> = safePost {
-    url(CATEGORIES_ROUTE)
-    setBody(body)
-  }
+  override suspend fun createCategory(category: CreateCategoryRequestBody): Result<CreateCategoryResponseBody> =
+    safePost(CATEGORIES_ROUTE) { setBody(body) }
 
-  override suspend fun getCategory(categoryId: String): Result<CategoryBody> = safeGet {
-    url("$CATEGORIES_ROUTE/$categoryId")
-  }
+  override suspend fun getCategory(categoryId: String): Result<CategoryBody> =
+    safeGet("$CATEGORIES_ROUTE/$categoryId")
 
   override suspend fun updateCategory(
     categoryId: String,
     body: UpdateCategoryRequestBody
-  ): Result<MessageResponse> = safePut {
-    url("$CATEGORIES_ROUTE/$categoryId")
-    setBody(body)
-  }
+  ): Result<MessageResponse> =
+    safePut("$CATEGORIES_ROUTE/$categoryId") { setBody(body) }
 
-  override suspend fun deleteCategory(categoryId: String): Result<MessageResponse> = safeDelete {
-    url("$CATEGORIES_ROUTE/$categoryId")
-  }
+  override suspend fun deleteCategory(categoryId: String): Result<MessageResponse> =
+    safeDelete("$CATEGORIES_ROUTE/$categoryId")
 
   companion object {
     private const val CATEGORIES_ROUTE = "/v1/recipes/categories"

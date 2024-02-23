@@ -104,7 +104,7 @@ internal fun SettingsScreenContent(
         onClick = { onIntent(SettingsScreenIntent.SetOpenSavedRecipeExpanded(!state.openSavedRecipeExpanded)) },
         showChevron = false,
         endContent = {
-          Switch(isChecked = state.openSavedRecipeExpanded)
+           Switch(isChecked = state.openSavedRecipeExpanded)
         }
       )
     }
