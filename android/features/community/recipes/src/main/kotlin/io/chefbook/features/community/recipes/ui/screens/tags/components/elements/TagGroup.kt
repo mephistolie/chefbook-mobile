@@ -1,28 +1,17 @@
 package io.chefbook.features.community.recipes.ui.screens.tags.components.elements
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.lazy.LazyListScope
-import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import com.mephistolie.compost.modifiers.padding
-import com.mephistolie.compost.modifiers.simpleClickable
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
-import io.chefbook.design.R
-import io.chefbook.design.theme.dimens.DefaultIconSize
-import io.chefbook.design.theme.dimens.MediumIconSize
 import io.chefbook.design.theme.shapes.RoundedCornerShape28
 import io.chefbook.features.community.recipes.ui.screens.filter.components.elements.TagButton
 import io.chefbook.features.community.recipes.ui.mvi.FilterState
@@ -35,7 +24,6 @@ internal fun TagGroup(
   selectedTags: List<String>,
   onTagSelected: (String) -> Unit,
   onTagUnselected: (String) -> Unit,
-  onBackClick: () -> Unit,
   modifier: Modifier = Modifier,
 ) {
   val colors = LocalTheme.colors

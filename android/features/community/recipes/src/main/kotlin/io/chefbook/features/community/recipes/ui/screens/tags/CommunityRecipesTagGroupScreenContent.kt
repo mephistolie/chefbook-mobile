@@ -26,7 +26,6 @@ internal fun CommunityRecipesTagGroupScreenContent(
       onTagUnselected = { tagId ->
         onIntent(CommunityRecipesScreenIntent.Filter.TagUnselected(tagId))
       },
-      onBackClick = { onIntent(CommunityRecipesScreenIntent.Filter.TagGroupClosed) },
     )
   }
 }

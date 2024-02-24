@@ -14,6 +14,9 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.ColorMatrix
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
@@ -32,7 +35,8 @@ internal fun LazyListScope.emptyListBanner(
 
     Column(
       modifier = modifier
-        .padding(all = 48.dp)
+        .alpha(0.3F)
+        .padding(all = 28.dp)
         .fillMaxSize()
         .wrapContentHeight(),
       horizontalAlignment = Alignment.CenterHorizontally,
@@ -42,6 +46,7 @@ internal fun LazyListScope.emptyListBanner(
         imageVector = ImageVector.vectorResource(designR.drawable.ic_broccy_silence),
         contentDescription = null,
         modifier = Modifier.size(96.dp),
+        colorFilter = ColorFilter.colorMatrix(ColorMatrix().apply { setToSaturation(0F) }),
       )
       Spacer(Modifier.height(16.dp))
       Text(

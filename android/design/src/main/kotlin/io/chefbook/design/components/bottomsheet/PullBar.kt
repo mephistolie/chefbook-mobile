@@ -19,7 +19,7 @@ fun PullBar(
   Box(
     modifier = modifier
       .padding(vertical = 6.dp)
-      .width(32.dp)
+      .width(28.dp)
       .height(4.dp)
       .background(
         color = if (isInverted) {
