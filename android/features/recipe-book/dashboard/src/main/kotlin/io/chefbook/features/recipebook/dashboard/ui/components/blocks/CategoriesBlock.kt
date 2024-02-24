@@ -1,6 +1,7 @@
 package io.chefbook.features.recipebook.dashboard.ui.components.blocks
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -18,9 +19,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
+import io.chefbook.design.theme.shapes.RoundedCornerShape28
+import io.chefbook.design.theme.shapes.RoundedCornerShape28Top
 import io.chefbook.features.recipebook.dashboard.ui.components.elements.CategoryCard
 import io.chefbook.features.recipebook.dashboard.ui.components.elements.CategoryCardSkeleton
 import io.chefbook.features.recipebook.dashboard.ui.components.elements.NewCategoryCard
+import io.chefbook.sdk.category.api.external.domain.entities.Category
 import kotlin.math.min
 import io.chefbook.core.android.R as coreR
 import io.chefbook.design.R as designR
@@ -29,18 +33,28 @@ private const val KEY_PREFIX = "category_card"
 
 @OptIn(ExperimentalFoundationApi::class)
 internal fun LazyGridScope.categoriesBlock(
-  categories: List<io.chefbook.sdk.category.api.external.domain.entities.Category>?,
+  categories: List<Category>?,
+  drawDivider: Boolean,
   onCategoryClicked: (String) -> Unit,
   onNewCategoryClicked: () -> Unit,
 ) {
   item(
     span = { GridItemSpan(4) }
   ) {
+    val colors = LocalTheme.colors
+
     Text(
       text = stringResource(id = coreR.string.common_general_categories),
       style = LocalTheme.typography.h3,
       color = LocalTheme.colors.foregroundPrimary,
-      modifier = Modifier.padding(12.dp, 28.dp, 12.dp, 12.dp),
+      modifier = Modifier
+        .let {
+          if (drawDivider) {
+            it.background(colors.backgroundSecondary)
+              .background(colors.backgroundPrimary, RoundedCornerShape28Top)
+          } else it
+        }
+        .padding(12.dp, if (drawDivider) 16.dp else 28.dp, 12.dp, 12.dp),
     )
   }
   if (categories != null) {

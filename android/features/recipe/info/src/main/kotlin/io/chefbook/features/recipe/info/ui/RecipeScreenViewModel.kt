@@ -19,6 +19,7 @@ import io.chefbook.sdk.shoppinglist.api.external.domain.entities.Purchase
 import io.chefbook.sdk.shoppinglist.api.external.domain.entities.ShoppingListMeta
 import io.chefbook.sdk.shoppinglist.api.external.domain.usecases.AddToShoppingListUseCase
 import io.chefbook.sdk.shoppinglist.api.external.domain.usecases.GetShoppingListsUseCase
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
@@ -56,11 +57,12 @@ internal class RecipeScreenViewModel(
       .catch { error -> _state.emit(RecipeScreenState.Error(recipeId, error)) }
       .collect { recipe ->
         if (recipe is DecryptedRecipe) {
-          val lastState = state.value
-          _state.update { state ->
+          val lastState = _state.getAndUpdate { state ->
             (state as? RecipeScreenState.Success)?.copy(recipe = recipe) ?: RecipeScreenState.Success(recipe)
           }
-          if (lastState is RecipeScreenState.Loading && openExpanded) {
+          if (recipe.isSaved && lastState is RecipeScreenState.Loading && openExpanded) {
+            // TODO: remove magic delay
+            delay(250L)
             _effect.emit(RecipeScreenEffect.ExpandSheet)
           }
         } else {

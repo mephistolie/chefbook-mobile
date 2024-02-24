@@ -6,6 +6,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -23,6 +24,8 @@ import androidx.compose.ui.input.pointer.pointerInteropFilter
 import androidx.compose.ui.unit.dp
 import io.chefbook.core.android.compose.modifiers.shimmer
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
+import io.chefbook.design.theme.shapes.RoundedCornerShape28Bottom
+import io.chefbook.design.theme.shapes.RoundedCornerShape28Top
 import io.chefbook.features.recipebook.dashboard.ui.components.blocks.ALL_RECIPES_CARD_KEY_PREFIX
 import io.chefbook.features.recipebook.dashboard.ui.components.blocks.DashboardTopBar
 import io.chefbook.features.recipebook.dashboard.ui.components.blocks.RecipeBookOnlineBlock
@@ -70,18 +73,21 @@ internal fun DashboardScreenContent(
     ) {
       item(span = { GridItemSpan(4) }) {
         DashboardTopBar(
-          modifier = Modifier.padding(20.dp, 4.dp, 20.dp),
+          modifier = Modifier
+            .statusBarsPadding()
+            .padding(20.dp, 4.dp, 20.dp),
           avatar = state.profileAvatar,
           onIntent = onIntent,
         )
       }
-      item(
-        span = { GridItemSpan(4) }
-      ) {
+      item(span = { GridItemSpan(4) }) {
         AnimatedVisibility(visible = state.onlineFeaturesAppearance != ContentAppearance.HIDDEN) {
           RecipeBookOnlineBlock(
             modifier = Modifier
-              .padding(12.dp, 28.dp, 12.dp)
+              .background(colors.divider)
+              .padding(bottom = 8.dp)
+              .background(colors.backgroundPrimary, RoundedCornerShape28Bottom)
+              .padding(12.dp, 28.dp, 12.dp, 16.dp)
               .pointerInteropFilter { state.onlineFeaturesAppearance != ContentAppearance.SHOWN }
               .shimmer(isEnabled = state.onlineFeaturesAppearance == ContentAppearance.SHIMMERING),
             onCommunityRecipesButtonClick = { onIntent(DashboardScreenIntent.OpenCommunityRecipes) },
@@ -92,10 +98,12 @@ internal fun DashboardScreenContent(
       }
       quickAccessBlock(
         recipes = state.latestRecipes,
+        drawDivider = state.onlineFeaturesAppearance != ContentAppearance.HIDDEN,
         onRecipeClicked = { id -> onIntent(DashboardScreenIntent.OpenRecipe(id)) },
       )
       categoriesBlock(
         categories = state.categories,
+        drawDivider = state.onlineFeaturesAppearance != ContentAppearance.HIDDEN && state.latestRecipes?.isEmpty() == true,
         onCategoryClicked = { id -> onIntent(DashboardScreenIntent.OpenCategory(id)) },
         onNewCategoryClicked = {
           onIntent(

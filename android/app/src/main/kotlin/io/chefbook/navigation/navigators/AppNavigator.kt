@@ -2,7 +2,10 @@ package io.chefbook.navigation.navigators
 
 import android.app.Activity
 import android.content.Intent
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import com.google.accompanist.navigation.material.BottomSheetNavigator
 import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
 import com.ramcosta.composedestinations.navigation.navigate
@@ -85,6 +88,9 @@ class AppNavigator(
   CommunityRecipesScreenNavigator,
   CommunityRecipesFilterScreenNavigator,
   ProfileScreenNavigator {
+
+  @Composable
+  override fun currentBackStackEntry() = navController.currentBackStackEntryAsState()
 
   override fun openOneButtonDialog(params: OneButtonDialogParams, request: String) {
     val destination = if (params.nonDismissible) {

@@ -42,7 +42,7 @@ import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.design.components.buttons.CircleIconButton
 import io.chefbook.design.components.buttons.DynamicButton
 import io.chefbook.design.components.textfields.ThemedIndicatorTextField
-import io.chefbook.design.theme.shapes.ModalBottomSheetShape
+import io.chefbook.design.theme.shapes.RoundedCornerShape28Top
 import io.chefbook.features.recipe.input.ui.mvi.RecipeInputIngredientsScreenIntent
 import io.chefbook.features.recipe.input.ui.mvi.RecipeInputScreenIntent
 import io.chefbook.libs.models.measureunit.standardUnits
@@ -73,7 +73,7 @@ internal fun IngredientDialogContent(
   Column(
     modifier = Modifier
       .imePadding()
-      .clippedBackground(colors.backgroundPrimary, ModalBottomSheetShape)
+      .clippedBackground(colors.backgroundPrimary, RoundedCornerShape28Top)
       .padding(horizontal = 18.dp)
       .fillMaxWidth()
       .wrapContentHeight(),

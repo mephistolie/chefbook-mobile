@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.dp
 import com.mephistolie.compost.modifiers.padding
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.design.components.bottomsheet.PullBar
-import io.chefbook.design.theme.shapes.ModalBottomSheetShape
+import io.chefbook.design.theme.shapes.RoundedCornerShape28Top
 import io.chefbook.features.recipe.control.ui.components.categories.RecipeCategoriesSelectionBlock
 import io.chefbook.features.recipe.control.ui.components.menu.RecipeControlScreenMenu
 import io.chefbook.features.recipe.control.ui.mvi.RecipeControlScreenIntent
@@ -41,7 +41,7 @@ internal fun RecipeControlScreenContent(
 
   Column(
     modifier = Modifier
-      .background(colors.backgroundSecondary, ModalBottomSheetShape)
+      .background(colors.backgroundSecondary, RoundedCornerShape28Top)
       .fillMaxWidth()
       .navigationBarsPadding()
       .padding(horizontal = 12.dp),

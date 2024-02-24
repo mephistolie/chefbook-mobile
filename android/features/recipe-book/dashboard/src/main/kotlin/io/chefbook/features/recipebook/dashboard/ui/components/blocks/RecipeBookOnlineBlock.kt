@@ -1,16 +1,20 @@
 package io.chefbook.features.recipebook.dashboard.ui.components.blocks
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.requiredHeight
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.mephistolie.compost.modifiers.padding
+import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.features.recipebook.dashboard.R
 import io.chefbook.features.recipebook.dashboard.ui.components.elements.RecipeBookActionButton
 import io.chefbook.sdk.encryption.vault.api.external.domain.entities.EncryptedVaultState
@@ -24,9 +28,9 @@ internal fun RecipeBookOnlineBlock(
   onEncryptedVaultButtonClick: () -> Unit,
   modifier: Modifier = Modifier,
 ) {
-  Row(
-    modifier = modifier
-  ) {
+  val colors = LocalTheme.colors
+
+  Row(modifier = modifier) {
     RecipeBookActionButton(
       title = stringResource(id = R.string.common_dashboard_screen_community_recipes),
       hint = stringResource(id = coreR.string.common_general_open),

@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.dp
 import com.mephistolie.compost.modifiers.clippedBackground
 import com.ramcosta.composedestinations.result.OpenResultRecipient
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
-import io.chefbook.design.theme.shapes.ModalBottomSheetShape
+import io.chefbook.design.theme.shapes.RoundedCornerShape28Top
 import io.chefbook.features.recipe.control.navigation.RecipeControlScreenNavigator
 import io.chefbook.features.recipe.control.ui.RecipeControlScreen
 import io.chefbook.features.recipe.info.ui.components.common.content.RecipeScreenErrorContent
@@ -63,7 +63,7 @@ internal fun RecipeScreenBottomSheet(
     modifier = Modifier
       .fillMaxWidth()
       .height(bottomSheetHeight)
-      .clippedBackground(colors.backgroundSecondary, ModalBottomSheetShape),
+      .clippedBackground(colors.backgroundSecondary, RoundedCornerShape28Top),
     sheetState = modalSheetState,
     sheetBackgroundColor = Color.Transparent,
     sheetElevation = 0.dp,

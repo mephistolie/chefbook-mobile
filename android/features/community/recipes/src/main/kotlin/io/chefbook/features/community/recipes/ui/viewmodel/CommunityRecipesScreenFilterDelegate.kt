@@ -85,8 +85,10 @@ internal class CommunityRecipesScreenFilterDelegate(
         emitEffect(CommunityRecipesScreenEffect.FilterClosed)
       }
 
-      is CommunityRecipesScreenIntent.Filter.CloseFilter ->
+      is CommunityRecipesScreenIntent.Filter.CloseFilter -> {
+        updateState { lastAppliedFilter.copy(tagGroups = it.tagGroups) }
         emitEffect(CommunityRecipesScreenEffect.FilterClosed)
+      }
 
       is CommunityRecipesScreenIntent.Filter.FilterClosed ->
         updateState { lastAppliedFilter.copy(tagGroups = it.tagGroups) }

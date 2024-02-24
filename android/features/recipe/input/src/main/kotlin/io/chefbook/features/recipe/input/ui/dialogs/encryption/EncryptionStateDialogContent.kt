@@ -17,7 +17,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.mephistolie.compost.modifiers.clippedBackground
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
-import io.chefbook.design.theme.shapes.ModalBottomSheetShape
+import io.chefbook.design.theme.shapes.RoundedCornerShape28Top
 import io.chefbook.features.recipe.input.R
 import io.chefbook.features.recipe.input.ui.dialogs.components.RadioElement
 import io.chefbook.features.recipe.input.ui.mvi.RecipeInputDetailsScreenIntent
@@ -34,7 +34,7 @@ internal fun EncryptionStateDialogContent(
 
   Column(
     modifier = Modifier
-      .clippedBackground(colors.backgroundPrimary, shape = ModalBottomSheetShape)
+      .clippedBackground(colors.backgroundPrimary, shape = RoundedCornerShape28Top)
       .padding(horizontal = 18.dp)
       .fillMaxWidth()
       .wrapContentHeight(),

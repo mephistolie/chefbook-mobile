@@ -3,7 +3,6 @@ package io.chefbook.design.components.bottomsheet
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.runtime.Composable
@@ -12,7 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.mephistolie.compost.modifiers.clippedBackground
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
-import io.chefbook.design.theme.shapes.ModalBottomSheetShape
+import io.chefbook.design.theme.shapes.RoundedCornerShape28Top
 
 @Composable
 inline fun BottomSheetBox(
@@ -28,7 +27,7 @@ inline fun BottomSheetBox(
         .statusBarsPadding()
         .clippedBackground(
           background = backgroundColor,
-          shape = ModalBottomSheetShape,
+          shape = RoundedCornerShape28Top,
         ),
       contentAlignment = Alignment.TopCenter,
       content = content,
@@ -40,7 +39,7 @@ inline fun BottomSheetBox(
         .statusBarsPadding()
         .clippedBackground(
           background = backgroundColor,
-          shape = ModalBottomSheetShape,
+          shape = RoundedCornerShape28Top,
         ),
       horizontalAlignment = Alignment.CenterHorizontally,
     ) {
@@ -64,7 +63,7 @@ inline fun BottomSheetBox(
           .fillMaxWidth()
           .clippedBackground(
             background = backgroundColor,
-            shape = ModalBottomSheetShape,
+            shape = RoundedCornerShape28Top,
           ),
         contentAlignment = Alignment.TopCenter,
         content = content,

@@ -1,5 +1,6 @@
 package io.chefbook.features.recipebook.search.ui
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -35,10 +36,12 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.mephistolie.compost.modifiers.simpleClickable
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.design.components.buttons.DynamicButton
+import io.chefbook.features.recipebook.search.R
 import io.chefbook.features.recipebook.search.ui.components.NothingFoundBanner
 import io.chefbook.features.recipebook.search.ui.components.SearchRecipeCard
 import io.chefbook.features.recipebook.search.ui.mvi.RecipeBookSearchScreenIntent
@@ -145,7 +148,7 @@ internal fun RecipeBookSearchScreenContent(
                 modifier = Modifier
                   .fillMaxWidth()
                   .padding(bottom = 4.dp),
-                horizontalArrangement = Arrangement.spacedBy(4.dp),
+                horizontalArrangement = Arrangement.spacedBy(6.dp),
               ) {
                 for (category in state.categories) {
                   DynamicButton(
@@ -164,6 +167,20 @@ internal fun RecipeBookSearchScreenContent(
           items(state.recipes) { recipe ->
             SearchRecipeCard(recipe) {
               onIntent(RecipeBookSearchScreenIntent.OpenRecipeScreen(recipe.id))
+            }
+          }
+          if (state.showCommunitySearchHint && state.query.length >= 2
+            && (state.recipes.isNotEmpty() || state.categories.isNotEmpty())
+          ) {
+            item {
+              Text(
+                text = stringResource(R.string.common_recipe_book_search_screen_search_in_community),
+                style = typography.body1,
+                color = colors.tintPrimary,
+                modifier = Modifier
+                  .fillMaxWidth()
+                  .simpleClickable(1000L) { onIntent(RecipeBookSearchScreenIntent.SearchInCommunity) },
+              )
             }
           }
         }

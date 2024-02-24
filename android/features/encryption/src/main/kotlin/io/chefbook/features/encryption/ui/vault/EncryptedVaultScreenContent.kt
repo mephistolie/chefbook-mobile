@@ -29,7 +29,7 @@ import androidx.compose.ui.unit.dp
 import com.mephistolie.compost.modifiers.simpleClickable
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.design.components.buttons.CircleIconButton
-import io.chefbook.design.theme.shapes.ModalBottomSheetShape
+import io.chefbook.design.theme.shapes.RoundedCornerShape28Top
 import io.chefbook.design.theme.shapes.RoundedCornerShape24
 import io.chefbook.features.encryption.ui.vault.components.EncryptedVaultScreenManagement
 import io.chefbook.features.encryption.ui.vault.components.EncryptedVaultScreenPinCode
@@ -59,7 +59,7 @@ internal fun EncryptedVaultScreenContent(
         color = colors.backgroundPrimary,
         shape =
         if (state !is EncryptedVaultScreenState.PinCodeInput) RoundedCornerShape24
-        else ModalBottomSheetShape
+        else RoundedCornerShape28Top
       )
       .padding(horizontal = 12.dp)
       .fillMaxWidth()

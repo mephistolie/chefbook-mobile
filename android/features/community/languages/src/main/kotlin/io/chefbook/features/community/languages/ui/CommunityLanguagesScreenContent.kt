@@ -25,7 +25,7 @@ import com.mephistolie.compost.modifiers.clippedBackground
 import com.mephistolie.compost.modifiers.simpleClickable
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.design.components.checkboxes.Checkbox
-import io.chefbook.design.theme.shapes.ModalBottomSheetShape
+import io.chefbook.design.theme.shapes.RoundedCornerShape28Top
 import io.chefbook.features.community.languages.ui.mvi.CommunityLanguagesScreenIntent
 import io.chefbook.libs.models.language.Language
 import io.chefbook.ui.common.extensions.localizedName
@@ -44,7 +44,7 @@ internal fun CommunityLanguagesScreenContent(
   Column(
     modifier = Modifier
       .statusBarsPadding()
-      .clippedBackground(colors.backgroundPrimary, shape = ModalBottomSheetShape)
+      .clippedBackground(colors.backgroundPrimary, shape = RoundedCornerShape28Top)
       .padding(horizontal = 18.dp),
   ) {
     Text(

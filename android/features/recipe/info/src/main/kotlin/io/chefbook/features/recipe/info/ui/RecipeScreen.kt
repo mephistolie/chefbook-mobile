@@ -88,7 +88,9 @@ fun RecipeScreen(
     viewModel.effect.collect { effect ->
       when (effect) {
         is RecipeScreenEffect.ShowToast -> context.showToast(effect.messageId)
-        is RecipeScreenEffect.ExpandSheet -> launch { sheetState.expand() }
+        is RecipeScreenEffect.ExpandSheet ->
+
+          sheetState.expand()
         is RecipeScreenEffect.OpenModalBottomSheet -> {
           if (modalSheetState.isVisible) modalSheetState.hide()
           modalSheetState.show()

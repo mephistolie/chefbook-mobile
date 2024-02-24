@@ -11,6 +11,6 @@ val RoundedCornerShape20 = RoundedCornerShape(20.dp)
 val RoundedCornerShape24 = RoundedCornerShape(24.dp)
 val RoundedCornerShape28 = RoundedCornerShape(28.dp)
 
-val BottomSheetShape = RoundedCornerShape(topStart = 28.dp, topEnd = 28.dp)
-val ModalBottomSheetShape = RoundedCornerShape(topStart = 28.dp, topEnd = 28.dp)
+val RoundedCornerShape28Top = RoundedCornerShape(topStart = 28.dp, topEnd = 28.dp)
+val RoundedCornerShape28Bottom = RoundedCornerShape(bottomStart = 28.dp, bottomEnd = 28.dp)
 val DialogShape = RoundedCornerShape(28.dp)

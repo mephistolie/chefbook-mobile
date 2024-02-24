@@ -17,13 +17,16 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import com.mephistolie.compost.modifiers.padding
+import com.mephistolie.compost.modifiers.scalingClickable
 import io.chefbook.core.android.R
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
+import io.chefbook.design.components.buttons.DynamicButton
 import io.chefbook.design.R as designR
 import io.chefbook.design.theme.shapes.RoundedCornerShape28
 import io.chefbook.features.community.recipes.ui.screens.filter.components.elements.TagButton
 import io.chefbook.features.community.recipes.ui.mvi.FilterState
 import io.chefbook.features.community.recipes.ui.screens.content.components.elements.FilterButton
+import io.chefbook.features.community.recipes.ui.screens.filter.components.elements.OptionButton
 
 private const val SPAN_SIZE = 4
 private const val MAX_ROWS = 2
@@ -71,19 +74,22 @@ internal fun LazyListScope.tagGroupsBlocks(
             val tag = tags.getOrNull(i)
             val isLastCell = row + 1 == MAX_ROWS && i + 1 == SPAN_SIZE
             when {
-              isLastCell && tagChunks.size > MAX_ROWS -> FilterButton(
-                name = stringResource(R.string.common_general_more),
+              isLastCell && tagChunks.size > MAX_ROWS -> OptionButton(
                 modifier = cellModifier,
-                tint = colors.foregroundSecondary,
+                name = stringResource(R.string.common_general_more),
+                isSelected = false,
                 onClick = { onTagGroupExpandClicked(group.id) },
               ) {
-                Icon(
-                  imageVector = ImageVector.vectorResource(designR.drawable.ic_three_dots),
-                  tint = colors.foregroundPrimary,
-                  contentDescription = null,
-                  modifier = Modifier.size(28.dp),
+                DynamicButton(
+                  text = "+${group.tags.size - MAX_ROWS * SPAN_SIZE + 1}",
+                  textStyle = typography.h3,
+                  unselectedForeground = colors.foregroundPrimary,
+                  unselectedBackground = colors.backgroundSecondary,
+                  onClick = {},
+                  modifier = Modifier.size(60.dp),
                 )
               }
+
               tag != null -> TagButton(
                 tag = tags[i],
                 isSelected = tags[i].id in selectedTags,
@@ -91,6 +97,7 @@ internal fun LazyListScope.tagGroupsBlocks(
                 onUnselected = onTagUnselected,
                 modifier = cellModifier,
               )
+
               else -> Spacer(modifier = Modifier.weight(1F))
             }
           }

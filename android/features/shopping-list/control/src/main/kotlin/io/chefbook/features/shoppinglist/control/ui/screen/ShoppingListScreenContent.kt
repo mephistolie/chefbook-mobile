@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.dp
 import com.mephistolie.compost.modifiers.clippedBackground
 import io.chefbook.core.android.compose.modifiers.shimmer
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
-import io.chefbook.design.theme.shapes.ModalBottomSheetShape
+import io.chefbook.design.theme.shapes.RoundedCornerShape28Top
 import io.chefbook.features.shoppinglist.control.ui.screen.components.ShoppingListActionBar
 import io.chefbook.features.shoppinglist.control.ui.screen.components.ShoppingListSelectorBar
 import io.chefbook.features.shoppinglist.control.ui.screen.components.emptyListBanner
@@ -73,7 +73,7 @@ internal fun ShoppingListScreenContent(
         modifier = Modifier
           .statusBarsPadding()
           .wrapContentHeight()
-          .clippedBackground(colors.divider, shape = ModalBottomSheetShape)
+          .clippedBackground(colors.divider, shape = RoundedCornerShape28Top)
           .shimmer(isEnabled = state is ShoppingListScreenState.Loading)
           .animateContentSize(),
       ) {

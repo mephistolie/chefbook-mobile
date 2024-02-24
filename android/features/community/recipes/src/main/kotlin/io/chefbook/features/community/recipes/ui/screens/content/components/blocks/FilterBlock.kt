@@ -22,7 +22,7 @@ import com.mephistolie.compost.modifiers.clippedBackground
 import com.mephistolie.compost.modifiers.simpleClickable
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.design.theme.dimens.DefaultIconSize
-import io.chefbook.design.theme.shapes.BottomSheetShape
+import io.chefbook.design.theme.shapes.RoundedCornerShape28Top
 import io.chefbook.features.community.recipes.R
 import io.chefbook.features.community.recipes.ui.mvi.FilterState
 import io.chefbook.core.android.R as coreR
@@ -62,9 +62,9 @@ internal fun FilterBlock(
 
   Row(
     modifier = modifier
-      .clippedBackground(colors.backgroundSecondary, BottomSheetShape)
+      .clippedBackground(colors.backgroundSecondary, RoundedCornerShape28Top)
       .padding(top = 1.dp)
-      .clippedBackground(colors.backgroundPrimary, BottomSheetShape)
+      .clippedBackground(colors.backgroundPrimary, RoundedCornerShape28Top)
       .navigationBarsPadding()
       .fillMaxWidth()
       .height(filterBlockHeight)

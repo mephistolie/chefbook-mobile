@@ -1,16 +1,19 @@
 package io.chefbook.features.community.recipes.ui.screens.content
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.utils.destination
 import io.chefbook.features.community.recipes.ui.mvi.CommunityRecipesScreenEffect
 import io.chefbook.features.community.recipes.navigation.CommunityRecipesScreenNavigator
 import io.chefbook.features.community.recipes.ui.mvi.CommunityRecipesScreenIntent
+import io.chefbook.features.community.recipes.ui.screens.destinations.CommunityRecipesContentScreenDestination
 import io.chefbook.features.community.recipes.ui.viewmodel.CommunityRecipesScreenViewModel
-import io.chefbook.libs.logger.Logger
 
+@OptIn(ExperimentalMaterialApi::class)
 @Destination("community/recipes")
 @Composable
 fun CommunityRecipesContentScreen(
@@ -18,6 +21,7 @@ fun CommunityRecipesContentScreen(
   navigator: CommunityRecipesScreenNavigator,
 ) {
   val state = viewModel.state.collectAsStateWithLifecycle()
+  val currentBackStackEntry = navigator.currentBackStackEntry()
 
   CommunityRecipesScreenContent(
     state = state.value,
@@ -25,6 +29,12 @@ fun CommunityRecipesContentScreen(
   )
 
   BackHandler { viewModel.handleIntent(CommunityRecipesScreenIntent.Back) }
+
+  LaunchedEffect(currentBackStackEntry.value) {
+    if (currentBackStackEntry.value?.destination() == CommunityRecipesContentScreenDestination) {
+      viewModel.handleIntent(CommunityRecipesScreenIntent.Filter.FilterClosed)
+    }
+  }
 
   LaunchedEffect(Unit) {
     viewModel.effect.collect { effect ->

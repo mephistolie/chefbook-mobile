@@ -34,7 +34,7 @@ import com.mephistolie.compost.modifiers.clippedBackground
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.design.components.buttons.CircleIconButton
 import io.chefbook.design.components.textfields.ThemedIndicatorTextField
-import io.chefbook.design.theme.shapes.ModalBottomSheetShape
+import io.chefbook.design.theme.shapes.RoundedCornerShape28Top
 import io.chefbook.features.recipe.input.ui.mvi.RecipeInputDetailsScreenIntent
 import io.chefbook.features.recipe.input.ui.mvi.RecipeInputScreenIntent
 import io.chefbook.sdk.recipe.crud.api.external.domain.entities.RecipeInput
@@ -58,7 +58,7 @@ internal fun CaloriesDialogContent(
   Column(
     modifier = Modifier
       .imePadding()
-      .clippedBackground(colors.backgroundPrimary, shape = ModalBottomSheetShape)
+      .clippedBackground(colors.backgroundPrimary, shape = RoundedCornerShape28Top)
       .padding(horizontal = 18.dp)
       .fillMaxWidth()
       .wrapContentHeight(),
