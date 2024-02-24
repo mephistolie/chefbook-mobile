@@ -1,39 +1,38 @@
-package io.chefbook.features.community.recipes.ui.screens.filter
+package io.chefbook.features.community.recipes.ui.screens.tags
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.spec.DestinationStyleBottomSheet
-import io.chefbook.features.community.recipes.navigation.CommunityRecipesFilterScreenNavigator
 import io.chefbook.features.community.recipes.ui.mvi.CommunityRecipesScreenEffect
 import io.chefbook.features.community.recipes.ui.viewmodel.CommunityRecipesScreenViewModel
+import io.chefbook.navigation.navigators.BaseNavigator
 
 @Destination(
-  route = "community/recipes/filter",
+  route = "community/recipes/filter/tags",
   style = DestinationStyleBottomSheet::class,
 )
 @Composable
-internal fun CommunityRecipesFilterScreen(
-  focusSearch: Boolean = false,
-  scrollToTags: Boolean = false,
+internal fun CommunityRecipesTagGroupScreen(
+  groupId: String?,
   viewModel: CommunityRecipesScreenViewModel,
-  navigator: CommunityRecipesFilterScreenNavigator,
+  navigator: BaseNavigator,
 ) {
   val state = viewModel.state.collectAsState()
 
-  CommunityRecipesFilterScreenContent(
-    state = state.value.filter,
-    onIntent = viewModel::handleIntent,
-    focusSearch = focusSearch,
-    scrollToTags = scrollToTags,
-  )
+  state.value.filter.tagGroups.firstOrNull { it.id == groupId }?.let { group ->
+    CommunityRecipesTagGroupScreenContent(
+      group = group,
+      selectedTags = state.value.filter.selectedTags,
+      onIntent = viewModel::handleIntent,
+    )
+  }
 
   LaunchedEffect(Unit) {
     viewModel.effect.collect { effect ->
       when (effect) {
-        is CommunityRecipesScreenEffect.FilterClosed -> navigator.navigateUp()
-        is CommunityRecipesScreenEffect.TagGroupOpened -> navigator.openTagGroupScreen(effect.groupId)
+        CommunityRecipesScreenEffect.TagGroupClosed -> navigator.navigateUp()
         else -> Unit
       }
     }

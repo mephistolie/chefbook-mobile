@@ -10,7 +10,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
-import io.chefbook.design.components.bottomsheet.BottomSheetSlider
+import io.chefbook.design.components.bottomsheet.PullBar
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -25,7 +25,7 @@ internal fun RecipeTabsHeader(
     modifier = Modifier.background(colors.backgroundPrimary),
     horizontalAlignment = Alignment.CenterHorizontally,
   ) {
-    BottomSheetSlider()
+    PullBar()
     RecipeTabs(
       tabsBlockHeight = tabsBlockHeight,
       pagerState = pagerState,

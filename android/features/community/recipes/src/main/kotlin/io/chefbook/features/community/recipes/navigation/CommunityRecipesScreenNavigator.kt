@@ -10,6 +10,7 @@ interface CommunityRecipesScreenNavigator : BaseNavigator {
 
   fun openCommunityRecipesFilterScreen(
     focusSearch: Boolean = false,
+    scrollToTags: Boolean = false,
   )
 
   fun openRecipeScreen(recipeId: String)

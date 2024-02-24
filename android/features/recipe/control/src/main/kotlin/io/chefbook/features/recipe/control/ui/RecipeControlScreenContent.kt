@@ -1,6 +1,5 @@
 package io.chefbook.features.recipe.control.ui
 
-import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -16,7 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.mephistolie.compost.modifiers.padding
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
-import io.chefbook.design.components.bottomsheet.BottomSheetSlider
+import io.chefbook.design.components.bottomsheet.PullBar
 import io.chefbook.design.theme.shapes.ModalBottomSheetShape
 import io.chefbook.features.recipe.control.ui.components.categories.RecipeCategoriesSelectionBlock
 import io.chefbook.features.recipe.control.ui.components.menu.RecipeControlScreenMenu
@@ -48,7 +47,7 @@ internal fun RecipeControlScreenContent(
       .padding(horizontal = 12.dp),
     horizontalAlignment = Alignment.CenterHorizontally,
   ) {
-    BottomSheetSlider()
+    PullBar()
 
     recipe?.let {
       HorizontalPager(

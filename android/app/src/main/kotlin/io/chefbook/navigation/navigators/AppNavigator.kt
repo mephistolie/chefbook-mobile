@@ -13,6 +13,7 @@ import io.chefbook.features.auth.navigation.AuthScreenNavigator
 import io.chefbook.features.auth.ui.destinations.AuthScreenDestination
 import io.chefbook.features.category.ui.input.destinations.CategoryInputDialogDestination
 import io.chefbook.features.community.languages.ui.destinations.CommunityLanguagesScreenDestination
+import io.chefbook.features.community.recipes.navigation.CommunityRecipesFilterScreenNavigator
 import io.chefbook.features.community.recipes.navigation.CommunityRecipesScreenNavigator
 import io.chefbook.features.encryption.ui.vault.destinations.EncryptedVaultScreenDestination
 import io.chefbook.features.profile.control.navigation.ProfileScreenNavigator
@@ -37,6 +38,7 @@ import io.chefbook.features.recipe.share.ui.destinations.RecipeShareDialogDestin
 import io.chefbook.features.recipebook.category.ui.destinations.CategoryRecipesScreenDestination
 import io.chefbook.features.recipebook.category.ui.navigation.CategoryRecipesScreenNavigator
 import io.chefbook.features.community.recipes.ui.screens.destinations.CommunityRecipesFilterScreenDestination
+import io.chefbook.features.community.recipes.ui.screens.destinations.CommunityRecipesTagGroupScreenDestination
 import io.chefbook.features.recipebook.dashboard.ui.destinations.DashboardScreenDestination as RecipeBookDashboardScreenDestination
 import io.chefbook.features.recipebook.dashboard.ui.navigation.DashboardScreenNavigator as RecipeBookDashboardScreenNavigator
 import io.chefbook.features.recipebook.favourite.ui.destinations.FavouriteRecipesScreenDestination
@@ -81,6 +83,7 @@ class AppNavigator(
   RecipeInputDetailsScreenNavigator,
   RecipeInputIngredientsScreenNavigator,
   CommunityRecipesScreenNavigator,
+  CommunityRecipesFilterScreenNavigator,
   ProfileScreenNavigator {
 
   override fun openOneButtonDialog(params: OneButtonDialogParams, request: String) {
@@ -128,7 +131,7 @@ class AppNavigator(
   fun openAuthScreen() {
     navController.navigate(AuthScreenDestination()) {
       navController.currentDestination?.route?.let { route ->
-        popUpTo(route) { inclusive = true}
+        popUpTo(route) { inclusive = true }
       }
     }
   }
@@ -145,8 +148,22 @@ class AppNavigator(
     navController.navigate(NavGraphs.communityRecipes(initialSearch = search))
   }
 
-  override fun openCommunityRecipesFilterScreen(focusSearch: Boolean) {
-    navController.navigate(CommunityRecipesFilterScreenDestination(focusSearch = focusSearch))
+  override fun openCommunityRecipesFilterScreen(
+    focusSearch: Boolean,
+    scrollToTags: Boolean,
+  ) {
+    navController.navigate(
+      CommunityRecipesFilterScreenDestination(
+        focusSearch = focusSearch,
+        scrollToTags = scrollToTags,
+      )
+    )
+  }
+
+  override fun openTagGroupScreen(groupId: String?) {
+    navController.navigate(
+      CommunityRecipesTagGroupScreenDestination(groupId = groupId)
+    )
   }
 
   override fun openEncryptedVaultScreen() {
@@ -168,10 +185,11 @@ class AppNavigator(
   override fun openAboutAppScreen() {
     navController.navigate(AboutScreenDestination)
   }
+
   override fun openRecipeBookDashboardScreen() {
     navController.navigate(RecipeBookDashboardScreenDestination) {
       navController.currentDestination?.route?.let { route ->
-        popUpTo(route) { inclusive = true}
+        popUpTo(route) { inclusive = true }
       }
     }
   }

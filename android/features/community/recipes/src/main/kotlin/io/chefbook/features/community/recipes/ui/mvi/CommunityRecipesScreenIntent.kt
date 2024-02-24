@@ -13,6 +13,7 @@ sealed interface CommunityRecipesScreenIntent : MviIntent {
     data object SearchButtonClicked : Content
     data object FilterButtonClicked : Content
     data class TagClicked(val tagId: String) : Content
+    data object MoreTagsClicked : Content
 
     data class TabClicked(val tab: DashboardState.Tab) : Content
 
@@ -32,6 +33,8 @@ sealed interface CommunityRecipesScreenIntent : MviIntent {
 
     data class TagSelected(val tagId: String) : Filter
     data class TagUnselected(val tagId: String) : Filter
+    data class ExpandTagGroupClicked(val groupId: String?) : Filter
+    data object TagGroupClosed : Filter
 
     data object ResetFilterClicked : Filter
     data object CloseFilter : Filter

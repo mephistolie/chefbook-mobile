@@ -57,6 +57,9 @@ internal class CommunityRecipesScreenDashboardDelegate(
         resetResults()
       }
 
+      is CommunityRecipesScreenIntent.Content.MoreTagsClicked ->
+        emitEffect(CommunityRecipesScreenEffect.FilterOpened(scrollToTags = true))
+
       is CommunityRecipesScreenIntent.Content.CreateRecipeClicked ->
         emitEffect(CommunityRecipesScreenEffect.RecipeInputScreenOpened)
     }

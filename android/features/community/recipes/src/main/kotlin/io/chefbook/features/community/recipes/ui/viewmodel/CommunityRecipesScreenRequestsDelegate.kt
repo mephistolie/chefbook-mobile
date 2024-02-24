@@ -1,6 +1,7 @@
 package io.chefbook.features.community.recipes.ui.viewmodel
 
 import io.chefbook.features.community.recipes.ui.mvi.CommunityRecipesScreenState
+import io.chefbook.features.community.recipes.ui.mvi.DashboardState
 import io.chefbook.sdk.recipe.community.api.external.domain.entities.RecipesFilter
 import io.chefbook.sdk.recipe.community.api.external.domain.usecases.GetRecipesUseCase
 import kotlinx.coroutines.CoroutineScope
@@ -51,14 +52,29 @@ internal class CommunityRecipesScreenRequestsDelegate(
 
       result
         .onSuccess { recipes ->
-          updateState { it.copy(recipes = it.recipes + recipes, isLoading = false) }
+          updateState { state ->
+            val concatRecipes = state.recipes + recipes
+            state.copy(
+              recipes = concatRecipes,
+              isLoading = false,
+              dashboard = state.dashboard.copy(
+                isChefMatchButtonVisible = if (concatRecipes.isNotEmpty()) {
+                  true
+                } else {
+                  state.dashboard.isChefMatchButtonVisible
+                },
+              )
+            )
+          }
           if (recipes.isEmpty()) allRecipesLoaded = true
         }
         .onFailure { updateState { it.copy(isLoading = false) } }
 
       loadRecipesMutex.withLock {
         isLoading = false
-        if (result.getOrNull().orEmpty().size < RecipesFilter.DEFAULT_RECIPES_COUNT) allRecipesLoaded = true
+        if (result.getOrNull()
+            .orEmpty().size < RecipesFilter.DEFAULT_RECIPES_COUNT
+        ) allRecipesLoaded = true
       }
 
       loadRecipesJob = null

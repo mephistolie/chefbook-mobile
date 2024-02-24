@@ -7,6 +7,8 @@ data class TagGroup(
 
   companion object {
     const val MENU = "menu"
+    const val FOOD_TYPE = "food_type"
+    const val MEAL_TIME = "meal_time"
     const val CUISINE = "cuisine"
   }
 }

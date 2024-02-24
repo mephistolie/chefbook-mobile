@@ -22,6 +22,7 @@ data class CommunityRecipesScreenState(
 
 data class DashboardState(
   val tags: List<Tag> = emptyList(),
+  val isChefMatchButtonVisible: Boolean = false,
   val tab: Tab = Tab.NEW,
 ) {
 
@@ -62,6 +63,7 @@ data class FilterState(
   }
 
   data class TagGroup(
+    val id: String?,
     val name: String?,
     val tags: List<Tag>,
   )

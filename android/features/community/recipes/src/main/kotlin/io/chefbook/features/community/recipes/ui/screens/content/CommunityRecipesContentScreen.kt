@@ -33,10 +33,16 @@ fun CommunityRecipesContentScreen(
         is CommunityRecipesScreenEffect.ProfileScreenOpened -> navigator.openProfileScreen()
         is CommunityRecipesScreenEffect.LanguagesPickerOpened -> navigator.openCommunityLanguagesPickerScreen()
 
-        is CommunityRecipesScreenEffect.FilterOpened -> navigator.openCommunityRecipesFilterScreen(focusSearch = effect.focusSearch)
+        is CommunityRecipesScreenEffect.FilterOpened -> navigator.openCommunityRecipesFilterScreen(
+          focusSearch = effect.focusSearch,
+          scrollToTags = effect.scrollToTags,
+        )
+
         is CommunityRecipesScreenEffect.RecipeScreenOpened -> navigator.openRecipeScreen(effect.recipeId)
         is CommunityRecipesScreenEffect.RecipeInputScreenOpened -> navigator.openRecipeInputScreen()
         is CommunityRecipesScreenEffect.FilterClosed -> Unit
+        is CommunityRecipesScreenEffect.TagGroupClosed -> Unit
+        is CommunityRecipesScreenEffect.TagGroupOpened -> Unit
       }
     }
   }

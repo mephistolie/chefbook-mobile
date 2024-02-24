@@ -3,7 +3,6 @@ package io.chefbook.features.community.recipes.ui.viewmodel
 import io.chefbook.features.community.recipes.ui.mvi.CommunityRecipesScreenEffect
 import io.chefbook.features.community.recipes.ui.mvi.CommunityRecipesScreenIntent
 import io.chefbook.features.community.recipes.ui.mvi.CommunityRecipesScreenState
-import io.chefbook.features.community.recipes.ui.mvi.DashboardState
 import io.chefbook.features.community.recipes.ui.mvi.FilterState
 import io.chefbook.libs.coroutines.collectIn
 import io.chefbook.sdk.tag.api.external.domain.entities.Tag
@@ -59,6 +58,11 @@ internal class CommunityRecipesScreenFilterDelegate(
       is CommunityRecipesScreenIntent.Filter.TagUnselected ->
         updateState { it.copy(selectedTags = it.selectedTags.minusElement(intent.tagId)) }
 
+      is CommunityRecipesScreenIntent.Filter.ExpandTagGroupClicked ->
+        emitEffect(CommunityRecipesScreenEffect.TagGroupOpened(intent.groupId))
+
+      is CommunityRecipesScreenIntent.Filter.TagGroupClosed ->
+        emitEffect(CommunityRecipesScreenEffect.TagGroupClosed)
 
       is CommunityRecipesScreenIntent.Filter.ResetFilterClicked ->
         updateState { FilterState(tagGroups = it.tagGroups) }
@@ -96,6 +100,7 @@ internal class CommunityRecipesScreenFilterDelegate(
     }
     .map { group ->
       FilterState.TagGroup(
+        id = group?.id,
         name = group?.name,
         tags = this
           .filter { it.group == group }
@@ -109,7 +114,9 @@ internal class CommunityRecipesScreenFilterDelegate(
 
     private val tagGroupsMap = mapOf(
       TagGroup.MENU to 0,
-      TagGroup.CUISINE to 1,
+      TagGroup.FOOD_TYPE to 1,
+      TagGroup.MEAL_TIME to 2,
+      TagGroup.CUISINE to 3,
     )
   }
 }

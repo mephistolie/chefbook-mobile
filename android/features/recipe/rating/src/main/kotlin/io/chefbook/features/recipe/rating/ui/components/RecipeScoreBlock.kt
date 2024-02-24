@@ -70,8 +70,9 @@ internal fun RecipeScoreBlock(
       repeat(5) { index ->
         val star = index + 1
 
-        val opacity = animateFloatAsState(
-          targetValue = if (score == null || star > score) 1F else 0F,
+        val saturation = animateFloatAsState(
+          targetValue = if (score != null && star <= score) 1F else 0F,
+          animationSpec = tween(200),
           label = "star_${index}_saturation"
         )
 
@@ -83,7 +84,7 @@ internal fun RecipeScoreBlock(
             .fillMaxWidth()
             .aspectRatio(1F)
             .simpleClickable(300L) { onScoreClick(star) },
-          colorFilter = ColorFilter.tint(colors.backgroundTertiary.copy(alpha = opacity.value), BlendMode.SrcAtop),
+          colorFilter = ColorFilter.colorMatrix(ColorMatrix().apply { setToSaturation(saturation.value) }),
         )
       }
     }

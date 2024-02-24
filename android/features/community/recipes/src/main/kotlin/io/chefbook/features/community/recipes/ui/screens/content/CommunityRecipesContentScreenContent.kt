@@ -85,9 +85,11 @@ internal fun CommunityRecipesScreenContent(
           ) {
             FilterButtons(
               tags = state.dashboard.tags,
+              isChefMatchButtonVisible = state.dashboard.isChefMatchButtonVisible,
               onSearchClick = { onIntent(CommunityRecipesScreenIntent.Content.SearchButtonClicked) },
               onFilterClick = { onIntent(CommunityRecipesScreenIntent.Content.FilterButtonClicked) },
               onTagClick = { onIntent(CommunityRecipesScreenIntent.Content.TagClicked(it.id)) },
+              onMoreTagsClick = { onIntent(CommunityRecipesScreenIntent.Content.MoreTagsClicked) },
               modifier = Modifier.clippedBackground(
                 background = colors.backgroundPrimary,
                 shape = RoundedCornerShape(bottomStart = 28.dp, bottomEnd = 28.dp)

@@ -59,7 +59,7 @@ internal fun LazyListScope.searchBlock(
       )
     }
 
-    LaunchedEffect(Unit) {
+    LaunchedEffect(focusSearch) {
       if (focusSearch) focusRequester.requestFocus()
     }
   }

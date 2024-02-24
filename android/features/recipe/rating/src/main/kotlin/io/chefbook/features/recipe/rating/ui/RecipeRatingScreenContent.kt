@@ -8,10 +8,12 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.mephistolie.compost.modifiers.padding
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
+import io.chefbook.design.components.bottomsheet.BottomSheetBox
+import io.chefbook.design.components.bottomsheet.BottomSheetColumn
+import io.chefbook.design.components.bottomsheet.PullBarType
 import io.chefbook.design.theme.shapes.BottomSheetShape
 import io.chefbook.design.theme.shapes.ModalBottomSheetShape
 import io.chefbook.design.theme.shapes.RoundedCornerShape28
@@ -34,11 +36,9 @@ internal fun RecipeRatingScreenContent(
     )
   if (!state.isScoreVisible) ratingBlockModifier = ratingBlockModifier.navigationBarsPadding()
 
-  Column(
-    modifier = Modifier
-      .fillMaxWidth()
-      .background(colors.divider, ModalBottomSheetShape),
-    horizontalAlignment = Alignment.CenterHorizontally,
+  BottomSheetColumn(
+    backgroundColor = colors.divider,
+    pullBarType = PullBarType.EXTERNAl
   ) {
     RecipeRatingBlock(
       rating = state.rating,

@@ -31,10 +31,16 @@ internal class CommunityRecipesScreenExternalDelegate(
   }
 
   private fun observeLanguages() {
-    observeLanguagesUseCase().collectIn(scope) { languages ->
-      updateState { it.copy(languages = languages) }
-      resetResults()
-    }
+    observeLanguagesUseCase()
+      .collectIn(scope) { languages ->
+        updateState { state ->
+          state.copy(
+            languages = languages,
+            dashboard = state.dashboard.copy(isChefMatchButtonVisible = false)
+          )
+        }
+        resetResults()
+      }
   }
 
   private fun observeRecipes() {
