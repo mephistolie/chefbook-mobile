@@ -3,8 +3,9 @@ package io.chefbook.features.shoppinglist.control.ui.screen
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
@@ -24,6 +25,7 @@ import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.design.theme.shapes.ModalBottomSheetShape
 import io.chefbook.features.shoppinglist.control.ui.screen.components.ShoppingListActionBar
 import io.chefbook.features.shoppinglist.control.ui.screen.components.ShoppingListSelectorBar
+import io.chefbook.features.shoppinglist.control.ui.screen.components.emptyListBanner
 import io.chefbook.features.shoppinglist.control.ui.screen.components.shoppingListActionBarHeight
 import io.chefbook.features.shoppinglist.control.ui.screen.components.shoppingListPurchases
 import io.chefbook.features.shoppinglist.control.ui.screen.mvi.ModalState
@@ -70,7 +72,6 @@ internal fun ShoppingListScreenContent(
       Box(
         modifier = Modifier
           .statusBarsPadding()
-          .imePadding()
           .wrapContentHeight()
           .clippedBackground(colors.divider, shape = ModalBottomSheetShape)
           .shimmer(isEnabled = state is ShoppingListScreenState.Loading)
@@ -94,6 +95,8 @@ internal fun ShoppingListScreenContent(
                 onIntent(ShoppingListScreenIntent.OpenPurchaseInput(purchaseId))
               }
             )
+            if (state.sections.isEmpty()) emptyListBanner()
+            item { Spacer(modifier = Modifier.height(shoppingListActionBarHeight + 8.dp)) }
           }
         }
         ShoppingListSelectorBar(

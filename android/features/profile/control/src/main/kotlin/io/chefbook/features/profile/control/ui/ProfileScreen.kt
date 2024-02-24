@@ -4,7 +4,7 @@ import android.content.Intent
 import android.net.Uri
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.ui.platform.LocalContext
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.result.NavResult
@@ -15,7 +15,7 @@ import io.chefbook.features.profile.control.ui.mvi.ProfileScreenEffect
 import io.chefbook.features.profile.control.ui.mvi.ProfileScreenIntent
 import io.chefbook.navigation.params.dialogs.TwoButtonsDialogParams
 import io.chefbook.navigation.results.dialogs.TwoButtonsDialogResult
-import org.koin.androidx.compose.getViewModel
+import org.koin.androidx.compose.koinViewModel
 import io.chefbook.design.R as designR
 
 private const val LOGOUT_REQUEST = "LOGOUT_REQUEST"
@@ -26,8 +26,8 @@ fun ProfileScreen(
   navigator: ProfileScreenNavigator,
   confirmDialogResult: OpenResultRecipient<TwoButtonsDialogResult>,
 ) {
-  val viewModel: IProfileScreenViewModel = getViewModel<ProfileScreenViewModel>()
-  val state = viewModel.state.collectAsState()
+  val viewModel: IProfileScreenViewModel = koinViewModel<ProfileScreenViewModel>()
+  val state = viewModel.state.collectAsStateWithLifecycle()
 
   val context = LocalContext.current
 

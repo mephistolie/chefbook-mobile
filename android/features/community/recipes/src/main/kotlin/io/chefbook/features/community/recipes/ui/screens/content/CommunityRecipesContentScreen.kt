@@ -3,7 +3,7 @@ package io.chefbook.features.community.recipes.ui.screens.content
 import androidx.activity.compose.BackHandler
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
 import io.chefbook.features.community.recipes.ui.mvi.CommunityRecipesScreenEffect
 import io.chefbook.features.community.recipes.navigation.CommunityRecipesScreenNavigator
@@ -17,7 +17,7 @@ fun CommunityRecipesContentScreen(
   viewModel: CommunityRecipesScreenViewModel,
   navigator: CommunityRecipesScreenNavigator,
 ) {
-  val state = viewModel.state.collectAsState()
+  val state = viewModel.state.collectAsStateWithLifecycle()
 
   CommunityRecipesScreenContent(
     state = state.value,

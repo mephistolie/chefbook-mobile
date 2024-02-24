@@ -8,7 +8,7 @@ import androidx.compose.material.rememberBottomSheetState
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -29,7 +29,7 @@ import io.chefbook.sdk.recipe.core.api.external.domain.entities.Recipe
 import io.chefbook.ui.common.presentation.RecipeScreenPage
 import io.chefbook.ui.common.providers.RecipeEncryptionProvider
 import kotlinx.coroutines.launch
-import org.koin.androidx.compose.getViewModel
+import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -47,8 +47,8 @@ fun RecipeScreen(
   confirmDialogRecipient: OpenResultRecipient<TwoButtonsDialogResult>
 ) {
   val viewModel: IRecipeScreenViewModel =
-    getViewModel<RecipeScreenViewModel> { parametersOf(recipeId) }
-  val state = viewModel.state.collectAsState()
+    koinViewModel<RecipeScreenViewModel> { parametersOf(recipeId) }
+  val state = viewModel.state.collectAsStateWithLifecycle()
 
   val recipe = remember(state) { (state.value as? RecipeScreenState.Success)?.recipe }
   val isEncryptionEnabled = remember(recipe) { derivedStateOf { recipe?.isEncryptionEnabled ?: false } }

@@ -3,7 +3,7 @@ package io.chefbook.features.recipe.input.ui.screens.ingredients
 import androidx.activity.compose.BackHandler
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
 import io.chefbook.features.recipe.input.navigation.RecipeInputIngredientsScreenNavigator
 import io.chefbook.features.recipe.input.navigation.handleBaseRecipeInputScreenEffect
@@ -18,7 +18,7 @@ internal fun RecipeInputIngredientScreen(
   viewModel: IRecipeInputScreenViewModel,
   navigator: RecipeInputIngredientsScreenNavigator,
 ) {
-  val state = viewModel.state.collectAsState()
+  val state = viewModel.state.collectAsStateWithLifecycle()
 
   RecipeInputIngredientScreenContent(
     state = state.value.input,

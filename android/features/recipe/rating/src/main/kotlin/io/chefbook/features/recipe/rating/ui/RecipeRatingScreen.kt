@@ -2,7 +2,7 @@ package io.chefbook.features.recipe.rating.ui
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.spec.DestinationStyleBottomSheet
 import io.chefbook.features.recipe.rating.ui.mvi.RecipeRatingScreenEffect
@@ -20,7 +20,7 @@ fun RecipeRatingScreen(
   navigator: BaseNavigator,
 ) {
   val viewModel = koinViewModel<RecipeRatingScreenViewModel> { parametersOf(recipeId) }
-  val state = viewModel.state.collectAsState()
+  val state = viewModel.state.collectAsStateWithLifecycle()
 
   RecipeRatingScreenContent(
     state = state.value,

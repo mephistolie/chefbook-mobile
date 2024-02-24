@@ -63,6 +63,7 @@ dependencies {
   implementation(libs.androidx.compose.material)
   implementation(libs.androidx.compose.animation)
   implementation(libs.androidx.activity.compose)
+  implementation(libs.androidx.lifecycle.compose)
   implementation(libs.androidx.lifecycle.viewmodel.compose)
 
   implementation(libs.androidx.navigation.compose)

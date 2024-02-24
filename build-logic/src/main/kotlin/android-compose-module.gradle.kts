@@ -1,3 +1,4 @@
+import gradle.kotlin.dsl.accessors._3d3b47942ab04f2cc9c29cffc95a2b60.implementation
 import org.gradle.accessors.dm.LibrariesForLibs
 
 plugins {
@@ -23,6 +24,7 @@ dependencies {
   implementation(libs.androidx.compose.ui)
   implementation(libs.androidx.compose.material)
 
+  implementation(libs.androidx.lifecycle.compose)
   implementation(libs.androidx.lifecycle.viewmodel.compose)
   implementation(libs.di.koin.compose)
 

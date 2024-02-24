@@ -39,7 +39,7 @@ import io.chefbook.navigation.navigators.AppNavigator
 import io.chefbook.navigation.results.category.CategoryActionResult
 import io.chefbook.navigation.results.dialogs.TwoButtonsDialogResult
 import io.chefbook.ui.common.dialogs.destinations.DismissibleTwoButtonsDialogDestination
-import org.koin.androidx.compose.getViewModel
+import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
 
 @OptIn(ExperimentalMaterialNavigationApi::class, ExperimentalAnimationApi::class)
@@ -102,7 +102,7 @@ fun AppHost(
       }
       val recipeId = parentEntry.arguments?.getString(NavGraphs.RECIPE_ID_ARGUMENT)
       RecipeInputDetailsScreen(
-        viewModel = getViewModel<RecipeInputScreenViewModel>(viewModelStoreOwner = parentEntry) {
+        viewModel = koinViewModel<RecipeInputScreenViewModel>(viewModelStoreOwner = parentEntry) {
           parametersOf(recipeId)
         },
         navigator = navigator,

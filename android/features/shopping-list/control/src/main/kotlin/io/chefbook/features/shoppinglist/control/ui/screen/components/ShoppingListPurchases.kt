@@ -28,6 +28,5 @@ internal fun LazyListScope.shoppingListPurchases(
       modifier = Modifier.padding(bottom = if (index < shoppingList.lastIndex) 6.dp else 0.dp)
     )
   }
-  item { Spacer(modifier = Modifier.height(shoppingListActionBarHeight + 8.dp)) }
 }
 

@@ -2,7 +2,8 @@ package io.chefbook.features.category.ui.input
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.result.NavResult
 import com.ramcosta.composedestinations.result.OpenResultRecipient
@@ -15,7 +16,7 @@ import io.chefbook.navigation.params.dialogs.TwoButtonsDialogParams
 import io.chefbook.navigation.results.category.CategoryActionResult
 import io.chefbook.navigation.results.dialogs.TwoButtonsDialogResult
 import io.chefbook.navigation.styles.DismissibleDialog
-import org.koin.androidx.compose.getViewModel
+import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
 
 @Destination(route = "category/input", style = DismissibleDialog::class)
@@ -27,8 +28,8 @@ fun CategoryInputDialog(
   confirmDialogResult: OpenResultRecipient<TwoButtonsDialogResult>,
 ) {
   val viewModel: ICategoryInputDialogViewModel =
-    getViewModel<CategoryInputDialogViewModel> { parametersOf(categoryId) }
-  val state = viewModel.state.collectAsState()
+    koinViewModel<CategoryInputDialogViewModel> { parametersOf(categoryId) }
+  val state = viewModel.state.collectAsStateWithLifecycle()
 
   CategoryInputDialogContent(
     state = state.value,

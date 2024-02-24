@@ -2,11 +2,11 @@ package io.chefbook.features.recipebook.favourite.ui
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
 import io.chefbook.features.recipebook.favourite.ui.mvi.FavouriteRecipesScreenEffect
 import io.chefbook.features.recipebook.favourite.ui.navigation.RecipeBookFavouriteScreenNavigator
-import org.koin.androidx.compose.getViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @Destination(route = "recipe_book/favourite")
 @Composable
@@ -14,8 +14,8 @@ internal fun FavouriteRecipesScreen(
   navigator: RecipeBookFavouriteScreenNavigator,
 ) {
   val viewModel: IFavouriteRecipesScreenViewModel =
-    getViewModel<FavouriteRecipesScreenViewModel>()
-  val state = viewModel.state.collectAsState()
+    koinViewModel<FavouriteRecipesScreenViewModel>()
+  val state = viewModel.state.collectAsStateWithLifecycle()
 
   FavouriteRecipesScreenContent(
     state = state.value,

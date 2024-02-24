@@ -10,7 +10,7 @@ import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.navigation.compose.rememberNavController
@@ -25,7 +25,7 @@ import io.chefbook.features.auth.ui.destinations.AuthScreenDestination
 import io.chefbook.navigation.navigators.AppNavigator
 import io.chefbook.ui.screens.main.mvi.AppEffect
 import kotlinx.coroutines.launch
-import org.koin.androidx.compose.getViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @OptIn(
   ExperimentalMaterialNavigationApi::class,
@@ -35,8 +35,8 @@ import org.koin.androidx.compose.getViewModel
 fun AppScreen() {
   val scope = rememberCoroutineScope()
 
-  val appViewModel = getViewModel<AppViewModel>()
-  val appState = appViewModel.state.collectAsState()
+  val appViewModel = koinViewModel<AppViewModel>()
+  val appState = appViewModel.state.collectAsStateWithLifecycle()
 
   val sheetState = rememberModalBottomSheetState(
     animationSpec = SpringSpec(dampingRatio = 10F, stiffness = 100_000F),
@@ -63,7 +63,7 @@ fun AppScreen() {
     }
   )
 
-  val currentDestination = navController.currentBackStackEntryFlow.collectAsState(null)
+  val currentDestination = navController.currentBackStackEntryFlow.collectAsStateWithLifecycle(null)
   val destinationStyle = currentDestination.value?.destination()?.style
   val isBackgroundBlurred = destinationStyle is DestinationStyle.Dialog
 

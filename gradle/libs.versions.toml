@@ -35,7 +35,7 @@ credentials-google = "1.1.0"
 google-play-core = "1.10.3"
 
 androidx-activity-compose = "1.8.2"
-androidx-lifecycle-viewmodel-compose = "2.7.0"
+androidx-lifecycle = "2.7.0"
 androidx-composeBom = "2024.02.00"
 androidx-navigationCompose = "2.7.7"
 accompanist = "0.34.0"
@@ -113,7 +113,8 @@ androidx-compose-material = { group = "androidx.compose.material", name = "mater
 androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3" }
 
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "androidx-activity-compose" }
-androidx-lifecycle-viewmodel-compose = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "androidx-lifecycle-viewmodel-compose" }
+androidx-lifecycle-compose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "androidx-lifecycle" }
+androidx-lifecycle-viewmodel-compose = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "androidx-lifecycle" }
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "androidx-navigationCompose" }
 
 accompanist-pager-indicators = { group = "com.google.accompanist", name = "accompanist-pager-indicators", version.ref = "accompanist" }

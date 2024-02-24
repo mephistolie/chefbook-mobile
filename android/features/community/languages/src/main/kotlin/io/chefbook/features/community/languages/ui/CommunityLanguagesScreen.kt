@@ -2,12 +2,12 @@ package io.chefbook.features.community.languages.ui
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.spec.DestinationStyleBottomSheet
 import io.chefbook.features.community.languages.ui.mvi.CommunityLanguagesScreenEffect
 import io.chefbook.navigation.navigators.BaseNavigator
-import org.koin.androidx.compose.getViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @Destination(
   route = "community/languages",
@@ -17,8 +17,8 @@ import org.koin.androidx.compose.getViewModel
 internal fun CommunityLanguagesScreen(
   navigator: BaseNavigator,
 ) {
-  val viewModel = getViewModel<CommunityLanguagesScreenViewModel>()
-  val state = viewModel.state.collectAsState()
+  val viewModel = koinViewModel<CommunityLanguagesScreenViewModel>()
+  val state = viewModel.state.collectAsStateWithLifecycle()
 
   CommunityLanguagesScreenContent(
     selectedLanguages = state.value.languages,

@@ -66,15 +66,15 @@ internal fun ShoppingListSelectorBar(
             style = typography.h4,
             color = colors.foregroundPrimary,
           )
-          Icon(
-            imageVector = ImageVector.vectorResource(designR.drawable.ic_arrow_down),
-            tint = colors.foregroundPrimary,
-            modifier = Modifier
-              .padding(top = 2.dp)
-              .size(16.dp)
-              .aspectRatio(1F),
-            contentDescription = null,
-          )
+//          Icon(
+//            imageVector = ImageVector.vectorResource(designR.drawable.ic_arrow_down),
+//            tint = colors.foregroundPrimary,
+//            modifier = Modifier
+//              .padding(top = 2.dp)
+//              .size(16.dp)
+//              .aspectRatio(1F),
+//            contentDescription = null,
+//          )
         }
       }
     }

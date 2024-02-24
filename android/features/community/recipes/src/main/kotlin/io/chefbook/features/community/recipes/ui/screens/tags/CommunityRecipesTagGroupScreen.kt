@@ -2,7 +2,7 @@ package io.chefbook.features.community.recipes.ui.screens.tags
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.spec.DestinationStyleBottomSheet
 import io.chefbook.features.community.recipes.ui.mvi.CommunityRecipesScreenEffect
@@ -19,7 +19,7 @@ internal fun CommunityRecipesTagGroupScreen(
   viewModel: CommunityRecipesScreenViewModel,
   navigator: BaseNavigator,
 ) {
-  val state = viewModel.state.collectAsState()
+  val state = viewModel.state.collectAsStateWithLifecycle()
 
   state.value.filter.tagGroups.firstOrNull { it.id == groupId }?.let { group ->
     CommunityRecipesTagGroupScreenContent(

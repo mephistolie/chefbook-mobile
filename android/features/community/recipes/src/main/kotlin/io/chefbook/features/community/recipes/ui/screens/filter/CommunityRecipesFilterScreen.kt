@@ -2,7 +2,7 @@ package io.chefbook.features.community.recipes.ui.screens.filter
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.spec.DestinationStyleBottomSheet
 import io.chefbook.features.community.recipes.navigation.CommunityRecipesFilterScreenNavigator
@@ -20,7 +20,7 @@ internal fun CommunityRecipesFilterScreen(
   viewModel: CommunityRecipesScreenViewModel,
   navigator: CommunityRecipesFilterScreenNavigator,
 ) {
-  val state = viewModel.state.collectAsState()
+  val state = viewModel.state.collectAsStateWithLifecycle()
 
   CommunityRecipesFilterScreenContent(
     state = state.value.filter,

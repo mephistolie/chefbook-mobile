@@ -58,7 +58,7 @@ abstract class BaseIntentSideEffectViewModel<Intent : MviIntent, Effect : MviSid
   override val effect: Flow<Effect> = _effect.asSharedFlow()
 
   override fun handleIntent(intent: Intent) {
-    viewModelScope.launch(Dispatchers.IO) {
+    viewModelScope.launch {
       reduceIntent(intent)
     }
   }

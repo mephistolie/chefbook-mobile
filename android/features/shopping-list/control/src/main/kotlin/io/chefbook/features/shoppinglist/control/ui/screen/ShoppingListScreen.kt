@@ -5,16 +5,17 @@ import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.DeepLink
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.spec.DestinationStyleBottomSheet
 import io.chefbook.features.shoppinglist.control.navigation.ShoppingListScreenNavigator
 import io.chefbook.features.shoppinglist.control.ui.screen.mvi.ShoppingListScreenEffect
 import io.chefbook.navigation.navigators.BaseNavigator
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import org.koin.androidx.compose.getViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -29,8 +30,8 @@ import org.koin.androidx.compose.getViewModel
 fun ShoppingListScreen(
   navigator: ShoppingListScreenNavigator,
 ) {
-  val viewModel: IShoppingListScreenViewModel = getViewModel<ShoppingListScreenViewModel>()
-  val state = viewModel.state.collectAsState()
+  val viewModel: IShoppingListScreenViewModel = koinViewModel<ShoppingListScreenViewModel>()
+  val state = viewModel.state.collectAsStateWithLifecycle()
 
   val scope = rememberCoroutineScope()
 

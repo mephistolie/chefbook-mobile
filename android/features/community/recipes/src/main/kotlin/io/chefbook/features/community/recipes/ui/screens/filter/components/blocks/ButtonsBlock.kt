@@ -51,9 +51,8 @@ internal fun ButtonsBlock(
       .height(buttonsBlockHeight)
       .padding(12.dp)
       .onGloballyPositioned { coordinates ->
-        buttonWidth.value = with(density) { coordinates.size.width.toDp() / 2 - 4.dp }
+        buttonWidth.value = with(density) { coordinates.size.width.toDp() / 2 - 8.dp }
       },
-    horizontalArrangement = Arrangement.spacedBy(8.dp)
   ) {
     AnimatedVisibility(
       visible = isResetButtonVisible,

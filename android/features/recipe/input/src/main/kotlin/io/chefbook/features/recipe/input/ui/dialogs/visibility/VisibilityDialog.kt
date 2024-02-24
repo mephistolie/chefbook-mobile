@@ -2,7 +2,7 @@ package io.chefbook.features.recipe.input.ui.dialogs.visibility
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.spec.DestinationStyleBottomSheet
 import io.chefbook.features.recipe.input.ui.mvi.RecipeInputScreenEffect
@@ -19,7 +19,7 @@ internal fun VisibilityDialog(
   viewModel: IRecipeInputScreenViewModel,
   navigator: BaseNavigator,
 ) {
-  val state = viewModel.state.collectAsState()
+  val state = viewModel.state.collectAsStateWithLifecycle()
 
   VisibilityDialogContent(
     selectedVisibility = state.value.input.visibility,
