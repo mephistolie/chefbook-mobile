@@ -4,7 +4,6 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridItemSpan
@@ -14,15 +13,15 @@ import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
+import com.mephistolie.compost.modifiers.simpleClickable
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
-import io.chefbook.design.theme.shapes.RoundedCornerShape28
+import io.chefbook.design.theme.dimens.DefaultIconSize
 import io.chefbook.design.theme.shapes.RoundedCornerShape28Top
-import io.chefbook.features.recipebook.dashboard.ui.components.elements.CategoryCard
-import io.chefbook.features.recipebook.dashboard.ui.components.elements.CategoryCardSkeleton
+import io.chefbook.features.recipebook.core.ui.components.CategoryCard
+import io.chefbook.features.recipebook.core.ui.components.CategoryCardSkeleton
 import io.chefbook.features.recipebook.dashboard.ui.components.elements.NewCategoryCard
 import io.chefbook.sdk.category.api.external.domain.entities.Category
 import kotlin.math.min
@@ -31,75 +30,56 @@ import io.chefbook.design.R as designR
 
 private const val KEY_PREFIX = "category_card"
 
-@OptIn(ExperimentalFoundationApi::class)
 internal fun LazyGridScope.categoriesBlock(
   categories: List<Category>?,
   drawDivider: Boolean,
+  onCategoriesClick: () -> Unit,
   onCategoryClicked: (String) -> Unit,
-  onNewCategoryClicked: () -> Unit,
 ) {
   item(
     span = { GridItemSpan(4) }
   ) {
     val colors = LocalTheme.colors
+    val typography = LocalTheme.typography
 
-    Text(
-      text = stringResource(id = coreR.string.common_general_categories),
-      style = LocalTheme.typography.h3,
-      color = LocalTheme.colors.foregroundPrimary,
+    Row(
       modifier = Modifier
         .let {
           if (drawDivider) {
-            it.background(colors.backgroundSecondary)
+            it
+              .background(colors.divider)
               .background(colors.backgroundPrimary, RoundedCornerShape28Top)
           } else it
         }
-        .padding(12.dp, if (drawDivider) 16.dp else 28.dp, 12.dp, 12.dp),
-    )
+        .padding(12.dp, if (drawDivider) 20.dp else 32.dp, 12.dp, 16.dp)
+        .simpleClickable(debounceInterval = 1000L, onCategoriesClick),
+      horizontalArrangement = Arrangement.SpaceBetween,
+      verticalAlignment = Alignment.CenterVertically,
+    ) {
+      Text(
+        text = stringResource(id = coreR.string.common_general_categories),
+        style = typography.h2,
+        color = colors.foregroundPrimary,
+      )
+      Icon(
+        painter = painterResource(designR.drawable.ic_arrow_circle_right),
+        contentDescription = null,
+        modifier = Modifier.size(DefaultIconSize),
+        tint = colors.foregroundPrimary,
+      )
+    }
   }
   if (categories != null) {
     items(
-      count = min(categories.size + 1, 4),
-      key = { index -> if (index < categories.size) "${KEY_PREFIX}_${categories[index].id}" else "STUB" }
+      count = categories.size,
+      key = { index -> "${KEY_PREFIX}_${categories[index].id}" }
     ) { index ->
-      if (index < categories.size) {
-        CategoryCard(
-          category = categories[index],
-          modifier = categoryCardModifier(index),
-        ) { onCategoryClicked(it.id) }
-      } else {
-        NewCategoryCard(
-          onClicked = onNewCategoryClicked,
-          modifier = categoryCardModifier(index),
-        )
-      }
-    }
-    item(
-      span = { GridItemSpan(4) }
-    ) {
-      if (categories.size > 3) {
-        Row(
-          modifier = Modifier
-            .fillMaxWidth()
-            .padding(12.dp, 0.dp)
-            .animateItemPlacement(),
-          verticalAlignment = Alignment.CenterVertically,
-          horizontalArrangement = Arrangement.End,
-        ) {
-          Text(
-            text = stringResource(id = coreR.string.common_general_more),
-            style = LocalTheme.typography.headline1,
-            color = LocalTheme.colors.foregroundSecondary,
-          )
-          Icon(
-            imageVector = ImageVector.vectorResource(designR.drawable.ic_arrow_down),
-            tint = LocalTheme.colors.foregroundSecondary,
-            modifier = Modifier
-              .size(14.dp),
-            contentDescription = null,
-          )
-        }
-      }
+      CategoryCard(
+        id = categories[index].id,
+        name = categories[index].name,
+        emoji = categories[index].emoji,
+        modifier = categoryCardModifier(index),
+      ) { onCategoryClicked(it) }
     }
   } else {
     items(4) { index ->

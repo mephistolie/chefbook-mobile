@@ -1,7 +1,7 @@
 package io.chefbook.sdk.tag.impl.data.sources.local.datastore
 
 import androidx.datastore.core.Serializer
-import io.chefbook.sdk.tag.impl.data.sources.common.dto.TagsSerializable
+import io.chefbook.sdk.tag.api.internal.data.sources.common.dto.TagsSerializable
 import kotlinx.serialization.SerializationException
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json

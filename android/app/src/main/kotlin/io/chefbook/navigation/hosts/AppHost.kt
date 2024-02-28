@@ -76,6 +76,7 @@ fun AppHost(
     composable(CategoryRecipesScreenDestination) {
       CategoryRecipesScreen(
         categoryId = navArgs.categoryId,
+        isTag = navArgs.isTag,
         navigator = navigator,
         categoryInputRecipient = resultRecipient<CategoryInputDialogDestination, CategoryActionResult>()
       )

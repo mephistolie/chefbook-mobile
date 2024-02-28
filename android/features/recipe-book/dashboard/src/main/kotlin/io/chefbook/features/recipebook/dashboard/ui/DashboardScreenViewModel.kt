@@ -12,7 +12,6 @@ import io.chefbook.sdk.profile.api.external.domain.usecases.ObserveProfileUseCas
 import io.chefbook.sdk.recipe.book.api.external.domain.usecases.ObserveLatestRecipesUseCase
 import io.chefbook.sdk.recipe.book.api.external.domain.usecases.ObserveRecipeBookUseCase
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.DecryptedRecipeInfo
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
@@ -66,11 +65,11 @@ internal class DashboardScreenViewModel(
 
   override suspend fun reduceIntent(intent: DashboardScreenIntent) {
     when (intent) {
-      is DashboardScreenIntent.OpenProfile ->
+      is DashboardScreenIntent.ProfileButtonClicked ->
         _effect.emit(DashboardScreenEffect.ProfileScreenOpened)
 
-      is DashboardScreenIntent.OpenNewRecipeInput ->
-        _effect.emit(DashboardScreenEffect.RecipeInputScreenOpened)
+      is DashboardScreenIntent.CreateButtonClicked ->
+        _effect.emit(DashboardScreenEffect.CreationScreenOpened)
 
       is DashboardScreenIntent.OpenRecipeSearch ->
         _effect.emit(DashboardScreenEffect.RecipeSearchScreenOpened)
@@ -93,8 +92,8 @@ internal class DashboardScreenViewModel(
       is DashboardScreenIntent.OpenRecipe ->
         _effect.emit(DashboardScreenEffect.RecipeScreenOpened(intent.recipeId))
 
-      is DashboardScreenIntent.ChangeNewCategoryDialogVisibility ->
-        _effect.emit(DashboardScreenEffect.CategoryCreationScreenOpened)
+      is DashboardScreenIntent.OpenCategories ->
+        _effect.emit(DashboardScreenEffect.CategoriesScreenOpened)
     }
   }
 }

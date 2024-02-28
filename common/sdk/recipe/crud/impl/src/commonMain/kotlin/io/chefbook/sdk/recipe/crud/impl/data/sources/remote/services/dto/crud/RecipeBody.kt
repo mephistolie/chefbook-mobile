@@ -13,8 +13,10 @@ import io.chefbook.sdk.recipe.core.api.internal.data.sources.common.dto.CookingI
 import io.chefbook.sdk.recipe.core.api.internal.data.sources.common.dto.IngredientItemSerializable
 import io.chefbook.sdk.recipe.core.api.internal.data.sources.remote.services.dto.ProfileBody
 import io.chefbook.sdk.recipe.core.api.internal.data.sources.remote.services.dto.RatingBody
+import io.chefbook.sdk.recipe.core.api.internal.data.sources.remote.services.dto.RecipeTagBody
 import io.chefbook.sdk.recipe.core.api.internal.data.sources.remote.services.dto.VisibilitySerializable
 import io.chefbook.sdk.recipe.crud.impl.data.sources.remote.services.dto.pictures.PicturesBody
+import io.chefbook.sdk.tag.api.external.domain.entities.Tag
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -77,7 +79,10 @@ internal class RecipeBody(
   val pictures: PicturesBody? = null,
 )
 
-internal fun RecipeBody.toEntity(categoriesMap: Map<String, Category>): Recipe {
+internal fun RecipeBody.toEntity(
+  categoriesMap: Map<String, Category>,
+  tagsMap: Map<String, Tag>,
+): Recipe {
   val meta = RecipeMeta(
     id = id,
     owner = ProfileInfo(
@@ -85,6 +90,7 @@ internal fun RecipeBody.toEntity(categoriesMap: Map<String, Category>): Recipe {
       name = owner.name,
       avatar = owner.avatar,
     ),
+    tags = tags?.mapNotNull(tagsMap::get).orEmpty(),
     visibility = when (visibility) {
       VisibilitySerializable.PUBLIC -> RecipeMeta.Visibility.PUBLIC
       VisibilitySerializable.LINK -> RecipeMeta.Visibility.LINK

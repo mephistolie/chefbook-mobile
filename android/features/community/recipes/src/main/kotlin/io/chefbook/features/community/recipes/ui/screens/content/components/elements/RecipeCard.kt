@@ -57,7 +57,9 @@ fun RecipeCard(
 
   val pressed = remember { mutableStateOf(false) }
 
-  val placeholder = remember { EmojiUtils.randomFoodEmoji(recipe.id) }
+  val placeholder = remember {
+    recipe.categories.firstOrNull { it.emoji != null }?.emoji ?: EmojiUtils.randomFoodEmoji(recipe.id)
+  }
 
   Column(
     modifier = modifier

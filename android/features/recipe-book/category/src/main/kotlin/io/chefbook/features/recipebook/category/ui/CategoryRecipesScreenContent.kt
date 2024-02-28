@@ -15,10 +15,14 @@ internal fun CategoryScreenContent(
     recipes = state.recipes,
     onRecipeClick = { recipeId -> onIntent(CategoryScreenIntent.OpenRecipeScreen(recipeId = recipeId)) },
     onBack = { onIntent(CategoryScreenIntent.Back) },
-    onToolbarContentClick = { onIntent(CategoryScreenIntent.OpenCategoryInputDialog) },
+    onToolbarContentClick = {
+      if (state.isEditButtonAvailable) onIntent(CategoryScreenIntent.OpenCategoryInputDialog)
+                            },
     toolbarContent = {
       CategoryRecipesToolbarContent(
-        category = state.category,
+        name = state.name,
+        emoji = state.emoji,
+        isEditButtonAvailable = state.isEditButtonAvailable,
         recipesCount = state.recipes.size,
       )
     }

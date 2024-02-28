@@ -1,7 +1,7 @@
 package io.chefbook.sdk.tag.impl.data.sources.remote.services
 
-import io.chefbook.sdk.tag.impl.data.sources.common.dto.TagSerializable
-import io.chefbook.sdk.tag.impl.data.sources.common.dto.TagsSerializable
+import io.chefbook.sdk.tag.api.internal.data.sources.common.dto.TagSerializable
+import io.chefbook.sdk.tag.api.internal.data.sources.common.dto.TagsSerializable
 
 internal interface TagApiService {
 

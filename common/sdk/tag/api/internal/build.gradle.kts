@@ -1,5 +1,5 @@
 plugins {
-  id("multiplatform-sdk-module")
+  id("multiplatform-data-module")
 }
 
 kotlin {

@@ -9,4 +9,5 @@ dependencies {
   implementation(projects.android.features.recipeBook.core)
 
   implementation(projects.common.sdk.recipe.book.api.external)
+  implementation(projects.common.sdk.tag.api.external)
 }

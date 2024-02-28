@@ -7,6 +7,8 @@ kotlin {
     val commonMain by getting {
       dependencies {
         api(projects.common.sdk.recipe.core.api.external)
+
+        api(projects.common.sdk.tag.api.internal)
       }
     }
   }

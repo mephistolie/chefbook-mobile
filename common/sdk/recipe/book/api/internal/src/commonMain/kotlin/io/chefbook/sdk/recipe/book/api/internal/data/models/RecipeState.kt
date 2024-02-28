@@ -2,6 +2,7 @@ package io.chefbook.sdk.recipe.book.api.internal.data.models
 
 import io.chefbook.sdk.category.api.external.domain.entities.Category
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.RecipeMeta
+import io.chefbook.sdk.tag.api.external.domain.entities.Tag
 
 data class RecipeState(
   val id: String,
@@ -13,6 +14,7 @@ data class RecipeState(
 
   val rating: RecipeMeta.Rating,
 
-  val categories: List<Category> = emptyList(),
-  val isFavourite: Boolean = false,
+  val tags: List<Tag>,
+  val categories: List<Category>,
+  val isFavourite: Boolean,
 )

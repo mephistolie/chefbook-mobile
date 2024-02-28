@@ -1,5 +1,6 @@
 package io.chefbook.sdk.recipe.crud.impl.data.sources.remote
 
+import io.chefbook.libs.utils.language.getSystemLanguageCode
 import io.chefbook.libs.utils.result.asEmpty
 import io.chefbook.sdk.network.api.internal.service.dto.responses.VersionResponse
 import io.chefbook.sdk.recipe.crud.api.internal.data.models.RecipeProcessedInput
@@ -18,7 +19,7 @@ internal class RemoteRecipeCrudSourceImpl(
       .map(CreateRecipeResponse::recipeId)
 
   override suspend fun getRecipe(recipeId: String) =
-    api.getRecipe(recipeId).map(GetRecipeResponse::toEntity)
+    api.getRecipe(recipeId, userLanguage = getSystemLanguageCode()).map(GetRecipeResponse::toEntity)
 
   override suspend fun updateRecipe(input: RecipeProcessedInput): Result<Int> {
     return api.updateRecipe(input.id, input.toSerializable()).map(VersionResponse::version)

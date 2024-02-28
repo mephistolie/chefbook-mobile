@@ -36,16 +36,16 @@ internal fun LazyGridScope.quickAccessBlock(
 
       Text(
         text = stringResource(id = R.string.common_dashboard_screen_quick_access),
-        style = LocalTheme.typography.h3,
+        style = LocalTheme.typography.h2,
         color = LocalTheme.colors.foregroundPrimary,
         modifier = Modifier
           .let {
             if (drawDivider) {
-              it.background(colors.backgroundSecondary)
+              it.background(colors.divider)
                 .background(colors.backgroundPrimary, RoundedCornerShape28Top)
             } else it
           }
-          .padding(12.dp, if (drawDivider) 16.dp else 28.dp, 12.dp, 12.dp),
+          .padding(12.dp, if (drawDivider) 20.dp else 32.dp, 12.dp, 16.dp),
       )
     }
     item(

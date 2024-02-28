@@ -39,7 +39,7 @@ import io.chefbook.ui.common.presentation.RecipeScreenPage
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-internal fun RecipeScreenBottomSheet(
+internal fun RecipeScreenContent(
   state: RecipeScreenState,
   initPage: RecipeScreenPage,
   onIntent: (RecipeScreenIntent) -> Unit,

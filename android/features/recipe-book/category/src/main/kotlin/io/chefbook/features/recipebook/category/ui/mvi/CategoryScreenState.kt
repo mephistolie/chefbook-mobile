@@ -6,7 +6,9 @@ import io.chefbook.sdk.category.api.external.domain.entities.CategoryInput
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.DecryptedRecipeInfo
 
 internal data class CategoryScreenState(
-  val category: Category? = null,
+  val name: String? = null,
+  val emoji: String? = null,
+  val isEditButtonAvailable: Boolean = false,
   val recipes: List<DecryptedRecipeInfo> = emptyList(),
   val cachedCategoryInput: CategoryInput? = null,
 ) : MviState

@@ -1,6 +1,8 @@
 package io.chefbook.features.community.recipes.ui.screens.tags
 
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import io.chefbook.design.components.bottomsheet.BottomSheetBox
 import io.chefbook.design.components.bottomsheet.PullBarType
 import io.chefbook.features.community.recipes.ui.mvi.CommunityRecipesScreenIntent
@@ -26,6 +28,7 @@ internal fun CommunityRecipesTagGroupScreenContent(
       onTagUnselected = { tagId ->
         onIntent(CommunityRecipesScreenIntent.Filter.TagUnselected(tagId))
       },
+      modifier = Modifier.navigationBarsPadding(),
     )
   }
 }

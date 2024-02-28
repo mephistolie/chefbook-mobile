@@ -69,7 +69,7 @@ fun RecipeScreen(
     isEncryptionEnabled = isEncryptionEnabled.value,
     isDecrypted = isDecrypted.value,
   ) {
-    RecipeScreenBottomSheet(
+    RecipeScreenContent(
       state = state.value,
       initPage = initPage,
       onIntent = { event -> viewModel.handleIntent(event) },

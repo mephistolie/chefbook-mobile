@@ -13,7 +13,9 @@ import io.chefbook.features.recipe.info.di.featureRecipeModule
 import io.chefbook.features.recipe.input.di.featureRecipeInputModule
 import io.chefbook.features.recipe.rating.di.featureRecipeRatingModule
 import io.chefbook.features.recipe.share.di.featureRecipeShareModule
+import io.chefbook.features.recipebook.categories.di.featureCategoriesModule
 import io.chefbook.features.recipebook.category.di.featureCategoryRecipesModule
+import io.chefbook.features.recipebook.creation.di.featureRecipeBookCreationModule
 import io.chefbook.features.recipebook.dashboard.di.featureRecipeBookDashboardModule
 import io.chefbook.features.recipebook.favourite.di.featureFavouriteRecipesModule
 import io.chefbook.features.recipebook.search.di.featureRecipeBookSearchModule
@@ -82,8 +84,10 @@ object Modules {
 
     val recipeBook = listOf(
       featureRecipeBookDashboardModule,
+      featureRecipeBookCreationModule,
       featureRecipeBookSearchModule,
       featureFavouriteRecipesModule,
+      featureCategoriesModule,
       featureCategoryRecipesModule,
     )
 

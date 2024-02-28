@@ -28,8 +28,6 @@ internal fun RecipeBookOnlineBlock(
   onEncryptedVaultButtonClick: () -> Unit,
   modifier: Modifier = Modifier,
 ) {
-  val colors = LocalTheme.colors
-
   Row(modifier = modifier) {
     RecipeBookActionButton(
       title = stringResource(id = R.string.common_dashboard_screen_community_recipes),

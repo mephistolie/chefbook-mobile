@@ -26,7 +26,7 @@ internal class RecipeCrudApiServiceImpl(
     userLanguage: String?,
     translated: Boolean,
   ): Result<GetRecipeResponse> = safeGet("$RECIPES_ROUTE/$recipeId") {
-    parameter("userLanguage", userLanguage)
+    parameter("language", userLanguage)
     parameter("translated", translated)
   }
 

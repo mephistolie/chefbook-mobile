@@ -47,7 +47,9 @@ internal fun SearchRecipeCard(
 
   val pressed = remember { mutableStateOf(false) }
 
-  val placeholder = remember { EmojiUtils.randomFoodEmoji(recipe.id) }
+  val placeholder = remember {
+    recipe.categories.firstOrNull { it.emoji != null }?.emoji ?: EmojiUtils.randomFoodEmoji(recipe.id)
+  }
 
   RecipeEncryptionProvider(
     isEncryptionEnabled = recipe.isEncryptionEnabled,

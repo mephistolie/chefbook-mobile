@@ -6,8 +6,8 @@ import androidx.datastore.dataStoreFile
 import io.chefbook.libs.utils.result.EmptyResult
 import io.chefbook.libs.utils.result.successResult
 import io.chefbook.sdk.tag.api.external.domain.entities.Tag
-import io.chefbook.sdk.tag.impl.data.sources.common.dto.TagsSerializable
-import io.chefbook.sdk.tag.impl.data.sources.common.dto.toSerializable
+import io.chefbook.sdk.tag.api.internal.data.sources.common.dto.TagsSerializable
+import io.chefbook.sdk.tag.api.internal.data.sources.common.dto.toSerializable
 import io.chefbook.sdk.tag.impl.data.sources.local.datastore.TagsSerializer
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map

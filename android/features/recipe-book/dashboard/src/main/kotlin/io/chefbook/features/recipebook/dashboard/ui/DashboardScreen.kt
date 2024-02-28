@@ -25,7 +25,7 @@ fun DashboardScreen(
     viewModel.effect.collect { effect ->
       when (effect) {
         is DashboardScreenEffect.ProfileScreenOpened -> navigator.openProfileScreen()
-        is DashboardScreenEffect.RecipeInputScreenOpened -> navigator.openRecipeInputScreen()
+        is DashboardScreenEffect.CreationScreenOpened -> navigator.openRecipeBookCreationScreen()
 
         is DashboardScreenEffect.RecipeSearchScreenOpened -> navigator.openRecipeBookSearchScreen()
         is DashboardScreenEffect.FavouriteRecipesScreenOpened -> navigator.openFavouriteRecipesScreen()
@@ -35,7 +35,7 @@ fun DashboardScreen(
         is DashboardScreenEffect.OpenEncryptedVaultScreen -> navigator.openEncryptedVaultScreen()
         is DashboardScreenEffect.ShoppingListScreenOpened -> navigator.openShoppingListScreen()
         is DashboardScreenEffect.RecipeScreenOpened -> navigator.openRecipeScreen(recipeId = effect.recipeId)
-        is DashboardScreenEffect.CategoryCreationScreenOpened -> navigator.openCategoryInputDialog()
+        is DashboardScreenEffect.CategoriesScreenOpened -> navigator.openCategoriesScreen()
       }
     }
   }

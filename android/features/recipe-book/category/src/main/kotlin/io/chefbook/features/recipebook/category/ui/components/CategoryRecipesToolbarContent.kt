@@ -20,7 +20,9 @@ import io.chefbook.design.R as designR
 
 @Composable
 internal fun CategoryRecipesToolbarContent(
-  category: Category?,
+  name: String?,
+  emoji: String?,
+  isEditButtonAvailable: Boolean,
   recipesCount: Int,
 ) {
   val colors = LocalTheme.colors
@@ -30,19 +32,21 @@ internal fun CategoryRecipesToolbarContent(
     verticalAlignment = Alignment.CenterVertically,
   ) {
     Text(
-      text = "${category?.emoji.orEmpty()} ${category?.name}".trim(),
+      text = "${emoji.orEmpty()} $name".trim(),
       style = typography.h4,
       color = colors.foregroundPrimary,
     )
-    Icon(
-      imageVector = ImageVector.vectorResource(designR.drawable.ic_edit),
-      tint = colors.foregroundSecondary,
-      modifier = Modifier
-        .padding(start = 2.dp, top = 1.dp)
-        .size(12.dp)
-        .aspectRatio(1F),
-      contentDescription = null,
-    )
+    if (isEditButtonAvailable) {
+      Icon(
+        imageVector = ImageVector.vectorResource(designR.drawable.ic_edit),
+        tint = colors.foregroundSecondary,
+        modifier = Modifier
+          .padding(start = 2.dp, top = 1.dp)
+          .size(12.dp)
+          .aspectRatio(1F),
+        contentDescription = null,
+      )
+    }
   }
   Text(
     text = if (recipesCount > 0) {

@@ -81,7 +81,7 @@ internal fun CommunityRecipesScreenContent(
           exit = fadeOut() + shrinkVertically(animationSpec = tween()),
         ) {
           Column(
-            modifier = Modifier.background(colors.backgroundSecondary)
+            modifier = Modifier.background(colors.divider)
           ) {
             FilterButtons(
               tags = state.dashboard.tags,

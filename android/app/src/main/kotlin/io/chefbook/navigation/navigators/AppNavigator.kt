@@ -2,7 +2,6 @@ package io.chefbook.navigation.navigators
 
 import android.app.Activity
 import android.content.Intent
-import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -42,10 +41,13 @@ import io.chefbook.features.recipebook.category.ui.destinations.CategoryRecipesS
 import io.chefbook.features.recipebook.category.ui.navigation.CategoryRecipesScreenNavigator
 import io.chefbook.features.community.recipes.ui.screens.destinations.CommunityRecipesFilterScreenDestination
 import io.chefbook.features.community.recipes.ui.screens.destinations.CommunityRecipesTagGroupScreenDestination
+import io.chefbook.features.recipebook.categories.ui.destinations.CategoriesScreenDestination
+import io.chefbook.features.recipebook.creation.navigation.RecipeBookCreationScreenNavigator
+import io.chefbook.features.recipebook.creation.ui.destinations.RecipeBookCreationScreenDestination
 import io.chefbook.features.recipebook.dashboard.ui.destinations.DashboardScreenDestination as RecipeBookDashboardScreenDestination
 import io.chefbook.features.recipebook.dashboard.ui.navigation.DashboardScreenNavigator as RecipeBookDashboardScreenNavigator
 import io.chefbook.features.recipebook.favourite.ui.destinations.FavouriteRecipesScreenDestination
-import io.chefbook.features.recipebook.favourite.ui.navigation.RecipeBookFavouriteScreenNavigator
+import io.chefbook.features.recipebook.categories.ui.navigation.CategoriesScreenNavigator
 import io.chefbook.features.recipebook.search.ui.destinations.RecipeBookSearchScreenDestination
 import io.chefbook.features.recipebook.search.ui.navigation.RecipeBookSearchScreenNavigator
 import io.chefbook.features.settings.navigation.SettingsScreenNavigator
@@ -53,6 +55,7 @@ import io.chefbook.features.settings.ui.destinations.SettingsScreenDestination
 import io.chefbook.features.shoppinglist.control.navigation.ShoppingListScreenNavigator
 import io.chefbook.features.shoppinglist.control.ui.screen.destinations.ShoppingListScreenDestination
 import io.chefbook.features.shoppinglist.purchases.input.ui.destinations.PurchaseInputDialogDestination
+import io.chefbook.libs.logger.Logger
 import io.chefbook.navigation.graphs.NavGraphs
 import io.chefbook.navigation.params.dialogs.OneButtonDialogParams
 import io.chefbook.navigation.params.dialogs.TwoButtonsDialogParams
@@ -77,8 +80,9 @@ class AppNavigator(
   AuthScreenNavigator,
   ShoppingListScreenNavigator,
   RecipeBookDashboardScreenNavigator,
+  RecipeBookCreationScreenNavigator,
   RecipeBookSearchScreenNavigator,
-  RecipeBookFavouriteScreenNavigator,
+  CategoriesScreenNavigator,
   CategoryRecipesScreenNavigator,
   RecipeScreenNavigator,
   RecipeControlScreenNavigator,
@@ -208,15 +212,36 @@ class AppNavigator(
     navController.navigate(FavouriteRecipesScreenDestination)
   }
 
+  override fun openCategoriesScreen() {
+    navController.navigate(CategoriesScreenDestination)
+  }
+
   override fun openCategoryRecipesScreen(categoryId: String) {
     if (!navController.popBackStack(
         route = CategoryRecipesScreenDestination.route,
         inclusive = false
       )
     ) {
-      navController.navigate(CategoryRecipesScreenDestination(categoryId = categoryId))
+      navController.navigate(CategoryRecipesScreenDestination(
+        categoryId = categoryId,
+        isTag = false,
+      ))
     }
   }
+
+  override fun openTagRecipesScreen(tagId: String) {
+    if (!navController.popBackStack(
+        route = CategoryRecipesScreenDestination.route,
+        inclusive = false
+      )
+    ) {
+      navController.navigate(CategoryRecipesScreenDestination(
+        categoryId = tagId,
+        isTag = true,
+      ))
+    }
+  }
+
 
   override fun openRecipeShareDialog(recipeId: String) {
     navController.navigate(RecipeShareDialogDestination(recipeId = recipeId))
@@ -260,6 +285,10 @@ class AppNavigator(
         openExpanded = openExpanded
       )
     )
+  }
+
+  override fun openRecipeBookCreationScreen() {
+    navController.navigate(RecipeBookCreationScreenDestination)
   }
 
   override fun openRecipeInputScreen() = openRecipeInputScreen(recipeId = null)

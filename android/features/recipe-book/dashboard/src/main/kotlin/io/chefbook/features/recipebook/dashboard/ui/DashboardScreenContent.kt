@@ -87,7 +87,7 @@ internal fun DashboardScreenContent(
               .background(colors.divider)
               .padding(bottom = 8.dp)
               .background(colors.backgroundPrimary, RoundedCornerShape28Bottom)
-              .padding(12.dp, 28.dp, 12.dp, 16.dp)
+              .padding(12.dp, 20.dp, 12.dp, 16.dp)
               .pointerInteropFilter { state.onlineFeaturesAppearance != ContentAppearance.SHOWN }
               .shimmer(isEnabled = state.onlineFeaturesAppearance == ContentAppearance.SHIMMERING),
             onCommunityRecipesButtonClick = { onIntent(DashboardScreenIntent.OpenCommunityRecipes) },
@@ -105,17 +105,10 @@ internal fun DashboardScreenContent(
         categories = state.categories,
         drawDivider = state.onlineFeaturesAppearance != ContentAppearance.HIDDEN && state.latestRecipes?.isEmpty() == true,
         onCategoryClicked = { id -> onIntent(DashboardScreenIntent.OpenCategory(id)) },
-        onNewCategoryClicked = {
-          onIntent(
-            DashboardScreenIntent.ChangeNewCategoryDialogVisibility(
-              true
-            )
-          )
-        },
+        onCategoriesClick = { onIntent(DashboardScreenIntent.OpenCategories) },
       )
       allRecipesBlock(
         recipes = state.allRecipes,
-        categories = state.categories,
         onRecipeClicked = { id -> onIntent(DashboardScreenIntent.OpenRecipe(id)) },
       )
     }

@@ -17,11 +17,11 @@ import org.koin.core.parameter.parametersOf
 @Composable
 fun CategoryRecipesScreen(
   categoryId: String,
+  isTag: Boolean,
   navigator: CategoryRecipesScreenNavigator,
   categoryInputRecipient: OpenResultRecipient<CategoryActionResult>
 ) {
-  val viewModel: ICategoryRecipesScreenViewModel =
-    koinViewModel<CategoryRecipesScreenViewModel> { parametersOf(categoryId) }
+  val viewModel = koinViewModel<CategoryRecipesScreenViewModel> { parametersOf(categoryId, isTag) }
   val state = viewModel.state.collectAsStateWithLifecycle()
 
   CategoryScreenContent(

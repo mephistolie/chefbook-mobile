@@ -1,4 +1,4 @@
-package io.chefbook.features.recipebook.dashboard.ui.components.elements
+package io.chefbook.features.recipebook.core.ui.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -22,7 +22,7 @@ import io.chefbook.design.theme.shapes.RoundedCornerShape28
 import io.chefbook.design.theme.shapes.RoundedCornerShape4
 
 @Composable
-internal fun CategoryCardSkeleton(
+fun CategoryCardSkeleton(
   modifier: Modifier = Modifier,
 ) {
   val colors = LocalTheme.colors

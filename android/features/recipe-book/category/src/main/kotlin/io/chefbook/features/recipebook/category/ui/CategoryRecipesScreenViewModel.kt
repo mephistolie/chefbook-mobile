@@ -17,6 +17,7 @@ internal typealias ICategoryRecipesScreenViewModel = MviViewModel<CategoryScreen
 
 internal class CategoryRecipesScreenViewModel(
   private val categoryId: String,
+  private val isTag: Boolean,
 
   private val observeRecipeBookUseCase: ObserveRecipeBookUseCase,
 ) : BaseMviViewModel<CategoryScreenState, CategoryScreenIntent, CategoryScreenEffect>() {
@@ -34,9 +35,23 @@ internal class CategoryRecipesScreenViewModel(
     observeRecipeBookUseCase()
       .collect { recipeBook ->
         recipeBook?.let {
+          val name: String?
+          val emoji: String?
+          if (isTag) {
+            val tags = recipeBook.recipes.flatMap { it.tags }
+            val tag = tags.find { it.id == categoryId }
+            name = tag?.name
+            emoji = tag?.emoji
+          } else {
+            val category = recipeBook.categories.find { it.id == categoryId }
+            name = category?.name
+            emoji = category?.emoji
+          }
           _state.emit(
             CategoryScreenState(
-              category = recipeBook.categories.find { it.id == categoryId },
+              name = name,
+              emoji,
+              isEditButtonAvailable = !isTag,
               recipes = filterRecipes(recipeBook.recipes, categoryId)
             )
           )
@@ -58,7 +73,13 @@ internal class CategoryRecipesScreenViewModel(
         )
       )
 
-      is CategoryScreenIntent.OnCategoryUpdated -> _state.update { it.copy(category = intent.category) }
+      is CategoryScreenIntent.OnCategoryUpdated ->
+        _state.update { state ->
+          state.copy(
+            name = intent.category.name,
+            emoji = intent.category.emoji,
+          )
+        }
 
       is CategoryScreenIntent.Back -> _effect.emit(CategoryScreenEffect.Back)
     }
@@ -67,9 +88,11 @@ internal class CategoryRecipesScreenViewModel(
   private fun filterRecipes(
     recipes: List<RecipeInfo>,
     categoryId: String
-  ): List<DecryptedRecipeInfo> =
-    recipes.filter { recipe -> categoryId in recipe.categories.map { it.id } }
-      .filterIsInstance<DecryptedRecipeInfo>()
-      .sortedWith(compareBy({ it.name.uppercase() }, { it.id }))
-
+  ): List<DecryptedRecipeInfo> = recipes
+    .filter { recipe ->
+      val ids = if (isTag) recipe.tags.map { it.id } else recipe.categories.map { it.id }
+      categoryId in ids
+    }
+    .filterIsInstance<DecryptedRecipeInfo>()
+    .sortedWith(compareBy({ it.name.uppercase() }, { it.id }))
 }

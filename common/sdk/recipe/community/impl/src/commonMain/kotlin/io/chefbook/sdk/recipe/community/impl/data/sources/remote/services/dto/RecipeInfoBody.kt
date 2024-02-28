@@ -10,6 +10,7 @@ import io.chefbook.sdk.recipe.core.api.external.domain.entities.RecipeMeta
 import io.chefbook.sdk.recipe.core.api.internal.data.sources.remote.services.dto.ProfileBody
 import io.chefbook.sdk.recipe.core.api.internal.data.sources.remote.services.dto.RatingBody
 import io.chefbook.sdk.recipe.core.api.internal.data.sources.remote.services.dto.VisibilitySerializable
+import io.chefbook.sdk.tag.api.external.domain.entities.Tag
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -63,7 +64,10 @@ internal class RecipeInfoBody(
   val calories: Int? = null,
 )
 
-internal fun RecipeInfoBody.toEntity(categoriesMap: Map<String, Category>): DecryptedRecipeInfo {
+internal fun RecipeInfoBody.toEntity(
+  categoriesMap: Map<String, Category>,
+  tagsMap: Map<String, Tag>,
+): DecryptedRecipeInfo {
   val meta = RecipeMeta(
     id = id,
     owner = ProfileInfo(
@@ -71,6 +75,7 @@ internal fun RecipeInfoBody.toEntity(categoriesMap: Map<String, Category>): Decr
       name = owner.name,
       avatar = owner.avatar,
     ),
+    tags = tags.mapNotNull(tagsMap::get),
     visibility = when (visibility) {
       VisibilitySerializable.PUBLIC -> RecipeMeta.Visibility.PUBLIC
       VisibilitySerializable.LINK -> RecipeMeta.Visibility.LINK

@@ -39,6 +39,8 @@ sealed class Recipe(
   val rating
     get() = info.rating
 
+  val tags
+    get() = info.tags
   val categories
     get() = info.categories
   val isFavourite

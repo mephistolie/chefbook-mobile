@@ -24,7 +24,9 @@ import io.chefbook.features.recipe.input.ui.destinations.RecipeInputIngredientSc
 import io.chefbook.features.recipe.input.ui.destinations.RecipeSavedDialogDestination
 import io.chefbook.features.recipe.input.ui.destinations.VisibilityDialogDestination
 import io.chefbook.features.recipe.share.ui.destinations.RecipeShareDialogDestination
+import io.chefbook.features.recipebook.categories.ui.destinations.CategoriesScreenDestination
 import io.chefbook.features.recipebook.category.ui.destinations.CategoryRecipesScreenDestination
+import io.chefbook.features.recipebook.creation.ui.destinations.RecipeBookCreationScreenDestination
 import io.chefbook.features.recipebook.dashboard.ui.destinations.DashboardScreenDestination as RecipeBookDashboardScreenDestination
 import io.chefbook.features.recipebook.favourite.ui.destinations.FavouriteRecipesScreenDestination
 import io.chefbook.features.recipebook.search.ui.destinations.RecipeBookSearchScreenDestination
@@ -119,9 +121,11 @@ object NavGraphs {
       RecipeBookDashboardScreenDestination,
       ProfileScreenDestination,
       ProfileEditingScreenDestination,
+      RecipeBookCreationScreenDestination,
       EncryptedVaultScreenDestination,
       RecipeBookSearchScreenDestination,
       FavouriteRecipesScreenDestination,
+      CategoriesScreenDestination,
       CategoryRecipesScreenDestination,
       PurchaseInputDialogDestination,
       SettingsScreenDestination,

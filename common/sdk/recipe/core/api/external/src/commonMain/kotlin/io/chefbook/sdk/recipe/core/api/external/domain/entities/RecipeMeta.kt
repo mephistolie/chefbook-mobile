@@ -2,6 +2,7 @@ package io.chefbook.sdk.recipe.core.api.external.domain.entities
 
 import io.chefbook.libs.models.language.Language
 import io.chefbook.libs.models.profile.ProfileInfo
+import io.chefbook.sdk.tag.api.external.domain.entities.Tag
 import kotlin.math.max
 
 data class RecipeMeta(
@@ -19,6 +20,8 @@ data class RecipeMeta(
   val updateTimestamp: String? = null,
 
   val rating: Rating = Rating(),
+
+  val tags: List<Tag>,
 ) {
 
   fun withId(id: String) = copy(id = id)

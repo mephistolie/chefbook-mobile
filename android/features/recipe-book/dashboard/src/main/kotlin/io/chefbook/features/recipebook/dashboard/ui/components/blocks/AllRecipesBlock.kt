@@ -21,21 +21,18 @@ const val ALL_RECIPES_CARD_KEY_PREFIX = "all_recipes_card"
 @OptIn(ExperimentalFoundationApi::class)
 internal fun LazyGridScope.allRecipesBlock(
   recipes: List<DecryptedRecipeInfo>?,
-  categories: List<io.chefbook.sdk.category.api.external.domain.entities.Category>?,
   onRecipeClicked: (String) -> Unit,
 ) {
   if (recipes == null || recipes.isNotEmpty()) {
     item(
       span = { GridItemSpan(4) }
     ) {
-      val topPadding =
-        if (categories == null || categories.size < 4) 16.dp else 0.dp
       Text(
         text = stringResource(id = R.string.common_dashboard_screen_all_recipes),
-        style = LocalTheme.typography.h3,
+        style = LocalTheme.typography.h2,
         color = LocalTheme.colors.foregroundPrimary,
         modifier = Modifier
-            .padding(12.dp, topPadding, 12.dp, 12.dp)
+            .padding(12.dp, 32.dp, 12.dp, 16.dp)
             .animateItemPlacement(),
       )
     }

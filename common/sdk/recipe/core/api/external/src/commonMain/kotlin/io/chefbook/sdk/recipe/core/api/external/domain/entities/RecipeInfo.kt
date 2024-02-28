@@ -46,8 +46,11 @@ sealed interface RecipeInfo {
   val rating
     get() = meta.rating
 
+  val tags
+    get() = meta.tags
 
-  abstract val isEncrypted: Boolean
+
+  val isEncrypted: Boolean
   val isDecrypted
     get() = !isEncrypted
 

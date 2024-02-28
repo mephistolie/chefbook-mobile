@@ -74,7 +74,8 @@ internal fun RecipeProcessedInput.toRecipe(
       index = rating,
       score = score,
       votes = votes,
-    )
+    ),
+    tags = emptyList(),
   )
   return when (this) {
     is RecipeProcessedInput.Decrypted -> DecryptedRecipe(

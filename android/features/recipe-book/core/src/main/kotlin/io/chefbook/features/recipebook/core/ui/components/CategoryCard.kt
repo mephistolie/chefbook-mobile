@@ -1,4 +1,4 @@
-package io.chefbook.features.recipebook.dashboard.ui.components.elements
+package io.chefbook.features.recipebook.core.ui.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -30,10 +30,12 @@ import io.chefbook.design.theme.shapes.RoundedCornerShape16
 import io.chefbook.sdk.category.api.external.domain.entities.Category
 
 @Composable
-internal fun CategoryCard(
-  category: Category,
+fun CategoryCard(
+  id: String,
+  name: String,
+  emoji: String?,
   modifier: Modifier = Modifier,
-  onCategoryClicked: (Category) -> Unit,
+  onCategoryClicked: (String) -> Unit,
 ) {
   val colors = LocalTheme.colors
   val typography = LocalTheme.typography
@@ -42,13 +44,12 @@ internal fun CategoryCard(
 
   Box(
     modifier = modifier
-      .padding(0.dp, 0.dp, 0.dp, 8.dp)
       .aspectRatio(0.8f)
       .scalingClickable(
         pressed = pressed,
         debounceInterval = 500L,
       ) {
-        onCategoryClicked(category)
+        onCategoryClicked(id)
       }
       .clippedBackground(colors.backgroundSecondary, RoundedCornerShape(16.dp))
   ) {
@@ -57,7 +58,7 @@ internal fun CategoryCard(
       verticalArrangement = Arrangement.SpaceAround,
     ) {
       Text(
-        text = category.name,
+        text = name,
         style = typography.subhead2,
         color = colors.foregroundPrimary,
         modifier = Modifier
@@ -67,7 +68,7 @@ internal fun CategoryCard(
         textAlign = TextAlign.Start,
         maxLines = 2
       )
-      category.emoji?.let { cover ->
+      emoji?.let { cover ->
         Text(
           text = cover,
           style = TextStyle(
@@ -82,7 +83,7 @@ internal fun CategoryCard(
             .fillMaxSize()
             .weight(2F)
             .clip(RoundedCornerShape16)
-            .offset(12.dp, 8.dp),
+            .offset(12.dp, 18.dp),
           textAlign = TextAlign.End,
           maxLines = 1,
           softWrap = false,

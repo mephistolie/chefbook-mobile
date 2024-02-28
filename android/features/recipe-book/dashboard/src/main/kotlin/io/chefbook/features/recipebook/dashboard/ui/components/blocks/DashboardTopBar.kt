@@ -58,7 +58,7 @@ internal fun DashboardTopBar(
         modifier = Modifier
           .size(28.dp)
           .clip(CircleShape)
-          .simpleClickable { onIntent(DashboardScreenIntent.OpenProfile) }
+          .simpleClickable { onIntent(DashboardScreenIntent.ProfileButtonClicked) }
       )
       Text(
         stringResource(R.string.common_dashboard_screen_home),
@@ -73,7 +73,7 @@ internal fun DashboardTopBar(
       contentDescription = null,
       modifier = Modifier
         .size(28.dp)
-        .simpleClickable(1000L) { onIntent(DashboardScreenIntent.OpenNewRecipeInput) }
+        .simpleClickable(1000L) { onIntent(DashboardScreenIntent.CreateButtonClicked) }
     )
   }
 }

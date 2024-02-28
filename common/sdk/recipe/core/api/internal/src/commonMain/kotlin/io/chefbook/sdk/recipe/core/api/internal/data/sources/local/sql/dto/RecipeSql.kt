@@ -16,12 +16,17 @@ import io.chefbook.sdk.recipe.core.api.internal.data.sources.common.dto.Ingredie
 import io.chefbook.sdk.recipe.core.api.internal.data.sources.common.dto.PicturesSerializable
 import io.chefbook.sdk.recipe.core.api.internal.data.sources.common.dto.toSerializable
 import io.chefbook.sdk.recipe.core.api.internal.data.sources.remote.services.dto.VisibilitySerializable
+import io.chefbook.sdk.tag.api.external.domain.entities.Tag
+import io.chefbook.sdk.tag.api.internal.data.sources.common.dto.TagsSerializable
+import io.chefbook.sdk.tag.api.internal.data.sources.common.dto.toSerializable
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import io.chefbook.sdk.database.api.internal.Recipe as RecipeSql
 import io.chefbook.sdk.database.api.internal.SelectAll as RecipeCategory
 
-fun RecipeSql.toEntity(categories: List<RecipeCategory>): Recipe {
+fun RecipeSql.toEntity(
+  categories: List<RecipeCategory>
+): Recipe {
   var macronutrients: Recipe.Macronutrients? = null
   if (protein != null || fats != null || carbohydrates != null) {
     macronutrients = Recipe.Macronutrients(protein?.toInt(), fats?.toInt(), carbohydrates?.toInt())
@@ -57,6 +62,8 @@ fun RecipeSql.toEntity(categories: List<RecipeCategory>): Recipe {
       score = score?.toInt(),
       votes = votes.toInt(),
     ),
+
+    tags = Json.decodeFromString<TagsSerializable>(tags).toEntity(),
   )
 
   return if (ingredients.getOrNull(0)?.type == IngredientItemSerializable.TYPE_ENCRYPTED_DATA) {
@@ -131,7 +138,7 @@ fun Recipe.toDto() =
       score = rating.score?.toLong(),
       votes = rating.votes.toLong(),
 
-      tags = "[]",
+      tags = Json.encodeToString(tags.toSerializable()),
       favourite = isFavourite.toLong(),
 
       servings = servings?.toLong(),
@@ -184,7 +191,7 @@ fun Recipe.toDto() =
       score = rating.score?.toLong(),
       votes = rating.votes.toLong(),
 
-      tags = "[]",
+      tags = Json.encodeToString(tags.toSerializable()),
       favourite = isFavourite.toLong(),
 
       servings = servings?.toLong(),
