@@ -13,6 +13,8 @@ expect object HybridCryptor {
   fun encryptDataByAsymmetricKey(data: ByteArray, key: AsymmetricPublicKey): ByteArray
   fun decryptDataByAsymmetricKey(data: ByteArray, key: AsymmetricPrivateKey): ByteArray
 
+  fun encryptPrivateKeyBySymmetricKey(data: AsymmetricPrivateKey, key: SymmetricKey): ByteArray
+
   fun decryptAsymmetricKeyBySymmetricKey(data: ByteArray, key: SymmetricKey): AsymmetricKey
 
   fun encryptSymmetricKeyByPublicKey(data: SymmetricKey, key: AsymmetricPublicKey): ByteArray

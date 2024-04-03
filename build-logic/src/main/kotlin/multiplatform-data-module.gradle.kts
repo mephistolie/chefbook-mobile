@@ -5,12 +5,10 @@ plugins {
 
 kotlin {
   sourceSets {
-    val commonMain by getting {
-      dependencies {
-        implementation(project(":common:sdk:core:api:internal"))
-        implementation(project(":common:sdk:network:api:internal"))
-        implementation(project(":common:sdk:database:api:internal"))
-      }
+    commonMain.dependencies {
+      implementation(project(":common:sdk:core:api:internal"))
+      implementation(project(":common:sdk:network:api:internal"))
+      implementation(project(":common:sdk:database:api:internal"))
     }
   }
 }

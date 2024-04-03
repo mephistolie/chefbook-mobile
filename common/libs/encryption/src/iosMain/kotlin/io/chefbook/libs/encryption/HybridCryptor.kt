@@ -1,9 +1,18 @@
 package io.chefbook.libs.encryption
 
+import cocoapods.Tink.TINKAeadKeyTemplate
+import cocoapods.Tink.TINKAes128Eax
+import cocoapods.Tink.TINKAes128Gcm
+import cocoapods.Tink.TINKEciesP256HkdfHmacSha256Aes128CtrHmacSha256
+import cocoapods.Tink.TINKEciesP256HkdfHmacSha256Aes128Gcm
+import kotlinx.cinterop.ExperimentalForeignApi
+
+@OptIn(ExperimentalForeignApi::class)
 actual object HybridCryptor {
 
   actual fun generateAsymmetricKey(): AsymmetricKey {
-    TODO()
+    TINKEciesP256HkdfHmacSha256Aes128Gcm
+    TINKAeadKeyTemplate().initWithKeyTemplate(TINKEciesP256HkdfHmacSha256Aes128Gcm)?.
   }
 
   actual fun generateSymmetricKey(): SymmetricKey {

@@ -4,10 +4,8 @@ plugins {
 
 kotlin {
   sourceSets {
-    val commonMain by getting {
-      dependencies {
-        implementation(libs.network.ktor.client.auth)
-      }
+    commonMain.dependencies {
+      implementation(libs.network.ktor.client.auth)
     }
   }
 }

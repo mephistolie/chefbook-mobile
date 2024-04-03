@@ -81,7 +81,7 @@ internal class EncryptedVaultRepositoryImpl(
       val keyPair = HybridCryptor.generateAsymmetricKey()
       val symmetricKey = HybridCryptor.generateSymmetricKey(password, salt)
       val encryptedKeyPrivateKey =
-        HybridCryptor.encryptDataBySymmetricKey(keyPair.private.raw, symmetricKey)
+        HybridCryptor.encryptPrivateKeyBySymmetricKey(keyPair.private, symmetricKey)
 
       val result = if (sources.isRemoteSourceEnabled()) {
         remoteSource.createEncryptedVault(keyPair.public, encryptedKeyPrivateKey)

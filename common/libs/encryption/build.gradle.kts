@@ -1,17 +1,27 @@
 plugins {
   id("multiplatform-base-module")
+  kotlin("native.cocoapods")
 }
 
 kotlin {
   sourceSets {
-    val androidMain by getting {
-      dependencies {
-        implementation(libs.spongycastle.core)
-        implementation(libs.spongycastle.prov)
-      }
+    androidMain.dependencies {
+      implementation(libs.tinkAndroid)
     }
+
+    commonTest.dependencies {
+      implementation(libs.kotlin.test)
+    }
+    androidUnitTest.dependencies {
+      implementation(libs.kotlin.test.junit)
+    }
+  }
+
+  cocoapods {
+    version = "1.0"
+    ios.deploymentTarget = "15.0"
+    pod("Tink")
   }
 }
 
 android.namespace = "io.chefbook.libs.encryption"
-

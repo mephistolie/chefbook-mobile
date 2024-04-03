@@ -4,12 +4,10 @@ plugins {
 
 kotlin {
   sourceSets {
-    val commonMain by getting {
-      dependencies {
-        api(projects.common.sdk.encryption.vault.api.internal)
+    commonMain.dependencies {
+      api(projects.common.sdk.encryption.vault.api.internal)
 
-        implementation(projects.common.sdk.profile.api.internal)
-      }
+      implementation(projects.common.sdk.profile.api.internal)
     }
   }
 }

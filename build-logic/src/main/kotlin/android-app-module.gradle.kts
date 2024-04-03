@@ -73,7 +73,7 @@ dependencies {
   implementation(libs.di.koin.android)
   implementation(libs.di.koin.compose)
 
-  implementation(libs.spongycastle.prov)
+  implementation(libs.tinkAndroid)
 
   implementation(libs.network.ktor.client.okhttp)
 

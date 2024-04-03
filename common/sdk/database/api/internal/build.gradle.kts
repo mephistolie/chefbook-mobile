@@ -8,10 +8,8 @@ plugins {
 
 kotlin {
   sourceSets {
-    val commonMain by getting {
-      dependencies {
-        api(projects.common.libs.logger)
-      }
+    commonMain.dependencies {
+      api(projects.common.libs.logger)
     }
   }
 }
