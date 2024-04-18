@@ -2,7 +2,6 @@ package io.chefbook.design.components.images
 
 import android.graphics.drawable.Drawable
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
@@ -11,16 +10,11 @@ import androidx.compose.ui.graphics.FilterQuality
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import coil.ImageLoader
 import coil.compose.AsyncImage
 import coil.compose.AsyncImagePainter
-import coil.imageLoader
 import coil.memory.MemoryCache
 import coil.request.ImageRequest
-import io.chefbook.core.android.compose.providers.ContentType
 import io.chefbook.core.android.compose.providers.LocalDataAccess
-import io.chefbook.core.android.compose.providers.ui.LocalDependencies
-import io.chefbook.libs.logger.Logger
 
 private const val TYPE = "TYPE"
 
@@ -42,17 +36,6 @@ fun EncryptedImage(
 ) {
   val context = LocalContext.current
   val dataType = LocalDataAccess.type
-  val imageClient = LocalDependencies.imageClient
-
-  val imageLoader = remember(data) {
-    if (dataType == ContentType.DECRYPTABLE) {
-      ImageLoader.Builder(context)
-        .okHttpClient(imageClient)
-        .build()
-    } else {
-      context.imageLoader
-    }
-  }
 
   val diskKey = "${data}_${dataType.name}"
   val memoryKey = MemoryCache.Key(
@@ -69,7 +52,6 @@ fun EncryptedImage(
       .data(data)
       .crossfade(true)
       .build(),
-    imageLoader = imageLoader,
     contentDescription = contentDescription,
     modifier = modifier,
     onLoading = onLoading,

@@ -18,7 +18,7 @@ internal fun EncryptedVaultScreen(
   closeOnUnlocked: Boolean = false,
   navigator: BaseNavigator,
 ) {
-  val viewModel: IEncryptedVaultScreenViewModel =
+  val viewModel =
     koinViewModel<EncryptedVaultScreenViewModel> { parametersOf(closeOnUnlocked) }
   val state = viewModel.state.collectAsStateWithLifecycle()
 

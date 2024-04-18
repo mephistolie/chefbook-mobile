@@ -77,6 +77,7 @@ dependencies {
 
   implementation(libs.network.ktor.client.okhttp)
 
+  implementation(libs.coil)
   implementation(libs.imageCropper)
 
   implementation(project(":common:libs:logger"))

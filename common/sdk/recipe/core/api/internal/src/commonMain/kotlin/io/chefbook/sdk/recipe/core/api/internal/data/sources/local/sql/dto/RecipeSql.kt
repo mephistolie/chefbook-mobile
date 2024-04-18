@@ -32,8 +32,6 @@ fun RecipeSql.toEntity(
     macronutrients = Recipe.Macronutrients(protein?.toInt(), fats?.toInt(), carbohydrates?.toInt())
   }
 
-  val ingredients: List<IngredientItemSerializable> = Json.decodeFromString(ingredients)
-  val cooking: List<CookingItemSerializable> = Json.decodeFromString(cooking)
   val pictures: PicturesSerializable = Json.decodeFromString(pictures)
 
   val meta = RecipeMeta(
@@ -66,7 +64,7 @@ fun RecipeSql.toEntity(
     tags = Json.decodeFromString<TagsSerializable>(tags).toEntity(),
   )
 
-  return if (ingredients.getOrNull(0)?.type == IngredientItemSerializable.TYPE_ENCRYPTED_DATA) {
+  return if (meta.isEncryptionEnabled) {
     EncryptedRecipe(
       info = EncryptedRecipeInfo(
         meta = meta,
@@ -82,11 +80,14 @@ fun RecipeSql.toEntity(
       ),
       description = description,
       macronutrients = macronutrients,
-      ingredients = ingredients.getOrNull(0)?.text.orEmpty(),
-      cooking = cooking.getOrNull(0)?.text.orEmpty(),
+      ingredients = ingredients,
+      cooking = cooking,
       cookingPictures = pictures.cooking,
     )
   } else {
+    val ingredients: List<IngredientItemSerializable> = Json.decodeFromString(ingredients)
+    val cooking: List<CookingItemSerializable> = Json.decodeFromString(cooking)
+
     DecryptedRecipe(
       info = DecryptedRecipeInfo(
         meta = meta,

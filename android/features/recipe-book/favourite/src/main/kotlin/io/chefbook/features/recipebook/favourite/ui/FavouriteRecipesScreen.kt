@@ -13,8 +13,7 @@ import org.koin.androidx.compose.koinViewModel
 internal fun FavouriteRecipesScreen(
   navigator: RecipeBookFavouriteScreenNavigator,
 ) {
-  val viewModel: IFavouriteRecipesScreenViewModel =
-    koinViewModel<FavouriteRecipesScreenViewModel>()
+  val viewModel = koinViewModel<FavouriteRecipesScreenViewModel>()
   val state = viewModel.state.collectAsStateWithLifecycle()
 
   FavouriteRecipesScreenContent(

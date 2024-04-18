@@ -27,8 +27,6 @@ import kotlinx.coroutines.flow.getAndUpdate
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-internal typealias IRecipeScreenViewModel = MviViewModel<RecipeScreenState, RecipeScreenIntent, RecipeScreenEffect>
-
 internal class RecipeScreenViewModel(
   private val recipeId: String,
 

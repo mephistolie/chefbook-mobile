@@ -29,8 +29,6 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import io.chefbook.core.android.R as coreR
 
-internal typealias IAuthViewModel = MviViewModel<AuthScreenState, AuthScreenIntent, AuthScreenEffect>
-
 internal class AuthViewModel(
   private var userId: String = "",
   private var activationCode: String = "",

@@ -13,7 +13,7 @@ import org.koin.androidx.compose.koinViewModel
 fun SettingsScreen(
   navigator: SettingsScreenNavigator
 ) {
-  val viewModel: ISettingsScreenViewModel = koinViewModel<SettingsScreenViewModel>()
+  val viewModel = koinViewModel<SettingsScreenViewModel>()
   val state = viewModel.state.collectAsStateWithLifecycle()
 
   SettingsScreenContent(

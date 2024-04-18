@@ -1,8 +1,6 @@
 package io.chefbook.ui.screens.main
 
 import androidx.lifecycle.viewModelScope
-import io.chefbook.libs.logger.Logger
-import io.chefbook.libs.mvi.IStateSideEffectViewModel
 import io.chefbook.libs.mvi.StateSideEffectViewModel
 import io.chefbook.sdk.auth.api.external.domain.usecases.ObserveProfileDeletionUseCase
 import io.chefbook.sdk.profile.api.external.domain.usecases.ObserveProfileUseCase
@@ -14,16 +12,11 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import okhttp3.OkHttpClient
 
-interface IAppViewModel : IStateSideEffectViewModel<AppState, AppEffect> {
-  val imageClient: OkHttpClient
-}
-
 class AppViewModel(
   private val observeSettingsUseCase: ObserveSettingsUseCase,
   private val observeProfileUseCase: ObserveProfileUseCase,
   private val observeProfileDeletionUseCase: ObserveProfileDeletionUseCase,
-  override val imageClient: OkHttpClient,
-) : StateSideEffectViewModel<AppState, AppEffect>(), IAppViewModel {
+) : StateSideEffectViewModel<AppState, AppEffect>() {
 
   override val _state: MutableStateFlow<AppState> = MutableStateFlow(AppState())
 

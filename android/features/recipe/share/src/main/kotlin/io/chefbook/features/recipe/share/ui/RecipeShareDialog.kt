@@ -34,8 +34,7 @@ internal fun RecipeShareDialog(
   val clipboardManager = LocalClipboardManager.current
   val colors = LocalTheme.colors
 
-  val viewModel: IRecipeShareDialogViewModel =
-    koinViewModel<RecipeShareDialogViewModel> { parametersOf(recipeId) }
+  val viewModel = koinViewModel<RecipeShareDialogViewModel> { parametersOf(recipeId) }
   val state = viewModel.state.collectAsStateWithLifecycle()
 
   RecipeShareDialogContent(

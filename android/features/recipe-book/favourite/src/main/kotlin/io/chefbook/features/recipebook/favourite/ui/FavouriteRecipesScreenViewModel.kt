@@ -10,8 +10,6 @@ import io.chefbook.sdk.recipe.core.api.external.domain.entities.DecryptedRecipeI
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
-internal typealias IFavouriteRecipesScreenViewModel = BaseMviViewModel<FavouriteRecipesScreenState, FavouriteRecipesScreenIntent, FavouriteRecipesScreenEffect>
-
 internal class FavouriteRecipesScreenViewModel(
   private val observeRecipeBookUseCase: ObserveRecipeBookUseCase,
 ) :

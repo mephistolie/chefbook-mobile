@@ -15,9 +15,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-internal typealias IPurchaseInputDialogViewModel =
-  MviViewModel<PurchaseInputDialogState, PurchaseInputDialogIntent, PurchaseInputDialogEffect>
-
 internal class PurchaseInputDialogViewModel(
   private val shoppingListId: String,
   private val purchaseId: String,

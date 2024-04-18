@@ -9,8 +9,6 @@ import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalContext
 import com.ramcosta.composedestinations.annotation.DeepLink
@@ -46,8 +44,7 @@ fun RecipeScreen(
   navigator: RecipeScreenNavigator,
   confirmDialogRecipient: OpenResultRecipient<TwoButtonsDialogResult>
 ) {
-  val viewModel: IRecipeScreenViewModel =
-    koinViewModel<RecipeScreenViewModel> { parametersOf(recipeId) }
+  val viewModel = koinViewModel<RecipeScreenViewModel> { parametersOf(recipeId) }
   val state = viewModel.state.collectAsStateWithLifecycle()
 
   val recipe = (state.value as? RecipeScreenState.Success)?.recipe

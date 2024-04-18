@@ -13,10 +13,6 @@ import io.chefbook.sdk.settings.api.external.domain.usecases.SetEnvironmentUseCa
 import io.chefbook.sdk.settings.api.external.domain.usecases.SetOpenSavedRecipeExpandedUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
-
-
-internal typealias ISettingsScreenViewModel = MviViewModel<SettingsScreenState, SettingsScreenIntent, SettingsScreenEffect>
-
 internal class SettingsScreenViewModel(
   observeSettingsUseCase: ObserveSettingsUseCase,
   val setThemeUseCase: SetAppThemeUseCase,

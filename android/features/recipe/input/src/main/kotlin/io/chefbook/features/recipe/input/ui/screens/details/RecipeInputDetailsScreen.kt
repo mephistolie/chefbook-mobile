@@ -13,7 +13,7 @@ import io.chefbook.features.recipe.input.navigation.RecipeInputDetailsScreenNavi
 import io.chefbook.features.recipe.input.navigation.handleBaseRecipeInputScreenEffect
 import io.chefbook.features.recipe.input.ui.mvi.RecipeInputScreenEffect
 import io.chefbook.features.recipe.input.ui.mvi.RecipeInputScreenIntent
-import io.chefbook.features.recipe.input.ui.viewmodel.IRecipeInputScreenViewModel
+import io.chefbook.features.recipe.input.ui.viewmodel.RecipeInputScreenViewModel
 import io.chefbook.navigation.params.dialogs.TwoButtonsDialogParams
 import io.chefbook.navigation.results.dialogs.TwoButtonsDialogResult
 import io.chefbook.ui.common.dialogs.LoadingDialog
@@ -27,7 +27,7 @@ private const val CLOSE_RECIPE_INPUT_REQUEST = "CLOSE_RECIPE_INPUT"
 )
 @Composable
 fun RecipeInputDetailsScreen(
-  viewModel: IRecipeInputScreenViewModel,
+  viewModel: RecipeInputScreenViewModel,
   navigator: RecipeInputDetailsScreenNavigator,
   confirmDialogRecipient: OpenResultRecipient<TwoButtonsDialogResult>
 ) {

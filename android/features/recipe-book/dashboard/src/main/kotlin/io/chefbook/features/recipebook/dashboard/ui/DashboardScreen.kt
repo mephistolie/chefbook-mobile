@@ -13,7 +13,7 @@ import org.koin.androidx.compose.koinViewModel
 fun DashboardScreen(
   navigator: DashboardScreenNavigator,
 ) {
-  val viewModel: IRecipeBookScreenViewModel = koinViewModel<DashboardScreenViewModel>()
+  val viewModel = koinViewModel<DashboardScreenViewModel>()
   val state = viewModel.state.collectAsStateWithLifecycle()
 
   DashboardScreenContent(

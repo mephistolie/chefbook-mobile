@@ -39,8 +39,7 @@ fun RecipeControlScreen(
   navigator: RecipeControlScreenNavigator,
   confirmDialogRecipient: OpenResultRecipient<TwoButtonsDialogResult>
 ) {
-  val viewModel: IRecipeControlScreenViewModel =
-    koinViewModel<RecipeControlScreenViewModel> { parametersOf(recipeId) }
+  val viewModel = koinViewModel<RecipeControlScreenViewModel> { parametersOf(recipeId) }
   val state = viewModel.state.collectAsStateWithLifecycle()
 
   val pages = remember { RecipeControlScreenPage.entries.toTypedArray() }

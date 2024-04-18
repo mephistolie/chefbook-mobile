@@ -16,7 +16,7 @@ fun RecipeCategoriesSelectionBlock(
   recipe: DecryptedRecipeInfo,
   navigator: BaseNavigator,
 ) {
-  val viewModel: IRecipeCategoriesSelectionBlockViewModel = koinViewModel<RecipeCategoriesSelectionBlockViewModel> { parametersOf(recipe) }
+  val viewModel = koinViewModel<RecipeCategoriesSelectionBlockViewModel> { parametersOf(recipe) }
   val state = viewModel.state.collectAsStateWithLifecycle()
 
   val context = LocalContext.current

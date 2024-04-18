@@ -35,7 +35,7 @@ fun AuthScreen(
 ) {
   val context = LocalContext.current
 
-  val viewModel: IAuthViewModel = koinViewModel<AuthViewModel> {
+  val viewModel = koinViewModel<AuthViewModel> {
     parametersOf(userId.orEmpty(), activationCode.orEmpty(), passwordResetCode.orEmpty())
   }
   val state = viewModel.state.collectAsStateWithLifecycle()

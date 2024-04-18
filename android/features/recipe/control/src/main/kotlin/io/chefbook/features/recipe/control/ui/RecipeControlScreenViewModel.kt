@@ -17,8 +17,6 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 import io.chefbook.core.android.R as coreR
 
-internal typealias IRecipeControlScreenViewModel = MviViewModel<RecipeControlScreenState, RecipeControlScreenIntent, RecipeControlScreenEffect>
-
 internal class RecipeControlScreenViewModel(
   private val recipeId: String,
 

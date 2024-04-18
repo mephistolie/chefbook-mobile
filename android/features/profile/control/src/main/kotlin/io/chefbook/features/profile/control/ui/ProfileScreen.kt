@@ -26,7 +26,7 @@ fun ProfileScreen(
   navigator: ProfileScreenNavigator,
   confirmDialogResult: OpenResultRecipient<TwoButtonsDialogResult>,
 ) {
-  val viewModel: IProfileScreenViewModel = koinViewModel<ProfileScreenViewModel>()
+  val viewModel = koinViewModel<ProfileScreenViewModel>()
   val state = viewModel.state.collectAsStateWithLifecycle()
 
   val context = LocalContext.current

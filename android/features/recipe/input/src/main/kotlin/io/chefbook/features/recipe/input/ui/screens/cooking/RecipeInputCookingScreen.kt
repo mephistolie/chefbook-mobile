@@ -9,13 +9,13 @@ import io.chefbook.features.recipe.input.navigation.RecipeInputScreenBaseNavigat
 import io.chefbook.features.recipe.input.navigation.handleBaseRecipeInputScreenEffect
 import io.chefbook.features.recipe.input.ui.mvi.RecipeInputScreenEffect
 import io.chefbook.features.recipe.input.ui.mvi.RecipeInputScreenIntent
-import io.chefbook.features.recipe.input.ui.viewmodel.IRecipeInputScreenViewModel
+import io.chefbook.features.recipe.input.ui.viewmodel.RecipeInputScreenViewModel
 import io.chefbook.ui.common.dialogs.LoadingDialog
 
 @Destination(route = "cooking")
 @Composable
 internal fun RecipeInputCookingScreen(
-  viewModel: IRecipeInputScreenViewModel,
+  viewModel: RecipeInputScreenViewModel,
   navigator: RecipeInputScreenBaseNavigator,
 ) {
   val state = viewModel.state.collectAsStateWithLifecycle()

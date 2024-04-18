@@ -30,8 +30,6 @@ import java.io.File
 
 private const val BOTTOM_SHEET_HIDE_ANIMATION_DURATION = 200L
 
-internal typealias IRecipeInputScreenViewModel = MviViewModel<RecipeInputScreenState, RecipeInputScreenIntent, RecipeInputScreenEffect>
-
 @SuppressLint("StaticFieldLeak")
 class RecipeInputScreenViewModel(
   private val recipeId: String?,

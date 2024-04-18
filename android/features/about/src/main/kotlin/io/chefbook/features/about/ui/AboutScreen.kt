@@ -16,7 +16,7 @@ import org.koin.androidx.compose.koinViewModel
 internal fun AboutScreen(
   navigator: BaseNavigator,
 ) {
-  val viewModel: IAboutScreenViewModel = koinViewModel<AboutScreenViewModel>()
+  val viewModel = koinViewModel<AboutScreenViewModel>()
 
   val context =  LocalContext.current
   val packageManager = remember { context.packageManager.getPackageInfo(context.packageName, 0) }

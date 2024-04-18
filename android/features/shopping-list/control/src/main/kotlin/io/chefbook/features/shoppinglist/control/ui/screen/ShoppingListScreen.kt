@@ -30,7 +30,7 @@ import org.koin.androidx.compose.koinViewModel
 fun ShoppingListScreen(
   navigator: ShoppingListScreenNavigator,
 ) {
-  val viewModel: IShoppingListScreenViewModel = koinViewModel<ShoppingListScreenViewModel>()
+  val viewModel = koinViewModel<ShoppingListScreenViewModel>()
   val state = viewModel.state.collectAsStateWithLifecycle()
 
   val scope = rememberCoroutineScope()

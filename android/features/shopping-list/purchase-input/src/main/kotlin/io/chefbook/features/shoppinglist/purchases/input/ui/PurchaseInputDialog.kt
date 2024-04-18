@@ -22,7 +22,7 @@ fun PurchaseInputDialog(
   purchaseId: String,
   navigator: BaseNavigator,
 ) {
-  val viewModel: IPurchaseInputDialogViewModel =
+  val viewModel =
     koinViewModel<PurchaseInputDialogViewModel> { parametersOf(shoppingListId, purchaseId) }
   val state = viewModel.state.collectAsStateWithLifecycle()
 

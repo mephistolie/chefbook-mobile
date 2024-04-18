@@ -15,8 +15,6 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import io.chefbook.core.android.R as coreR
 
-internal typealias IRecipeCategoriesSelectionBlockViewModel = MviViewModel<RecipeCategoriesSelectionBlockState, RecipeCategoriesSelectionBlockIntent, RecipeCategoriesSelectionBlockEffect>
-
 internal class RecipeCategoriesSelectionBlockViewModel(
   private val recipe: DecryptedRecipeInfo,
 

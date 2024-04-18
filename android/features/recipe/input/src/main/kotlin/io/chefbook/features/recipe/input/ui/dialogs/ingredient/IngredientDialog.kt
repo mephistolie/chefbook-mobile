@@ -7,7 +7,7 @@ import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.spec.DestinationStyleBottomSheet
 import io.chefbook.features.recipe.input.ui.mvi.RecipeInputScreenEffect
 import io.chefbook.features.recipe.input.ui.mvi.RecipeInputScreenIntent
-import io.chefbook.features.recipe.input.ui.viewmodel.IRecipeInputScreenViewModel
+import io.chefbook.features.recipe.input.ui.viewmodel.RecipeInputScreenViewModel
 import io.chefbook.navigation.navigators.BaseNavigator
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.Recipe.Decrypted.IngredientsItem
 
@@ -18,7 +18,7 @@ import io.chefbook.sdk.recipe.core.api.external.domain.entities.Recipe.Decrypted
 @Composable
 internal fun IngredientDialog(
   ingredientId: String,
-  viewModel: IRecipeInputScreenViewModel,
+  viewModel: RecipeInputScreenViewModel,
   navigator: BaseNavigator,
 ) {
   val state = viewModel.state.collectAsStateWithLifecycle()

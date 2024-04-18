@@ -17,8 +17,6 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.update
 
-internal typealias IRecipeBookScreenViewModel = MviViewModel<DashboardScreenState, DashboardScreenIntent, DashboardScreenEffect>
-
 internal class DashboardScreenViewModel(
   private val observeProfileUseCase: ObserveProfileUseCase,
   private val observeRecipeBookUseCase: ObserveRecipeBookUseCase,

@@ -14,8 +14,6 @@ import kotlinx.coroutines.launch
 
 private const val GOOGLE_PLAY_PAGE = "https://play.google.com/store/apps/details?id=com.cactusknights.chefbook"
 
-internal typealias IProfileScreenViewModel = MviViewModel<ProfileScreenState, ProfileScreenIntent, ProfileScreenEffect>
-
 internal class ProfileScreenViewModel(
   observeProfileUseCase: ObserveProfileUseCase,
   private val signOutUseCase: SignOutUseCase,

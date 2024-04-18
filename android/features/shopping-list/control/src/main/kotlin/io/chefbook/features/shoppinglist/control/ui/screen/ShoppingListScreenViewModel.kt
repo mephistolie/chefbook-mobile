@@ -22,8 +22,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-internal typealias IShoppingListScreenViewModel = MviViewModel<ShoppingListScreenState, ShoppingListScreenIntent, ShoppingListScreenEffect>
-
 @SuppressLint("StaticFieldLeak")
 internal class ShoppingListScreenViewModel(
   private val getShoppingListsUseCase: GetShoppingListsUseCase,

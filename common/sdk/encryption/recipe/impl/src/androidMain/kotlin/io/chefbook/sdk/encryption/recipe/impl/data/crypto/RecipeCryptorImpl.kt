@@ -57,7 +57,7 @@ internal object RecipeCryptorImpl : RecipeCryptor {
       .decodeFromString<List<IngredientItemSerializable>>(decryptData(recipe.ingredients, key))
       .map(IngredientItemSerializable::toEntity),
     cooking = Json
-      .decodeFromString<List<CookingItemSerializable>>(decryptData(recipe.ingredients, key))
+      .decodeFromString<List<CookingItemSerializable>>(decryptData(recipe.cooking, key))
       .map { it.toEntity((recipe.cookingPictures[it.id])) },
   )
 

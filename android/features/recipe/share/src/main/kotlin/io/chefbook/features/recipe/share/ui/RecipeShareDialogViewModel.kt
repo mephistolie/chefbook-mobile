@@ -21,8 +21,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import io.chefbook.core.android.R as coreR
 
-internal typealias IRecipeShareDialogViewModel = MviViewModel<RecipeShareDialogState, RecipeShareDialogIntent, RecipeShareDialogEffect>
-
 internal class RecipeShareDialogViewModel(
   private val recipeId: String,
 

@@ -19,8 +19,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import io.chefbook.core.android.R as coreR
 
-internal typealias IEncryptedVaultScreenViewModel = MviViewModel<EncryptedVaultScreenState, EncryptedVaultScreenIntent, EncryptedVaultScreenEffect>
-
 internal class EncryptedVaultScreenViewModel(
   private val closeOnUnlocked: Boolean,
 
