@@ -16,6 +16,7 @@ import com.ramcosta.composedestinations.manualcomposablecalls.dialogComposable
 import com.ramcosta.composedestinations.navigation.dependency
 import com.ramcosta.composedestinations.scope.resultBackNavigator
 import com.ramcosta.composedestinations.scope.resultRecipient
+import io.chefbook.features.auth.ui.AuthScreen
 import io.chefbook.features.auth.ui.destinations.AuthScreenDestination
 import io.chefbook.features.category.ui.input.CategoryInputDialog
 import io.chefbook.features.category.ui.input.destinations.CategoryInputDialogDestination
@@ -67,6 +68,15 @@ fun AppHost(
       CommunityRecipesScreen()
     }
   ) {
+    composable(AuthScreenDestination) {
+      AuthScreen(
+        userId = navArgs.userId,
+        activationCode = navArgs.activationCode,
+        passwordResetCode = navArgs.passwordResetCode,
+        navigator = navigator,
+        confirmDialogRecipient = resultRecipient<DismissibleTwoButtonsDialogDestination, TwoButtonsDialogResult>()
+      )
+    }
     composable(ProfileScreenDestination) {
       ProfileScreen(
         navigator = navigator,

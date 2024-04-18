@@ -20,7 +20,6 @@ kotlin {
   cocoapods {
     version = "1.0"
     ios.deploymentTarget = "15.0"
-    pod("Tink")
   }
 }
 

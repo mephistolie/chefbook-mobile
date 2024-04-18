@@ -13,6 +13,7 @@ import io.chefbook.features.profile.editing.ui.destinations.ProfileEditingScreen
 import io.chefbook.features.community.recipes.ui.screens.destinations.CommunityRecipesContentScreenDestination
 import io.chefbook.features.community.recipes.ui.screens.destinations.CommunityRecipesFilterScreenDestination
 import io.chefbook.features.community.recipes.ui.screens.destinations.CommunityRecipesTagGroupScreenDestination
+import io.chefbook.features.profile.deletion.ui.destinations.ProfileDeletionScreenDestination
 import io.chefbook.features.recipe.info.ui.destinations.RecipeScreenDestination
 import io.chefbook.features.recipe.input.ui.destinations.CaloriesDialogDestination
 import io.chefbook.features.recipe.input.ui.destinations.EncryptionStateDialogDestination
@@ -121,6 +122,7 @@ object NavGraphs {
       RecipeBookDashboardScreenDestination,
       ProfileScreenDestination,
       ProfileEditingScreenDestination,
+      ProfileDeletionScreenDestination,
       RecipeBookCreationScreenDestination,
       EncryptedVaultScreenDestination,
       RecipeBookSearchScreenDestination,

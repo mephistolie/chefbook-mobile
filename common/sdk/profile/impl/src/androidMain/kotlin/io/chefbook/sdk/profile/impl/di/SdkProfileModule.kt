@@ -1,9 +1,11 @@
 package io.chefbook.sdk.profile.impl.di
 
 import io.chefbook.libs.di.qualifiers.DataSource
+import io.chefbook.sdk.profile.api.external.domain.usecases.CancelProfileDeletionUseCase
 import io.chefbook.sdk.profile.api.external.domain.usecases.CheckNicknameAvailabilityUseCase
 import io.chefbook.sdk.profile.api.external.domain.usecases.DeleteAvatarUseCase
 import io.chefbook.sdk.profile.api.external.domain.usecases.ObserveProfileUseCase
+import io.chefbook.sdk.profile.api.external.domain.usecases.RequestProfileDeletionUseCase
 import io.chefbook.sdk.profile.api.external.domain.usecases.SetAvatarUseCase
 import io.chefbook.sdk.profile.api.external.domain.usecases.SetDescriptionUseCase
 import io.chefbook.sdk.profile.api.external.domain.usecases.SetNameUseCase
@@ -18,9 +20,11 @@ import io.chefbook.sdk.profile.impl.data.sources.remote.api.ProfileApiService
 import io.chefbook.sdk.profile.impl.data.sources.remote.api.ProfileApiServiceImpl
 import io.chefbook.sdk.profile.impl.data.sources.remote.nickname.NicknameApiService
 import io.chefbook.sdk.profile.impl.data.sources.remote.nickname.NicknameApiServiceImpl
+import io.chefbook.sdk.profile.impl.domain.usecases.CancelProfileDeletionUseCaseImpl
 import io.chefbook.sdk.profile.impl.domain.usecases.CheckNicknameAvailabilityUseCaseImpl
 import io.chefbook.sdk.profile.impl.domain.usecases.DeleteAvatarUseCaseImpl
 import io.chefbook.sdk.profile.impl.domain.usecases.ObserveProfileUseCaseImpl
+import io.chefbook.sdk.profile.impl.domain.usecases.RequestProfileDeletionUseCaseImpl
 import io.chefbook.sdk.profile.impl.domain.usecases.SetAvatarUseCaseImpl
 import io.chefbook.sdk.profile.impl.domain.usecases.SetDescriptionUseCaseImpl
 import io.chefbook.sdk.profile.impl.domain.usecases.SetNameUseCaseImpl
@@ -58,4 +62,6 @@ val sdkProfileModule = module {
   factoryOf(::SetDescriptionUseCaseImpl) bind SetDescriptionUseCase::class
   factoryOf(::CheckNicknameAvailabilityUseCaseImpl) bind CheckNicknameAvailabilityUseCase::class
   factoryOf(::SetNicknameUseCaseImpl) bind SetNicknameUseCase::class
+  factoryOf(::RequestProfileDeletionUseCaseImpl) bind RequestProfileDeletionUseCase::class
+  factoryOf(::CancelProfileDeletionUseCaseImpl) bind CancelProfileDeletionUseCase::class
 }

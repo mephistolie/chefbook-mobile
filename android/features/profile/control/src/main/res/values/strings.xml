@@ -8,6 +8,6 @@
     <string name="common_profile_screen_rate_chefbook">Rate ChefBook</string>
     <string name="common_profile_screen_about_app">About app</string>
 
-    <string name="common_profile_screen_logout_warning">You will log out of the profile on this device</string>
+    <string name="common_profile_screen_logout_warning">You will sign out of the profile on this device</string>
 
 </resources>

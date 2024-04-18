@@ -1,7 +1,7 @@
 package io.chefbook.sdk.auth.impl.data.sources.remote
 
 import io.chefbook.libs.utils.result.EmptyResult
-import io.ktor.client.plugins.auth.providers.BearerTokens
+import io.chefbook.sdk.auth.api.internal.data.models.Session
 
 internal interface AuthDataSource {
 
@@ -9,9 +9,9 @@ internal interface AuthDataSource {
 
   suspend fun activateProfile(userId: String, code: String): EmptyResult
 
-  suspend fun signIn(login: String, password: String): Result<BearerTokens>
+  suspend fun signIn(login: String, password: String): Result<Session>
 
-  suspend fun signInGoogle(token: String): Result<BearerTokens>
+  suspend fun signInGoogle(token: String): Result<Session>
 
   suspend fun signOut(refreshToken: String): EmptyResult
 }

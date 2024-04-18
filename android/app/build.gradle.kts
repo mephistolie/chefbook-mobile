@@ -56,6 +56,7 @@ dependencies {
   implementation(projects.android.features.auth)
   implementation(projects.android.features.profile.control)
   implementation(projects.android.features.profile.editing)
+  implementation(projects.android.features.profile.deletion)
   implementation(projects.android.features.encryption)
   implementation(projects.android.features.recipeBook.dashboard)
   implementation(projects.android.features.recipeBook.creation)

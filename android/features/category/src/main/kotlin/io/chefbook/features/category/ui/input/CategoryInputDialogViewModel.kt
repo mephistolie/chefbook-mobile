@@ -5,7 +5,6 @@ import io.chefbook.features.category.ui.input.mvi.CategoryInputDialogEffect
 import io.chefbook.features.category.ui.input.mvi.CategoryInputDialogIntent
 import io.chefbook.features.category.ui.input.mvi.CategoryInputDialogState
 import io.chefbook.libs.mvi.BaseMviViewModel
-import io.chefbook.libs.mvi.MviViewModel
 import io.chefbook.sdk.category.api.external.domain.entities.CategoryInput
 import io.chefbook.sdk.category.api.external.domain.entities.toInput
 import io.chefbook.sdk.category.api.external.domain.usecases.CreateCategoryUseCase
@@ -15,8 +14,6 @@ import io.chefbook.sdk.category.api.external.domain.usecases.UpdateCategoryUseCa
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-
-internal typealias ICategoryInputDialogViewModel = MviViewModel<CategoryInputDialogState, CategoryInputDialogIntent, CategoryInputDialogEffect>
 
 internal class CategoryInputDialogViewModel(
   private val categoryId: String?,
@@ -57,7 +54,7 @@ internal class CategoryInputDialogViewModel(
     _state.update { state -> state.copy(input = state.input.copy(name = formattedName)) }
   }
 
-  private suspend fun setCover(newCover: String) {
+  private fun setCover(newCover: String) {
     val lastCover = state.value.input.emoji.orEmpty()
     if (
       (lastCover.length > newCover.length || lastCover.isEmpty()) &&

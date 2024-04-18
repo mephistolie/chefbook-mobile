@@ -149,5 +149,11 @@ internal class ProfileRepositoryImpl(
     }
   }
 
+  override suspend fun requestProfileDeletion(password: String, deleteSharedData: Boolean) =
+    remoteSource.requestProfileDeletion(password, deleteSharedData)
+
+  override suspend fun cancelProfileDeletion() =
+    remoteSource.cancelProfileDeletion()
+
   override suspend fun clearLocalData() = localSource.clearProfileCache()
 }

@@ -1,6 +1,5 @@
 package io.chefbook.sdk.auth.impl.domain.usecases
 
-import io.chefbook.libs.utils.result.asEmpty
 import io.chefbook.sdk.auth.api.external.domain.usecases.SignInGoogleUseCase
 import io.chefbook.sdk.auth.api.internal.data.repositories.AuthRepository
 import io.chefbook.sdk.core.api.internal.data.repositories.LocalDataRepository
@@ -19,5 +18,4 @@ internal class SignInGoogleUseCaseImpl(
         settingsRepository.setProfileMode(ProfileMode.ONLINE)
         localDataRepository.refreshData()
       }
-      .asEmpty()
 }

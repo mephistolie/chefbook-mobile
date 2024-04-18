@@ -1,8 +1,10 @@
 package io.chefbook.ui.screens.main
 
 import androidx.lifecycle.viewModelScope
+import io.chefbook.libs.logger.Logger
 import io.chefbook.libs.mvi.IStateSideEffectViewModel
 import io.chefbook.libs.mvi.StateSideEffectViewModel
+import io.chefbook.sdk.auth.api.external.domain.usecases.ObserveProfileDeletionUseCase
 import io.chefbook.sdk.profile.api.external.domain.usecases.ObserveProfileUseCase
 import io.chefbook.sdk.settings.api.external.domain.usecases.ObserveSettingsUseCase
 import io.chefbook.ui.screens.main.mvi.AppEffect
@@ -19,6 +21,7 @@ interface IAppViewModel : IStateSideEffectViewModel<AppState, AppEffect> {
 class AppViewModel(
   private val observeSettingsUseCase: ObserveSettingsUseCase,
   private val observeProfileUseCase: ObserveProfileUseCase,
+  private val observeProfileDeletionUseCase: ObserveProfileDeletionUseCase,
   override val imageClient: OkHttpClient,
 ) : StateSideEffectViewModel<AppState, AppEffect>(), IAppViewModel {
 
@@ -31,15 +34,16 @@ class AppViewModel(
   private fun observeAppState() {
     combine(
       observeProfileUseCase(),
+      observeProfileDeletionUseCase(),
       observeSettingsUseCase(),
-    ) { profile, settings ->
+    ) { profile, deletionTimestamp, settings ->
       _state.emit(
         AppState(
-          isSignedIn = profile != null,
+          isSignedIn = profile != null && deletionTimestamp == null,
           theme = settings.appTheme
         )
       )
-      if (profile == null) _effect.emit(AppEffect.SignedOut)
+      if (profile == null || deletionTimestamp != null) _effect.emit(AppEffect.SignedOut)
     }
       .launchIn(viewModelScope)
   }

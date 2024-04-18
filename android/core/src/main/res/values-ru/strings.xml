@@ -124,7 +124,7 @@
     <string name="common_general_popular">Популярное</string>
     <string name="common_general_fast">Быстрое</string>
     <string name="common_general_filters">Фильтры</string>
-    <string name="common_general_tags">Тэги</string>
+    <string name="common_general_tags">Теги</string>
 
     <string name="common_general_app_error">Ошибка приложения</string>
     <string name="common_general_app_error_local_user">Для этого действия необходим онлайн-профиль</string>

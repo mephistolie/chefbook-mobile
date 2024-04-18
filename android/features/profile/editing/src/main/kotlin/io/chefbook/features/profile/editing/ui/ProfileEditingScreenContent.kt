@@ -5,10 +5,12 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import io.chefbook.design.components.buttons.DynamicButton
 import io.chefbook.features.profile.editing.ui.components.AvatarEditing
 import io.chefbook.features.profile.editing.ui.components.DescriptionInputBlock
 import io.chefbook.features.profile.editing.ui.components.NameInputBlock
 import io.chefbook.features.profile.editing.ui.components.NicknameInputBlock
+import io.chefbook.features.profile.editing.ui.components.ProfileDeleteButton
 import io.chefbook.features.profile.editing.ui.components.ProfileEditingScreenToolbar
 import io.chefbook.features.profile.editing.ui.mvi.ProfileEditingScreenIntent
 import io.chefbook.features.profile.editing.ui.mvi.ProfileEditingScreenState
@@ -47,7 +49,7 @@ internal fun ProfileEditingScreenContent(
       Spacer(modifier = Modifier.height(12.dp))
     }
     MenuDivider()
-    MenuGroup(isLast = true) {
+    MenuGroup {
       Spacer(modifier = Modifier.height(24.dp))
       NameInputBlock(
         firstName = state.firstName,
@@ -60,6 +62,12 @@ internal fun ProfileEditingScreenContent(
         description = state.description,
         onDescriptionChange = { onIntent(ProfileEditingScreenIntent.SetDescription(it)) },
       )
+      Spacer(modifier = Modifier.height(12.dp))
+    }
+    MenuDivider()
+    MenuGroup(isLast = true) {
+      Spacer(modifier = Modifier.height(12.dp))
+      ProfileDeleteButton { onIntent(ProfileEditingScreenIntent.DeleteProfile) }
     }
   }
 }

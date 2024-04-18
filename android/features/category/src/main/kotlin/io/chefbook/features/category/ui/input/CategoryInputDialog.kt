@@ -3,7 +3,6 @@ package io.chefbook.features.category.ui.input
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.result.NavResult
 import com.ramcosta.composedestinations.result.OpenResultRecipient
@@ -27,8 +26,7 @@ fun CategoryInputDialog(
   categoryInputResultNavigator: ResultBackNavigator<CategoryActionResult>,
   confirmDialogResult: OpenResultRecipient<TwoButtonsDialogResult>,
 ) {
-  val viewModel: ICategoryInputDialogViewModel =
-    koinViewModel<CategoryInputDialogViewModel> { parametersOf(categoryId) }
+  val viewModel = koinViewModel<CategoryInputDialogViewModel> { parametersOf(categoryId) }
   val state = viewModel.state.collectAsStateWithLifecycle()
 
   CategoryInputDialogContent(

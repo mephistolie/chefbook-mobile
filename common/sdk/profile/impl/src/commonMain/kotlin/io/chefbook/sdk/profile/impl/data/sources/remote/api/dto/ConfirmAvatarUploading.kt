@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class ConfirmAvatarUploading(
+data class ConfirmAvatarUploadingRequest(
   @SerialName("avatarLink")
   val avatarLink: String,
 )

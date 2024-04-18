@@ -2,6 +2,7 @@ package io.chefbook.design.components.images
 
 import android.graphics.drawable.Drawable
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
@@ -19,6 +20,7 @@ import coil.request.ImageRequest
 import io.chefbook.core.android.compose.providers.ContentType
 import io.chefbook.core.android.compose.providers.LocalDataAccess
 import io.chefbook.core.android.compose.providers.ui.LocalDependencies
+import io.chefbook.libs.logger.Logger
 
 private const val TYPE = "TYPE"
 
@@ -40,12 +42,16 @@ fun EncryptedImage(
 ) {
   val context = LocalContext.current
   val dataType = LocalDataAccess.type
-  val imageLoader = if (dataType == ContentType.DECRYPTABLE) {
-    ImageLoader.Builder(context)
-      .okHttpClient(LocalDependencies.imageClient)
-      .build()
-  } else {
-    context.imageLoader
+  val imageClient = LocalDependencies.imageClient
+
+  val imageLoader = remember(data) {
+    if (dataType == ContentType.DECRYPTABLE) {
+      ImageLoader.Builder(context)
+        .okHttpClient(imageClient)
+        .build()
+    } else {
+      context.imageLoader
+    }
   }
 
   val diskKey = "${data}_${dataType.name}"

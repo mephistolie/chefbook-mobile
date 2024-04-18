@@ -14,7 +14,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import com.mephistolie.compost.extensions.Shading
+import com.mephistolie.compost.modifiers.clippedBackground
 import com.mephistolie.compost.modifiers.scalingClickable
+import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.design.components.images.EncryptedImage
 import io.chefbook.design.theme.shapes.RoundedCornerShape12
 
@@ -23,6 +25,8 @@ internal fun CookingStepPictures(
   pictures: List<String>,
   onPictureClicked: (String) -> Unit,
 ) {
+  val colors = LocalTheme.colors
+
   for (i in pictures.indices step PICTURE_ROW_CELLS_COUNT) {
     Spacer(modifier = Modifier.height(8.dp))
     Row(
@@ -40,7 +44,7 @@ internal fun CookingStepPictures(
                 pressed = pressed,
                 onClick = { onPictureClicked(pictures[j]) }
               )
-              .clip(RoundedCornerShape12)
+              .clippedBackground(colors.backgroundSecondary, RoundedCornerShape12)
           ) {
             EncryptedImage(
               data = pictures[j],

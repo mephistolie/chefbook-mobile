@@ -5,7 +5,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class GenerateAvatarUploadLinkResponse(
+data class GenerateAvatarUploadLinkRequest(
   @SerialName("pictureLink")
   val pictureLink: String,
   @SerialName("uploadLink")

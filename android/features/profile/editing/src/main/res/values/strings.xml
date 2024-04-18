@@ -11,5 +11,6 @@
     <string name="common_profile_editing_screen_last_name">Last name</string>
     <string name="common_profile_editing_screen_about_you">About you</string>
     <string name="common_profile_editing_screen_about_you_hint">Any details…</string>
+    <string name="common_profile_editing_screen_delete_profile">Delete profile</string>
 
 </resources>

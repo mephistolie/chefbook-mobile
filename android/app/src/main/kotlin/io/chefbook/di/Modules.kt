@@ -7,6 +7,7 @@ import io.chefbook.features.community.languages.di.featureCommunityLanguagesModu
 import io.chefbook.features.community.recipes.di.featureCommunityRecipesModule
 import io.chefbook.features.encryption.di.featureEncryptionModule
 import io.chefbook.features.profile.control.di.featureProfileModule
+import io.chefbook.features.profile.deletion.di.featureProfileDeletionModule
 import io.chefbook.features.profile.editing.di.featureProfileEditingModule
 import io.chefbook.features.recipe.control.di.featureRecipeControlModule
 import io.chefbook.features.recipe.info.di.featureRecipeModule
@@ -69,6 +70,7 @@ object Modules {
       featureAuthModule,
       featureProfileModule,
       featureProfileEditingModule,
+      featureProfileDeletionModule,
       featureSettingsModule,
       featureCategoryModule,
       featureAboutModule,

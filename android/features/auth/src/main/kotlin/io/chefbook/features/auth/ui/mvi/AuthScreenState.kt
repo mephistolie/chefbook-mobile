@@ -48,4 +48,8 @@ internal sealed interface AuthScreenState : MviState {
       const val CODE_LENGTH = 6
     }
   }
+
+  data class ProfileRestoration(
+    val deletionTimestamp: String,
+  ) : AuthScreenState
 }

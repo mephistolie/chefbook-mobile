@@ -1,6 +1,6 @@
 package io.chefbook.sdk.auth.impl.data.sources.remote.services.auth.dto
 
-import io.ktor.client.plugins.auth.providers.BearerTokens
+import io.chefbook.sdk.auth.api.internal.data.models.Session
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -16,8 +16,10 @@ internal data class TokensResponse(
   val profileDeletingAt: String? = null,
 )
 
-internal fun TokensResponse.toBearerTokens() =
-  BearerTokens(
+internal fun TokensResponse.toSessionInfo() =
+  Session(
     accessToken = accessToken,
     refreshToken = refreshToken,
+    expirationTimestamp = expiresAt,
+    profileDeletionTimestamp = profileDeletingAt,
   )

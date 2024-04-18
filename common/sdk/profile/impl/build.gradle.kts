@@ -7,6 +7,7 @@ kotlin {
     commonMain.dependencies {
       api(projects.common.sdk.profile.api.internal)
 
+      implementation(projects.common.sdk.auth.api.internal)
       implementation(projects.common.sdk.settings.api.internal)
       implementation(projects.common.sdk.settings.api.internal)
       implementation(projects.common.sdk.file.api.internal)

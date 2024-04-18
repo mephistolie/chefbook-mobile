@@ -12,6 +12,8 @@ internal sealed interface ProfileEditingScreenIntent : MviIntent {
   data class SetLastName(val lastName: String) : ProfileEditingScreenIntent
   data class SetDescription(val description: String) : ProfileEditingScreenIntent
 
+  data object DeleteProfile : ProfileEditingScreenIntent
+
   data object Confirm : ProfileEditingScreenIntent
   data object Close : ProfileEditingScreenIntent
 }

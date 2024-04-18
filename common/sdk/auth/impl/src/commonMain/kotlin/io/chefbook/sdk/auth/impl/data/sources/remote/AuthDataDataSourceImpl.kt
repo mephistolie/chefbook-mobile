@@ -3,14 +3,14 @@ package io.chefbook.sdk.auth.impl.data.sources.remote
 import io.chefbook.libs.utils.auth.isEmail
 import io.chefbook.libs.utils.result.asEmpty
 import io.chefbook.libs.utils.uuid.generateUUID
+import io.chefbook.sdk.auth.api.internal.data.models.Session
 import io.chefbook.sdk.auth.impl.data.sources.remote.services.auth.AuthApiService
 import io.chefbook.sdk.auth.impl.data.sources.remote.services.auth.dto.SignInGoogleRequest
 import io.chefbook.sdk.auth.impl.data.sources.remote.services.auth.dto.SignInRequest
 import io.chefbook.sdk.auth.impl.data.sources.remote.services.auth.dto.SignOutRequest
 import io.chefbook.sdk.auth.impl.data.sources.remote.services.auth.dto.SignUpRequest
 import io.chefbook.sdk.auth.impl.data.sources.remote.services.auth.dto.TokensResponse
-import io.chefbook.sdk.auth.impl.data.sources.remote.services.auth.dto.toBearerTokens
-import io.ktor.client.plugins.auth.providers.BearerTokens
+import io.chefbook.sdk.auth.impl.data.sources.remote.services.auth.dto.toSessionInfo
 
 internal class AuthDataDataSourceImpl(
   private val api: AuthApiService,
@@ -28,19 +28,19 @@ internal class AuthDataDataSourceImpl(
   override suspend fun activateProfile(userId: String, code: String) =
     api.activateProfile(userId, code).asEmpty()
 
-  override suspend fun signIn(login: String, password: String): Result<BearerTokens> {
+  override suspend fun signIn(login: String, password: String): Result<Session> {
     val isEmail = isEmail(login)
     val email = if (isEmail) login else null
     val nickname = if (isEmail) null else login
 
     val result =
       api.signIn(SignInRequest(email = email, nickname = nickname, password = password))
-    return result.map(TokensResponse::toBearerTokens)
+    return result.map(TokensResponse::toSessionInfo)
   }
 
   override suspend fun signInGoogle(idToken: String) =
     api.signInGoogle(SignInGoogleRequest(idToken = idToken))
-      .map(TokensResponse::toBearerTokens)
+      .map(TokensResponse::toSessionInfo)
 
   override suspend fun signOut(refreshToken: String) =
     api.signOut(SignOutRequest(refreshToken)).asEmpty()

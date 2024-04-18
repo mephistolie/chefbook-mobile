@@ -26,5 +26,9 @@ interface ProfileRepository {
 
   suspend fun setDescription(description: String?): EmptyResult
 
+  suspend fun requestProfileDeletion(password: String, deleteSharedData: Boolean): EmptyResult
+
+  suspend fun cancelProfileDeletion(): EmptyResult
+
   suspend fun clearLocalData()
 }

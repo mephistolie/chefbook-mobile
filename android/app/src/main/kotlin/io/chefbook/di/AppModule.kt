@@ -12,5 +12,5 @@ import org.koin.dsl.module
 val appModule = module {
   singleOf(::QRCodeWriter)
   singleOf(::IconSwitcherDelegate)
-  viewModel { AppViewModel(get(), get(), get(named(HttpClient.ENCRYPTED_IMAGE))) }
+  viewModel { AppViewModel(get(), get(), get(), get(named(HttpClient.ENCRYPTED_IMAGE))) }
 }

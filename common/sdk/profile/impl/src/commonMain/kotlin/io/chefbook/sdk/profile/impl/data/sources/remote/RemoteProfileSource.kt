@@ -10,4 +10,8 @@ internal interface RemoteProfileSource : ProfileSource {
   suspend fun setNickname(nickname: String): EmptyResult
 
   suspend fun setDescription(description: String?): EmptyResult
+
+  suspend fun requestProfileDeletion(password: String, deleteSharedData: Boolean): EmptyResult
+
+  suspend fun cancelProfileDeletion(): EmptyResult
 }

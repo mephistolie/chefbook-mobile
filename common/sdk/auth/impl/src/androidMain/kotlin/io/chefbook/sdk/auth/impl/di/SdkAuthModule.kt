@@ -3,8 +3,10 @@ package io.chefbook.sdk.auth.impl.di
 import io.chefbook.sdk.auth.api.external.domain.usecases.ActivateProfileUseCase
 import io.chefbook.sdk.auth.api.external.domain.usecases.ChangePasswordUseCase
 import io.chefbook.sdk.auth.api.external.domain.usecases.ChooseLocalModeUseCase
+import io.chefbook.sdk.auth.api.external.domain.usecases.ObserveProfileDeletionUseCase
 import io.chefbook.sdk.auth.api.external.domain.usecases.RequestPasswordResetUseCase
 import io.chefbook.sdk.auth.api.external.domain.usecases.ResetPasswordUseCase
+import io.chefbook.sdk.auth.api.external.domain.usecases.RestoreProfileUseCase
 import io.chefbook.sdk.auth.api.external.domain.usecases.SignInGoogleUseCase
 import io.chefbook.sdk.auth.api.external.domain.usecases.SignInUseCase
 import io.chefbook.sdk.auth.api.external.domain.usecases.SignOutUseCase
@@ -17,12 +19,12 @@ import io.chefbook.sdk.auth.impl.data.repositories.AuthRepositoryImpl
 import io.chefbook.sdk.auth.impl.data.repositories.CurrentSessionRepositoryImpl
 import io.chefbook.sdk.auth.impl.data.repositories.PasswordRepositoryImpl
 import io.chefbook.sdk.auth.impl.data.repositories.TokensRepositoryImpl
-import io.chefbook.sdk.auth.impl.data.sources.local.TokensDataSource
-import io.chefbook.sdk.auth.impl.data.sources.local.TokensDataSourceImpl
+import io.chefbook.sdk.auth.impl.data.sources.local.CurrentSessionLocalDataSource
+import io.chefbook.sdk.auth.impl.data.sources.local.CurrentSessionLocalDataSourceImpl
 import io.chefbook.sdk.auth.impl.data.sources.remote.AuthDataDataSourceImpl
 import io.chefbook.sdk.auth.impl.data.sources.remote.AuthDataSource
-import io.chefbook.sdk.auth.impl.data.sources.remote.CurrentSessionDataSource
-import io.chefbook.sdk.auth.impl.data.sources.remote.CurrentSessionDataSourceImpl
+import io.chefbook.sdk.auth.impl.data.sources.remote.CurrentSessionRemoteDataSource
+import io.chefbook.sdk.auth.impl.data.sources.remote.CurrentSessionRemoteDataSourceImpl
 import io.chefbook.sdk.auth.impl.data.sources.remote.PasswordDataSource
 import io.chefbook.sdk.auth.impl.data.sources.remote.PasswordDataSourceImpl
 import io.chefbook.sdk.auth.impl.data.sources.remote.services.auth.AuthApiService
@@ -34,8 +36,10 @@ import io.chefbook.sdk.auth.impl.data.sources.remote.services.password.PasswordA
 import io.chefbook.sdk.auth.impl.domain.usecases.ActivateProfileUseCaseImpl
 import io.chefbook.sdk.auth.impl.domain.usecases.ChangePasswordUseCaseImpl
 import io.chefbook.sdk.auth.impl.domain.usecases.ChooseLocalModeUseCaseImpl
+import io.chefbook.sdk.auth.impl.domain.usecases.ObserveProfileDeletionUseCaseImpl
 import io.chefbook.sdk.auth.impl.domain.usecases.RequestPasswordResetUseCaseImpl
 import io.chefbook.sdk.auth.impl.domain.usecases.ResetPasswordUseCaseImpl
+import io.chefbook.sdk.auth.impl.domain.usecases.RestoreProfileUseCaseImpl
 import io.chefbook.sdk.auth.impl.domain.usecases.SignInGoogleUseCaseImpl
 import io.chefbook.sdk.auth.impl.domain.usecases.SignInUseCaseImpl
 import io.chefbook.sdk.auth.impl.domain.usecases.SignOutUseCaseImpl
@@ -51,16 +55,16 @@ val sdkAuthModule = module {
   singleOf(::PasswordApiServiceImpl) bind PasswordApiService::class
   singleOf(::CurrentSessionApiServiceImpl) bind CurrentSessionApiService::class
 
-  singleOf(::TokensDataSourceImpl) bind TokensDataSource::class
+  singleOf(::CurrentSessionLocalDataSourceImpl) bind CurrentSessionLocalDataSource::class
 
   factoryOf(::AuthDataDataSourceImpl) bind AuthDataSource::class
   factoryOf(::PasswordDataSourceImpl) bind PasswordDataSource::class
-  factoryOf(::CurrentSessionDataSourceImpl) bind CurrentSessionDataSource::class
+  factoryOf(::CurrentSessionRemoteDataSourceImpl) bind CurrentSessionRemoteDataSource::class
 
   single<TokensRepository> {
     TokensRepositoryImpl(
-      tokensDataSource = get(),
-      currentSessionDataSource = get(),
+      localSource = get(),
+      remoteSource = get(),
     )
   }
   singleOf(::AuthRepositoryImpl) { createdAtStart() } bind AuthRepository::class
@@ -76,4 +80,6 @@ val sdkAuthModule = module {
   factoryOf(::RequestPasswordResetUseCaseImpl) bind RequestPasswordResetUseCase::class
   factoryOf(::ResetPasswordUseCaseImpl) bind ResetPasswordUseCase::class
   factoryOf(::ChangePasswordUseCaseImpl) bind ChangePasswordUseCase::class
+  factoryOf(::ObserveProfileDeletionUseCaseImpl) bind ObserveProfileDeletionUseCase::class
+  factoryOf(::RestoreProfileUseCaseImpl) bind RestoreProfileUseCase::class
 }

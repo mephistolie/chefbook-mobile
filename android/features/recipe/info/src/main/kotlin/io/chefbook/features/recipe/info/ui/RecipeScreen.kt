@@ -50,9 +50,9 @@ fun RecipeScreen(
     koinViewModel<RecipeScreenViewModel> { parametersOf(recipeId) }
   val state = viewModel.state.collectAsStateWithLifecycle()
 
-  val recipe = remember(state) { (state.value as? RecipeScreenState.Success)?.recipe }
-  val isEncryptionEnabled = remember(recipe) { derivedStateOf { recipe?.isEncryptionEnabled ?: false } }
-  val isDecrypted = remember(recipe) { derivedStateOf { recipe is Recipe.Decrypted } }
+  val recipe = (state.value as? RecipeScreenState.Success)?.recipe
+  val isEncryptionEnabled = recipe?.isEncryptionEnabled ?: false
+  val isDecrypted = recipe is Recipe.Decrypted
 
   val context = LocalContext.current
   val scope = rememberCoroutineScope()
@@ -66,8 +66,8 @@ fun RecipeScreen(
   )
 
   RecipeEncryptionProvider(
-    isEncryptionEnabled = isEncryptionEnabled.value,
-    isDecrypted = isDecrypted.value,
+    isEncryptionEnabled = isEncryptionEnabled,
+    isDecrypted = isDecrypted,
   ) {
     RecipeScreenContent(
       state = state.value,
@@ -102,7 +102,7 @@ fun RecipeScreen(
           navigator.openPicturesViewer(
             pictures = effect.pictures.toTypedArray(),
             startIndex = effect.startIndex,
-            picturesType = if (isEncryptionEnabled.value) ContentType.DECRYPTABLE else ContentType.DECRYPTED
+            picturesType = if (isEncryptionEnabled) ContentType.DECRYPTABLE else ContentType.DECRYPTED
           )
         }
       }

@@ -32,8 +32,6 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.io.File
 
-internal typealias IProfileEditingScreenViewModel = MviViewModel<ProfileEditingScreenState, ProfileEditingScreenIntent, ProfileEditingScreenEffect>
-
 internal class ProfileEditingScreenViewModel(
   context: Context,
   observeProfileUseCase: ObserveProfileUseCase,
@@ -110,6 +108,8 @@ internal class ProfileEditingScreenViewModel(
           it.copy(description = intent.description, isConfirmButtonAvailable = isInputValid(it.nickname))
         }
       }
+
+      is ProfileEditingScreenIntent.DeleteProfile -> _effect.emit(ProfileEditingScreenEffect.ProfileDeletionScreenOpened)
 
       is ProfileEditingScreenIntent.Confirm -> confirmInput()
       is ProfileEditingScreenIntent.Close -> _effect.emit(ProfileEditingScreenEffect.Closed)

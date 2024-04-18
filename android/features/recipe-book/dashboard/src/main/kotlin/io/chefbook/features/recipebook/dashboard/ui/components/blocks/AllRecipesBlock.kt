@@ -32,7 +32,7 @@ internal fun LazyGridScope.allRecipesBlock(
         style = LocalTheme.typography.h2,
         color = LocalTheme.colors.foregroundPrimary,
         modifier = Modifier
-            .padding(12.dp, 32.dp, 12.dp, 16.dp)
+            .padding(20.dp, 32.dp, 20.dp, 16.dp)
             .animateItemPlacement(),
       )
     }

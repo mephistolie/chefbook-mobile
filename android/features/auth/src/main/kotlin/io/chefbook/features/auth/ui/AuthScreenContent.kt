@@ -31,6 +31,7 @@ import io.chefbook.features.auth.ui.blocks.AnimatedAuthForm
 import io.chefbook.features.auth.ui.blocks.PasswordResetConfirmationForm
 import io.chefbook.features.auth.ui.blocks.PasswordResetForm
 import io.chefbook.features.auth.ui.blocks.ProfileActivationForm
+import io.chefbook.features.auth.ui.blocks.ProfileRestorationForm
 import io.chefbook.features.auth.ui.blocks.SignInForm
 import io.chefbook.features.auth.ui.blocks.SignInPasswordForm
 import io.chefbook.features.auth.ui.blocks.SignUpForm
@@ -102,20 +103,25 @@ internal fun AuthScreenContent(
         AnimatedAuthForm<AuthScreenState.PasswordResetConfirmation>(state) {
           PasswordResetConfirmationForm(state = it, onIntent = onIntent)
         }
+        AnimatedAuthForm<AuthScreenState.ProfileRestoration>(state) {
+          ProfileRestorationForm(state = it, onIntent = onIntent)
+        }
       }
     }
 
-    HyperlinkText(
-      text = stringResource(R.string.common_auth_screen_agreement),
-      hyperlinks = listOf(stringResource(coreR.string.common_general_eula) to "https://chefbook.io/eula"),
-      modifier = Modifier
-        .align(Alignment.BottomCenter)
-        .padding(
-          start = 48.dp,
-          end = 48.dp,
-          bottom = 48.dp,
-        ),
-      style = typography.body2.copy(textAlign = TextAlign.Center),
-    )
+    if (state !is AuthScreenState.Loading && state !is AuthScreenState.ProfileRestoration) {
+      HyperlinkText(
+        text = stringResource(R.string.common_auth_screen_agreement),
+        hyperlinks = listOf(stringResource(coreR.string.common_general_eula) to "https://chefbook.io/eula"),
+        modifier = Modifier
+          .align(Alignment.BottomCenter)
+          .padding(
+            start = 48.dp,
+            end = 48.dp,
+            bottom = 48.dp,
+          ),
+        style = typography.body2.copy(textAlign = TextAlign.Center),
+      )
+    }
   }
 }

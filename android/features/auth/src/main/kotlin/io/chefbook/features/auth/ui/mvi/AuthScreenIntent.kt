@@ -23,4 +23,8 @@ internal sealed interface AuthScreenIntent : MviIntent {
 
   data object RequestPasswordReset : AuthScreenIntent
   data object ConfirmPasswordReset : AuthScreenIntent
+
+  data object RestoreProfile : AuthScreenIntent
+  data object OpenSignOutConfirmationScreen : AuthScreenIntent
+  data object SignOut : AuthScreenIntent
 }

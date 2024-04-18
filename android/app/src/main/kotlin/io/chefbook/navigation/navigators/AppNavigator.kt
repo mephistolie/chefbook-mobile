@@ -12,6 +12,7 @@ import com.ramcosta.composedestinations.navigation.popBackStack
 import io.chefbook.core.android.compose.providers.ContentType
 import io.chefbook.features.about.ui.destinations.AboutScreenDestination
 import io.chefbook.features.auth.navigation.AuthScreenNavigator
+import io.chefbook.features.profile.editing.ui.navigation.ProfileEditingScreenNavigator
 import io.chefbook.features.auth.ui.destinations.AuthScreenDestination
 import io.chefbook.features.category.ui.input.destinations.CategoryInputDialogDestination
 import io.chefbook.features.community.languages.ui.destinations.CommunityLanguagesScreenDestination
@@ -41,6 +42,7 @@ import io.chefbook.features.recipebook.category.ui.destinations.CategoryRecipesS
 import io.chefbook.features.recipebook.category.ui.navigation.CategoryRecipesScreenNavigator
 import io.chefbook.features.community.recipes.ui.screens.destinations.CommunityRecipesFilterScreenDestination
 import io.chefbook.features.community.recipes.ui.screens.destinations.CommunityRecipesTagGroupScreenDestination
+import io.chefbook.features.profile.deletion.ui.destinations.ProfileDeletionScreenDestination
 import io.chefbook.features.recipebook.categories.ui.destinations.CategoriesScreenDestination
 import io.chefbook.features.recipebook.creation.navigation.RecipeBookCreationScreenNavigator
 import io.chefbook.features.recipebook.creation.ui.destinations.RecipeBookCreationScreenDestination
@@ -55,7 +57,6 @@ import io.chefbook.features.settings.ui.destinations.SettingsScreenDestination
 import io.chefbook.features.shoppinglist.control.navigation.ShoppingListScreenNavigator
 import io.chefbook.features.shoppinglist.control.ui.screen.destinations.ShoppingListScreenDestination
 import io.chefbook.features.shoppinglist.purchases.input.ui.destinations.PurchaseInputDialogDestination
-import io.chefbook.libs.logger.Logger
 import io.chefbook.navigation.graphs.NavGraphs
 import io.chefbook.navigation.params.dialogs.OneButtonDialogParams
 import io.chefbook.navigation.params.dialogs.TwoButtonsDialogParams
@@ -78,6 +79,7 @@ class AppNavigator(
   DialogNavigator,
   SettingsScreenNavigator,
   AuthScreenNavigator,
+  ProfileEditingScreenNavigator,
   ShoppingListScreenNavigator,
   RecipeBookDashboardScreenNavigator,
   RecipeBookCreationScreenNavigator,
@@ -186,6 +188,10 @@ class AppNavigator(
 
   override fun openProfileEditingScreen() {
     navController.navigate(ProfileEditingScreenDestination)
+  }
+
+  override fun openProfileDeletionScreen() {
+    navController.navigate(ProfileDeletionScreenDestination)
   }
 
   override fun openAppSettingsScreen() {

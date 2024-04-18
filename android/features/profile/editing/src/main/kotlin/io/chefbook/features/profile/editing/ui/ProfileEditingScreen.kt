@@ -6,16 +6,16 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
 import io.chefbook.features.profile.editing.ui.mvi.ProfileEditingScreenEffect
-import io.chefbook.navigation.navigators.BaseNavigator
+import io.chefbook.features.profile.editing.ui.navigation.ProfileEditingScreenNavigator
 import io.chefbook.ui.common.dialogs.LoadingDialog
 import org.koin.androidx.compose.koinViewModel
 
 @Destination(route = "profile/edit")
 @Composable
 fun ProfileEditingScreen(
-  navigator: BaseNavigator,
+  navigator: ProfileEditingScreenNavigator,
 ) {
-  val viewModel: IProfileEditingScreenViewModel = koinViewModel<ProfileEditingScreenViewModel>()
+  val viewModel = koinViewModel<ProfileEditingScreenViewModel>()
   val state = viewModel.state.collectAsStateWithLifecycle()
 
   ProfileEditingScreenContent(
@@ -30,6 +30,7 @@ fun ProfileEditingScreen(
   LaunchedEffect(Unit) {
     viewModel.effect.collect { effect ->
       when (effect) {
+        is ProfileEditingScreenEffect.ProfileDeletionScreenOpened -> navigator.openProfileDeletionScreen()
         is ProfileEditingScreenEffect.Closed -> navigator.navigateUp()
       }
     }

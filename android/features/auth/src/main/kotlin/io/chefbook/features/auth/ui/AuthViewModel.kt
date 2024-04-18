@@ -16,10 +16,13 @@ import io.chefbook.libs.utils.auth.isEmail
 import io.chefbook.libs.utils.auth.isNickname
 import io.chefbook.libs.utils.auth.validatePassword
 import io.chefbook.sdk.auth.api.external.domain.usecases.ActivateProfileUseCase
+import io.chefbook.sdk.auth.api.external.domain.usecases.ObserveProfileDeletionUseCase
 import io.chefbook.sdk.auth.api.external.domain.usecases.RequestPasswordResetUseCase
 import io.chefbook.sdk.auth.api.external.domain.usecases.ResetPasswordUseCase
+import io.chefbook.sdk.auth.api.external.domain.usecases.RestoreProfileUseCase
 import io.chefbook.sdk.auth.api.external.domain.usecases.SignInGoogleUseCase
 import io.chefbook.sdk.auth.api.external.domain.usecases.SignInUseCase
+import io.chefbook.sdk.auth.api.external.domain.usecases.SignOutUseCase
 import io.chefbook.sdk.auth.api.external.domain.usecases.SignUpUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
@@ -39,6 +42,9 @@ internal class AuthViewModel(
   private val activateProfileUseCase: ActivateProfileUseCase,
   private val requestPasswordResetUseCase: RequestPasswordResetUseCase,
   private val resetPasswordUseCase: ResetPasswordUseCase,
+  private val observeProfileDeletionUseCase: ObserveProfileDeletionUseCase,
+  private val restoreProfileUseCase: RestoreProfileUseCase,
+  private val signOutUseCase: SignOutUseCase,
   private val googleAuthenticator: GoogleAuthenticator,
 ) : BaseMviViewModel<AuthScreenState, AuthScreenIntent, AuthScreenEffect>() {
 
@@ -60,7 +66,20 @@ internal class AuthViewModel(
     viewModelScope.launch {
       launch { googleAuthenticator.clearCredentialState() }
       if (userId.isNotBlank() && activationCode.isNotBlank()) activateProfile()
+      observeProfileDeletion()
     }
+  }
+
+  private suspend fun observeProfileDeletion() {
+    observeProfileDeletionUseCase()
+      .collectInViewModelScope { deletionTimestamp ->
+        when {
+          deletionTimestamp != null ->
+            _state.emit(AuthScreenState.ProfileRestoration(deletionTimestamp))
+
+          _state.value is AuthScreenState.ProfileRestoration -> _state.update { getSignInState() }
+        }
+      }
   }
 
   override suspend fun reduceIntent(intent: AuthScreenIntent) {
@@ -80,6 +99,7 @@ internal class AuthViewModel(
         this.passwordValidation = ""
         _state.update { getSignInPasswordState() }
       }
+
       is AuthScreenIntent.SignIn -> signIn()
 
       is AuthScreenIntent.SignInGoogleClicked -> signInGoogle(intent.context)
@@ -87,6 +107,10 @@ internal class AuthViewModel(
 
       is AuthScreenIntent.RequestPasswordReset -> requestPasswordReset()
       is AuthScreenIntent.ConfirmPasswordReset -> confirmPasswordReset()
+
+      is AuthScreenIntent.RestoreProfile -> restoreProfile()
+      is AuthScreenIntent.OpenSignOutConfirmationScreen -> _effect.emit(AuthScreenEffect.SignOutConfirmationScreenOpened)
+      is AuthScreenIntent.SignOut -> signOutUseCase()
     }
   }
 
@@ -139,16 +163,18 @@ internal class AuthViewModel(
       }
       .onFailure { e ->
         if (e is ServerException) {
-          when(e.type) {
+          when (e.type) {
             ServerException.PROFILE_EXISTS -> {
               showToast(coreR.string.common_general_server_error_profile_exists)
               return@onFailure _state.emit(getSignInState())
             }
+
             ServerException.PROFILE_BLOCKED -> {
               this.login = ""
               showToast(coreR.string.common_general_server_error_profile_blocked)
               return@onFailure _state.emit(getSignInState())
             }
+
             else -> e.message?.let { showToast(it) }
           }
         }
@@ -180,7 +206,10 @@ internal class AuthViewModel(
 
     _state.emit(AuthScreenState.Loading)
     signInUseCase.invoke(login, password)
-      .onSuccess { _effect.emit(AuthScreenEffect.DashboardOpened) }
+      .onSuccess { isSignedIn ->
+        if (!isSignedIn) return
+        _effect.emit(AuthScreenEffect.DashboardOpened)
+      }
       .onFailure { e ->
         this.password = ""
         this.passwordValidation = ""
@@ -189,15 +218,18 @@ internal class AuthViewModel(
             e.type == ServerException.INVALID_CREDENTIALS -> {
               showToast(io.chefbook.core.android.R.string.common_general_server_error_invalid_credentials)
             }
+
             e.type == ServerException.PROFILE_NOT_ACTIVATED -> {
               showToast(io.chefbook.core.android.R.string.common_general_server_error_profile_not_activated)
               return@onFailure _state.emit(getSignInState())
             }
+
             e.type == ServerException.PROFILE_BLOCKED -> {
               this.login = ""
               showToast(coreR.string.common_general_server_error_profile_blocked)
               return@onFailure _state.emit(getSignInState())
             }
+
             e.isServerSide -> {
               showToast(coreR.string.common_general_server_error)
             }
@@ -212,7 +244,10 @@ internal class AuthViewModel(
     googleAuthenticator.signInGoogle(activityContext)
       .onSuccess { token ->
         signInGoogleUseCase.invoke(token)
-          .onSuccess { _effect.emit(AuthScreenEffect.DashboardOpened) }
+          .onSuccess { isSignedIn ->
+            if (!isSignedIn) return
+            _effect.emit(AuthScreenEffect.DashboardOpened)
+          }
           .onFailure {
             googleAuthenticator.clearCredentialState()
           }
@@ -248,6 +283,13 @@ internal class AuthViewModel(
     // TODO
   }
 
+  private suspend fun restoreProfile() {
+    restoreProfileUseCase()
+      .onSuccess {
+        _effect.emit(AuthScreenEffect.DashboardOpened)
+      }
+  }
+
   private suspend fun showToast(messageId: Int) =
     _effect.emit(AuthScreenEffect.ToastShown(resources.getString(messageId)))
 
@@ -258,6 +300,7 @@ internal class AuthViewModel(
     _state.update { state ->
       when (state) {
         is AuthScreenState.Loading -> state
+        is AuthScreenState.ProfileRestoration -> state
         is AuthScreenState.SignIn -> getSignInState()
         is AuthScreenState.SignInPassword -> getSignInPasswordState()
         is AuthScreenState.PasswordReset -> getPasswordResetState()

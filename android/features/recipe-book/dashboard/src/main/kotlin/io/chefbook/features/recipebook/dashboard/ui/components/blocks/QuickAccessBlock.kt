@@ -45,7 +45,7 @@ internal fun LazyGridScope.quickAccessBlock(
                 .background(colors.backgroundPrimary, RoundedCornerShape28Top)
             } else it
           }
-          .padding(12.dp, if (drawDivider) 20.dp else 32.dp, 12.dp, 16.dp),
+          .padding(20.dp, if (drawDivider) 20.dp else 32.dp, 20.dp, 16.dp),
       )
     }
     item(
