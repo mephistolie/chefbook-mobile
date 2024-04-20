@@ -10,7 +10,7 @@ internal interface CategoryApiService {
 
   suspend fun getCategories(): Result<List<CategoryBody>>
 
-  suspend fun createCategory(category: CreateCategoryRequestBody): Result<CreateCategoryResponseBody>
+  suspend fun createCategory(body: CreateCategoryRequestBody): Result<CreateCategoryResponseBody>
 
   suspend fun getCategory(categoryId: String): Result<CategoryBody>
 

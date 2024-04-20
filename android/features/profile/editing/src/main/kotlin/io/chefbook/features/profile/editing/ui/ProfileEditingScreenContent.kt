@@ -46,11 +46,11 @@ internal fun ProfileEditingScreenContent(
         isValid = state.nicknameValid,
         hint = state.nicknameHint,
       )
-      Spacer(modifier = Modifier.height(12.dp))
+      Spacer(modifier = Modifier.height(16.dp))
     }
     MenuDivider()
     MenuGroup {
-      Spacer(modifier = Modifier.height(24.dp))
+      Spacer(modifier = Modifier.height(20.dp))
       NameInputBlock(
         firstName = state.firstName,
         onFirstNameChange = { onIntent(ProfileEditingScreenIntent.SetFirstName(it)) },
@@ -62,12 +62,13 @@ internal fun ProfileEditingScreenContent(
         description = state.description,
         onDescriptionChange = { onIntent(ProfileEditingScreenIntent.SetDescription(it)) },
       )
-      Spacer(modifier = Modifier.height(12.dp))
+      Spacer(modifier = Modifier.height(16.dp))
     }
     MenuDivider()
     MenuGroup(isLast = true) {
-      Spacer(modifier = Modifier.height(12.dp))
+      Spacer(modifier = Modifier.height(20.dp))
       ProfileDeleteButton { onIntent(ProfileEditingScreenIntent.DeleteProfile) }
+      Spacer(modifier = Modifier.height(16.dp))
     }
   }
 }

@@ -36,6 +36,8 @@ internal fun LazyGridScope.categoriesBlock(
   onCategoriesClick: () -> Unit,
   onCategoryClicked: (String) -> Unit,
 ) {
+  if (categories?.isEmpty() == true) return
+
   item(
     span = { GridItemSpan(4) }
   ) {

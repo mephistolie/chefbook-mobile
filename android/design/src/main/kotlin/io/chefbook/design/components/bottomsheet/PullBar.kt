@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.design.theme.shapes.RoundedCornerShape4
@@ -23,7 +24,7 @@ fun PullBar(
       .height(4.dp)
       .background(
         color = if (isInverted) {
-          LocalTheme.colors.backgroundPrimary.copy(alpha = 0.6F)
+          Color.White.copy(alpha = 0.6F)
         } else {
           LocalTheme.colors.foregroundPrimary.copy(alpha = 0.2F)
         },

@@ -54,7 +54,7 @@ fun CategoryRecipesScreen(
     viewModel.effect.collect { effect ->
       when (effect) {
         is CategoryScreenEffect.OpenRecipeScreen -> navigator.openRecipeScreen(recipeId = effect.recipeId)
-        is CategoryScreenEffect.OpenCategoryInputDialog -> navigator.openCategoryInputDialog(
+        is CategoryScreenEffect.OpenCategoryInputDialog -> navigator.openCategoryInputScreen(
           categoryId = effect.categoryId
         )
 

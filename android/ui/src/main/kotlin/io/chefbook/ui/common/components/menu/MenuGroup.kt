@@ -26,29 +26,25 @@ fun MenuGroup(
 ) {
   val colors = LocalTheme.colors
 
-  val sizePadding = if (isLast) modifier.fillMaxSize() else modifier.fillMaxWidth()
-  var finalPadding = sizePadding
-    .clippedBackground(
-      background = colors.backgroundPrimary,
-      shape = RoundedCornerShape(
-        topStart = if (isFirst) 0.dp else cornerRadius,
-        topEnd = if (isFirst) 0.dp else cornerRadius,
-        bottomStart = if (isLast) 0.dp else cornerRadius,
-        bottomEnd = if (isLast) 0.dp else cornerRadius,
-      )
-    )
-    .padding(
-      start = 16.dp,
-      top = if (isFirst) 0.dp else 10.dp,
-      end = 16.dp,
-      bottom = 10.dp,
-    )
-  if (isLast) finalPadding = finalPadding
-    .navigationBarsPadding()
-    .imePadding()
-
   Column(
-    modifier = finalPadding,
+    modifier = modifier
+      .run { if (isLast) fillMaxSize() else fillMaxWidth() }
+      .clippedBackground(
+        background = colors.backgroundPrimary,
+        shape = RoundedCornerShape(
+          topStart = if (isFirst) 0.dp else cornerRadius,
+          topEnd = if (isFirst) 0.dp else cornerRadius,
+          bottomStart = if (isLast) 0.dp else cornerRadius,
+          bottomEnd = if (isLast) 0.dp else cornerRadius,
+        )
+      )
+      .padding(
+        start = 16.dp,
+        top = if (isFirst) 0.dp else 10.dp,
+        end = 16.dp,
+        bottom = 10.dp,
+      )
+      .run { if (isLast) navigationBarsPadding() else this },
     horizontalAlignment = Alignment.CenterHorizontally,
   ) {
     content()

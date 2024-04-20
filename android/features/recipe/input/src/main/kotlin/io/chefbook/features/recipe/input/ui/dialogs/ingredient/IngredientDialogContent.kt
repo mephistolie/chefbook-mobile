@@ -38,6 +38,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.mephistolie.compost.modifiers.clippedBackground
+import io.chefbook.core.android.compose.composables.keyboardAsState
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.design.components.buttons.CircleIconButton
 import io.chefbook.design.components.buttons.DynamicButton
@@ -64,6 +65,9 @@ internal fun IngredientDialogContent(
   val keyboardController = LocalSoftwareKeyboardController.current
   val resources = LocalContext.current.resources
   val focusRequester = remember { FocusRequester() }
+  val focusRequested = remember { mutableStateOf(false) }
+
+  val isKeyboardVisible by keyboardAsState()
 
   val colors = LocalTheme.colors
   val typography = LocalTheme.typography
@@ -72,8 +76,8 @@ internal fun IngredientDialogContent(
 
   Column(
     modifier = Modifier
-      .imePadding()
       .clippedBackground(colors.backgroundPrimary, RoundedCornerShape28Top)
+      .imePadding()
       .padding(horizontal = 18.dp)
       .fillMaxWidth()
       .wrapContentHeight(),
@@ -93,10 +97,7 @@ internal fun IngredientDialogContent(
       )
       CircleIconButton(
         iconId = designR.drawable.ic_cross,
-        onClick = {
-          keyboardController?.hide()
-          onIntent(RecipeInputScreenIntent.CloseBottomSheet)
-        },
+        onClick = { keyboardController?.hide() },
         modifier = Modifier
           .padding(top = 18.dp)
           .size(28.dp),
@@ -198,9 +199,15 @@ internal fun IngredientDialogContent(
       }
     }
     Spacer(modifier = Modifier.height(12.dp))
+  }
 
-    LaunchedEffect(Unit) {
-      focusRequester.requestFocus()
+  LaunchedEffect(Unit) {
+    focusRequester.requestFocus()
+  }
+  LaunchedEffect(isKeyboardVisible) {
+    when {
+      !focusRequested.value && isKeyboardVisible -> focusRequested.value = true
+      focusRequested.value && !isKeyboardVisible -> onIntent(RecipeInputScreenIntent.CloseBottomSheet)
     }
   }
 }

@@ -26,7 +26,10 @@ fun RecipeBookCreationScreen(
     viewModel.effect.collect { effect ->
       when (effect) {
         RecipeBookCreationScreenEffect.RecipeInputScreenOpened -> navigator.openRecipeInputScreen()
-        RecipeBookCreationScreenEffect.CategoryInputScreenOpened -> navigator.openCategoryInputDialog()
+        RecipeBookCreationScreenEffect.CategoryInputScreenOpened -> {
+          navigator.navigateUp()
+          navigator.openCategoryInputScreen()
+        }
       }
     }
   }

@@ -6,5 +6,5 @@ interface RecipeBookCreationScreenNavigator : BaseNavigator {
 
   fun openRecipeInputScreen()
 
-  fun openCategoryInputDialog()
+  fun openCategoryInputScreen()
 }

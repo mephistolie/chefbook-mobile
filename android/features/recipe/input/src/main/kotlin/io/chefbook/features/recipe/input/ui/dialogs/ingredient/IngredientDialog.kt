@@ -23,8 +23,7 @@ internal fun IngredientDialog(
 ) {
   val state = viewModel.state.collectAsStateWithLifecycle()
 
-  val ingredient =
-      state.value.input.ingredients.find { it.id == ingredientId } as IngredientsItem.Ingredient
+  val ingredient = state.value.input.ingredients.find { it.id == ingredientId } as IngredientsItem.Ingredient
 
   IngredientDialogContent(
     state = ingredient,

@@ -16,7 +16,7 @@ internal class CategoryApiServiceImpl(
 
   override suspend fun getCategories(): Result<List<CategoryBody>> = safeGet(CATEGORIES_ROUTE)
 
-  override suspend fun createCategory(category: CreateCategoryRequestBody): Result<CreateCategoryResponseBody> =
+  override suspend fun createCategory(body: CreateCategoryRequestBody): Result<CreateCategoryResponseBody> =
     safePost(CATEGORIES_ROUTE) { setBody(body) }
 
   override suspend fun getCategory(categoryId: String): Result<CategoryBody> =

@@ -5,7 +5,7 @@ import com.ramcosta.composedestinations.spec.NavGraphSpec
 import com.ramcosta.composedestinations.spec.Route
 import io.chefbook.features.about.ui.destinations.AboutScreenDestination
 import io.chefbook.features.auth.ui.destinations.AuthScreenDestination
-import io.chefbook.features.category.ui.input.destinations.CategoryInputDialogDestination
+import io.chefbook.features.category.ui.input.destinations.CategoryInputScreenDestination
 import io.chefbook.features.community.languages.ui.destinations.CommunityLanguagesScreenDestination
 import io.chefbook.features.encryption.ui.vault.destinations.EncryptedVaultScreenDestination
 import io.chefbook.features.profile.control.ui.destinations.ProfileScreenDestination
@@ -139,7 +139,7 @@ object NavGraphs {
       DismissibleTwoButtonsDialogDestination,
       NonDismissibleTwoButtonsDialogDestination,
       PicturesViewerDestination,
-      CategoryInputDialogDestination,
+      CategoryInputScreenDestination,
     )
       .associateBy { it.route }
 

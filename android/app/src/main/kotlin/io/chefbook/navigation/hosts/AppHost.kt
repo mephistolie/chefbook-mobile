@@ -18,8 +18,8 @@ import com.ramcosta.composedestinations.scope.resultBackNavigator
 import com.ramcosta.composedestinations.scope.resultRecipient
 import io.chefbook.features.auth.ui.AuthScreen
 import io.chefbook.features.auth.ui.destinations.AuthScreenDestination
-import io.chefbook.features.category.ui.input.CategoryInputDialog
-import io.chefbook.features.category.ui.input.destinations.CategoryInputDialogDestination
+import io.chefbook.features.category.ui.input.CategoryInputScreen
+import io.chefbook.features.category.ui.input.destinations.CategoryInputScreenDestination
 import io.chefbook.features.profile.control.ui.ProfileScreen
 import io.chefbook.features.profile.control.ui.destinations.ProfileScreenDestination
 import io.chefbook.features.recipe.control.ui.RecipeControlScreen
@@ -88,7 +88,7 @@ fun AppHost(
         categoryId = navArgs.categoryId,
         isTag = navArgs.isTag,
         navigator = navigator,
-        categoryInputRecipient = resultRecipient<CategoryInputDialogDestination, CategoryActionResult>()
+        categoryInputRecipient = resultRecipient<CategoryInputScreenDestination, CategoryActionResult>()
       )
     }
     bottomSheetComposable(RecipeScreenDestination) {
@@ -120,8 +120,8 @@ fun AppHost(
         confirmDialogRecipient = resultRecipient<DismissibleTwoButtonsDialogDestination, TwoButtonsDialogResult>()
       )
     }
-    dialogComposable(CategoryInputDialogDestination) {
-      CategoryInputDialog(
+    dialogComposable(CategoryInputScreenDestination) {
+      CategoryInputScreen(
         categoryId = navArgs.categoryId,
         categoryInputDialogNavigator = navigator,
         categoryInputResultNavigator = resultBackNavigator(),

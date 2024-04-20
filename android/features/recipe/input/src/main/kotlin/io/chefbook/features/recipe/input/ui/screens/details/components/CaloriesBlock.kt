@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.dp
 import com.mephistolie.compost.modifiers.simpleClickable
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.design.components.buttons.DynamicButton
-import io.chefbook.design.theme.dimens.ButtonSmallHeight
+import io.chefbook.design.theme.dimens.ComponentSmallHeight
 import io.chefbook.features.recipe.input.R
 import io.chefbook.sdk.recipe.crud.api.external.domain.entities.RecipeInput
 import io.chefbook.core.android.R as coreR
@@ -84,7 +84,7 @@ internal fun CaloriesBlock(
         onClick = onCaloriesClick,
         modifier = Modifier
           .width(128.dp)
-          .height(ButtonSmallHeight),
+          .height(ComponentSmallHeight),
       )
     }
   }

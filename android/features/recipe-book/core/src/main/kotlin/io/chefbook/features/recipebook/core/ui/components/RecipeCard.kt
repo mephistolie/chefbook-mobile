@@ -74,7 +74,7 @@ fun RecipeCard(
         .scalingClickable(
           pressed = pressed,
           debounceInterval = 700L,
-        ) { onRecipeClick(recipe) }
+        ) { onRecipeClick(recipe) },
     ) {
       Box(
         contentAlignment = Alignment.TopEnd,

@@ -4,5 +4,5 @@ import io.chefbook.navigation.navigators.BaseNavigator
 
 interface CategoryRecipesScreenNavigator : BaseNavigator {
   fun openRecipeScreen(recipeId: String)
-  fun openCategoryInputDialog(categoryId: String? = null)
+  fun openCategoryInputScreen(categoryId: String? = null)
 }

@@ -34,7 +34,7 @@ import com.mephistolie.compost.modifiers.simpleClickable
 import io.chefbook.core.android.R as coreR
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.design.components.buttons.DynamicButton
-import io.chefbook.design.theme.dimens.ButtonSmallHeight
+import io.chefbook.design.theme.dimens.ComponentSmallHeight
 import io.chefbook.design.theme.dimens.DefaultIconSize
 import io.chefbook.design.theme.dimens.ToolbarHeight
 import io.chefbook.features.community.recipes.ui.mvi.CommunityRecipesScreenState
@@ -104,8 +104,8 @@ internal fun Toolbar(
         selectedForeground = colors.foregroundPrimary,
         selectedBackground = Color.Transparent,
         isSelected = true,
-        useSimpleClickable = true,
-        modifier = Modifier.height(ButtonSmallHeight),
+        disableScaling = true,
+        modifier = Modifier.height(ComponentSmallHeight),
         onClick = onLanguageClick,
         debounceInterval = 1000L,
       )
@@ -132,8 +132,8 @@ internal fun Toolbar(
         selectedForeground = colors.foregroundPrimary,
         selectedBackground = Color.Transparent,
         isSelected = true,
-        useSimpleClickable = true,
-        modifier = Modifier.height(ButtonSmallHeight),
+        disableScaling = true,
+        modifier = Modifier.height(ComponentSmallHeight),
         onClick = {},
       )
     }

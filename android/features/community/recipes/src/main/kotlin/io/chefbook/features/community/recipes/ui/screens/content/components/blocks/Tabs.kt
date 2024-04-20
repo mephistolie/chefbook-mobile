@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.dp
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.core.android.R as coreR
 import io.chefbook.design.components.buttons.DynamicButton
-import io.chefbook.design.theme.dimens.ButtonSmallHeight
+import io.chefbook.design.theme.dimens.ComponentSmallHeight
 import io.chefbook.features.community.recipes.ui.mvi.DashboardState
 import kotlinx.coroutines.launch
 
@@ -59,7 +59,7 @@ internal fun Tabs(
           unselectedBackground = colors.backgroundPrimary,
           modifier = Modifier
             .padding(start = if (index == 0) 12.dp else 0.dp)
-            .height(ButtonSmallHeight),
+            .height(ComponentSmallHeight),
           onClick = {
             scope.launch {
               scrollState.animateScrollToItem(index, scrollOffset = -startPadding)

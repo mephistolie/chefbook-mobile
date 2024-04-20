@@ -41,7 +41,7 @@ internal fun RecipeControlScreenContent(
 
   Column(
     modifier = Modifier
-      .background(colors.backgroundSecondary, RoundedCornerShape28Top)
+      .background(colors.backgroundPrimary, RoundedCornerShape28Top)
       .fillMaxWidth()
       .navigationBarsPadding()
       .padding(horizontal = 12.dp),

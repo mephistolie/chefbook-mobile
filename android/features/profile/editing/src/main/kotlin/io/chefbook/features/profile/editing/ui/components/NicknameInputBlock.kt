@@ -34,7 +34,7 @@ fun NicknameInputBlock(
   Text(
     text = stringResource(R.string.common_profile_editing_screen_nickname),
     modifier = Modifier
-      .padding(horizontal = 20.dp)
+      .padding(horizontal = 16.dp)
       .fillMaxWidth(),
     style = typography.h3,
     color = colors.foregroundPrimary,
@@ -44,7 +44,7 @@ fun NicknameInputBlock(
     value = nickname,
     onValueChange = onNicknameChange,
     modifier = Modifier
-      .padding(horizontal = 12.dp)
+      .padding(horizontal = 8.dp)
       .fillMaxWidth(),
     isError = !isValid,
     hint = stringResource(R.string.common_profile_editing_screen_nickname),
@@ -58,7 +58,7 @@ fun NicknameInputBlock(
       Text(
         text = hint.orEmpty(),
         modifier = Modifier
-          .padding(20.dp, 8.dp, 20.dp)
+          .padding(16.dp, 8.dp, 16.dp)
           .fillMaxWidth(),
         style = typography.body2,
         color = colors.foregroundSecondary,
@@ -67,7 +67,7 @@ fun NicknameInputBlock(
         Text(
           text = "$PROFILE_URL_PREFIX/$nickname",
           modifier = Modifier
-            .padding(horizontal = 20.dp)
+            .padding(horizontal = 16.dp)
             .fillMaxWidth(),
           style = typography.body2,
           color = colors.tintPrimary,

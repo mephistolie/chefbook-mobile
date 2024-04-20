@@ -82,7 +82,12 @@ sealed interface RecipeInfo {
 
     override val isEncrypted = false
 
-    override fun withSavedStatus(isSaved: Boolean) = copy(isSaved = isSaved)
+    override fun withSavedStatus(isSaved: Boolean) = copy(
+      isSaved = isSaved,
+      isFavourite = if (isSaved) isFavourite else false,
+      categories = if (isSaved) categories else emptyList(),
+    )
+
     override fun withCategories(categories: List<Category>) = copy(categories = categories)
     override fun withFavouriteStatus(isFavourite: Boolean) = copy(isFavourite = isFavourite)
 
@@ -110,7 +115,11 @@ sealed interface RecipeInfo {
   ) : RecipeInfo {
     override val isEncrypted = true
 
-    override fun withSavedStatus(isSaved: Boolean) = copy(isSaved = isSaved)
+    override fun withSavedStatus(isSaved: Boolean) = copy(
+      isSaved = isSaved,
+      isFavourite = if (isSaved) isFavourite else false,
+      categories = if (isSaved) categories else emptyList(),
+    )
     override fun withCategories(categories: List<Category>) = copy(categories = categories)
     override fun withFavouriteStatus(isFavourite: Boolean) = copy(isFavourite = isFavourite)
 

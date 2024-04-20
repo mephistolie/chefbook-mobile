@@ -49,12 +49,12 @@ internal fun RecipeActionButton(
       bottom = if (isLast) 8.dp else 0.dp,
     )
     .clippedBackground(
-      background = colors.backgroundPrimary,
+      background = colors.backgroundSecondary,
       shape = RoundedCornerShape(
-        if (isFirst) 16.dp else 0.dp,
-        if (isFirst) 16.dp else 0.dp,
-        if (isLast) 16.dp else 0.dp,
-        if (isLast) 16.dp else 0.dp,
+        if (isFirst) 20.dp else 0.dp,
+        if (isFirst) 20.dp else 0.dp,
+        if (isLast) 20.dp else 0.dp,
+        if (isLast) 20.dp else 0.dp,
       )
     )
     .scalingClickable(
@@ -67,7 +67,7 @@ internal fun RecipeActionButton(
     Row(
       modifier = Modifier
         .fillMaxWidth()
-        .padding(vertical = 12.dp, horizontal = 12.dp),
+        .padding(vertical = 16.dp, horizontal = 16.dp),
       horizontalArrangement = Arrangement.SpaceBetween,
       verticalAlignment = Alignment.CenterVertically,
     ) {

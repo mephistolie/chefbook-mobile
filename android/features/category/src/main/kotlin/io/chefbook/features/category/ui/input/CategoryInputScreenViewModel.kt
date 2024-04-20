@@ -1,9 +1,9 @@
 package io.chefbook.features.category.ui.input
 
 import androidx.lifecycle.viewModelScope
-import io.chefbook.features.category.ui.input.mvi.CategoryInputDialogEffect
-import io.chefbook.features.category.ui.input.mvi.CategoryInputDialogIntent
-import io.chefbook.features.category.ui.input.mvi.CategoryInputDialogState
+import io.chefbook.features.category.ui.input.mvi.CategoryInputScreenEffect
+import io.chefbook.features.category.ui.input.mvi.CategoryInputScreenIntent
+import io.chefbook.features.category.ui.input.mvi.CategoryInputScreenState
 import io.chefbook.libs.mvi.BaseMviViewModel
 import io.chefbook.sdk.category.api.external.domain.entities.CategoryInput
 import io.chefbook.sdk.category.api.external.domain.entities.toInput
@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-internal class CategoryInputDialogViewModel(
+internal class CategoryInputScreenViewModel(
   private val categoryId: String?,
 
   private val getCategoryUseCase: GetCategoryUseCase,
@@ -23,10 +23,10 @@ internal class CategoryInputDialogViewModel(
   private val updateCategoryUseCase: UpdateCategoryUseCase,
   private val deleteCategoryUseCase: DeleteCategoryUseCase,
 ) :
-  BaseMviViewModel<CategoryInputDialogState, CategoryInputDialogIntent, CategoryInputDialogEffect>() {
+  BaseMviViewModel<CategoryInputScreenState, CategoryInputScreenIntent, CategoryInputScreenEffect>() {
 
-  override val _state: MutableStateFlow<CategoryInputDialogState> =
-    MutableStateFlow(CategoryInputDialogState(isEditing = categoryId != null))
+  override val _state: MutableStateFlow<CategoryInputScreenState> =
+    MutableStateFlow(CategoryInputScreenState(isEditing = categoryId != null))
 
   init {
     categoryId?.let {
@@ -38,19 +38,25 @@ internal class CategoryInputDialogViewModel(
     }
   }
 
-  override suspend fun reduceIntent(intent: CategoryInputDialogIntent) {
+  override suspend fun reduceIntent(intent: CategoryInputScreenIntent) {
     when (intent) {
-      is CategoryInputDialogIntent.Cancel -> _effect.emit(CategoryInputDialogEffect.Cancel)
-      is CategoryInputDialogIntent.SetName -> setName(name = intent.name)
-      is CategoryInputDialogIntent.SetCover -> setCover(newCover = intent.cover)
-      is CategoryInputDialogIntent.ConfirmInput -> confirmInput()
-      is CategoryInputDialogIntent.Delete -> _effect.emit(CategoryInputDialogEffect.OpenDeleteConfirmation)
-      is CategoryInputDialogIntent.ConfirmDelete -> deleteCategory()
+      is CategoryInputScreenIntent.Cancel -> {
+        val state = state.value
+        val isProcessing = state.isSaving || state.isDeleting
+        if (!isProcessing) _effect.emit(CategoryInputScreenEffect.Cancel)
+      }
+
+      is CategoryInputScreenIntent.SetName -> setName(name = intent.name)
+      is CategoryInputScreenIntent.SetCover -> setCover(newCover = intent.cover)
+      is CategoryInputScreenIntent.ConfirmInput -> confirmInput()
+      is CategoryInputScreenIntent.Delete -> _effect.emit(CategoryInputScreenEffect.OpenDeleteConfirmation)
+      is CategoryInputScreenIntent.ConfirmDelete -> deleteCategory()
     }
   }
 
   private fun setName(name: String) {
-    val formattedName = if (name.length > MAX_NAME_LENGTH) name.substring(0, MAX_NAME_LENGTH) else name
+    val formattedName =
+      if (name.length > MAX_NAME_LENGTH) name.substring(0, MAX_NAME_LENGTH) else name
     _state.update { state -> state.copy(input = state.input.copy(name = formattedName)) }
   }
 
@@ -77,25 +83,28 @@ internal class CategoryInputDialogViewModel(
   private suspend fun createCategory(
     input: CategoryInput
   ) {
-    createCategoryUseCase(input = input).onSuccess { category ->
-      _effect.emit(CategoryInputDialogEffect.CategoryCreated(category))
-    }
+    _state.update { it.copy(isSaving = true) }
+    createCategoryUseCase(input = input)
+      .onSuccess { _effect.emit(CategoryInputScreenEffect.CategoryCreated(it)) }
+      .onFailure { _state.update { it.copy(isSaving = false) } }
   }
 
   private suspend fun updateCategory(
     categoryId: String,
     input: CategoryInput,
   ) {
-    updateCategoryUseCase(categoryId = categoryId, input = input).onSuccess { category ->
-      _effect.emit(CategoryInputDialogEffect.CategoryUpdated(category))
-    }
+    _state.update { it.copy(isSaving = true) }
+    updateCategoryUseCase(categoryId = categoryId, input = input)
+      .onSuccess { category -> _effect.emit(CategoryInputScreenEffect.CategoryUpdated(category)) }
+      .onFailure { _state.update { it.copy(isSaving = false) } }
   }
 
   private suspend fun deleteCategory() {
     categoryId?.let {
-      deleteCategoryUseCase(categoryId = categoryId).onSuccess {
-        _effect.emit(CategoryInputDialogEffect.CategoryDeleted(categoryId))
-      }
+      _state.update { it.copy(isDeleting = true) }
+      deleteCategoryUseCase(categoryId = categoryId)
+        .onSuccess { _effect.emit(CategoryInputScreenEffect.CategoryDeleted(categoryId)) }
+        .onFailure { _state.update { it.copy(isDeleting = false) } }
     }
   }
 

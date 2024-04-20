@@ -24,7 +24,7 @@ fun DescriptionInputBlock(
   Text(
     text = stringResource(R.string.common_profile_editing_screen_about_you),
     modifier = Modifier
-      .padding(horizontal = 20.dp)
+      .padding(horizontal = 16.dp)
       .fillMaxWidth(),
     style = typography.h3,
     color = colors.foregroundPrimary,
@@ -34,7 +34,7 @@ fun DescriptionInputBlock(
     value = description,
     onValueChange = onDescriptionChange,
     modifier = Modifier
-      .padding(horizontal = 12.dp)
+      .padding(horizontal = 8.dp)
       .fillMaxWidth(),
     minLines = 2,
     maxLines = Int.MAX_VALUE,

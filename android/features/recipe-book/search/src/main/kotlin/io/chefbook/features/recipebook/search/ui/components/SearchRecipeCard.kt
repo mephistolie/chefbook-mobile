@@ -30,6 +30,7 @@ import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.core.android.utils.EmojiUtils
 import io.chefbook.core.android.utils.minutesToTimeString
 import io.chefbook.design.components.images.EncryptedImage
+import io.chefbook.design.theme.dimens.ComponentMediumHeight
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.DecryptedRecipeInfo
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.RecipeInfo
 import io.chefbook.ui.common.providers.RecipeEncryptionProvider
@@ -58,7 +59,7 @@ internal fun SearchRecipeCard(
     Row(
       modifier = modifier
         .fillMaxWidth()
-        .height(48.dp)
+        .height(ComponentMediumHeight)
         .scalingClickable(
           pressed = pressed,
           debounceInterval = 500L

@@ -13,7 +13,6 @@ import io.chefbook.features.community.recipes.ui.mvi.CommunityRecipesScreenInten
 import io.chefbook.features.community.recipes.ui.screens.destinations.CommunityRecipesContentScreenDestination
 import io.chefbook.features.community.recipes.ui.viewmodel.CommunityRecipesScreenViewModel
 
-@OptIn(ExperimentalMaterialApi::class)
 @Destination("community/recipes")
 @Composable
 fun CommunityRecipesContentScreen(

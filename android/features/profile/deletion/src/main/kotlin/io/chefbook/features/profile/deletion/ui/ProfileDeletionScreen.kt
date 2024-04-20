@@ -21,7 +21,7 @@ fun ProfileDeletionScreen(
   val viewModel = koinViewModel<ProfileDeletionScreenViewModel>()
   val state = viewModel.state.collectAsStateWithLifecycle()
 
-  CategoryInputDialogContent(
+  ProfileDeletionScreenContent(
     state = state.value,
     onIntent = viewModel::handleIntent,
   )

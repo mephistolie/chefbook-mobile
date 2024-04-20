@@ -36,7 +36,7 @@ class HybridCryptorTest {
 
     val key = HybridCryptor.generateSymmetricKey()
 
-    val originStr = "test"
+    val originStr = TEST_STR
 
     val encryptedData = HybridCryptor.encryptDataBySymmetricKey(originStr.encodeToByteArray(), key)
     val decryptedData = HybridCryptor.decryptDataBySymmetricKey(encryptedData, key)
@@ -51,10 +51,10 @@ class HybridCryptorTest {
     AeadConfig.register()
     HybridConfig.register()
 
-    val passphare = "test_key"
+    val passphare = "test key"
     val salt = "salt"
 
-    val originStr = "test"
+    val originStr = TEST_STR
 
     val encryptionKey = HybridCryptor.generateSymmetricKey(passphare, salt.encodeToByteArray())
     val encryptedData = HybridCryptor.encryptDataBySymmetricKey(originStr.encodeToByteArray(), encryptionKey)
@@ -73,7 +73,7 @@ class HybridCryptorTest {
 
     val key = HybridCryptor.generateAsymmetricKey()
 
-    val originStr = "test"
+    val originStr = TEST_STR
 
     val encryptedData =
       HybridCryptor.encryptDataByAsymmetricKey(originStr.encodeToByteArray(), key.public)
@@ -121,5 +121,9 @@ class HybridCryptorTest {
       originKey.private.asPrivateKey().keysetInfo.primaryKeyId,
       processedKey.private.asPrivateKey().keysetInfo.primaryKeyId,
     )
+  }
+
+  companion object {
+    private const val TEST_STR = "Test Тест!#@$%^'*()ぁ \uD83E\uDD17 \uD83D\uDD25"
   }
 }

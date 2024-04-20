@@ -24,7 +24,6 @@ import io.chefbook.core.android.R
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.design.components.buttons.BottomSheetCloseButton
 import io.chefbook.design.theme.shapes.RoundedCornerShape28
-import io.chefbook.design.R as designR
 
 @Composable
 internal fun ShoppingListSelectorBar(

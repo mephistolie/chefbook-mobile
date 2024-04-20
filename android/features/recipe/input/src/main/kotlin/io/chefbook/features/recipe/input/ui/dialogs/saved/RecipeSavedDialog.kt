@@ -18,6 +18,6 @@ internal fun RecipeSavedDialog(
     onOpenRecipe = {
       viewModel.handleIntent(RecipeInputScreenIntent.Close(openRecipeScreen = true))
     },
-    onCloseInput = { viewModel.handleIntent(RecipeInputScreenIntent.Close(openRecipeScreen = true)) },
+    onCloseInput = { viewModel.handleIntent(RecipeInputScreenIntent.Close(openRecipeScreen = false)) },
   )
 }

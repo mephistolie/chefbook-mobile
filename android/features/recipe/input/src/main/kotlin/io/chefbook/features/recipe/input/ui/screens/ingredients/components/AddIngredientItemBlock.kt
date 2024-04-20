@@ -11,6 +11,7 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.design.components.buttons.DynamicButton
+import io.chefbook.design.theme.dimens.ComponentSmallHeight
 import io.chefbook.features.recipe.input.ui.mvi.RecipeInputIngredientsScreenIntent
 import io.chefbook.core.android.R as coreR
 import io.chefbook.design.R as designR
@@ -30,13 +31,13 @@ internal fun AddIngredientItemBlock(
       text = stringResource(coreR.string.common_general_section),
       cornerRadius = 12.dp,
       unselectedForeground = colors.foregroundPrimary,
-      modifier = Modifier.height(36.dp),
+      modifier = Modifier.height(ComponentSmallHeight),
       onClick = { onIntent(RecipeInputIngredientsScreenIntent.AddIngredientSection) })
     DynamicButton(leftIcon = ImageVector.vectorResource(designR.drawable.ic_add),
       text = stringResource(coreR.string.common_general_ingredient),
       cornerRadius = 12.dp,
       unselectedForeground = colors.foregroundPrimary,
-      modifier = Modifier.height(36.dp),
+      modifier = Modifier.height(ComponentSmallHeight),
       onClick = { onIntent(RecipeInputIngredientsScreenIntent.AddIngredient) })
   }
 }

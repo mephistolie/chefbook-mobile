@@ -42,14 +42,6 @@ fun AppScreen() {
   val appViewModel = koinViewModel<AppViewModel>()
   val appState = appViewModel.state.collectAsStateWithLifecycle()
 
-  val okHttpClient = koinInject<OkHttpClient>(named(HttpClient.ENCRYPTED_IMAGE))
-  val context = LocalContext.current
-  val imageLoader = remember {
-    ImageLoader.Builder(context)
-      .okHttpClient(okHttpClient)
-      .build()
-  }
-
   val sheetState = rememberModalBottomSheetState(
     animationSpec = SpringSpec(dampingRatio = 10F, stiffness = 100_000F),
     initialValue = ModalBottomSheetValue.Hidden,
@@ -86,8 +78,6 @@ fun AppScreen() {
   )
 
   LaunchedEffect(Unit) {
-    Coil.setImageLoader(imageLoader)
-
     appViewModel.effect.collect { effect ->
       if (appState.value.isSignedIn == null) return@collect
 

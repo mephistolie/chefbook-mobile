@@ -13,7 +13,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.core.android.utils.minutesToTimeString
-import io.chefbook.design.theme.dimens.ButtonSmallHeight
+import io.chefbook.design.theme.dimens.ComponentSmallHeight
 
 @Composable
 internal fun ServingsBlock(
@@ -27,7 +27,7 @@ internal fun ServingsBlock(
   Row(
     modifier = Modifier
       .fillMaxWidth()
-      .height(ButtonSmallHeight),
+      .height(ComponentSmallHeight),
     verticalAlignment = Alignment.CenterVertically
   ) {
     Text(

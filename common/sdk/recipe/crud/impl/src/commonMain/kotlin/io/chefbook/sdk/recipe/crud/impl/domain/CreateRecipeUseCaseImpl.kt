@@ -29,9 +29,9 @@ internal class CreateRecipeUseCaseImpl(
           .getOrNull()
       }
 
-      val createRecipeResult = recipeRepository.createRecipe(input, recipeKey)
-      if (createRecipeResult.isFailure) return@withContext Result.failure(createRecipeResult.exceptionOrNull()!!)
-      val recipeId = createRecipeResult.getOrThrow()
+      val recipeId = recipeRepository.createRecipe(input, recipeKey)
+        .onFailure { return@withContext Result.failure(it) }
+        .getOrThrow()
 
       if (recipeKey != null && vaultKey != null) {
         encryptionRepository.setRecipeKey(recipeId, recipeKey, vaultKey).onFailure { e ->

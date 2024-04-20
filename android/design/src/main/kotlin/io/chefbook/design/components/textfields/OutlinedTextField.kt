@@ -29,7 +29,7 @@ import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.design.R
 import io.chefbook.design.theme.ChefBookTheme
 import io.chefbook.design.theme.colors.Red
-import io.chefbook.design.theme.shapes.RoundedCornerShape16
+import io.chefbook.design.theme.shapes.RoundedCornerShape20
 
 @Composable
 fun OutlinedTextField(
@@ -93,7 +93,7 @@ fun OutlinedTextField(
     singleLine = maxLines == 1,
     minLines = minLines,
     maxLines = maxLines,
-    shape = RoundedCornerShape16,
+    shape = RoundedCornerShape20,
     colors = TextFieldDefaults.outlinedTextFieldColors(
       textColor = colors.foregroundPrimary,
       cursorColor = colors.tintPrimary,

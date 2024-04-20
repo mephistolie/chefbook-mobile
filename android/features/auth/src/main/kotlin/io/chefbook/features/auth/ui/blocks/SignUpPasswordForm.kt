@@ -14,6 +14,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.design.components.buttons.DynamicButton
+import io.chefbook.design.theme.dimens.ComponentBigHeight
 import io.chefbook.features.auth.R
 import io.chefbook.features.auth.ui.components.PasswordInputField
 import io.chefbook.features.auth.ui.mvi.AuthScreenIntent
@@ -55,7 +56,7 @@ internal fun SignUpPasswordForm(
     textStyle = typography.headline1,
     modifier = Modifier
       .fillMaxWidth()
-      .height(58.dp),
+      .height(ComponentBigHeight),
   )
 
   LaunchedEffect(Unit) {

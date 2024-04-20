@@ -29,7 +29,7 @@ fun NameInputBlock(
   Text(
     text = stringResource(R.string.common_profile_editing_screen_first_and_last_name),
     modifier = Modifier
-      .padding(horizontal = 20.dp)
+      .padding(horizontal = 16.dp)
       .fillMaxWidth(),
     style = typography.h3,
     color = colors.foregroundPrimary,
@@ -39,7 +39,7 @@ fun NameInputBlock(
     value = firstName,
     onValueChange = onFirstNameChange,
     modifier = Modifier
-      .padding(horizontal = 12.dp)
+      .padding(horizontal = 8.dp)
       .fillMaxWidth(),
     keyboardOptions = KeyboardOptions(
       keyboardType = KeyboardType.Text,
@@ -52,7 +52,7 @@ fun NameInputBlock(
     value = lastName,
     onValueChange = onLastNameChange,
     modifier = Modifier
-      .padding(horizontal = 12.dp)
+      .padding(horizontal = 8.dp)
       .fillMaxWidth(),
     hint = stringResource(R.string.common_profile_editing_screen_last_name),
   )
