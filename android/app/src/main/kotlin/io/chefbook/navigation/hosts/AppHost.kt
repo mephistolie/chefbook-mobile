@@ -6,13 +6,20 @@ import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import io.chefbook.navigation.graphs.NavGraphs
-import io.chefbook.navigation.hosts.dependencies.RecipeInputScreenDependencies
-import io.chefbook.navigation.hosts.dependencies.RecipeScreenDependencies
-import io.chefbook.navigation.navigators.AppNavigator
 import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
-import io.chefbook.features.category.ui.input.CategoryInputDialog
-import io.chefbook.features.category.ui.input.destinations.CategoryInputDialogDestination
+import com.ramcosta.composedestinations.DestinationsNavHost
+import com.ramcosta.composedestinations.animations.defaults.RootNavGraphDefaultAnimations
+import com.ramcosta.composedestinations.animations.manualcomposablecalls.bottomSheetComposable
+import com.ramcosta.composedestinations.animations.rememberAnimatedNavHostEngine
+import com.ramcosta.composedestinations.manualcomposablecalls.composable
+import com.ramcosta.composedestinations.manualcomposablecalls.dialogComposable
+import com.ramcosta.composedestinations.navigation.dependency
+import com.ramcosta.composedestinations.scope.resultBackNavigator
+import com.ramcosta.composedestinations.scope.resultRecipient
+import io.chefbook.features.auth.ui.AuthScreen
+import io.chefbook.features.auth.ui.destinations.AuthScreenDestination
+import io.chefbook.features.category.ui.input.CategoryInputScreen
+import io.chefbook.features.category.ui.input.destinations.CategoryInputScreenDestination
 import io.chefbook.features.profile.control.ui.ProfileScreen
 import io.chefbook.features.profile.control.ui.destinations.ProfileScreenDestination
 import io.chefbook.features.recipe.control.ui.RecipeControlScreen
@@ -24,28 +31,27 @@ import io.chefbook.features.recipe.input.ui.screens.details.RecipeInputDetailsSc
 import io.chefbook.features.recipe.input.ui.viewmodel.RecipeInputScreenViewModel
 import io.chefbook.features.recipebook.category.ui.CategoryRecipesScreen
 import io.chefbook.features.recipebook.category.ui.destinations.CategoryRecipesScreenDestination
-import io.chefbook.ui.common.dialogs.destinations.DismissibleTwoButtonsDialogDestination
-import com.ramcosta.composedestinations.DestinationsNavHost
-import com.ramcosta.composedestinations.animations.defaults.RootNavGraphDefaultAnimations
-import com.ramcosta.composedestinations.animations.manualcomposablecalls.bottomSheetComposable
-import com.ramcosta.composedestinations.animations.rememberAnimatedNavHostEngine
-import com.ramcosta.composedestinations.manualcomposablecalls.composable
-import com.ramcosta.composedestinations.manualcomposablecalls.dialogComposable
-import com.ramcosta.composedestinations.navigation.dependency
-import com.ramcosta.composedestinations.scope.resultBackNavigator
-import com.ramcosta.composedestinations.scope.resultRecipient
+import io.chefbook.features.recipebook.dashboard.ui.destinations.DashboardScreenDestination as RecipeBookDashboardScreenDestination
+import io.chefbook.navigation.graphs.NavGraphs
+import io.chefbook.navigation.hosts.dependencies.CommunityRecipesScreen
+import io.chefbook.navigation.hosts.dependencies.RecipeInputScreenDependencies
+import io.chefbook.navigation.hosts.dependencies.RecipeScreenDependencies
+import io.chefbook.navigation.navigators.AppNavigator
 import io.chefbook.navigation.results.category.CategoryActionResult
 import io.chefbook.navigation.results.dialogs.TwoButtonsDialogResult
-import org.koin.androidx.compose.getViewModel
+import io.chefbook.ui.common.dialogs.destinations.DismissibleTwoButtonsDialogDestination
+import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
 
-@OptIn(ExperimentalAnimationApi::class, ExperimentalMaterialNavigationApi::class)
+@OptIn(ExperimentalMaterialNavigationApi::class, ExperimentalAnimationApi::class)
 @Composable
 fun AppHost(
+  isSignedIn: Boolean,
   navigator: AppNavigator,
 ) {
   DestinationsNavHost(
     navGraph = NavGraphs.root,
+    startRoute = if (isSignedIn) RecipeBookDashboardScreenDestination else AuthScreenDestination,
     engine = rememberAnimatedNavHostEngine(
       rootDefaultAnimations = RootNavGraphDefaultAnimations(
         enterTransition = { slideInHorizontally(animationSpec = tween(300)) { it } },
@@ -59,8 +65,18 @@ fun AppHost(
       dependency(navigator)
       RecipeScreenDependencies()
       RecipeInputScreenDependencies()
+      CommunityRecipesScreen()
     }
   ) {
+    composable(AuthScreenDestination) {
+      AuthScreen(
+        userId = navArgs.userId,
+        activationCode = navArgs.activationCode,
+        passwordResetCode = navArgs.passwordResetCode,
+        navigator = navigator,
+        confirmDialogRecipient = resultRecipient<DismissibleTwoButtonsDialogDestination, TwoButtonsDialogResult>()
+      )
+    }
     composable(ProfileScreenDestination) {
       ProfileScreen(
         navigator = navigator,
@@ -70,8 +86,9 @@ fun AppHost(
     composable(CategoryRecipesScreenDestination) {
       CategoryRecipesScreen(
         categoryId = navArgs.categoryId,
+        isTag = navArgs.isTag,
         navigator = navigator,
-        categoryInputRecipient = resultRecipient<CategoryInputDialogDestination, CategoryActionResult>()
+        categoryInputRecipient = resultRecipient<CategoryInputScreenDestination, CategoryActionResult>()
       )
     }
     bottomSheetComposable(RecipeScreenDestination) {
@@ -96,15 +113,15 @@ fun AppHost(
       }
       val recipeId = parentEntry.arguments?.getString(NavGraphs.RECIPE_ID_ARGUMENT)
       RecipeInputDetailsScreen(
-        viewModel = getViewModel<RecipeInputScreenViewModel>(viewModelStoreOwner = parentEntry) {
+        viewModel = koinViewModel<RecipeInputScreenViewModel>(viewModelStoreOwner = parentEntry) {
           parametersOf(recipeId)
         },
         navigator = navigator,
         confirmDialogRecipient = resultRecipient<DismissibleTwoButtonsDialogDestination, TwoButtonsDialogResult>()
       )
     }
-    dialogComposable(CategoryInputDialogDestination) {
-      CategoryInputDialog(
+    dialogComposable(CategoryInputScreenDestination) {
+      CategoryInputScreen(
         categoryId = navArgs.categoryId,
         categoryInputDialogNavigator = navigator,
         categoryInputResultNavigator = resultBackNavigator(),

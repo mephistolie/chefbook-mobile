@@ -1,6 +1,7 @@
 package io.chefbook.sdk.profile.impl.data.sources.local.datastore.dto
 
 import io.chefbook.sdk.profile.api.external.domain.entities.Profile
+import io.chefbook.sdk.profile.api.external.domain.entities.SubscriptionPlan
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -10,14 +11,18 @@ data class ProfileSerializable(
   val id: String = Profile.LOCAL_PROFILE_ID,
   @SerialName("email")
   val email: String? = null,
-  @SerialName("username")
-  val username: String? = null,
+  @SerialName("nickname")
+  val nickname: String? = null,
+  @SerialName("firstName")
+  val firstName: String? = null,
+  @SerialName("lastName")
+  val lastName: String? = null,
   @SerialName("creationTimestamp")
   val creationTimestamp: String? = null,
   @SerialName("avatar")
   val avatar: String? = null,
-  @SerialName("premium")
-  val premium: Boolean = false,
+  @SerialName("subscriptionPlan")
+  val subscriptionPlan: SubscriptionPlan = SubscriptionPlan.FREE,
   @SerialName("broccoins")
   val broccoins: Int = 0,
   @SerialName("isOnline")
@@ -28,10 +33,12 @@ fun ProfileSerializable.toEntity() =
   Profile(
     id = id,
     email = email,
-    username = username,
+    nickname = nickname,
+    firstName = firstName,
+    lastName = lastName,
     creationTimestamp = creationTimestamp,
     avatar = avatar,
-    premium = premium,
+    subscriptionPlan = subscriptionPlan,
     broccoins = broccoins,
     isOnline = isOnline
   )
@@ -40,10 +47,12 @@ fun Profile.toSerializable() =
   ProfileSerializable(
     id = id,
     email = email,
-    username = username,
+    nickname = nickname,
+    firstName = firstName,
+    lastName = lastName,
     creationTimestamp = creationTimestamp,
     avatar = avatar,
-    premium = premium,
+    subscriptionPlan = subscriptionPlan,
     broccoins = broccoins,
     isOnline = isOnline
   )

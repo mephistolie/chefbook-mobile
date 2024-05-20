@@ -4,10 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.net.Uri
 import androidx.lifecycle.viewModelScope
-import io.chefbook.sdk.recipe.core.api.external.domain.entities.DecryptedRecipe
-import io.chefbook.sdk.recipe.crud.api.external.domain.usecases.CreateRecipeUseCase
-import io.chefbook.sdk.recipe.crud.api.external.domain.usecases.GetRecipeUseCase
-import io.chefbook.sdk.recipe.crud.api.external.domain.usecases.UpdateRecipeUseCase
 import io.chefbook.features.recipe.input.ui.mvi.RecipeInputScreenEffect
 import io.chefbook.features.recipe.input.ui.mvi.RecipeInputScreenIntent
 import io.chefbook.features.recipe.input.ui.mvi.RecipeInputScreenState
@@ -18,7 +14,11 @@ import io.chefbook.libs.utils.uuid.generateUUID
 import io.chefbook.sdk.encryption.vault.api.external.domain.entities.EncryptedVaultState
 import io.chefbook.sdk.encryption.vault.api.external.domain.usecases.GetEncryptedVaultStateUseCase
 import io.chefbook.sdk.encryption.vault.api.external.domain.usecases.ObserveEncryptedVaultStateUseCase
+import io.chefbook.sdk.recipe.core.api.external.domain.entities.DecryptedRecipe
+import io.chefbook.sdk.recipe.crud.api.external.domain.usecases.CreateRecipeUseCase
 import io.chefbook.sdk.recipe.crud.api.external.domain.usecases.DeleteRecipeInputPictureUseCase
+import io.chefbook.sdk.recipe.crud.api.external.domain.usecases.GetRecipeUseCase
+import io.chefbook.sdk.recipe.crud.api.external.domain.usecases.UpdateRecipeUseCase
 import io.chefbook.sdk.settings.api.external.domain.usecases.GetDefaultRecipeLanguageUseCase
 import io.chefbook.sdk.settings.api.external.domain.usecases.SetDefaultRecipeLanguageUseCase
 import kotlinx.coroutines.NonCancellable
@@ -29,8 +29,6 @@ import kotlinx.coroutines.launch
 import java.io.File
 
 private const val BOTTOM_SHEET_HIDE_ANIMATION_DURATION = 200L
-
-internal typealias IRecipeInputScreenViewModel = MviViewModel<RecipeInputScreenState, RecipeInputScreenIntent, RecipeInputScreenEffect>
 
 @SuppressLint("StaticFieldLeak")
 class RecipeInputScreenViewModel(
@@ -132,10 +130,10 @@ class RecipeInputScreenViewModel(
 
     _state.emit(currentState.copy(isLoading = true))
     if (recipeId == null) {
-      createRecipeUseCase(currentState.input)
+      createRecipeUseCase(currentState.input.trim())
         .onSuccess { _effect.emit(RecipeInputScreenEffect.OnSaved) }
     } else {
-      updateRecipeUseCase(currentState.input)
+      updateRecipeUseCase(currentState.input.trim())
         .onSuccess { closeInput(openRecipeScreen = true) }
     }
     _state.emit(currentState)

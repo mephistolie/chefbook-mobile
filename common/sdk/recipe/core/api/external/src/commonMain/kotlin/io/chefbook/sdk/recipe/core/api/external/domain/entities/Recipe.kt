@@ -39,6 +39,8 @@ sealed class Recipe(
   val rating
     get() = info.rating
 
+  val tags
+    get() = info.tags
   val categories
     get() = info.categories
   val isFavourite
@@ -70,7 +72,6 @@ sealed class Recipe(
   abstract fun withId(id: String): Recipe
   abstract fun withScore(score: Int?): Recipe
   abstract fun withVersion(version: Int): Recipe
-
 
   data class Decrypted(
     override val info: DecryptedRecipeInfo,
@@ -108,7 +109,7 @@ sealed class Recipe(
       data class Ingredient(
         override val id: String,
         val name: String,
-        val amount: Int? = null,
+        val amount: Float? = null,
         val measureUnit: MeasureUnit? = null,
         val recipeId: String? = null,
       ) : IngredientsItem(id)

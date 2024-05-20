@@ -1,16 +1,14 @@
 package io.chefbook.features.recipebook.favourite.ui
 
 import androidx.lifecycle.viewModelScope
-import io.chefbook.sdk.recipe.core.api.external.domain.entities.DecryptedRecipeInfo
-import io.chefbook.sdk.recipe.book.api.external.domain.usecases.ObserveRecipeBookUseCase
-import io.chefbook.libs.mvi.BaseMviViewModel
 import io.chefbook.features.recipebook.favourite.ui.mvi.FavouriteRecipesScreenEffect
 import io.chefbook.features.recipebook.favourite.ui.mvi.FavouriteRecipesScreenIntent
 import io.chefbook.features.recipebook.favourite.ui.mvi.FavouriteRecipesScreenState
+import io.chefbook.libs.mvi.BaseMviViewModel
+import io.chefbook.sdk.recipe.book.api.external.domain.usecases.ObserveRecipeBookUseCase
+import io.chefbook.sdk.recipe.core.api.external.domain.entities.DecryptedRecipeInfo
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
-
-internal typealias IFavouriteRecipesScreenViewModel = BaseMviViewModel<FavouriteRecipesScreenState, FavouriteRecipesScreenIntent, FavouriteRecipesScreenEffect>
 
 internal class FavouriteRecipesScreenViewModel(
   private val observeRecipeBookUseCase: ObserveRecipeBookUseCase,

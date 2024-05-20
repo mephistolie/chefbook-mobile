@@ -6,6 +6,7 @@ import io.chefbook.sdk.recipe.crud.api.external.domain.usecases.DeleteRecipeInpu
 import io.chefbook.sdk.recipe.crud.api.external.domain.usecases.DeleteRecipeUseCase
 import io.chefbook.sdk.recipe.crud.api.external.domain.usecases.GetRecipeUseCase
 import io.chefbook.sdk.recipe.crud.api.external.domain.usecases.ObserveRecipeUseCase
+import io.chefbook.sdk.recipe.crud.api.external.domain.usecases.ObserveRecipesUseCase
 import io.chefbook.sdk.recipe.crud.api.external.domain.usecases.UpdateRecipeUseCase
 import io.chefbook.sdk.recipe.crud.api.internal.data.sources.RecipeCrudSource
 import io.chefbook.sdk.recipe.crud.api.internal.data.sources.local.LocalRecipeCrudSource
@@ -28,6 +29,7 @@ import io.chefbook.sdk.recipe.crud.impl.domain.DeleteRecipeInputPictureUseCaseIm
 import io.chefbook.sdk.recipe.crud.impl.domain.DeleteRecipeUseCaseImpl
 import io.chefbook.sdk.recipe.crud.impl.domain.GetRecipeUseCaseImpl
 import io.chefbook.sdk.recipe.crud.impl.domain.ObserveRecipeUseCaseImpl
+import io.chefbook.sdk.recipe.crud.impl.domain.ObserveRecipesUseCaseImpl
 import io.chefbook.sdk.recipe.crud.impl.domain.UpdateRecipeUseCaseImpl
 import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.singleOf
@@ -56,6 +58,7 @@ val sdkRecipeCrudModule = module {
       profileRepository = get(),
       sources = get(),
       cryptor = get(),
+      scopes = get(),
     )
   }
   single<RecipePictureRepository> {
@@ -69,6 +72,7 @@ val sdkRecipeCrudModule = module {
     )
   }
 
+  factoryOf(::ObserveRecipesUseCaseImpl) bind ObserveRecipesUseCase::class
   factoryOf(::ObserveRecipeUseCaseImpl) bind ObserveRecipeUseCase::class
   factoryOf(::GetRecipeUseCaseImpl) bind GetRecipeUseCase::class
   factoryOf(::CreateRecipeUseCaseImpl) bind CreateRecipeUseCase::class

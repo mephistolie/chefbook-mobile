@@ -42,7 +42,7 @@ internal class RecipeEncryptionRepositoryImpl(
     val encryptedRecipeKey = HybridCryptor.encryptSymmetricKeyByPublicKey(recipeKey, vaultKey)
     return if (sources.isRemoteSourceEnabled()) {
       remoteSource.setRecipeKey(recipeId, encryptedRecipeKey)
-        .onSuccess {  localSource.setRecipeKey(recipeId, encryptedRecipeKey) }
+        .onSuccess { localSource.setRecipeKey(recipeId, encryptedRecipeKey) }
     } else {
       localSource.setRecipeKey(recipeId, encryptedRecipeKey)
     }

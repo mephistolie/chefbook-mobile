@@ -5,7 +5,6 @@ import android.util.Log
 import org.jetbrains.annotations.NonNls
 import java.io.PrintWriter
 import java.io.StringWriter
-import java.util.ArrayList
 import java.util.Collections
 import java.util.Collections.unmodifiableList
 import java.util.regex.Pattern
@@ -136,12 +135,8 @@ internal class Timber private constructor() {
       prepareLog(priority, t, null)
     }
 
-    /** Return whether a message at `priority` should be logged. */
-    @Deprecated("Use isLoggable(String, int)", ReplaceWith("this.isLoggable(null, priority)"))
-    protected open fun isLoggable(priority: Int) = true
-
     /** Return whether a message at `priority` or `tag` should be logged. */
-    protected open fun isLoggable(tag: String?, priority: Int) = isLoggable(priority)
+    protected open fun isLoggable(tag: String?, priority: Int) = true
 
     private fun prepareLog(priority: Int, t: Throwable?, message: String?, vararg args: Any?) {
       // Consume tag even when message is not loggable so that next message is correctly tagged.

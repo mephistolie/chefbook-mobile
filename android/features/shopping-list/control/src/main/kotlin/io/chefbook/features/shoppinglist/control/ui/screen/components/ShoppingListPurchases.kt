@@ -8,7 +8,6 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import io.chefbook.features.shoppinglist.control.ui.screen.state.ShoppingListSection
-import io.chefbook.libs.utils.uuid.generateUUID
 
 internal fun LazyListScope.shoppingListPurchases(
   shoppingList: List<ShoppingListSection>,
@@ -29,6 +28,5 @@ internal fun LazyListScope.shoppingListPurchases(
       modifier = Modifier.padding(bottom = if (index < shoppingList.lastIndex) 6.dp else 0.dp)
     )
   }
-  item { Spacer(modifier = Modifier.height(shoppingListActionBarHeight + 8.dp)) }
 }
 

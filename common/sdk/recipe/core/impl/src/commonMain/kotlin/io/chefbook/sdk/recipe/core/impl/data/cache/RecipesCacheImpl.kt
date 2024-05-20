@@ -4,9 +4,9 @@ import io.chefbook.libs.coroutines.CoroutineScopes
 import io.chefbook.libs.logger.Logger
 import io.chefbook.sdk.category.api.internal.data.cache.CategoriesCacheReader
 import io.chefbook.sdk.recipe.book.api.external.domain.entities.RecipeBook
+import io.chefbook.sdk.recipe.book.api.internal.data.cache.RecipeBookCache
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.Recipe
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.RecipeInfo
-import io.chefbook.sdk.recipe.book.api.internal.data.cache.RecipeBookCache
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,8 +17,6 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.sync.Mutex
-import kotlinx.coroutines.sync.withLock
 
 internal class RecipesCacheImpl(
   private val categoriesCache: CategoriesCacheReader,
@@ -45,6 +43,9 @@ internal class RecipesCacheImpl(
     }
   }
     .shareIn(scopes.repository, started = SharingStarted.Lazily, replay = 1)
+
+  override fun observeRecipes() =
+    cachedRecipeMap
 
   override fun observeRecipeBook(): Flow<RecipeBook?> =
     cachedRecipeBook

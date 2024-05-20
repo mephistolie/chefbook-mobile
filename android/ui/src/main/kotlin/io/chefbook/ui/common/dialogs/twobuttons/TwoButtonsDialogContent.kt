@@ -1,30 +1,26 @@
 package io.chefbook.ui.common.dialogs.twobuttons
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material.Surface
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
+import io.chefbook.design.R
 import io.chefbook.design.components.buttons.DynamicButton
 import io.chefbook.design.theme.ChefBookTheme
-import io.chefbook.design.theme.shapes.DialogShape
+import io.chefbook.design.theme.dimens.ComponentMediumHeight
+import io.chefbook.ui.common.dialogs.StandardDialog
 import io.chefbook.core.android.R as coreR
-import io.chefbook.design.R
 
 @Composable
 internal fun TwoButtonsDialogContent(
@@ -40,37 +36,15 @@ internal fun TwoButtonsDialogContent(
   isRightButtonPrimary: Boolean = true,
 ) {
   val colors = LocalTheme.colors
-  val typography = LocalTheme.typography
 
-  Column(
-    modifier = Modifier
-      .fillMaxWidth()
-      .wrapContentHeight()
-      .padding(12.dp)
-      .background(color = colors.backgroundPrimary, shape = DialogShape)
-      .padding(12.dp, 20.dp, 12.dp, 12.dp),
-    horizontalAlignment = Alignment.CenterHorizontally,
+  StandardDialog(
+    title = title,
+    description = description
   ) {
-    Text(
-      text = title,
-      style = typography.h3,
-      color = colors.foregroundPrimary,
-      textAlign = TextAlign.Center,
-    )
-    description?.let {
-      Text(
-        text = description,
-        style = typography.body1,
-        color = colors.foregroundSecondary,
-        textAlign = TextAlign.Center,
-        modifier = Modifier.padding(top = 12.dp)
-      )
-    }
     Row(
       modifier = Modifier
         .fillMaxWidth()
-        .wrapContentHeight()
-        .padding(top = 32.dp),
+        .wrapContentHeight(),
       horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
       DynamicButton(
@@ -81,8 +55,8 @@ internal fun TwoButtonsDialogContent(
         modifier = Modifier
           .weight(1F)
           .fillMaxWidth()
-          .height(48.dp),
-        useSimpleClickable = true,
+          .height(ComponentMediumHeight),
+        disableScaling = true,
         onClick = onLeftClick,
       )
       DynamicButton(
@@ -93,8 +67,7 @@ internal fun TwoButtonsDialogContent(
         modifier = Modifier
           .weight(1F)
           .fillMaxWidth()
-          .height(48.dp),
-        useSimpleClickable = true,
+          .height(ComponentMediumHeight),
         onClick = onRightClick,
       )
     }

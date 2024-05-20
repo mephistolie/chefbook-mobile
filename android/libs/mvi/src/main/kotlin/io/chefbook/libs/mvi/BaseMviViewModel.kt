@@ -3,13 +3,14 @@ package io.chefbook.libs.mvi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import io.chefbook.libs.coroutines.collectIn
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -72,10 +73,14 @@ abstract class BaseMviViewModel<State : MviState, Intent : MviIntent, Effect : M
   override val state: StateFlow<State> get() = _state.asStateFlow()
 
   fun <T> Flow<T>.collectInViewModelScope(action: suspend (T) -> Unit) =
-    this.collectIn(viewModelScope, action)
+    this
+      .flowOn(Dispatchers.IO)
+      .collectIn(viewModelScope, action)
 
   fun <T> Flow<T>.collectState(action: suspend (State, T) -> State) =
-    this.collectIn(viewModelScope) { value ->
+    this
+      .flowOn(Dispatchers.IO)
+      .collectIn(viewModelScope) { value ->
       _state.update { lastState -> action(lastState, value) }
     }
 }

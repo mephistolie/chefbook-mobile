@@ -1,7 +1,7 @@
 package io.chefbook.features.recipe.control.ui.components.categories.mvi
 
-import io.chefbook.sdk.recipe.core.api.external.domain.entities.DecryptedRecipeInfo
 import io.chefbook.libs.mvi.MviState
+import io.chefbook.sdk.recipe.core.api.external.domain.entities.DecryptedRecipeInfo
 
 data class RecipeCategoriesSelectionBlockState(
   val recipe: DecryptedRecipeInfo,

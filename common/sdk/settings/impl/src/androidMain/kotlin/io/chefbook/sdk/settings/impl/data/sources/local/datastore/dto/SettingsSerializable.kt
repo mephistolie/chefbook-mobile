@@ -25,8 +25,8 @@ internal data class SettingsSerializable(
 
   @SerialName("defaultRecipeLanguage")
   val defaultRecipeLanguage: String = Language.ENGLISH.code,
-  @SerialName("onlineRecipeLanguage")
-  val onlineRecipeLanguages: List<Language> = emptyList(),
+  @SerialName("communityRecipesLanguages")
+  val communityRecipesLanguages: List<String> = emptyList(),
 ) {
 
   fun toEntity(): Settings =

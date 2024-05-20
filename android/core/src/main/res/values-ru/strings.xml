@@ -3,8 +3,10 @@
     <string name="common_general_continue">Продолжить</string>
     <string name="common_general_confirm">Подтвердить</string>
     <string name="common_general_cancel">Отмена</string>
+    <string name="common_general_reset">Сбросить</string>
     <string name="common_general_add">Добавить</string>
     <string name="common_general_remove">Удалить</string>
+    <string name="common_general_next">Далее</string>
     <string name="common_general_email">Почта</string>
     <string name="common_general_password">Пароль</string>
     <string name="common_general_search">Поиск</string>
@@ -74,6 +76,7 @@
     <string name="common_general_by_link">По ссылке</string>
     <string name="common_general_community">Сообщество</string>
     <string name="common_general_language">Язык</string>
+    <string name="common_general_languages">Языки</string>
     <string name="common_general_language_english">Английский</string>
     <string name="common_general_language_russian">Русский</string>
     <string name="common_general_language_ukrainian">Украинский</string>
@@ -112,6 +115,16 @@
     <string name="common_general_lock">Заблокировать</string>
     <string name="common_general_unlock">Разблокировать</string>
     <string name="common_general_something_went_wrong">Что-то пошло не так…</string>
+    <string name="common_general_eula">Пользовательское соглашение</string>
+    <string name="common_general_profile_editing">Редактирование профиля</string>
+    <string name="common_general_all_languages">Все языки</string>
+    <string name="common_general_sorting">Сортировка</string>
+    <string name="common_general_new">Новое</string>
+    <string name="common_general_top">Топ</string>
+    <string name="common_general_popular">Популярное</string>
+    <string name="common_general_fast">Быстрое</string>
+    <string name="common_general_filters">Фильтры</string>
+    <string name="common_general_tags">Теги</string>
 
     <string name="common_general_app_error">Ошибка приложения</string>
     <string name="common_general_app_error_local_user">Для этого действия необходим онлайн-профиль</string>
@@ -120,10 +133,10 @@
 
     <string name="common_general_server_error">Ошибка сервера</string>
     <string name="common_general_server_error_old_version">Пожалуйста, обновите приложение</string>
-    <string name="common_general_server_error_invalid_credentials">Неверно указана почта или пароль</string>
-    <string name="common_general_server_error_profile_not_activated">Пожалуйста, сначала активируйте профиль</string>
+    <string name="common_general_server_error_invalid_credentials">Неверно указан логин или пароль</string>
+    <string name="common_general_server_error_profile_not_activated">Профиль не активирован</string>
     <string name="common_general_server_error_profile_blocked">Профиль заблокирован</string>
-    <string name="common_general_server_error_profile_exists">Профиль с указанной почтой уже существует</string>
+    <string name="common_general_server_error_profile_exists">Профиль уже существует</string>
     <string name="common_general_server_error_access_denied">Доступ запрещен</string>
     <string name="common_general_server_error_authorization_failed">Авторизация неудачна</string>
     <string name="common_general_server_error_big_file">Загружаемый файл слишком большой</string>

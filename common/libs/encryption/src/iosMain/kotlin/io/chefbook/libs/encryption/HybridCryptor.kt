@@ -1,5 +1,7 @@
 package io.chefbook.libs.encryption
 
+import kotlinx.cinterop.ExperimentalForeignApi
+
 actual object HybridCryptor {
 
   actual fun generateAsymmetricKey(): AsymmetricKey {
@@ -27,6 +29,13 @@ actual object HybridCryptor {
   }
 
   actual fun decryptDataByAsymmetricKey(data: ByteArray, key: AsymmetricPrivateKey): ByteArray {
+    TODO()
+  }
+
+  actual fun encryptPrivateKeyBySymmetricKey(
+    data: AsymmetricPrivateKey,
+    key: SymmetricKey
+  ): ByteArray {
     TODO()
   }
 

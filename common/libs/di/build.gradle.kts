@@ -6,10 +6,8 @@ android.namespace = "io.chefbook.libs.di"
 
 kotlin {
   sourceSets {
-    val commonMain by getting {
-      dependencies {
-        implementation(libs.di.koin.core)
-      }
+    commonMain.dependencies {
+      implementation(libs.di.koin.core)
     }
   }
 }

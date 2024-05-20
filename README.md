@@ -1,7 +1,7 @@
 # ChefBook Android
-[![Kotlin Version](https://img.shields.io/badge/Kotlin-1.7.0-blue.svg)](https://kotlinlang.org)
-[![Gradle](https://img.shields.io/badge/Gradle-7.2.2-blue?style=flat)](https://gradle.org)
-[![AGP](https://img.shields.io/badge/AGP-7.2.2-blue?style=flat)](https://developer.android.com/studio/releases/gradle-plugin)
+[![Kotlin Version](https://img.shields.io/badge/Kotlin-1.9.22-blue.svg)](https://kotlinlang.org)
+[![Gradle](https://img.shields.io/badge/Gradle-8.5-blue?style=flat)](https://gradle.org)
+[![AGP](https://img.shields.io/badge/AGP-8.2.2-blue?style=flat)](https://developer.android.com/studio/releases/gradle-plugin)
 
 ChefBook Android Client 🤖
 

@@ -4,6 +4,7 @@ import io.chefbook.sdk.category.api.external.domain.entities.Category
 import io.chefbook.sdk.recipe.book.api.internal.data.models.RecipeState
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.RecipeMeta
 import io.chefbook.sdk.recipe.core.api.internal.data.sources.remote.services.dto.RatingBody
+import io.chefbook.sdk.tag.api.external.domain.entities.Tag
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -21,6 +22,8 @@ internal class RecipeStateBody(
   @SerialName("rating")
   val rating: RatingBody? = null,
 
+  @SerialName("tags")
+  val tags: List<String> = emptyList(),
   @SerialName("categories")
   val categories: List<String> = emptyList(),
   @SerialName("favourite")
@@ -35,7 +38,10 @@ internal class RecipeStateBody(
   )
 }
 
-internal fun RecipeStateBody.toModel(categoriesMap: Map<String, Category>): RecipeState =
+internal fun RecipeStateBody.toModel(
+  categoriesMap: Map<String, Category>,
+  tagsGroup: Map<String, Tag>,
+): RecipeState =
   RecipeState(
     id = id,
     ownerName = owner?.name,
@@ -47,5 +53,6 @@ internal fun RecipeStateBody.toModel(categoriesMap: Map<String, Category>): Reci
       votes = rating?.votes ?: 0,
     ),
     categories = categories.mapNotNull(categoriesMap::get),
+    tags = tags.mapNotNull(tagsGroup::get),
     isFavourite = isFavourite,
   )

@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
@@ -22,10 +21,7 @@ import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -40,19 +36,18 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.mephistolie.compost.modifiers.clippedBackground
-import io.chefbook.features.shoppinglist.purchases.input.ui.mvi.PurchaseInputDialogIntent
-import io.chefbook.ui.common.extensions.localizedName
-import io.chefbook.ui.common.extensions.stringToMeasureUnit
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
-import io.chefbook.core.android.R as coreR
 import io.chefbook.design.components.buttons.CircleIconButton
 import io.chefbook.design.components.buttons.DynamicButton
 import io.chefbook.design.components.textfields.ThemedIndicatorTextField
-import io.chefbook.design.R as designR
-import io.chefbook.design.theme.shapes.ModalBottomSheetShape
-import io.chefbook.libs.logger.Logger
+import io.chefbook.design.theme.shapes.RoundedCornerShape28Top
+import io.chefbook.features.shoppinglist.purchases.input.ui.mvi.PurchaseInputDialogIntent
 import io.chefbook.libs.models.measureunit.standardUnits
 import io.chefbook.sdk.shoppinglist.api.external.domain.entities.Purchase
+import io.chefbook.ui.common.extensions.localizedName
+import io.chefbook.ui.common.extensions.stringToMeasureUnit
+import io.chefbook.core.android.R as coreR
+import io.chefbook.design.R as designR
 
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalLayoutApi::class)
 @Composable
@@ -70,7 +65,7 @@ internal fun PurchaseInputDialogContent(
   Column(
     modifier = Modifier
       .imePadding()
-      .clippedBackground(colors.backgroundPrimary, ModalBottomSheetShape)
+      .clippedBackground(colors.backgroundPrimary, RoundedCornerShape28Top)
       .padding(horizontal = 18.dp)
       .fillMaxWidth()
       .wrapContentHeight(),
@@ -121,11 +116,13 @@ internal fun PurchaseInputDialogContent(
         )
       },
     )
+    var amount = if (state.amount != null) state.amount.toString() else ""
+    amount = if (amount.lastOrNull() == '0') amount.substring(0, amount.lastIndex) else amount
     ThemedIndicatorTextField(
-      value = if (state.amount != null) state.amount.toString() else "",
+      value = amount,
       modifier = Modifier.fillMaxWidth(),
       onValueChange = { amount ->
-        onIntent(PurchaseInputDialogIntent.SetAmount(amount.toIntOrNull() ?: 0))
+        onIntent(PurchaseInputDialogIntent.SetAmount(amount.toFloatOrNull()))
       },
       keyboardOptions = KeyboardOptions(
         keyboardType = KeyboardType.Decimal,

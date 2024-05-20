@@ -1,47 +1,43 @@
 package io.chefbook.ui.screens.main
 
 import androidx.lifecycle.viewModelScope
-import io.chefbook.ui.screens.main.mvi.AppEffect
-import io.chefbook.ui.screens.main.mvi.AppState
+import io.chefbook.libs.mvi.StateSideEffectViewModel
+import io.chefbook.sdk.auth.api.external.domain.usecases.ObserveProfileDeletionUseCase
 import io.chefbook.sdk.profile.api.external.domain.usecases.ObserveProfileUseCase
 import io.chefbook.sdk.settings.api.external.domain.usecases.ObserveSettingsUseCase
-import io.chefbook.libs.mvi.IStateSideEffectViewModel
-import io.chefbook.libs.mvi.StateSideEffectViewModel
+import io.chefbook.ui.screens.main.mvi.AppEffect
+import io.chefbook.ui.screens.main.mvi.AppState
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.launchIn
 import okhttp3.OkHttpClient
-
-interface IAppViewModel : IStateSideEffectViewModel<AppState, AppEffect> {
-  val imageClient: OkHttpClient
-}
 
 class AppViewModel(
   private val observeSettingsUseCase: ObserveSettingsUseCase,
   private val observeProfileUseCase: ObserveProfileUseCase,
-  override val imageClient: OkHttpClient,
-) : StateSideEffectViewModel<AppState, AppEffect>(), IAppViewModel {
+  private val observeProfileDeletionUseCase: ObserveProfileDeletionUseCase,
+) : StateSideEffectViewModel<AppState, AppEffect>() {
 
   override val _state: MutableStateFlow<AppState> = MutableStateFlow(AppState())
 
   init {
-    viewModelScope.launch {
-      launch { observeTheme() }
-      launch { observeSession() }
+    observeAppState()
+  }
+
+  private fun observeAppState() {
+    combine(
+      observeProfileUseCase(),
+      observeProfileDeletionUseCase(),
+      observeSettingsUseCase(),
+    ) { profile, deletionTimestamp, settings ->
+      _state.emit(
+        AppState(
+          isSignedIn = profile != null && deletionTimestamp == null,
+          theme = settings.appTheme
+        )
+      )
+      if (profile == null || deletionTimestamp != null) _effect.emit(AppEffect.SignedOut)
     }
-  }
-
-  private suspend fun observeTheme() {
-    observeSettingsUseCase()
-      .collect { settings -> _state.emit(AppState(theme = settings.appTheme)) }
-  }
-
-  // TODO: fix logic
-  private suspend fun observeSession() {
-    observeProfileUseCase()
-      .collect { profile ->
-        if (profile == null) {
-          _effect.subscriptionCount.collect { if (it > 0) _effect.emit(AppEffect.SignedOut) }
-        }
-      }
+      .launchIn(viewModelScope)
   }
 }

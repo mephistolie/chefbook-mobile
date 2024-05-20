@@ -25,10 +25,10 @@ import com.mephistolie.compost.extensions.Shading
 import com.mephistolie.compost.modifiers.clippedBackground
 import com.mephistolie.compost.modifiers.scalingClickable
 import com.mephistolie.compost.modifiers.simpleClickable
-import io.chefbook.features.shoppinglist.control.ui.screen.state.ShoppingListSection
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
-import io.chefbook.design.R as designR
 import io.chefbook.design.theme.shapes.RoundedCornerShape28
+import io.chefbook.features.shoppinglist.control.ui.screen.state.ShoppingListSection
+import io.chefbook.design.R as designR
 
 @Composable
 internal fun ShoppingListSection(

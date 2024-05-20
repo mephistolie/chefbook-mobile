@@ -2,22 +2,19 @@ package io.chefbook.features.settings.ui
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.ui.platform.LocalContext
-import io.chefbook.features.settings.ui.mvi.SettingsScreenEffect
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
 import io.chefbook.features.settings.navigation.SettingsScreenNavigator
-import org.koin.androidx.compose.getViewModel
+import io.chefbook.features.settings.ui.mvi.SettingsScreenEffect
+import org.koin.androidx.compose.koinViewModel
 
 @Destination(route = "settings")
 @Composable
 fun SettingsScreen(
   navigator: SettingsScreenNavigator
 ) {
-  val viewModel: ISettingsScreenViewModel = getViewModel<SettingsScreenViewModel>()
-  val state = viewModel.state.collectAsState()
-
-  val context = LocalContext.current
+  val viewModel = koinViewModel<SettingsScreenViewModel>()
+  val state = viewModel.state.collectAsStateWithLifecycle()
 
   SettingsScreenContent(
     state = state.value.settings,

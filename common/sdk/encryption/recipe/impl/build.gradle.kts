@@ -4,18 +4,11 @@ plugins {
 
 kotlin {
   sourceSets {
-    val commonMain by getting {
-      dependencies {
-        api(projects.common.sdk.encryption.recipe.api.internal)
+    commonMain.dependencies {
+      api(projects.common.sdk.encryption.recipe.api.internal)
 
-        implementation(projects.common.sdk.profile.api.internal)
-        implementation(projects.common.sdk.recipe.core.api.internal)
-      }
-    }
-    val androidMain by getting {
-      dependencies {
-        implementation(libs.spongycastle.core)
-      }
+      implementation(projects.common.sdk.profile.api.internal)
+      implementation(projects.common.sdk.recipe.core.api.internal)
     }
   }
 }

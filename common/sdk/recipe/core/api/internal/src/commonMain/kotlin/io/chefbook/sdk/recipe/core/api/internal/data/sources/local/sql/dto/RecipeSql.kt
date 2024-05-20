@@ -3,7 +3,6 @@ package io.chefbook.sdk.recipe.core.api.internal.data.sources.local.sql.dto
 import io.chefbook.libs.models.language.LanguageMapper
 import io.chefbook.libs.models.profile.ProfileInfo
 import io.chefbook.sdk.category.api.external.domain.entities.Category
-import io.chefbook.sdk.database.api.internal.SelectAll as RecipeCategory
 import io.chefbook.sdk.database.api.internal.toBoolean
 import io.chefbook.sdk.database.api.internal.toLong
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.DecryptedRecipe
@@ -12,23 +11,27 @@ import io.chefbook.sdk.recipe.core.api.external.domain.entities.EncryptedRecipe
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.EncryptedRecipeInfo
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.Recipe
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.RecipeMeta
-import io.chefbook.sdk.recipe.core.api.internal.data.sources.common.dto.toSerializable
 import io.chefbook.sdk.recipe.core.api.internal.data.sources.common.dto.CookingItemSerializable
 import io.chefbook.sdk.recipe.core.api.internal.data.sources.common.dto.IngredientItemSerializable
-import io.chefbook.sdk.recipe.core.api.internal.data.sources.remote.services.dto.VisibilitySerializable
 import io.chefbook.sdk.recipe.core.api.internal.data.sources.common.dto.PicturesSerializable
+import io.chefbook.sdk.recipe.core.api.internal.data.sources.common.dto.toSerializable
+import io.chefbook.sdk.recipe.core.api.internal.data.sources.remote.services.dto.VisibilitySerializable
+import io.chefbook.sdk.tag.api.external.domain.entities.Tag
+import io.chefbook.sdk.tag.api.internal.data.sources.common.dto.TagsSerializable
+import io.chefbook.sdk.tag.api.internal.data.sources.common.dto.toSerializable
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import io.chefbook.sdk.database.api.internal.Recipe as RecipeSql
+import io.chefbook.sdk.database.api.internal.SelectAll as RecipeCategory
 
-fun RecipeSql.toEntity(categories: List<RecipeCategory>): Recipe {
+fun RecipeSql.toEntity(
+  categories: List<RecipeCategory>
+): Recipe {
   var macronutrients: Recipe.Macronutrients? = null
   if (protein != null || fats != null || carbohydrates != null) {
     macronutrients = Recipe.Macronutrients(protein?.toInt(), fats?.toInt(), carbohydrates?.toInt())
   }
 
-  val ingredients: List<IngredientItemSerializable> = Json.decodeFromString(ingredients)
-  val cooking: List<CookingItemSerializable> = Json.decodeFromString(cooking)
   val pictures: PicturesSerializable = Json.decodeFromString(pictures)
 
   val meta = RecipeMeta(
@@ -57,9 +60,11 @@ fun RecipeSql.toEntity(categories: List<RecipeCategory>): Recipe {
       score = score?.toInt(),
       votes = votes.toInt(),
     ),
+
+    tags = Json.decodeFromString<TagsSerializable>(tags).toEntity(),
   )
 
-  return if (ingredients.getOrNull(0)?.type == IngredientItemSerializable.TYPE_ENCRYPTED_DATA) {
+  return if (meta.isEncryptionEnabled) {
     EncryptedRecipe(
       info = EncryptedRecipeInfo(
         meta = meta,
@@ -75,11 +80,14 @@ fun RecipeSql.toEntity(categories: List<RecipeCategory>): Recipe {
       ),
       description = description,
       macronutrients = macronutrients,
-      ingredients = ingredients.getOrNull(0)?.text.orEmpty(),
-      cooking = cooking.getOrNull(0)?.text.orEmpty(),
+      ingredients = ingredients,
+      cooking = cooking,
       cookingPictures = pictures.cooking,
     )
   } else {
+    val ingredients: List<IngredientItemSerializable> = Json.decodeFromString(ingredients)
+    val cooking: List<CookingItemSerializable> = Json.decodeFromString(cooking)
+
     DecryptedRecipe(
       info = DecryptedRecipeInfo(
         meta = meta,
@@ -131,7 +139,7 @@ fun Recipe.toDto() =
       score = rating.score?.toLong(),
       votes = rating.votes.toLong(),
 
-      tags = "[]",
+      tags = Json.encodeToString(tags.toSerializable()),
       favourite = isFavourite.toLong(),
 
       servings = servings?.toLong(),
@@ -184,7 +192,7 @@ fun Recipe.toDto() =
       score = rating.score?.toLong(),
       votes = rating.votes.toLong(),
 
-      tags = "[]",
+      tags = Json.encodeToString(tags.toSerializable()),
       favourite = isFavourite.toLong(),
 
       servings = servings?.toLong(),

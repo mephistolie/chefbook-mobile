@@ -18,7 +18,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
-import io.chefbook.core.android.R
+import io.chefbook.design.R as designR
 
 @Composable
 fun BroccoinsBadge(
@@ -37,7 +37,7 @@ fun BroccoinsBadge(
     verticalAlignment = Alignment.CenterVertically,
   ) {
     Image(
-      imageVector = ImageVector.vectorResource(R.drawable.ic_broccoin),
+      imageVector = ImageVector.vectorResource(designR.drawable.ic_broccoin),
       contentDescription = null,
       modifier = Modifier.size(20.dp),
     )

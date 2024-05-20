@@ -4,12 +4,10 @@ plugins {
 
 kotlin {
   sourceSets {
-    val commonMain by getting {
-      dependencies {
-        api(projects.common.sdk.recipe.book.api.external)
+    commonMain.dependencies {
+      api(projects.common.sdk.recipe.book.api.external)
 
-        api(projects.common.sdk.recipe.core.api.internal)
-      }
+      api(projects.common.sdk.recipe.core.api.internal)
     }
   }
 }

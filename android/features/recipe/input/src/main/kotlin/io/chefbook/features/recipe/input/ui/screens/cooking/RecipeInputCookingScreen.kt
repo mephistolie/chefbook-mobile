@@ -3,22 +3,22 @@ package io.chefbook.features.recipe.input.ui.screens.cooking
 import androidx.activity.compose.BackHandler
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.ramcosta.composedestinations.annotation.Destination
 import io.chefbook.features.recipe.input.navigation.RecipeInputScreenBaseNavigator
 import io.chefbook.features.recipe.input.navigation.handleBaseRecipeInputScreenEffect
 import io.chefbook.features.recipe.input.ui.mvi.RecipeInputScreenEffect
 import io.chefbook.features.recipe.input.ui.mvi.RecipeInputScreenIntent
-import io.chefbook.features.recipe.input.ui.viewmodel.IRecipeInputScreenViewModel
+import io.chefbook.features.recipe.input.ui.viewmodel.RecipeInputScreenViewModel
 import io.chefbook.ui.common.dialogs.LoadingDialog
-import com.ramcosta.composedestinations.annotation.Destination
 
 @Destination(route = "cooking")
 @Composable
 internal fun RecipeInputCookingScreen(
-  viewModel: IRecipeInputScreenViewModel,
+  viewModel: RecipeInputScreenViewModel,
   navigator: RecipeInputScreenBaseNavigator,
 ) {
-  val state = viewModel.state.collectAsState()
+  val state = viewModel.state.collectAsStateWithLifecycle()
 
   RecipeInputCookingScreenDisplay(
     state = state.value.input,

@@ -2,7 +2,6 @@ package io.chefbook.sdk.recipe.interaction.impl.data.repositories
 
 import io.chefbook.libs.exceptions.LocalProfileException
 import io.chefbook.libs.utils.result.EmptyResult
-import io.chefbook.libs.utils.result.successResult
 import io.chefbook.sdk.core.api.internal.data.repositories.DataSourcesRepository
 import io.chefbook.sdk.recipe.core.api.internal.data.cache.RecipesCache
 import io.chefbook.sdk.recipe.interaction.api.internal.data.sources.local.LocalRecipeInteractionSource
@@ -18,15 +17,21 @@ internal class RecipeInteractionRepositoryImpl(
 
   override suspend fun setRecipeScore(recipeId: String, score: Int?): EmptyResult {
     if (!sourceRepository.isRemoteSourceEnabled()) return Result.failure(LocalProfileException)
+
+    val originalRating = cache.getRecipe(recipeId)?.rating
+    cache.setRecipeScore(recipeId, score)
+
     return remoteSource.setRecipeScore(recipeId, score)
       .onSuccess {
-        cache.setRecipeScore(recipeId, score)
-        val rating = cache.getRecipe(recipeId)?.rating
+        val rating = originalRating?.withScore(score)
         if (rating != null) {
           localSource.setRecipeRating(recipeId, rating)
         } else {
           localSource.setRecipeScore(recipeId, score)
         }
+      }
+      .onFailure {
+        cache.setRecipeScore(recipeId, originalRating?.score)
       }
   }
 

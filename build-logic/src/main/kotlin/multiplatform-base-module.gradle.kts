@@ -1,5 +1,4 @@
 import org.gradle.accessors.dm.LibrariesForLibs
-import org.gradle.kotlin.dsl.the
 
 plugins {
   `android-library`
@@ -29,11 +28,9 @@ kotlin {
   }
 
   sourceSets {
-    val commonMain by getting {
-      dependencies {
-        implementation(libs.kotlin.coroutines.core)
-        api(libs.kotlin.datetime)
-      }
+    commonMain.dependencies {
+      implementation(libs.kotlin.coroutines.core)
+      api(libs.kotlin.datetime)
     }
   }
 }

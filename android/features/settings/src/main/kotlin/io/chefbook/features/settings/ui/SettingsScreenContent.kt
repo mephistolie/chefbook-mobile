@@ -22,10 +22,14 @@ import androidx.compose.ui.unit.dp
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.design.theme.colors.Gradients
 import io.chefbook.features.settings.BuildConfig
+import io.chefbook.features.settings.R
 import io.chefbook.features.settings.ui.components.MenuSelectableIcon
 import io.chefbook.features.settings.ui.components.MenuSelectableImage
 import io.chefbook.features.settings.ui.components.SettingsScreenToolbar
 import io.chefbook.features.settings.ui.mvi.SettingsScreenIntent
+import io.chefbook.sdk.settings.api.external.domain.entities.AppIcon
+import io.chefbook.sdk.settings.api.external.domain.entities.Environment
+import io.chefbook.sdk.settings.api.external.domain.entities.Settings
 import io.chefbook.ui.common.components.menu.MenuDivider
 import io.chefbook.ui.common.components.menu.MenuGroup
 import io.chefbook.ui.common.components.menu.MenuItem
@@ -33,10 +37,6 @@ import io.chefbook.ui.common.components.menu.MenuScreen
 import io.chefbook.ui.common.components.menu.MenuSection
 import io.chefbook.core.android.R as coreR
 import io.chefbook.design.R as designR
-import io.chefbook.features.settings.R
-import io.chefbook.sdk.settings.api.external.domain.entities.AppIcon
-import io.chefbook.sdk.settings.api.external.domain.entities.Environment
-import io.chefbook.sdk.settings.api.external.domain.entities.Settings
 
 @Composable
 internal fun SettingsScreenContent(
@@ -85,7 +85,7 @@ internal fun SettingsScreenContent(
           .padding(vertical = 14.dp),
       ) {
         MenuSelectableImage(
-          image = ImageVector.vectorResource(coreR.drawable.ic_broccy),
+          image = ImageVector.vectorResource(designR.drawable.ic_broccy),
           isSelected = state.appIcon == AppIcon.STANDARD,
           onClick = { onIntent(SettingsScreenIntent.SetIcon(AppIcon.STANDARD)) },
         )
@@ -104,7 +104,7 @@ internal fun SettingsScreenContent(
         onClick = { onIntent(SettingsScreenIntent.SetOpenSavedRecipeExpanded(!state.openSavedRecipeExpanded)) },
         showChevron = false,
         endContent = {
-          Switch(isChecked = state.openSavedRecipeExpanded)
+           Switch(isChecked = state.openSavedRecipeExpanded)
         }
       )
     }

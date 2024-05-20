@@ -4,17 +4,16 @@ plugins {
 
 kotlin {
   sourceSets {
-    val commonMain by getting {
-      dependencies {
-        api(projects.common.sdk.profile.api.internal)
+    commonMain.dependencies {
+      api(projects.common.sdk.profile.api.internal)
 
-        implementation(projects.common.sdk.settings.api.internal)
-      }
+      implementation(projects.common.sdk.auth.api.internal)
+      implementation(projects.common.sdk.settings.api.internal)
+      implementation(projects.common.sdk.settings.api.internal)
+      implementation(projects.common.sdk.file.api.internal)
     }
-    val androidMain by getting {
-      dependencies {
-        implementation(libs.androidx.datastore)
-      }
+    androidMain.dependencies {
+      implementation(libs.androidx.datastore)
     }
   }
 }

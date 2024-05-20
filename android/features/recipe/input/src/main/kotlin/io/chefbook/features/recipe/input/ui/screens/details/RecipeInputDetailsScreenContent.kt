@@ -6,9 +6,11 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -17,8 +19,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.mephistolie.compost.modifiers.clippedBackground
+import io.chefbook.core.android.compose.providers.theme.LocalTheme
+import io.chefbook.design.components.buttons.DynamicButton
+import io.chefbook.design.components.toolbar.Toolbar
+import io.chefbook.design.theme.shapes.RoundedCornerShape24
 import io.chefbook.features.recipe.input.ui.mvi.RecipeInputDetailsScreenIntent
 import io.chefbook.features.recipe.input.ui.mvi.RecipeInputScreenIntent
+import io.chefbook.features.recipe.input.ui.mvi.RecipeInputScreenState
 import io.chefbook.features.recipe.input.ui.screens.details.components.CaloriesBlock
 import io.chefbook.features.recipe.input.ui.screens.details.components.DescriptionBlock
 import io.chefbook.features.recipe.input.ui.screens.details.components.NameBlock
@@ -26,13 +33,8 @@ import io.chefbook.features.recipe.input.ui.screens.details.components.Parameter
 import io.chefbook.features.recipe.input.ui.screens.details.components.PreviewBlock
 import io.chefbook.features.recipe.input.ui.screens.details.components.ServingsBlock
 import io.chefbook.features.recipe.input.ui.screens.details.components.TimeBlock
-import io.chefbook.core.android.compose.providers.theme.LocalTheme
-import io.chefbook.design.components.buttons.DynamicButton
-import io.chefbook.core.android.R as coreR
-import io.chefbook.design.components.toolbar.Toolbar
-import io.chefbook.design.theme.shapes.RoundedCornerShape24
-import io.chefbook.features.recipe.input.ui.mvi.RecipeInputScreenState
 import io.chefbook.sdk.recipe.crud.api.external.domain.entities.RecipeInput
+import io.chefbook.core.android.R as coreR
 import io.chefbook.design.R as designR
 
 @Composable
@@ -48,7 +50,8 @@ internal fun RecipeInputDetailsScreenContent(
 
   Column(
     modifier = Modifier
-      .statusBarsPadding()
+      .systemBarsPadding()
+      .imePadding()
       .fillMaxSize(),
     horizontalAlignment = Alignment.CenterHorizontally,
   ) {
@@ -180,7 +183,6 @@ internal fun RecipeInputDetailsScreenContent(
       isSelected = isContinueAvailable(input),
       isEnabled = isContinueAvailable(input),
       modifier = Modifier
-        .navigationBarsPadding()
         .padding(
           start = 12.dp,
           top = 8.dp,

@@ -14,11 +14,21 @@ interface ProfileRepository {
 
   suspend fun refreshProfile(): EmptyResult
 
-  suspend fun changeName(username: String): EmptyResult
-
   suspend fun uploadAvatar(path: String): EmptyResult
 
   suspend fun deleteAvatar(): EmptyResult
+
+  suspend fun checkNicknameAvailability(nickname: String): Result<Boolean>
+
+  suspend fun setNickname(nickname: String): EmptyResult
+
+  suspend fun setName(firstName: String?, lastName: String?): EmptyResult
+
+  suspend fun setDescription(description: String?): EmptyResult
+
+  suspend fun requestProfileDeletion(password: String, deleteSharedData: Boolean): EmptyResult
+
+  suspend fun cancelProfileDeletion(): EmptyResult
 
   suspend fun clearLocalData()
 }

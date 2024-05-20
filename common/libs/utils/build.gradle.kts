@@ -4,10 +4,8 @@ plugins {
 
 kotlin {
   sourceSets {
-    val commonMain by getting {
-      dependencies {
-        implementation(projects.common.libs.logger)
-      }
+    commonMain.dependencies {
+      implementation(projects.common.libs.logger)
     }
   }
 }

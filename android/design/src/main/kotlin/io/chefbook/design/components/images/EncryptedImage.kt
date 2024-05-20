@@ -10,15 +10,11 @@ import androidx.compose.ui.graphics.FilterQuality
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import coil.ImageLoader
 import coil.compose.AsyncImage
 import coil.compose.AsyncImagePainter
-import coil.imageLoader
 import coil.memory.MemoryCache
 import coil.request.ImageRequest
-import io.chefbook.core.android.compose.providers.ContentType
 import io.chefbook.core.android.compose.providers.LocalDataAccess
-import io.chefbook.core.android.compose.providers.ui.LocalDependencies
 
 private const val TYPE = "TYPE"
 
@@ -40,13 +36,6 @@ fun EncryptedImage(
 ) {
   val context = LocalContext.current
   val dataType = LocalDataAccess.type
-  val imageLoader = if (dataType == ContentType.DECRYPTABLE) {
-    ImageLoader.Builder(context)
-      .okHttpClient(LocalDependencies.imageClient)
-      .build()
-  } else {
-    context.imageLoader
-  }
 
   val diskKey = "${data}_${dataType.name}"
   val memoryKey = MemoryCache.Key(
@@ -63,7 +52,6 @@ fun EncryptedImage(
       .data(data)
       .crossfade(true)
       .build(),
-    imageLoader = imageLoader,
     contentDescription = contentDescription,
     modifier = modifier,
     onLoading = onLoading,

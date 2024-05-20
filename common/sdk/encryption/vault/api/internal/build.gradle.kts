@@ -4,11 +4,9 @@ plugins {
 
 kotlin {
   sourceSets {
-    val commonMain by getting {
-      dependencies {
-        api(projects.common.sdk.encryption.vault.api.external)
-        api(projects.common.libs.encryption)
-      }
+    commonMain.dependencies {
+      api(projects.common.sdk.encryption.vault.api.external)
+      api(projects.common.libs.encryption)
     }
   }
 }

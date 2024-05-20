@@ -12,13 +12,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import io.chefbook.features.recipe.control.ui.components.categories.mvi.RecipeCategoriesSelectionBlockIntent
-import io.chefbook.features.recipe.control.ui.components.categories.mvi.RecipeCategoriesSelectionBlockState
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.design.components.buttons.DynamicButton
 import io.chefbook.design.components.toolbar.Toolbar
-import io.chefbook.design.R as designR
 import io.chefbook.features.recipe.control.R
+import io.chefbook.features.recipe.control.ui.components.categories.mvi.RecipeCategoriesSelectionBlockIntent
+import io.chefbook.features.recipe.control.ui.components.categories.mvi.RecipeCategoriesSelectionBlockState
+import io.chefbook.design.R as designR
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable

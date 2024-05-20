@@ -4,21 +4,21 @@ import android.content.Intent
 import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.AnnotatedString
 import androidx.core.content.ContextCompat
-import io.chefbook.features.recipe.share.ui.mvi.RecipeShareDialogEffect
-import io.chefbook.features.recipe.share.ui.mvi.RecipeShareDialogIntent
 import com.ramcosta.composedestinations.annotation.Destination
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.design.theme.colors.Monochrome20
 import io.chefbook.design.theme.colors.Monochrome30
+import io.chefbook.features.recipe.share.ui.mvi.RecipeShareDialogEffect
+import io.chefbook.features.recipe.share.ui.mvi.RecipeShareDialogIntent
 import io.chefbook.navigation.navigators.BaseNavigator
 import io.chefbook.navigation.styles.DismissibleDialog
-import org.koin.androidx.compose.getViewModel
+import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
 
 private const val TEXT_TYPE = "text/plain"
@@ -34,9 +34,8 @@ internal fun RecipeShareDialog(
   val clipboardManager = LocalClipboardManager.current
   val colors = LocalTheme.colors
 
-  val viewModel: IRecipeShareDialogViewModel =
-    getViewModel<RecipeShareDialogViewModel> { parametersOf(recipeId) }
-  val state = viewModel.state.collectAsState()
+  val viewModel = koinViewModel<RecipeShareDialogViewModel> { parametersOf(recipeId) }
+  val state = viewModel.state.collectAsStateWithLifecycle()
 
   RecipeShareDialogContent(
     state = state.value,

@@ -6,8 +6,13 @@ android {
   namespace = "io.chefbook"
   defaultConfig {
     applicationId = "com.cactusknights.chefbook"
-    versionCode = 43
-    versionName = "4.0-alpha1"
+    versionCode = 45
+    versionName = "4.0-alpha3"
+  }
+  buildTypes {
+    debug {
+      applicationIdSuffix = ".debug"
+    }
   }
 }
 
@@ -34,7 +39,9 @@ dependencies {
   implementation(projects.common.sdk.recipe.crud.impl)
   implementation(projects.common.sdk.recipe.interaction.impl)
   implementation(projects.common.sdk.recipe.book.impl)
+  implementation(projects.common.sdk.recipe.community.impl)
   implementation(projects.common.sdk.category.impl)
+  implementation(projects.common.sdk.tag.impl)
   implementation(projects.common.sdk.shoppingList.impl)
 
   implementation(projects.android.core)
@@ -49,16 +56,22 @@ dependencies {
   implementation(projects.android.features.auth)
   implementation(projects.android.features.profile.control)
   implementation(projects.android.features.profile.editing)
+  implementation(projects.android.features.profile.deletion)
   implementation(projects.android.features.encryption)
   implementation(projects.android.features.recipeBook.dashboard)
+  implementation(projects.android.features.recipeBook.creation)
   implementation(projects.android.features.recipeBook.favourite)
+  implementation(projects.android.features.recipeBook.categories)
   implementation(projects.android.features.recipeBook.category)
   implementation(projects.android.features.recipeBook.search)
   implementation(projects.android.features.recipe.info)
   implementation(projects.android.features.recipe.control)
+  implementation(projects.android.features.recipe.rating)
   implementation(projects.android.features.recipe.share)
   implementation(projects.android.features.recipe.input)
   implementation(projects.android.features.category)
+  implementation(projects.android.features.community.languages)
+  implementation(projects.android.features.community.recipes)
   implementation(projects.android.features.shoppingList.control)
   implementation(projects.android.features.shoppingList.purchaseInput)
 

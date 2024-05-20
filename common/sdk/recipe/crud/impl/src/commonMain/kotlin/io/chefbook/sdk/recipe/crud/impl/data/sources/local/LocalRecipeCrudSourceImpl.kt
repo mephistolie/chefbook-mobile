@@ -1,11 +1,17 @@
 package io.chefbook.sdk.recipe.crud.impl.data.sources.local
 
-import io.chefbook.sdk.recipe.core.api.external.domain.entities.Recipe
+import io.chefbook.libs.models.profile.ProfileInfo
+import io.chefbook.libs.utils.result.EmptyResult
 import io.chefbook.sdk.database.api.internal.ChefBookDatabase
 import io.chefbook.sdk.database.api.internal.DatabaseDataSource
-import io.chefbook.sdk.recipe.crud.api.internal.data.sources.local.LocalRecipeCrudSource
+import io.chefbook.sdk.recipe.core.api.external.domain.entities.Recipe
 import io.chefbook.sdk.recipe.core.api.internal.data.sources.local.sql.dto.toDto
 import io.chefbook.sdk.recipe.core.api.internal.data.sources.local.sql.dto.toEntity
+import io.chefbook.sdk.recipe.crud.api.internal.data.sources.local.LocalRecipeCrudSource
+import io.chefbook.sdk.tag.api.external.domain.entities.Tag
+import io.chefbook.sdk.tag.api.internal.data.sources.common.dto.toSerializable
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
 internal class LocalRecipeCrudSourceImpl(
   database: ChefBookDatabase,
@@ -37,6 +43,25 @@ internal class LocalRecipeCrudSourceImpl(
       servings = dto.servings, time = dto.time,
       calories = dto.calories, protein = dto.protein, fats = dto.fats, carbohydrates = dto.carbohydrates,
       ingredients = dto.ingredients, cooking = dto.cooking, pictures = dto.pictures,
+    )
+  }
+
+  override suspend fun setRecipeOwnerInfo(
+    recipeId: String,
+    name: String?,
+    avatar: String?,
+  ) = safeQueryResult {
+    queries.setOwnerInfo(
+      recipe_id = recipeId,
+      owner_name = name,
+      owner_avatar = avatar,
+    )
+  }
+
+  override suspend fun setRecipeTags(recipeId: String, tags: List<Tag>) = safeQueryResult {
+    queries.setTags(
+      recipe_id = recipeId,
+      tags = Json.encodeToString(tags.toSerializable()),
     )
   }
 

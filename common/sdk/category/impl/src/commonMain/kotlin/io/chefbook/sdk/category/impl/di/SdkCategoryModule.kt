@@ -7,11 +7,11 @@ import io.chefbook.sdk.category.api.external.domain.usecases.GetCategoriesUseCas
 import io.chefbook.sdk.category.api.external.domain.usecases.GetCategoryUseCase
 import io.chefbook.sdk.category.api.external.domain.usecases.ObserveCategoriesUseCase
 import io.chefbook.sdk.category.api.external.domain.usecases.UpdateCategoryUseCase
-import io.chefbook.sdk.category.api.internal.data.repositories.CategoryRepository
 import io.chefbook.sdk.category.api.internal.data.cache.CategoriesCache
-import io.chefbook.sdk.category.impl.data.cache.CategoriesCacheImpl
 import io.chefbook.sdk.category.api.internal.data.cache.CategoriesCacheReader
 import io.chefbook.sdk.category.api.internal.data.cache.CategoriesCacheWriter
+import io.chefbook.sdk.category.api.internal.data.repositories.CategoryRepository
+import io.chefbook.sdk.category.impl.data.cache.CategoriesCacheImpl
 import io.chefbook.sdk.category.impl.data.repositories.CategoryRepositoryImpl
 import io.chefbook.sdk.category.impl.data.sources.local.LocalCategorySource
 import io.chefbook.sdk.category.impl.data.sources.local.LocalCategorySourceImpl
@@ -55,6 +55,7 @@ val sdkCategoryModule = module {
       sources = get(),
       cache = get(),
       scopes = get(),
+      dispatchers = get(),
     )
   }
 

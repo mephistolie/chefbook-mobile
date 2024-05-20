@@ -63,6 +63,7 @@ dependencies {
   implementation(libs.androidx.compose.material)
   implementation(libs.androidx.compose.animation)
   implementation(libs.androidx.activity.compose)
+  implementation(libs.androidx.lifecycle.compose)
   implementation(libs.androidx.lifecycle.viewmodel.compose)
 
   implementation(libs.androidx.navigation.compose)
@@ -72,10 +73,11 @@ dependencies {
   implementation(libs.di.koin.android)
   implementation(libs.di.koin.compose)
 
-  implementation(libs.spongycastle.prov)
+  implementation(libs.tinkAndroid)
 
   implementation(libs.network.ktor.client.okhttp)
 
+  implementation(libs.coil)
   implementation(libs.imageCropper)
 
   implementation(project(":common:libs:logger"))

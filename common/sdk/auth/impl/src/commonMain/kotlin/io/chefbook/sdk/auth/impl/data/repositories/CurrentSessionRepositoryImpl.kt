@@ -1,25 +1,26 @@
 package io.chefbook.sdk.auth.impl.data.repositories
 
 import io.chefbook.sdk.auth.api.internal.data.repositories.CurrentSessionRepository
-import io.chefbook.sdk.auth.impl.data.sources.local.TokensDataSource
+import io.chefbook.sdk.auth.impl.data.sources.local.CurrentSessionLocalDataSource
 import io.chefbook.sdk.auth.impl.data.sources.remote.AuthDataSource
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 
 internal class CurrentSessionRepositoryImpl(
   private val authDataSource: AuthDataSource,
-  private val tokensDataSource: TokensDataSource,
+  private val currentSessionDataSource: CurrentSessionLocalDataSource,
 ) : CurrentSessionRepository {
 
   override fun observeSessionAlive() =
-    tokensDataSource.observeTokens().map { it != null }
+    currentSessionDataSource.observeSessionInfo()
+      .map { it != null && it.profileDeletionTimestamp == null }
 
   override suspend fun isSessionAlive() =
     observeSessionAlive().first()
 
   override suspend fun finishSession() {
-    tokensDataSource.getTokens()?.refreshToken?.let { refreshToken ->
-      tokensDataSource.clearTokens()
+    currentSessionDataSource.getSessionInfo()?.refreshToken?.let { refreshToken ->
+      currentSessionDataSource.clearTokens()
       authDataSource.signOut(refreshToken)
     }
   }

@@ -121,6 +121,7 @@ internal class RecipeBookRepositoryImpl(
           cache.putRecipe(recipe)
         }
       } else {
+        pullRecipeMetaUpdates(localRecipe, remoteRecipe)
         pullRecipeInteractions(localRecipe, remoteRecipe)
       }
     }
@@ -132,9 +133,27 @@ internal class RecipeBookRepositoryImpl(
     }
   }
 
+  private suspend fun pullRecipeMetaUpdates(local: RecipeInfo?, remote: RecipeState) {
+    val localOwner = local?.owner
+    if (localOwner?.name != remote.ownerName || localOwner?.avatar != remote.ownerAvatar) {
+      localCrudSource.setRecipeOwnerInfo(
+        recipeId = remote.id,
+        name = remote.ownerName,
+        avatar = remote.ownerAvatar,
+      )
+    }
+    if (local?.tags != remote.tags) {
+      localCrudSource.setRecipeTags(remote.id, remote.tags)
+    }
+  }
+
   private suspend fun pullRecipeInteractions(local: RecipeInfo?, remote: RecipeState) {
     if (local?.rating != remote.rating) {
       localInteractionSource.setRecipeRating(remote.id, remote.rating)
+    }
+
+    if (local?.isFavourite != remote.isFavourite) {
+      localInteractionSource.setRecipeFavouriteStatus(remote.id, remote.isFavourite)
     }
 
     if (local?.isFavourite != remote.isFavourite) {

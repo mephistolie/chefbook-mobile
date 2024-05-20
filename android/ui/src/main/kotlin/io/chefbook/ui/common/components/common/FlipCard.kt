@@ -33,7 +33,8 @@ fun FlippingCard(
         animationSpec = tween(
             durationMillis = 400,
             easing = FastOutSlowInEasing,
-        )
+        ),
+        label = "flipping_card"
     )
     val scale = 0.9F + 0.1F * ((rotation.value - ANGLE_90) / ANGLE_90).absoluteValue
     Box(

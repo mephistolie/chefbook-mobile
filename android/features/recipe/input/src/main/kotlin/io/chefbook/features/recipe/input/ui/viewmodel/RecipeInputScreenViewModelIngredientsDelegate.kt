@@ -1,11 +1,11 @@
 package io.chefbook.features.recipe.input.ui.viewmodel
 
-import io.chefbook.sdk.recipe.core.api.external.domain.entities.Recipe.Decrypted.IngredientsItem
 import io.chefbook.features.recipe.input.ui.mvi.RecipeInputIngredientsScreenIntent
 import io.chefbook.features.recipe.input.ui.mvi.RecipeInputScreenEffect
 import io.chefbook.features.recipe.input.ui.mvi.RecipeInputScreenState
 import io.chefbook.libs.models.measureunit.MeasureUnit
 import io.chefbook.libs.utils.uuid.generateUUID
+import io.chefbook.sdk.recipe.core.api.external.domain.entities.Recipe.Decrypted.IngredientsItem
 import kotlin.math.max
 import kotlin.math.min
 
@@ -80,7 +80,7 @@ internal class RecipeInputScreenViewModelIngredientsDelegate(
 
   private suspend fun setIngredientAmount(
     ingredientId: String,
-    amount: Int?,
+    amount: Float?,
   ) {
     updateState { state ->
       val ingredients = state.input.ingredients.toMutableList()
@@ -88,7 +88,7 @@ internal class RecipeInputScreenViewModelIngredientsDelegate(
         input = state.input.copy(
           ingredients = ingredients.map { item ->
             if (item.id == ingredientId && item is IngredientsItem.Ingredient) {
-              item.copy(amount = amount)
+              item.copy(amount = amount?.let { min(it, MAX_AMOUNT) })
             } else {
               item
             }
@@ -101,13 +101,17 @@ internal class RecipeInputScreenViewModelIngredientsDelegate(
     ingredientId: String,
     unit: MeasureUnit?,
   ) {
+    val formattedUnit =
+      (unit as? MeasureUnit.Custom)?.let {
+        it.copy(name = it.name.substring(0, min(it.name.length, MAX_UNIT_LENGTH)))
+      } ?: unit
     updateState { state ->
       val ingredients = state.input.ingredients.toMutableList()
       state.copy(
         input = state.input.copy(
           ingredients = ingredients.map { item ->
             if (item.id == ingredientId && item is IngredientsItem.Ingredient) {
-              item.copy(measureUnit = unit)
+              item.copy(measureUnit = formattedUnit)
             } else {
               item
             }
@@ -143,5 +147,7 @@ internal class RecipeInputScreenViewModelIngredientsDelegate(
 
   companion object {
     private const val MAX_NAME_LENGTH = 100
+    private const val MAX_AMOUNT = 10000F
+    private const val MAX_UNIT_LENGTH = 15
   }
 }

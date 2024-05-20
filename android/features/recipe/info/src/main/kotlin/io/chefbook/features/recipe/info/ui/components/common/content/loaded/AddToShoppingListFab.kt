@@ -16,8 +16,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import io.chefbook.design.components.buttons.DynamicButton
-import io.chefbook.design.R as designR
+import io.chefbook.design.theme.dimens.ComponentMediumHeight
 import io.chefbook.features.recipe.info.R
+import io.chefbook.design.R as designR
 
 @Composable
 fun BoxScope.AddToShoppingListFab(
@@ -38,7 +39,7 @@ fun BoxScope.AddToShoppingListFab(
       leftIcon = ImageVector.vectorResource(designR.drawable.ic_add),
       text = stringResource(R.string.common_recipe_screen_add_to_shopping_list).uppercase(),
       isSelected = true,
-      modifier = Modifier.height(48.dp),
+      modifier = Modifier.height(ComponentMediumHeight),
       onClick = onClick,
     )
   }

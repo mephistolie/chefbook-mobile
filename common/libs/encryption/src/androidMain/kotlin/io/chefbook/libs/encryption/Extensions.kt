@@ -1,26 +1,28 @@
 package io.chefbook.libs.encryption
 
-import io.chefbook.libs.encryption.HybridCryptor.AES_GCM
-import io.chefbook.libs.encryption.HybridCryptor.rsaFactory
-import java.security.KeyPair
-import java.security.spec.PKCS8EncodedKeySpec
-import java.security.spec.X509EncodedKeySpec
-import javax.crypto.SecretKey
-import javax.crypto.spec.SecretKeySpec
+import com.google.crypto.tink.KeysetHandle
 
 fun SymmetricKey.asSecretKey() =
-  SecretKeySpec(raw, AES_GCM)
+  (this as SymmetricKeyImpl).keyset
 
-fun SecretKey.asSymmetricKey() =
-  SymmetricKey(encoded)
+fun KeysetHandle.asSymmetricKey() =
+  SymmetricKeyImpl(this)
 
-fun KeyPair.asAsymmetricKey() = AsymmetricKey(
-  public = AsymmetricPublicKey(public.encoded),
-  private = AsymmetricPrivateKey(private.encoded),
-)
+fun KeysetHandle.asAsymmetricKey(): AsymmetricKey {
+  val privateKeyset = this
+
+  return object : AsymmetricKey {
+
+    override val public: AsymmetricPublicKey
+      get() = AsymmetricPublicKeyImpl(privateKeyset.publicKeysetHandle)
+
+    override val private: AsymmetricPrivateKey
+      get() = AsymmetricPrivateKeyImpl(privateKeyset)
+  }
+}
 
 fun AsymmetricPublicKey.asPublicKey() =
-  rsaFactory.generatePublic(X509EncodedKeySpec(raw))
+  (this as AsymmetricPublicKeyImpl).keyset
 
 fun AsymmetricPrivateKey.asPrivateKey() =
-  rsaFactory.generatePrivate(PKCS8EncodedKeySpec(raw))
+  (this as AsymmetricPrivateKeyImpl).keyset

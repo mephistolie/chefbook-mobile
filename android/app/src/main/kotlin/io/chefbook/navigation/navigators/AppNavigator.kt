@@ -1,24 +1,32 @@
 package io.chefbook.navigation.navigators
 
 import android.app.Activity
-import android.app.AlarmManager
-import android.app.PendingIntent
-import android.content.Context
 import android.content.Intent
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.ModalBottomSheetValue
+import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
+import androidx.navigation.NavOptionsBuilder
+import androidx.navigation.compose.currentBackStackEntryAsState
 import com.google.accompanist.navigation.material.BottomSheetNavigator
 import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
 import com.ramcosta.composedestinations.navigation.navigate
 import com.ramcosta.composedestinations.navigation.popBackStack
-import io.chefbook.BuildConfig
+import com.ramcosta.composedestinations.spec.Direction
 import io.chefbook.core.android.compose.providers.ContentType
 import io.chefbook.features.about.ui.destinations.AboutScreenDestination
 import io.chefbook.features.auth.navigation.AuthScreenNavigator
+import io.chefbook.features.profile.editing.ui.navigation.ProfileEditingScreenNavigator
 import io.chefbook.features.auth.ui.destinations.AuthScreenDestination
-import io.chefbook.features.category.ui.input.destinations.CategoryInputDialogDestination
+import io.chefbook.features.category.ui.input.destinations.CategoryInputScreenDestination
+import io.chefbook.features.community.languages.ui.destinations.CommunityLanguagesScreenDestination
+import io.chefbook.features.community.recipes.navigation.CommunityRecipesFilterScreenNavigator
+import io.chefbook.features.community.recipes.navigation.CommunityRecipesScreenNavigator
+import io.chefbook.features.community.recipes.ui.screens.destinations.CommunityRecipesContentScreenDestination
 import io.chefbook.features.encryption.ui.vault.destinations.EncryptedVaultScreenDestination
 import io.chefbook.features.profile.control.navigation.ProfileScreenNavigator
 import io.chefbook.features.profile.control.ui.destinations.ProfileScreenDestination
+import io.chefbook.features.profile.editing.ui.destinations.ProfileEditingScreenDestination
 import io.chefbook.features.recipe.control.navigation.RecipeControlScreenNavigator
 import io.chefbook.features.recipe.info.navigation.RecipeScreenNavigator
 import io.chefbook.features.recipe.info.ui.destinations.RecipeScreenDestination
@@ -37,9 +45,16 @@ import io.chefbook.features.recipe.input.ui.destinations.VisibilityDialogDestina
 import io.chefbook.features.recipe.share.ui.destinations.RecipeShareDialogDestination
 import io.chefbook.features.recipebook.category.ui.destinations.CategoryRecipesScreenDestination
 import io.chefbook.features.recipebook.category.ui.navigation.CategoryRecipesScreenNavigator
-import io.chefbook.features.recipebook.dashboard.ui.destinations.DashboardScreenDestination
-import io.chefbook.features.recipebook.dashboard.ui.navigation.RecipeBookScreenNavigator
+import io.chefbook.features.community.recipes.ui.screens.destinations.CommunityRecipesFilterScreenDestination
+import io.chefbook.features.community.recipes.ui.screens.destinations.CommunityRecipesTagGroupScreenDestination
+import io.chefbook.features.profile.deletion.ui.destinations.ProfileDeletionScreenDestination
+import io.chefbook.features.recipebook.categories.ui.destinations.CategoriesScreenDestination
+import io.chefbook.features.recipebook.creation.navigation.RecipeBookCreationScreenNavigator
+import io.chefbook.features.recipebook.creation.ui.destinations.RecipeBookCreationScreenDestination
+import io.chefbook.features.recipebook.dashboard.ui.destinations.DashboardScreenDestination as RecipeBookDashboardScreenDestination
+import io.chefbook.features.recipebook.dashboard.ui.navigation.DashboardScreenNavigator as RecipeBookDashboardScreenNavigator
 import io.chefbook.features.recipebook.favourite.ui.destinations.FavouriteRecipesScreenDestination
+import io.chefbook.features.recipebook.categories.ui.navigation.CategoriesScreenNavigator
 import io.chefbook.features.recipebook.favourite.ui.navigation.RecipeBookFavouriteScreenNavigator
 import io.chefbook.features.recipebook.search.ui.destinations.RecipeBookSearchScreenDestination
 import io.chefbook.features.recipebook.search.ui.navigation.RecipeBookSearchScreenNavigator
@@ -59,10 +74,9 @@ import io.chefbook.ui.common.dialogs.destinations.NonDismissibleTwoButtonsDialog
 import io.chefbook.ui.common.dialogs.destinations.PicturesViewerDestination
 import io.chefbook.ui.common.dialogs.utils.ErrorUtils
 import io.chefbook.ui.common.presentation.RecipeScreenPage
-import kotlin.random.Random
 
 
-@OptIn(ExperimentalMaterialNavigationApi::class)
+@OptIn(ExperimentalMaterialNavigationApi::class, ExperimentalMaterialApi::class)
 class AppNavigator(
   val navController: NavHostController,
   val bottomSheet: BottomSheetNavigator,
@@ -71,17 +85,25 @@ class AppNavigator(
   DialogNavigator,
   SettingsScreenNavigator,
   AuthScreenNavigator,
+  ProfileEditingScreenNavigator,
   ShoppingListScreenNavigator,
-  RecipeBookScreenNavigator,
-  RecipeBookSearchScreenNavigator,
+  RecipeBookDashboardScreenNavigator,
   RecipeBookFavouriteScreenNavigator,
+  RecipeBookCreationScreenNavigator,
+  RecipeBookSearchScreenNavigator,
+  CategoriesScreenNavigator,
   CategoryRecipesScreenNavigator,
   RecipeScreenNavigator,
   RecipeControlScreenNavigator,
   RecipeInputScreenBaseNavigator,
   RecipeInputDetailsScreenNavigator,
   RecipeInputIngredientsScreenNavigator,
+  CommunityRecipesScreenNavigator,
+  CommunityRecipesFilterScreenNavigator,
   ProfileScreenNavigator {
+
+  @Composable
+  override fun currentBackStackEntry() = navController.currentBackStackEntryAsState()
 
   override fun openOneButtonDialog(params: OneButtonDialogParams, request: String) {
     val destination = if (params.nonDismissible) {
@@ -89,7 +111,7 @@ class AppNavigator(
     } else {
       DismissibleOneButtonDialogDestination(params = params, request = request)
     }
-    navController.navigate(destination)
+    navigateSafe(destination)
   }
 
   override fun openTwoButtonsDialog(params: TwoButtonsDialogParams, request: String) {
@@ -98,7 +120,7 @@ class AppNavigator(
     } else {
       DismissibleTwoButtonsDialogDestination(params = params, request = request)
     }
-    navController.navigate(destination)
+    navigateSafe(destination)
   }
 
   override fun openErrorInfoDialog(
@@ -126,43 +148,85 @@ class AppNavigator(
   }
 
   fun openAuthScreen() {
-    navController.navigate(AuthScreenDestination) {
+    navigateSafe(AuthScreenDestination()) {
       navController.currentDestination?.route?.let { route ->
-        popUpTo(route) { inclusive = true}
+        popUpTo(route) { inclusive = true }
       }
     }
   }
 
+  override fun openCommunityRecipesScreen() {
+    navigateSafe(CommunityRecipesContentScreenDestination)
+  }
+
+  override fun openCommunityLanguagesPickerScreen() {
+    navigateSafe(CommunityLanguagesScreenDestination)
+  }
+
+  override fun openCommunityRecipeSearch(search: String) {
+    navController.navigate(NavGraphs.communityRecipes(initialSearch = search))
+  }
+
+  override fun openCommunityRecipesFilterScreen(
+    focusSearch: Boolean,
+    scrollToTags: Boolean,
+  ) {
+    navigateSafe(
+      CommunityRecipesFilterScreenDestination(
+        focusSearch = focusSearch,
+        scrollToTags = scrollToTags,
+      )
+    )
+  }
+
+  override fun openTagGroupScreen(groupId: String?) {
+    navigateSafe(
+      CommunityRecipesTagGroupScreenDestination(groupId = groupId)
+    )
+  }
+
   override fun openEncryptedVaultScreen() {
-    navController.navigate(EncryptedVaultScreenDestination())
+    navigateSafe(EncryptedVaultScreenDestination())
   }
 
   override fun openProfileScreen() {
-    navController.navigate(ProfileScreenDestination)
+    navigateSafe(ProfileScreenDestination)
+  }
+
+  override fun openProfileEditingScreen() {
+    navigateSafe(ProfileEditingScreenDestination)
+  }
+
+  override fun openProfileDeletionScreen() {
+    navigateSafe(ProfileDeletionScreenDestination)
   }
 
   override fun openAppSettingsScreen() {
-    navController.navigate(SettingsScreenDestination)
+    navigateSafe(SettingsScreenDestination)
   }
 
   override fun openAboutAppScreen() {
-    navController.navigate(AboutScreenDestination)
+    navigateSafe(AboutScreenDestination)
   }
 
-  override fun openDashboardScreen() {
-    navController.navigate(DashboardScreenDestination) {
+  override fun openRecipeBookDashboardScreen() {
+    navigateSafe(RecipeBookDashboardScreenDestination) {
       navController.currentDestination?.route?.let { route ->
-        popUpTo(route) { inclusive = true}
+        popUpTo(route) { inclusive = true }
       }
     }
   }
 
   override fun openRecipeBookSearchScreen() {
-    navController.navigate(RecipeBookSearchScreenDestination)
+    navigateSafe(RecipeBookSearchScreenDestination)
   }
 
   override fun openFavouriteRecipesScreen() {
-    navController.navigate(FavouriteRecipesScreenDestination)
+    navigateSafe(FavouriteRecipesScreenDestination)
+  }
+
+  override fun openCategoriesScreen() {
+    navigateSafe(CategoriesScreenDestination)
   }
 
   override fun openCategoryRecipesScreen(categoryId: String) {
@@ -171,12 +235,29 @@ class AppNavigator(
         inclusive = false
       )
     ) {
-      navController.navigate(CategoryRecipesScreenDestination(categoryId = categoryId))
+      navigateSafe(CategoryRecipesScreenDestination(
+        categoryId = categoryId,
+        isTag = false,
+      ))
     }
   }
 
+  override fun openTagRecipesScreen(tagId: String) {
+    if (!navController.popBackStack(
+        route = CategoryRecipesScreenDestination.route,
+        inclusive = false
+      )
+    ) {
+      navigateSafe(CategoryRecipesScreenDestination(
+        categoryId = tagId,
+        isTag = true,
+      ))
+    }
+  }
+
+
   override fun openRecipeShareDialog(recipeId: String) {
-    navController.navigate(RecipeShareDialogDestination(recipeId = recipeId))
+    navigateSafe(RecipeShareDialogDestination(recipeId = recipeId))
   }
 
   override fun openPicturesViewer(
@@ -184,7 +265,7 @@ class AppNavigator(
     startIndex: Int,
     picturesType: ContentType,
   ) {
-    navController.navigate(
+    navigateSafe(
       PicturesViewerDestination(
         pictures = pictures,
         startIndex = startIndex,
@@ -210,7 +291,7 @@ class AppNavigator(
     initPage: RecipeScreenPage,
     openExpanded: Boolean,
   ) {
-    navController.navigate(
+    navigateSafe(
       RecipeScreenDestination(
         recipeId = recipeId,
         initPage = initPage,
@@ -219,45 +300,49 @@ class AppNavigator(
     )
   }
 
+  override fun openRecipeBookCreationScreen() {
+    navigateSafe(RecipeBookCreationScreenDestination)
+  }
+
   override fun openRecipeInputScreen() = openRecipeInputScreen(recipeId = null)
   override fun openRecipeInputScreen(recipeId: String?) {
     navController.navigate(NavGraphs.recipeInput(recipeId = recipeId))
   }
 
   override fun openRecipeInputDetailsScreen() {
-    navController.navigate(RecipeInputDetailsScreenDestination)
+    navigateSafe(RecipeInputDetailsScreenDestination)
   }
 
   override fun openVisibilityDialog() {
-    navController.navigate(VisibilityDialogDestination)
+    navigateSafe(VisibilityDialogDestination)
   }
 
   override fun openLanguageDialog() {
-    navController.navigate(LanguageDialogDestination)
+    navigateSafe(LanguageDialogDestination)
   }
 
   override fun openEncryptionStatePickerDialog() {
-    navController.navigate(EncryptionStateDialogDestination)
+    navigateSafe(EncryptionStateDialogDestination)
   }
 
   override fun openCaloriesDialog() {
-    navController.navigate(CaloriesDialogDestination)
+    navigateSafe(CaloriesDialogDestination)
   }
 
   override fun openRecipeInputIngredientScreen() {
-    navController.navigate(RecipeInputIngredientScreenDestination)
+    navigateSafe(RecipeInputIngredientScreenDestination)
   }
 
   override fun openIngredientDialog(ingredientId: String) {
-    navController.navigate(IngredientDialogDestination(ingredientId))
+    navigateSafe(IngredientDialogDestination(ingredientId))
   }
 
   override fun openRecipeInputCookingScreen() {
-    navController.navigate(RecipeInputCookingScreenDestination)
+    navigateSafe(RecipeInputCookingScreenDestination)
   }
 
   override fun openSavedDialog() {
-    navController.navigate(RecipeSavedDialogDestination)
+    navigateSafe(RecipeSavedDialogDestination)
   }
 
   override fun closeRecipeInput(recipeId: String?) {
@@ -269,22 +354,45 @@ class AppNavigator(
     }
   }
 
-  override fun openCategoryInputDialog() = openCategoryInputDialog(categoryId = null)
-  override fun openCategoryInputDialog(categoryId: String?) {
-    navController.navigate(CategoryInputDialogDestination(categoryId = categoryId))
+  override fun openCategoryInputScreen() = openCategoryInputScreen(categoryId = null)
+  override fun openCategoryInputScreen(categoryId: String?) {
+    navigateSafe(CategoryInputScreenDestination(categoryId = categoryId))
   }
 
   override fun openPurchaseInput(shoppingListId: String, purchaseId: String) {
-    navController.navigate(PurchaseInputDialogDestination(shoppingListId, purchaseId))
+    navigateSafe(PurchaseInputDialogDestination(shoppingListId, purchaseId))
   }
 
   override fun openShoppingListScreen() {
-    navController.navigate(ShoppingListScreenDestination)
+    navigateSafe(ShoppingListScreenDestination)
   }
 
   override fun navigateUp(skipAnimation: Boolean) {
     if (skipAnimation || !hideBottomSheet()) navController.navigateUp()
   }
+
+  private fun navigateSafe(
+    direction: Direction,
+    navOptionsBuilder: NavOptionsBuilder.() -> Unit = {}
+  ) {
+    ensureModalAnimationFinished()
+    navController.navigate(direction, navOptionsBuilder)
+  }
+
+  private fun ensureModalAnimationFinished() {
+    if (bottomSheet.navigatorSheetState.targetValue == ModalBottomSheetValue.Hidden &&
+      bottomSheet.navigatorSheetState.currentValue != ModalBottomSheetValue.Hidden
+    ) {
+      navController.navigateUp()
+    }
+  }
+
+  override fun popBackStackToCurrent() {
+    navController.currentDestination?.route?.let { route ->
+      navController.popBackStack(route, false)
+    }
+  }
+
 
   override fun restartApp() {
     val context = navController.context

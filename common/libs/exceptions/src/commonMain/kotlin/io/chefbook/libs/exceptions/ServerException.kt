@@ -24,8 +24,9 @@ data class ServerException(
     const val INVALID_ACTIVATION_LINK = "invalid_activation_link"
 
     const val ACCESS_DENIED = "access_denied"
-    const val USER_BLOCKED = "user_blocked"
-    const val USER_EXISTS = "user_exists"
+    const val PROFILE_NOT_ACTIVATED = "profile_not_activated"
+    const val PROFILE_BLOCKED = "profile_blocked"
+    const val PROFILE_EXISTS = "profile_exists"
 
     const val NOT_FOUND = "not_found"
   }

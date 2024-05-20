@@ -12,11 +12,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import io.chefbook.sdk.recipe.crud.api.external.domain.entities.RecipeInput
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.core.android.utils.minutesToTimeString
 import io.chefbook.design.components.buttons.DynamicButton
-import io.chefbook.design.theme.dimens.ButtonSmallHeight
+import io.chefbook.design.theme.dimens.ComponentSmallHeight
+import io.chefbook.sdk.recipe.crud.api.external.domain.entities.RecipeInput
 import io.chefbook.core.android.R as coreR
 
 @Composable
@@ -61,7 +61,7 @@ fun TimeBlock(
       },
       modifier = Modifier
         .requiredWidth(128.dp)
-        .height(ButtonSmallHeight),
+        .height(ComponentSmallHeight),
     )
   }
 }

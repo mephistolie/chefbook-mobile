@@ -1,25 +1,23 @@
 package io.chefbook.features.encryption.ui.vault
 
 import androidx.lifecycle.viewModelScope
-import io.chefbook.core.android.R as coreR
 import io.chefbook.features.encryption.R
+import io.chefbook.features.encryption.ui.vault.mvi.EncryptedVaultScreenEffect
+import io.chefbook.features.encryption.ui.vault.mvi.EncryptedVaultScreenIntent
+import io.chefbook.features.encryption.ui.vault.mvi.EncryptedVaultScreenState
+import io.chefbook.features.encryption.ui.vault.mvi.EncryptedVaultScreenState.Companion.PIN_CODE_LENGTH
+import io.chefbook.features.encryption.ui.vault.mvi.PinCodeInputType
+import io.chefbook.libs.mvi.BaseMviViewModel
+import io.chefbook.libs.mvi.MviViewModel
 import io.chefbook.sdk.encryption.vault.api.external.domain.entities.EncryptedVaultState
 import io.chefbook.sdk.encryption.vault.api.external.domain.usecases.CreateEncryptedVaultUseCase
 import io.chefbook.sdk.encryption.vault.api.external.domain.usecases.DeleteEncryptedVaultUseCase
 import io.chefbook.sdk.encryption.vault.api.external.domain.usecases.LockEncryptedVaultUseCase
 import io.chefbook.sdk.encryption.vault.api.external.domain.usecases.ObserveEncryptedVaultStateUseCase
 import io.chefbook.sdk.encryption.vault.api.external.domain.usecases.UnlockEncryptedVaultUseCase
-import io.chefbook.libs.mvi.MviViewModel
-import io.chefbook.libs.mvi.BaseMviViewModel
-import io.chefbook.features.encryption.ui.vault.mvi.EncryptedVaultScreenEffect
-import io.chefbook.features.encryption.ui.vault.mvi.EncryptedVaultScreenIntent
-import io.chefbook.features.encryption.ui.vault.mvi.EncryptedVaultScreenState
-import io.chefbook.features.encryption.ui.vault.mvi.EncryptedVaultScreenState.Companion.PIN_CODE_LENGTH
-import io.chefbook.features.encryption.ui.vault.mvi.PinCodeInputType
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
-
-internal typealias IEncryptedVaultScreenViewModel = MviViewModel<EncryptedVaultScreenState, EncryptedVaultScreenIntent, EncryptedVaultScreenEffect>
+import io.chefbook.core.android.R as coreR
 
 internal class EncryptedVaultScreenViewModel(
   private val closeOnUnlocked: Boolean,

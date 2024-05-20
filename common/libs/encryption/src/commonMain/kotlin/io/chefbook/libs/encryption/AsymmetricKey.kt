@@ -1,14 +1,16 @@
 package io.chefbook.libs.encryption
 
-class AsymmetricKey(
-  val public: AsymmetricPublicKey,
-  val private: AsymmetricPrivateKey,
-)
+interface AsymmetricKey {
+  val public: AsymmetricPublicKey
+  val private: AsymmetricPrivateKey
+}
 
-class AsymmetricPublicKey(
-  val raw: ByteArray,
-)
+interface AsymmetricPublicKey {
 
-class AsymmetricPrivateKey(
-  val raw: ByteArray,
-)
+  val serialized: ByteArray
+}
+
+interface AsymmetricPrivateKey {
+
+  val public: AsymmetricPublicKey
+}

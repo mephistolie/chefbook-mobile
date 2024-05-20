@@ -5,24 +5,24 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalContext
-import io.chefbook.features.recipe.control.ui.mvi.RecipeControlScreenEffect
-import io.chefbook.features.recipe.control.ui.mvi.RecipeControlScreenIntent
-import io.chefbook.features.recipe.control.navigation.RecipeControlScreenNavigator
-import io.chefbook.features.recipe.control.ui.state.RecipeControlScreenPage
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.result.NavResult
 import com.ramcosta.composedestinations.result.OpenResultRecipient
 import com.ramcosta.composedestinations.spec.DestinationStyleBottomSheet
 import io.chefbook.core.android.showToast
 import io.chefbook.features.recipe.control.R
+import io.chefbook.features.recipe.control.navigation.RecipeControlScreenNavigator
+import io.chefbook.features.recipe.control.ui.mvi.RecipeControlScreenEffect
+import io.chefbook.features.recipe.control.ui.mvi.RecipeControlScreenIntent
+import io.chefbook.features.recipe.control.ui.state.RecipeControlScreenPage
 import io.chefbook.navigation.params.dialogs.TwoButtonsDialogParams
 import io.chefbook.navigation.results.dialogs.TwoButtonsDialogResult
 import kotlinx.coroutines.launch
-import org.koin.androidx.compose.getViewModel
+import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
 
 private const val REMOVE_FROM_RECIPE_BOOK_REQUEST = "REMOVE_FROM_RECIPE_BOOK"
@@ -39,9 +39,8 @@ fun RecipeControlScreen(
   navigator: RecipeControlScreenNavigator,
   confirmDialogRecipient: OpenResultRecipient<TwoButtonsDialogResult>
 ) {
-  val viewModel: IRecipeControlScreenViewModel =
-    getViewModel<RecipeControlScreenViewModel> { parametersOf(recipeId) }
-  val state = viewModel.state.collectAsState()
+  val viewModel = koinViewModel<RecipeControlScreenViewModel> { parametersOf(recipeId) }
+  val state = viewModel.state.collectAsStateWithLifecycle()
 
   val pages = remember { RecipeControlScreenPage.entries.toTypedArray() }
   val pagerState = rememberPagerState { pages.size }

@@ -74,7 +74,8 @@ internal fun RecipeProcessedInput.toRecipe(
       index = rating,
       score = score,
       votes = votes,
-    )
+    ),
+    tags = emptyList(),
   )
   return when (this) {
     is RecipeProcessedInput.Decrypted -> DecryptedRecipe(
@@ -162,11 +163,11 @@ internal fun RecipeInput.CookingItem.confirm() =
 internal fun RecipeInput.asDecrypted() = DecryptedRecipeInput(
   id = id,
 
-  name = name,
+  name = name.trim(),
   visibility = visibility,
   isEncrypted = hasEncryption,
   language = language,
-  description = description,
+  description = description?.trim(),
   preview = preview,
 
   servings = servings,

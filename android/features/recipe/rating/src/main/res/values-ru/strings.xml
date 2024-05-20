@@ -1,0 +1,7 @@
+<resources>
+
+    <string name="common_recipe_rating_screen_scores">Оценок</string>
+    <string name="common_recipe_rating_screen_community_rating">Рейтинг Сообщества</string>
+    <string name="common_recipe_rating_screen_your_score">Ваша оценка</string>
+
+</resources>

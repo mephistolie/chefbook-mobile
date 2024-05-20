@@ -21,9 +21,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
-import io.chefbook.core.android.R as coreR
 import io.chefbook.design.components.buttons.DynamicButton
+import io.chefbook.design.R as designR
 import io.chefbook.design.theme.ChefBookTheme
+import io.chefbook.design.theme.dimens.ComponentMediumHeight
 import io.chefbook.design.theme.shapes.RoundedCornerShape24
 import io.chefbook.features.recipe.input.R
 
@@ -58,7 +59,7 @@ internal fun RecipeSavedDialogContent(
         color = colors.foregroundPrimary
       )
       Image(
-        imageVector = ImageVector.vectorResource(coreR.drawable.ic_broccy),
+        imageVector = ImageVector.vectorResource(designR.drawable.ic_broccy),
         contentDescription = null,
         modifier = Modifier
           .padding(top = 12.dp)
@@ -71,7 +72,7 @@ internal fun RecipeSavedDialogContent(
         modifier = Modifier
           .padding(top = 24.dp)
           .fillMaxWidth()
-          .height(48.dp),
+          .height(ComponentMediumHeight),
         onClick = onOpenRecipe,
       )
       DynamicButton(
@@ -81,7 +82,7 @@ internal fun RecipeSavedDialogContent(
         modifier = Modifier
           .padding(top = 8.dp)
           .fillMaxWidth()
-          .height(48.dp),
+          .height(ComponentMediumHeight),
         onClick = onCloseInput,
       )
     }

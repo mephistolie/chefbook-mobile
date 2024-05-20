@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import io.chefbook.features.recipebook.favourite.ui.components.FavouriteRecipesToolbarContent
 import io.chefbook.features.recipebook.favourite.ui.mvi.FavouriteRecipesScreenIntent
 import io.chefbook.features.recipebook.favourite.ui.mvi.FavouriteRecipesScreenState
-import io.chefbook.ui.common.screens.recipe.RecipesScreen
+import io.chefbook.features.recipebook.core.ui.screens.recipe.RecipesScreen
 
 @Composable
 internal fun FavouriteRecipesScreenContent(

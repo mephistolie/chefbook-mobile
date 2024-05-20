@@ -14,7 +14,7 @@ data class IngredientItemSerializable(
   @SerialName("type")
   val type: String,
   @SerialName("amount")
-  val amount: Int? = null,
+  val amount: Float? = null,
   @SerialName("unit")
   val measureUnit: String? = null,
   @SerialName("recipeId")

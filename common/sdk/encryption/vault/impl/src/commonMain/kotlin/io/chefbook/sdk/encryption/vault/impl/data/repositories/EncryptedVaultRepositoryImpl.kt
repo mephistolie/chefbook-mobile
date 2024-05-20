@@ -57,10 +57,10 @@ internal class EncryptedVaultRepositoryImpl(
     return if (result.isSuccess) InternalEncryptionState.Locked(result.getOrThrow()) else InternalEncryptionState.Disabled
   }
 
-  override suspend fun refreshEncryptedVaultState(isEnabled: Boolean): EmptyResult {
+  override suspend fun refreshEncryptedVaultState(isEnabled: Boolean) = withContext(dispatchers.io) {
     initEncryptionStateJob.join()
 
-    return when {
+    return@withContext when {
       isEnabled && vaultState.value == InternalEncryptionState.Disabled -> getEncryptedPrivateKey().asEmpty()
       !isEnabled && vaultState.value != InternalEncryptionState.Disabled -> {
         vaultState.tryEmit(InternalEncryptionState.Disabled)
@@ -71,17 +71,17 @@ internal class EncryptedVaultRepositoryImpl(
     }
   }
 
-  override suspend fun createEncryptedVault(password: String, salt: ByteArray): EmptyResult {
+  override suspend fun createEncryptedVault(password: String, salt: ByteArray) = withContext(dispatchers.io) {
     initEncryptionStateJob.join()
     if (vaultState.value != InternalEncryptionState.Disabled) {
-      return Result.failure(UnsupportedOperationException("Encrypted vault already exists"))
+      return@withContext Result.failure(UnsupportedOperationException("Encrypted vault already exists"))
     }
 
-    return withContext(dispatchers.computation) {
+    return@withContext withContext(dispatchers.computation) {
       val keyPair = HybridCryptor.generateAsymmetricKey()
       val symmetricKey = HybridCryptor.generateSymmetricKey(password, salt)
       val encryptedKeyPrivateKey =
-        HybridCryptor.encryptDataBySymmetricKey(keyPair.private.raw, symmetricKey)
+        HybridCryptor.encryptPrivateKeyBySymmetricKey(keyPair.private, symmetricKey)
 
       val result = if (sources.isRemoteSourceEnabled()) {
         remoteSource.createEncryptedVault(keyPair.public, encryptedKeyPrivateKey)

@@ -9,4 +9,6 @@ data class RecipeTagBody(
   val name: String,
   @SerialName("emoji")
   val emoji: String? = null,
+  @SerialName("groupId")
+  val groupId: String? = null,
 )

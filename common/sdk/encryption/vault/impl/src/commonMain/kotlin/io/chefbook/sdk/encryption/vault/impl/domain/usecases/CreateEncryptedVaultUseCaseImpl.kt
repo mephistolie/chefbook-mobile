@@ -6,7 +6,6 @@ import io.chefbook.libs.utils.hash.sha1
 import io.chefbook.libs.utils.result.EmptyResult
 import io.chefbook.sdk.encryption.vault.api.external.domain.usecases.CreateEncryptedVaultUseCase
 import io.chefbook.sdk.encryption.vault.api.internal.data.repositories.EncryptedVaultRepository
-import io.chefbook.sdk.profile.api.external.domain.entities.Profile
 import io.chefbook.sdk.profile.api.internal.data.repositories.ProfileRepository
 
 internal class CreateEncryptedVaultUseCaseImpl(

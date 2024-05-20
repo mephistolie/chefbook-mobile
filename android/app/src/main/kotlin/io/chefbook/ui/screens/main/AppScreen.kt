@@ -1,29 +1,35 @@
 package io.chefbook.ui.screens.main
 
+import androidx.compose.animation.core.SpringSpec
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.plusAssign
-import io.chefbook.navigation.navigators.AppNavigator
-import io.chefbook.ui.screens.main.mvi.AppEffect
+import coil.Coil
+import coil.ImageLoader
 import com.google.accompanist.navigation.material.BottomSheetNavigator
 import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
-import io.chefbook.features.auth.ui.destinations.AuthScreenDestination
-import com.ramcosta.composedestinations.navigation.navigate
-import com.ramcosta.composedestinations.navigation.popUpTo
 import com.ramcosta.composedestinations.spec.DestinationStyle
 import com.ramcosta.composedestinations.spec.DestinationStyleBottomSheet
 import com.ramcosta.composedestinations.utils.destination
-import io.chefbook.core.android.compose.providers.ui.UiDependenciesProvider
+import io.chefbook.features.auth.ui.destinations.AuthScreenDestination
 import io.chefbook.libs.logger.Logger
+import io.chefbook.navigation.navigators.AppNavigator
+import io.chefbook.sdk.network.impl.di.qualifiers.HttpClient
+import io.chefbook.ui.screens.main.mvi.AppEffect
 import kotlinx.coroutines.launch
-import org.koin.androidx.compose.getViewModel
+import okhttp3.OkHttpClient
+import org.koin.androidx.compose.koinViewModel
+import org.koin.compose.koinInject
+import org.koin.core.qualifier.named
 
 @OptIn(
   ExperimentalMaterialNavigationApi::class,
@@ -33,14 +39,15 @@ import org.koin.androidx.compose.getViewModel
 fun AppScreen() {
   val scope = rememberCoroutineScope()
 
-  val appViewModel = getViewModel<AppViewModel>()
-  val appState = appViewModel.state.collectAsState()
+  val appViewModel = koinViewModel<AppViewModel>()
+  val appState = appViewModel.state.collectAsStateWithLifecycle()
 
   val sheetState = rememberModalBottomSheetState(
+    animationSpec = SpringSpec(dampingRatio = 10F, stiffness = 100_000F),
     initialValue = ModalBottomSheetValue.Hidden,
     skipHalfExpanded = true,
   )
-  val bottomSheetNavigator = remember(sheetState) { BottomSheetNavigator(sheetState = sheetState) }
+  val bottomSheetNavigator = remember { BottomSheetNavigator(sheetState = sheetState) }
 
   val navController = rememberNavController()
   navController.navigatorProvider += bottomSheetNavigator
@@ -60,22 +67,25 @@ fun AppScreen() {
     }
   )
 
-  val currentDestination = navController.currentBackStackEntryFlow.collectAsState(null)
+  val currentDestination = navController.currentBackStackEntryFlow.collectAsStateWithLifecycle(null)
   val destinationStyle = currentDestination.value?.destination()?.style
   val isBackgroundBlurred = destinationStyle is DestinationStyle.Dialog
 
-  UiDependenciesProvider(imageClient = appViewModel.imageClient) {
-    AppScreenContent(
-      state = appState.value,
-      isBackgroundBlurred = isBackgroundBlurred,
-      navigator = navigator,
-    )
-  }
+  AppScreenContent(
+    state = appState.value,
+    isBackgroundBlurred = isBackgroundBlurred,
+    navigator = navigator,
+  )
 
   LaunchedEffect(Unit) {
     appViewModel.effect.collect { effect ->
+      if (appState.value.isSignedIn == null) return@collect
+
       when (effect) {
-        is AppEffect.SignedOut -> navigator.openAuthScreen()
+        is AppEffect.SignedOut -> {
+          val destination = navController.currentBackStackEntry?.destination()
+          if (destination != null && destination != AuthScreenDestination) navigator.openAuthScreen()
+        }
       }
     }
   }

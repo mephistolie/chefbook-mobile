@@ -2,31 +2,29 @@ package io.chefbook.features.recipebook.dashboard.ui
 
 import androidx.lifecycle.viewModelScope
 import io.chefbook.features.recipebook.dashboard.ui.mvi.ContentAppearance
-import io.chefbook.sdk.encryption.vault.api.external.domain.usecases.ObserveEncryptedVaultStateUseCase
-import io.chefbook.sdk.recipe.core.api.external.domain.entities.DecryptedRecipeInfo
-import io.chefbook.sdk.recipe.book.api.external.domain.usecases.ObserveLatestRecipesUseCase
-import io.chefbook.sdk.recipe.book.api.external.domain.usecases.ObserveRecipeBookUseCase
-import io.chefbook.libs.mvi.MviViewModel
-import io.chefbook.libs.mvi.BaseMviViewModel
 import io.chefbook.features.recipebook.dashboard.ui.mvi.DashboardScreenEffect
 import io.chefbook.features.recipebook.dashboard.ui.mvi.DashboardScreenIntent
-import io.chefbook.features.recipebook.dashboard.ui.mvi.RecipeBookScreenState
+import io.chefbook.features.recipebook.dashboard.ui.mvi.DashboardScreenState
+import io.chefbook.libs.mvi.BaseMviViewModel
+import io.chefbook.libs.mvi.MviViewModel
+import io.chefbook.sdk.encryption.vault.api.external.domain.usecases.ObserveEncryptedVaultStateUseCase
 import io.chefbook.sdk.profile.api.external.domain.usecases.ObserveProfileUseCase
+import io.chefbook.sdk.recipe.book.api.external.domain.usecases.ObserveLatestRecipesUseCase
+import io.chefbook.sdk.recipe.book.api.external.domain.usecases.ObserveRecipeBookUseCase
+import io.chefbook.sdk.recipe.core.api.external.domain.entities.DecryptedRecipeInfo
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.update
-
-internal typealias IRecipeBookScreenViewModel = MviViewModel<RecipeBookScreenState, DashboardScreenIntent, DashboardScreenEffect>
 
 internal class DashboardScreenViewModel(
   private val observeProfileUseCase: ObserveProfileUseCase,
   private val observeRecipeBookUseCase: ObserveRecipeBookUseCase,
   private val observeLatestRecipesUseCase: ObserveLatestRecipesUseCase,
   private val observeEncryptionUseCase: ObserveEncryptedVaultStateUseCase,
-) : BaseMviViewModel<RecipeBookScreenState, DashboardScreenIntent, DashboardScreenEffect>() {
+) : BaseMviViewModel<DashboardScreenState, DashboardScreenIntent, DashboardScreenEffect>() {
 
-  override val _state = MutableStateFlow(RecipeBookScreenState())
+  override val _state = MutableStateFlow(DashboardScreenState())
 
   init {
     observeRecipes()
@@ -65,11 +63,11 @@ internal class DashboardScreenViewModel(
 
   override suspend fun reduceIntent(intent: DashboardScreenIntent) {
     when (intent) {
-      is DashboardScreenIntent.OpenProfile ->
+      is DashboardScreenIntent.ProfileButtonClicked ->
         _effect.emit(DashboardScreenEffect.ProfileScreenOpened)
 
-      is DashboardScreenIntent.OpenNewRecipeInput ->
-        _effect.emit(DashboardScreenEffect.RecipeInputScreenOpened)
+      is DashboardScreenIntent.CreateButtonClicked ->
+        _effect.emit(DashboardScreenEffect.CreationScreenOpened)
 
       is DashboardScreenIntent.OpenRecipeSearch ->
         _effect.emit(DashboardScreenEffect.RecipeSearchScreenOpened)
@@ -92,8 +90,8 @@ internal class DashboardScreenViewModel(
       is DashboardScreenIntent.OpenRecipe ->
         _effect.emit(DashboardScreenEffect.RecipeScreenOpened(intent.recipeId))
 
-      is DashboardScreenIntent.ChangeNewCategoryDialogVisibility ->
-        _effect.emit(DashboardScreenEffect.CategoryCreationScreenOpened)
+      is DashboardScreenIntent.OpenCategories ->
+        _effect.emit(DashboardScreenEffect.CategoriesScreenOpened)
     }
   }
 }

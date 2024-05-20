@@ -4,7 +4,7 @@ import io.chefbook.libs.mvi.MviIntent
 
 internal sealed class RecipeScreenIntent : MviIntent {
   data object ReloadRecipe : RecipeScreenIntent()
-  data object ChangeLikeStatus : RecipeScreenIntent()
+  data object RateButtonClicked : RecipeScreenIntent()
   data object AddToRecipeBook : RecipeScreenIntent()
   data object OpenRecipeMenu : RecipeScreenIntent()
   data object OpenRecipeDetails : RecipeScreenIntent()

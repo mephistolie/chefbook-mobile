@@ -2,13 +2,12 @@
 
     <string name="common_profile_screen_data_exporting">Data exporting</string>
     <string name="common_profile_screen_print_recipe_book">Print your recipe book!</string>
-    <string name="common_profile_screen_profile_editing">Profile editing</string>
     <string name="common_profile_screen_change_profile">Change profile</string>
 
     <string name="common_profile_screen_app_settings">App settings</string>
     <string name="common_profile_screen_rate_chefbook">Rate ChefBook</string>
     <string name="common_profile_screen_about_app">About app</string>
 
-    <string name="common_profile_screen_logout_warning">You will log out of the profile on this device</string>
+    <string name="common_profile_screen_logout_warning">You will sign out of the profile on this device</string>
 
 </resources>

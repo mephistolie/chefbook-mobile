@@ -27,7 +27,7 @@ internal class RemoteEncryptedVaultSourceImpl(
   ) =
     api.createEncryptedVault(
       CreateEncryptedVaultRequest(
-        publicKey = publicKey.raw.encodeBase64(),
+        publicKey = publicKey.serialized.encodeBase64(),
         privateKey = privateKey.encodeBase64(),
       )
     ).asEmpty()

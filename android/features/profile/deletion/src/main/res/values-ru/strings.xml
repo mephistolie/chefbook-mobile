@@ -1,0 +1,7 @@
+<resources>
+
+    <string name="common_profile_deletion_screen_profile_deletion">Удаление профиля</string>
+    <string name="common_profile_deletion_screen_delete_shared_data">Также удалить данные, используемые другими пользователями</string>
+    <string name="common_profile_deletion_screen_invalid_password">Неверный пароль</string>
+
+</resources>

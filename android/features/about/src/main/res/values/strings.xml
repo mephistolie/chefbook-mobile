@@ -3,6 +3,8 @@
     <string name="common_about_screen_title">About app</string>
     <string name="common_about_screen_version">Version %1$s</string>
     <string name="common_about_screen_build">Build %1$s %2$s</string>
+    <string name="common_about_telegram">Telegram channel</string>
+    <string name="common_about_vk">VK group</string>
     <string name="common_about_screen_feedback">Feedback</string>
 
 </resources>

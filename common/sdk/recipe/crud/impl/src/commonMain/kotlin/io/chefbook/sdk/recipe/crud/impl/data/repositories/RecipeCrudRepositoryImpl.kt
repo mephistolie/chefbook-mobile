@@ -1,16 +1,17 @@
 package io.chefbook.sdk.recipe.crud.impl.data.repositories
 
-import io.chefbook.sdk.encryption.recipe.api.internal.data.repositories.RecipeEncryptionRepository
-import io.chefbook.sdk.recipe.core.api.external.domain.entities.EncryptedRecipe
-import io.chefbook.sdk.recipe.core.api.external.domain.entities.Recipe
+import io.chefbook.libs.coroutines.CoroutineScopes
 import io.chefbook.libs.encryption.SymmetricKey
-import io.chefbook.sdk.core.api.internal.data.repositories.DataSourcesRepository
-import io.chefbook.sdk.encryption.vault.api.internal.data.repositories.EncryptedVaultRepository
-import io.chefbook.sdk.profile.api.internal.data.repositories.ProfileRepository
-import io.chefbook.sdk.recipe.core.api.internal.data.cache.RecipesCache
 import io.chefbook.libs.utils.result.EmptyResult
 import io.chefbook.libs.utils.result.successResult
+import io.chefbook.sdk.core.api.internal.data.repositories.DataSourcesRepository
 import io.chefbook.sdk.encryption.recipe.api.internal.data.crypto.RecipeCryptor
+import io.chefbook.sdk.encryption.recipe.api.internal.data.repositories.RecipeEncryptionRepository
+import io.chefbook.sdk.encryption.vault.api.internal.data.repositories.EncryptedVaultRepository
+import io.chefbook.sdk.profile.api.internal.data.repositories.ProfileRepository
+import io.chefbook.sdk.recipe.core.api.external.domain.entities.EncryptedRecipe
+import io.chefbook.sdk.recipe.core.api.external.domain.entities.Recipe
+import io.chefbook.sdk.recipe.core.api.internal.data.cache.RecipesCache
 import io.chefbook.sdk.recipe.crud.api.external.domain.entities.RecipeInput
 import io.chefbook.sdk.recipe.crud.api.internal.data.sources.local.LocalRecipeCrudSource
 import io.chefbook.sdk.recipe.crud.impl.data.models.asDecrypted
@@ -19,6 +20,7 @@ import io.chefbook.sdk.recipe.crud.impl.data.models.toNewRecipe
 import io.chefbook.sdk.recipe.crud.impl.data.models.toUpdatedRecipe
 import io.chefbook.sdk.recipe.crud.impl.data.sources.remote.RemoteRecipeCrudSource
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.launch
 
 internal class RecipeCrudRepositoryImpl(
   private val localSource: LocalRecipeCrudSource,
@@ -30,7 +32,11 @@ internal class RecipeCrudRepositoryImpl(
   private val profileRepository: ProfileRepository,
   private val sources: DataSourcesRepository,
   private val cryptor: RecipeCryptor,
+  private val scopes: CoroutineScopes,
 ) : RecipeCrudRepository {
+
+  override fun observeRecipes() =
+    cache.observeRecipes()
 
   override suspend fun observeRecipe(recipeId: String): Flow<Recipe?> {
     when (val cachedRecipe = cache.getRecipe(recipeId)) {
@@ -113,7 +119,8 @@ internal class RecipeCrudRepositoryImpl(
   }
 
   override suspend fun deleteRecipe(recipeId: String): EmptyResult {
-    if (sources.isRemoteSourceEnabled()) remoteSource.deleteRecipe(recipeId).onFailure { return Result.failure(it) }
+    if (sources.isRemoteSourceEnabled()) remoteSource.deleteRecipe(recipeId)
+      .onFailure { return Result.failure(it) }
 
     localSource.deleteRecipe(recipeId)
     cache.removeRecipe(recipeId)

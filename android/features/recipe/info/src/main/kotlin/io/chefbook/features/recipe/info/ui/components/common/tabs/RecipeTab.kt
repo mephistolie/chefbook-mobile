@@ -10,8 +10,8 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import io.chefbook.ui.common.presentation.RecipeScreenPage
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
+import io.chefbook.ui.common.presentation.RecipeScreenPage
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)

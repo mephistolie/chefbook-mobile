@@ -1,13 +1,10 @@
 package io.chefbook.ui.common.extensions
 
 import android.content.res.Resources
-import io.chefbook.sdk.recipe.core.api.external.domain.entities.DecryptedRecipe
-import io.chefbook.sdk.recipe.core.api.external.domain.entities.Recipe.Decrypted.CookingItem
-import io.chefbook.sdk.recipe.core.api.external.domain.entities.Recipe.Decrypted.IngredientsItem
-import io.chefbook.libs.models.language.Language
-import io.chefbook.libs.models.measureunit.MeasureUnit
 import io.chefbook.core.android.R
 import io.chefbook.core.android.utils.minutesToTimeString
+import io.chefbook.libs.models.language.Language
+import io.chefbook.libs.models.measureunit.MeasureUnit
 
 fun MeasureUnit.localizedName(resources: Resources) =
   when (this) {
@@ -59,92 +56,4 @@ fun stringToMeasureUnit(unit: String?, resources: Resources): MeasureUnit? {
     resources.getString(R.string.common_general_tbsp).lowercase() to MeasureUnit.TBSP,
   )
   return localizedUnitsMap[unit.lowercase()] ?: MeasureUnit.Custom(unit)
-}
-
-
-fun DecryptedRecipe.asText(resources: Resources): String {
-  var text = name.uppercase()
-
-  owner.name?.let { author ->
-    text += "\n\n${resources.getString(R.string.common_general_author)}: $author"
-  }
-
-  description?.let { description ->
-    text += "\n\n${resources.getString(R.string.common_general_description)}:\n$description"
-  }
-
-  text += "\n"
-  servings?.let {
-    text += "\n${resources.getString(R.string.common_general_servings)}: $servings"
-  }
-  time?.let { time ->
-    text += "\n${resources.getString(R.string.common_general_time)}: ${
-      minutesToTimeString(
-        time,
-        resources
-      )
-    }"
-  }
-
-  if (hasDietData) {
-    text += "\n\n${resources.getString(R.string.common_general_in_100_g)}:\n"
-    calories?.let { calories ->
-      text += "${resources.getString(R.string.common_general_calories)}: $calories ${
-        resources.getString(
-          R.string.common_general_kcal
-        )
-      }\n"
-    }
-    macronutrients?.protein?.let { protein ->
-      text += "${resources.getString(R.string.common_general_protein)}: $protein\n"
-    }
-    macronutrients?.fats?.let { fats ->
-      text += "${resources.getString(R.string.common_general_fats)}: $fats\n"
-    }
-    macronutrients?.carbohydrates?.let { carbohydrates ->
-      text += "${resources.getString(R.string.common_general_carbs)}: $carbohydrates"
-    }
-  }
-
-  text += "\n\n${resources.getString(R.string.common_general_ingredients).uppercase()}\n"
-  for (ingredient in ingredients) {
-    when (ingredient) {
-      is IngredientsItem.Section -> {
-        text += "${ingredient.name}:\n"
-      }
-      is IngredientsItem.Ingredient -> {
-        text += "• ${ingredient.name}"
-        ingredient.amount?.let { amount ->
-          text += " - $amount"
-          ingredient.measureUnit?.let { unit ->
-            text += " ${unit.localizedName(resources)}"
-          }
-        }
-        text += "\n"
-      }
-      else -> Unit
-    }
-  }
-  text += "\n\n${resources.getString(R.string.common_general_cooking).uppercase()}\n"
-  var stepCount = 1
-  for (cookingItem in cooking) {
-    when (cookingItem) {
-      is CookingItem.Section -> {
-        text += "${cookingItem.name}:\n"
-      }
-      is CookingItem.Step -> {
-        text += "$stepCount. ${cookingItem.description}\n"
-        stepCount++
-      }
-      else -> Unit
-    }
-  }
-
-  text += "\n${resources.getString(R.string.common_general_recipe)} #${id}, ${
-    resources.getString(
-      R.string.app_name
-    )
-  }"
-
-  return text
 }

@@ -4,15 +4,11 @@ plugins {
 
 kotlin {
   sourceSets {
-    val commonMain by getting {
-      dependencies {
-        api(projects.common.sdk.file.api.internal)
-      }
+    commonMain.dependencies {
+      api(projects.common.sdk.file.api.internal)
     }
-    val androidMain by getting {
-      dependencies {
-        implementation(libs.compressor)
-      }
+    androidMain.dependencies {
+      implementation(libs.compressor)
     }
   }
 }

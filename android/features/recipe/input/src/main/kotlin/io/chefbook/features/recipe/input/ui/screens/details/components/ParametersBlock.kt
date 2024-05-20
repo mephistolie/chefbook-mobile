@@ -11,14 +11,14 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
-import io.chefbook.sdk.recipe.core.api.external.domain.entities.RecipeMeta.Visibility
-import io.chefbook.ui.common.extensions.localizedName
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
-import io.chefbook.core.android.R as coreR
 import io.chefbook.design.components.buttons.DynamicButton
-import io.chefbook.design.theme.dimens.ButtonSmallHeight
-import io.chefbook.design.R as designR
+import io.chefbook.design.theme.dimens.ComponentSmallHeight
+import io.chefbook.sdk.recipe.core.api.external.domain.entities.RecipeMeta.Visibility
 import io.chefbook.sdk.recipe.crud.api.external.domain.entities.RecipeInput
+import io.chefbook.ui.common.extensions.localizedName
+import io.chefbook.core.android.R as coreR
+import io.chefbook.design.R as designR
 
 @Composable
 internal fun ParametersBlock(
@@ -59,7 +59,7 @@ internal fun ParametersBlock(
         unselectedForeground = colors.foregroundPrimary,
         modifier = Modifier
           .padding(start = 12.dp)
-          .height(ButtonSmallHeight),
+          .height(ComponentSmallHeight),
         onClick = onVisibilityClick,
       )
     }
@@ -72,7 +72,7 @@ internal fun ParametersBlock(
         iconsSize = 16.dp,
         rightIcon = ImageVector.vectorResource(designR.drawable.ic_arrow_down),
         unselectedForeground = colors.foregroundPrimary,
-        modifier = Modifier.height(ButtonSmallHeight),
+        modifier = Modifier.height(ComponentSmallHeight),
         onClick = onLanguageClick,
       )
     }
@@ -89,7 +89,7 @@ internal fun ParametersBlock(
         unselectedForeground = colors.foregroundPrimary,
         modifier = Modifier
           .padding(end = 12.dp)
-          .height(ButtonSmallHeight),
+          .height(ComponentSmallHeight),
         onClick = onEncryptionClick,
       )
     }

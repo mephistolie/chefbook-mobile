@@ -26,13 +26,14 @@ import androidx.compose.ui.unit.dp
 import com.mephistolie.compost.extensions.Shading
 import com.mephistolie.compost.modifiers.clippedBackground
 import com.mephistolie.compost.modifiers.scalingClickable
-import io.chefbook.sdk.recipe.core.api.external.domain.entities.DecryptedRecipeInfo
-import io.chefbook.sdk.recipe.core.api.external.domain.entities.RecipeInfo
-import io.chefbook.ui.common.providers.RecipeEncryptionProvider
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.core.android.utils.EmojiUtils
 import io.chefbook.core.android.utils.minutesToTimeString
 import io.chefbook.design.components.images.EncryptedImage
+import io.chefbook.design.theme.dimens.ComponentMediumHeight
+import io.chefbook.sdk.recipe.core.api.external.domain.entities.DecryptedRecipeInfo
+import io.chefbook.sdk.recipe.core.api.external.domain.entities.RecipeInfo
+import io.chefbook.ui.common.providers.RecipeEncryptionProvider
 
 @Composable
 internal fun SearchRecipeCard(
@@ -47,7 +48,9 @@ internal fun SearchRecipeCard(
 
   val pressed = remember { mutableStateOf(false) }
 
-  val placeholder = remember { EmojiUtils.randomFoodEmoji(recipe.id) }
+  val placeholder = remember {
+    recipe.categories.firstOrNull { it.emoji != null }?.emoji ?: EmojiUtils.randomFoodEmoji(recipe.id)
+  }
 
   RecipeEncryptionProvider(
     isEncryptionEnabled = recipe.isEncryptionEnabled,
@@ -56,7 +59,7 @@ internal fun SearchRecipeCard(
     Row(
       modifier = modifier
         .fillMaxWidth()
-        .height(48.dp)
+        .height(ComponentMediumHeight)
         .scalingClickable(
           pressed = pressed,
           debounceInterval = 500L

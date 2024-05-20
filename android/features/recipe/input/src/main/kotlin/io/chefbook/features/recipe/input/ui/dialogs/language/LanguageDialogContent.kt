@@ -22,14 +22,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.mephistolie.compost.modifiers.clippedBackground
 import com.mephistolie.compost.modifiers.simpleClickable
-import io.chefbook.features.recipe.input.ui.mvi.RecipeInputDetailsScreenIntent
-import io.chefbook.ui.common.extensions.localizedName
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.design.components.radibuttons.RadioButton
-import io.chefbook.core.android.R as coreR
-import io.chefbook.design.theme.shapes.ModalBottomSheetShape
+import io.chefbook.design.theme.shapes.RoundedCornerShape28Top
 import io.chefbook.features.recipe.input.R
+import io.chefbook.features.recipe.input.ui.mvi.RecipeInputDetailsScreenIntent
 import io.chefbook.libs.models.language.Language
+import io.chefbook.ui.common.extensions.localizedName
+import io.chefbook.core.android.R as coreR
 
 @Composable
 internal fun LanguageDialogContent(
@@ -43,7 +43,7 @@ internal fun LanguageDialogContent(
 
   Column(
     modifier = Modifier
-      .clippedBackground(colors.backgroundPrimary, shape = ModalBottomSheetShape)
+      .clippedBackground(colors.backgroundPrimary, shape = RoundedCornerShape28Top)
       .padding(horizontal = 18.dp)
       .fillMaxWidth()
       .wrapContentHeight(),
@@ -78,7 +78,7 @@ internal fun LanguageDialogContent(
         .fillMaxWidth()
         .requiredHeightIn(0.dp, 512.dp)
     ) {
-      for (language in Language.values()) {
+      for (language in Language.entries) {
         item {
           Row(
             modifier = Modifier
@@ -90,7 +90,7 @@ internal fun LanguageDialogContent(
             horizontalArrangement = Arrangement.SpaceBetween,
           ) {
             Text(
-              text = "${language.flag}  ${language.localizedName(resources)}",
+              text = "${language.flag} ${language.localizedName(resources)}",
               style = typography.headline1,
               color = colors.foregroundPrimary,
             )

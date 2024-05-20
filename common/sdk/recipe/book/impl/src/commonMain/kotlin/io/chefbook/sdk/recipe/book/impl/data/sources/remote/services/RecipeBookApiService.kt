@@ -4,5 +4,5 @@ import io.chefbook.sdk.recipe.book.impl.data.sources.remote.services.dto.GetReci
 
 internal interface RecipeBookApiService {
 
-  suspend fun getRecipeBook(): Result<GetRecipeBookResponse>
+  suspend fun getRecipeBook(userLanguage: String? = null): Result<GetRecipeBookResponse>
 }

@@ -7,16 +7,16 @@ import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import io.chefbook.sdk.recipe.core.api.external.domain.entities.Recipe
-import io.chefbook.features.recipe.info.ui.components.common.actions.buttons.LikeButton
+import io.chefbook.features.recipe.info.ui.components.common.actions.buttons.RateButton
 import io.chefbook.features.recipe.info.ui.components.common.actions.buttons.ManagementButton
 import io.chefbook.features.recipe.info.ui.components.common.actions.buttons.ShareButton
+import io.chefbook.sdk.recipe.core.api.external.domain.entities.Recipe
 
 @Composable
 internal fun ActionsWidget(
   recipe: Recipe,
   modifier: Modifier = Modifier,
-  onLikeClick: () -> Unit,
+  onRateClick: () -> Unit,
   onSaveClick: () -> Unit,
   onShareClick: () -> Unit,
 ) {
@@ -28,12 +28,12 @@ internal fun ActionsWidget(
         .fillMaxWidth(),
       onSaveClick = onSaveClick,
     )
-    LikeButton(
-      recipe = recipe,
+    RateButton(
+      rating = recipe.rating,
       modifier = Modifier
         .padding(start = 8.dp)
         .wrapContentWidth(),
-      onLikeClick = onLikeClick,
+      onRateClick = onRateClick,
     )
     ShareButton(
       modifier = Modifier

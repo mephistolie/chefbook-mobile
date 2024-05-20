@@ -16,13 +16,13 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.mephistolie.compost.modifiers.clippedBackground
-import io.chefbook.sdk.recipe.core.api.external.domain.entities.RecipeMeta.Visibility
+import io.chefbook.core.android.compose.providers.theme.LocalTheme
+import io.chefbook.design.theme.shapes.RoundedCornerShape28Top
+import io.chefbook.features.recipe.input.R
 import io.chefbook.features.recipe.input.ui.dialogs.components.RadioElement
 import io.chefbook.features.recipe.input.ui.mvi.RecipeInputDetailsScreenIntent
-import io.chefbook.core.android.compose.providers.theme.LocalTheme
+import io.chefbook.sdk.recipe.core.api.external.domain.entities.RecipeMeta.Visibility
 import io.chefbook.core.android.R as coreR
-import io.chefbook.design.theme.shapes.ModalBottomSheetShape
-import io.chefbook.features.recipe.input.R
 import io.chefbook.design.R as designR
 
 @Composable
@@ -35,7 +35,7 @@ internal fun VisibilityDialogContent(
 
   Column(
     modifier = Modifier
-      .clippedBackground(colors.backgroundPrimary, shape = ModalBottomSheetShape)
+      .clippedBackground(colors.backgroundPrimary, shape = RoundedCornerShape28Top)
       .padding(horizontal = 18.dp)
       .fillMaxWidth()
       .wrapContentHeight(),

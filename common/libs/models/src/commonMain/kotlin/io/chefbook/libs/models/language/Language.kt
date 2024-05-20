@@ -1,7 +1,7 @@
 package io.chefbook.libs.models.language
 
 enum class Language(val code: String, val flag: String?) {
-  ENGLISH(code = "en", flag = "\uD83C\uDDFA\uD83C\uDDF8"),
+  ENGLISH(code = "en", flag = "\uD83C\uDDEC\uD83C\uDDE7"),
   RUSSIAN(code = "ru", flag = "\uD83C\uDDF7\uD83C\uDDFA"),
   UKRAINIAN(code = "uk", flag = "\uD83C\uDDFA\uD83C\uDDE6"),
   BELARUSIAN(code = "be", flag = "\uD83C\uDDE7\uD83C\uDDFE"),

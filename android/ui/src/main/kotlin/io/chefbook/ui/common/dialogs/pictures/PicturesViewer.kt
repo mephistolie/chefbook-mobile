@@ -25,12 +25,12 @@ import com.ramcosta.composedestinations.annotation.Destination
 import io.chefbook.core.android.compose.providers.ContentAccessProvider
 import io.chefbook.core.android.compose.providers.ContentType
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
+import io.chefbook.design.R
 import io.chefbook.design.components.images.EncryptedImage
+import io.chefbook.design.components.pager.HorizontalPagerIndicator
 import io.chefbook.design.theme.shapes.RoundedCornerShape24
 import io.chefbook.navigation.navigators.BaseNavigator
 import io.chefbook.navigation.styles.DismissibleDialog
-import io.chefbook.design.R
-import io.chefbook.design.components.pager.HorizontalPagerIndicator
 
 @Destination(route = "pictures", style = DismissibleDialog::class)
 @OptIn(ExperimentalFoundationApi::class)

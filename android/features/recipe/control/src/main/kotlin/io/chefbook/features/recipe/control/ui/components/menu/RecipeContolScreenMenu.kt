@@ -1,6 +1,8 @@
 package io.chefbook.features.recipe.control.ui.components.menu
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -8,13 +10,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import io.chefbook.sdk.recipe.core.api.external.domain.entities.DecryptedRecipeInfo
-import io.chefbook.features.recipe.control.ui.mvi.RecipeControlScreenIntent
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.design.components.toolbar.Toolbar
-import io.chefbook.design.R as designR
 import io.chefbook.design.theme.dimens.SmallIconSize
 import io.chefbook.features.recipe.control.R
+import io.chefbook.features.recipe.control.ui.mvi.RecipeControlScreenIntent
+import io.chefbook.sdk.recipe.core.api.external.domain.entities.DecryptedRecipeInfo
+import io.chefbook.design.R as designR
 
 @Composable
 internal fun RecipeControlScreenMenu(
@@ -79,18 +81,21 @@ internal fun RecipeControlScreenMenu(
       isLast = true,
     )
 
-    RecipeActionButton(
-      onClick = { onIntent(RecipeControlScreenIntent.EditRecipe) },
-      text = stringResource(R.string.common_recipe_control_screen_edit_recipe),
-      iconId = designR.drawable.ic_edit,
-      isFirst = true,
-    )
-    RecipeActionButton(
-      onClick = { onIntent(RecipeControlScreenIntent.OpenDeleteDialog) },
-      text = stringResource(R.string.common_recipe_control_screen_delete_recipe),
-      textTint = colors.tintPrimary,
-      iconId = designR.drawable.ic_trash,
-      isLast = true,
-    )
+    if (recipe.isOwned) {
+      RecipeActionButton(
+        onClick = { onIntent(RecipeControlScreenIntent.EditRecipe) },
+        text = stringResource(R.string.common_recipe_control_screen_edit_recipe),
+        iconId = designR.drawable.ic_edit,
+        isFirst = true,
+      )
+      RecipeActionButton(
+        onClick = { onIntent(RecipeControlScreenIntent.OpenDeleteDialog) },
+        text = stringResource(R.string.common_recipe_control_screen_delete_recipe),
+        textTint = colors.tintPrimary,
+        iconId = designR.drawable.ic_trash,
+        isLast = true,
+      )
+    }
+    Spacer(modifier = Modifier.height(16.dp))
   }
 }

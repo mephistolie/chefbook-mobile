@@ -1,20 +1,55 @@
 package io.chefbook.features.auth.ui.mvi
 
 import io.chefbook.libs.mvi.MviState
-import io.chefbook.libs.utils.auth.PasswordRating
-import io.chefbook.libs.utils.auth.validatePassword
 
-internal data class AuthScreenState(
-    val email: String = "",
-    val isEmailValid: Boolean = false,
+internal sealed interface AuthScreenState : MviState {
+
+  data object Loading : AuthScreenState
+
+  data class SignIn(
+    val login: String = "",
+    val isAuthButtonEnabled: Boolean = false,
+  ) : AuthScreenState
+
+  data class SignInPassword(
+    val login: String,
+    val password: String = "",
+  ) : AuthScreenState
+
+  data class PasswordReset(
+    val login: String?,
+  ) : AuthScreenState
+
+  data class PasswordResetConfirmation(
+    val login: String?,
     val password: String = "",
     val passwordValidation: String = "",
-    val passwordRating: PasswordRating = validatePassword(password, passwordValidation),
+    val isAuthButtonEnabled: Boolean = false,
+  ) : AuthScreenState
 
-    val action: AuthAction = AuthAction.SIGN_IN,
-    val isLoading: Boolean = false,
-) : MviState
+  data class SignUp(
+    val email: String = "",
+    val isAuthButtonEnabled: Boolean = false,
+  ) : AuthScreenState
 
-internal enum class AuthAction {
-    SIGN_IN, SIGN_UP, RESET_PASSWORD
+  data class SignUpPassword(
+    val email: String,
+    val password: String = "",
+    val passwordValidation: String = "",
+    val isAuthButtonEnabled: Boolean = false,
+  ) : AuthScreenState
+
+  data class ProfileActivation(
+    val email: String? = null,
+    val code: String,
+  ) : AuthScreenState {
+
+    companion object {
+      const val CODE_LENGTH = 6
+    }
+  }
+
+  data class ProfileRestoration(
+    val deletionTimestamp: String,
+  ) : AuthScreenState
 }

@@ -5,27 +5,22 @@ import android.content.Context
 import androidx.lifecycle.viewModelScope
 import io.chefbook.features.shoppinglist.control.R
 import io.chefbook.features.shoppinglist.control.ui.screen.mvi.ModalState
-import io.chefbook.sdk.shoppinglist.api.external.domain.usecases.CreatePurchaseUseCase
-import io.chefbook.sdk.shoppinglist.api.external.domain.usecases.ObserveShoppingListUseCase
-import io.chefbook.sdk.shoppinglist.api.external.domain.usecases.RemovePurchasedItemsUseCase
-import io.chefbook.sdk.shoppinglist.api.external.domain.usecases.SwitchPurchaseStatusUseCase
-import io.chefbook.libs.mvi.MviViewModel
-import io.chefbook.libs.mvi.BaseMviViewModel
 import io.chefbook.features.shoppinglist.control.ui.screen.mvi.ShoppingListScreenEffect
 import io.chefbook.features.shoppinglist.control.ui.screen.mvi.ShoppingListScreenIntent
 import io.chefbook.features.shoppinglist.control.ui.screen.mvi.ShoppingListScreenState
 import io.chefbook.features.shoppinglist.control.ui.screen.state.ShoppingListSectionMapper
+import io.chefbook.libs.mvi.BaseMviViewModel
+import io.chefbook.libs.mvi.MviViewModel
 import io.chefbook.sdk.shoppinglist.api.external.domain.entities.ShoppingListMeta
+import io.chefbook.sdk.shoppinglist.api.external.domain.usecases.CreatePurchaseUseCase
 import io.chefbook.sdk.shoppinglist.api.external.domain.usecases.GetShoppingListsUseCase
+import io.chefbook.sdk.shoppinglist.api.external.domain.usecases.ObserveShoppingListUseCase
+import io.chefbook.sdk.shoppinglist.api.external.domain.usecases.RemovePurchasedItemsUseCase
+import io.chefbook.sdk.shoppinglist.api.external.domain.usecases.SwitchPurchaseStatusUseCase
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.sync.Mutex
-import kotlinx.coroutines.sync.withLock
-
-internal typealias IShoppingListScreenViewModel = MviViewModel<ShoppingListScreenState, ShoppingListScreenIntent, ShoppingListScreenEffect>
 
 @SuppressLint("StaticFieldLeak")
 internal class ShoppingListScreenViewModel(

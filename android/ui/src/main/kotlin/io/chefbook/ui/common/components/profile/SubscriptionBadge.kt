@@ -12,9 +12,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import io.chefbook.core.android.R
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.design.theme.colors.Gradients
-import io.chefbook.core.android.R
 
 @Composable
 fun SubscriptionBadge(
@@ -25,7 +25,7 @@ fun SubscriptionBadge(
   val typography = LocalTheme.typography
 
   Box(
-    modifier = Modifier
+    modifier = modifier
       .background(
         brush = if (isPremium) Gradients.orangeBrush else Gradients.grayBrush(),
         shape = RoundedCornerShape(100)

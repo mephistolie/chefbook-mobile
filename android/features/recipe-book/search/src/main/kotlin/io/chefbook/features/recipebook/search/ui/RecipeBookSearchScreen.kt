@@ -2,24 +2,21 @@ package io.chefbook.features.recipebook.search.ui
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.ui.ExperimentalComposeUiApi
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import com.ramcosta.composedestinations.annotation.Destination
 import io.chefbook.features.recipebook.search.ui.mvi.RecipeBookSearchScreenEffect
 import io.chefbook.features.recipebook.search.ui.navigation.RecipeBookSearchScreenNavigator
-import com.ramcosta.composedestinations.annotation.Destination
-import org.koin.androidx.compose.getViewModel
+import org.koin.androidx.compose.koinViewModel
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Destination(route = "recipe_book/search")
 @Composable
 internal fun RecipeBookSearchScreen(
   navigator: RecipeBookSearchScreenNavigator,
 ) {
-  val viewModel: IRecipeBookSearchScreenViewModel =
-    getViewModel<RecipeBookSearchScreenViewModel>()
-  val state = viewModel.state.collectAsState()
+  val viewModel = koinViewModel<RecipeBookSearchScreenViewModel>()
+  val state = viewModel.state.collectAsStateWithLifecycle()
 
   val focusManager = LocalFocusManager.current
   val keyboardController = LocalSoftwareKeyboardController.current
@@ -42,6 +39,12 @@ internal fun RecipeBookSearchScreen(
           focusManager.clearFocus(force = true)
           keyboardController?.hide()
           navigator.openRecipeScreen(recipeId = effect.recipeId)
+        }
+
+        is RecipeBookSearchScreenEffect.CommunitySearchScreenOpened -> {
+          focusManager.clearFocus(force = true)
+          keyboardController?.hide()
+          navigator.openCommunityRecipeSearch(search = effect.search)
         }
 
         is RecipeBookSearchScreenEffect.Back -> {

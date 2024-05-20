@@ -1,6 +1,5 @@
 package io.chefbook.sdk.recipe.crud.impl.data.sources.remote.services.dto.pictures
 
-import io.chefbook.sdk.recipe.crud.impl.data.models.RecipePictures
 import io.chefbook.sdk.recipe.crud.impl.data.models.RecipePicturesUpdate
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

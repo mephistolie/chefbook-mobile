@@ -19,11 +19,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
-import io.chefbook.core.android.R as coreR
 import io.chefbook.design.components.buttons.BottomSheetCloseButton
 import io.chefbook.design.components.buttons.DynamicButton
-import io.chefbook.design.R as designR
 import io.chefbook.features.recipe.info.R
+import io.chefbook.core.android.R as coreR
+import io.chefbook.design.R as designR
 
 @Composable
 internal fun BoxScope.RecipeScreenErrorContent(
@@ -42,7 +42,7 @@ internal fun BoxScope.RecipeScreenErrorContent(
     horizontalAlignment = Alignment.CenterHorizontally,
   ) {
     Image(
-      imageVector = ImageVector.vectorResource(coreR.drawable.ic_broccy_grinning_sweat),
+      imageVector = ImageVector.vectorResource(designR.drawable.ic_broccy_grinning_sweat),
       contentDescription = null,
       modifier = Modifier.size(144.dp)
     )

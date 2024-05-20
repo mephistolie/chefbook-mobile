@@ -1,5 +1,7 @@
 package io.chefbook.features.profile.control.ui
 
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -7,19 +9,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
-import io.chefbook.core.android.R as coreR
-import io.chefbook.design.R as designR
 import io.chefbook.design.theme.colors.Gradients
 import io.chefbook.features.profile.control.R
 import io.chefbook.features.profile.control.ui.components.ProfileScreenToolbar
 import io.chefbook.features.profile.control.ui.mvi.ProfileScreenIntent
 import io.chefbook.features.profile.control.ui.mvi.ProfileScreenState
+import io.chefbook.sdk.profile.api.external.domain.entities.SubscriptionPlan
 import io.chefbook.ui.common.components.menu.MenuDivider
 import io.chefbook.ui.common.components.menu.MenuGroup
 import io.chefbook.ui.common.components.menu.MenuItem
 import io.chefbook.ui.common.components.menu.MenuScreen
 import io.chefbook.ui.common.components.profile.ProfileAvatar
 import io.chefbook.ui.common.components.profile.SubscriptionBadge
+import io.chefbook.core.android.R as coreR
+import io.chefbook.design.R as designR
 
 @Composable
 internal fun ProfileScreenContent(
@@ -29,8 +32,13 @@ internal fun ProfileScreenContent(
   val colors = LocalTheme.colors
   val typography = LocalTheme.typography
 
-  val username = state.profile.username
+  val username = if (state.profile.firstName != null || state.profile.lastName != null) {
+    (state.profile.firstName?.let { "$it " } + state.profile.lastName).trim()
+  } else {
+    null
+  }
   val email = state.profile.email
+  val nickname = state.profile.nickname
 
   MenuScreen(
     toolbar = {
@@ -44,7 +52,7 @@ internal fun ProfileScreenContent(
       ProfileAvatar(
         url = state.profile.avatar,
         size = 128.dp,
-        strokeBrush = if (state.profile.premium) Gradients.orangeBrush else null,
+        strokeBrush = if (state.profile.subscriptionPlan != SubscriptionPlan.FREE) Gradients.orangeBrush else null,
         modifier = Modifier.padding(vertical = 12.dp)
       )
       Text(
@@ -52,14 +60,14 @@ internal fun ProfileScreenContent(
         style = typography.h2,
         color = colors.foregroundPrimary,
       )
-      if (username != null && email != null) {
+      if (username != null && (nickname != null || email != null)) {
         Text(
-          text = email,
+          text = nickname ?: email.orEmpty(),
           style = typography.caption1,
           color = colors.foregroundSecondary,
-          modifier = Modifier.padding(bottom = 14.dp)
         )
       }
+      Spacer(modifier = Modifier.height(14.dp))
     }
     MenuDivider()
     MenuGroup {
@@ -67,18 +75,19 @@ internal fun ProfileScreenContent(
         title = stringResource(coreR.string.common_general_subscription),
         iconId = designR.drawable.ic_credit_card,
         onClick = {},
-        endContent = { SubscriptionBadge(isPremium = state.profile.premium) },
+        endContent = { SubscriptionBadge(isPremium = state.profile.subscriptionPlan != SubscriptionPlan.FREE) },
+        showChevron = false,
       )
+//      MenuItem(
+//        title = stringResource(R.string.common_profile_screen_data_exporting),
+//        subtitle = stringResource(R.string.common_profile_screen_print_recipe_book),
+//        iconId = designR.drawable.ic_cloud_down,
+//        onClick = {},
+//      )
       MenuItem(
-        title = stringResource(R.string.common_profile_screen_data_exporting),
-        subtitle = stringResource(R.string.common_profile_screen_print_recipe_book),
-        iconId = designR.drawable.ic_cloud_down,
-        onClick = {},
-      )
-      MenuItem(
-        title = stringResource(R.string.common_profile_screen_profile_editing),
+        title = stringResource(coreR.string.common_general_profile_editing),
         iconId = designR.drawable.ic_manage_profile,
-        onClick = {},
+        onClick = { onIntent(ProfileScreenIntent.OpenProfileEditingScreen) },
       )
       MenuItem(
         title = stringResource(R.string.common_profile_screen_change_profile),

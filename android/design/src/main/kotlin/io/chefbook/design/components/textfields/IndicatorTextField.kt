@@ -15,14 +15,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mephistolie.compost.ui.textfields.IndicatorLineTextField
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
-import io.chefbook.core.android.R
 import io.chefbook.design.theme.ChefBookTheme
 import io.chefbook.design.theme.dimens.DividerHeight
 
@@ -101,14 +99,14 @@ private fun ThemedIndicatorFields(
           value = "",
           onValueChange = {},
           modifier = Modifier.fillMaxWidth(),
-          label = { Text(stringResource(R.string.common_general_email)) },
+          label = { Text("Email") },
         )
         Spacer(Modifier.height(8.dp))
         ThemedIndicatorTextField(
           value = "",
           onValueChange = {},
           modifier = Modifier.fillMaxWidth(),
-          label = { Text(stringResource(R.string.common_general_password)) },
+          label = { Text("Password") },
         )
       }
     }

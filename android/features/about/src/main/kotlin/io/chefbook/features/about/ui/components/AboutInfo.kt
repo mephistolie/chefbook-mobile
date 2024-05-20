@@ -13,7 +13,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
-import io.chefbook.core.android.R as coreR
+import io.chefbook.design.R as designR
 import io.chefbook.features.about.R
 
 @Composable
@@ -27,7 +27,7 @@ internal fun AboutInfo(
 
   Column(horizontalAlignment = Alignment.CenterHorizontally) {
     Image(
-      imageVector = ImageVector.vectorResource(coreR.drawable.ic_broccy),
+      imageVector = ImageVector.vectorResource(designR.drawable.ic_broccy),
       contentDescription = null,
       modifier = Modifier
         .padding(top = 16.dp)

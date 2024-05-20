@@ -1,7 +1,6 @@
 package io.chefbook.sdk.shoppinglist.impl.data.sources
 
 import io.chefbook.libs.utils.result.EmptyResult
-import io.chefbook.sdk.shoppinglist.api.external.domain.entities.Purchase
 import io.chefbook.sdk.shoppinglist.api.external.domain.entities.ShoppingList
 import io.chefbook.sdk.shoppinglist.api.external.domain.entities.ShoppingListMeta
 

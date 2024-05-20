@@ -1,0 +1,7 @@
+<resources>
+
+    <string name="common_recipe_rating_screen_scores">Scores</string>
+    <string name="common_recipe_rating_screen_community_rating">Community Rating</string>
+    <string name="common_recipe_rating_screen_your_score">Your score</string>
+
+</resources>

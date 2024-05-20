@@ -3,31 +3,35 @@ package io.chefbook.features.recipe.input.ui.screens.details
 import androidx.activity.compose.BackHandler
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import io.chefbook.features.recipe.input.navigation.RecipeInputDetailsScreenNavigator
-import io.chefbook.features.recipe.input.navigation.handleBaseRecipeInputScreenEffect
-import io.chefbook.features.recipe.input.ui.mvi.RecipeInputScreenEffect
-import io.chefbook.features.recipe.input.ui.mvi.RecipeInputScreenIntent
-import io.chefbook.features.recipe.input.ui.viewmodel.IRecipeInputScreenViewModel
-import io.chefbook.ui.common.dialogs.LoadingDialog
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.ramcosta.composedestinations.annotation.DeepLink
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.result.NavResult
 import com.ramcosta.composedestinations.result.OpenResultRecipient
 import io.chefbook.features.recipe.input.R
+import io.chefbook.features.recipe.input.navigation.RecipeInputDetailsScreenNavigator
+import io.chefbook.features.recipe.input.navigation.handleBaseRecipeInputScreenEffect
+import io.chefbook.features.recipe.input.ui.mvi.RecipeInputScreenEffect
+import io.chefbook.features.recipe.input.ui.mvi.RecipeInputScreenIntent
+import io.chefbook.features.recipe.input.ui.viewmodel.RecipeInputScreenViewModel
 import io.chefbook.navigation.params.dialogs.TwoButtonsDialogParams
 import io.chefbook.navigation.results.dialogs.TwoButtonsDialogResult
+import io.chefbook.ui.common.dialogs.LoadingDialog
 import kotlinx.coroutines.flow.collectLatest
 
 private const val CLOSE_RECIPE_INPUT_REQUEST = "CLOSE_RECIPE_INPUT"
 
-@Destination(route = "details")
+@Destination(
+  route = "details",
+  deepLinks = [DeepLink(uriPattern = "https://chefbook.io/recipes/create")],
+)
 @Composable
 fun RecipeInputDetailsScreen(
-  viewModel: IRecipeInputScreenViewModel,
+  viewModel: RecipeInputScreenViewModel,
   navigator: RecipeInputDetailsScreenNavigator,
   confirmDialogRecipient: OpenResultRecipient<TwoButtonsDialogResult>
 ) {
-  val state = viewModel.state.collectAsState()
+  val state = viewModel.state.collectAsStateWithLifecycle()
 
   RecipeInputDetailsScreenContent(
     state = state.value,

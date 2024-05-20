@@ -12,6 +12,7 @@ import io.ktor.client.request.post
 import io.ktor.client.request.put
 import io.ktor.client.statement.HttpResponse
 import io.ktor.http.ContentType
+import io.ktor.http.Url
 import io.ktor.http.contentType
 import io.ktor.http.isSuccess
 
@@ -19,44 +20,53 @@ abstract class ChefBookApiService(
   protected val client: HttpClient,
 ) {
 
-  protected suspend inline fun <reified T> safeGet(requestBuilder: HttpRequestBuilder.() -> Unit): Result<T> =
-    safeRequest { client.get(requestBuilder) }
+  protected suspend inline fun <reified T> safeGet(
+    url: String,
+    requestBuilder: HttpRequestBuilder.() -> Unit = {},
+  ): Result<T> =
+    safeRequest { client.get(url, requestBuilder) }
 
   protected suspend inline fun <reified T> safePost(
+    url: String,
     contentType: ContentType = ContentType.Application.Json,
-    requestBuilder: HttpRequestBuilder.() -> Unit
+    requestBuilder: HttpRequestBuilder.() -> Unit = {},
   ): Result<T> =
     safeRequest {
-      client.post {
+      client.post(url) {
         contentType(contentType)
         requestBuilder()
       }
     }
 
   protected suspend inline fun <reified T> safePut(
+    url: String,
     contentType: ContentType = ContentType.Application.Json,
     requestBuilder: HttpRequestBuilder.() -> Unit
   ): Result<T> =
     safeRequest {
-      client.put {
+      client.put(url) {
         contentType(contentType)
         requestBuilder()
       }
     }
 
   protected suspend inline fun <reified T> safePatch(
+    url: String,
     contentType: ContentType = ContentType.Application.Json,
     requestBuilder: HttpRequestBuilder.() -> Unit
   ): Result<T> =
     safeRequest {
-      client.patch {
+      client.patch(url) {
         contentType(contentType)
         requestBuilder()
       }
     }
 
-  protected suspend inline fun <reified T> safeDelete(requestBuilder: HttpRequestBuilder.() -> Unit): Result<T> =
-    safeRequest { client.delete(requestBuilder) }
+  protected suspend inline fun <reified T> safeDelete(
+    url: String,
+    requestBuilder: HttpRequestBuilder.() -> Unit = {},
+  ): Result<T> =
+    safeRequest { client.delete(url, requestBuilder) }
 
 
   protected suspend inline fun <reified T> safeRequest(request: () -> HttpResponse): Result<T> =

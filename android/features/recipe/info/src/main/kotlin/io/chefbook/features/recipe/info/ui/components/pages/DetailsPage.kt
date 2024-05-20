@@ -21,21 +21,21 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
-import io.chefbook.sdk.recipe.core.api.external.domain.entities.RecipeMeta.Visibility
+import io.chefbook.core.android.compose.providers.theme.LocalTheme
+import io.chefbook.design.components.buttons.DynamicButton
 import io.chefbook.features.recipe.info.ui.components.details.categories.CategoriesBlock
 import io.chefbook.features.recipe.info.ui.components.details.diet.DietWidget
 import io.chefbook.features.recipe.info.ui.components.details.info.InfoElement
 import io.chefbook.features.recipe.info.ui.mvi.RecipeScreenState
-import io.chefbook.ui.common.extensions.localizedName
-import io.chefbook.core.android.compose.providers.theme.LocalTheme
-import io.chefbook.core.android.R as coreR
-import io.chefbook.design.components.buttons.DynamicButton
-import io.chefbook.design.R as designR
 import io.chefbook.libs.models.language.Language
 import io.chefbook.libs.utils.time.parseTimestampSafely
+import io.chefbook.sdk.recipe.core.api.external.domain.entities.RecipeMeta.Visibility
+import io.chefbook.ui.common.extensions.localizedName
+import kotlinx.datetime.toJavaLocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
-import kotlinx.datetime.toJavaLocalDateTime
+import io.chefbook.core.android.R as coreR
+import io.chefbook.design.R as designR
 
 @SuppressLint("NewApi")
 @Composable

@@ -6,12 +6,12 @@ import io.chefbook.libs.logger.Logger
 import io.chefbook.libs.utils.images.ImageUtils
 import io.chefbook.sdk.encryption.recipe.api.internal.data.repositories.RecipeEncryptionRepository
 import io.chefbook.sdk.encryption.vault.api.internal.data.repositories.EncryptedVaultRepository
-import javax.crypto.AEADBadTagException
 import kotlinx.coroutines.runBlocking
 import okhttp3.HttpUrl
 import okhttp3.Interceptor
 import okhttp3.Response
 import okhttp3.ResponseBody.Companion.toResponseBody
+import javax.crypto.AEADBadTagException
 
 class EncryptedImageInterceptor(
   private val encryptedVaultRepository: EncryptedVaultRepository,

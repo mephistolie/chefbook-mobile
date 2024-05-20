@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -18,12 +19,13 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import io.chefbook.core.android.R as coreR
-import io.chefbook.design.R
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
+import io.chefbook.design.R
 import io.chefbook.design.components.buttons.DynamicButton
 import io.chefbook.design.theme.ChefBookTheme
-import io.chefbook.design.theme.shapes.DialogShape
+import io.chefbook.design.theme.dimens.ComponentMediumHeight
+import io.chefbook.ui.common.dialogs.StandardDialog
+import io.chefbook.core.android.R as coreR
 
 @Composable
 fun OneButtonDialogContent(
@@ -35,46 +37,17 @@ fun OneButtonDialogContent(
   isButtonSelected: Boolean = true,
   fullWidthButton: Boolean = false,
 ) {
-  val colors = LocalTheme.colors
-  val typography = LocalTheme.typography
-
-  var buttonModifier = Modifier
-    .padding(top = 32.dp)
-    .height(48.dp)
-  buttonModifier =
-    if (fullWidthButton) buttonModifier.fillMaxWidth() else buttonModifier.requiredWidthIn(144.dp)
-
-  Column(
-    modifier = Modifier
-      .fillMaxWidth()
-      .wrapContentHeight()
-      .padding(12.dp)
-      .background(
-        color = colors.backgroundPrimary,
-        shape = DialogShape,
-      )
-      .padding(12.dp, 20.dp, 12.dp, 12.dp),
-    horizontalAlignment = Alignment.CenterHorizontally,
+  StandardDialog(
+    title = title,
+    description = description
   ) {
-    Text(
-      text = title,
-      style = typography.h3,
-      color = colors.foregroundPrimary
-    )
-    description?.let {
-      Text(
-        text = description,
-        style = typography.body1,
-        color = colors.foregroundSecondary,
-        textAlign = TextAlign.Center,
-        modifier = Modifier.padding(top = 12.dp),
-      )
-    }
     DynamicButton(
       leftIcon = buttonIcon,
       text = buttonText,
       isSelected = isButtonSelected,
-      modifier = buttonModifier,
+      modifier = Modifier
+        .height(ComponentMediumHeight)
+        .run { if (fullWidthButton) fillMaxWidth() else requiredWidthIn(144.dp) },
       onClick = onClick,
     )
   }

@@ -18,11 +18,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import io.chefbook.core.android.compose.providers.theme.LocalTheme
+import io.chefbook.design.theme.shapes.RoundedCornerShape28Top
 import io.chefbook.features.recipe.info.ui.mvi.RecipeScreenIntent
 import io.chefbook.features.recipe.info.ui.mvi.RecipeScreenState
 import io.chefbook.ui.common.presentation.RecipeScreenPage
-import io.chefbook.core.android.compose.providers.theme.LocalTheme
-import io.chefbook.design.theme.shapes.ModalBottomSheetShape
 
 @OptIn(ExperimentalMaterialApi::class, ExperimentalFoundationApi::class)
 @Composable
@@ -53,7 +53,7 @@ internal fun BoxScope.RecipeScreenLoadedContent(
         contentHeight = contentHeight,
       )
     },
-    sheetShape = ModalBottomSheetShape,
+    sheetShape = RoundedCornerShape28Top,
     sheetPeekHeight = screenHeight - contentHeight.value,
     sheetElevation = 0.dp,
     sheetContent = {

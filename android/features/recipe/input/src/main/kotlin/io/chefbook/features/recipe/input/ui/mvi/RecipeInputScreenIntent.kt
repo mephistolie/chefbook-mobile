@@ -2,8 +2,8 @@ package io.chefbook.features.recipe.input.ui.mvi
 
 import io.chefbook.libs.models.language.Language
 import io.chefbook.libs.models.measureunit.MeasureUnit
-import io.chefbook.sdk.recipe.core.api.external.domain.entities.RecipeMeta.Visibility
 import io.chefbook.libs.mvi.MviIntent
+import io.chefbook.sdk.recipe.core.api.external.domain.entities.RecipeMeta.Visibility
 
 sealed class RecipeInputScreenIntent : MviIntent {
   data class Details(val data: RecipeInputDetailsScreenIntent) : RecipeInputScreenIntent()
@@ -45,7 +45,7 @@ sealed class RecipeInputIngredientsScreenIntent : MviIntent {
   data class SetIngredientItemName(val ingredientId: String, val name: String) :
     RecipeInputIngredientsScreenIntent()
 
-  data class SetIngredientAmount(val ingredientId: String, val amount: Int?) :
+  data class SetIngredientAmount(val ingredientId: String, val amount: Float?) :
     RecipeInputIngredientsScreenIntent()
 
   data class SetIngredientUnit(val ingredientId: String, val unit: MeasureUnit?) :

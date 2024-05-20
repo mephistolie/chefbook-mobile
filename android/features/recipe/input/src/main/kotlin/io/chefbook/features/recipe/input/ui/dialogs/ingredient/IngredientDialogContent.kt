@@ -21,9 +21,11 @@ import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
@@ -35,24 +37,25 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import io.chefbook.sdk.recipe.core.api.external.domain.entities.Recipe.Decrypted.IngredientsItem
 import com.mephistolie.compost.modifiers.clippedBackground
-import io.chefbook.features.recipe.input.ui.mvi.RecipeInputIngredientsScreenIntent
-import io.chefbook.features.recipe.input.ui.mvi.RecipeInputScreenIntent
-import io.chefbook.ui.common.extensions.localizedName
-import io.chefbook.ui.common.extensions.stringToMeasureUnit
+import io.chefbook.core.android.compose.composables.keyboardAsState
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.design.components.buttons.CircleIconButton
 import io.chefbook.design.components.buttons.DynamicButton
 import io.chefbook.design.components.textfields.ThemedIndicatorTextField
-import io.chefbook.core.android.R as coreR
-import io.chefbook.design.theme.shapes.ModalBottomSheetShape
-import io.chefbook.features.recipe.input.R
+import io.chefbook.design.theme.shapes.RoundedCornerShape28Top
+import io.chefbook.features.recipe.input.ui.mvi.RecipeInputIngredientsScreenIntent
+import io.chefbook.features.recipe.input.ui.mvi.RecipeInputScreenIntent
 import io.chefbook.libs.models.measureunit.standardUnits
+import io.chefbook.libs.utils.numbers.toFormattedFloat
+import io.chefbook.libs.utils.numbers.toFormattedInput
+import io.chefbook.sdk.recipe.core.api.external.domain.entities.Recipe.Decrypted.IngredientsItem
+import io.chefbook.ui.common.extensions.localizedName
+import io.chefbook.ui.common.extensions.stringToMeasureUnit
+import io.chefbook.core.android.R as coreR
 import io.chefbook.design.R as designR
 
-
-@OptIn(ExperimentalComposeUiApi::class, ExperimentalLayoutApi::class)
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 internal fun IngredientDialogContent(
   state: IngredientsItem.Ingredient,
@@ -62,14 +65,19 @@ internal fun IngredientDialogContent(
   val keyboardController = LocalSoftwareKeyboardController.current
   val resources = LocalContext.current.resources
   val focusRequester = remember { FocusRequester() }
+  val focusRequested = remember { mutableStateOf(false) }
+
+  val isKeyboardVisible by keyboardAsState()
 
   val colors = LocalTheme.colors
   val typography = LocalTheme.typography
 
+  var wasDotEntered by remember { mutableStateOf(false) }
+
   Column(
     modifier = Modifier
+      .clippedBackground(colors.backgroundPrimary, RoundedCornerShape28Top)
       .imePadding()
-      .clippedBackground(colors.backgroundPrimary, ModalBottomSheetShape)
       .padding(horizontal = 18.dp)
       .fillMaxWidth()
       .wrapContentHeight(),
@@ -89,10 +97,7 @@ internal fun IngredientDialogContent(
       )
       CircleIconButton(
         iconId = designR.drawable.ic_cross,
-        onClick = {
-          keyboardController?.hide()
-          onIntent(RecipeInputScreenIntent.CloseBottomSheet)
-        },
+        onClick = { keyboardController?.hide() },
         modifier = Modifier
           .padding(top = 18.dp)
           .size(28.dp),
@@ -121,15 +126,19 @@ internal fun IngredientDialogContent(
       },
     )
     ThemedIndicatorTextField(
-      value = if (state.amount != null) state.amount.toString() else "",
+      value = state.amount.toFormattedInput(trimDot = !wasDotEntered),
       modifier = Modifier.fillMaxWidth(),
-      onValueChange = { amount ->
-        onIngredientsIntent(
-          RecipeInputIngredientsScreenIntent.SetIngredientAmount(
-            state.id,
-            amount.toIntOrNull()
+      onValueChange = { input ->
+        val amount = input.toFormattedFloat()
+        if (amount != null || input.isEmpty()) {
+          wasDotEntered = input.contains(",") || input.contains(".")
+          onIngredientsIntent(
+            RecipeInputIngredientsScreenIntent.SetIngredientAmount(
+              state.id,
+              amount,
+            )
           )
-        )
+        }
       },
       keyboardOptions = KeyboardOptions(
         keyboardType = KeyboardType.Decimal,
@@ -190,9 +199,15 @@ internal fun IngredientDialogContent(
       }
     }
     Spacer(modifier = Modifier.height(12.dp))
+  }
 
-    LaunchedEffect(Unit) {
-      focusRequester.requestFocus()
+  LaunchedEffect(Unit) {
+    focusRequester.requestFocus()
+  }
+  LaunchedEffect(isKeyboardVisible) {
+    when {
+      !focusRequested.value && isKeyboardVisible -> focusRequested.value = true
+      focusRequested.value && !isKeyboardVisible -> onIntent(RecipeInputScreenIntent.CloseBottomSheet)
     }
   }
 }

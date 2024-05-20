@@ -1,0 +1,7 @@
+<resources>
+
+    <string name="common_profile_deletion_screen_profile_deletion">Profile deletion</string>
+    <string name="common_profile_deletion_screen_delete_shared_data">Also delete data used by other users</string>
+    <string name="common_profile_deletion_screen_invalid_password">Invalid password</string>
+
+</resources>

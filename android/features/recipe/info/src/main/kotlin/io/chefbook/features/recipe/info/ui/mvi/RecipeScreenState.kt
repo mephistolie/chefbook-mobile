@@ -1,8 +1,8 @@
 package io.chefbook.features.recipe.info.ui.mvi
 
-import io.chefbook.sdk.recipe.core.api.external.domain.entities.Recipe
-import io.chefbook.libs.mvi.MviState
 import io.chefbook.features.recipe.info.ui.state.RecipeScreenBottomSheetType
+import io.chefbook.libs.mvi.MviState
+import io.chefbook.sdk.recipe.core.api.external.domain.entities.Recipe
 
 internal sealed class RecipeScreenState : MviState {
   data object Loading : RecipeScreenState()

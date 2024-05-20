@@ -33,6 +33,7 @@ import androidx.compose.ui.unit.dp
 import com.mephistolie.compost.ui.textfields.TextField
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.design.theme.ChefBookTheme
+import io.chefbook.design.theme.dimens.ComponentMediumHeight
 import io.chefbook.design.theme.shapes.NoPaddings
 import io.chefbook.design.theme.shapes.RoundedCornerShape8
 
@@ -67,7 +68,7 @@ fun PinCodeField(
   Box(
     modifier = modifier
       .width(32.dp)
-      .height(48.dp)
+      .height(ComponentMediumHeight)
       .clip(RoundedCornerShape8)
       .border(
         width = 2.dp,

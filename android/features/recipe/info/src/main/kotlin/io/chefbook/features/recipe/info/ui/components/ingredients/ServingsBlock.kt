@@ -13,10 +13,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
-import io.chefbook.core.android.R as coreR
 import io.chefbook.design.components.counter.Counter
-import io.chefbook.design.theme.dimens.ButtonSmallHeight
+import io.chefbook.design.theme.dimens.ComponentSmallHeight
 import io.chefbook.features.recipe.info.R
+import io.chefbook.core.android.R as coreR
 
 @Composable
 internal fun ServingsBlock(
@@ -31,7 +31,7 @@ internal fun ServingsBlock(
   Row(
     modifier = Modifier
       .fillMaxWidth()
-      .height(ButtonSmallHeight),
+      .height(ComponentSmallHeight),
     horizontalArrangement = Arrangement.SpaceBetween,
     verticalAlignment = Alignment.CenterVertically,
   ) {

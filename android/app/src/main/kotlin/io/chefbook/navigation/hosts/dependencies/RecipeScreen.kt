@@ -2,9 +2,9 @@ package io.chefbook.navigation.hosts.dependencies
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import io.chefbook.navigation.graphs.NavGraphs
 import com.ramcosta.composedestinations.navigation.DependenciesContainerBuilder
 import com.ramcosta.composedestinations.navigation.dependency
+import io.chefbook.navigation.graphs.NavGraphs
 
 @Composable
 fun DependenciesContainerBuilder<*>.RecipeScreenDependencies() {

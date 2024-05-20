@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.Icon
@@ -37,6 +38,7 @@ fun MenuItem(
   Row(
     modifier = modifier
       .padding(vertical = 14.dp)
+      .heightIn(min = 28.dp)
       .fillMaxWidth()
       .simpleClickable(onClick = onClick, debounceInterval = 400L),
     horizontalArrangement = Arrangement.SpaceBetween,

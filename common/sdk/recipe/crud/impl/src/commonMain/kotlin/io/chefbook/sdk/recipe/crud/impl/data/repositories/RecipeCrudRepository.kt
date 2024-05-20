@@ -8,6 +8,8 @@ import kotlinx.coroutines.flow.Flow
 
 internal interface RecipeCrudRepository {
 
+  fun observeRecipes(): Flow<Map<String, Recipe>>
+
   suspend fun observeRecipe(recipeId: String): Flow<Recipe?>
 
   suspend fun getRecipe(recipeId: String): Result<Recipe>

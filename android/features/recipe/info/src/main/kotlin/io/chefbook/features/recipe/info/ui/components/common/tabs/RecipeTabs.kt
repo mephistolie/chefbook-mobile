@@ -19,9 +19,8 @@ import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import io.chefbook.features.recipe.info.ui.components.common.content.loaded.pages
-import io.chefbook.ui.common.presentation.RecipeScreenPage
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
+import io.chefbook.features.recipe.info.ui.components.common.content.loaded.pages
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable

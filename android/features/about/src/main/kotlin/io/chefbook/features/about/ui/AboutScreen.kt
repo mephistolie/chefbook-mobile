@@ -9,14 +9,14 @@ import com.ramcosta.composedestinations.annotation.Destination
 import io.chefbook.features.about.BuildConfig
 import io.chefbook.features.about.ui.mvi.AboutScreenEffect
 import io.chefbook.navigation.navigators.BaseNavigator
-import org.koin.androidx.compose.getViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @Destination(route = "about")
 @Composable
 internal fun AboutScreen(
   navigator: BaseNavigator,
 ) {
-  val viewModel: IAboutScreenViewModel = getViewModel<AboutScreenViewModel>()
+  val viewModel = koinViewModel<AboutScreenViewModel>()
 
   val context =  LocalContext.current
   val packageManager = remember { context.packageManager.getPackageInfo(context.packageName, 0) }
