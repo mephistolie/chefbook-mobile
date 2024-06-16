@@ -23,7 +23,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.mephistolie.compost.modifiers.simpleClickable
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
-import io.chefbook.design.theme.shapes.RoundedCornerShape16
+import io.chefbook.design.theme.shapes.SmoothCornerShape16
 import io.chefbook.core.android.R as coreR
 import io.chefbook.design.R as designR
 
@@ -41,7 +41,7 @@ internal fun SearchField(
     modifier = modifier,
     colors = ButtonDefaults.buttonColors(backgroundColor = colors.backgroundSecondary),
     contentPadding = PaddingValues(0.dp),
-    shape = RoundedCornerShape16,
+    shape = SmoothCornerShape16,
     elevation = null,
   ) {
     Row(

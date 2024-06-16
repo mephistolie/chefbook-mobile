@@ -20,7 +20,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.design.components.buttons.DynamicButton
-import io.chefbook.design.theme.shapes.RoundedCornerShape28Top
+import io.chefbook.design.theme.shapes.SmoothCornerShape28Top
 import io.chefbook.core.android.R as coreR
 
 internal val buttonsBlockHeight = 80.dp
@@ -40,9 +40,9 @@ internal fun ButtonsBlock(
 
   Row(
     modifier = modifier
-      .background(colors.backgroundSecondary, RoundedCornerShape28Top)
+      .background(colors.backgroundSecondary, SmoothCornerShape28Top)
       .padding(top = 1.dp)
-      .background(colors.backgroundPrimary, RoundedCornerShape28Top)
+      .background(colors.backgroundPrimary, SmoothCornerShape28Top)
       .navigationBarsPadding()
       .imePadding()
       .height(buttonsBlockHeight)

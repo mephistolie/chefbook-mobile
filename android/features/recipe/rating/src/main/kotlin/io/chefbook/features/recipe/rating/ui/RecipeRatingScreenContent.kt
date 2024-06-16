@@ -10,8 +10,8 @@ import com.mephistolie.compost.modifiers.padding
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.design.components.bottomsheet.BottomSheetColumn
 import io.chefbook.design.components.bottomsheet.PullBarType
-import io.chefbook.design.theme.shapes.RoundedCornerShape28Top
-import io.chefbook.design.theme.shapes.RoundedCornerShape28
+import io.chefbook.design.theme.shapes.SmoothCornerShape28Top
+import io.chefbook.design.theme.shapes.SmoothCornerShape28
 import io.chefbook.features.recipe.rating.ui.components.RecipeRatingBlock
 import io.chefbook.features.recipe.rating.ui.components.RecipeScoreBlock
 import io.chefbook.features.recipe.rating.ui.mvi.RecipeRatingScreenIntent
@@ -27,7 +27,7 @@ internal fun RecipeRatingScreenContent(
   var ratingBlockModifier = Modifier
     .background(
       color = colors.backgroundPrimary,
-      shape = if (state.isScoreVisible) RoundedCornerShape28 else RoundedCornerShape28Top,
+      shape = if (state.isScoreVisible) SmoothCornerShape28 else SmoothCornerShape28Top,
     )
   if (!state.isScoreVisible) ratingBlockModifier = ratingBlockModifier.navigationBarsPadding()
 

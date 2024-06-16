@@ -21,7 +21,7 @@ import com.mephistolie.compost.modifiers.clippedBackground
 import com.mephistolie.compost.modifiers.simpleClickable
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.design.components.textfields.ThemedIndicatorTextField
-import io.chefbook.design.theme.shapes.RoundedCornerShape8
+import io.chefbook.design.theme.shapes.SmoothCornerShape8
 import io.chefbook.core.android.R as coreR
 import io.chefbook.design.R as designR
 
@@ -40,7 +40,7 @@ internal fun SectionField(
       .fillMaxWidth()
       .height(56.dp)
       .padding(horizontal = 8.dp)
-      .clippedBackground(colors.backgroundPrimary, RoundedCornerShape8)
+      .clippedBackground(colors.backgroundPrimary, SmoothCornerShape8)
       .padding(horizontal = 4.dp),
     horizontalArrangement = Arrangement.spacedBy(8.dp),
     verticalAlignment = Alignment.CenterVertically,

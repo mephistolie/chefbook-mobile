@@ -18,7 +18,7 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import com.mephistolie.compost.modifiers.simpleClickable
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
-import io.chefbook.design.theme.dimens.DefaultIconSize
+import io.chefbook.design.theme.dimens.IconSize24
 import io.chefbook.design.theme.dimens.ToolbarHeight
 import io.chefbook.ui.common.components.profile.BroccoinsBadge
 import io.chefbook.core.android.R as coreR
@@ -47,7 +47,7 @@ internal fun ProfileScreenToolbar(
       contentDescription = null,
       modifier = Modifier
         .align(Alignment.CenterStart)
-        .size(DefaultIconSize)
+        .size(IconSize24)
         .simpleClickable(onClick = onBack),
     )
     Text(

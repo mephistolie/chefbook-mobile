@@ -18,13 +18,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.mephistolie.compost.modifiers.simpleClickable
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
-import io.chefbook.design.theme.dimens.DefaultIconSize
-import io.chefbook.design.theme.shapes.RoundedCornerShape28Top
+import io.chefbook.design.theme.dimens.IconSize24
+import io.chefbook.design.theme.shapes.SmoothCornerShape28Top
 import io.chefbook.features.recipebook.core.ui.components.CategoryCard
 import io.chefbook.features.recipebook.core.ui.components.CategoryCardSkeleton
-import io.chefbook.features.recipebook.dashboard.ui.components.elements.NewCategoryCard
 import io.chefbook.sdk.category.api.external.domain.entities.Category
-import kotlin.math.min
 import io.chefbook.core.android.R as coreR
 import io.chefbook.design.R as designR
 
@@ -50,7 +48,7 @@ internal fun LazyGridScope.categoriesBlock(
           if (drawDivider) {
             it
               .background(colors.divider)
-              .background(colors.backgroundPrimary, RoundedCornerShape28Top)
+              .background(colors.backgroundPrimary, SmoothCornerShape28Top)
           } else it
         }
         .padding(20.dp, if (drawDivider) 20.dp else 32.dp, 20.dp, 16.dp)
@@ -66,7 +64,7 @@ internal fun LazyGridScope.categoriesBlock(
       Icon(
         painter = painterResource(designR.drawable.ic_arrow_circle_right),
         contentDescription = null,
-        modifier = Modifier.size(DefaultIconSize),
+        modifier = Modifier.size(IconSize24),
         tint = colors.foregroundPrimary,
       )
     }

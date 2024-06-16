@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
@@ -18,7 +17,7 @@ import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.design.R
 import io.chefbook.design.components.buttons.DynamicButton
 import io.chefbook.design.theme.ChefBookTheme
-import io.chefbook.design.theme.dimens.ComponentMediumHeight
+import io.chefbook.design.theme.dimens.ComponentHeight48
 import io.chefbook.ui.common.dialogs.StandardDialog
 import io.chefbook.core.android.R as coreR
 
@@ -55,7 +54,7 @@ internal fun TwoButtonsDialogContent(
         modifier = Modifier
           .weight(1F)
           .fillMaxWidth()
-          .height(ComponentMediumHeight),
+          .height(ComponentHeight48),
         disableScaling = true,
         onClick = onLeftClick,
       )
@@ -67,7 +66,7 @@ internal fun TwoButtonsDialogContent(
         modifier = Modifier
           .weight(1F)
           .fillMaxWidth()
-          .height(ComponentMediumHeight),
+          .height(ComponentHeight48),
         onClick = onRightClick,
       )
     }

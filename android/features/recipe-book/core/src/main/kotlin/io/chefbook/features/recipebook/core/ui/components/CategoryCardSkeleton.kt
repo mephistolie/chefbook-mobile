@@ -17,9 +17,9 @@ import androidx.compose.ui.unit.dp
 import com.mephistolie.compost.modifiers.clippedBackground
 import io.chefbook.core.android.compose.modifiers.shimmer
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
-import io.chefbook.design.theme.shapes.RoundedCornerShape16
-import io.chefbook.design.theme.shapes.RoundedCornerShape28
-import io.chefbook.design.theme.shapes.RoundedCornerShape4
+import io.chefbook.design.theme.shapes.SmoothCornerShape16
+import io.chefbook.design.theme.shapes.SmoothCornerShape28
+import io.chefbook.design.theme.shapes.SmoothCornerShape4
 
 @Composable
 fun CategoryCardSkeleton(
@@ -31,7 +31,7 @@ fun CategoryCardSkeleton(
     modifier = modifier
       .padding(0.dp, 0.dp, 0.dp, 8.dp)
       .aspectRatio(0.8f)
-      .clippedBackground(colors.backgroundSecondary, RoundedCornerShape16)
+      .clippedBackground(colors.backgroundSecondary, SmoothCornerShape16)
       .shimmer()
   ) {
     Column(
@@ -49,21 +49,21 @@ fun CategoryCardSkeleton(
           modifier = Modifier
             .width(50.dp)
             .height(6.dp)
-            .clippedBackground(colors.backgroundTertiary, RoundedCornerShape4)
+            .clippedBackground(colors.backgroundTertiary, SmoothCornerShape4)
         )
         Box(
           modifier = Modifier
             .padding(top = 4.dp)
             .width(30.dp)
             .height(6.dp)
-            .clippedBackground(colors.backgroundTertiary, RoundedCornerShape4)
+            .clippedBackground(colors.backgroundTertiary, SmoothCornerShape4)
         )
       }
       Box(
         modifier = Modifier
           .size(56.dp)
           .offset(18.dp, 6.dp)
-          .clippedBackground(colors.backgroundTertiary, RoundedCornerShape28),
+          .clippedBackground(colors.backgroundTertiary, SmoothCornerShape28),
       )
     }
   }

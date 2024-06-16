@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -34,9 +33,10 @@ import com.mephistolie.compost.modifiers.simpleClickable
 import io.chefbook.core.android.R as coreR
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.design.components.buttons.DynamicButton
-import io.chefbook.design.theme.dimens.ComponentSmallHeight
-import io.chefbook.design.theme.dimens.DefaultIconSize
+import io.chefbook.design.theme.dimens.ComponentHeight40
+import io.chefbook.design.theme.dimens.IconSize24
 import io.chefbook.design.theme.dimens.ToolbarHeight
+import io.chefbook.design.theme.shapes.smooth.SmoothCornerShape
 import io.chefbook.features.community.recipes.ui.mvi.CommunityRecipesScreenState
 import io.chefbook.features.community.recipes.ui.mvi.DashboardState
 import io.chefbook.libs.models.language.Language
@@ -65,7 +65,7 @@ internal fun Toolbar(
       .fillMaxWidth()
       .clippedBackground(
         colors.backgroundPrimary,
-        RoundedCornerShape(bottomStart = 20.dp, bottomEnd = 20.dp)
+        SmoothCornerShape(bottomStart = 20.dp, bottomEnd = 20.dp)
       )
       .statusBarsPadding()
       .height(ToolbarHeight)
@@ -78,7 +78,7 @@ internal fun Toolbar(
       contentDescription = null,
       modifier = Modifier
         .align(Alignment.CenterStart)
-        .size(DefaultIconSize)
+        .size(IconSize24)
         .simpleClickable(onClick = onBackClick),
     )
 
@@ -105,7 +105,7 @@ internal fun Toolbar(
         selectedBackground = Color.Transparent,
         isSelected = true,
         disableScaling = true,
-        modifier = Modifier.height(ComponentSmallHeight),
+        modifier = Modifier.height(ComponentHeight40),
         onClick = onLanguageClick,
         debounceInterval = 1000L,
       )
@@ -133,7 +133,7 @@ internal fun Toolbar(
         selectedBackground = Color.Transparent,
         isSelected = true,
         disableScaling = true,
-        modifier = Modifier.height(ComponentSmallHeight),
+        modifier = Modifier.height(ComponentHeight40),
         onClick = {},
       )
     }

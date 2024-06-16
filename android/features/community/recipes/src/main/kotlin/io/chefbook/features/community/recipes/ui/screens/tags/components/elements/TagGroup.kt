@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.mephistolie.compost.modifiers.padding
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
-import io.chefbook.design.theme.shapes.RoundedCornerShape28
+import io.chefbook.design.theme.shapes.SmoothCornerShape28
 import io.chefbook.features.community.recipes.ui.screens.filter.components.elements.TagButton
 import io.chefbook.features.community.recipes.ui.mvi.FilterState
 
@@ -32,7 +32,7 @@ internal fun TagGroup(
   Column(
     modifier = modifier
       .padding(bottom = 8.dp)
-      .background(colors.backgroundPrimary, RoundedCornerShape28)
+      .background(colors.backgroundPrimary, SmoothCornerShape28)
       .padding(12.dp, 12.dp, 12.dp, 24.dp)
   ) {
     Text(

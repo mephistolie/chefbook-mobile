@@ -16,7 +16,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.design.components.buttons.DynamicButton
-import io.chefbook.design.theme.dimens.ComponentBigHeight
+import io.chefbook.design.theme.dimens.ComponentHeight56
 import io.chefbook.features.encryption.R
 import io.chefbook.core.android.R as coreR
 import io.chefbook.design.R as designR
@@ -56,7 +56,7 @@ internal fun EncryptedVaultScreenManagement(
       modifier = Modifier
         .padding(bottom = 24.dp)
         .fillMaxWidth()
-        .height(ComponentBigHeight),
+        .height(ComponentHeight56),
       onClick = onLockVaultButtonClick,
     )
     DynamicButton(
@@ -64,7 +64,7 @@ internal fun EncryptedVaultScreenManagement(
       unselectedForeground = colors.foregroundPrimary,
       modifier = Modifier
         .fillMaxWidth()
-        .height(ComponentBigHeight),
+        .height(ComponentHeight56),
       onClick = onChangePinCodeVaultClick,
     )
     DynamicButton(
@@ -73,7 +73,7 @@ internal fun EncryptedVaultScreenManagement(
       modifier = Modifier
         .padding(vertical = 12.dp)
         .fillMaxWidth()
-        .height(ComponentBigHeight),
+        .height(ComponentHeight56),
       onClick = onDeleteVaultClick,
     )
   }

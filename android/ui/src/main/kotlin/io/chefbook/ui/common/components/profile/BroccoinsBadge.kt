@@ -9,7 +9,7 @@ import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -30,7 +30,7 @@ fun BroccoinsBadge(
 
   Row(
     modifier = modifier
-      .background(colors.backgroundSecondary, shape = RoundedCornerShape(100))
+      .background(colors.backgroundSecondary, shape = CircleShape)
       .padding(vertical = 4.dp, horizontal = 4.dp)
       .defaultMinSize(minWidth = 32.dp),
     horizontalArrangement = Arrangement.Center,

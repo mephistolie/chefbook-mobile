@@ -9,14 +9,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import io.chefbook.design.R
-import io.chefbook.design.theme.dimens.MediumIconSize
+import io.chefbook.design.theme.dimens.IconSize32
 
 @Composable
 fun BottomSheetCloseButton(
   modifier: Modifier = Modifier,
   horizontalPadding: Dp = 16.dp,
   verticalPadding: Dp = horizontalPadding,
-  iconSize: Dp = MediumIconSize,
+  iconSize: Dp = IconSize32,
   onClick: () -> Unit,
 ) {
   CircleIconButton(

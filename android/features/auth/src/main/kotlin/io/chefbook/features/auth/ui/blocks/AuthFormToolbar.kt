@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.dp
 import com.mephistolie.compost.modifiers.simpleClickable
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.design.R
-import io.chefbook.design.theme.dimens.DefaultIconSize
+import io.chefbook.design.theme.dimens.IconSize24
 
 @Composable
 fun AuthFormToolbar(
@@ -38,7 +38,7 @@ fun AuthFormToolbar(
       tint = colors.foregroundPrimary,
       contentDescription = null,
       modifier = Modifier
-        .size(DefaultIconSize)
+        .size(IconSize24)
         .simpleClickable(onClick = onBackClick),
     )
     login?.let {
@@ -51,7 +51,7 @@ fun AuthFormToolbar(
         maxLines = 1,
         modifier = Modifier
           .fillMaxWidth()
-          .padding(horizontal = DefaultIconSize),
+          .padding(horizontal = IconSize24),
       )
     }
   }

@@ -7,9 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Text
@@ -22,7 +20,7 @@ import com.mephistolie.compost.modifiers.clippedBackground
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.design.components.buttons.DynamicButton
 import io.chefbook.design.components.toolbar.Toolbar
-import io.chefbook.design.theme.shapes.RoundedCornerShape24
+import io.chefbook.design.theme.shapes.SmoothCornerShape24
 import io.chefbook.features.recipe.input.ui.mvi.RecipeInputDetailsScreenIntent
 import io.chefbook.features.recipe.input.ui.mvi.RecipeInputScreenIntent
 import io.chefbook.features.recipe.input.ui.mvi.RecipeInputScreenState
@@ -88,7 +86,7 @@ internal fun RecipeInputDetailsScreenContent(
             )
             .fillMaxWidth()
             .aspectRatio(2F)
-            .clippedBackground(colors.backgroundSecondary, RoundedCornerShape24),
+            .clippedBackground(colors.backgroundSecondary, SmoothCornerShape24),
         )
       }
       item {

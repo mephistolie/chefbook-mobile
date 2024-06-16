@@ -4,26 +4,21 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import com.mephistolie.compost.modifiers.clippedBackground
 import com.mephistolie.compost.modifiers.simpleClickable
 import io.chefbook.core.android.R
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.design.components.buttons.BottomSheetCloseButton
-import io.chefbook.design.theme.shapes.RoundedCornerShape28
+import io.chefbook.design.theme.shapes.SmoothCornerShape28
 
 @Composable
 internal fun ShoppingListSelectorBar(
@@ -39,9 +34,9 @@ internal fun ShoppingListSelectorBar(
     modifier = modifier
       .fillMaxWidth()
       .height(shoppingListActionBarHeight)
-      .background(colors.backgroundSecondary, RoundedCornerShape28)
+      .background(colors.backgroundSecondary, SmoothCornerShape28)
       .padding(bottom = 1.dp)
-      .clippedBackground(colors.backgroundPrimary, RoundedCornerShape28)
+      .clippedBackground(colors.backgroundPrimary, SmoothCornerShape28)
       .padding(horizontal = 8.dp),
   ) {
     Column(

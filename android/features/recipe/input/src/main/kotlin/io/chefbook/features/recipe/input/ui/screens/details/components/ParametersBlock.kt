@@ -13,7 +13,7 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.design.components.buttons.DynamicButton
-import io.chefbook.design.theme.dimens.ComponentSmallHeight
+import io.chefbook.design.theme.dimens.ComponentHeight40
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.RecipeMeta.Visibility
 import io.chefbook.sdk.recipe.crud.api.external.domain.entities.RecipeInput
 import io.chefbook.ui.common.extensions.localizedName
@@ -59,7 +59,7 @@ internal fun ParametersBlock(
         unselectedForeground = colors.foregroundPrimary,
         modifier = Modifier
           .padding(start = 12.dp)
-          .height(ComponentSmallHeight),
+          .height(ComponentHeight40),
         onClick = onVisibilityClick,
       )
     }
@@ -72,7 +72,7 @@ internal fun ParametersBlock(
         iconsSize = 16.dp,
         rightIcon = ImageVector.vectorResource(designR.drawable.ic_arrow_down),
         unselectedForeground = colors.foregroundPrimary,
-        modifier = Modifier.height(ComponentSmallHeight),
+        modifier = Modifier.height(ComponentHeight40),
         onClick = onLanguageClick,
       )
     }
@@ -89,7 +89,7 @@ internal fun ParametersBlock(
         unselectedForeground = colors.foregroundPrimary,
         modifier = Modifier
           .padding(end = 12.dp)
-          .height(ComponentSmallHeight),
+          .height(ComponentHeight40),
         onClick = onEncryptionClick,
       )
     }

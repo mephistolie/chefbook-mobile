@@ -1,12 +1,8 @@
 package io.chefbook.features.recipe.info.ui
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material.BottomSheetState
 import androidx.compose.material.BottomSheetValue
 import androidx.compose.material.ExperimentalMaterialApi
@@ -19,12 +15,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
 import com.mephistolie.compost.modifiers.clippedBackground
 import com.ramcosta.composedestinations.result.OpenResultRecipient
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
-import io.chefbook.design.theme.shapes.RoundedCornerShape28Top
+import io.chefbook.design.theme.shapes.SmoothCornerShape28Top
 import io.chefbook.features.recipe.control.navigation.RecipeControlScreenNavigator
 import io.chefbook.features.recipe.control.ui.RecipeControlScreen
 import io.chefbook.features.recipe.info.ui.components.common.content.RecipeScreenErrorContent
@@ -52,18 +47,13 @@ internal fun RecipeScreenContent(
   ),
   openExpanded: Boolean = false,
 ) {
-  val screenHeightWithPaddings = LocalConfiguration.current.screenHeightDp.dp
-  val navigationBarsPadding =
-    WindowInsets.Companion.navigationBars.asPaddingValues().calculateBottomPadding()
-  val bottomSheetHeight = screenHeightWithPaddings + navigationBarsPadding
-
   val colors = LocalTheme.colors
 
   ModalBottomSheetLayout(
     modifier = Modifier
-      .fillMaxWidth()
-      .height(bottomSheetHeight)
-      .clippedBackground(colors.backgroundSecondary, RoundedCornerShape28Top),
+      .statusBarsPadding()
+      .fillMaxSize()
+      .clippedBackground(colors.divider, SmoothCornerShape28Top),
     sheetState = modalSheetState,
     sheetBackgroundColor = Color.Transparent,
     sheetElevation = 0.dp,
@@ -102,7 +92,6 @@ internal fun RecipeScreenContent(
           onIntent = onIntent,
           sheetState = sheetState,
           openExpanded = openExpanded,
-          screenHeight = bottomSheetHeight,
         )
 
         is RecipeScreenState.Error -> RecipeScreenErrorContent(

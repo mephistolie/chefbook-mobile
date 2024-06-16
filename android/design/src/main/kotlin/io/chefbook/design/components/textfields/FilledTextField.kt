@@ -30,7 +30,7 @@ import androidx.compose.ui.unit.dp
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.design.R
 import io.chefbook.design.theme.ChefBookTheme
-import io.chefbook.design.theme.shapes.RoundedCornerShape12
+import io.chefbook.design.theme.shapes.SmoothCornerShape12
 
 @Composable
 fun FilledTextField(
@@ -90,7 +90,7 @@ fun FilledTextField(
     keyboardActions = keyboardActions,
     singleLine = maxLines == 1,
     maxLines = maxLines,
-    shape = RoundedCornerShape12,
+    shape = SmoothCornerShape12,
     colors = TextFieldDefaults.textFieldColors(
       textColor = colors.foregroundPrimary,
       cursorColor = colors.tintPrimary,

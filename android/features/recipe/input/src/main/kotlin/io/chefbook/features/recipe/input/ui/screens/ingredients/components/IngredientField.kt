@@ -26,7 +26,7 @@ import com.mephistolie.compost.modifiers.clippedBackground
 import com.mephistolie.compost.modifiers.simpleClickable
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.design.components.textfields.ThemedIndicatorTextField
-import io.chefbook.design.theme.shapes.RoundedCornerShape8
+import io.chefbook.design.theme.shapes.SmoothCornerShape8
 import io.chefbook.libs.utils.numbers.toFormattedText
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.Recipe.Decrypted.IngredientsItem
 import io.chefbook.ui.common.extensions.localizedName
@@ -58,7 +58,7 @@ internal fun IngredientField(
       .fillMaxWidth()
       .height(56.dp)
       .padding(horizontal = 8.dp)
-      .clippedBackground(colors.backgroundPrimary, RoundedCornerShape8)
+      .clippedBackground(colors.backgroundPrimary, SmoothCornerShape8)
       .padding(horizontal = 4.dp),
     horizontalArrangement = Arrangement.spacedBy(8.dp),
     verticalAlignment = Alignment.CenterVertically,

@@ -16,8 +16,8 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.design.theme.ChefBookTheme
-import io.chefbook.design.theme.dimens.BigIconSize
-import io.chefbook.design.theme.shapes.RoundedCornerShape16
+import io.chefbook.design.theme.dimens.IconSize48
+import io.chefbook.design.theme.shapes.SmoothCornerShape16
 
 @Composable
 fun LoadingDialog() {
@@ -34,14 +34,14 @@ fun LoadingDialog() {
     Column(
       modifier = Modifier
         .wrapContentSize()
-        .background(color = colors.backgroundPrimary, shape = RoundedCornerShape16)
+        .background(color = colors.backgroundPrimary, shape = SmoothCornerShape16)
         .padding(24.dp),
       horizontalAlignment = Alignment.CenterHorizontally,
     ) {
       CircularProgressIndicator(
         color = colors.tintPrimary,
         modifier = Modifier
-          .size(BigIconSize)
+          .size(IconSize48)
       )
     }
   }

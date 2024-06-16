@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.mephistolie.compost.modifiers.clippedBackground
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
-import io.chefbook.design.theme.shapes.RoundedCornerShape24
+import io.chefbook.design.theme.shapes.SmoothCornerShape28
 import io.chefbook.features.recipe.info.ui.components.details.diet.DietWidget
 import io.chefbook.features.recipe.info.ui.components.details.info.InfoWidget
 import io.chefbook.features.recipe.info.ui.mvi.RecipeScreenState
@@ -28,7 +28,7 @@ internal fun BoxScope.DetailsCard(
   Column(
     modifier = Modifier
       .fillMaxSize()
-      .clippedBackground(colors.backgroundPrimary, RoundedCornerShape24)
+      .clippedBackground(colors.backgroundPrimary, SmoothCornerShape28)
       .padding(horizontal = 12.dp)
   ) {
     Text(

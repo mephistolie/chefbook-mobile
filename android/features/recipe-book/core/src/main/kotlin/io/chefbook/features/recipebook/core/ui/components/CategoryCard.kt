@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -26,8 +25,8 @@ import com.mephistolie.compost.extensions.Shading
 import com.mephistolie.compost.modifiers.clippedBackground
 import com.mephistolie.compost.modifiers.scalingClickable
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
-import io.chefbook.design.theme.shapes.RoundedCornerShape16
-import io.chefbook.sdk.category.api.external.domain.entities.Category
+import io.chefbook.design.theme.shapes.SmoothCornerShape16
+import io.chefbook.design.theme.shapes.smooth.SmoothCornerShape
 
 @Composable
 fun CategoryCard(
@@ -51,7 +50,7 @@ fun CategoryCard(
       ) {
         onCategoryClicked(id)
       }
-      .clippedBackground(colors.backgroundSecondary, RoundedCornerShape(16.dp))
+      .clippedBackground(colors.backgroundSecondary, SmoothCornerShape(16.dp))
   ) {
     Column(
       horizontalAlignment = Alignment.CenterHorizontally,
@@ -82,7 +81,7 @@ fun CategoryCard(
           modifier = Modifier
             .fillMaxSize()
             .weight(2F)
-            .clip(RoundedCornerShape16)
+            .clip(SmoothCornerShape16)
             .offset(12.dp, 18.dp),
           textAlign = TextAlign.End,
           maxLines = 1,

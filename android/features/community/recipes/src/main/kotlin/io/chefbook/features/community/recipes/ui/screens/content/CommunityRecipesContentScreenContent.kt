@@ -8,7 +8,6 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -22,7 +21,6 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
@@ -33,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import com.mephistolie.compost.modifiers.clippedBackground
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.design.theme.dimens.ToolbarHeight
+import io.chefbook.design.theme.shapes.smooth.SmoothCornerShape
 import io.chefbook.features.community.recipes.ui.screens.content.components.blocks.FilterButtons
 import io.chefbook.features.community.recipes.ui.screens.content.components.blocks.RECIPE_CARD_KEY_PREFIX
 import io.chefbook.features.community.recipes.ui.screens.content.components.blocks.Tabs
@@ -92,7 +91,7 @@ internal fun CommunityRecipesScreenContent(
               onMoreTagsClick = { onIntent(CommunityRecipesScreenIntent.Content.MoreTagsClicked) },
               modifier = Modifier.clippedBackground(
                 background = colors.backgroundPrimary,
-                shape = RoundedCornerShape(bottomStart = 28.dp, bottomEnd = 28.dp)
+                shape = SmoothCornerShape(bottomStart = 28.dp, bottomEnd = 28.dp)
               ),
             )
             Spacer(modifier = Modifier.height(8.dp))
@@ -106,7 +105,7 @@ internal fun CommunityRecipesScreenContent(
               },
               modifier = Modifier.clippedBackground(
                 background = colors.backgroundPrimary,
-                shape = RoundedCornerShape(topStart = 28.dp, topEnd = 28.dp)
+                shape = SmoothCornerShape(topStart = 28.dp, topEnd = 28.dp)
               ),
             )
           }

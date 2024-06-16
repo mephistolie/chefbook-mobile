@@ -13,8 +13,8 @@ import androidx.compose.ui.unit.dp
 import com.mephistolie.compost.modifiers.clippedBackground
 import io.chefbook.core.android.compose.modifiers.shimmer
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
-import io.chefbook.design.theme.shapes.RoundedCornerShape12
-import io.chefbook.design.theme.shapes.RoundedCornerShape16
+import io.chefbook.design.theme.shapes.SmoothCornerShape12
+import io.chefbook.design.theme.shapes.SmoothCornerShape16
 
 @Composable
 fun RecipeCardSkeleton(
@@ -31,21 +31,21 @@ fun RecipeCardSkeleton(
       modifier = Modifier
         .padding(bottom = 10.dp)
         .aspectRatio(1F)
-        .clippedBackground(colors.backgroundSecondary, RoundedCornerShape16)
+        .clippedBackground(colors.backgroundSecondary, SmoothCornerShape16)
     )
     Box(
       modifier = Modifier
         .padding(bottom = 8.dp)
         .width(144.dp)
         .height(12.dp)
-        .clippedBackground(colors.backgroundSecondary, RoundedCornerShape12)
+        .clippedBackground(colors.backgroundSecondary, SmoothCornerShape12)
     )
     Box(
       modifier = Modifier
         .padding(bottom = 2.dp)
         .width(72.dp)
         .height(10.dp)
-        .clippedBackground(colors.backgroundSecondary, RoundedCornerShape12)
+        .clippedBackground(colors.backgroundSecondary, SmoothCornerShape12)
     )
   }
 }

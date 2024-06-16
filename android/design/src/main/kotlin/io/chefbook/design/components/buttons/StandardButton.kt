@@ -2,7 +2,6 @@ package io.chefbook.design.components.buttons
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -17,6 +16,7 @@ import com.mephistolie.compost.modifiers.scalingClickable
 import com.mephistolie.compost.modifiers.simpleClickable
 import io.chefbook.core.android.compose.constants.ShortDebounceInterval
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
+import io.chefbook.design.theme.shapes.smooth.SmoothCornerShape
 
 @Composable
 fun StandardButton(
@@ -27,7 +27,7 @@ fun StandardButton(
   isEnabled: Boolean = true,
   disableScaling: Boolean = false,
   debounceInterval: Long? = ShortDebounceInterval,
-  content: @Composable BoxScope.() -> Unit,
+  content: @Composable BoxScope.(Boolean) -> Unit,
 ) {
   val pressed = remember { mutableStateOf(false) }
 
@@ -50,10 +50,10 @@ fun StandardButton(
           else -> this
         }
       }
-      .clippedBackground(background, RoundedCornerShape(cornerRadius)),
+      .clippedBackground(background, SmoothCornerShape(cornerRadius)),
     contentAlignment = Alignment.Center
   ) {
-    content()
+    content(pressed.value)
     Shading(pressed.value)
   }
 }

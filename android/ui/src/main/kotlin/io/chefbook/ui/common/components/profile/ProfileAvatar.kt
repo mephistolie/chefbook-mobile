@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.mephistolie.compost.modifiers.clippedBackground
 import com.mephistolie.compost.modifiers.simpleClickable
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.design.R
@@ -54,14 +55,17 @@ fun ProfileAvatar(
 
   Box(
     contentAlignment = Alignment.Center,
-    modifier = processedModifier.simpleClickable(onClick = onClick)
+    modifier = processedModifier
+      .simpleClickable(onClick = onClick)
+      .padding(all = if (strokeBrush != null) strokeWidth * 2 else 0.dp)
+      .clippedBackground(colors.backgroundPrimary, CircleShape)
   ) {
     if (url.isNullOrBlank()) {
       Icon(
         painter = painterResource(id = R.drawable.ic_user),
         contentDescription = null,
         tint = colors.foregroundSecondary,
-        modifier = Modifier.size(size / 2),
+        modifier = Modifier.size(size / 1.5F),
       )
     }
     AsyncImage(
@@ -70,11 +74,9 @@ fun ProfileAvatar(
         .crossfade(true)
         .build(),
       contentDescription = null,
+
       contentScale = ContentScale.Crop,
       colorFilter = if (url.isNullOrBlank()) ColorFilter.tint(colors.foregroundPrimary) else null,
-      modifier = Modifier
-        .padding(all = if (strokeBrush != null) strokeWidth * 2 else 0.dp)
-        .clip(CircleShape)
     )
   }
 }

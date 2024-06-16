@@ -11,14 +11,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import com.mephistolie.compost.extensions.Shading
 import com.mephistolie.compost.modifiers.clippedBackground
 import com.mephistolie.compost.modifiers.scalingClickable
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.design.components.images.EncryptedImage
-import io.chefbook.design.theme.shapes.RoundedCornerShape12
+import io.chefbook.design.theme.shapes.SmoothCornerShape12
 
 @Composable
 internal fun CookingStepPictures(
@@ -44,7 +43,7 @@ internal fun CookingStepPictures(
                 pressed = pressed,
                 onClick = { onPictureClicked(pictures[j]) }
               )
-              .clippedBackground(colors.backgroundSecondary, RoundedCornerShape12)
+              .clippedBackground(colors.backgroundSecondary, SmoothCornerShape12)
           ) {
             EncryptedImage(
               data = pictures[j],

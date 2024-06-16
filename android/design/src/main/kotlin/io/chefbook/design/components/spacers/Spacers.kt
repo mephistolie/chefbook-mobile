@@ -14,4 +14,4 @@ fun VerticalSpacer(height: Dp) = Spacer(modifier = Modifier.height(height))
 
 @Composable
 @NonRestartableComposable
-fun HorizontalSpacer(height: Dp) = Spacer(modifier = Modifier.width(height))
+fun HorizontalSpacer(width: Dp) = Spacer(modifier = Modifier.width(width))

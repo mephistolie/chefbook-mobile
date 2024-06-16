@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.dp
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.design.components.buttons.DynamicButton
 import io.chefbook.design.theme.ChefBookTheme
-import io.chefbook.design.theme.dimens.ComponentBigHeight
+import io.chefbook.design.theme.dimens.ComponentHeight56
 import io.chefbook.features.encryption.R
 import io.chefbook.design.R as designR
 
@@ -57,7 +57,7 @@ internal fun EncryptedVaultScreenPresentation(
       isSelected = true,
       modifier = Modifier
         .fillMaxWidth()
-        .height(ComponentBigHeight),
+        .height(ComponentHeight56),
       onClick = onCreateVaultButtonClick,
     )
     Text(

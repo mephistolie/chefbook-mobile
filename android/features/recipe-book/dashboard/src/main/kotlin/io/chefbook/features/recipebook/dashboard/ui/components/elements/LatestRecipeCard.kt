@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -36,7 +35,8 @@ import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.core.android.utils.EmojiUtils
 import io.chefbook.core.android.utils.minutesToTimeString
 import io.chefbook.design.components.images.EncryptedImage
-import io.chefbook.design.theme.shapes.RoundedCornerShape12
+import io.chefbook.design.theme.shapes.SmoothCornerShape12
+import io.chefbook.design.theme.shapes.smooth.SmoothCornerShape
 import io.chefbook.sdk.recipe.book.api.external.domain.entities.LatestRecipeInfo
 import io.chefbook.core.android.R as coreR
 import io.chefbook.design.R as designR
@@ -67,7 +67,7 @@ internal fun LatestRecipeCard(
       modifier = Modifier
         .padding(end = 8.dp)
         .size(80.dp)
-        .clippedBackground(colors.backgroundSecondary, RoundedCornerShape12),
+        .clippedBackground(colors.backgroundSecondary, SmoothCornerShape12),
     ) {
       Text(
         text = placeholder,
@@ -106,7 +106,7 @@ internal fun LatestRecipeCard(
       Row(
         modifier = Modifier
           .height(28.dp)
-          .background(colors.backgroundSecondary, RoundedCornerShape(8.dp))
+          .background(colors.backgroundSecondary, SmoothCornerShape(8.dp))
           .padding(8.dp, 4.dp),
         verticalAlignment = Alignment.CenterVertically
       ) {

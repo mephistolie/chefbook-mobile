@@ -2,6 +2,8 @@ package io.chefbook.features.recipe.info.ui.components.common.actions.buttons
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -11,12 +13,16 @@ import io.chefbook.core.android.R as coreR
 import io.chefbook.design.R as designR
 
 @Composable
+@NonRestartableComposable
 internal fun ManagementButton(
   recipe: Recipe,
+  isPreviewLoaded: MutableState<Boolean>,
   onSaveClick: () -> Unit,
   modifier: Modifier = Modifier,
 ) {
   ActionsWidgetButton(
+    preview = recipe.preview,
+    isPreviewLoaded = isPreviewLoaded,
     onClick = onSaveClick,
     modifier = modifier,
     text = stringResource(

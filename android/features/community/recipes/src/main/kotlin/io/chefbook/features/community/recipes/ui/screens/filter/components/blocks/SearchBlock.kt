@@ -3,7 +3,6 @@ package io.chefbook.features.community.recipes.ui.screens.filter.components.bloc
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyListScope
@@ -13,14 +12,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.mephistolie.compost.modifiers.clippedBackground
 import com.mephistolie.compost.modifiers.padding
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.design.components.textfields.OutlinedTextField
-import io.chefbook.design.theme.shapes.RoundedCornerShape28
+import io.chefbook.design.theme.shapes.SmoothCornerShape28
 import io.chefbook.core.android.R as coreR
 
 internal fun LazyListScope.searchBlock(
@@ -38,7 +35,7 @@ internal fun LazyListScope.searchBlock(
     Column(
       modifier = modifier
         .padding(bottom = 8.dp)
-        .background(colors.backgroundPrimary, RoundedCornerShape28)
+        .background(colors.backgroundPrimary, SmoothCornerShape28)
         .padding(12.dp)
     ) {
       Text(

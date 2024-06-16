@@ -26,7 +26,7 @@ import com.mephistolie.compost.modifiers.clippedBackground
 import com.mephistolie.compost.modifiers.scalingClickable
 import com.mephistolie.compost.modifiers.simpleClickable
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
-import io.chefbook.design.theme.shapes.RoundedCornerShape28
+import io.chefbook.design.theme.shapes.SmoothCornerShape28
 import io.chefbook.features.shoppinglist.control.ui.screen.state.ShoppingListSection
 import io.chefbook.design.R as designR
 
@@ -45,7 +45,7 @@ internal fun ShoppingListSection(
     modifier = modifier
       .fillMaxWidth()
       .wrapContentHeight()
-      .clippedBackground(background = colors.backgroundPrimary, RoundedCornerShape28)
+      .clippedBackground(background = colors.backgroundPrimary, SmoothCornerShape28)
       .animateContentSize()
   ) {
     if (!state.title.isNullOrBlank()) {

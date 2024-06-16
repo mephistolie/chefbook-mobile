@@ -4,7 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -28,7 +28,7 @@ fun SubscriptionBadge(
     modifier = modifier
       .background(
         brush = if (isPremium) Gradients.orangeBrush else Gradients.grayBrush(),
-        shape = RoundedCornerShape(100)
+        shape = CircleShape,
       )
       .padding(vertical = 4.dp, horizontal = 8.dp)
       .defaultMinSize(minWidth = 48.dp),

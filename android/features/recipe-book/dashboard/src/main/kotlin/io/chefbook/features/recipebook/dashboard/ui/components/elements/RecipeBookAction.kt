@@ -23,8 +23,7 @@ import com.mephistolie.compost.extensions.Shading
 import com.mephistolie.compost.modifiers.clippedBackground
 import com.mephistolie.compost.modifiers.scalingClickable
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
-import io.chefbook.design.theme.shapes.RoundedCornerShape12
-import io.chefbook.design.theme.shapes.RoundedCornerShape16
+import io.chefbook.design.theme.shapes.SmoothCornerShape16
 import io.chefbook.design.R as designR
 
 @Composable
@@ -45,7 +44,7 @@ fun RecipeBookActionButton(
   Box(
     modifier = modifier
       .scalingClickable(pressed, onClick = onActionButtonClick)
-      .clippedBackground(colors.backgroundSecondary, RoundedCornerShape16)
+      .clippedBackground(colors.backgroundSecondary, SmoothCornerShape16)
   ) {
     image?.let {
       Column(

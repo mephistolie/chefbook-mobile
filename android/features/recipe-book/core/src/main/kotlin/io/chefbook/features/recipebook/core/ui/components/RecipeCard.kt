@@ -40,8 +40,8 @@ import io.chefbook.core.android.utils.minutesToTimeString
 import io.chefbook.design.R
 import io.chefbook.design.components.images.EncryptedImage
 import io.chefbook.design.theme.colors.Red
-import io.chefbook.design.theme.shapes.RoundedCornerShape12
-import io.chefbook.design.theme.shapes.RoundedCornerShape16
+import io.chefbook.design.theme.shapes.SmoothCornerShape12
+import io.chefbook.design.theme.shapes.SmoothCornerShape16
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.DecryptedRecipeInfo
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.RecipeInfo
 import io.chefbook.ui.common.providers.RecipeEncryptionProvider
@@ -81,7 +81,7 @@ fun RecipeCard(
         modifier = Modifier
           .padding(bottom = 8.dp)
           .aspectRatio(1F)
-          .clippedBackground(colors.backgroundSecondary, RoundedCornerShape16)
+          .clippedBackground(colors.backgroundSecondary, SmoothCornerShape16)
       ) {
         Text(
           text = placeholder,
@@ -114,7 +114,7 @@ fun RecipeCard(
                   start = Offset(0F, Float.POSITIVE_INFINITY),
                   end = Offset(Float.POSITIVE_INFINITY, 0f)
                 ),
-                shape = RoundedCornerShape12
+                shape = SmoothCornerShape12
               ),
             contentAlignment = Alignment.TopEnd
           ) {

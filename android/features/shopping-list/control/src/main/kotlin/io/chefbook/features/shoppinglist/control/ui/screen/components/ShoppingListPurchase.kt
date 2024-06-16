@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.dp
 import com.mephistolie.compost.modifiers.simpleClickable
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.design.components.checkboxes.Checkbox
-import io.chefbook.design.theme.dimens.SmallIconSize
+import io.chefbook.design.theme.dimens.IconSize16
 import io.chefbook.sdk.shoppinglist.api.external.domain.entities.Purchase
 import io.chefbook.ui.common.extensions.localizedName
 import io.chefbook.design.R as designR
@@ -67,7 +67,7 @@ internal fun ShoppingListPurchase(
         tint = colors.foregroundSecondary,
         modifier = Modifier
           .simpleClickable { onEditClick() }
-          .size(SmallIconSize)
+          .size(IconSize16)
       )
     }
   }

@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -30,7 +29,8 @@ import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.core.android.utils.EmojiUtils
 import io.chefbook.core.android.utils.minutesToTimeString
 import io.chefbook.design.components.images.EncryptedImage
-import io.chefbook.design.theme.dimens.ComponentMediumHeight
+import io.chefbook.design.theme.dimens.ComponentHeight48
+import io.chefbook.design.theme.shapes.smooth.SmoothCornerShape
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.DecryptedRecipeInfo
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.RecipeInfo
 import io.chefbook.ui.common.providers.RecipeEncryptionProvider
@@ -59,7 +59,7 @@ internal fun SearchRecipeCard(
     Row(
       modifier = modifier
         .fillMaxWidth()
-        .height(ComponentMediumHeight)
+        .height(ComponentHeight48)
         .scalingClickable(
           pressed = pressed,
           debounceInterval = 500L
@@ -70,7 +70,7 @@ internal fun SearchRecipeCard(
         modifier = Modifier
           .padding(end = 8.dp)
           .size(48.dp)
-          .clippedBackground(colors.backgroundSecondary, RoundedCornerShape(10.dp))
+          .clippedBackground(colors.backgroundSecondary, SmoothCornerShape(10.dp))
       ) {
         Text(
           text = placeholder,

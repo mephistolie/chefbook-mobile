@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.mephistolie.compost.modifiers.clippedBackground
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
-import io.chefbook.design.theme.shapes.RoundedCornerShape28Top
+import io.chefbook.design.theme.shapes.SmoothCornerShape28Top
 
 @Composable
 inline fun BottomSheetBox(
@@ -27,7 +27,7 @@ inline fun BottomSheetBox(
         .statusBarsPadding()
         .clippedBackground(
           background = backgroundColor,
-          shape = RoundedCornerShape28Top,
+          shape = SmoothCornerShape28Top,
         ),
       contentAlignment = Alignment.TopCenter,
       content = content,
@@ -39,7 +39,7 @@ inline fun BottomSheetBox(
         .statusBarsPadding()
         .clippedBackground(
           background = backgroundColor,
-          shape = RoundedCornerShape28Top,
+          shape = SmoothCornerShape28Top,
         ),
       horizontalAlignment = Alignment.CenterHorizontally,
     ) {
@@ -63,7 +63,7 @@ inline fun BottomSheetBox(
           .fillMaxWidth()
           .clippedBackground(
             background = backgroundColor,
-            shape = RoundedCornerShape28Top,
+            shape = SmoothCornerShape28Top,
           ),
         contentAlignment = Alignment.TopCenter,
         content = content,

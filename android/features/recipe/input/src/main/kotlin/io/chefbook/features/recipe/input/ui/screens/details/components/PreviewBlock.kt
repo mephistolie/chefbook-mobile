@@ -23,7 +23,7 @@ import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.design.components.buttons.CircleIconButton
 import io.chefbook.design.components.buttons.DynamicButton
 import io.chefbook.design.components.images.EncryptedImage
-import io.chefbook.design.theme.dimens.ComponentBigHeight
+import io.chefbook.design.theme.dimens.ComponentHeight56
 import io.chefbook.features.recipe.input.R
 import io.chefbook.features.recipe.input.ui.images.cropImageOptions
 import io.chefbook.features.recipe.input.ui.viewmodel.generatePicturePath
@@ -92,7 +92,7 @@ internal fun PreviewBlock(
           end = 12.dp,
         )
         .fillMaxWidth()
-        .height(ComponentBigHeight),
+        .height(ComponentHeight56),
       onClick = { imagePickerLauncher.launch("image/*") },
     )
   }

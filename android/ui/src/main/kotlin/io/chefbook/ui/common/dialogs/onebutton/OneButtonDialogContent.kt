@@ -1,29 +1,21 @@
 package io.chefbook.ui.common.dialogs.onebutton
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredWidthIn
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material.Surface
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.NonRestartableComposable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.design.R
 import io.chefbook.design.components.buttons.DynamicButton
 import io.chefbook.design.theme.ChefBookTheme
-import io.chefbook.design.theme.dimens.ComponentMediumHeight
+import io.chefbook.design.theme.dimens.ComponentHeight48
 import io.chefbook.ui.common.dialogs.StandardDialog
 import io.chefbook.core.android.R as coreR
 
@@ -46,7 +38,7 @@ fun OneButtonDialogContent(
       text = buttonText,
       isSelected = isButtonSelected,
       modifier = Modifier
-        .height(ComponentMediumHeight)
+        .height(ComponentHeight48)
         .run { if (fullWidthButton) fillMaxWidth() else requiredWidthIn(144.dp) },
       onClick = onClick,
     )

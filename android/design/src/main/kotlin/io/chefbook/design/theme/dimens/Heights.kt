@@ -2,6 +2,7 @@ package io.chefbook.design.theme.dimens
 
 import androidx.compose.ui.unit.dp
 
-val ComponentSmallHeight = 40.dp
-val ComponentMediumHeight = 48.dp
-val ComponentBigHeight = 56.dp
+val ComponentHeight36 = 36.dp
+val ComponentHeight40 = 40.dp
+val ComponentHeight48 = 48.dp
+val ComponentHeight56 = 56.dp

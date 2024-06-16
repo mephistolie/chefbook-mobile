@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyListScope
@@ -18,7 +17,7 @@ import com.mephistolie.compost.modifiers.clippedBackground
 import com.mephistolie.compost.modifiers.padding
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.design.components.buttons.DynamicButton
-import io.chefbook.design.theme.shapes.RoundedCornerShape28
+import io.chefbook.design.theme.shapes.SmoothCornerShape28
 import io.chefbook.features.community.recipes.R
 
 @OptIn(ExperimentalLayoutApi::class)
@@ -34,7 +33,7 @@ internal fun LazyListScope.specificitiesBlock(
     Column(
       modifier = modifier
         .padding(bottom = 8.dp)
-        .clippedBackground(colors.backgroundPrimary, RoundedCornerShape28)
+        .clippedBackground(colors.backgroundPrimary, SmoothCornerShape28)
         .fillMaxWidth()
         .padding(12.dp)
     ) {

@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import com.mephistolie.compost.modifiers.clippedBackground
 import com.mephistolie.compost.modifiers.simpleClickable
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
-import io.chefbook.design.theme.shapes.RoundedCornerShape16
+import io.chefbook.design.theme.shapes.SmoothCornerShape16
 
 private val transparentBrush = Brush.linearGradient(
   colors = listOf(
@@ -90,16 +90,16 @@ private fun MenuSelectable(
       .border(
         width = borderDp,
         color = if (isSelected) colors.tintPrimary else Color.Transparent,
-        shape = RoundedCornerShape16
+        shape = SmoothCornerShape16
       )
       .border(
         width = if (isSelected) 3.dp else 0.dp,
         color = if (isSelected) colors.backgroundPrimary else colors.backgroundSecondary,
-        shape = RoundedCornerShape16
+        shape = SmoothCornerShape16
       )
       .clippedBackground(
         background = colors.backgroundSecondary,
-        shape = RoundedCornerShape16,
+        shape = SmoothCornerShape16,
       )
       .simpleClickable(onClick = onClick),
     contentAlignment = Alignment.Center,

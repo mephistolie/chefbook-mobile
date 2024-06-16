@@ -1,10 +1,11 @@
 package io.chefbook.features.recipe.info.ui.components.common.content.loaded
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.material.BottomSheetState
@@ -15,9 +16,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.mephistolie.compost.modifiers.clippedBackground
+import com.mephistolie.compost.modifiers.padding
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
+import io.chefbook.design.theme.shapes.SmoothCornerShape28Top
 import io.chefbook.features.recipe.info.ui.components.common.tabs.RecipeTabsHeader
 import io.chefbook.features.recipe.info.ui.mvi.RecipeScreenIntent
 import io.chefbook.features.recipe.info.ui.mvi.RecipeScreenState
@@ -28,13 +31,17 @@ import kotlinx.coroutines.launch
   ExperimentalFoundationApi::class
 )
 @Composable
-internal fun ColumnScope.RecipeScreenSheetContent(
+internal fun RecipeScreenSheetContent(
   state: RecipeScreenState.Success,
   onIntent: (RecipeScreenIntent) -> Unit,
   sheetState: BottomSheetState,
   pagerState: PagerState,
-  screenHeight: Dp = LocalConfiguration.current.screenHeightDp.dp
 ) {
+  val screenHeightWithPaddings = LocalConfiguration.current.screenHeightDp.dp
+  val navigationBarsPadding =
+    WindowInsets.Companion.navigationBars.asPaddingValues().calculateBottomPadding()
+  val bottomSheetHeight = screenHeightWithPaddings + navigationBarsPadding
+
   val colors = LocalTheme.colors
 
   val scope = rememberCoroutineScope()
@@ -43,7 +50,8 @@ internal fun ColumnScope.RecipeScreenSheetContent(
 
   Column(
     modifier = Modifier
-      .background(colors.backgroundPrimary)
+      .padding(top = 8.dp)
+      .clippedBackground(colors.backgroundPrimary, SmoothCornerShape28Top)
       .fillMaxWidth()
       .wrapContentHeight(),
   ) {
@@ -66,7 +74,7 @@ internal fun ColumnScope.RecipeScreenSheetContent(
         onIntent(RecipeScreenIntent.OpenPicturesViewer(selectedPicture = picture))
       },
       pagerState = pagerState,
-      pageHeight = screenHeight - tabsBlockHeight.value,
+      pageHeight = bottomSheetHeight - 8.dp,
     )
   }
 }

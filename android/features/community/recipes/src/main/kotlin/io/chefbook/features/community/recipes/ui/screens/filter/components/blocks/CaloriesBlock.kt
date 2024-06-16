@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyListScope
@@ -18,11 +17,10 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.core.text.isDigitsOnly
-import com.mephistolie.compost.modifiers.clippedBackground
 import com.mephistolie.compost.modifiers.padding
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.design.components.textfields.OutlinedTextField
-import io.chefbook.design.theme.shapes.RoundedCornerShape28
+import io.chefbook.design.theme.shapes.SmoothCornerShape28
 import io.chefbook.features.community.recipes.R
 import io.chefbook.core.android.R as coreR
 
@@ -40,7 +38,7 @@ internal fun LazyListScope.caloriesBlock(
     Column(
       modifier = modifier
         .padding(bottom = 8.dp)
-        .background(colors.backgroundPrimary, RoundedCornerShape28)
+        .background(colors.backgroundPrimary, SmoothCornerShape28)
         .fillMaxWidth()
         .padding(12.dp)
     ) {

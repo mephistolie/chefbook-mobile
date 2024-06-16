@@ -28,7 +28,7 @@ import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.design.R
 import io.chefbook.design.components.images.EncryptedImage
 import io.chefbook.design.components.pager.HorizontalPagerIndicator
-import io.chefbook.design.theme.shapes.RoundedCornerShape24
+import io.chefbook.design.theme.shapes.SmoothCornerShape24
 import io.chefbook.navigation.navigators.BaseNavigator
 import io.chefbook.navigation.styles.DismissibleDialog
 
@@ -64,7 +64,7 @@ fun PicturesViewer(
           contentScale = ContentScale.Fit,
           modifier = Modifier
             .padding(horizontal = 12.dp)
-            .clip(RoundedCornerShape24)
+            .clip(SmoothCornerShape24)
             .fillMaxWidth()
             .wrapContentHeight()
         )

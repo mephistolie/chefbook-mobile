@@ -24,7 +24,7 @@ import com.mephistolie.compost.modifiers.padding
 import com.mephistolie.compost.modifiers.simpleClickable
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.design.core.scorePainter
-import io.chefbook.design.theme.shapes.RoundedCornerShape28Top
+import io.chefbook.design.theme.shapes.SmoothCornerShape28Top
 import io.chefbook.features.recipe.rating.R
 
 @Composable
@@ -39,7 +39,7 @@ internal fun RecipeScoreBlock(
   Column(
     modifier = modifier
       .fillMaxWidth()
-      .background(colors.backgroundPrimary, RoundedCornerShape28Top)
+      .background(colors.backgroundPrimary, SmoothCornerShape28Top)
       .navigationBarsPadding()
       .padding(12.dp),
     horizontalAlignment = Alignment.CenterHorizontally,

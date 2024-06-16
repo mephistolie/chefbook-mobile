@@ -40,7 +40,7 @@ import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.design.components.buttons.CircleIconButton
 import io.chefbook.design.components.buttons.DynamicButton
 import io.chefbook.design.components.textfields.ThemedIndicatorTextField
-import io.chefbook.design.theme.shapes.RoundedCornerShape28Top
+import io.chefbook.design.theme.shapes.SmoothCornerShape28Top
 import io.chefbook.features.shoppinglist.purchases.input.ui.mvi.PurchaseInputDialogIntent
 import io.chefbook.libs.models.measureunit.standardUnits
 import io.chefbook.sdk.shoppinglist.api.external.domain.entities.Purchase
@@ -65,7 +65,7 @@ internal fun PurchaseInputDialogContent(
   Column(
     modifier = Modifier
       .imePadding()
-      .clippedBackground(colors.backgroundPrimary, RoundedCornerShape28Top)
+      .clippedBackground(colors.backgroundPrimary, SmoothCornerShape28Top)
       .padding(horizontal = 18.dp)
       .fillMaxWidth()
       .wrapContentHeight(),

@@ -12,7 +12,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.design.components.toolbar.Toolbar
-import io.chefbook.design.theme.dimens.SmallIconSize
+import io.chefbook.design.theme.dimens.IconSize16
 import io.chefbook.features.recipe.control.R
 import io.chefbook.features.recipe.control.ui.mvi.RecipeControlScreenIntent
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.DecryptedRecipeInfo
@@ -57,7 +57,7 @@ internal fun RecipeControlScreenMenu(
         onClick = { onIntent(RecipeControlScreenIntent.ChangeCategories) },
         text = stringResource(R.string.common_recipe_control_screen_choose_categories),
         iconId = designR.drawable.ic_arrow_right,
-        iconSize = SmallIconSize,
+        iconSize = IconSize16,
         isLast = true,
       )
     }

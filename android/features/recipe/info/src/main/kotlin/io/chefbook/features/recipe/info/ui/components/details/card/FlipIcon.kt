@@ -14,7 +14,7 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import com.mephistolie.compost.modifiers.clippedBackground
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
-import io.chefbook.design.theme.dimens.MediumIconSize
+import io.chefbook.design.theme.dimens.IconSize32
 import io.chefbook.design.R as designR
 
 @Composable
@@ -28,7 +28,7 @@ internal fun BoxScope.FlipIcon() {
     modifier = Modifier
       .align(Alignment.BottomEnd)
       .padding(8.dp)
-      .size(MediumIconSize)
+      .size(IconSize32)
       .clippedBackground(backgroundColor, shape = CircleShape)
       .padding(4.dp),
     tint = Color.White,

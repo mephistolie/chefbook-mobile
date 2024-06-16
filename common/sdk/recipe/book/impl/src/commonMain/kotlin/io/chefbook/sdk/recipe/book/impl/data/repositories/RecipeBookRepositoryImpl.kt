@@ -20,8 +20,11 @@ import io.chefbook.sdk.recipe.book.api.internal.data.models.RecipeState
 import io.chefbook.sdk.recipe.book.api.internal.data.repositories.RecipeBookRepository
 import io.chefbook.sdk.recipe.book.impl.data.sources.local.LocalRecipeBookSource
 import io.chefbook.sdk.recipe.book.impl.data.sources.remote.RemoteRecipeBookSource
+import io.chefbook.sdk.recipe.core.api.external.domain.entities.DecryptedRecipe
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.DecryptedRecipeInfo
+import io.chefbook.sdk.recipe.core.api.external.domain.entities.EncryptedRecipe
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.EncryptedRecipeInfo
+import io.chefbook.sdk.recipe.core.api.external.domain.entities.Recipe
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.RecipeInfo
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.RecipeMeta
 import io.chefbook.sdk.recipe.crud.api.internal.data.sources.RecipeCrudSource
@@ -174,6 +177,8 @@ internal class RecipeBookRepositoryImpl(
         return@map when (recipe) {
           is DecryptedRecipeInfo -> recipe
           is EncryptedRecipeInfo -> decryptRecipe(recipe, vaultKey)
+          is DecryptedRecipe -> recipe
+          is EncryptedRecipe -> decryptRecipe(recipe.info, vaultKey)
         }
       })
     }
@@ -263,5 +268,9 @@ private fun RecipeInfo.withState(state: RecipeState): RecipeInfo {
       categories = state.categories,
       isFavourite = state.isFavourite,
     )
+
+    is Recipe.Decrypted -> copy(info = info.withState(state) as DecryptedRecipeInfo)
+
+    is Recipe.Encrypted -> copy(info = info.withState(state) as EncryptedRecipeInfo)
   }
 }

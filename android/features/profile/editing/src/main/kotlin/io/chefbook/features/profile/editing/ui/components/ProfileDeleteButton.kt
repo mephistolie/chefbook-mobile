@@ -10,7 +10,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.design.components.buttons.DynamicButton
-import io.chefbook.design.theme.dimens.ComponentBigHeight
+import io.chefbook.design.theme.dimens.ComponentHeight56
 import io.chefbook.features.profile.editing.R
 
 @Composable
@@ -25,7 +25,7 @@ fun ProfileDeleteButton(
     modifier = Modifier
       .padding(horizontal = 8.dp)
       .fillMaxWidth()
-      .height(ComponentBigHeight),
+      .height(ComponentHeight56),
     text = stringResource(R.string.common_profile_editing_screen_delete_profile),
     unselectedForeground = colors.tintPrimary,
     cornerRadius = 20.dp,

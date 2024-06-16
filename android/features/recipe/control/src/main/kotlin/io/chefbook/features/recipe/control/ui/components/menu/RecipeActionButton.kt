@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
@@ -25,6 +24,7 @@ import com.mephistolie.compost.modifiers.clippedBackground
 import com.mephistolie.compost.modifiers.padding
 import com.mephistolie.compost.modifiers.scalingClickable
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
+import io.chefbook.design.theme.shapes.smooth.SmoothCornerShape
 
 @Composable
 internal fun RecipeActionButton(
@@ -50,7 +50,7 @@ internal fun RecipeActionButton(
     )
     .clippedBackground(
       background = colors.backgroundSecondary,
-      shape = RoundedCornerShape(
+      shape = SmoothCornerShape(
         if (isFirst) 20.dp else 0.dp,
         if (isFirst) 20.dp else 0.dp,
         if (isLast) 20.dp else 0.dp,

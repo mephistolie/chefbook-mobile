@@ -14,6 +14,7 @@ dependencies {
   implementation(projects.common.sdk.shoppingList.api.external)
 
   implementation(projects.android.features.recipe.control)
+//  implementation("com.github.prime-zs.toolkit:core-ktx:2.0.2-rc01")
   implementation(projects.android.features.recipe.rating)
 
   implementation(libs.coil.compose)

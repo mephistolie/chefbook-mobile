@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import com.mephistolie.compost.modifiers.simpleClickable
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.design.components.buttons.DynamicButton
-import io.chefbook.design.theme.dimens.ComponentBigHeight
+import io.chefbook.design.theme.dimens.ComponentHeight56
 import io.chefbook.features.auth.R
 import io.chefbook.features.auth.ui.components.PasswordInputField
 import io.chefbook.features.auth.ui.mvi.AuthScreenIntent
@@ -53,7 +53,7 @@ internal fun SignInPasswordForm(
     textStyle = typography.headline1,
     modifier = Modifier
       .fillMaxWidth()
-      .height(ComponentBigHeight),
+      .height(ComponentHeight56),
   )
   Spacer(Modifier.height(12.dp))
   Text(

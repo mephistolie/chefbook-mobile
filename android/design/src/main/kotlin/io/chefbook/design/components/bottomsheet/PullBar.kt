@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
-import io.chefbook.design.theme.shapes.RoundedCornerShape4
+import io.chefbook.design.theme.shapes.SmoothCornerShape4
 
 @Composable
 fun PullBar(
@@ -28,7 +28,7 @@ fun PullBar(
         } else {
           LocalTheme.colors.foregroundPrimary.copy(alpha = 0.2F)
         },
-        shape = RoundedCornerShape4
+        shape = SmoothCornerShape4
       )
   )
 }

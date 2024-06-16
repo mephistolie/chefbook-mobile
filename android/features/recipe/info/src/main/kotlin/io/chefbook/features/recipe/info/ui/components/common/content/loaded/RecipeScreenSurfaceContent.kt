@@ -1,85 +1,303 @@
 package io.chefbook.features.recipe.info.ui.components.common.content.loaded
 
+import androidx.compose.animation.animateColor
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.updateTransition
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.material.BottomSheetState
+import androidx.compose.material.BottomSheetValue
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.blur
+import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.draw.scale
+import androidx.compose.ui.graphics.BlendMode
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.zIndex
-import io.chefbook.design.components.buttons.BottomSheetCloseButton
+import com.mephistolie.compost.modifiers.clippedBackground
+import io.chefbook.core.android.compose.providers.theme.LocalTheme
+import io.chefbook.core.android.utils.EmojiUtils
+import io.chefbook.design.components.images.EncryptedImage
+import io.chefbook.design.components.spacers.HorizontalSpacer
+import io.chefbook.design.components.spacers.VerticalSpacer
+import io.chefbook.design.theme.colors.Monochrome96
+import io.chefbook.design.theme.shapes.SmoothCornerShape28
 import io.chefbook.features.recipe.info.ui.components.common.actions.ActionsWidget
-import io.chefbook.features.recipe.info.ui.components.details.card.DetailsCard
-import io.chefbook.features.recipe.info.ui.components.details.card.ImageCard
+import io.chefbook.features.recipe.info.ui.components.common.actions.buttons.CloseButton
+import io.chefbook.features.recipe.info.ui.components.common.actions.buttons.LanguageButton
+import io.chefbook.features.recipe.info.ui.components.common.actions.buttons.ProfileButton
+import io.chefbook.features.recipe.info.ui.components.common.actions.buttons.ShareButton
 import io.chefbook.features.recipe.info.ui.mvi.RecipeScreenIntent
 import io.chefbook.features.recipe.info.ui.mvi.RecipeScreenState
-import io.chefbook.ui.common.components.common.FlippingCard
+import kotlin.math.abs
 
-@OptIn(ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterialApi::class, ExperimentalLayoutApi::class)
 @Composable
 internal fun RecipeScreenSurfaceContent(
   state: RecipeScreenState.Success,
   onIntent: (RecipeScreenIntent) -> Unit,
-  contentHeight: MutableState<Dp>
+  bottomSheetState: BottomSheetState? = null,
+  setCardHeight: (Dp) -> Unit = {},
 ) {
   val density = LocalDensity.current
 
-  Box(
-    modifier = Modifier.padding(horizontal = 8.dp),
-    contentAlignment = Alignment.TopEnd
-  ) {
-    Column(
-      modifier = Modifier
-        .wrapContentHeight()
-        .onGloballyPositioned { coordinates ->
-          contentHeight.value = with(density) { coordinates.size.height.toDp() }
+  val colors = LocalTheme.colors
+  val typography = LocalTheme.typography
+
+  val recipe = state.recipe
+
+  val expandTransition = updateTransition(bottomSheetState?.targetValue, label = "isPreviewLoaded")
+  val cardScale by expandTransition.animateFloat(label = "isExpanded") { targetValue ->
+    val currentValue = bottomSheetState?.currentValue
+    when {
+      currentValue == targetValue ->
+        when {
+          targetValue == BottomSheetValue.Expanded -> 0.9F
+          else -> 1F
         }
-    ) {
-      val recipe = state.recipe
-      val hasPreview = recipe.preview != null
-      var isFrontShown by remember { mutableStateOf(hasPreview) }
-      FlippingCard(
-        isFrontShown = isFrontShown,
-        onClick = { if (hasPreview) isFrontShown = !isFrontShown },
-        modifier = Modifier
-          .zIndex(24F)
-          .aspectRatio(1F),
-        frontContent = {
-          recipe.preview?.let { preview ->
-            ImageCard(url = preview, showFlipIcon = true)
-          }
-        },
-        backContent = { DetailsCard(state = state, showFlipIcon = hasPreview) }
+
+      else ->
+        when {
+          targetValue == BottomSheetValue.Expanded -> 1F - 0.1F * abs(
+            bottomSheetState?.progress ?: 0F
+          )
+
+          else -> 0.9F + 0.1F * abs(bottomSheetState?.progress ?: 0F)
+        }
+    }
+  }
+
+  Box(
+    modifier = Modifier
+      .run {
+        if (recipe.preview?.isNotBlank() == true) {
+          aspectRatio(1 / 1.1F)
+        } else {
+          fillMaxWidth()
+            .wrapContentHeight()
+        }
+      }
+      .scale(cardScale)
+      .clippedBackground(colors.backgroundPrimary, SmoothCornerShape28)
+      .onGloballyPositioned {coordinates ->
+        with(density) { setCardHeight(coordinates.size.height.toDp()) }
+      },
+    contentAlignment = Alignment.Center,
+  ) {
+    val isPreviewLoaded = remember { mutableStateOf(recipe.preview != null) }
+    val transition = updateTransition(isPreviewLoaded.value, label = "isPreviewLoaded")
+
+    val gradientColor by transition.animateColor(label = "gradientColor") { isLoaded ->
+      if (isLoaded) Color.Black else Color.Transparent
+    }
+    val foregroundPrimary by transition.animateColor(label = "foregroundPrimary") { isLoaded ->
+      if (isLoaded) Color.White else colors.foregroundPrimary
+    }
+    val foregroundSecondary by transition.animateColor(label = "foregroundSecondary") { isLoaded ->
+      if (isLoaded) Monochrome96 else colors.foregroundSecondary
+    }
+
+    val coverPlaceholder = remember { EmojiUtils.randomFoodEmoji(recipe.id) }
+
+    recipe.preview?.let { preview ->
+      Text(
+        text = coverPlaceholder,
+        style = TextStyle(fontSize = TextUnit(72F, TextUnitType.Sp)),
+        textAlign = TextAlign.Center,
+        modifier = Modifier.alpha(0.85F),
       )
-      ActionsWidget(
-        recipe = state.recipe,
-        modifier = Modifier.padding(top = 12.dp, bottom = 24.dp),
-        onRateClick = { onIntent(RecipeScreenIntent.RateButtonClicked) },
-        onSaveClick = {
-          if (!state.recipe.isSaved) {
-            onIntent(RecipeScreenIntent.AddToRecipeBook)
-          } else {
-            onIntent(RecipeScreenIntent.OpenRecipeMenu)
-          }
-        },
-        onShareClick = { onIntent(RecipeScreenIntent.OpenShareDialog) },
+      EncryptedImage(
+        data = preview,
+        onSuccess = { isPreviewLoaded.value = true },
+        onError = { isPreviewLoaded.value = false },
+        modifier = Modifier
+          .fillMaxWidth()
+          .aspectRatio(1F),
+      )
+      EncryptedImage(
+        data = preview,
+        contentScale = ContentScale.FillBounds,
+        onSuccess = { isPreviewLoaded.value = true },
+        onError = { isPreviewLoaded.value = false },
+        modifier = Modifier
+          .fillMaxSize()
+          .blur(20.dp)
+          .graphicsLayer { alpha = 0.99f }
+          .drawWithContent {
+            drawContent()
+
+            drawRect(
+              brush = Brush.verticalGradient(
+                0.1F to gradientColor,
+                0.15F to Color.Transparent,
+                0.7F to Color.Transparent,
+                0.8F to gradientColor,
+              ),
+              blendMode = BlendMode.DstIn
+            )
+
+            val shadowColor = gradientColor.copy(alpha = gradientColor.alpha * 0.2F)
+            drawRect(
+              brush = Brush.verticalGradient(
+                0.1F to shadowColor,
+                0.15F to Color.Transparent,
+                0.7F to Color.Transparent,
+                0.8F to shadowColor,
+              ),
+            )
+          },
       )
     }
-    BottomSheetCloseButton(
-      horizontalPadding = 8.dp,
-      verticalPadding = 8.dp,
-    ) { onIntent(RecipeScreenIntent.Close) }
+    Column(
+      modifier = Modifier
+        .run {
+          if (recipe.preview?.isNotBlank() == true) {
+            matchParentSize()
+          } else {
+            fillMaxWidth()
+              .wrapContentHeight()
+          }
+        }
+        .padding(12.dp),
+      verticalArrangement = Arrangement.SpaceBetween,
+    ) {
+      Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween,
+      ) {
+        Row(
+          verticalAlignment = Alignment.CenterVertically,
+        ) {
+          ProfileButton(
+            name = recipe.owner.name.orEmpty(),
+            avatar = recipe.owner.avatar,
+            preview = recipe.preview,
+            isPreviewLoaded = isPreviewLoaded,
+            onLanguageClick = {}
+          )
+          HorizontalSpacer(width = 8.dp)
+          LanguageButton(
+            language = recipe.language,
+            preview = recipe.preview,
+            isPreviewLoaded = isPreviewLoaded,
+            onLanguageClick = {}
+          )
+        }
+        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+          ShareButton(
+            preview = recipe.preview,
+            isPreviewLoaded = isPreviewLoaded,
+            onShareClick = { onIntent(RecipeScreenIntent.OpenShareDialog) },
+          )
+          CloseButton(
+            preview = recipe.preview,
+            isPreviewLoaded = isPreviewLoaded,
+            onCloseClick = { onIntent(RecipeScreenIntent.Close) },
+          )
+        }
+      }
+      Column(
+        modifier = Modifier
+          .padding(top = 20.dp)
+          .fillMaxWidth(),
+      ) {
+        Row(
+          modifier = Modifier
+            .padding(horizontal = 4.dp)
+            .fillMaxWidth(),
+          horizontalArrangement = Arrangement.spacedBy(16.dp),
+        ) {
+          Column(
+            modifier = Modifier
+              .weight(1F)
+              .fillMaxWidth(),
+          ) {
+            Text(
+              text = state.recipe.name,
+              maxLines = 2,
+              style = typography.h2,
+              color = foregroundPrimary,
+            )
+            FlowRow(
+              horizontalArrangement = Arrangement.spacedBy(4.dp),
+            ) {
+              state.recipe.tags.forEachIndexed { index, tag ->
+                Text(
+                  text = tag.name,
+                  maxLines = 1,
+                  style = typography.headline1,
+                  color = foregroundSecondary,
+                )
+                if (index < state.recipe.tags.lastIndex) {
+                  Text(
+                    text = "•",
+                    maxLines = 1,
+                    style = typography.headline2,
+                    color = foregroundSecondary,
+                  )
+                }
+              }
+            }
+//          VerticalSpacer(8.dp)
+//          Row(
+//            verticalAlignment = Alignment.CenterVertically,
+//          ) {
+//            ProfileAvatar(
+//              url = state.recipe.owner.avatar,
+//              size = 20.dp,
+//            )
+//            HorizontalSpacer(4.dp)
+//            Text(
+//              text = state.recipe.owner.name.orEmpty(),
+//              maxLines = 1,
+//              style = typography.headline1,
+//              color = foregroundSecondary,
+//            )
+//          }
+          }
+        }
+        VerticalSpacer(16.dp)
+        ActionsWidget(
+          recipe = state.recipe,
+          isPreviewLoaded = isPreviewLoaded,
+          onRateClick = { onIntent(RecipeScreenIntent.RateButtonClicked) },
+          onSaveClick = {
+            if (!state.recipe.isSaved) {
+              onIntent(RecipeScreenIntent.AddToRecipeBook)
+            } else {
+              onIntent(RecipeScreenIntent.OpenRecipeMenu)
+            }
+          },
+          onInfoClick = { onIntent(RecipeScreenIntent.OpenShareDialog) },
+        )
+      }
+    }
   }
 }

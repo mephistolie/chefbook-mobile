@@ -14,7 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
-import io.chefbook.design.theme.shapes.RoundedCornerShape28Top
+import io.chefbook.design.theme.shapes.SmoothCornerShape28Top
 import io.chefbook.features.recipebook.dashboard.R
 import io.chefbook.features.recipebook.dashboard.ui.components.elements.LatestRecipeCard
 import io.chefbook.features.recipebook.dashboard.ui.components.elements.LatestRecipeCardSkeleton
@@ -42,7 +42,7 @@ internal fun LazyGridScope.quickAccessBlock(
           .let {
             if (drawDivider) {
               it.background(colors.divider)
-                .background(colors.backgroundPrimary, RoundedCornerShape28Top)
+                .background(colors.backgroundPrimary, SmoothCornerShape28Top)
             } else it
           }
           .padding(20.dp, if (drawDivider) 20.dp else 32.dp, 20.dp, 16.dp),

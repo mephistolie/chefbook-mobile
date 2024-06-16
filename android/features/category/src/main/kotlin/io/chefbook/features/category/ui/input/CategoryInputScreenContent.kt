@@ -28,8 +28,8 @@ import io.chefbook.design.components.buttons.LoadingButton
 import io.chefbook.design.components.spacers.VerticalSpacer
 import io.chefbook.design.components.textfields.OutlinedTextField
 import io.chefbook.design.theme.ChefBookTheme
-import io.chefbook.design.theme.dimens.ComponentMediumHeight
-import io.chefbook.design.theme.dimens.DefaultIconSize
+import io.chefbook.design.theme.dimens.ComponentHeight48
+import io.chefbook.design.theme.dimens.IconSize24
 import io.chefbook.features.category.R
 import io.chefbook.features.category.ui.input.mvi.CategoryInputScreenIntent
 import io.chefbook.features.category.ui.input.mvi.CategoryInputScreenState
@@ -99,13 +99,13 @@ internal fun CategoryInputScreenContent(
           modifier = Modifier
             .padding(end = 4.dp)
             .width(56.dp)
-            .height(ComponentMediumHeight),
+            .height(ComponentHeight48),
         ) {
           Icon(
             imageVector = ImageVector.vectorResource(designR.drawable.ic_trash),
             tint = colors.foregroundPrimary,
             modifier = Modifier
-              .size(DefaultIconSize)
+              .size(IconSize24)
               .aspectRatio(1F),
             contentDescription = null,
           )
@@ -115,7 +115,7 @@ internal fun CategoryInputScreenContent(
       val buttonsModifier = Modifier
         .weight(1F)
         .fillMaxWidth()
-        .height(ComponentMediumHeight)
+        .height(ComponentHeight48)
       DynamicButton(
         onClick = { onIntent(CategoryInputScreenIntent.Cancel) },
         modifier = buttonsModifier,
@@ -142,7 +142,7 @@ internal fun CategoryInputScreenContent(
           imageVector = ImageVector.vectorResource(designR.drawable.ic_check),
           tint = foreground,
           modifier = Modifier
-            .size(DefaultIconSize)
+            .size(IconSize24)
             .aspectRatio(1F),
           contentDescription = null,
         )

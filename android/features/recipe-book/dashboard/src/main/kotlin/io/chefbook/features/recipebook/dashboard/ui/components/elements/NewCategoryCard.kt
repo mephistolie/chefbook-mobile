@@ -16,7 +16,7 @@ import com.mephistolie.compost.extensions.Shading
 import com.mephistolie.compost.modifiers.clippedBackground
 import com.mephistolie.compost.modifiers.scalingClickable
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
-import io.chefbook.design.theme.shapes.RoundedCornerShape16
+import io.chefbook.design.theme.shapes.SmoothCornerShape16
 import io.chefbook.design.R as designR
 
 @Composable
@@ -33,7 +33,7 @@ internal  fun NewCategoryCard(
             .padding(0.dp, 0.dp, 0.dp, 8.dp)
             .aspectRatio(0.8f)
             .scalingClickable(pressed) { onClicked() }
-            .clippedBackground(colors.backgroundSecondary, RoundedCornerShape16),
+            .clippedBackground(colors.backgroundSecondary, SmoothCornerShape16),
         contentAlignment = Alignment.Center,
     ) {
         Icon(

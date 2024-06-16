@@ -21,8 +21,8 @@ import androidx.compose.ui.unit.dp
 import com.mephistolie.compost.modifiers.clippedBackground
 import com.mephistolie.compost.modifiers.simpleClickable
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
-import io.chefbook.design.theme.dimens.DefaultIconSize
-import io.chefbook.design.theme.shapes.RoundedCornerShape28Top
+import io.chefbook.design.theme.dimens.IconSize24
+import io.chefbook.design.theme.shapes.SmoothCornerShape28Top
 import io.chefbook.features.community.recipes.R
 import io.chefbook.features.community.recipes.ui.mvi.FilterState
 import io.chefbook.core.android.R as coreR
@@ -62,9 +62,9 @@ internal fun FilterBlock(
 
   Row(
     modifier = modifier
-      .clippedBackground(colors.backgroundSecondary, RoundedCornerShape28Top)
+      .clippedBackground(colors.backgroundSecondary, SmoothCornerShape28Top)
       .padding(top = 1.dp)
-      .clippedBackground(colors.backgroundPrimary, RoundedCornerShape28Top)
+      .clippedBackground(colors.backgroundPrimary, SmoothCornerShape28Top)
       .navigationBarsPadding()
       .fillMaxWidth()
       .height(filterBlockHeight)
@@ -77,7 +77,7 @@ internal fun FilterBlock(
       imageVector = ImageVector.vectorResource(designR.drawable.ic_slider),
       tint = colors.foregroundPrimary,
       contentDescription = null,
-      modifier = Modifier.size(DefaultIconSize),
+      modifier = Modifier.size(IconSize24),
     )
     Column(
       modifier = Modifier
@@ -97,7 +97,7 @@ internal fun FilterBlock(
       tint = colors.foregroundPrimary,
       contentDescription = null,
       modifier = Modifier
-        .size(DefaultIconSize)
+        .size(IconSize24)
         .padding(4.dp),
     )
   }

@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -26,7 +25,8 @@ import coil.request.ImageRequest
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.design.components.buttons.BottomSheetCloseButton
 import io.chefbook.design.components.buttons.DynamicButton
-import io.chefbook.design.theme.dimens.ComponentMediumHeight
+import io.chefbook.design.theme.dimens.ComponentHeight48
+import io.chefbook.design.theme.shapes.smooth.SmoothCornerShape
 import io.chefbook.features.recipe.share.R
 import io.chefbook.features.recipe.share.ui.mvi.RecipeShareDialogIntent
 import io.chefbook.features.recipe.share.ui.mvi.RecipeShareDialogState
@@ -54,7 +54,7 @@ internal fun RecipeShareDialogContent(
         .wrapContentHeight()
         .background(
           color = colors.backgroundPrimary,
-          shape = RoundedCornerShape(32.dp, 32.dp, 24.dp, 24.dp)
+          shape = SmoothCornerShape(32.dp, 32.dp, 24.dp, 24.dp)
         ),
       contentAlignment = Alignment.TopEnd
     ) {
@@ -96,7 +96,7 @@ internal fun RecipeShareDialogContent(
           modifier = Modifier
             .padding(horizontal = 24.dp)
             .fillMaxWidth()
-            .height(ComponentMediumHeight),
+            .height(ComponentHeight48),
           unselectedForeground = colors.foregroundPrimary,
           onClick = { onIntent(RecipeShareDialogIntent.CopyLink) },
         )
@@ -107,7 +107,7 @@ internal fun RecipeShareDialogContent(
           modifier = Modifier
             .padding(24.dp, 16.dp, 24.dp, 24.dp)
             .fillMaxWidth()
-            .height(ComponentMediumHeight),
+            .height(ComponentHeight48),
           onClick = { onIntent(RecipeShareDialogIntent.CopyAsText) },
         )
       }

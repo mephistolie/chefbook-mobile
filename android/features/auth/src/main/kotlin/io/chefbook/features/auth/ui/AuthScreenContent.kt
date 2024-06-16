@@ -26,7 +26,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.design.components.text.HyperlinkText
-import io.chefbook.design.theme.dimens.ComponentMediumHeight
+import io.chefbook.design.theme.dimens.ComponentHeight48
 import io.chefbook.features.auth.R
 import io.chefbook.features.auth.ui.blocks.AnimatedAuthForm
 import io.chefbook.features.auth.ui.blocks.PasswordResetConfirmationForm
@@ -76,7 +76,7 @@ internal fun AuthScreenContent(
               .fillMaxWidth()
               .wrapContentWidth()
               .padding(24.dp, 24.dp, 24.dp)
-              .size(ComponentMediumHeight),
+              .size(ComponentHeight48),
             strokeCap = StrokeCap.Round,
           )
         }

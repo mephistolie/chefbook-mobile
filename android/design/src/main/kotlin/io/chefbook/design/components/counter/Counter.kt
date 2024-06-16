@@ -35,8 +35,8 @@ import com.mephistolie.compost.ui.textfields.TextField
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.design.R
 import io.chefbook.design.theme.ChefBookTheme
-import io.chefbook.design.theme.dimens.ComponentSmallHeight
-import io.chefbook.design.theme.shapes.RoundedCornerShape12
+import io.chefbook.design.theme.dimens.ComponentHeight40
+import io.chefbook.design.theme.shapes.SmoothCornerShape12
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -64,8 +64,8 @@ fun Counter(
   Row(
     modifier = Modifier
       .wrapContentWidth()
-      .height(ComponentSmallHeight)
-      .clippedBackground(colors.backgroundSecondary, RoundedCornerShape12)
+      .height(ComponentHeight40)
+      .clippedBackground(colors.backgroundSecondary, SmoothCornerShape12)
   ) {
     CounterButton(
       iconId = R.drawable.ic_remove,
@@ -113,7 +113,7 @@ private fun CounterButton(
 ) =
   IconButton(
     onClick = onClick,
-    modifier = Modifier.size(ComponentSmallHeight),
+    modifier = Modifier.size(ComponentHeight40),
     enabled = isEnabled,
   ) {
     Icon(

@@ -9,50 +9,7 @@ typealias EncryptedRecipe = Recipe.Encrypted
 sealed class Recipe(
   open val info: RecipeInfo,
   open val macronutrients: Macronutrients?,
-) {
-
-  val id
-    get() = info.id
-
-  val owner
-    get() = info.owner
-
-  val isOwned
-    get() = info.isOwned
-  val isSaved
-    get() = info.isSaved
-  val visibility
-    get() = info.visibility
-  val isEncryptionEnabled
-    get() = info.isEncryptionEnabled
-
-  val language
-    get() = info.language
-
-  val version
-    get() = info.version
-  val creationTimestamp
-    get() = info.creationTimestamp
-  val updateTimestamp
-    get() = info.updateTimestamp
-
-  val rating
-    get() = info.rating
-
-  val tags
-    get() = info.tags
-  val categories
-    get() = info.categories
-  val isFavourite
-    get() = info.isFavourite
-
-  val servings
-    get() = info.servings
-  val time
-    get() = info.time
-
-  val calories
-    get() = info.calories
+) : RecipeInfo by info {
 
   val hasDietData
     get() = calories != null ||
@@ -60,18 +17,13 @@ sealed class Recipe(
             macronutrients?.fats != null ||
             macronutrients?.carbohydrates != null
 
-  val isEncrypted
-    get() = info.isEncrypted
-  val isDecrypted
-    get() = info.isDecrypted
+  abstract override fun withSavedStatus(isSaved: Boolean): Recipe
+  abstract override fun withCategories(categories: List<Category>): Recipe
+  abstract override fun withFavouriteStatus(isFavourite: Boolean): Recipe
 
-  abstract fun withSavedStatus(isSaved: Boolean): Recipe
-  abstract fun withCategories(categories: List<Category>): Recipe
-  abstract fun withFavouriteStatus(isFavourite: Boolean): Recipe
-
-  abstract fun withId(id: String): Recipe
-  abstract fun withScore(score: Int?): Recipe
-  abstract fun withVersion(version: Int): Recipe
+  abstract override fun withId(id: String): Recipe
+  abstract override fun withScore(score: Int?): Recipe
+  abstract override fun withVersion(version: Int): Recipe
 
   data class Decrypted(
     override val info: DecryptedRecipeInfo,
@@ -84,12 +36,6 @@ sealed class Recipe(
     info = info,
     macronutrients = macronutrients,
   ) {
-
-    val name
-      get() = info.name
-
-    val preview
-      get() = info.preview
 
     override fun withSavedStatus(isSaved: Boolean) = copy(info = info.withSavedStatus(isSaved))
     override fun withCategories(categories: List<Category>) =
@@ -151,12 +97,6 @@ sealed class Recipe(
     info = info,
     macronutrients = macronutrients,
   ) {
-
-    val name
-      get() = info.name
-
-    val preview
-      get() = info.preview
 
     override fun withSavedStatus(isSaved: Boolean) = copy(info = info.withSavedStatus(isSaved))
     override fun withCategories(categories: List<Category>) =

@@ -21,7 +21,7 @@ import io.chefbook.design.components.buttons.DynamicButton
 import io.chefbook.design.components.checkboxes.Checkbox
 import io.chefbook.design.components.spacers.VerticalSpacer
 import io.chefbook.design.components.textfields.OutlinedTextField
-import io.chefbook.design.theme.dimens.ComponentMediumHeight
+import io.chefbook.design.theme.dimens.ComponentHeight48
 import io.chefbook.features.profile.deletion.R
 import io.chefbook.features.profile.deletion.ui.mvi.ProfileDeletionScreenIntent
 import io.chefbook.features.profile.deletion.ui.mvi.ProfileDeletionScreenState
@@ -79,7 +79,7 @@ internal fun ProfileDeletionScreenContent(
         modifier = Modifier
           .weight(1F)
           .fillMaxWidth()
-          .height(ComponentMediumHeight),
+          .height(ComponentHeight48),
         onClick = { onIntent(ProfileDeletionScreenIntent.Close) },
       )
       DynamicButton(
@@ -89,7 +89,7 @@ internal fun ProfileDeletionScreenContent(
         modifier = Modifier
           .weight(1F)
           .fillMaxWidth()
-          .height(ComponentMediumHeight),
+          .height(ComponentHeight48),
         onClick = { onIntent(ProfileDeletionScreenIntent.RequestProfileDeletion) },
       )
     }
