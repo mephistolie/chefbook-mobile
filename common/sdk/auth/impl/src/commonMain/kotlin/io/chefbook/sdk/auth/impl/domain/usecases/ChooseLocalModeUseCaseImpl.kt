@@ -1,12 +1,11 @@
 package io.chefbook.sdk.auth.impl.domain.usecases
 
 import io.chefbook.sdk.auth.api.external.domain.usecases.ChooseLocalModeUseCase
-import io.chefbook.sdk.auth.api.internal.data.repositories.CurrentSessionRepository
+import io.chefbook.sdk.auth.api.internal.data.repositories.AuthRepository
 
 internal class ChooseLocalModeUseCaseImpl(
-  private val sessionRepository: CurrentSessionRepository
+  private val authRepository: AuthRepository
 ) : ChooseLocalModeUseCase {
 
-  override suspend operator fun invoke() =
-    sessionRepository.finishSession()
+  override suspend operator fun invoke() = authRepository.signInLocally()
 }

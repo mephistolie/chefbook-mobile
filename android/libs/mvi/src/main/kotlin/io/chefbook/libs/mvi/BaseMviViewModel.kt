@@ -72,15 +72,11 @@ abstract class BaseMviViewModel<State : MviState, Intent : MviIntent, Effect : M
   protected abstract val _state: MutableStateFlow<State>
   override val state: StateFlow<State> get() = _state.asStateFlow()
 
-  fun <T> Flow<T>.collectInViewModelScope(action: suspend (T) -> Unit) =
-    this
-      .flowOn(Dispatchers.IO)
-      .collectIn(viewModelScope, action)
+  protected fun <T> Flow<T>.collectInViewModelScope(action: suspend (T) -> Unit) =
+    this.collectIn(viewModelScope, action)
 
-  fun <T> Flow<T>.collectState(action: suspend (State, T) -> State) =
-    this
-      .flowOn(Dispatchers.IO)
-      .collectIn(viewModelScope) { value ->
+  protected fun <T> Flow<T>.collectState(action: suspend (State, T) -> State) =
+    this.collectIn(viewModelScope) { value ->
       _state.update { lastState -> action(lastState, value) }
     }
 }

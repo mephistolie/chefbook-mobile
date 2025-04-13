@@ -1,6 +1,6 @@
 package io.chefbook.sdk.shoppinglist.impl.data.sources.remote.api
 
-import io.chefbook.sdk.network.api.internal.service.ChefBookApiService
+import io.chefbook.sdk.network.api.internal.service.ApiService
 import io.chefbook.sdk.network.api.internal.service.dto.responses.MessageResponse
 import io.chefbook.sdk.network.api.internal.service.dto.responses.VersionResponse
 import io.chefbook.sdk.shoppinglist.impl.data.sources.common.dto.ShoppingListMetaSerializable
@@ -11,11 +11,10 @@ import io.chefbook.sdk.shoppinglist.impl.data.sources.remote.api.dto.SetShopping
 import io.chefbook.sdk.shoppinglist.impl.data.sources.remote.api.dto.ShoppingListSerializable
 import io.ktor.client.HttpClient
 import io.ktor.client.request.setBody
-import io.ktor.client.request.url
 
 internal class ShoppingListApiServiceImpl(
   client: HttpClient,
-) : ChefBookApiService(client), ShoppingListApiService {
+) : ApiService(client), ShoppingListApiService {
 
   override suspend fun getShoppingLists(): Result<List<ShoppingListMetaSerializable>> =
     safeGet(SHOPPING_LISTS_ROUTE)

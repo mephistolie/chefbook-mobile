@@ -1,7 +1,7 @@
 package io.chefbook.sdk.recipe.book.impl.data.sources.remote.services.dto
 
-import io.chefbook.sdk.category.api.external.domain.entities.Category
 import io.chefbook.sdk.recipe.book.api.internal.data.models.RecipeState
+import io.chefbook.sdk.recipe.core.api.external.domain.entities.CollectionInfo
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.RecipeMeta
 import io.chefbook.sdk.recipe.core.api.internal.data.sources.remote.services.dto.RatingBody
 import io.chefbook.sdk.tag.api.external.domain.entities.Tag
@@ -24,8 +24,8 @@ internal class RecipeStateBody(
 
   @SerialName("tags")
   val tags: List<String> = emptyList(),
-  @SerialName("categories")
-  val categories: List<String> = emptyList(),
+  @SerialName("collections")
+  val collections: List<String> = emptyList(),
   @SerialName("favourite")
   val isFavourite: Boolean = false,
 ) {
@@ -39,7 +39,7 @@ internal class RecipeStateBody(
 }
 
 internal fun RecipeStateBody.toModel(
-  categoriesMap: Map<String, Category>,
+  collectionsMap: Map<String, CollectionInfo>,
   tagsGroup: Map<String, Tag>,
 ): RecipeState =
   RecipeState(
@@ -52,7 +52,7 @@ internal fun RecipeStateBody.toModel(
       score = rating?.score,
       votes = rating?.votes ?: 0,
     ),
-    categories = categories.mapNotNull(categoriesMap::get),
+    collections = collections.mapNotNull(collectionsMap::get),
     tags = tags.mapNotNull(tagsGroup::get),
     isFavourite = isFavourite,
   )

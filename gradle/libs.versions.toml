@@ -1,43 +1,42 @@
 [versions]
-compileSdk = "34"
-targetSdk = "34"
+compileSdk = "35"
+targetSdk = "35"
 minSdk = "21"
 
-compose-compiler = "1.5.8"
-
-kotlin = "1.9.22"
-kotlin-coroutines = "1.7.3"
+kotlin = "2.0.20"
+kotlin-coroutines = "1.8.1"
 kotlin-datetime = "0.5.0"
 
-jdk-desugar = "2.0.4"
+jdk-desugar = "2.1.2"
 
-ksp = "1.9.22-1.0.17"
+ksp = "2.0.20-1.0.25"
 
-agp = "8.2.2"
+agp = "8.6.1"
 
 timber = "5.0.1"
 
-koin = "3.5.3"
+koin = "4.0.2"
 
-ktor = "2.3.8"
+ktor = "3.1.1"
+okio = "3.9.0"
 
-sqldelight = "2.0.0"
-datastore = "1.1.0"
+sqldelight = "2.0.2"
+datastore = "1.1.1"
 
 tink = "1.13.0"
 
-androidx-core-ktx = "1.13.0"
-androidx-appcompat = "1.6.1"
+androidx-core-ktx = "1.13.1"
+androidx-appcompat = "1.7.0"
 
-androidx-credentials = "1.3.0-alpha03"
-credentials-google = "1.1.0"
+androidx-credentials = "1.3.0-rc01"
+credentials-google = "1.1.1"
 
 google-play-core = "1.10.3"
 
-androidx-activity-compose = "1.9.0"
-androidx-lifecycle = "2.7.0"
-androidx-composeBom = "2024.04.01"
-androidx-navigationCompose = "2.7.7"
+androidx-activity-compose = "1.10.1"
+androidx-lifecycle = "2.8.7"
+androidx-composeBom = "2025.02.00"
+androidx-navigationCompose = "2.8.8"
 accompanist = "0.34.0"
 
 composeDestinations = "1.10.1"
@@ -47,9 +46,9 @@ compost = "0.0.5"
 compose-reorderable = "0.9.6"
 compose-shimmer = "1.2.0"
 
-material = "1.11.0"
+material = "1.12.0"
 
-zxing = "3.4.1"
+zxing = "3.5.3"
 
 coil = "2.5.0"
 imageCropper = "4.5.0"
@@ -57,14 +56,18 @@ compressor = "3.0.1"
 
 [libraries]
 kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
+ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "symbol-processing-gradle-plugin", version.ref = "ksp" }
+android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }
+compose-gradlePlugin = { group = "org.jetbrains.kotlin", name = "compose-compiler-gradle-plugin", version.ref = "kotlin" }
+
 kotlin-test = { group = "org.jetbrains.kotlin", name = "kotlin-test", version.ref = "kotlin" }
 kotlin-test-junit = { group = "org.jetbrains.kotlin", name = "kotlin-test-junit", version.ref = "kotlin" }
+
 kotlin-serialization = { group = "org.jetbrains.kotlin", name = "kotlin-serialization", version.ref = "kotlin" }
 kotlin-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlin" }
+
 kotlin-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlin-coroutines" }
 kotlin-datetime = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime", version.ref = "kotlin-datetime" }
-
-ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "symbol-processing-gradle-plugin", version.ref = "ksp" }
 
 jdk-desugar = { group = "com.android.tools", name = "desugar_jdk_libs", version.ref = "jdk-desugar" }
 
@@ -83,20 +86,20 @@ network-ktor-client-serialization = { group = "io.ktor", name = "ktor-client-ser
 network-ktor-client-logging = { group = "io.ktor", name = "ktor-client-logging", version.ref = "ktor" }
 network-ktor-serialization-kotlinx-json = { group = "io.ktor", name = "ktor-serialization-kotlinx-json", version.ref = "ktor" }
 
+okio = { group = "com.squareup.okio", name = "okio", version.ref = "okio" }
+
 database-sqldelight-runtime = { group = "app.cash.sqldelight", name = "runtime", version.ref = "sqldelight" }
 database-sqldelight-driver-android = { group = "app.cash.sqldelight", name = "android-driver", version.ref = "sqldelight" }
 database-sqldelight-driver-native = { group = "app.cash.sqldelight", name = "native-driver", version.ref = "sqldelight" }
 
 tinkAndroid = { group = "com.google.crypto.tink", name = "tink-android", version.ref = "tink" }
 
-android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }
-
 androidx-coreKtx = { group = "androidx.core", name = "core-ktx", version.ref = "androidx-core-ktx" }
 androidx-appCompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "androidx-appcompat" }
 androidx-datastore = { group = "androidx.datastore", name = "datastore", version.ref = "datastore" }
 androidx-datastore-core = { group = "androidx.datastore", name = "datastore-core", version.ref = "datastore" }
+androidx-datastore-core-okio = { group = "androidx.datastore", name = "datastore-core-okio", version.ref = "datastore" }
 androidx-datastore-coreAndroid = { group = "androidx.datastore", name = "datastore-core-android", version.ref = "datastore" }
-
 
 androidx-credentials = { group = "androidx.credentials", name = "credentials", version.ref = "androidx-credentials" }
 androidx-credentials-playServices = { group = "androidx.credentials", name = "credentials-play-services-auth", version.ref = "androidx-credentials" }
@@ -116,21 +119,16 @@ androidx-compose-material3 = { group = "androidx.compose.material3", name = "mat
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "androidx-activity-compose" }
 androidx-lifecycle-compose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "androidx-lifecycle" }
 androidx-lifecycle-viewmodel-compose = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "androidx-lifecycle" }
-androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "androidx-navigationCompose" }
-
-accompanist-pager-indicators = { group = "com.google.accompanist", name = "accompanist-pager-indicators", version.ref = "accompanist" }
+androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "androidx-navigationCompose" }
 
 composeDestinations-core = { group = "io.github.raamcosta.compose-destinations", name = "animations-core", version.ref = "composeDestinations" }
 composeDestinations-ksp = { group = "io.github.raamcosta.compose-destinations", name = "ksp", version.ref = "composeDestinations" }
-
 
 compost-core = { group = "com.github.mephistolie.compost", name = "core", version.ref = "compost" }
 compost-ui = { group = "com.github.mephistolie.compost", name = "ui", version.ref = "compost" }
 
 compose-reorderable = { group = "org.burnoutcrew.composereorderable", name = "reorderable", version.ref = "compose-reorderable" }
 compose-shimmer = { group = "com.valentinilk.shimmer", name = "compose-shimmer", version.ref = "compose-shimmer" }
-
-material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 
 zxing-core = { group = "com.google.zxing", name = "core", version.ref = "zxing" }
 
@@ -141,11 +139,26 @@ imageCropper = { group = "com.vanniktech", name = "android-image-cropper", versi
 compressor = { group = "id.zelory", name = "compressor", version.ref = "compressor" }
 
 [plugins]
+kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+
 android-application = { id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
 
-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
-kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 
 sqldelight = { id = "app.cash.sqldelight", version.ref = "sqldelight" }
+
+module-multiplatform-base = { id = "plugins.module.multiplatform.base", version = "unspecified" }
+module-multiplatform-sdk = { id = "plugins.module.multiplatform.sdk", version = "unspecified" }
+module-multiplatform-database = { id = "plugins.module.multiplatform.database", version = "unspecified" }
+module-multiplatform-network = { id = "plugins.module.multiplatform.network", version = "unspecified" }
+module-multiplatform-data = { id = "plugins.module.multiplatform.data", version = "unspecified" }
+module-android-lib = { id = "plugins.module.android.lib", version = "unspecified" }
+module-android-compose = { id = "plugins.module.android.compose", version = "unspecified" }
+module-android-navigation = { id = "plugins.module.android.navigation", version = "unspecified" }
+module-android-feature = { id = "plugins.module.android.feature", version = "unspecified" }
+module-android-app = { id = "plugins.module.android.app", version = "unspecified" }

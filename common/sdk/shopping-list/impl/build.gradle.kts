@@ -1,5 +1,5 @@
 plugins {
-  id("multiplatform-data-module")
+  alias(libs.plugins.module.multiplatform.data)
 }
 
 kotlin {
@@ -7,10 +7,7 @@ kotlin {
     commonMain.dependencies {
       api(projects.common.sdk.shoppingList.api.internal)
 
-      implementation(projects.common.sdk.profile.api.internal)
-    }
-    androidMain.dependencies {
-      implementation(libs.androidx.datastore)
+      implementation(projects.common.sdk.auth.api.internal)
     }
   }
 }

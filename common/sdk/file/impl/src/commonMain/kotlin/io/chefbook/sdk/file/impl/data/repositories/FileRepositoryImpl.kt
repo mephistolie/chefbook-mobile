@@ -41,26 +41,6 @@ internal class FileRepositoryImpl(
 
   override suspend fun isRemoteSource(path: String): Boolean = isValidUrl(path)
 
-  override suspend fun compressImage(
-    path: String,
-    width: Int,
-    height: Int,
-    quality: Int,
-    maxFileSize: Long?,
-  ): Result<String> {
-    if (isRemoteSource(path)) {
-      Logger.e("Trying to compress remote file $path")
-      return Result.failure(Throwable("trying to compress remote picture"))
-    }
-    return local.compressImage(
-      path = path,
-      width = width,
-      height = height,
-      maxFileSize = maxFileSize,
-      quality = quality,
-    )
-  }
-
   override suspend fun deleteFile(path: String) = local.deleteFile(path)
 
   override suspend fun deleteCachedFile(relativePath: String) =

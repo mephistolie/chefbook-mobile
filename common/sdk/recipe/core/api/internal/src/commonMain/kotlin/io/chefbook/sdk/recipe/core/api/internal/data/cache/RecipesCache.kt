@@ -21,7 +21,7 @@ interface RecipesCacheWriter {
   suspend fun setRecipeScore(recipeId: String, score: Int?)
   suspend fun setRecipeSavedStatus(recipeId: String, saved: Boolean)
   suspend fun setRecipeFavouriteStatus(recipeId: String, favourite: Boolean)
-  suspend fun setRecipeCategories(recipeId: String, categories: List<String>)
+  suspend fun setRecipeCollections(recipeId: String, categories: List<String>)
 
   suspend fun clear()
 }

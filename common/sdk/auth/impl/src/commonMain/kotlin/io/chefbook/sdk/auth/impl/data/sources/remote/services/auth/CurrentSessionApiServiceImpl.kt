@@ -2,7 +2,7 @@ package io.chefbook.sdk.auth.impl.data.sources.remote.services.auth
 
 import io.chefbook.sdk.auth.impl.data.sources.remote.services.auth.dto.RefreshTokenRequest
 import io.chefbook.sdk.auth.impl.data.sources.remote.services.auth.dto.TokensResponse
-import io.chefbook.sdk.auth.impl.data.sources.remote.services.auth.expetions.InvalidRefreshTokenException
+import io.chefbook.sdk.auth.impl.data.sources.remote.services.auth.exceptions.InvalidRefreshTokenException
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.post

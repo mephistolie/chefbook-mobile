@@ -5,7 +5,6 @@ import io.chefbook.features.recipebook.category.ui.mvi.CategoryScreenEffect
 import io.chefbook.features.recipebook.category.ui.mvi.CategoryScreenIntent
 import io.chefbook.features.recipebook.category.ui.mvi.CategoryScreenState
 import io.chefbook.libs.mvi.BaseMviViewModel
-import io.chefbook.libs.mvi.MviViewModel
 import io.chefbook.sdk.recipe.book.api.external.domain.usecases.ObserveRecipeBookUseCase
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.DecryptedRecipeInfo
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.RecipeInfo
@@ -41,7 +40,7 @@ internal class CategoryRecipesScreenViewModel(
             name = tag?.name
             emoji = tag?.emoji
           } else {
-            val category = recipeBook.categories.find { it.id == categoryId }
+            val category = recipeBook.collections.find { it.id == categoryId }
             name = category?.name
             emoji = category?.emoji
           }
@@ -74,8 +73,8 @@ internal class CategoryRecipesScreenViewModel(
       is CategoryScreenIntent.OnCategoryUpdated ->
         _state.update { state ->
           state.copy(
-            name = intent.category.name,
-            emoji = intent.category.emoji,
+            name = intent.collection.name,
+            emoji = intent.collection.emoji,
           )
         }
 
@@ -88,7 +87,7 @@ internal class CategoryRecipesScreenViewModel(
     categoryId: String
   ): List<DecryptedRecipeInfo> = recipes
     .filter { recipe ->
-      val ids = if (isTag) recipe.tags.map { it.id } else recipe.categories.map { it.id }
+      val ids = if (isTag) recipe.tags.map { it.id } else recipe.collections.map { it.id }
       categoryId in ids
     }
     .filterIsInstance<DecryptedRecipeInfo>()

@@ -6,8 +6,7 @@ import io.chefbook.features.recipe.control.ui.components.categories.mvi.RecipeCa
 import io.chefbook.features.recipe.control.ui.components.categories.mvi.RecipeCategoriesSelectionBlockIntent
 import io.chefbook.features.recipe.control.ui.components.categories.mvi.RecipeCategoriesSelectionBlockState
 import io.chefbook.libs.mvi.BaseMviViewModel
-import io.chefbook.libs.mvi.MviViewModel
-import io.chefbook.sdk.category.api.external.domain.usecases.GetCategoriesUseCase
+import io.chefbook.sdk.collection.api.external.domain.usecases.GetCollectionsUseCase
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.DecryptedRecipeInfo
 import io.chefbook.sdk.recipe.interaction.api.external.domain.usecases.SetRecipeCategoriesUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,7 +17,7 @@ import io.chefbook.core.android.R as coreR
 internal class RecipeCategoriesSelectionBlockViewModel(
   private val recipe: DecryptedRecipeInfo,
 
-  private val getCategoriesUseCase: GetCategoriesUseCase,
+  private val getCollectionsUseCase: GetCollectionsUseCase,
   private val setRecipeCategoriesUseCase: SetRecipeCategoriesUseCase,
 ) :
   BaseMviViewModel<RecipeCategoriesSelectionBlockState, RecipeCategoriesSelectionBlockIntent, RecipeCategoriesSelectionBlockEffect>() {
@@ -29,7 +28,7 @@ internal class RecipeCategoriesSelectionBlockViewModel(
   init {
     viewModelScope.launch {
       _state.update { state ->
-        state.copy(categories = getCategoriesUseCase(), isLoading = false)
+        state.copy(categories = getCollectionsUseCase(), isLoading = false)
       }
     }
   }
@@ -37,7 +36,7 @@ internal class RecipeCategoriesSelectionBlockViewModel(
   override suspend fun reduceIntent(intent: RecipeCategoriesSelectionBlockIntent) {
     when (intent) {
       is RecipeCategoriesSelectionBlockIntent.Cancel -> {
-        _state.update { state -> state.copy(selectedCategories = recipe.categories.map { it.id }) }
+        _state.update { state -> state.copy(selectedCategories = recipe.collections.map { it.id }) }
         _effect.emit(RecipeCategoriesSelectionBlockEffect.Close)
       }
 

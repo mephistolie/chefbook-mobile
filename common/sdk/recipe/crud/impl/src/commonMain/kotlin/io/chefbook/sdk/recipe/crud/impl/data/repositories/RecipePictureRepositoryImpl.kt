@@ -9,10 +9,11 @@ import io.chefbook.libs.utils.result.successResult
 import io.chefbook.sdk.core.api.internal.data.models.PictureUploading
 import io.chefbook.sdk.core.api.internal.data.repositories.DataSourcesRepository
 import io.chefbook.sdk.file.api.internal.data.repositories.FileRepository
+import io.chefbook.sdk.file.api.internal.images.ImageCompressor
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.Recipe.Decrypted
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.Recipe.Decrypted.CookingItem
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.Recipe.Encrypted
-import io.chefbook.sdk.recipe.core.api.internal.data.cache.RecipesCache
+import io.chefbook.sdk.profile.api.internal.data.cache.RecipesCache
 import io.chefbook.sdk.recipe.crud.api.external.domain.entities.RecipeInput
 import io.chefbook.sdk.recipe.crud.impl.data.models.RecipePictures
 import io.chefbook.sdk.recipe.crud.impl.data.models.uploaded
@@ -28,6 +29,7 @@ internal class RecipePictureRepositoryImpl(
 
   private val cache: RecipesCache,
   private val files: FileRepository,
+  private val compressor: ImageCompressor,
   private val sources: DataSourcesRepository,
 ) : RecipePictureRepository {
 
@@ -153,7 +155,7 @@ internal class RecipePictureRepositoryImpl(
     upload: PictureUploading,
     doOnSuccess: suspend (RecipeInput.Picture.Uploaded) -> Unit,
   ): EmptyResult {
-    val compressResult = files.compressImage(path = source, maxFileSize = upload.maxSize)
+    val compressResult = compressor.compressImage(path = source, maxFileSize = upload.maxSize)
     val finalSource = compressResult.getOrElse { source }
 
     val pictureResult = files.getFile(finalSource)

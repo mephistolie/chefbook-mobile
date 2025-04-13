@@ -1,17 +1,16 @@
 package io.chefbook.sdk.recipe.crud.impl.data.sources.remote.services
 
-import io.chefbook.sdk.network.api.internal.service.ChefBookApiService
+import io.chefbook.sdk.network.api.internal.service.ApiService
 import io.chefbook.sdk.recipe.crud.impl.data.sources.remote.services.dto.pictures.GenerateRecipePicturesUploadLinksRequest
 import io.chefbook.sdk.recipe.crud.impl.data.sources.remote.services.dto.pictures.PictureUploadResponse
 import io.chefbook.sdk.recipe.crud.impl.data.sources.remote.services.dto.pictures.SetRecipePicturesRequest
 import io.chefbook.sdk.recipe.crud.impl.data.sources.remote.services.dto.pictures.SetRecipePicturesResponse
 import io.ktor.client.HttpClient
 import io.ktor.client.request.setBody
-import io.ktor.client.request.url
 
 internal class RecipePicturesApiServiceImpl(
   client: HttpClient,
-) : ChefBookApiService(client), RecipePicturesApiService {
+) : ApiService(client), RecipePicturesApiService {
 
   override suspend fun generateRecipePicturesUploadLinks(
     recipeId: String,
@@ -20,7 +19,7 @@ internal class RecipePicturesApiServiceImpl(
     setBody(body)
   }
 
-  override suspend fun setRecipePicture(
+  override suspend fun setRecipePictures(
     recipeId: String,
     body: SetRecipePicturesRequest
   ): Result<SetRecipePicturesResponse> = safePut("$RECIPES_ROUTE/$recipeId/pictures") {

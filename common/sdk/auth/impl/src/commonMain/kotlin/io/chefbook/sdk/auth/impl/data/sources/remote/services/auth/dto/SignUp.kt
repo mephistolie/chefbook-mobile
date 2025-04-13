@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-internal data class SignUpRequest(
+internal class SignUpRequest(
   @SerialName("userId")
   val userId: String? = null,
   @SerialName("email")
@@ -14,7 +14,7 @@ internal data class SignUpRequest(
 )
 
 @Serializable
-internal data class SignUpResponse(
+internal class SignUpResponse(
   @SerialName("userId")
   val userId: String,
   @SerialName("activated")

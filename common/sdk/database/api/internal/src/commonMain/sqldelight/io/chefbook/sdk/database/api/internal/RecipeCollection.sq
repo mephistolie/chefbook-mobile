@@ -1,0 +1,20 @@
+CREATE TABLE recipesCollections (
+    recipeId TEXT NOT NULL,
+    collectionId TEXT NOT NULL,
+    FOREIGN KEY (recipeId) REFERENCES recipes(recipeId) ON DELETE CASCADE,
+    FOREIGN KEY (collectionId) REFERENCES collections(collectionId) ON DELETE CASCADE
+);
+
+insert:
+REPLACE INTO recipesCollections (recipeId, collectionId)
+VALUES (?, ?);
+
+clearRecipeCollections:
+DELETE FROM recipesCollections
+WHERE collectionId IN
+(
+    SELECT recipesCollections.collectionId
+    FROM recipesCollections
+    LEFT JOIN collectionsProfiles ON collectionsProfiles.collectionId = recipesCollections.collectionId
+    WHERE recipesCollections.recipeId = ? AND collectionsProfiles.profileId = ?
+);

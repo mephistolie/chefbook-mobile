@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-internal data class ResetPasswordRequest(
+internal class ResetPasswordRequest(
   @SerialName("userId")
   val userId: String,
   @SerialName("resetCode")

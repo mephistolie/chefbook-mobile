@@ -6,11 +6,21 @@ import android.net.Network
 import android.net.NetworkCapabilities
 import android.net.NetworkRequest
 import io.chefbook.sdk.network.api.internal.connection.ConnectivityRepository
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 
 class ConnectivityRepositoryImpl(
   context: Context,
@@ -60,4 +70,80 @@ class ConnectivityRepositoryImpl(
   override fun observeConnectivity() = connectivityFlow
 
   override suspend fun hasActiveConnection() = connectivityFlow.first()
+}
+
+// Приложение - социальная сеть по типу Instagram
+//
+// Требуется написать имплементацию репозитория публикаций:
+// 1. Уметь наблюдать за текущими закэшированными публикациями
+// 2. Неблокирующе обновлять данные по запросу извне, но не чаще, чем раз в 5 секунд
+// 3. Реализовать метод создания публикации
+
+data class PostInput(
+  val description: String,
+  val localImages: List<String>,
+)
+
+data class Post(
+  val id: String,
+  val description: String,
+  val remoteImages: List<String>,
+)
+
+interface PostDataSource {
+
+  suspend fun getPosts(): Result<List<Post>>
+
+  suspend fun uploadPost(
+    description: String,
+    remoteImages: List<String>,
+  ): Result<String>
+}
+
+interface ImageDataSource {
+
+  suspend fun uploadImage(localImage: String): Result<String>
+}
+
+class PostsRepository(
+  private val imageDataSource: ImageDataSource,
+  private val postDataSource: PostDataSource,
+  private val repositoryScope: CoroutineScope,
+) {
+
+  private val _posts = MutableStateFlow(emptyList<Post>())
+
+  private var mutex = Mutex()
+  private var lastUpdateTimestamp: Long = 0
+
+  fun observePosts(): Flow<List<Post>> {
+    return _posts.asStateFlow()
+  }
+
+  fun refreshPosts() {
+    repositoryScope.launch {
+      mutex.withLock {
+        if (!isRefreshNeed()) return@launch
+        val posts = postDataSource.getPosts().getOrElse { return@launch }
+        _posts.emit(posts)
+        lastUpdateTimestamp = System.currentTimeMillis()
+      }
+    }
+  }
+
+  private fun isRefreshNeed(): Boolean =
+    System.currentTimeMillis() - lastUpdateTimestamp > 5000L
+
+  suspend fun uploadPost(input: PostInput): Result<String> {
+    val pictures = coroutineScope {
+      input.localImages
+        .map { image -> async { imageDataSource.uploadImage(image) } }
+        .awaitAll()
+        .mapNotNull(Result<String>::getOrNull)
+    }
+    return postDataSource.uploadPost(input.description, pictures)
+      .onSuccess { id ->
+        _posts.update { it.plus(Post(id, input.description, pictures)) }
+      }
+  }
 }

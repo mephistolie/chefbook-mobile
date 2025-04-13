@@ -5,7 +5,7 @@ import io.chefbook.libs.models.measureunit.MeasureUnit
 import io.chefbook.libs.utils.uuid.generateUUID
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.Recipe.Decrypted.IngredientsItem
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.Recipe.Macronutrients
-import io.chefbook.sdk.recipe.core.api.external.domain.entities.RecipeMeta.Visibility
+import io.chefbook.libs.models.visibility.Visibility
 
 data class RecipeInput(
   val id: String,

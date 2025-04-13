@@ -2,158 +2,156 @@ package io.chefbook.sdk.profile.impl.data.repositories
 
 import io.chefbook.libs.coroutines.AppDispatchers
 import io.chefbook.libs.coroutines.CoroutineScopes
-import io.chefbook.libs.logger.Logger
 import io.chefbook.libs.utils.result.EmptyResult
 import io.chefbook.libs.utils.result.asEmpty
 import io.chefbook.libs.utils.result.onSuccess
 import io.chefbook.libs.utils.result.successResult
+import io.chefbook.sdk.auth.api.internal.data.repositories.SessionRepository
 import io.chefbook.sdk.file.api.internal.data.repositories.FileRepository
+import io.chefbook.sdk.file.api.internal.images.ImageCompressor
 import io.chefbook.sdk.profile.api.external.domain.entities.Profile
 import io.chefbook.sdk.profile.api.internal.data.repositories.ProfileRepository
-import io.chefbook.sdk.profile.api.internal.data.sources.local.LocalProfileSource
+import io.chefbook.sdk.profile.impl.data.sources.common.ProfileSource
+import io.chefbook.sdk.profile.impl.data.sources.local.LocalProfilesSource
 import io.chefbook.sdk.profile.impl.data.sources.remote.RemoteProfileSource
-import io.chefbook.sdk.settings.api.external.domain.entities.ProfileMode
-import io.chefbook.sdk.settings.api.internal.data.repositories.ProfileModeRepository
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.shareIn
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 internal class ProfileRepositoryImpl(
-  private val localSource: LocalProfileSource,
+  private val profileId: String,
+  private val localSource: ProfileSource,
   private val remoteSource: RemoteProfileSource,
-
-  private val profileModeRepository: ProfileModeRepository,
+  private val pulledProfilesRepository: PulledProfilesRepository,
+  private val sessionRepository: SessionRepository,
   private val files: FileRepository,
+  private val compressor: ImageCompressor,
   private val dispatchers: AppDispatchers,
+  localProfilesSource: LocalProfilesSource,
   scopes: CoroutineScopes,
 ) : ProfileRepository {
 
-  private val profileFlow = localSource.observeProfile()
-    .onStart {
-      scopes.repository.launch {
-        if (profileModeRepository.isProfileModeOnline()) {
-          remoteSource.getProfileInfo().onSuccess(localSource::cacheProfileInfo)
-        }
-      }
+  private val profileFlow =
+    localProfilesSource.observeProfiles().map { profiles ->
+      pulledProfilesRepository.pullProfileAsync(profileId)
+      profiles[profileId]
     }
-    .map { profile ->
-      val profileMode = profileModeRepository.getProfileMode()
-      val isOnlineProfileMode = profileMode == ProfileMode.ONLINE
-      when {
-        profileMode == ProfileMode.UNSPECIFIED -> null
-        profile.isOnline == isOnlineProfileMode -> profile
-        else -> null
-      }
-    }
-    .distinctUntilChanged()
-    .shareIn(scopes.repository, SharingStarted.Lazily, replay = 1)
+      .distinctUntilChanged()
+      .shareIn(scopes.repository, SharingStarted.Lazily, replay = 1)
 
-  override fun observeProfile() = profileFlow
+  override fun observeProfile(): Flow<Profile?> = profileFlow
 
   override suspend fun getProfile(): Result<Profile> {
-    profileFlow.firstOrNull()?.let { return Result.success(it) }
+    profileFlow.first()?.let { profile -> Result.success(profile) }
 
-    val localResult = localSource.getProfileInfo()
+    val localResult = localSource.getProfile()
     if (localResult.isSuccess) return localResult
 
-    return remoteSource.getProfileInfo()
-      .onSuccess { profile ->
-        localSource.cacheProfileInfo(profile)
-        Result.success(profile)
-      }
+    return remoteSource.getProfile()
+      .onSuccess(pulledProfilesRepository::cacheProfile)
   }
 
-  override suspend fun getProfileId() =
-    getProfile().getOrNull()?.id ?: Profile.LOCAL_PROFILE_ID
-
   override suspend fun refreshProfile(): EmptyResult {
-    if (!profileModeRepository.isProfileModeOnline()) return successResult
+    if (!sessionRepository.isSessionOnline()) return successResult
 
-    return remoteSource.getProfileInfo()
-      .onSuccess(localSource::cacheProfileInfo)
+    return remoteSource.getProfile()
+      .onSuccess(pulledProfilesRepository::cacheProfile)
       .asEmpty()
   }
 
-  override suspend fun uploadAvatar(path: String): EmptyResult = withContext(dispatchers.io) {
-    val targetSource = if (profileModeRepository.isProfileModeOnline()) remoteSource else localSource
-    val uploadingResult = targetSource.generateAvatarUploading()
-      .onFailure { return@withContext Result.failure(it) }
-    val uploading = uploadingResult.getOrThrow()
+  override suspend fun uploadAvatar(path: String): EmptyResult =
+    withContext(dispatchers.io) {
+      val targetSource =
+        if (sessionRepository.isSessionOnline()) remoteSource else localSource
+      val uploadingResult = targetSource.generateAvatarUploading()
+        .onFailure { return@withContext Result.failure(it) }
+      val uploading = uploadingResult.getOrThrow()
 
-    val compressedPath = files.compressImage(
-      path = path,
-      width = 512, height = 512,
-      maxFileSize = uploading.maxSize,
-    ).onFailure { return@withContext Result.failure(it) }
+      val compressedPath = compressor.compressImage(
+        path = path,
+        width = 512,
+        height = 512,
+        maxFileSize = uploading.maxSize,
+      ).onFailure { return@withContext Result.failure(it) }
 
-    val fileResult = files.getFile(compressedPath.getOrThrow()).onFailure { return@withContext Result.failure(it) }
+      val fileResult =
+        files.getFile(compressedPath.getOrThrow())
+          .onFailure { return@withContext Result.failure(it) }
 
-    val file = fileResult.getOrThrow()
+      val file = fileResult.getOrThrow()
 
-    files.uploadFile(
-      path = uploading.uploadPath,
-      file = file,
-      meta = uploading.meta,
-    ).onFailure { return@withContext Result.failure(it) }
+      files.uploadFile(
+        path = uploading.uploadPath,
+        file = file,
+        meta = uploading.meta,
+      ).onFailure { return@withContext Result.failure(it) }
 
+      if (sessionRepository.isSessionOnline()) {
+        val remoteResult =
+          remoteSource.confirmAvatarUploading(uploading.picturePath)
+        if (remoteResult.isFailure) return@withContext remoteResult
+      }
 
-    return@withContext if (profileModeRepository.isProfileModeOnline()) {
-      remoteSource.confirmAvatarUploading(uploading.picturePath)
-        .onSuccess { localSource.confirmAvatarUploading(uploading.picturePath) }
-    } else {
-      localSource.confirmAvatarUploading(uploading.picturePath)
+      return@withContext localSource.confirmAvatarUploading(uploading.picturePath)
     }
-  }
 
   override suspend fun deleteAvatar(): EmptyResult {
-    if (!profileModeRepository.isProfileModeOnline()) return successResult
-    return remoteSource.deleteAvatar()
-      .onSuccess {
-        getProfile().onSuccess {
-          localSource.cacheProfileInfo(it.copy(avatar = null))
-        }
-      }
+    if (sessionRepository.isSessionOnline()) {
+      val remoteResult = remoteSource.deleteAvatar()
+      if (remoteResult.isFailure) return remoteResult
+    }
+
+    return localSource.deleteAvatar()
   }
 
-  override suspend fun checkNicknameAvailability(nickname: String) =
-    remoteSource.checkNicknameAvailability(nickname)
+  override suspend fun checkNicknameAvailability(nickname: String): Result<Boolean> {
+    if (!sessionRepository.isSessionOnline()) return Result.success(true)
+    return remoteSource.checkNicknameAvailability(nickname)
+  }
 
-  override suspend fun setNickname(nickname: String) =
-    remoteSource.setNickname(nickname)
-      .onSuccess { localSource.updateProfileCache { it.copy(nickname = nickname) } }
-
-  override suspend fun setName(firstName: String?, lastName: String?): EmptyResult {
-    return if (profileModeRepository.isProfileModeOnline()) {
-      remoteSource.setName(firstName, lastName).onSuccess {
-        localSource.updateProfileCache { it.copy(firstName = firstName, lastName = lastName) }
-      }
-    } else {
-      localSource.updateProfileCache { it.copy(firstName = firstName, lastName = lastName) }
-      successResult
+  override suspend fun setNickname(nickname: String): EmptyResult {
+    if (sessionRepository.isSessionOnline()) {
+      val remoteResult = remoteSource.setNickname(nickname)
+      if (remoteResult.isFailure) return remoteResult
     }
+
+    return localSource.setNickname(nickname)
+  }
+
+  override suspend fun setName(
+    firstName: String?,
+    lastName: String?
+  ): EmptyResult {
+    if (sessionRepository.isSessionOnline()) {
+      val remoteResult = remoteSource.setName(firstName, lastName)
+      if (remoteResult.isFailure) return remoteResult
+    }
+
+    return localSource.setName(firstName, lastName)
   }
 
   override suspend fun setDescription(description: String?): EmptyResult {
-    return if (profileModeRepository.isProfileModeOnline()) {
-      remoteSource.setDescription(description).onSuccess {
-        localSource.updateProfileCache { it.copy(description = description) }
-      }
-    } else {
-      localSource.updateProfileCache { it.copy(description = description) }
-      successResult
+    if (sessionRepository.isSessionOnline()) {
+      val remoteResult = remoteSource.setDescription(description)
+      if (remoteResult.isFailure) return remoteResult
     }
+
+    return localSource.setDescription(description)
   }
 
-  override suspend fun requestProfileDeletion(password: String, deleteSharedData: Boolean) =
+  override suspend fun requestProfileDeletion(
+    password: String,
+    deleteSharedData: Boolean
+  ) =
     remoteSource.requestProfileDeletion(password, deleteSharedData)
 
   override suspend fun cancelProfileDeletion() =
     remoteSource.cancelProfileDeletion()
 
-  override suspend fun clearLocalData() = localSource.clearProfileCache()
+  override suspend fun clearLocalData(profileId: String) =
+    pulledProfilesRepository.clearProfileCache(profileId)
 }

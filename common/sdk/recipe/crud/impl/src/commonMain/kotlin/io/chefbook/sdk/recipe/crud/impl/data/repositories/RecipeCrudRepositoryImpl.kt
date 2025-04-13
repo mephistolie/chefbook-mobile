@@ -11,7 +11,7 @@ import io.chefbook.sdk.encryption.vault.api.internal.data.repositories.Encrypted
 import io.chefbook.sdk.profile.api.internal.data.repositories.ProfileRepository
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.EncryptedRecipe
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.Recipe
-import io.chefbook.sdk.recipe.core.api.internal.data.cache.RecipesCache
+import io.chefbook.sdk.profile.api.internal.data.cache.RecipesCache
 import io.chefbook.sdk.recipe.crud.api.external.domain.entities.RecipeInput
 import io.chefbook.sdk.recipe.crud.api.internal.data.sources.local.LocalRecipeCrudSource
 import io.chefbook.sdk.recipe.crud.impl.data.models.asDecrypted
@@ -20,7 +20,6 @@ import io.chefbook.sdk.recipe.crud.impl.data.models.toNewRecipe
 import io.chefbook.sdk.recipe.crud.impl.data.models.toUpdatedRecipe
 import io.chefbook.sdk.recipe.crud.impl.data.sources.remote.RemoteRecipeCrudSource
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.launch
 
 internal class RecipeCrudRepositoryImpl(
   private val localSource: LocalRecipeCrudSource,

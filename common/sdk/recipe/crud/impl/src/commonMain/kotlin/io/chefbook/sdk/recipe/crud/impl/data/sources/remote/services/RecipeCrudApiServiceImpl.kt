@@ -1,6 +1,6 @@
 package io.chefbook.sdk.recipe.crud.impl.data.sources.remote.services
 
-import io.chefbook.sdk.network.api.internal.service.ChefBookApiService
+import io.chefbook.sdk.network.api.internal.service.ApiService
 import io.chefbook.sdk.network.api.internal.service.dto.responses.MessageResponse
 import io.chefbook.sdk.network.api.internal.service.dto.responses.VersionResponse
 import io.chefbook.sdk.recipe.crud.impl.data.sources.remote.services.dto.crud.CreateRecipeResponse
@@ -9,11 +9,10 @@ import io.chefbook.sdk.recipe.crud.impl.data.sources.remote.services.dto.crud.Re
 import io.ktor.client.HttpClient
 import io.ktor.client.request.parameter
 import io.ktor.client.request.setBody
-import io.ktor.client.request.url
 
 internal class RecipeCrudApiServiceImpl(
   client: HttpClient,
-) : ChefBookApiService(client), RecipeCrudApiService {
+) : ApiService(client), RecipeCrudApiService {
 
   override suspend fun getRandomRecipe(): Result<GetRecipeResponse> =
     safeGet("$RECIPES_ROUTE/random")

@@ -14,7 +14,7 @@ data class ProfileInfoSerializable(
   val avatar: String? = null,
 ) {
 
-  fun toEntity() =
+  fun deserialize() =
     ProfileInfo(
       id = id,
       name = name,
@@ -22,7 +22,7 @@ data class ProfileInfoSerializable(
     )
 }
 
-fun ProfileInfo.toSerializable() =
+fun ProfileInfo.serialize() =
   ProfileInfoSerializable(
     id = id,
     name = name,

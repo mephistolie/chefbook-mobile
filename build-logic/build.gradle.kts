@@ -13,12 +13,9 @@ repositories {
 dependencies {
   implementation(libs.kotlin.gradlePlugin)
   implementation(libs.kotlin.serialization)
-  implementation(libs.android.gradlePlugin)
   implementation(libs.ksp.gradlePlugin)
+  implementation(libs.android.gradlePlugin)
+  implementation(libs.compose.gradlePlugin)
 
   compileOnly(files(libs.javaClass.superclass.protectionDomain.codeSource.location))
-}
-
-versionCatalogs {
-  this.named("libs")
 }

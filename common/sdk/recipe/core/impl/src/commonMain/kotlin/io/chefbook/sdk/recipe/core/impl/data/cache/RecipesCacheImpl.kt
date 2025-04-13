@@ -2,9 +2,10 @@ package io.chefbook.sdk.recipe.core.impl.data.cache
 
 import io.chefbook.libs.coroutines.CoroutineScopes
 import io.chefbook.libs.logger.Logger
-import io.chefbook.sdk.category.api.internal.data.cache.CategoriesCacheReader
+import io.chefbook.sdk.collection.api.internal.data.cache.CollectionsCacheReader
 import io.chefbook.sdk.recipe.book.api.external.domain.entities.RecipeBook
 import io.chefbook.sdk.recipe.book.api.internal.data.cache.RecipeBookCache
+import io.chefbook.sdk.recipe.core.api.external.domain.entities.CollectionInfo
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.Recipe
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.RecipeInfo
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -19,7 +20,7 @@ import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.flow.update
 
 internal class RecipesCacheImpl(
-  private val categoriesCache: CategoriesCacheReader,
+  private val collectionsCache: CollectionsCacheReader,
   scopes: CoroutineScopes,
 ) : RecipeBookCache {
 
@@ -31,12 +32,12 @@ internal class RecipesCacheImpl(
     cachedRecipeInfo
       .asStateFlow()
       .mapLatest { recipes -> recipes?.filter(RecipeInfo::isSaved) },
-    categoriesCache.observeCategories(),
+    collectionsCache.observeCollections(),
   ) { recipes, categories ->
     if (recipes != null || categories != null) {
       RecipeBook(
         recipes = recipes.orEmpty(),
-        categories = categories.orEmpty(),
+        collections = categories.orEmpty(),
       )
     } else {
       null
@@ -54,7 +55,7 @@ internal class RecipesCacheImpl(
     RecipeBook(
       recipes = cachedRecipeInfo.value.orEmpty()
         .filter(RecipeInfo::isSaved),
-      categories = categoriesCache.getCategories(),
+      collections = collectionsCache.getCollections(),
     )
 
   override fun observeRecipe(recipeId: String): Flow<Recipe?> = cachedRecipeMap
@@ -113,11 +114,14 @@ internal class RecipesCacheImpl(
     Logger.i("Recipe $recipeId favourite changed to $favourite")
   }
 
-  override suspend fun setRecipeCategories(recipeId: String, categories: List<String>) {
-    val recipeCategories = categoriesCache.getCategories().filter { it.id in categories }
-    transformRecipeCache(recipeId) { it?.withCategories(categories = recipeCategories) }
-    transformRecipeBookCache(recipeId) { it.withCategories(categories = recipeCategories) }
-    Logger.i("Recipe $recipeId categories $categories were set")
+  override suspend fun setRecipeCollections(recipeId: String, collections: List<String>) {
+    val recipeCollections = collectionsCache.getCollections().mapNotNull { collection ->
+      if (collection.id in collections) return@mapNotNull null
+      return@mapNotNull CollectionInfo(id = collection.id, name = collection.name)
+    }
+    transformRecipeCache(recipeId) { it?.withCollections(collections = recipeCollections) }
+    transformRecipeBookCache(recipeId) { it.withCollections(collections = recipeCollections) }
+    Logger.i("Recipe $recipeId collections $collections were set")
   }
 
   private fun transformRecipeBookCache(

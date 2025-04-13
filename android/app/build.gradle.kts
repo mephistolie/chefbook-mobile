@@ -1,5 +1,5 @@
 plugins {
-  id("android-app-module")
+  alias(libs.plugins.module.android.app)
 }
 
 android {
@@ -21,6 +21,8 @@ dependencies {
   // Internal libs
 
   implementation(projects.common.libs.logger)
+  implementation(projects.common.libs.io)
+  implementation(projects.common.libs.di)
 
   implementation(projects.android.libs.mvi)
 
@@ -40,7 +42,7 @@ dependencies {
   implementation(projects.common.sdk.recipe.interaction.impl)
   implementation(projects.common.sdk.recipe.book.impl)
   implementation(projects.common.sdk.recipe.community.impl)
-  implementation(projects.common.sdk.category.impl)
+  implementation(projects.common.sdk.collection.impl)
   implementation(projects.common.sdk.tag.impl)
   implementation(projects.common.sdk.shoppingList.impl)
 

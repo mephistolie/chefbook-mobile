@@ -1,16 +1,15 @@
 package io.chefbook.sdk.recipe.community.impl.data.sources.remote.services
 
-import io.chefbook.sdk.network.api.internal.service.ChefBookApiService
+import io.chefbook.sdk.network.api.internal.service.ApiService
 import io.chefbook.sdk.recipe.community.api.external.domain.entities.RecipesSorting
 import io.chefbook.sdk.recipe.community.impl.data.models.RecipesQuery
 import io.chefbook.sdk.recipe.community.impl.data.sources.remote.services.dto.GetRecipesResponse
 import io.ktor.client.HttpClient
 import io.ktor.client.request.parameter
-import io.ktor.http.parameters
 
 internal class CommunityRecipesApiServiceImpl(
   client: HttpClient,
-) : ChefBookApiService(client), CommunityRecipesApiService {
+) : ApiService(client), CommunityRecipesApiService {
   override suspend fun getRecipes(query: RecipesQuery): Result<GetRecipesResponse> =
     safeGet(RECIPES_ROUTE) {
       parameter("count", query.recipesCount)

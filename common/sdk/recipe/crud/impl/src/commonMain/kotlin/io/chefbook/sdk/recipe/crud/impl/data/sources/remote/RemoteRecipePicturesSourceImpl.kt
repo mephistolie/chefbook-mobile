@@ -23,7 +23,7 @@ internal class RemoteRecipePicturesSourceImpl(
     pictures: RecipePictures,
     version: Int?,
   ) =
-    api.setRecipePicture(
+    api.setRecipePictures(
       recipeId = recipeId,
       body = SetRecipePicturesRequest(pictures = pictures.toSerializable(), version = version)
     )

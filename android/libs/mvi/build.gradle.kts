@@ -1,5 +1,7 @@
+import utils.gradle.libs
+
 plugins {
-  id("android-base-module")
+  alias(libs.plugins.module.android.lib)
 }
 
 android.namespace = "io.chefbook.libs.mvi"

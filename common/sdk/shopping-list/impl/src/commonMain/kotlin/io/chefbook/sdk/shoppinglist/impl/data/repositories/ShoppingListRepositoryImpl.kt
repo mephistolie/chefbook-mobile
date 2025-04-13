@@ -32,7 +32,6 @@ import kotlinx.coroutines.withContext
 internal class ShoppingListRepositoryImpl(
   private val localSource: LocalShoppingListDataSource,
   private val remoteSource: RemoteShoppingListDataSource,
-
   private val pendingUploads: PendingUploadsDataSource,
   private val sources: DataSourcesRepository,
   private val scopes: CoroutineScopes,

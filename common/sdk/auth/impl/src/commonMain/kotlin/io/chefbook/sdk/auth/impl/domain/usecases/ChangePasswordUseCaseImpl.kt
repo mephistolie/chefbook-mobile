@@ -1,7 +1,7 @@
 package io.chefbook.sdk.auth.impl.domain.usecases
 
 import io.chefbook.sdk.auth.api.external.domain.usecases.ChangePasswordUseCase
-import io.chefbook.sdk.auth.api.internal.data.repositories.PasswordRepository
+import io.chefbook.sdk.auth.impl.data.repositories.PasswordRepository
 
 internal class ChangePasswordUseCaseImpl(
   private val repository: PasswordRepository,

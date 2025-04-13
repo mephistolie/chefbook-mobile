@@ -1,0 +1,83 @@
+CREATE TABLE profiles (
+    profileId TEXT PRIMARY KEY NOT NULL,
+    nickname TEXT DEFAULT NULL,
+    email TEXT DEFAULT NULL,
+    role TEXT DEFAULT NULL,
+    oauth TEXT DEFAULT NULL,
+    registrationTimestamp TEXT DEFAULT NULL,
+    firstName TEXT DEFAULT NULL,
+    lastName TEXT DEFAULT NULL,
+    description TEXT DEFAULT NULL,
+    avatar TEXT DEFAULT NULL,
+    subscriptionPlan TEXT NOT NULL DEFAULT 'FREE',
+    broccoins INTEGER NOT NULL DEFAULT 0
+);
+
+select:
+SELECT
+    profileId,
+    nickname,
+    email,
+    role,
+    oauth,
+    registrationTimestamp,
+    firstName,
+    lastName,
+    description,
+    avatar,
+    subscriptionPlan,
+    broccoins
+FROM profiles
+WHERE profileId = ?;
+
+insert:
+INSERT INTO profiles (
+    profileId,
+    nickname,
+    email,
+    role,
+    oauth,
+    registrationTimestamp,
+    firstName,
+    lastName,
+    description,
+    avatar,
+    subscriptionPlan,
+    broccoins
+)
+VALUES ?;
+
+update:
+UPDATE profiles
+SET
+    nickname = ?,
+    email = ?,
+    role = ?,
+    oauth = ?,
+    registrationTimestamp = ?,
+    firstName = ?,
+    lastName = ?,
+    description = ?,
+    avatar = ?,
+    subscriptionPlan = ?,
+    broccoins = ?
+WHERE profileId = ?;
+
+delete:
+DELETE FROM profiles
+WHERE profileId = ?;
+
+setName:
+UPDATE profiles
+SET firstName = ?, lastName = ?
+WHERE profileId = ?;
+
+setDescription:
+UPDATE profiles
+SET description = ?
+WHERE profileId = ?;
+
+setAvatar:
+UPDATE profiles
+SET avatar = ?
+WHERE profileId = ?;

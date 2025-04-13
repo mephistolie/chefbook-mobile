@@ -3,15 +3,14 @@ package io.chefbook.sdk.auth.impl.data.sources.remote.services.password
 import io.chefbook.sdk.auth.impl.data.sources.remote.services.password.dto.ChangePasswordRequest
 import io.chefbook.sdk.auth.impl.data.sources.remote.services.password.dto.RequestPasswordResetRequest
 import io.chefbook.sdk.auth.impl.data.sources.remote.services.password.dto.ResetPasswordRequest
-import io.chefbook.sdk.network.api.internal.service.ChefBookApiService
+import io.chefbook.sdk.network.api.internal.service.ApiService
 import io.chefbook.sdk.network.api.internal.service.dto.responses.MessageResponse
 import io.ktor.client.HttpClient
 import io.ktor.client.request.setBody
-import io.ktor.client.request.url
 
 internal class PasswordApiServiceImpl(
   client: HttpClient,
-) : ChefBookApiService(client), PasswordApiService {
+) : ApiService(client), PasswordApiService {
 
   override suspend fun requestPasswordReset(body: RequestPasswordResetRequest): Result<MessageResponse> =
     safePost(PASSWORD_ROUTE) { setBody(body) }

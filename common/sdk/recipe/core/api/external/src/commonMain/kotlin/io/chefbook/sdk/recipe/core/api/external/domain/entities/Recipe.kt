@@ -1,29 +1,28 @@
 package io.chefbook.sdk.recipe.core.api.external.domain.entities
 
 import io.chefbook.libs.models.measureunit.MeasureUnit
-import io.chefbook.sdk.category.api.external.domain.entities.Category
 
 typealias DecryptedRecipe = Recipe.Decrypted
 typealias EncryptedRecipe = Recipe.Encrypted
 
-sealed class Recipe(
-  open val info: RecipeInfo,
-  open val macronutrients: Macronutrients?,
-) : RecipeInfo by info {
+sealed interface Recipe : RecipeInfo {
+
+  val info: RecipeInfo
+  val macronutrients: Macronutrients?
 
   val hasDietData
     get() = calories != null ||
-            macronutrients?.protein != null ||
-            macronutrients?.fats != null ||
-            macronutrients?.carbohydrates != null
+        macronutrients?.protein != null ||
+        macronutrients?.fats != null ||
+        macronutrients?.carbohydrates != null
 
-  abstract override fun withSavedStatus(isSaved: Boolean): Recipe
-  abstract override fun withCategories(categories: List<Category>): Recipe
-  abstract override fun withFavouriteStatus(isFavourite: Boolean): Recipe
+  override fun withSavedStatus(isSaved: Boolean): Recipe
+  override fun withCollections(collections: List<CollectionInfo>): Recipe
+  override fun withFavouriteStatus(isFavourite: Boolean): Recipe
 
-  abstract override fun withId(id: String): Recipe
-  abstract override fun withScore(score: Int?): Recipe
-  abstract override fun withVersion(version: Int): Recipe
+  override fun withId(id: String): Recipe
+  override fun withScore(score: Int?): Recipe
+  override fun withVersion(version: Int): Recipe
 
   data class Decrypted(
     override val info: DecryptedRecipeInfo,
@@ -32,14 +31,13 @@ sealed class Recipe(
     val description: String?,
     val ingredients: List<IngredientsItem>,
     val cooking: List<CookingItem>,
-  ) : Recipe(
-    info = info,
-    macronutrients = macronutrients,
-  ) {
+  ) : Recipe, RecipeInfo by info {
 
-    override fun withSavedStatus(isSaved: Boolean) = copy(info = info.withSavedStatus(isSaved))
-    override fun withCategories(categories: List<Category>) =
-      copy(info = info.withCategories(categories))
+    override fun withSavedStatus(isSaved: Boolean) =
+      copy(info = info.withSavedStatus(isSaved))
+
+    override fun withCollections(collections: List<CollectionInfo>) =
+      copy(info = info.withCollections(collections))
 
     override fun withFavouriteStatus(isFavourite: Boolean) =
       copy(info = info.withFavouriteStatus(isFavourite))
@@ -93,14 +91,13 @@ sealed class Recipe(
     val ingredients: String,
     val cooking: String,
     val cookingPictures: Map<String, List<String>>,
-  ) : Recipe(
-    info = info,
-    macronutrients = macronutrients,
-  ) {
+  ) : Recipe, RecipeInfo by info {
 
-    override fun withSavedStatus(isSaved: Boolean) = copy(info = info.withSavedStatus(isSaved))
-    override fun withCategories(categories: List<Category>) =
-      copy(info = info.withCategories(categories))
+    override fun withSavedStatus(isSaved: Boolean) =
+      copy(info = info.withSavedStatus(isSaved))
+
+    override fun withCollections(collections: List<CollectionInfo>) =
+      copy(info = info.withCollections(collections))
 
     override fun withFavouriteStatus(isFavourite: Boolean) =
       copy(info = info.withFavouriteStatus(isFavourite))

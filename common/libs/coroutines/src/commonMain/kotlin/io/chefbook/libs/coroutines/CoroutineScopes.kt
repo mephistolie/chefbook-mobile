@@ -7,6 +7,5 @@ class CoroutineScopes(
   dispatchers: AppDispatchers,
 ) {
 
-  val repository =
-    CoroutineScope(dispatchers.io + SupervisorJob())
+  val repository = CoroutineScope(dispatchers.io + SupervisorJob())
 }

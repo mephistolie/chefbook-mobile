@@ -2,7 +2,9 @@ package io.chefbook.sdk.recipe.crud.impl.data.sources.remote.services.dto.crud
 
 import io.chefbook.libs.models.language.LanguageMapper
 import io.chefbook.libs.models.profile.ProfileInfo
-import io.chefbook.sdk.category.api.external.domain.entities.Category
+import io.chefbook.libs.models.visibility.Visibility
+import io.chefbook.sdk.collection.api.external.domain.entities.Collection
+import io.chefbook.sdk.recipe.core.api.external.domain.entities.CollectionInfo
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.DecryptedRecipe
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.DecryptedRecipeInfo
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.EncryptedRecipe
@@ -13,8 +15,8 @@ import io.chefbook.sdk.recipe.core.api.internal.data.sources.common.dto.CookingI
 import io.chefbook.sdk.recipe.core.api.internal.data.sources.common.dto.IngredientItemSerializable
 import io.chefbook.sdk.recipe.core.api.internal.data.sources.remote.services.dto.ProfileBody
 import io.chefbook.sdk.recipe.core.api.internal.data.sources.remote.services.dto.RatingBody
-import io.chefbook.sdk.recipe.core.api.internal.data.sources.remote.services.dto.RecipeTagBody
 import io.chefbook.sdk.recipe.core.api.internal.data.sources.remote.services.dto.VisibilitySerializable
+import io.chefbook.sdk.recipe.core.api.internal.entity.RecipeMetaImpl
 import io.chefbook.sdk.recipe.crud.impl.data.sources.remote.services.dto.pictures.PicturesBody
 import io.chefbook.sdk.tag.api.external.domain.entities.Tag
 import kotlinx.serialization.SerialName
@@ -56,8 +58,8 @@ internal class RecipeBody(
 
   @SerialName("tags")
   val tags: List<String>? = null,
-  @SerialName("categories")
-  val categories: List<String>? = null,
+  @SerialName("collections")
+  val collections: List<String>? = null,
   @SerialName("favourite")
   val isFavourite: Boolean = false,
 
@@ -80,10 +82,10 @@ internal class RecipeBody(
 )
 
 internal fun RecipeBody.toEntity(
-  categoriesMap: Map<String, Category>,
-  tagsMap: Map<String, Tag>,
+    categoriesMap: Map<String, CollectionInfo>,
+    tagsMap: Map<String, Tag>,
 ): Recipe {
-  val meta = RecipeMeta(
+  val meta = RecipeMetaImpl(
     id = id,
     owner = ProfileInfo(
       id = owner.id,
@@ -92,9 +94,9 @@ internal fun RecipeBody.toEntity(
     ),
     tags = tags?.mapNotNull(tagsMap::get).orEmpty(),
     visibility = when (visibility) {
-      VisibilitySerializable.PUBLIC -> RecipeMeta.Visibility.PUBLIC
-      VisibilitySerializable.LINK -> RecipeMeta.Visibility.LINK
-      else -> RecipeMeta.Visibility.PRIVATE
+      VisibilitySerializable.PUBLIC -> Visibility.PUBLIC
+      VisibilitySerializable.LINK -> Visibility.LINK
+      else -> Visibility.PRIVATE
     },
     isEncryptionEnabled = isEncrypted,
     language = LanguageMapper.map(language),
@@ -116,7 +118,7 @@ internal fun RecipeBody.toEntity(
         isOwned = isOwned,
         isSaved = isSaved,
         preview = pictures?.preview,
-        categories = categories?.mapNotNull(categoriesMap::get).orEmpty(),
+        collections = collections?.mapNotNull(categoriesMap::get).orEmpty(),
         isFavourite = isFavourite,
         servings = servings,
         time = time,
@@ -136,7 +138,7 @@ internal fun RecipeBody.toEntity(
         isOwned = isOwned,
         isSaved = isSaved,
         preview = pictures?.preview,
-        categories = categories?.mapNotNull(categoriesMap::get).orEmpty(),
+        collections = collections?.mapNotNull(categoriesMap::get).orEmpty(),
         isFavourite = isFavourite,
         servings = servings,
         time = time,

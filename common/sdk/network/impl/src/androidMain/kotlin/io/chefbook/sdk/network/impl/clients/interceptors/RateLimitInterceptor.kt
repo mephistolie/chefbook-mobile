@@ -4,9 +4,9 @@ import okhttp3.Interceptor
 import okhttp3.Response
 import java.util.concurrent.Semaphore
 
-private const val RATE_LIMIT = 8
-
 object RateLimitInterceptor : Interceptor {
+
+  private const val RATE_LIMIT = 8
 
   private val rateLimiter = Semaphore(RATE_LIMIT)
 

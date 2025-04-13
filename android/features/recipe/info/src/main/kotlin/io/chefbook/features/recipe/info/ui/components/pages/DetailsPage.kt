@@ -29,7 +29,7 @@ import io.chefbook.features.recipe.info.ui.components.details.info.InfoElement
 import io.chefbook.features.recipe.info.ui.mvi.RecipeScreenState
 import io.chefbook.libs.models.language.Language
 import io.chefbook.libs.utils.time.parseTimestampSafely
-import io.chefbook.sdk.recipe.core.api.external.domain.entities.RecipeMeta.Visibility
+import io.chefbook.libs.models.visibility.Visibility
 import io.chefbook.ui.common.extensions.localizedName
 import kotlinx.datetime.toJavaLocalDateTime
 import java.time.format.DateTimeFormatter
@@ -86,7 +86,7 @@ internal fun DetailsPage(
     }
     AnimatedVisibility(recipe.isSaved && state.categoriesForSelection == null) {
       CategoriesBlock(
-        categories = recipe.categories,
+        categories = recipe.collections,
         onChangeCategoriesButtonClicked = onChangeCategoriesClicked,
         onCategoryButtonClicked = onCategoryClicked,
       )

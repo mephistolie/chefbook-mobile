@@ -15,7 +15,6 @@ class ChefBookClientFactory {
 
   fun create(
     isDevelop: Boolean,
-    tokensRepository: TokensRepository?,
   ) = HttpClient(Darwin) {
 
     defaultRequest {
@@ -24,15 +23,6 @@ class ChefBookClientFactory {
 
     install(ContentNegotiation) {
       json()
-    }
-
-    tokensRepository?.let {
-      Auth {
-        bearer {
-          loadTokens(tokensRepository::getTokens)
-          refreshTokens(tokensRepository::refreshTokens)
-        }
-      }
     }
 
     Logging {

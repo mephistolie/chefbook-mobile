@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-internal data class SignInGoogleRequest(
+internal class SignInGoogleRequest(
   @SerialName("idToken")
   val idToken: String? = null,
   @SerialName("code")

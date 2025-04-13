@@ -26,8 +26,7 @@ class CommunityRecipesScreenViewModel(
   observeProfileUseCase: ObserveProfileUseCase,
   observeLanguagesUseCase: ObserveCommunityRecipesLanguagesUseCase,
   observeTagsUseCase: ObserveTagsUseCase,
-) :
-  BaseMviViewModel<CommunityRecipesScreenState, CommunityRecipesScreenIntent, CommunityRecipesScreenEffect>() {
+) : BaseMviViewModel<CommunityRecipesScreenState, CommunityRecipesScreenIntent, CommunityRecipesScreenEffect>() {
 
   override val _state = MutableStateFlow(
     CommunityRecipesScreenState(

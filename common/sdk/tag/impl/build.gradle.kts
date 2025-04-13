@@ -1,14 +1,11 @@
 plugins {
-  id("multiplatform-data-module")
+  alias(libs.plugins.module.multiplatform.data)
 }
 
 kotlin {
   sourceSets {
     commonMain.dependencies {
       api(projects.common.sdk.tag.api.internal)
-    }
-    androidMain.dependencies {
-      implementation(libs.androidx.datastore)
     }
   }
 }

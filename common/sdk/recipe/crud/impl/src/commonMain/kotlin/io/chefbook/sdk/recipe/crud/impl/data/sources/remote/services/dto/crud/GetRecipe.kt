@@ -1,6 +1,6 @@
 package io.chefbook.sdk.recipe.crud.impl.data.sources.remote.services.dto.crud
 
-import io.chefbook.sdk.category.api.external.domain.entities.Category
+import io.chefbook.sdk.recipe.core.api.external.domain.entities.CollectionInfo
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.Recipe
 import io.chefbook.sdk.recipe.core.api.internal.data.sources.remote.services.dto.RecipeCategoryInfoBody
 import io.chefbook.sdk.recipe.core.api.internal.data.sources.remote.services.dto.RecipeTagBody
@@ -17,16 +17,15 @@ internal class GetRecipeResponse(
   val tags: Map<String, RecipeTagBody>? = null,
   @SerialName("tagGroups")
   val tagGroups: Map<String, String>? = null,
-  @SerialName("categories")
-  val categories: Map<String, RecipeCategoryInfoBody>? = null,
+  @SerialName("collections")
+  val collections: Map<String, RecipeCategoryInfoBody>? = null,
 )
 
 internal fun GetRecipeResponse.toEntity(): Recipe {
-  val categoriesMap = categories.orEmpty().mapValues { entry ->
-    Category(
+  val categoriesMap = collections.orEmpty().mapValues { entry ->
+    CollectionInfo(
       id = entry.key,
       name = entry.value.name,
-      emoji = entry.value.emoji
     )
   }
   val tagsMap = tags.orEmpty().mapValues { entry ->

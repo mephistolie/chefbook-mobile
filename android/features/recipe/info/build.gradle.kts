@@ -1,5 +1,7 @@
+import utils.android.composeDestinationsModuleName
+
 plugins {
-  id("android-feature-module")
+  alias(libs.plugins.module.android.feature)
 }
 
 android.namespace = "io.chefbook.features.recipe.info"

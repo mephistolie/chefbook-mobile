@@ -9,13 +9,10 @@ import io.chefbook.sdk.settings.api.external.domain.entities.Settings
 import kotlinx.coroutines.flow.Flow
 
 interface SettingsRepository {
+
   fun observeSettings(): Flow<Settings>
 
   suspend fun getSettings(): Settings
-
-  suspend fun getProfileMode(): ProfileMode
-
-  suspend fun setProfileMode(mode: ProfileMode)
 
   suspend fun getAppTheme(): AppTheme
 

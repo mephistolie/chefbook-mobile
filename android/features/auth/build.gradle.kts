@@ -1,5 +1,7 @@
+import utils.android.composeDestinationsModuleName
+
 plugins {
-  id("android-feature-module")
+  alias(libs.plugins.module.android.feature)
 }
 
 android {
@@ -21,5 +23,6 @@ dependencies {
 
   implementation(libs.androidx.compose.uiTooling)
   implementation(libs.androidx.credentials)
+  implementation(libs.androidx.credentials.playServices)
   implementation(libs.credentials.google)
 }

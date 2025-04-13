@@ -3,6 +3,7 @@ package io.chefbook.ui.screens.main
 import androidx.lifecycle.viewModelScope
 import io.chefbook.libs.mvi.StateSideEffectViewModel
 import io.chefbook.sdk.auth.api.external.domain.usecases.ObserveProfileDeletionUseCase
+import io.chefbook.sdk.auth.api.external.domain.usecases.SignInUseCase
 import io.chefbook.sdk.profile.api.external.domain.usecases.ObserveProfileUseCase
 import io.chefbook.sdk.settings.api.external.domain.usecases.ObserveSettingsUseCase
 import io.chefbook.ui.screens.main.mvi.AppEffect
@@ -10,7 +11,6 @@ import io.chefbook.ui.screens.main.mvi.AppState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
-import okhttp3.OkHttpClient
 
 class AppViewModel(
   private val observeSettingsUseCase: ObserveSettingsUseCase,
@@ -32,7 +32,7 @@ class AppViewModel(
     ) { profile, deletionTimestamp, settings ->
       _state.emit(
         AppState(
-          isSignedIn = profile != null && deletionTimestamp == null,
+          profileId = profile?.id.takeIf { deletionTimestamp == null },
           theme = settings.appTheme
         )
       )

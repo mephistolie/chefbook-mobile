@@ -1,3 +1,6 @@
 package io.chefbook.libs.utils.time
 
-actual fun currentTimeMillis(): Long = TODO()
+import platform.CoreFoundation.CFAbsoluteTimeGetCurrent
+
+actual fun currentTimeMillis(): Long =
+  CFAbsoluteTimeGetCurrent().toLong()

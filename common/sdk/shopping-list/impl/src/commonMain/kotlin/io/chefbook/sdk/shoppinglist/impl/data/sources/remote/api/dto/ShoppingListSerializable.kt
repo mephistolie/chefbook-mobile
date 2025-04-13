@@ -32,7 +32,7 @@ internal data class ShoppingListSerializable(
         id = id,
         name = name,
         type = type.toEntity(),
-        owner = owner.toEntity(),
+        owner = owner.deserialize(),
         version = version,
       ),
       purchases = purchases.map(PurchaseSerializable::toEntity),

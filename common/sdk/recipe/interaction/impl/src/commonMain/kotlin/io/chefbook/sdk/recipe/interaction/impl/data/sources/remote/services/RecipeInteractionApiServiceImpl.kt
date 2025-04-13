@@ -1,16 +1,15 @@
 package io.chefbook.sdk.recipe.interaction.impl.data.sources.remote.services
 
-import io.chefbook.sdk.network.api.internal.service.ChefBookApiService
+import io.chefbook.sdk.network.api.internal.service.ApiService
 import io.chefbook.sdk.network.api.internal.service.dto.responses.MessageResponse
 import io.chefbook.sdk.recipe.interaction.impl.data.sources.remote.services.dto.RateRecipeRequest
-import io.chefbook.sdk.recipe.interaction.impl.data.sources.remote.services.dto.SetRecipeCategoriesRequest
+import io.chefbook.sdk.recipe.interaction.impl.data.sources.remote.services.dto.SetRecipeCollectionsRequest
 import io.ktor.client.HttpClient
 import io.ktor.client.request.setBody
-import io.ktor.client.request.url
 
 internal class RecipeInteractionApiServiceImpl(
   client: HttpClient,
-) : ChefBookApiService(client), RecipeInteractionApiService {
+) : ApiService(client), RecipeInteractionApiService {
 
   override suspend fun rateRecipe(
     recipeId: String,
@@ -32,7 +31,7 @@ internal class RecipeInteractionApiServiceImpl(
 
   override suspend fun setRecipeCategories(
     recipeId: String,
-    body: SetRecipeCategoriesRequest
+    body: SetRecipeCollectionsRequest
   ): Result<MessageResponse> =
     safePut("$RECIPES_ROUTE/$recipeId/categories") { setBody(body) }
 

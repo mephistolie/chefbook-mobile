@@ -1,9 +1,6 @@
 package io.chefbook.sdk.auth.api.internal.data.repositories
 
 import io.chefbook.libs.utils.result.EmptyResult
-import io.ktor.client.plugins.auth.providers.BearerTokens
-import io.ktor.client.plugins.auth.providers.RefreshTokensParams
-import kotlinx.coroutines.flow.Flow
 
 interface AuthRepository {
 
@@ -13,9 +10,9 @@ interface AuthRepository {
 
   suspend fun signIn(login: String, password: String): Result<Boolean>
 
+  suspend fun signInLocally()
+
   suspend fun signInGoogle(idToken: String): Result<Boolean>
 
-  fun observeProfileDeletionTimestamp(): Flow<String?>
-
-  suspend fun refreshTokens(): EmptyResult
+  suspend fun signOut()
 }

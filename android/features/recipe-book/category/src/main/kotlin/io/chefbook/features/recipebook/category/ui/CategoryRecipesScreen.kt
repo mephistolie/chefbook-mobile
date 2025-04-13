@@ -35,7 +35,7 @@ fun CategoryRecipesScreen(
         is CategoryActionResult.Updated -> {
           viewModel.handleIntent(
             CategoryScreenIntent.OnCategoryUpdated(
-              io.chefbook.sdk.category.api.external.domain.entities.Category(
+              io.chefbook.sdk.collection.api.external.domain.entities.Collection(
                 id = result.id,
                 name = result.name,
                 emoji = result.cover,

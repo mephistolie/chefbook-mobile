@@ -2,7 +2,7 @@ package io.chefbook.sdk.recipe.interaction.impl.data.sources.remote.services
 
 import io.chefbook.sdk.network.api.internal.service.dto.responses.MessageResponse
 import io.chefbook.sdk.recipe.interaction.impl.data.sources.remote.services.dto.RateRecipeRequest
-import io.chefbook.sdk.recipe.interaction.impl.data.sources.remote.services.dto.SetRecipeCategoriesRequest
+import io.chefbook.sdk.recipe.interaction.impl.data.sources.remote.services.dto.SetRecipeCollectionsRequest
 
 internal interface RecipeInteractionApiService {
 
@@ -18,6 +18,6 @@ internal interface RecipeInteractionApiService {
 
   suspend fun setRecipeCategories(
     recipeId: String,
-    body: SetRecipeCategoriesRequest,
+    body: SetRecipeCollectionsRequest,
   ): Result<MessageResponse>
 }

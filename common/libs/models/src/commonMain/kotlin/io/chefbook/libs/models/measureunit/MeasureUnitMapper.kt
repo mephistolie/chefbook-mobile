@@ -1,6 +1,4 @@
-package io.chefbook.common.models.measureunit
-
-import io.chefbook.libs.models.measureunit.MeasureUnit
+package io.chefbook.libs.models.measureunit
 
 object MeasureUnitMapper {
 

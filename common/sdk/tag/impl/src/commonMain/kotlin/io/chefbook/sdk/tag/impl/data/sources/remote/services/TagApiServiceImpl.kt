@@ -1,6 +1,6 @@
 package io.chefbook.sdk.tag.impl.data.sources.remote.services
 
-import io.chefbook.sdk.network.api.internal.service.ChefBookApiService
+import io.chefbook.sdk.network.api.internal.service.ApiService
 import io.chefbook.sdk.tag.api.internal.data.sources.common.dto.TagSerializable
 import io.chefbook.sdk.tag.api.internal.data.sources.common.dto.TagsSerializable
 import io.ktor.client.HttpClient
@@ -8,7 +8,7 @@ import io.ktor.client.request.parameter
 
 internal class TagApiServiceImpl(
   client: HttpClient,
-) : ChefBookApiService(client), TagApiService {
+) : ApiService(client), TagApiService {
 
   override suspend fun getTags(language: String?): Result<TagsSerializable> = safeGet(TAGS_ROUTE) {
     parameter(LANGUAGE_PARAM, language)

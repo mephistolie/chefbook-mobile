@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-internal data class SetRecipeCategoriesRequest(
-  @SerialName("categories")
-  val categories: List<String>,
+internal data class SetRecipeCollectionsRequest(
+  @SerialName("collections")
+  val collections: List<String>,
 )

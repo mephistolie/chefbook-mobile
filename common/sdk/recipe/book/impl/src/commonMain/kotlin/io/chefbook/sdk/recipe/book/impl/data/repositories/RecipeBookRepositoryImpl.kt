@@ -7,7 +7,7 @@ import io.chefbook.libs.models.profile.ProfileInfo
 import io.chefbook.libs.utils.result.EmptyResult
 import io.chefbook.libs.utils.result.onSuccess
 import io.chefbook.libs.utils.result.successResult
-import io.chefbook.sdk.category.api.internal.data.repositories.CategoryRepository
+import io.chefbook.sdk.collection.api.internal.data.repositories.CollectionRepository
 import io.chefbook.sdk.core.api.internal.data.repositories.DataSourcesRepository
 import io.chefbook.sdk.encryption.recipe.api.internal.data.crypto.RecipeCryptor
 import io.chefbook.sdk.encryption.recipe.api.internal.data.repositories.RecipeEncryptionRepository
@@ -49,7 +49,7 @@ internal class RecipeBookRepositoryImpl(
   private val cache: RecipeBookCache,
   private val encryptedVaultRepository: EncryptedVaultRepository,
   private val recipeEncryptionRepository: RecipeEncryptionRepository,
-  private val categoriesRepository: CategoryRepository,
+  private val categoriesRepository: CollectionRepository,
   private val cryptor: RecipeCryptor,
   private val dispatchers: AppDispatchers,
   private val scopes: CoroutineScopes,
@@ -95,7 +95,7 @@ internal class RecipeBookRepositoryImpl(
     if (!sources.isRemoteSourceEnabled()) return
 
     remoteSource.getRecipeBook().onSuccess { recipeBookState ->
-      categoriesRepository.cacheCategories(recipeBookState.categories)
+      categoriesRepository.cacheCollections(recipeBookState.collections)
       encryptedVaultRepository.refreshEncryptedVaultState(recipeBookState.isEncryptedVaultEnabled)
 
       val remoteRecipes = cache.getRecipeBook().recipes.map { localRecipe ->
@@ -163,10 +163,10 @@ internal class RecipeBookRepositoryImpl(
       localInteractionSource.setRecipeFavouriteStatus(remote.id, remote.isFavourite)
     }
 
-    val localCategoriesIds = local?.categories?.map { it.id } ?: emptyList()
+    val localCategoriesIds = local?.collections?.map { it.id } ?: emptyList()
     val remoteCategoriesIds = remote.categories.map { it.id }
     if (localCategoriesIds.any { it !in remoteCategoriesIds } || remoteCategoriesIds.any { it !in localCategoriesIds }) {
-      localInteractionSource.setRecipeCategories(remote.id, remoteCategoriesIds)
+      localInteractionSource.setRecipeCollections(remote.id, remoteCategoriesIds)
     }
   }
 
@@ -258,14 +258,14 @@ private fun RecipeInfo.withState(state: RecipeState): RecipeInfo {
     is RecipeInfo.Decrypted -> copy(
       meta = meta,
       preview = preview,
-      categories = state.categories,
+      collections = state.categories,
       isFavourite = state.isFavourite,
     )
 
     is RecipeInfo.Encrypted -> copy(
       meta = meta,
       preview = preview,
-      categories = state.categories,
+      collections = state.categories,
       isFavourite = state.isFavourite,
     )
 

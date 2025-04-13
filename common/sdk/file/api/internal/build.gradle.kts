@@ -1,5 +1,5 @@
 plugins {
-  id("multiplatform-sdk-module")
+  alias(libs.plugins.module.multiplatform.sdk)
 }
 
 android.namespace = "io.chefbook.sdk.file.api.internal"

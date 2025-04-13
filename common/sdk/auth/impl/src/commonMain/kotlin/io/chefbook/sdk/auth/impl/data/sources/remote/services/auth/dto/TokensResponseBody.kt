@@ -5,21 +5,24 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-internal data class TokensResponse(
+internal class TokensResponse(
+  @SerialName("profileId")
+  val profileId: String,
   @SerialName("accessToken")
   val accessToken: String,
   @SerialName("refreshToken")
   val refreshToken: String,
-  @SerialName("expiresAt")
-  val expiresAt: String,
-  @SerialName("profileDeletingAt")
-  val profileDeletingAt: String? = null,
+  @SerialName("expirationTimestamp")
+  val expirationTimestamp: String,
+  @SerialName("profileDeletionTimestamp")
+  val profileDeletionTimestamp: String? = null,
 )
 
 internal fun TokensResponse.toSessionInfo() =
   Session(
+    profileId = profileId,
     accessToken = accessToken,
     refreshToken = refreshToken,
-    expirationTimestamp = expiresAt,
-    profileDeletionTimestamp = profileDeletingAt,
+    expirationTimestamp = expirationTimestamp,
+    profileDeletionTimestamp = profileDeletionTimestamp,
   )

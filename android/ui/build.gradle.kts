@@ -1,6 +1,8 @@
+import utils.android.composeDestinationsModuleName
+
 plugins {
-  id("android-compose-module")
-  id("android-navigation-module")
+  alias(libs.plugins.module.android.compose)
+  alias(libs.plugins.module.android.navigation)
 }
 
 android.namespace = "io.chefbook.ui.common"

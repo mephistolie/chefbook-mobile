@@ -6,8 +6,6 @@ import io.chefbook.features.recipebook.categories.ui.mvi.CategoriesScreenIntent
 import io.chefbook.features.recipebook.categories.ui.mvi.CategoriesScreenState
 import io.chefbook.libs.mvi.BaseMviViewModel
 import io.chefbook.sdk.recipe.book.api.external.domain.usecases.ObserveRecipeBookUseCase
-import io.chefbook.sdk.tag.api.external.domain.entities.Tag
-import io.chefbook.sdk.tag.api.external.domain.usecases.GetTagsUseCase
 import io.chefbook.sdk.tag.api.external.domain.usecases.ObserveTagsUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
@@ -29,7 +27,7 @@ internal class CategoriesScreenViewModel(
         .collect { recipeBook ->
           _state.emit(
             CategoriesScreenState(
-              categories = recipeBook?.categories.orEmpty(),
+              categories = recipeBook?.collections.orEmpty(),
               tags = recipeBook?.recipes
                 ?.flatMap { it.tags }
                 ?.distinctBy { it.name }

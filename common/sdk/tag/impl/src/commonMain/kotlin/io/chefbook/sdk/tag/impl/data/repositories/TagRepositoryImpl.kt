@@ -2,7 +2,6 @@ package io.chefbook.sdk.tag.impl.data.repositories
 
 import io.chefbook.libs.coroutines.AppDispatchers
 import io.chefbook.libs.coroutines.CoroutineScopes
-import io.chefbook.libs.logger.Logger
 import io.chefbook.libs.utils.language.getSystemLanguageCode
 import io.chefbook.sdk.tag.api.external.domain.entities.Tag
 import io.chefbook.sdk.tag.api.internal.data.repositories.TagRepository
@@ -17,9 +16,8 @@ import kotlinx.coroutines.withContext
 internal class TagRepositoryImpl(
   private val localSource: LocalTagSource,
   private val remoteSource: RemoteTagSource,
-
-  scopes: CoroutineScopes,
   private val dispatchers: AppDispatchers,
+  scopes: CoroutineScopes,
 ) : TagRepository {
 
   private val loadTagsJob = scopes.repository.launch(start = CoroutineStart.LAZY) {

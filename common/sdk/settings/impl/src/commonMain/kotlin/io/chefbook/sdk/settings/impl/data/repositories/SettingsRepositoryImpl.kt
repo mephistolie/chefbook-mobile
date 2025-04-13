@@ -4,10 +4,8 @@ import io.chefbook.libs.models.language.Language
 import io.chefbook.sdk.settings.api.external.domain.entities.AppIcon
 import io.chefbook.sdk.settings.api.external.domain.entities.AppTheme
 import io.chefbook.sdk.settings.api.external.domain.entities.Environment
-import io.chefbook.sdk.settings.api.external.domain.entities.ProfileMode
 import io.chefbook.sdk.settings.api.internal.data.repositories.SettingsRepository
 import io.chefbook.sdk.settings.impl.data.sources.SettingsDataSource
-import kotlinx.coroutines.flow.Flow
 
 internal class SettingsRepositoryImpl(
   private val localDataSource: SettingsDataSource
@@ -18,10 +16,6 @@ internal class SettingsRepositoryImpl(
   override fun observeSettings() = localDataSource.observeSettings()
 
   override suspend fun getSettings() = localDataSource.getSettings()
-
-  override suspend fun getProfileMode() = localDataSource.getProfileMode()
-
-  override suspend fun setProfileMode(mode: ProfileMode) = localDataSource.setProfileMode(mode)
 
   override suspend fun getAppTheme() = localDataSource.getAppTheme()
 

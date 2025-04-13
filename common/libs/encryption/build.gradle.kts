@@ -1,5 +1,5 @@
 plugins {
-  id("multiplatform-base-module")
+  alias(libs.plugins.module.multiplatform.base)
   kotlin("native.cocoapods")
 }
 

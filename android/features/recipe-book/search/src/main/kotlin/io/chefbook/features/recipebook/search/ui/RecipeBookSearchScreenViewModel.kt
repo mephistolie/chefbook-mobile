@@ -4,6 +4,7 @@ import io.chefbook.features.recipebook.search.ui.mvi.RecipeBookSearchScreenEffec
 import io.chefbook.features.recipebook.search.ui.mvi.RecipeBookSearchScreenIntent
 import io.chefbook.features.recipebook.search.ui.mvi.RecipeBookSearchScreenState
 import io.chefbook.libs.mvi.BaseMviViewModel
+import io.chefbook.sdk.collection.api.external.domain.entities.Collection
 import io.chefbook.sdk.profile.api.external.domain.usecases.ObserveProfileUseCase
 import io.chefbook.sdk.recipe.book.api.external.domain.usecases.GetRecipeBookUseCase
 import io.chefbook.sdk.recipe.book.api.external.domain.usecases.ObserveRecipeBookUseCase
@@ -40,7 +41,7 @@ internal class RecipeBookSearchScreenViewModel(
           _state.update {
             it.copy(
               recipes = filterRecipes(recipeBook.recipes, it.query),
-              categories = filterCategories(recipeBook.categories, it.query)
+              categories = filterCategories(recipeBook.collections, it.query)
             )
           }
         }
@@ -72,7 +73,7 @@ internal class RecipeBookSearchScreenViewModel(
         state.value.copy(
           isLoading = false,
           recipes = filterRecipes(recipeBook.recipes, query),
-          categories = filterCategories(recipeBook.categories, query),
+          categories = filterCategories(recipeBook.collections, query),
         )
       )
     } else {
@@ -87,9 +88,9 @@ internal class RecipeBookSearchScreenViewModel(
       .sortedWith(compareBy({ it.name.uppercase() }, { it.id }))
 
   private fun filterCategories(
-    categories: List<io.chefbook.sdk.category.api.external.domain.entities.Category>,
-    query: String
-  ): List<io.chefbook.sdk.category.api.external.domain.entities.Category> =
+      categories: List<Collection>,
+      query: String
+  ): List<Collection> =
     categories
       .filter { category -> query.lowercase() in category.name.lowercase() }
       .sortedWith(compareBy({ it.name.uppercase() }, { it.id }))

@@ -14,7 +14,7 @@ import androidx.compose.ui.unit.dp
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.design.components.buttons.DynamicButton
 import io.chefbook.design.theme.dimens.ComponentHeight40
-import io.chefbook.sdk.recipe.core.api.external.domain.entities.RecipeMeta.Visibility
+import io.chefbook.libs.models.visibility.Visibility
 import io.chefbook.sdk.recipe.crud.api.external.domain.entities.RecipeInput
 import io.chefbook.ui.common.extensions.localizedName
 import io.chefbook.core.android.R as coreR

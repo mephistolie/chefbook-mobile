@@ -1,5 +1,5 @@
 plugins {
-  id("multiplatform-network-module")
+  alias(libs.plugins.module.multiplatform.network)
 }
 
 kotlin {
@@ -28,8 +28,5 @@ kotlin {
 
 android {
   namespace = "io.chefbook.sdk.network.impl"
-
-  buildFeatures {
-    buildConfig = true
-  }
+  buildFeatures.buildConfig = true
 }

@@ -1,5 +1,5 @@
 plugins {
-  id("multiplatform-base-module")
+  alias(libs.plugins.module.multiplatform.base)
 }
 
 kotlin {
@@ -32,9 +32,9 @@ kotlin {
       api(projects.common.sdk.auth.api.internal)
       api(projects.common.sdk.auth.impl)
 
-      api(projects.common.sdk.category.api.external)
-      api(projects.common.sdk.category.api.internal)
-      api(projects.common.sdk.category.impl)
+      api(projects.common.sdk.collection.api.external)
+      api(projects.common.sdk.collection.api.internal)
+      api(projects.common.sdk.collection.impl)
     }
   }
 }

@@ -1,5 +1,5 @@
 plugins {
-  id("multiplatform-network-module")
+  alias(libs.plugins.module.multiplatform.network)
 }
 
 android {

@@ -1,6 +1,6 @@
 package io.chefbook.sdk.recipe.community.impl.data.sources.remote.services.dto
 
-import io.chefbook.sdk.category.api.external.domain.entities.Category
+import io.chefbook.sdk.recipe.core.api.external.domain.entities.CollectionInfo
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.DecryptedRecipeInfo
 import io.chefbook.sdk.recipe.core.api.internal.data.sources.remote.services.dto.RecipeCategoryInfoBody
 import io.chefbook.sdk.recipe.core.api.internal.data.sources.remote.services.dto.RecipeTagBody
@@ -12,7 +12,7 @@ import kotlinx.serialization.Serializable
 internal data class GetRecipesResponse(
   @SerialName("recipes")
   val recipes: List<RecipeInfoBody>,
-  @SerialName("categories")
+  @SerialName("collections")
   val categories: Map<String, RecipeCategoryInfoBody>? = null,
   @SerialName("tags")
   val tags: Map<String, RecipeTagBody>? = null,
@@ -22,10 +22,9 @@ internal data class GetRecipesResponse(
 
 internal fun GetRecipesResponse.toEntity(): List<DecryptedRecipeInfo> {
   val categoriesMap = categories.orEmpty().mapValues { entry ->
-    Category(
+    CollectionInfo(
       id = entry.key,
       name = entry.value.name,
-      emoji = entry.value.emoji
     )
   }
   val tagsMap = tags.orEmpty().mapValues { entry ->
@@ -37,7 +36,7 @@ internal fun GetRecipesResponse.toEntity(): List<DecryptedRecipeInfo> {
   }
   return recipes.map { recipe ->
     recipe.toEntity(
-      categoriesMap = categoriesMap,
+      collectionsMap = categoriesMap,
       tagsMap = tagsMap,
     )
   }

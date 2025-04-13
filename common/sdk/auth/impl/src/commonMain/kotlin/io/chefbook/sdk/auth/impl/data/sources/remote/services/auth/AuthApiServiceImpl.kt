@@ -6,7 +6,7 @@ import io.chefbook.sdk.auth.impl.data.sources.remote.services.auth.dto.SignOutRe
 import io.chefbook.sdk.auth.impl.data.sources.remote.services.auth.dto.SignUpRequest
 import io.chefbook.sdk.auth.impl.data.sources.remote.services.auth.dto.SignUpResponse
 import io.chefbook.sdk.auth.impl.data.sources.remote.services.auth.dto.TokensResponse
-import io.chefbook.sdk.network.api.internal.service.ChefBookApiService
+import io.chefbook.sdk.network.api.internal.service.ApiService
 import io.chefbook.sdk.network.api.internal.service.dto.responses.MessageResponse
 import io.ktor.client.HttpClient
 import io.ktor.client.request.parameter
@@ -14,7 +14,7 @@ import io.ktor.client.request.setBody
 
 internal class AuthApiServiceImpl(
   client: HttpClient,
-) : ChefBookApiService(client), AuthApiService {
+) : ApiService(client), AuthApiService {
 
   override suspend fun signUp(body: SignUpRequest): Result<SignUpResponse> =
     safePost("$AUTH_ROUTE/sign-up") { setBody(body) }

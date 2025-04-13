@@ -1,6 +1,7 @@
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 pluginManagement {
+  includeBuild("build-logic")
   repositories {
     google()
     gradlePluginPortal()
@@ -18,7 +19,6 @@ dependencyResolutionManagement {
 
 rootProject.name = "chefbook-mobile"
 
-includeBuild("build-logic")
 
 include(":android:app")
 
@@ -29,6 +29,7 @@ include(":common:libs:utils")
 include(":common:libs:di")
 include(":common:libs:coroutines")
 include(":common:libs:exceptions")
+include(":common:libs:io")
 include(":common:libs:logger")
 include(":common:libs:encryption")
 
@@ -56,9 +57,9 @@ include(":common:sdk:profile:api:external")
 include(":common:sdk:profile:api:internal")
 include(":common:sdk:profile:impl")
 
-include(":common:sdk:category:api:external")
-include(":common:sdk:category:api:internal")
-include(":common:sdk:category:impl")
+include(":common:sdk:collection:api:external")
+include(":common:sdk:collection:api:internal")
+include(":common:sdk:collection:impl")
 
 include(":common:sdk:tag:api:external")
 include(":common:sdk:tag:api:internal")

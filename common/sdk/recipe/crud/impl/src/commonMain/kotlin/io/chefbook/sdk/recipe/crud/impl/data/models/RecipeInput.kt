@@ -2,14 +2,16 @@ package io.chefbook.sdk.recipe.crud.impl.data.models
 
 import io.chefbook.libs.models.profile.ProfileInfo
 import io.chefbook.libs.utils.uuid.generateUUID
-import io.chefbook.sdk.category.api.external.domain.entities.Category
+import io.chefbook.sdk.collection.api.external.domain.entities.Collection
 import io.chefbook.sdk.profile.api.external.domain.entities.Profile
+import io.chefbook.sdk.recipe.core.api.external.domain.entities.CollectionInfo
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.DecryptedRecipe
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.DecryptedRecipeInfo
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.EncryptedRecipe
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.EncryptedRecipeInfo
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.Recipe
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.RecipeMeta
+import io.chefbook.sdk.recipe.core.api.internal.entity.RecipeMetaImpl
 import io.chefbook.sdk.recipe.crud.api.external.domain.entities.RecipeInput
 import io.chefbook.sdk.recipe.crud.api.internal.data.models.DecryptedRecipeInput
 import io.chefbook.sdk.recipe.crud.api.internal.data.models.RecipeProcessedInput
@@ -43,21 +45,21 @@ internal fun RecipeProcessedInput.toUpdatedRecipe(
 )
 
 internal fun RecipeProcessedInput.toRecipe(
-  id: String = generateUUID(),
-  ownerId: String,
-  ownerName: String? = null,
-  ownerAvatar: String? = null,
-  isOwned: Boolean = true,
-  isSaved: Boolean = true,
-  rating: Float = 0F,
-  score: Int? = null,
-  votes: Int = 0,
-  creationTimestamp: String = Clock.System.now().toLocalDateTime(TimeZone.UTC).toString(),
-  updateTimestamp: String = Clock.System.now().toLocalDateTime(TimeZone.UTC).toString(),
-  categories: List<Category> = emptyList(),
-  isFavourite: Boolean = false,
+    id: String = generateUUID(),
+    ownerId: String,
+    ownerName: String? = null,
+    ownerAvatar: String? = null,
+    isOwned: Boolean = true,
+    isSaved: Boolean = true,
+    rating: Float = 0F,
+    score: Int? = null,
+    votes: Int = 0,
+    creationTimestamp: String = Clock.System.now().toLocalDateTime(TimeZone.UTC).toString(),
+    updateTimestamp: String = Clock.System.now().toLocalDateTime(TimeZone.UTC).toString(),
+    collections: List<CollectionInfo> = emptyList(),
+    isFavourite: Boolean = false,
 ): Recipe {
-  val meta = RecipeMeta(
+  val meta = RecipeMetaImpl(
     id = id,
     owner = ProfileInfo(
       id = ownerId,
@@ -83,7 +85,7 @@ internal fun RecipeProcessedInput.toRecipe(
         meta = meta,
         isOwned = isOwned,
         isSaved = isSaved,
-        categories = categories,
+        collections = collections,
         isFavourite = isFavourite,
         servings = servings,
         time = time,
@@ -102,7 +104,7 @@ internal fun RecipeProcessedInput.toRecipe(
         meta = meta,
         isOwned = isOwned,
         isSaved = isSaved,
-        categories = categories,
+        collections = collections,
         isFavourite = isFavourite,
         servings = servings,
         time = time,
@@ -129,7 +131,7 @@ internal fun EncryptedRecipe.decryptByInput(input: RecipeInput) = DecryptedRecip
     meta = info.meta,
     isOwned = info.isOwned,
     isSaved = info.isSaved,
-    categories = info.categories,
+    collections = info.collections,
     isFavourite = info.isFavourite,
     servings = info.servings,
     time = info.time,

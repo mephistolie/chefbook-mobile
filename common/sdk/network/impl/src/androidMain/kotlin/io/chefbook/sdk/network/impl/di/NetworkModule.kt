@@ -1,40 +1,49 @@
 package io.chefbook.sdk.network.impl.di
 
 import android.content.Context
+import io.chefbook.libs.di.scopes.ProfileScope
 import io.chefbook.sdk.auth.api.internal.data.repositories.TokensRepository
+import io.chefbook.sdk.network.api.internal.clients.ProfileHttpClientFactory
 import io.chefbook.sdk.network.api.internal.connection.ConnectivityRepository
-import io.chefbook.sdk.network.impl.BuildConfig
 import io.chefbook.sdk.network.impl.clients.ChefBookClientFactory
+import io.chefbook.sdk.network.impl.clients.ProfileHttpClientFactoryImpl
 import io.chefbook.sdk.network.impl.clients.interceptors.EncryptedImageInterceptor
 import io.chefbook.sdk.network.impl.clients.interceptors.RateLimitInterceptor
 import io.chefbook.sdk.network.impl.clients.okHttpClient
 import io.chefbook.sdk.network.impl.connection.ConnectivityRepositoryImpl
-import io.chefbook.sdk.network.impl.di.qualifiers.HttpClient
-import io.chefbook.sdk.settings.api.external.domain.entities.Environment
+import io.chefbook.libs.di.qualifiers.HttpClient
 import io.chefbook.sdk.settings.api.internal.data.repositories.SettingsRepository
-import kotlinx.coroutines.runBlocking
 import okhttp3.OkHttpClient
 import org.koin.core.module.dsl.factoryOf
-import org.koin.core.module.dsl.named
 import org.koin.core.module.dsl.singleOf
+import org.koin.core.qualifier.named
 import org.koin.dsl.bind
 import org.koin.dsl.module
 
-val sdkNetworkModule = module {
+fun sdkNetworkModule() = module {
   factoryOf(::EncryptedImageInterceptor)
 
-  singleOf(::authorizedChefBookClient)
+  singleOf(::baseClient) { named(HttpClient.BASE) }
   singleOf(::imageClient) { named(HttpClient.ENCRYPTED_IMAGE) }
 
+  single<ProfileHttpClientFactory> {
+    ProfileHttpClientFactoryImpl(
+      baseClient = get(named(HttpClient.BASE)),
+      tokensRepository = get(),
+    )
+  }
+
   singleOf(::ConnectivityRepositoryImpl) bind ConnectivityRepository::class
+
+  scope<ProfileScope> {
+    scoped { params ->
+      get<ProfileHttpClientFactory>().getOrCreate(params[ProfileScope.PARAM_PROFILE_ID])
+    }
+  }
 }
 
-private fun imageClient(encryptedImageInterceptor: EncryptedImageInterceptor): OkHttpClient =
-  okHttpClient(interceptors = listOf(encryptedImageInterceptor))
-
-private fun authorizedChefBookClient(
+private fun baseClient(
   context: Context,
-  tokensRepository: TokensRepository,
   settingsRepository: SettingsRepository,
 ) =
   ChefBookClientFactory(context = context).create(
@@ -43,6 +52,8 @@ private fun authorizedChefBookClient(
 //      !BuildConfig.DEBUG -> false
 //      else -> runBlocking { settingsRepository.getEnvironment() } == Environment.DEVELOP
 //    },
-    tokensRepository = tokensRepository,
     interceptors = listOf(RateLimitInterceptor),
   )
+
+private fun imageClient(encryptedImageInterceptor: EncryptedImageInterceptor): OkHttpClient =
+  okHttpClient(interceptors = listOf(encryptedImageInterceptor))

@@ -10,7 +10,6 @@ import io.chefbook.features.auth.ui.mvi.AuthScreenState
 import io.chefbook.libs.exceptions.ServerException
 import io.chefbook.libs.logger.Logger
 import io.chefbook.libs.mvi.BaseMviViewModel
-import io.chefbook.libs.mvi.MviViewModel
 import io.chefbook.libs.utils.auth.PasswordRating
 import io.chefbook.libs.utils.auth.isEmail
 import io.chefbook.libs.utils.auth.isNickname
@@ -27,6 +26,8 @@ import io.chefbook.sdk.auth.api.external.domain.usecases.SignUpUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import org.koin.core.component.KoinComponent
+import org.koin.core.scope.Scope
 import io.chefbook.core.android.R as coreR
 
 internal class AuthViewModel(
@@ -44,7 +45,7 @@ internal class AuthViewModel(
   private val restoreProfileUseCase: RestoreProfileUseCase,
   private val signOutUseCase: SignOutUseCase,
   private val googleAuthenticator: GoogleAuthenticator,
-) : BaseMviViewModel<AuthScreenState, AuthScreenIntent, AuthScreenEffect>() {
+) : BaseMviViewModel<AuthScreenState, AuthScreenIntent, AuthScreenEffect>(), KoinComponent {
 
   private val resources = context.resources
 
@@ -282,6 +283,7 @@ internal class AuthViewModel(
   }
 
   private suspend fun restoreProfile() {
+    val restoreProfileUseCase = getKoin().getOrCreateScope<Scope>("").get<RestoreProfileUseCase>()
     restoreProfileUseCase()
       .onSuccess {
         _effect.emit(AuthScreenEffect.DashboardOpened)

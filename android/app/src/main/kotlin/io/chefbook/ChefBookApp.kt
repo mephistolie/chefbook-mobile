@@ -11,6 +11,7 @@ import okhttp3.OkHttpClient
 import org.koin.android.ext.android.get
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
+import android.os.AsyncTask
 
 class ChefBookApp : Application() {
 
@@ -36,7 +37,7 @@ class ChefBookApp : Application() {
   private fun configureDi() {
     startKoin {
       androidContext(this@ChefBookApp)
-      modules(Modules.all)
+      modules(Modules.all())
     }
   }
 

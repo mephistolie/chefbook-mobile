@@ -1,5 +1,5 @@
 plugins {
-  id("multiplatform-data-module")
+  alias(libs.plugins.module.multiplatform.data)
 }
 
 kotlin {
@@ -8,12 +8,11 @@ kotlin {
       api(projects.common.sdk.profile.api.internal)
 
       implementation(projects.common.sdk.auth.api.internal)
-      implementation(projects.common.sdk.settings.api.internal)
-      implementation(projects.common.sdk.settings.api.internal)
       implementation(projects.common.sdk.file.api.internal)
-    }
-    androidMain.dependencies {
-      implementation(libs.androidx.datastore)
+
+      implementation(projects.common.libs.io)
+
+      implementation(libs.androidx.datastore.core.okio)
     }
   }
 }

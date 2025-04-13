@@ -1,6 +1,6 @@
 package io.chefbook.sdk.shoppinglist.impl.data.sources.common.dto
 
-import io.chefbook.common.models.measureunit.MeasureUnitMapper
+import io.chefbook.libs.models.measureunit.MeasureUnitMapper
 import io.chefbook.sdk.shoppinglist.api.external.domain.entities.Purchase
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

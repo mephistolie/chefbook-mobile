@@ -7,16 +7,17 @@ import io.chefbook.sdk.recipe.core.api.external.domain.entities.RecipeInfo
 import io.chefbook.sdk.recipe.core.api.internal.data.sources.local.sql.dto.toEntity
 
 internal class LocalRecipeBookSourceImpl(
+  private val profileId: String,
   database: ChefBookDatabase,
 ) : DatabaseDataSource(), LocalRecipeBookSource {
 
   private val recipeQueries = database.recipeQueries
-  private val recipeCategoryQueries = database.recipeCategoryQueries
+  private val recipeCollectionQueries = database.recipeCollectionQueries
 
   override suspend fun getRecipeBook(): Result<List<RecipeInfo>> = safeQueryResult {
-    val recipeCategories = recipeCategoryQueries.selectAll().executeAsList()
+    val recipeCategories = recipeCollectionQueries.().executeAsList()
 
-    recipeQueries.selectAll().executeAsList().asSequence()
+    recipeQueries.selectAll(profileId).executeAsList().asSequence()
       .map { it.toEntity(recipeCategories) }
       .map(Recipe::info)
       .toList()

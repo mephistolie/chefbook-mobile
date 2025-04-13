@@ -15,7 +15,6 @@ import io.chefbook.navigation.navigators.DialogNavigator
 import io.chefbook.navigation.params.dialogs.TwoButtonsDialogParams
 import io.chefbook.navigation.results.category.CategoryActionResult
 import io.chefbook.navigation.results.dialogs.TwoButtonsDialogResult
-import io.chefbook.navigation.styles.DismissibleDialog
 import io.chefbook.navigation.styles.NonDismissibleDialog
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
@@ -53,9 +52,9 @@ fun CategoryInputScreen(
         is CategoryInputScreenEffect.CategoryCreated -> {
           categoryInputResultNavigator.navigateBack(
             result = CategoryActionResult.Created(
-              id = effect.category.id,
-              name = effect.category.name,
-              cover = effect.category.emoji,
+              id = effect.collection.id,
+              name = effect.collection.name,
+              cover = effect.collection.emoji,
             )
           )
         }
@@ -63,9 +62,9 @@ fun CategoryInputScreen(
         is CategoryInputScreenEffect.CategoryUpdated -> {
           categoryInputResultNavigator.navigateBack(
             result = CategoryActionResult.Updated(
-              id = effect.category.id,
-              name = effect.category.name,
-              cover = effect.category.emoji,
+              id = effect.collection.id,
+              name = effect.collection.name,
+              cover = effect.collection.emoji,
             )
           )
         }

@@ -7,6 +7,6 @@ import kotlinx.serialization.Serializable
 data class GetSharedShoppingListLinkResponse(
   @SerialName("link")
   val link: String,
-  @SerialName("expiresAt")
+  @SerialName("expirationTimestamp")
   val expirationTimestamp: String,
 )

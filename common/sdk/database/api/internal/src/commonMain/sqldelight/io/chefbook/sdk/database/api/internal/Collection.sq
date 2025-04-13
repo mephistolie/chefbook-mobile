@@ -1,0 +1,65 @@
+CREATE TABLE collections (
+    collectionId TEXT PRIMARY KEY NOT NULL,
+    name TEXT NOT NULL,
+    visibility TEXT NOT NULL,
+    contributors TEXT NOT NULL,
+    recipesCount INTEGER NOT NULL DEFAULT 0
+);
+
+CREATE TABLE collectionsProfiles (
+    collectionId TEXT NOT NULL,
+    profileId TEXT NOT NULL,
+    FOREIGN KEY (collectionId) REFERENCES collections(collectionId) ON DELETE CASCADE,
+    UNIQUE (collectionId, profileId)
+);
+
+selectAll:
+SELECT
+    collections.collectionId,
+    collections.name,
+    collections.visibility,
+    collections.contributors,
+    collections.recipesCount
+FROM collectionsProfiles
+LEFT JOIN collections ON collections.collectionId = collectionsProfiles.collectionId
+WHERE profileId = ?;
+
+select:
+SELECT
+    collections.collectionId,
+    collections.name,
+    collections.visibility,
+    collections.contributors,
+    collections.recipesCount
+FROM collections
+WHERE collectionId = ?;
+
+insert:
+INSERT INTO collections (collectionId, name, visibility, contributors, recipesCount)
+VALUES ?;
+
+addToRecipeBook:
+INSERT INTO collectionsProfiles (collectionId, profileId)
+VALUES ?;
+
+update:
+UPDATE collections SET name = ?, visibility = ?
+WHERE collectionId = ?;
+
+delete:
+DELETE FROM collections
+WHERE collectionId = ?;
+
+removeFromRecipeBook:
+DELETE FROM collectionsProfiles
+WHERE collectionId = ? AND profileId = ?;
+
+clearUnused:
+DELETE FROM collections
+WHERE collectionId IN
+(
+    SELECT collections.collectionId
+    FROM collections
+    LEFT JOIN collectionsProfiles ON collectionsProfiles.collectionId = collections.collectionId
+    WHERE collectionsProfiles.profileId IS NULL
+);

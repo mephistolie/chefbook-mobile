@@ -22,17 +22,17 @@ import io.chefbook.design.theme.dimens.IconSize24
 import io.chefbook.design.theme.shapes.SmoothCornerShape28Top
 import io.chefbook.features.recipebook.core.ui.components.CategoryCard
 import io.chefbook.features.recipebook.core.ui.components.CategoryCardSkeleton
-import io.chefbook.sdk.category.api.external.domain.entities.Category
+import io.chefbook.sdk.collection.api.external.domain.entities.Collection
 import io.chefbook.core.android.R as coreR
 import io.chefbook.design.R as designR
 
 private const val KEY_PREFIX = "category_card"
 
 internal fun LazyGridScope.categoriesBlock(
-  categories: List<Category>?,
-  drawDivider: Boolean,
-  onCategoriesClick: () -> Unit,
-  onCategoryClicked: (String) -> Unit,
+    categories: List<Collection>?,
+    drawDivider: Boolean,
+    onCategoriesClick: () -> Unit,
+    onCategoryClicked: (String) -> Unit,
 ) {
   if (categories?.isEmpty() == true) return
 

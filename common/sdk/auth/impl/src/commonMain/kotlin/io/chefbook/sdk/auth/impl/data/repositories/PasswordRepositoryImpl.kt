@@ -1,10 +1,9 @@
 package io.chefbook.sdk.auth.impl.data.repositories
 
-import io.chefbook.sdk.auth.api.internal.data.repositories.PasswordRepository
-import io.chefbook.sdk.auth.impl.data.sources.remote.PasswordDataSource
+import io.chefbook.sdk.auth.impl.data.sources.remote.PasswordSource
 
 internal class PasswordRepositoryImpl(
-  private val remoteSource: PasswordDataSource,
+  private val remoteSource: PasswordSource,
 ) : PasswordRepository {
 
   override suspend fun requestPasswordReset(login: String) =

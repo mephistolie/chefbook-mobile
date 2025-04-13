@@ -21,7 +21,7 @@ import io.chefbook.design.theme.shapes.SmoothCornerShape28Top
 import io.chefbook.features.recipe.input.R
 import io.chefbook.features.recipe.input.ui.dialogs.components.RadioElement
 import io.chefbook.features.recipe.input.ui.mvi.RecipeInputDetailsScreenIntent
-import io.chefbook.sdk.recipe.core.api.external.domain.entities.RecipeMeta.Visibility
+import io.chefbook.libs.models.visibility.Visibility
 import io.chefbook.core.android.R as coreR
 import io.chefbook.design.R as designR
 

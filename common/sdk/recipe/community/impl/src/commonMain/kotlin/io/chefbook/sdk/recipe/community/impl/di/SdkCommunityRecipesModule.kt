@@ -23,16 +23,20 @@ import org.koin.core.qualifier.named
 import org.koin.dsl.bind
 import org.koin.dsl.module
 
-val sdkCommunityRecipesModule = module {
+fun sdkCommunityRecipesModule() = module {
 
   singleOf(::CommunityRecipesApiServiceImpl) bind CommunityRecipesApiService::class
 
-  factory<CommunityRecipesSource>(named(DataSource.REMOTE)) {
-    RemoteCommunityRecipesSourceImpl(get())
+  single<CommunityRecipesSource>(named(DataSource.REMOTE)) {
+    RemoteCommunityRecipesSourceImpl(
+      api = get(),
+    )
   }
 
   single<CommunityRecipesRepository> {
-    CommunityRecipesRepositoryImpl(source = get(named(DataSource.REMOTE)))
+    CommunityRecipesRepositoryImpl(
+      source = get(named(DataSource.REMOTE)),
+    )
   }
 
   factoryOf(::GetRecipesUseCaseImpl) bind GetRecipesUseCase::class

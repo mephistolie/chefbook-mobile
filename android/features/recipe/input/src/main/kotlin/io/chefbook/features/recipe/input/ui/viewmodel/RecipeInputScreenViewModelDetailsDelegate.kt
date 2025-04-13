@@ -8,7 +8,7 @@ import io.chefbook.sdk.encryption.vault.api.external.domain.entities.EncryptedVa
 import io.chefbook.sdk.encryption.vault.api.external.domain.usecases.GetEncryptedVaultStateUseCase
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.Recipe.Macronutrients
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.RecipeMeta
-import io.chefbook.sdk.recipe.core.api.external.domain.entities.RecipeMeta.Visibility
+import io.chefbook.libs.models.visibility.Visibility
 import io.chefbook.sdk.recipe.crud.api.external.domain.entities.RecipeInput
 import io.chefbook.sdk.settings.api.external.domain.usecases.SetDefaultRecipeLanguageUseCase
 

@@ -1,11 +1,12 @@
 package io.chefbook.sdk.profile.impl.data.sources.remote.api
 
-import io.chefbook.sdk.network.api.internal.service.ChefBookApiService
+import io.chefbook.sdk.network.api.internal.service.ApiService
 import io.chefbook.sdk.network.api.internal.service.dto.responses.MessageResponse
 import io.chefbook.sdk.profile.impl.data.sources.remote.api.dto.ConfirmAvatarUploadingRequest
 import io.chefbook.sdk.profile.impl.data.sources.remote.api.dto.GenerateAvatarUploadLinkRequest
 import io.chefbook.sdk.profile.impl.data.sources.remote.api.dto.GetProfileDeletionStatusResponse
-import io.chefbook.sdk.profile.impl.data.sources.remote.api.dto.GetProfileResponse
+import io.chefbook.sdk.profile.impl.data.sources.common.dto.ProfileSerializable
+import io.chefbook.sdk.profile.impl.data.sources.remote.api.ProfilesApiServiceImpl.Companion.PROFILE_ROUTE
 import io.chefbook.sdk.profile.impl.data.sources.remote.api.dto.RequestProfileDeletionRequest
 import io.chefbook.sdk.profile.impl.data.sources.remote.api.dto.RequestProfileDeletionResponse
 import io.chefbook.sdk.profile.impl.data.sources.remote.api.dto.SetDescriptionRequest
@@ -15,11 +16,12 @@ import io.ktor.client.request.setBody
 
 internal class ProfileApiServiceImpl(
   client: HttpClient,
-) : ChefBookApiService(client), ProfileApiService {
+) : ApiService(client), ProfileApiService {
 
-  override suspend fun getProfile(): Result<GetProfileResponse> = safeGet(PROFILE_ROUTE)
+  override suspend fun getProfile(): Result<ProfileSerializable> =
+    safeGet(PROFILE_ROUTE)
 
-  override suspend fun getProfile(profileId: String): Result<GetProfileResponse> =
+  override suspend fun getProfile(profileId: String): Result<ProfileSerializable> =
     safeGet("$PROFILE_ROUTE/$profileId")
 
   override suspend fun generateAvatarUploadLink(): Result<GenerateAvatarUploadLinkRequest> =
@@ -45,8 +47,4 @@ internal class ProfileApiServiceImpl(
 
   override suspend fun cancelProfileDeletion(): Result<MessageResponse> =
     safeDelete("$PROFILE_ROUTE/delete")
-
-  companion object {
-    private const val PROFILE_ROUTE = "/v1/profile"
-  }
 }

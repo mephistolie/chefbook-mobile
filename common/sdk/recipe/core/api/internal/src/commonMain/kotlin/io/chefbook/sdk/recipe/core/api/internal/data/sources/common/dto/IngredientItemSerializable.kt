@@ -1,6 +1,6 @@
 package io.chefbook.sdk.recipe.core.api.internal.data.sources.common.dto
 
-import io.chefbook.common.models.measureunit.MeasureUnitMapper
+import io.chefbook.libs.models.measureunit.MeasureUnitMapper
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.Recipe.Decrypted.IngredientsItem
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

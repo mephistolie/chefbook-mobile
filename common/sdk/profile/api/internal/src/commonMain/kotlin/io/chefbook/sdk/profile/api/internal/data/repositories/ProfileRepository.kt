@@ -10,8 +10,6 @@ interface ProfileRepository {
 
   suspend fun getProfile(): Result<Profile>
 
-  suspend fun getProfileId(): String
-
   suspend fun refreshProfile(): EmptyResult
 
   suspend fun uploadAvatar(path: String): EmptyResult
@@ -30,5 +28,5 @@ interface ProfileRepository {
 
   suspend fun cancelProfileDeletion(): EmptyResult
 
-  suspend fun clearLocalData()
+  suspend fun clearLocalData(profileId: String)
 }

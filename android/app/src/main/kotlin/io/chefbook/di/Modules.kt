@@ -23,8 +23,9 @@ import io.chefbook.features.recipebook.search.di.featureRecipeBookSearchModule
 import io.chefbook.features.settings.di.featureSettingsModule
 import io.chefbook.features.shoppinglist.control.di.featureShoppingListModule
 import io.chefbook.features.shoppinglist.purchases.input.di.featurePurchaseInputModule
+import io.chefbook.libs.io.di.libIOModule
 import io.chefbook.sdk.auth.impl.di.sdkAuthModule
-import io.chefbook.sdk.category.impl.di.sdkCategoryModule
+import io.chefbook.sdk.collection.impl.di.sdkCollectionModule
 import io.chefbook.sdk.core.impl.di.sdkCoreModule
 import io.chefbook.sdk.database.impl.di.sdkDatabaseModule
 import io.chefbook.sdk.encryption.recipe.impl.di.sdkRecipeEncryptionModule
@@ -43,74 +44,79 @@ import io.chefbook.sdk.tag.impl.di.sdkTagModule
 
 object Modules {
 
-  val sdk = listOf(
-    sdkCoreModule,
-    sdkFileModule,
-    sdkDatabaseModule,
-    sdkNetworkModule,
-    sdkSettingsModule,
-    sdkAuthModule,
-    sdkProfileModule,
-    sdkEncryptedVaultModule,
-    sdkRecipeEncryptionModule,
-    sdkRecipeCoreModule,
-    sdkRecipeCrudModule,
-    sdkRecipeInteractionModule,
-    sdkRecipeBookModule,
-    sdkCommunityRecipesModule,
-    sdkCategoryModule,
-    sdkTagModule,
-    sdkShoppingListModule,
+  fun lib() = listOf(
+    libIOModule(),
+  )
+
+  fun sdk() = listOf(
+    sdkCoreModule(),
+    sdkFileModule(),
+    sdkDatabaseModule(),
+    sdkNetworkModule(),
+    sdkSettingsModule(),
+    sdkAuthModule(),
+    sdkProfileModule(),
+    sdkEncryptedVaultModule(),
+    sdkRecipeEncryptionModule(),
+    sdkRecipeCoreModule(),
+    sdkRecipeCrudModule(),
+    sdkRecipeInteractionModule(),
+    sdkRecipeBookModule(),
+    sdkCommunityRecipesModule(),
+    sdkCollectionModule(),
+    sdkTagModule(),
+    sdkShoppingListModule(),
   )
 
   object Features {
 
-    val unscoped = listOf(
-      featureEncryptionModule,
-      featureAuthModule,
-      featureProfileModule,
-      featureProfileEditingModule,
-      featureProfileDeletionModule,
-      featureSettingsModule,
-      featureCategoryModule,
-      featureAboutModule,
+    fun unscoped() = listOf(
+      featureEncryptionModule(),
+      featureAuthModule(),
+      featureProfileModule(),
+      featureProfileEditingModule(),
+      featureProfileDeletionModule(),
+      featureSettingsModule(),
+      featureCategoryModule(),
+      featureAboutModule(),
     )
 
-    val recipe = listOf(
-      featureRecipeModule,
-      featureRecipeShareModule,
-      featureRecipeControlModule,
-      featureRecipeRatingModule,
-      featureRecipeInputModule,
+    fun recipe() = listOf(
+      featureRecipeModule(),
+      featureRecipeShareModule(),
+      featureRecipeControlModule(),
+      featureRecipeRatingModule(),
+      featureRecipeInputModule(),
     )
 
-    val recipeBook = listOf(
-      featureRecipeBookDashboardModule,
-      featureRecipeBookCreationModule,
-      featureRecipeBookSearchModule,
-      featureFavouriteRecipesModule,
-      featureCategoriesModule,
-      featureCategoryRecipesModule,
+    fun recipeBook() = listOf(
+      featureRecipeBookDashboardModule(),
+      featureRecipeBookCreationModule(),
+      featureRecipeBookSearchModule(),
+      featureFavouriteRecipesModule(),
+      featureCategoriesModule(),
+      featureCategoryRecipesModule(),
     )
 
-    val community = listOf(
-      featureCommunityLanguagesModule,
-      featureCommunityRecipesModule,
+    fun community() = listOf(
+      featureCommunityLanguagesModule(),
+      featureCommunityRecipesModule(),
     )
 
-    val shoppingList = listOf(
-      featureShoppingListModule,
-      featurePurchaseInputModule
+    fun shoppingList() = listOf(
+      featureShoppingListModule(),
+      featurePurchaseInputModule()
     )
 
-    val all = unscoped +
-      recipe +
-      recipeBook +
-      community +
-      shoppingList
+    fun all() = unscoped() +
+      recipe() +
+      recipeBook() +
+      community() +
+      shoppingList()
   }
 
-  val all = sdk +
-    Features.all +
-    appModule
+  fun all() = lib() +
+    sdk() +
+    Features.all() +
+    appModule()
 }

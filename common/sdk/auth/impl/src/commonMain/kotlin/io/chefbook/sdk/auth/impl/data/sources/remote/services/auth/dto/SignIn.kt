@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-internal data class SignInRequest(
+internal class SignInRequest(
   @SerialName("email")
   val email: String? = null,
   @SerialName("nickname")

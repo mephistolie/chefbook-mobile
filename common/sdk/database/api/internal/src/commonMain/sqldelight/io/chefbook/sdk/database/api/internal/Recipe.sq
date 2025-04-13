@@ -1,29 +1,25 @@
-CREATE TABLE recipe (
-    recipe_id TEXT PRIMARY KEY NOT NULL,
+CREATE TABLE recipes (
+    recipeId TEXT PRIMARY KEY NOT NULL,
     name TEXT NOT NULL,
 
-    owner_id TEXT NOT NULL DEFAULT "LOCAL_PROFILE",
-    owner_name TEXT DEFAULT NULL,
-    owner_avatar TEXT DEFAULT NULL,
+    ownerId TEXT NOT NULL,
+    ownerName TEXT DEFAULT NULL,
+    ownerAvatar TEXT DEFAULT NULL,
 
-    owned INTEGER NOT NULL DEFAULT 0,
-    saved INTEGER NOT NULL DEFAULT 0,
     visibility TEXT NOT NULL,
     encrypted INTEGER NOT NULL DEFAULT 0,
 
     language TEXT DEFAULT NULL,
     description TEXT DEFAULT NULL,
 
-    creation_timestamp TEXT NOT NULL,
-    update_timestamp TEXT NOT NULL,
+    creationTimestamp TEXT NOT NULL,
+    updateTimestamp TEXT NOT NULL,
     version INTEGER NOT NULL DEFAULT 1,
 
     rating REAL NOT NULL DEFAULT 0.0,
-    score INTEGER DEFAULT NULL,
     votes INTEGER NOT NULL DEFAULT 0,
 
     tags TEXT NOT NULL DEFAULT "{}",
-    favourite INTEGER NOT NULL DEFAULT 0,
 
     servings INTEGER DEFAULT NULL,
     time INTEGER DEFAULT NULL,
@@ -38,112 +34,146 @@ CREATE TABLE recipe (
     pictures TEXT NOT NULL DEFAULT "{}"
 );
 
+CREATE TABLE recipesScores (
+    recipeId TEXT NOT NULL,
+    profileId TEXT NOT NULL,
+    score INTEGER DEFAULT NULL,
+    FOREIGN KEY (recipeId) REFERENCES recipes(recipeId) ON DELETE CASCADE,
+    UNIQUE (recipeId, profileId)
+);
+
+CREATE TABLE recipesProfiles (
+    recipeId TEXT NOT NULL,
+    profileId TEXT NOT NULL,
+    favourite INTEGER NOT NULL DEFAULT 0,
+    FOREIGN KEY (recipeId) REFERENCES recipes(recipeId) ON DELETE CASCADE,
+    FOREIGN KEY (profileId) REFERENCES profiles(profileId) ON DELETE CASCADE,
+    UNIQUE (recipeId, profileId)
+);
+
 selectAll:
 SELECT
-    recipe_id, name,
-    owner_id, owner_name, owner_avatar,
-    owned, saved, visibility, encrypted,
-    language, description,
-    creation_timestamp, update_timestamp, version,
-    rating, score, votes,
-    tags, favourite,
-    servings, time,
-    calories, protein, fats, carbohydrates,
-    ingredients, cooking, pictures
-FROM recipe;
+    recipes.recipeId, recipes.name,
+    recipes.ownerId, recipes.ownerName, recipes.ownerAvatar,
+    (recipesProfiles.profileId == recipes.ownerId) AS owned, recipes.visibility, recipes.encrypted,
+    recipes.language, recipes.description,
+    recipes.creationTimestamp, recipes.updateTimestamp, recipes.version,
+    recipes.rating, recipesScores.score, recipes.votes,
+    recipes.tags, recipesProfiles.favourite,
+    recipes.servings, recipes.time,
+    recipes.calories, recipes.protein, recipes.fats, recipes.carbohydrates,
+    recipes.ingredients, recipes.cooking, recipes.pictures
+FROM recipesProfiles
+LEFT JOIN recipes ON recipes.recipeId = recipesProfiles.recipeId
+LEFT JOIN recipesScores ON recipesScores.recipeId = recipesProfiles.recipeId AND recipesScores.profileId = recipesProfiles.profileId
+WHERE recipesProfiles.profileId = ?;
 
 select:
 SELECT
-    recipe_id, name,
-    owner_id, owner_name, owner_avatar,
-    owned, saved, visibility, encrypted,
-    language, description,
-    creation_timestamp, update_timestamp, version,
-    rating, score, votes,
-    tags, favourite,
-    servings, time,
-    calories, protein, fats, carbohydrates,
-    ingredients, cooking, pictures
-FROM recipe WHERE recipe_id = ?;
+    recipes.recipeId, recipes.name,
+    recipes.ownerId, recipes.ownerName, recipes.ownerAvatar,
+    (recipesProfiles.profileId == recipes.ownerId) AS owned, recipes.visibility, recipes.encrypted,
+    recipes.language, recipes.description,
+    recipes.creationTimestamp, recipes.updateTimestamp, recipes.version,
+    recipes.rating, recipesScores.score, recipes.votes,
+    recipes.tags, COALESCE(recipesProfiles.favourite, 0) AS favourite,
+    recipes.servings, recipes.time,
+    recipes.calories, recipes.protein, recipes.fats, recipes.carbohydrates,
+    recipes.ingredients, recipes.cooking, recipes.pictures
+FROM recipes
+LEFT JOIN recipesProfiles ON recipesProfiles.recipeId = recipes.recipeId
+LEFT JOIN recipesScores ON recipesScores.recipeId = recipesProfiles.recipeId AND recipesScores.profileId = recipesProfiles.profileId
+WHERE recipes.recipeId = ? AND recipesProfiles.profileId = ?;
 
-getCategories:
-SELECT
-    category_id, name, emoji
-FROM category WHERE category_id IN (SELECT category_id FROM recipeCategory WHERE recipe_id = ?);
+getCollections:
+SELECT collections.collectionId, collections.name
+FROM recipesCollections
+LEFT JOIN collections ON collections.collectionId = recipesCollections.collectionId
+LEFT JOIN collectionsProfiles ON collectionsProfiles.collectionId = recipesCollections.collectionId
+WHERE recipesCollections.recipeId = ? AND collectionsProfiles.profileId = ?;
 
 insert:
-INSERT INTO recipe(
-    recipe_id, name,
-    owner_id, owner_name, owner_avatar,
-    owned, saved, visibility, encrypted,
+INSERT INTO recipes (
+    recipeId, name,
+    ownerId, ownerName, ownerAvatar,
+    visibility, encrypted,
     language, description,
-    creation_timestamp, update_timestamp, version,
-    rating, score, votes,
-    tags, favourite,
+    creationTimestamp, updateTimestamp, version,
+    rating, votes,
+    tags,
     servings, time,
     calories, protein, fats, carbohydrates,
     ingredients, cooking, pictures
 )
 VALUES ?;
 
+addToRecipeBook:
+INSERT INTO recipesProfiles (recipeId, profileId)
+VALUES (?, ?);
+
 setPictures:
-UPDATE recipe SET pictures = ?
-WHERE recipe_id = ?;
+UPDATE recipes SET pictures = ?
+WHERE recipeId = ?;
 
 getVersion:
 SELECT version
-FROM recipe WHERE recipe_id = ?;
+FROM recipes WHERE recipeId = ?;
 
 setVersion:
-UPDATE recipe SET version = ?
-WHERE recipe_id = ?;
+UPDATE recipes SET version = ?
+WHERE recipeId = ?;
 
 update:
-UPDATE recipe
+UPDATE recipes
 SET
     name = ?,
-    owner_id = ?, owner_name = ?, owner_avatar = ?,
-    owned = ?, saved = ?, visibility = ?, encrypted = ?,
+    ownerId = ?, ownerName = ?, ownerAvatar = ?,
+    visibility = ?, encrypted = ?,
     language = ?, description = ?,
-    creation_timestamp = ?, update_timestamp = ?, version = ?,
-    rating = ?, score = ?, votes = ?,
-    tags = ?, favourite = ?,
+    creationTimestamp = ?, updateTimestamp = ?, version = ?,
+    rating = ?, votes = ?,
+    tags = ?,
     servings = ?, time = ?,
     calories = ?, protein = ?, fats = ?, carbohydrates = ?,
     ingredients = ?, cooking = ?, pictures = ?
-WHERE recipe_id = ?;
+WHERE recipeId = ?;
 
 delete:
-DELETE FROM recipe
-WHERE recipe_id = ?;
+DELETE FROM recipes
+WHERE recipeId = ?;
 
-clear:
-DELETE FROM recipe;
+removeFromRecipeBook:
+DELETE FROM recipesProfiles
+WHERE recipeId = ? AND profileId = ?;
 
-clearExceptUser:
-DELETE FROM recipe
-WHERE owner_id <> ?;
+clearUnused:
+DELETE FROM recipes
+WHERE recipeId NOT IN
+(
+    SELECT DISTINCT recipeId
+    FROM recipesProfiles
+);
 
 setFavourite:
-UPDATE recipe SET favourite = ?
-WHERE recipe_id = ?;
-
-setSaved:
-UPDATE recipe SET saved = ?
-WHERE recipe_id = ?;
+UPDATE recipesProfiles
+SET favourite = ?
+WHERE recipeId = ? AND profileId = ?;
 
 setRating:
-UPDATE recipe SET rating = ?, score = ?, votes = ?
-WHERE recipe_id = ?;
+UPDATE recipes
+SET rating = ?, votes = ?
+WHERE recipeId = ?;
 
 setScore:
-UPDATE recipe SET score = ?
-WHERE recipe_id = ?;
+REPLACE INTO recipesScores (score, recipeId, profileId)
+VALUES (?, ?, ?);
 
 setOwnerInfo:
-UPDATE recipe SET owner_name = ?, owner_avatar = ?
-WHERE recipe_id = ?;
+UPDATE recipes
+SET ownerName = ?, ownerAvatar = ?
+WHERE recipeId = ?;
 
 setTags:
-UPDATE recipe SET tags = ?
-WHERE recipe_id = ?;
+UPDATE recipes
+SET tags = ?
+WHERE recipeId = ?;

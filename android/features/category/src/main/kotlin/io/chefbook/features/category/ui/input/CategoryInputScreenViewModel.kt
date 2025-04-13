@@ -5,12 +5,12 @@ import io.chefbook.features.category.ui.input.mvi.CategoryInputScreenEffect
 import io.chefbook.features.category.ui.input.mvi.CategoryInputScreenIntent
 import io.chefbook.features.category.ui.input.mvi.CategoryInputScreenState
 import io.chefbook.libs.mvi.BaseMviViewModel
-import io.chefbook.sdk.category.api.external.domain.entities.CategoryInput
-import io.chefbook.sdk.category.api.external.domain.entities.toInput
-import io.chefbook.sdk.category.api.external.domain.usecases.CreateCategoryUseCase
-import io.chefbook.sdk.category.api.external.domain.usecases.DeleteCategoryUseCase
-import io.chefbook.sdk.category.api.external.domain.usecases.GetCategoryUseCase
-import io.chefbook.sdk.category.api.external.domain.usecases.UpdateCategoryUseCase
+import io.chefbook.sdk.collection.api.external.domain.entities.CollectionInput
+import io.chefbook.sdk.collection.api.external.domain.entities.toInput
+import io.chefbook.sdk.collection.api.external.domain.usecases.CreateCollectionUseCase
+import io.chefbook.sdk.collection.api.external.domain.usecases.DeleteCollectionUseCase
+import io.chefbook.sdk.collection.api.external.domain.usecases.GetCollectionUseCase
+import io.chefbook.sdk.collection.api.external.domain.usecases.UpdateCollectionUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -18,10 +18,10 @@ import kotlinx.coroutines.launch
 internal class CategoryInputScreenViewModel(
   private val categoryId: String?,
 
-  private val getCategoryUseCase: GetCategoryUseCase,
-  private val createCategoryUseCase: CreateCategoryUseCase,
-  private val updateCategoryUseCase: UpdateCategoryUseCase,
-  private val deleteCategoryUseCase: DeleteCategoryUseCase,
+  private val getCollectionUseCase: GetCollectionUseCase,
+  private val createCollectionUseCase: CreateCollectionUseCase,
+  private val updateCollectionUseCase: UpdateCollectionUseCase,
+  private val deleteCollectionUseCase: DeleteCollectionUseCase,
 ) :
   BaseMviViewModel<CategoryInputScreenState, CategoryInputScreenIntent, CategoryInputScreenEffect>() {
 
@@ -31,7 +31,7 @@ internal class CategoryInputScreenViewModel(
   init {
     categoryId?.let {
       viewModelScope.launch {
-        getCategoryUseCase(categoryId).onSuccess { category ->
+        getCollectionUseCase(categoryId).onSuccess { category ->
           _state.emit(state.value.copy(input = category.toInput()))
         }
       }
@@ -81,20 +81,20 @@ internal class CategoryInputScreenViewModel(
   }
 
   private suspend fun createCategory(
-    input: CategoryInput
+    input: CollectionInput
   ) {
     _state.update { it.copy(isSaving = true) }
-    createCategoryUseCase(input = input)
+    createCollectionUseCase(input = input)
       .onSuccess { _effect.emit(CategoryInputScreenEffect.CategoryCreated(it)) }
       .onFailure { _state.update { it.copy(isSaving = false) } }
   }
 
   private suspend fun updateCategory(
     categoryId: String,
-    input: CategoryInput,
+    input: CollectionInput,
   ) {
     _state.update { it.copy(isSaving = true) }
-    updateCategoryUseCase(categoryId = categoryId, input = input)
+    updateCollectionUseCase(categoryId = categoryId, input = input)
       .onSuccess { category -> _effect.emit(CategoryInputScreenEffect.CategoryUpdated(category)) }
       .onFailure { _state.update { it.copy(isSaving = false) } }
   }
@@ -102,7 +102,7 @@ internal class CategoryInputScreenViewModel(
   private suspend fun deleteCategory() {
     categoryId?.let {
       _state.update { it.copy(isDeleting = true) }
-      deleteCategoryUseCase(categoryId = categoryId)
+      deleteCollectionUseCase(categoryId = categoryId)
         .onSuccess { _effect.emit(CategoryInputScreenEffect.CategoryDeleted(categoryId)) }
         .onFailure { _state.update { it.copy(isDeleting = false) } }
     }

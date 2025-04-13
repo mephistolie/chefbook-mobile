@@ -1,5 +1,5 @@
 plugins {
-  id("android-compose-module")
+  alias(libs.plugins.module.android.compose)
 }
 
 android.namespace = "io.chefbook.design"

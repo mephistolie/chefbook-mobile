@@ -6,7 +6,6 @@ import io.chefbook.features.recipebook.dashboard.ui.mvi.DashboardScreenEffect
 import io.chefbook.features.recipebook.dashboard.ui.mvi.DashboardScreenIntent
 import io.chefbook.features.recipebook.dashboard.ui.mvi.DashboardScreenState
 import io.chefbook.libs.mvi.BaseMviViewModel
-import io.chefbook.libs.mvi.MviViewModel
 import io.chefbook.sdk.encryption.vault.api.external.domain.usecases.ObserveEncryptedVaultStateUseCase
 import io.chefbook.sdk.profile.api.external.domain.usecases.ObserveProfileUseCase
 import io.chefbook.sdk.recipe.book.api.external.domain.usecases.ObserveLatestRecipesUseCase
@@ -40,7 +39,7 @@ internal class DashboardScreenViewModel(
       val allRecipes = recipeBook?.recipes
         ?.filterIsInstance<DecryptedRecipeInfo>()
         ?.sortedWith(compareBy({ it.name.uppercase() }, { it.id }))
-      val categories = recipeBook?.categories
+      val categories = recipeBook?.collections
         ?.sortedBy { it.name }
 
       _state.update { state ->

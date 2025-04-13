@@ -14,7 +14,7 @@ import androidx.compose.ui.unit.dp
 import io.chefbook.libs.models.language.Language
 import io.chefbook.libs.utils.time.parseTimestampSafely
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.DecryptedRecipe
-import io.chefbook.sdk.recipe.core.api.external.domain.entities.RecipeMeta.Visibility
+import io.chefbook.libs.models.visibility.Visibility
 import io.chefbook.ui.common.extensions.localizedName
 import kotlinx.datetime.toJavaLocalDateTime
 import java.time.format.DateTimeFormatter

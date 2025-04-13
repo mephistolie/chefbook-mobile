@@ -12,7 +12,7 @@ internal interface RecipePicturesApiService {
     body: GenerateRecipePicturesUploadLinksRequest,
   ): Result<List<PictureUploadResponse>>
 
-  suspend fun setRecipePicture(
+  suspend fun setRecipePictures(
     recipeId: String,
     body: SetRecipePicturesRequest,
   ): Result<SetRecipePicturesResponse>

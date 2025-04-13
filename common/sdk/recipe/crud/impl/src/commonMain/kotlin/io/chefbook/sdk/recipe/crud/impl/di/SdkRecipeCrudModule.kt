@@ -1,6 +1,7 @@
 package io.chefbook.sdk.recipe.crud.impl.di
 
 import io.chefbook.libs.di.qualifiers.DataSource
+import io.chefbook.libs.di.scopes.ProfileScope
 import io.chefbook.sdk.recipe.crud.api.external.domain.usecases.CreateRecipeUseCase
 import io.chefbook.sdk.recipe.crud.api.external.domain.usecases.DeleteRecipeInputPictureUseCase
 import io.chefbook.sdk.recipe.crud.api.external.domain.usecases.DeleteRecipeUseCase
@@ -32,52 +33,78 @@ import io.chefbook.sdk.recipe.crud.impl.domain.ObserveRecipeUseCaseImpl
 import io.chefbook.sdk.recipe.crud.impl.domain.ObserveRecipesUseCaseImpl
 import io.chefbook.sdk.recipe.crud.impl.domain.UpdateRecipeUseCaseImpl
 import org.koin.core.module.dsl.factoryOf
+import org.koin.core.module.dsl.scopedOf
 import org.koin.core.module.dsl.singleOf
 import org.koin.core.qualifier.named
 import org.koin.dsl.bind
 import org.koin.dsl.module
 
-val sdkRecipeCrudModule = module {
+fun sdkRecipeCrudModule() = module {
 
-  singleOf(::RecipeCrudApiServiceImpl) bind RecipeCrudApiService::class
-  singleOf(::RecipePicturesApiServiceImpl) bind RecipePicturesApiService::class
+  scope<ProfileScope> {
 
-  single<LocalRecipeCrudSource>(named(DataSource.LOCAL)) { LocalRecipeCrudSourceImpl(get()) }
-  single<RemoteRecipeCrudSource>(named(DataSource.REMOTE)) { RemoteRecipeCrudSourceImpl(get()) }.bind(RecipeCrudSource::class)
-  single<RecipePicturesSource>(named(DataSource.LOCAL)) { LocalRecipePicturesSourceImpl(get()) }
-  single<RecipePicturesSource>(named(DataSource.REMOTE)) { RemoteRecipePicturesSourceImpl(get()) }
+    scopedOf(::RecipeCrudApiServiceImpl) bind RecipeCrudApiService::class
+    scopedOf(::RecipePicturesApiServiceImpl) bind RecipePicturesApiService::class
 
-  single<RecipeCrudRepository> {
-    RecipeCrudRepositoryImpl(
-      localSource = get(named(DataSource.LOCAL)),
-      remoteSource = get(named(DataSource.REMOTE)),
+    scoped<LocalRecipeCrudSource>(named(DataSource.LOCAL)) { params ->
+      LocalRecipeCrudSourceImpl(
+        profileId = params[ProfileScope.PARAM_PROFILE_ID],
+        database = get(),
+      )
+    }
 
-      cache = get(),
-      encryptedVaultRepository =  get(),
-      recipeEncryptionRepository = get(),
-      profileRepository = get(),
-      sources = get(),
-      cryptor = get(),
-      scopes = get(),
-    )
+    scoped<RemoteRecipeCrudSource>(named(DataSource.REMOTE)) { params ->
+      RemoteRecipeCrudSourceImpl(
+        api = get(),
+      )
+    }
+      .bind(RecipeCrudSource::class)
+
+    scoped<RecipePicturesSource>(named(DataSource.LOCAL)) {
+      LocalRecipePicturesSourceImpl(
+        database = get(),
+      )
+    }
+
+    scoped<RecipePicturesSource>(named(DataSource.REMOTE)) {
+      RemoteRecipePicturesSourceImpl(
+        api = get(),
+      )
+    }
+
+    scoped<RecipeCrudRepository> {
+      RecipeCrudRepositoryImpl(
+        localSource = get(named(DataSource.LOCAL)),
+        remoteSource = get(named(DataSource.REMOTE)),
+
+        cache = get(),
+        encryptedVaultRepository =  get(),
+        recipeEncryptionRepository = get(),
+        profileRepository = get(),
+        sources = get(),
+        cryptor = get(),
+        scopes = get(),
+      )
+    }
+
+    scoped<RecipePictureRepository> {
+      RecipePictureRepositoryImpl(
+        localSource = get(named(DataSource.LOCAL)),
+        remoteSource = get(named(DataSource.REMOTE)),
+        cache = get(),
+        files = get(),
+        compressor = get(),
+        sources = get(),
+      )
+    }
+
+    factoryOf(::ObserveRecipesUseCaseImpl) bind ObserveRecipesUseCase::class
+    factoryOf(::ObserveRecipeUseCaseImpl) bind ObserveRecipeUseCase::class
+    factoryOf(::GetRecipeUseCaseImpl) bind GetRecipeUseCase::class
+    factoryOf(::CreateRecipeUseCaseImpl) bind CreateRecipeUseCase::class
+    factoryOf(::UpdateRecipeUseCaseImpl) bind UpdateRecipeUseCase::class
+    factoryOf(::DeleteRecipeUseCaseImpl) bind DeleteRecipeUseCase::class
+
+    factoryOf(::DeleteRecipeInputPictureUseCaseImpl) bind DeleteRecipeInputPictureUseCase::class
   }
-  single<RecipePictureRepository> {
-    RecipePictureRepositoryImpl(
-      localSource = get(named(DataSource.LOCAL)),
-      remoteSource = get(named(DataSource.REMOTE)),
-
-      cache = get(),
-      files = get(),
-      sources = get(),
-    )
-  }
-
-  factoryOf(::ObserveRecipesUseCaseImpl) bind ObserveRecipesUseCase::class
-  factoryOf(::ObserveRecipeUseCaseImpl) bind ObserveRecipeUseCase::class
-  factoryOf(::GetRecipeUseCaseImpl) bind GetRecipeUseCase::class
-  factoryOf(::CreateRecipeUseCaseImpl) bind CreateRecipeUseCase::class
-  factoryOf(::UpdateRecipeUseCaseImpl) bind UpdateRecipeUseCase::class
-  factoryOf(::DeleteRecipeUseCaseImpl) bind DeleteRecipeUseCase::class
-
-  factoryOf(::DeleteRecipeInputPictureUseCaseImpl) bind DeleteRecipeInputPictureUseCase::class
 }

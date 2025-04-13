@@ -1,5 +1,5 @@
 plugins {
-  id("multiplatform-data-module")
+  alias(libs.plugins.module.multiplatform.data)
 }
 
 kotlin {
@@ -9,7 +9,7 @@ kotlin {
 
       implementation(projects.common.sdk.database.api.internal)
       implementation(projects.common.sdk.recipe.book.api.internal)
-      implementation(projects.common.sdk.category.api.internal)
+      implementation(projects.common.sdk.collection.api.internal)
     }
   }
 }

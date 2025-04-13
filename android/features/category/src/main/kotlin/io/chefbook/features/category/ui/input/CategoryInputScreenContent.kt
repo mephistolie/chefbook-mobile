@@ -33,7 +33,7 @@ import io.chefbook.design.theme.dimens.IconSize24
 import io.chefbook.features.category.R
 import io.chefbook.features.category.ui.input.mvi.CategoryInputScreenIntent
 import io.chefbook.features.category.ui.input.mvi.CategoryInputScreenState
-import io.chefbook.sdk.category.api.external.domain.entities.CategoryInput
+import io.chefbook.sdk.collection.api.external.domain.entities.CollectionInput
 import io.chefbook.ui.common.dialogs.StandardDialog
 import io.chefbook.core.android.R as coreR
 import io.chefbook.design.R as designR
@@ -171,7 +171,7 @@ private fun ThemedCategoryInputDialog(
   ChefBookTheme(darkTheme = isDarkTheme) {
     CategoryInputScreenContent(
       state = CategoryInputScreenState(
-        input = CategoryInput(
+        input = CollectionInput(
           name = if (isEditing) "Cupcake" else "",
         ),
         isEditing = isEditing,

@@ -1,17 +1,14 @@
 package io.chefbook.sdk.network.impl.clients
 
 import android.content.Context
-import io.chefbook.sdk.auth.api.internal.data.repositories.TokensRepository
+import io.chefbook.libs.logger.Logger
 import io.chefbook.sdk.network.impl.clients.configuration.developTrustManager
 import io.chefbook.sdk.network.impl.clients.configuration.installUserAgent
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.okhttp.OkHttp
-import io.ktor.client.plugins.auth.Auth
-import io.ktor.client.plugins.auth.providers.bearer
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.defaultRequest
 import io.ktor.client.plugins.logging.LogLevel
-import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
@@ -24,7 +21,6 @@ class ChefBookClientFactory(
 ) {
   fun create(
     isDevelop: Boolean,
-    tokensRepository: TokensRepository?,
     interceptors: List<Interceptor> = emptyList(),
   ) = HttpClient(OkHttp) {
     engine {
@@ -40,29 +36,20 @@ class ChefBookClientFactory(
     }
 
     Logging {
-      logger = object : Logger {
+      logger = object : io.ktor.client.plugins.logging.Logger {
         override fun log(message: String) =
-          io.chefbook.libs.logger.Logger.v(message.replace("%", ""))
+          Logger.v(message.replace("%", ""))
       }
       level = if (isDevelop) LogLevel.BODY else LogLevel.NONE
     }
 
     installUserAgent(context)
 
-    tokensRepository?.let {
-      Auth {
-        bearer {
-          loadTokens(tokensRepository::getTokens)
-          refreshTokens(tokensRepository::refreshTokens)
-        }
-      }
-    }
-
     install(ContentNegotiation) {
-      this.
-      json(Json {
+      this.json(Json {
         isLenient = true
-        ignoreUnknownKeys = true })
+        ignoreUnknownKeys = true
+      })
     }
 
     defaultRequest {

@@ -10,7 +10,6 @@ import io.chefbook.sdk.recipe.interaction.impl.data.sources.remote.RemoteRecipeI
 internal class RecipeInteractionRepositoryImpl(
   private val localSource: LocalRecipeInteractionSource,
   private val remoteSource: RemoteRecipeInteractionSource,
-
   private val cache: RecipesCache,
   private val sourceRepository: DataSourcesRepository,
 ) : RecipeInteractionRepository {
@@ -72,14 +71,14 @@ internal class RecipeInteractionRepositoryImpl(
     categories: List<String>
   ): EmptyResult {
     val result = if (sourceRepository.isRemoteSourceEnabled()) {
-      remoteSource.setRecipeCategories(recipeId, categories)
+      remoteSource.setRecipeCollections(recipeId, categories)
     } else {
-      localSource.setRecipeCategories(recipeId, categories)
+      localSource.setRecipeCollections(recipeId, categories)
     }
 
     if (result.isSuccess) {
-      cache.setRecipeCategories(recipeId, categories)
-      if (sourceRepository.isRemoteSourceEnabled()) localSource.setRecipeCategories(
+      cache.setRecipeCollections(recipeId, categories)
+      if (sourceRepository.isRemoteSourceEnabled()) localSource.setRecipeCollections(
         recipeId,
         categories
       )

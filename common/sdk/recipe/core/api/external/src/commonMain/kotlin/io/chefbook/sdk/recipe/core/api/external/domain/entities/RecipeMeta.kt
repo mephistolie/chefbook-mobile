@@ -2,35 +2,31 @@ package io.chefbook.sdk.recipe.core.api.external.domain.entities
 
 import io.chefbook.libs.models.language.Language
 import io.chefbook.libs.models.profile.ProfileInfo
+import io.chefbook.libs.models.visibility.Visibility
 import io.chefbook.sdk.tag.api.external.domain.entities.Tag
 import kotlin.math.max
 
-data class RecipeMeta(
-  val id: String,
+interface RecipeMeta {
+  val id: String
 
-  val owner: ProfileInfo,
+  val owner: ProfileInfo
 
-  val visibility: Visibility = Visibility.PRIVATE,
-  val isEncryptionEnabled: Boolean = false,
+  val visibility: Visibility
+  val isEncryptionEnabled: Boolean
 
-  val language: Language,
+  val language: Language
 
-  val version: Int,
-  val creationTimestamp: String? = null,
-  val updateTimestamp: String? = null,
+  val version: Int
+  val creationTimestamp: String?
+  val updateTimestamp: String?
 
-  val rating: Rating = Rating(),
+  val rating: Rating
 
-  val tags: List<Tag>,
-) {
+  val tags: List<Tag>
 
-  fun withId(id: String) = copy(id = id)
-  fun withScore(score: Int?) = copy(rating = rating.withScore(score))
-  fun withVersion(version: Int) = copy(version = version)
-
-  enum class Visibility {
-    PRIVATE, LINK, PUBLIC;
-  }
+  fun withId(id: String): RecipeMeta
+  fun withScore(score: Int?): RecipeMeta
+  fun withVersion(version: Int): RecipeMeta
 
   data class Rating(
     val index: Float = 0F,

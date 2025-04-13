@@ -14,14 +14,6 @@ interface FileRepository {
 
   suspend fun isRemoteSource(path: String): Boolean
 
-  suspend fun compressImage(
-    path: String,
-    width: Int = 1440,
-    height: Int = 1440,
-    quality: Int = 100,
-    maxFileSize: Long? = null,
-  ): Result<String>
-
   suspend fun deleteFile(path: String): EmptyResult
 
   suspend fun deleteCachedFile(relativePath: String): EmptyResult

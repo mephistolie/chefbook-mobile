@@ -1,5 +1,5 @@
 plugins {
-  id("multiplatform-network-module")
+  alias(libs.plugins.module.multiplatform.data)
 }
 
 kotlin {
@@ -10,13 +10,9 @@ kotlin {
 
       implementation(projects.common.sdk.core.api.internal)
       implementation(projects.common.sdk.network.api.internal)
-      implementation(projects.common.sdk.settings.api.internal)
       implementation(projects.common.sdk.profile.api.internal)
 
       implementation(libs.network.ktor.client.auth)
-    }
-    androidMain.dependencies {
-      implementation(libs.androidx.datastore)
     }
   }
 }
