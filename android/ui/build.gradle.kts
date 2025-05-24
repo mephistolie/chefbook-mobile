@@ -9,7 +9,8 @@ android.namespace = "io.chefbook.ui.common"
 composeDestinationsModuleName("ui")
 
 dependencies {
-  implementation(projects.common.libs.models)
+  api(projects.common.libs.models)
+
   implementation(projects.common.libs.exceptions)
 
   implementation(projects.android.core)

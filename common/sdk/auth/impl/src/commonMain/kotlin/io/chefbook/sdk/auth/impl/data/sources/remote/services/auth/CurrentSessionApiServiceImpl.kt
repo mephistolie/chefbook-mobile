@@ -11,9 +11,6 @@ import io.ktor.client.request.url
 import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.contentType
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
-import kotlinx.coroutines.withContext
 
 internal class CurrentSessionApiServiceImpl : CurrentSessionApiService {
 
@@ -21,19 +18,17 @@ internal class CurrentSessionApiServiceImpl : CurrentSessionApiService {
     client: HttpClient,
     body: RefreshTokenRequest,
   ): Result<TokensResponse> = runCatching {
-    withContext(Dispatchers.IO) {
-      val result = client.post {
-        contentType(ContentType.Application.Json)
-        url("$AUTH_ROUTE/refresh")
-        setBody(body)
-      }
-
-      if (result.status.value in 400..499 && result.status != HttpStatusCode.TooManyRequests) {
-        throw InvalidRefreshTokenException
-      }
-
-      return@withContext result.body<TokensResponse>()
+    val result = client.post {
+      contentType(ContentType.Application.Json)
+      url("$AUTH_ROUTE/refresh")
+      setBody(body)
     }
+
+    if (result.status.value in 400..499 && result.status != HttpStatusCode.TooManyRequests) {
+      throw InvalidRefreshTokenException
+    }
+
+    return@runCatching result.body<TokensResponse>()
   }
 
   companion object {

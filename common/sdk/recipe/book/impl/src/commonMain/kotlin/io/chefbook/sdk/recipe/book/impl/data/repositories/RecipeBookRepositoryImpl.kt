@@ -1,7 +1,6 @@
 package io.chefbook.sdk.recipe.book.impl.data.repositories
 
 import io.chefbook.libs.coroutines.AppDispatchers
-import io.chefbook.libs.coroutines.CoroutineScopes
 import io.chefbook.libs.encryption.AsymmetricPrivateKey
 import io.chefbook.libs.models.profile.ProfileInfo
 import io.chefbook.libs.utils.result.EmptyResult
@@ -20,16 +19,14 @@ import io.chefbook.sdk.recipe.book.api.internal.data.models.RecipeState
 import io.chefbook.sdk.recipe.book.api.internal.data.repositories.RecipeBookRepository
 import io.chefbook.sdk.recipe.book.impl.data.sources.local.LocalRecipeBookSource
 import io.chefbook.sdk.recipe.book.impl.data.sources.remote.RemoteRecipeBookSource
-import io.chefbook.sdk.recipe.core.api.external.domain.entities.DecryptedRecipe
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.DecryptedRecipeInfo
-import io.chefbook.sdk.recipe.core.api.external.domain.entities.EncryptedRecipe
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.EncryptedRecipeInfo
-import io.chefbook.sdk.recipe.core.api.external.domain.entities.Recipe
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.RecipeInfo
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.RecipeMeta
 import io.chefbook.sdk.recipe.crud.api.internal.data.sources.RecipeCrudSource
 import io.chefbook.sdk.recipe.crud.api.internal.data.sources.local.LocalRecipeCrudSource
 import io.chefbook.sdk.recipe.interaction.api.internal.data.sources.local.LocalRecipeInteractionSource
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
@@ -52,7 +49,7 @@ internal class RecipeBookRepositoryImpl(
   private val categoriesRepository: CollectionRepository,
   private val cryptor: RecipeCryptor,
   private val dispatchers: AppDispatchers,
-  private val scopes: CoroutineScopes,
+  private val profileScope: CoroutineScope,
 ) : RecipeBookRepository {
 
   private var syncDataJob: Job? = null
@@ -80,7 +77,7 @@ internal class RecipeBookRepositoryImpl(
 
   private fun launchSyncDataJob() {
     syncDataJob?.cancel()
-    syncDataJob = scopes.repository.launch {
+    syncDataJob = profileScope.launch {
       while (isActive) {
         syncData()
         delay(REFRESH_TIME_THRESHOLD)
@@ -100,18 +97,27 @@ internal class RecipeBookRepositoryImpl(
 
       val remoteRecipes = cache.getRecipeBook().recipes.map { localRecipe ->
         val recipeState = recipeBookState.recipes.find { it.id == localRecipe.id }
-        if (recipeState != null) localRecipe.withState(recipeState) else localRecipe
+        if (recipeState != null) {
+          localRecipe.withState(recipeState, recipeBookState.profiles)
+        } else {
+          localRecipe
+        }
       }
 
       cache.setRecipeBook(remoteRecipes)
       pullChanges(
         local = if (localResult.isSuccess) localResult.getOrThrow() else emptyList(),
         remote = recipeBookState,
+        profiles = recipeBookState.profiles,
       )
     }
   }
 
-  private suspend fun pullChanges(local: List<RecipeInfo>, remote: RecipeBookState) {
+  private suspend fun pullChanges(
+    local: List<RecipeInfo>,
+    remote: RecipeBookState,
+    profiles: Map<String, ProfileInfo>,
+  ) {
     for (remoteRecipe in remote.recipes) {
       val localRecipe = local.find { it.id == remoteRecipe.id }
       if (localRecipe == null || remoteRecipe.version > localRecipe.version) {
@@ -124,7 +130,8 @@ internal class RecipeBookRepositoryImpl(
           cache.putRecipe(recipe)
         }
       } else {
-        pullRecipeMetaUpdates(localRecipe, remoteRecipe)
+        val profileInfo = profiles[localRecipe.owner.id] ?: ProfileInfo(localRecipe.owner.id)
+        pullRecipeMetaUpdates(localRecipe, remoteRecipe, profileInfo)
         pullRecipeInteractions(localRecipe, remoteRecipe)
       }
     }
@@ -136,35 +143,38 @@ internal class RecipeBookRepositoryImpl(
     }
   }
 
-  private suspend fun pullRecipeMetaUpdates(local: RecipeInfo?, remote: RecipeState) {
-    val localOwner = local?.owner
-    if (localOwner?.name != remote.ownerName || localOwner?.avatar != remote.ownerAvatar) {
+  private suspend fun pullRecipeMetaUpdates(
+    local: RecipeInfo,
+    remote: RecipeState,
+    ownerInfo: ProfileInfo,
+  ) {
+    if (local.owner.name != ownerInfo.name || local.owner.avatar != ownerInfo.avatar) {
       localCrudSource.setRecipeOwnerInfo(
         recipeId = remote.id,
-        name = remote.ownerName,
-        avatar = remote.ownerAvatar,
+        name = ownerInfo.name,
+        avatar = ownerInfo.avatar,
       )
     }
-    if (local?.tags != remote.tags) {
+    if (local.tags != remote.tags) {
       localCrudSource.setRecipeTags(remote.id, remote.tags)
     }
   }
 
-  private suspend fun pullRecipeInteractions(local: RecipeInfo?, remote: RecipeState) {
-    if (local?.rating != remote.rating) {
+  private suspend fun pullRecipeInteractions(local: RecipeInfo, remote: RecipeState) {
+    if (local.rating != remote.rating) {
       localInteractionSource.setRecipeRating(remote.id, remote.rating)
     }
 
-    if (local?.isFavourite != remote.isFavourite) {
+    if (local.isFavourite != remote.isFavourite) {
       localInteractionSource.setRecipeFavouriteStatus(remote.id, remote.isFavourite)
     }
 
-    if (local?.isFavourite != remote.isFavourite) {
+    if (local.isFavourite != remote.isFavourite) {
       localInteractionSource.setRecipeFavouriteStatus(remote.id, remote.isFavourite)
     }
 
-    val localCategoriesIds = local?.collections?.map { it.id } ?: emptyList()
-    val remoteCategoriesIds = remote.categories.map { it.id }
+    val localCategoriesIds = local.collections.map { it.id }
+    val remoteCategoriesIds = remote.collections.map { it.id }
     if (localCategoriesIds.any { it !in remoteCategoriesIds } || remoteCategoriesIds.any { it !in localCategoriesIds }) {
       localInteractionSource.setRecipeCollections(remote.id, remoteCategoriesIds)
     }
@@ -177,8 +187,6 @@ internal class RecipeBookRepositoryImpl(
         return@map when (recipe) {
           is DecryptedRecipeInfo -> recipe
           is EncryptedRecipeInfo -> decryptRecipe(recipe, vaultKey)
-          is DecryptedRecipe -> recipe
-          is EncryptedRecipe -> decryptRecipe(recipe.info, vaultKey)
         }
       })
     }
@@ -196,7 +204,7 @@ internal class RecipeBookRepositoryImpl(
 
   private fun launchUpdateEncryptionStateJob() {
     updateEncryptionStateJob?.cancel()
-    updateEncryptionStateJob = scopes.repository.launch {
+    updateEncryptionStateJob = profileScope.launch {
       encryptedVaultRepository.observeEncryptedVaultState()
         .collect { state ->
           when (state) {
@@ -225,11 +233,11 @@ internal class RecipeBookRepositoryImpl(
     }
   }
 
-  override suspend fun clearLocalData(exceptProfileId: String?): EmptyResult {
+  override suspend fun clearUnusedRecipes(): EmptyResult {
     syncDataJob?.cancel()?.also { syncDataJob = null }
     updateEncryptionStateJob?.cancel().also { updateEncryptionStateJob = null }
 
-    val result = localSource.clearData(exceptProfileId)
+    val result = localSource.clearUnused()
     cache.clear()
 
     return result
@@ -240,13 +248,12 @@ internal class RecipeBookRepositoryImpl(
   }
 }
 
-private fun RecipeInfo.withState(state: RecipeState): RecipeInfo {
+private fun RecipeInfo.withState(
+  state: RecipeState,
+  profiles: Map<String, ProfileInfo>,
+): RecipeInfo {
   val meta = meta.copy(
-    owner = ProfileInfo(
-      id = meta.owner.id,
-      name = state.ownerName,
-      avatar = state.ownerAvatar,
-    ),
+    owner = profiles[meta.owner.id] ?: ProfileInfo(meta.owner.id),
     rating = RecipeMeta.Rating(
       index = state.rating.index,
       score = state.rating.score,
@@ -258,19 +265,15 @@ private fun RecipeInfo.withState(state: RecipeState): RecipeInfo {
     is RecipeInfo.Decrypted -> copy(
       meta = meta,
       preview = preview,
-      collections = state.categories,
+      collections = state.collections,
       isFavourite = state.isFavourite,
     )
 
     is RecipeInfo.Encrypted -> copy(
       meta = meta,
       preview = preview,
-      collections = state.categories,
+      collections = state.collections,
       isFavourite = state.isFavourite,
     )
-
-    is Recipe.Decrypted -> copy(info = info.withState(state) as DecryptedRecipeInfo)
-
-    is Recipe.Encrypted -> copy(info = info.withState(state) as EncryptedRecipeInfo)
   }
 }

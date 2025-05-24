@@ -9,13 +9,13 @@ import io.ktor.client.request.forms.submitFormWithBinaryData
 import io.ktor.client.request.get
 import io.ktor.client.request.url
 import io.ktor.client.statement.bodyAsChannel
-import io.ktor.util.toByteArray
+import io.ktor.utils.io.toByteArray
 
 internal class FileApiServiceImpl(
   private val client: HttpClient,
 ) : FileApiService {
 
-  override suspend fun getFile(url: String) = runCatching {
+  override suspend fun getFile(url: String): Result<ByteArray> = runCatching {
     client.get { url(url) }.bodyAsChannel().toByteArray()
   }
 

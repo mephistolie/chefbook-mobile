@@ -152,7 +152,7 @@ internal fun RecipeBookSearchScreenContent(
               ) {
                 for (category in state.categories) {
                   DynamicButton(
-                    text = ((category.emoji ?: "") + " ${category.name}").trim(),
+                    text = category.name,
                     onClick = { onIntent(RecipeBookSearchScreenIntent.OpenCategoryScreen(category.id)) },
                     modifier = Modifier.height(38.dp),
                     cornerRadius = 12.dp,

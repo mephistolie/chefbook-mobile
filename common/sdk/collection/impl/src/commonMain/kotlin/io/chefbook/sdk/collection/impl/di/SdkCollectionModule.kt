@@ -1,7 +1,7 @@
 package io.chefbook.sdk.collection.impl.di
 
 import io.chefbook.libs.di.qualifiers.DataSource
-import io.chefbook.libs.di.scopes.ProfileScope
+import io.chefbook.libs.di.scopes.ProfileComponent
 import io.chefbook.sdk.collection.api.external.domain.usecases.CreateCollectionUseCase
 import io.chefbook.sdk.collection.api.external.domain.usecases.DeleteCollectionUseCase
 import io.chefbook.sdk.collection.api.external.domain.usecases.GetCollectionsUseCase
@@ -35,7 +35,7 @@ import org.koin.dsl.module
 
 fun sdkCollectionModule() = module {
 
-  scope<ProfileScope> {
+  scope<ProfileComponent> {
 
     scopedOf(::CollectionsCacheImpl) binds arrayOf(
       CollectionsCache::class,
@@ -45,9 +45,9 @@ fun sdkCollectionModule() = module {
 
     scopedOf(::CollectionApiServiceImpl) bind CollectionApiService::class
 
-    scoped<LocalCollectionSource>(named(DataSource.LOCAL)) { params ->
+    scoped<LocalCollectionSource>(named(DataSource.LOCAL)) {
       LocalCollectionSourceImpl(
-        profileId = params[ProfileScope.PARAM_PROFILE_ID],
+        profileId = get<ProfileComponent>().profileId,
         database = get(),
       )
     }
@@ -65,7 +65,7 @@ fun sdkCollectionModule() = module {
         profileRepository = get(),
         sources = get(),
         cache = get(),
-        scopes = get(),
+        profileScope = get<ProfileComponent>().coroutineScope,
         dispatchers = get(),
       )
     }

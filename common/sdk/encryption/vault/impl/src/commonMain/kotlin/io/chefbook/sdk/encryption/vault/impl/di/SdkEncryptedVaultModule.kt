@@ -1,7 +1,7 @@
 package io.chefbook.sdk.encryption.vault.impl.di
 
 import io.chefbook.libs.di.qualifiers.DataSource
-import io.chefbook.libs.di.scopes.ProfileScope
+import io.chefbook.libs.di.scopes.ProfileComponent
 import io.chefbook.sdk.encryption.vault.api.external.domain.usecases.CreateEncryptedVaultUseCase
 import io.chefbook.sdk.encryption.vault.api.external.domain.usecases.DeleteEncryptedVaultUseCase
 import io.chefbook.sdk.encryption.vault.api.external.domain.usecases.GetEncryptedVaultStateUseCase
@@ -30,14 +30,14 @@ import org.koin.dsl.module
 
 fun sdkEncryptedVaultModule() = module {
 
-  scope<ProfileScope> {
+  scope<ProfileComponent> {
 
     scopedOf(::EncryptedVaultApiServiceImpl) bind EncryptedVaultApiService::class
 
-    scoped<LocalEncryptedVaultSource>(named(DataSource.LOCAL)) { params ->
+    scoped<LocalEncryptedVaultSource>(named(DataSource.LOCAL)) {
       getProperty<String>("")
       LocalEncryptedVaultSourceImpl(
-        profileId = params[ProfileScope.PARAM_PROFILE_ID],
+        profileId = get<ProfileComponent>().profileId,
         io = get(),
         dispatchers = get(),
       )
@@ -55,20 +55,20 @@ fun sdkEncryptedVaultModule() = module {
         remoteSource = get(named(DataSource.REMOTE)),
         sources = get(),
         dispatchers = get(),
-        scopes = get(),
+        profileScope = get<ProfileComponent>().coroutineScope,
       )
     }
 
-    factory<CreateEncryptedVaultUseCase> { params ->
+    factory<CreateEncryptedVaultUseCase> {
       CreateEncryptedVaultUseCaseImpl(
-        profileId = params[ProfileScope.PARAM_PROFILE_ID],
+        profileId = get<ProfileComponent>().profileId,
         encryptionRepository = get(),
       )
     }
 
-    factory<UnlockEncryptedVaultUseCase> { params ->
+    factory<UnlockEncryptedVaultUseCase> {
       UnlockEncryptedVaultUseCaseImpl(
-        profileId = params[ProfileScope.PARAM_PROFILE_ID],
+        profileId = get<ProfileComponent>().profileId,
         encryptionRepository = get(),
       )
     }

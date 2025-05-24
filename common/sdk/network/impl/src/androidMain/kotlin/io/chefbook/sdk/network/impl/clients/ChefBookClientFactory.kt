@@ -49,6 +49,7 @@ class ChefBookClientFactory(
       this.json(Json {
         isLenient = true
         ignoreUnknownKeys = true
+        coerceInputValues = true
       })
     }
 

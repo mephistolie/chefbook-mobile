@@ -1,7 +1,6 @@
 package io.chefbook.sdk.shoppinglist.impl.data.repositories
 
 import io.chefbook.libs.coroutines.AppDispatchers
-import io.chefbook.libs.coroutines.CoroutineScopes
 import io.chefbook.libs.exceptions.ServerException
 import io.chefbook.libs.exceptions.notFoundResult
 import io.chefbook.libs.utils.result.EmptyResult
@@ -16,6 +15,7 @@ import io.chefbook.sdk.shoppinglist.api.internal.data.repositories.ShoppingListR
 import io.chefbook.sdk.shoppinglist.impl.data.sources.local.LocalShoppingListDataSource
 import io.chefbook.sdk.shoppinglist.impl.data.sources.local.PendingUploadsDataSource
 import io.chefbook.sdk.shoppinglist.impl.data.sources.remote.RemoteShoppingListDataSource
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
@@ -34,7 +34,7 @@ internal class ShoppingListRepositoryImpl(
   private val remoteSource: RemoteShoppingListDataSource,
   private val pendingUploads: PendingUploadsDataSource,
   private val sources: DataSourcesRepository,
-  private val scopes: CoroutineScopes,
+  private val profileScope: CoroutineScope,
   private val dispatchers: AppDispatchers,
 ) : ShoppingListRepository {
 
@@ -122,7 +122,7 @@ internal class ShoppingListRepositoryImpl(
     launchSyncJob = launchSyncDataJob(timeout)
   }
 
-  private fun launchSyncDataJob(timeout: Long) = scopes.repository.launch {
+  private fun launchSyncDataJob(timeout: Long) = profileScope.launch {
     while (isActive) {
       syncData()
       delay(timeout)

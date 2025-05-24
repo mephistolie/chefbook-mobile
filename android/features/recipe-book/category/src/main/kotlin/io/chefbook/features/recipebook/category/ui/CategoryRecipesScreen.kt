@@ -33,15 +33,15 @@ fun CategoryRecipesScreen(
     if (navResult is NavResult.Value) {
       when (val result = navResult.value) {
         is CategoryActionResult.Updated -> {
-          viewModel.handleIntent(
-            CategoryScreenIntent.OnCategoryUpdated(
-              io.chefbook.sdk.collection.api.external.domain.entities.Collection(
-                id = result.id,
-                name = result.name,
-                emoji = result.cover,
-              )
-            )
-          )
+//          viewModel.handleIntent(
+//            CategoryScreenIntent.OnCategoryUpdated(
+//              io.chefbook.sdk.collection.api.external.domain.entities.Collection(
+//                id = result.id,
+//                name = result.name,
+//                emoji = null,
+//              )
+//            )
+//          )
         }
 
         is CategoryActionResult.Deleted -> viewModel.handleIntent(CategoryScreenIntent.Back)

@@ -18,7 +18,7 @@ enum class Visibility {
     private const val VISIBILITY_PUBLIC = "public"
 
     fun deserialize(visibility: String?): Visibility =
-      when (visibility) {
+      when (visibility?.lowercase()) {
         VISIBILITY_PUBLIC -> PUBLIC
         VISIBILITY_LINK -> LINK
         else -> PRIVATE

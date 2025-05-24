@@ -1,11 +1,11 @@
 package io.chefbook.sdk.profile.impl.data.repositories
 
-import io.chefbook.libs.coroutines.CoroutineScopes
 import io.chefbook.sdk.auth.api.internal.data.models.Session
 import io.chefbook.sdk.auth.api.internal.data.repositories.SessionsRepository
 import io.chefbook.sdk.profile.api.external.domain.entities.Profile
 import io.chefbook.sdk.profile.api.internal.data.repositories.ProfilesRepository
 import io.chefbook.sdk.profile.impl.data.sources.local.LocalProfilesSource
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -16,7 +16,7 @@ class ProfilesRepositoryImpl(
   private val pulledProfilesRepository: PulledProfilesRepository,
   localSource: LocalProfilesSource,
   sessionsRepository: SessionsRepository,
-  scopes: CoroutineScopes,
+  appScope: CoroutineScope,
 ) : ProfilesRepository {
 
   private val profilesFlow = combine(
@@ -39,7 +39,7 @@ class ProfilesRepositoryImpl(
     return@combine profiles
   }
     .distinctUntilChanged()
-    .shareIn(scopes.repository, SharingStarted.Lazily, replay = 1)
+    .shareIn(appScope, SharingStarted.Lazily, replay = 1)
 
   override fun observeProfiles() = profilesFlow
 

@@ -56,15 +56,15 @@ SELECT
     recipes.recipeId, recipes.name,
     recipes.ownerId, recipes.ownerName, recipes.ownerAvatar,
     (recipesProfiles.profileId == recipes.ownerId) AS owned, recipes.visibility, recipes.encrypted,
-    recipes.language, recipes.description,
+    recipes.language,
     recipes.creationTimestamp, recipes.updateTimestamp, recipes.version,
     recipes.rating, recipesScores.score, recipes.votes,
-    recipes.tags, recipesProfiles.favourite,
+    recipes.tags, COALESCE(recipesProfiles.favourite, 0) AS favourite,
     recipes.servings, recipes.time,
-    recipes.calories, recipes.protein, recipes.fats, recipes.carbohydrates,
-    recipes.ingredients, recipes.cooking, recipes.pictures
-FROM recipesProfiles
-LEFT JOIN recipes ON recipes.recipeId = recipesProfiles.recipeId
+    recipes.calories,
+    recipes.pictures
+FROM recipes
+LEFT JOIN recipesProfiles ON recipes.recipeId = recipesProfiles.recipeId
 LEFT JOIN recipesScores ON recipesScores.recipeId = recipesProfiles.recipeId AND recipesScores.profileId = recipesProfiles.profileId
 WHERE recipesProfiles.profileId = ?;
 

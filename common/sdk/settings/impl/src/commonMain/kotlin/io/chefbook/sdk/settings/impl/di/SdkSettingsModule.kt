@@ -1,8 +1,6 @@
 package io.chefbook.sdk.settings.impl.di
 
-import androidx.datastore.core.DataStore
 import io.chefbook.libs.di.qualifiers.DataSource
-import io.chefbook.sdk.database.api.internal.ChefBookDataStoreFactory
 import io.chefbook.sdk.settings.api.external.domain.usecases.ObserveCommunityRecipesLanguagesUseCase
 import io.chefbook.sdk.settings.api.external.domain.usecases.GetDefaultRecipeLanguageUseCase
 import io.chefbook.sdk.settings.api.external.domain.usecases.GetSettingsUseCase
@@ -17,8 +15,8 @@ import io.chefbook.sdk.settings.api.internal.data.repositories.SettingsRepositor
 import io.chefbook.sdk.settings.impl.data.repositories.SettingsRepositoryImpl
 import io.chefbook.sdk.settings.impl.data.sources.SettingsDataSource
 import io.chefbook.sdk.settings.impl.data.sources.local.LocalSettingsDataSourceImpl
-import io.chefbook.sdk.settings.impl.data.sources.local.datastore.SettingsSerializer
-import io.chefbook.sdk.settings.impl.data.sources.local.datastore.dto.SettingsSerializable
+import io.chefbook.sdk.settings.impl.data.sources.local.datastore.SettingsDataStore
+import io.chefbook.sdk.settings.impl.data.sources.local.datastore.SettingsDataStoreImpl
 import io.chefbook.sdk.settings.impl.domain.usecases.ObserveCommunityRecipesLanguagesUseCaseImpl
 import io.chefbook.sdk.settings.impl.domain.usecases.GetDefaultRecipeLanguageUseCaseImpl
 import io.chefbook.sdk.settings.impl.domain.usecases.GetSettingsUseCaseImpl
@@ -29,7 +27,6 @@ import io.chefbook.sdk.settings.impl.domain.usecases.SetCommunityRecipesLanguage
 import io.chefbook.sdk.settings.impl.domain.usecases.SetDefaultRecipeLanguageUseCaseImpl
 import io.chefbook.sdk.settings.impl.domain.usecases.SetEnvironmentUseCaseImpl
 import io.chefbook.sdk.settings.impl.domain.usecases.SetOpenSavedRecipeExpandedUseCaseImpl
-import org.koin.core.module.Module
 import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.singleOf
 import org.koin.core.qualifier.named
@@ -40,7 +37,7 @@ fun sdkSettingsModule() = module {
 
   includes(iconSwitcherModule())
 
-  singleOf(::settingsDataStore)
+  singleOf(::SettingsDataStoreImpl) bind SettingsDataStore::class
 
   single<SettingsDataSource>(named(DataSource.LOCAL)) {
     LocalSettingsDataSourceImpl(
@@ -66,13 +63,3 @@ fun sdkSettingsModule() = module {
   factoryOf(::ObserveCommunityRecipesLanguagesUseCaseImpl) bind ObserveCommunityRecipesLanguagesUseCase::class
   factoryOf(::SetCommunityRecipesLanguagesUseCaseImpl) bind SetCommunityRecipesLanguagesUseCase::class
 }
-
-private fun settingsDataStore(
-  factory: ChefBookDataStoreFactory,
-): DataStore<SettingsSerializable> =
-  factory.create(
-    fileName = "settings.json",
-    serializer = SettingsSerializer,
-  )
-
-expect fun iconSwitcherModule(): Module

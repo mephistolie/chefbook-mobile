@@ -9,7 +9,7 @@ import com.ramcosta.composedestinations.result.NavResult
 import com.ramcosta.composedestinations.result.OpenResultRecipient
 import com.ramcosta.composedestinations.result.ResultBackNavigator
 import io.chefbook.features.category.R
-import io.chefbook.features.category.ui.input.mvi.CategoryInputScreenEffect
+import io.chefbook.features.category.ui.input.mvi.CollectionInputScreenEffect
 import io.chefbook.features.category.ui.input.mvi.CategoryInputScreenIntent
 import io.chefbook.navigation.navigators.DialogNavigator
 import io.chefbook.navigation.params.dialogs.TwoButtonsDialogParams
@@ -48,28 +48,28 @@ fun CategoryInputScreen(
   LaunchedEffect(Unit) {
     viewModel.effect.collect { effect ->
       when (effect) {
-        is CategoryInputScreenEffect.Cancel -> categoryInputResultNavigator.navigateBack()
-        is CategoryInputScreenEffect.CategoryCreated -> {
+        is CollectionInputScreenEffect.Cancel -> categoryInputResultNavigator.navigateBack()
+        is CollectionInputScreenEffect.CollectionCreated -> {
           categoryInputResultNavigator.navigateBack(
             result = CategoryActionResult.Created(
               id = effect.collection.id,
               name = effect.collection.name,
-              cover = effect.collection.emoji,
+              cover = null,
             )
           )
         }
 
-        is CategoryInputScreenEffect.CategoryUpdated -> {
+        is CollectionInputScreenEffect.CollectionUpdated -> {
           categoryInputResultNavigator.navigateBack(
             result = CategoryActionResult.Updated(
               id = effect.collection.id,
               name = effect.collection.name,
-              cover = effect.collection.emoji,
+              cover = null,
             )
           )
         }
 
-        is CategoryInputScreenEffect.OpenDeleteConfirmation -> {
+        is CollectionInputScreenEffect.OpenDeleteConfirmation -> {
           categoryInputDialogNavigator.openTwoButtonsDialog(
             TwoButtonsDialogParams(
               descriptionId = R.string.common_category_screen_category_delete_warning
@@ -77,7 +77,7 @@ fun CategoryInputScreen(
           )
         }
 
-        is CategoryInputScreenEffect.CategoryDeleted -> {
+        is CollectionInputScreenEffect.CollectionDeleted -> {
           categoryInputResultNavigator.navigateBack(result = CategoryActionResult.Deleted(categoryId = effect.categoryId))
         }
       }

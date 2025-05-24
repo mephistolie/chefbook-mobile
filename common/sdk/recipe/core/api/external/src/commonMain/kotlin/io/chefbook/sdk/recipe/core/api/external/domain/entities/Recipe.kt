@@ -5,7 +5,7 @@ import io.chefbook.libs.models.measureunit.MeasureUnit
 typealias DecryptedRecipe = Recipe.Decrypted
 typealias EncryptedRecipe = Recipe.Encrypted
 
-sealed interface Recipe : RecipeInfo {
+sealed interface Recipe : RecipeInfoDelegate {
 
   val info: RecipeInfo
   val macronutrients: Macronutrients?
@@ -16,13 +16,13 @@ sealed interface Recipe : RecipeInfo {
         macronutrients?.fats != null ||
         macronutrients?.carbohydrates != null
 
-  override fun withSavedStatus(isSaved: Boolean): Recipe
-  override fun withCollections(collections: List<CollectionInfo>): Recipe
-  override fun withFavouriteStatus(isFavourite: Boolean): Recipe
+  fun withSavedStatus(isSaved: Boolean): Recipe
+  fun withCollections(collections: List<CollectionInfo>): Recipe
+  fun withFavouriteStatus(isFavourite: Boolean): Recipe
 
-  override fun withId(id: String): Recipe
-  override fun withScore(score: Int?): Recipe
-  override fun withVersion(version: Int): Recipe
+  fun withId(id: String): Recipe
+  fun withScore(score: Int?): Recipe
+  fun withVersion(version: Int): Recipe
 
   data class Decrypted(
     override val info: DecryptedRecipeInfo,
@@ -31,7 +31,7 @@ sealed interface Recipe : RecipeInfo {
     val description: String?,
     val ingredients: List<IngredientsItem>,
     val cooking: List<CookingItem>,
-  ) : Recipe, RecipeInfo by info {
+  ) : Recipe, RecipeInfoDelegate by info {
 
     override fun withSavedStatus(isSaved: Boolean) =
       copy(info = info.withSavedStatus(isSaved))
@@ -91,7 +91,7 @@ sealed interface Recipe : RecipeInfo {
     val ingredients: String,
     val cooking: String,
     val cookingPictures: Map<String, List<String>>,
-  ) : Recipe, RecipeInfo by info {
+  ) : Recipe, RecipeInfoDelegate by info {
 
     override fun withSavedStatus(isSaved: Boolean) =
       copy(info = info.withSavedStatus(isSaved))

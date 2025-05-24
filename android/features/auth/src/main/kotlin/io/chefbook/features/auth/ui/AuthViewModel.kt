@@ -39,11 +39,11 @@ internal class AuthViewModel(
   private val signInUseCase: SignInUseCase,
   private val signInGoogleUseCase: SignInGoogleUseCase,
   private val activateProfileUseCase: ActivateProfileUseCase,
-  private val requestPasswordResetUseCase: RequestPasswordResetUseCase,
-  private val resetPasswordUseCase: ResetPasswordUseCase,
-  private val observeProfileDeletionUseCase: ObserveProfileDeletionUseCase,
-  private val restoreProfileUseCase: RestoreProfileUseCase,
-  private val signOutUseCase: SignOutUseCase,
+//  private val requestPasswordResetUseCase: RequestPasswordResetUseCase,
+//  private val resetPasswordUseCase: ResetPasswordUseCase,
+//  private val observeProfileDeletionUseCase: ObserveProfileDeletionUseCase,
+//  private val restoreProfileUseCase: RestoreProfileUseCase,
+//  private val signOutUseCase: SignOutUseCase,
   private val googleAuthenticator: GoogleAuthenticator,
 ) : BaseMviViewModel<AuthScreenState, AuthScreenIntent, AuthScreenEffect>(), KoinComponent {
 
@@ -70,15 +70,15 @@ internal class AuthViewModel(
   }
 
   private suspend fun observeProfileDeletion() {
-    observeProfileDeletionUseCase()
-      .collectInViewModelScope { deletionTimestamp ->
-        when {
-          deletionTimestamp != null ->
-            _state.emit(AuthScreenState.ProfileRestoration(deletionTimestamp))
-
-          _state.value is AuthScreenState.ProfileRestoration -> _state.update { getSignInState() }
-        }
-      }
+//    observeProfileDeletionUseCase()
+//      .collectInViewModelScope { deletionTimestamp ->
+//        when {
+//          deletionTimestamp != null ->
+//            _state.emit(AuthScreenState.ProfileRestoration(deletionTimestamp))
+//
+//          _state.value is AuthScreenState.ProfileRestoration -> _state.update { getSignInState() }
+//        }
+//      }
   }
 
   override suspend fun reduceIntent(intent: AuthScreenIntent) {
@@ -109,7 +109,7 @@ internal class AuthViewModel(
 
       is AuthScreenIntent.RestoreProfile -> restoreProfile()
       is AuthScreenIntent.OpenSignOutConfirmationScreen -> _effect.emit(AuthScreenEffect.SignOutConfirmationScreenOpened)
-      is AuthScreenIntent.SignOut -> signOutUseCase()
+      is AuthScreenIntent.SignOut -> Unit // signOutUseCase()
     }
   }
 
@@ -257,9 +257,9 @@ internal class AuthViewModel(
 
   private suspend fun requestPasswordReset() {
     _state.emit(AuthScreenState.Loading)
-    requestPasswordResetUseCase.invoke(login)
-      .onSuccess { _state.update { getPasswordResetState() } }
-      .onFailure { _state.update { getSignInPasswordState() } }
+//    requestPasswordResetUseCase.invoke(login)
+//      .onSuccess { _state.update { getPasswordResetState() } }
+//      .onFailure { _state.update { getSignInPasswordState() } }
   }
 
   private suspend fun confirmPasswordReset() {
@@ -270,12 +270,12 @@ internal class AuthViewModel(
     if (validatePassword(password, passwordValidation) != PasswordRating.VALID) return
 
     _state.emit(AuthScreenState.Loading)
-    resetPasswordUseCase.invoke(userId = userId, code = passwordResetCode, newPassword = password)
-      .onSuccess {
-        showToast(R.string.common_auth_screen_password_reset)
-        _state.update { getSignInState() }
-      }
-      .onFailure { _state.update { getPasswordResetConfirmationState() } }
+//    resetPasswordUseCase.invoke(userId = userId, code = passwordResetCode, newPassword = password)
+//      .onSuccess {
+//        showToast(R.string.common_auth_screen_password_reset)
+//        _state.update { getSignInState() }
+//      }
+//      .onFailure { _state.update { getPasswordResetConfirmationState() } }
   }
 
   private suspend fun signInLocally() {

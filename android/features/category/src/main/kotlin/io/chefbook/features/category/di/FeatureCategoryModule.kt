@@ -7,7 +7,7 @@ import org.koin.dsl.module
 fun featureCategoryModule() = module {
   viewModel { (categoryId: String?) ->
     CategoryInputScreenViewModel(
-      categoryId = categoryId,
+      collectionId = categoryId,
       get(),
       get(),
       get(),

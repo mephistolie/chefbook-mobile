@@ -1,7 +1,7 @@
 package io.chefbook.sdk.recipe.crud.impl.di
 
 import io.chefbook.libs.di.qualifiers.DataSource
-import io.chefbook.libs.di.scopes.ProfileScope
+import io.chefbook.libs.di.scopes.ProfileComponent
 import io.chefbook.sdk.recipe.crud.api.external.domain.usecases.CreateRecipeUseCase
 import io.chefbook.sdk.recipe.crud.api.external.domain.usecases.DeleteRecipeInputPictureUseCase
 import io.chefbook.sdk.recipe.crud.api.external.domain.usecases.DeleteRecipeUseCase
@@ -34,21 +34,20 @@ import io.chefbook.sdk.recipe.crud.impl.domain.ObserveRecipesUseCaseImpl
 import io.chefbook.sdk.recipe.crud.impl.domain.UpdateRecipeUseCaseImpl
 import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.scopedOf
-import org.koin.core.module.dsl.singleOf
 import org.koin.core.qualifier.named
 import org.koin.dsl.bind
 import org.koin.dsl.module
 
 fun sdkRecipeCrudModule() = module {
 
-  scope<ProfileScope> {
+  scope<ProfileComponent> {
 
     scopedOf(::RecipeCrudApiServiceImpl) bind RecipeCrudApiService::class
     scopedOf(::RecipePicturesApiServiceImpl) bind RecipePicturesApiService::class
 
-    scoped<LocalRecipeCrudSource>(named(DataSource.LOCAL)) { params ->
+    scoped<LocalRecipeCrudSource>(named(DataSource.LOCAL)) {
       LocalRecipeCrudSourceImpl(
-        profileId = params[ProfileScope.PARAM_PROFILE_ID],
+        profileId = get<ProfileComponent>().profileId,
         database = get(),
       )
     }
@@ -83,7 +82,6 @@ fun sdkRecipeCrudModule() = module {
         profileRepository = get(),
         sources = get(),
         cryptor = get(),
-        scopes = get(),
       )
     }
 

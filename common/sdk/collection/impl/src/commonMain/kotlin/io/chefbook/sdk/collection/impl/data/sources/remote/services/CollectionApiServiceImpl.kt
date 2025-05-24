@@ -4,6 +4,7 @@ import io.chefbook.sdk.collection.impl.data.sources.remote.services.dto.CreateCo
 import io.chefbook.sdk.collection.impl.data.sources.remote.services.dto.CreateCollectionResponseBody
 import io.chefbook.sdk.collection.impl.data.sources.remote.services.dto.GetCollectionResponseBody
 import io.chefbook.sdk.collection.impl.data.sources.remote.services.dto.GetCollectionsResponseBody
+import io.chefbook.sdk.collection.impl.data.sources.remote.services.dto.SaveCollectionRequestBody
 import io.chefbook.sdk.collection.impl.data.sources.remote.services.dto.UpdateCollectionRequestBody
 import io.chefbook.sdk.network.api.internal.service.ApiService
 import io.chefbook.sdk.network.api.internal.service.dto.responses.MessageResponse
@@ -37,6 +38,17 @@ internal class CollectionApiServiceImpl(
     collectionId: String,
   ): Result<MessageResponse> =
     safeDelete("$COLLECTIONS_ROUTE/$collectionId")
+
+  override suspend fun saveCollection(
+    collectionId: String,
+    body: SaveCollectionRequestBody,
+  ): Result<MessageResponse> =
+    safePost("$COLLECTIONS_ROUTE/$collectionId/save") { setBody(body) }
+
+  override suspend fun removeCollectionFromRecipeBook(
+    collectionId: String,
+  ): Result<MessageResponse> =
+    safeDelete("$COLLECTIONS_ROUTE/$collectionId/save")
 
   companion object {
     private const val COLLECTIONS_ROUTE = "/v1/collections"

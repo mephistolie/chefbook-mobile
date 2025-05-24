@@ -4,5 +4,5 @@ interface LocalDataRepository {
 
   suspend fun refreshData()
 
-  suspend fun clearLocalData()
+  suspend fun clearLocalData(profileId: String)
 }

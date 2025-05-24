@@ -1,9 +1,7 @@
 package io.chefbook.sdk.shoppinglist.impl.di
 
-import androidx.datastore.core.DataStore
 import io.chefbook.libs.di.qualifiers.DataSource
-import io.chefbook.libs.di.scopes.ProfileScope
-import io.chefbook.sdk.database.api.internal.ChefBookDataStoreFactory
+import io.chefbook.libs.di.scopes.ProfileComponent
 import io.chefbook.sdk.shoppinglist.api.external.domain.usecases.AddToShoppingListUseCase
 import io.chefbook.sdk.shoppinglist.api.external.domain.usecases.CreatePurchaseUseCase
 import io.chefbook.sdk.shoppinglist.api.external.domain.usecases.GetShoppingListUseCase
@@ -18,9 +16,10 @@ import io.chefbook.sdk.shoppinglist.impl.data.sources.local.LocalShoppingListDat
 import io.chefbook.sdk.shoppinglist.impl.data.sources.local.LocalShoppingListDataSourceImpl
 import io.chefbook.sdk.shoppinglist.impl.data.sources.local.PendingUploadsDataSource
 import io.chefbook.sdk.shoppinglist.impl.data.sources.local.PendingUploadsDataSourceImpl
-import io.chefbook.sdk.shoppinglist.impl.data.sources.local.datastore.PendingUploadsSerializer
-import io.chefbook.sdk.shoppinglist.impl.data.sources.local.datastore.ShoppingListsSerializer
-import io.chefbook.sdk.shoppinglist.impl.data.sources.local.datastore.dto.ShoppingListSerializable
+import io.chefbook.sdk.shoppinglist.impl.data.sources.local.datastore.PendingUploadsDataStore
+import io.chefbook.sdk.shoppinglist.impl.data.sources.local.datastore.PendingUploadsDataStoreImpl
+import io.chefbook.sdk.shoppinglist.impl.data.sources.local.datastore.ShoppingListsDataStore
+import io.chefbook.sdk.shoppinglist.impl.data.sources.local.datastore.ShoppingListsDataStoreImpl
 import io.chefbook.sdk.shoppinglist.impl.data.sources.remote.RemoteShoppingListDataSource
 import io.chefbook.sdk.shoppinglist.impl.data.sources.remote.RemoteShoppingListDataSourceImpl
 import io.chefbook.sdk.shoppinglist.impl.data.sources.remote.api.ShoppingListApiService
@@ -44,18 +43,18 @@ import org.koin.dsl.module
 
 fun sdkShoppingListModule() = module {
 
-  singleOf(::shoppingListsDataStore)
-  singleOf(::pendingUploadsDataStore)
+  singleOf(::ShoppingListsDataStoreImpl) bind ShoppingListsDataStore::class
+  singleOf(::PendingUploadsDataStoreImpl) bind PendingUploadsDataStore::class
 
-  scope<ProfileScope> {
+  scope<ProfileComponent> {
 
     scopedOf(::ShoppingListApiServiceImpl) bind ShoppingListApiService::class
 
     scopedOf(::ShoppingListUsersApiServiceImpl) bind ShoppingListUsersApiService::class
 
-    scoped<LocalShoppingListDataSource>(named(DataSource.LOCAL)) { params ->
+    scoped<LocalShoppingListDataSource>(named(DataSource.LOCAL)) {
       LocalShoppingListDataSourceImpl(
-        profileId = params[ProfileScope.PARAM_PROFILE_ID],
+        profileId = get<ProfileComponent>().profileId,
         dataStore = get(),
       )
     }
@@ -78,7 +77,7 @@ fun sdkShoppingListModule() = module {
         remoteSource = get(named(DataSource.REMOTE)),
         pendingUploads = get(named(DataSource.LOCAL)),
         sources = get(),
-        scopes = get(),
+        profileScope = get<ProfileComponent>().coroutineScope,
         dispatchers = get(),
       )
     }
@@ -93,19 +92,3 @@ fun sdkShoppingListModule() = module {
     factoryOf(::AddToShoppingListUseCaseImpl) bind AddToShoppingListUseCase::class
   }
 }
-
-private fun shoppingListsDataStore(
-  factory: ChefBookDataStoreFactory,
-): DataStore<Map<String, List<ShoppingListSerializable>>> =
-  factory.create(
-    fileName = "shopping_lists.json",
-    serializer = ShoppingListsSerializer,
-  )
-
-private fun pendingUploadsDataStore(
-  factory: ChefBookDataStoreFactory,
-): DataStore<Set<String>> =
-  factory.create(
-    fileName = "shopping_lists_pending_uploads.json",
-    serializer = PendingUploadsSerializer,
-  )

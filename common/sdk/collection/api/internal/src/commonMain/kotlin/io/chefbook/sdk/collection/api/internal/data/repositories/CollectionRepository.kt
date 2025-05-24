@@ -21,5 +21,5 @@ interface CollectionRepository {
 
   suspend fun deleteCollection(collectionId: String): EmptyResult
 
-  suspend fun clearUnusedData(): EmptyResult
+  suspend fun clearUnusedCollections(): EmptyResult
 }

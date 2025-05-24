@@ -1,10 +1,10 @@
 package io.chefbook.sdk.shoppinglist.impl.data.sources.local
 
-import androidx.datastore.core.DataStore
+import io.chefbook.sdk.shoppinglist.impl.data.sources.local.datastore.PendingUploadsDataStore
 import kotlinx.coroutines.flow.first
 
 internal class PendingUploadsDataSourceImpl(
-  private val dataStore: DataStore<Set<String>>,
+  private val dataStore: PendingUploadsDataStore,
 ) : PendingUploadsDataSource {
 
   override suspend fun getPendingUploads(): Set<String> =

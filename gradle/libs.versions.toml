@@ -1,42 +1,40 @@
 [versions]
-compileSdk = "35"
-targetSdk = "35"
+compileSdk = "36"
+targetSdk = "36"
 minSdk = "21"
 
-kotlin = "2.0.20"
-kotlin-coroutines = "1.8.1"
+kotlin = "2.1.21"
+kotlin-coroutines = "1.10.1"
 kotlin-datetime = "0.5.0"
 
-jdk-desugar = "2.1.2"
+jdk-desugar = "2.1.5"
 
-ksp = "2.0.20-1.0.25"
+ksp = "2.1.21-2.0.1"
 
-agp = "8.6.1"
+agp = "8.10.0"
 
 timber = "5.0.1"
 
 koin = "4.0.2"
 
 ktor = "3.1.1"
-okio = "3.9.0"
+okio = "3.10.2"
 
 sqldelight = "2.0.2"
-datastore = "1.1.1"
+datastore = "1.1.7"
 
 tink = "1.13.0"
 
-androidx-core-ktx = "1.13.1"
+androidx-core-ktx = "1.16.0"
 androidx-appcompat = "1.7.0"
 
-androidx-credentials = "1.3.0-rc01"
+androidx-credentials = "1.5.0"
 credentials-google = "1.1.1"
 
-google-play-core = "1.10.3"
-
 androidx-activity-compose = "1.10.1"
-androidx-lifecycle = "2.8.7"
-androidx-composeBom = "2025.02.00"
-androidx-navigationCompose = "2.8.8"
+androidx-lifecycle = "2.9.0"
+androidx-composeBom = "2025.05.01"
+androidx-navigationCompose = "2.9.0"
 accompanist = "0.34.0"
 
 composeDestinations = "1.10.1"
@@ -105,8 +103,6 @@ androidx-credentials = { group = "androidx.credentials", name = "credentials", v
 androidx-credentials-playServices = { group = "androidx.credentials", name = "credentials-play-services-auth", version.ref = "androidx-credentials" }
 credentials-google = { group = "com.google.android.libraries.identity.googleid", name = "googleid", version.ref = "credentials-google" }
 
-google-play-core = { group = "com.google.android.play", name = "core", version.ref = "google-play-core" }
-
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "androidx-composeBom" }
 androidx-compose-foundation = { group = "androidx.compose.foundation", name = "foundation" }
 androidx-compose-runtime = { group = "androidx.compose.runtime", name = "runtime" }
@@ -114,6 +110,7 @@ androidx-compose-ui = { group = "androidx.compose.ui", name = "ui" }
 androidx-compose-uiTooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 androidx-compose-animation = { group = "androidx.compose.animation", name = "animation" }
 androidx-compose-material = { group = "androidx.compose.material", name = "material" }
+androidx-compose-materialIcons-core = { group = "androidx.compose.material", name = "material-icons-core" }
 androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3" }
 
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "androidx-activity-compose" }

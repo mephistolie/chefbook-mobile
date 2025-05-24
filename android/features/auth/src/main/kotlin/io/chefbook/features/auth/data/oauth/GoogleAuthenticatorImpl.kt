@@ -9,7 +9,7 @@ import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import androidx.credentials.CredentialManager as AndroidCredentialManager
 
-const val SERVER_CLIENT_ID =
+private const val SERVER_CLIENT_ID =
   "497308718785-v8udnmjcg5l19aa8sj1cho2pcg8516qn.apps.googleusercontent.com"
 
 class GoogleAuthenticatorImpl(

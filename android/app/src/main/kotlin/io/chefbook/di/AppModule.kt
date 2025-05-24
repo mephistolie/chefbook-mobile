@@ -10,5 +10,5 @@ import org.koin.dsl.module
 fun appModule() = module {
   singleOf(::QRCodeWriter)
   singleOf(::IconSwitcherDelegate)
-  viewModel { AppViewModel(get(), get(), get()) }
+  viewModel { AppViewModel(get(), get()) }
 }

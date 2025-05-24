@@ -9,36 +9,36 @@ import kotlinx.coroutines.flow.update
 
 internal class CollectionsCacheImpl : CollectionsCache {
 
-  private val cachedList = MutableStateFlow<List<Collection>?>(null)
+  private val cache = MutableStateFlow<List<Collection>?>(null)
 
-  override fun observeCollections(): StateFlow<List<Collection>?> = cachedList.asStateFlow()
+  override fun observeCollections(): StateFlow<List<Collection>?> = cache.asStateFlow()
 
-  override suspend fun getCollections(): List<Collection> = cachedList.value.orEmpty()
+  override suspend fun getCollections(): List<Collection> = cache.value.orEmpty()
 
   override suspend fun getCollection(collectionId: String) =
     getCollections().first { it.id == collectionId }
 
   override suspend fun setCollections(categories: List<Collection>) {
-    cachedList.emit(categories)
-    Logger.d("Categories set: ${categories.map { it.id }}")
+    cache.emit(categories)
+    Logger.d("Collections set: ${categories.map { it.id }}")
   }
 
   override suspend fun addCollection(collection: Collection) {
-    cachedList.update { categories ->
+    cache.update { categories ->
       categories?.filter { it.id != collection.id }.orEmpty().plus(collection)
     }
-    Logger.d("Category added: ${collection.id}")
+    Logger.d("Collection added: ${collection.id}")
   }
 
   override suspend fun updateCollection(collection: Collection) {
-    cachedList.update { categories ->
+    cache.update { categories ->
       categories?.map { if (it.id != collection.id) it else collection }
     }
-    Logger.d("Category updated: ${collection.id}")
+    Logger.d("Collection updated: ${collection.id}")
   }
 
   override suspend fun removeCollection(collectionId: String) {
-    cachedList.update { categories -> categories?.filter { it.id != collectionId } }
-    Logger.d("Category removed: $collectionId")
+    cache.update { categories -> categories?.filter { it.id != collectionId } }
+    Logger.d("Collection removed: $collectionId")
   }
 }

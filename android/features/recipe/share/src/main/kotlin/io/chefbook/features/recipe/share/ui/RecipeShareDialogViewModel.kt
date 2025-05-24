@@ -6,12 +6,10 @@ import android.graphics.Color
 import io.chefbook.core.android.qr.QRCodeWriter
 import io.chefbook.core.android.utils.minutesToTimeString
 
-import io.chefbook.features.recipe.share.R
 import io.chefbook.features.recipe.share.ui.mvi.RecipeShareDialogEffect
 import io.chefbook.features.recipe.share.ui.mvi.RecipeShareDialogIntent
 import io.chefbook.features.recipe.share.ui.mvi.RecipeShareDialogState
 import io.chefbook.libs.mvi.BaseMviViewModel
-import io.chefbook.libs.mvi.MviViewModel
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.DecryptedRecipe
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.Recipe.Decrypted.CookingItem
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.Recipe.Decrypted.IngredientsItem

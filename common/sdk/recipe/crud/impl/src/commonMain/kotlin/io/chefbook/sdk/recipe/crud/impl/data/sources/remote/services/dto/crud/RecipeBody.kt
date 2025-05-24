@@ -3,7 +3,6 @@ package io.chefbook.sdk.recipe.crud.impl.data.sources.remote.services.dto.crud
 import io.chefbook.libs.models.language.LanguageMapper
 import io.chefbook.libs.models.profile.ProfileInfo
 import io.chefbook.libs.models.visibility.Visibility
-import io.chefbook.sdk.collection.api.external.domain.entities.Collection
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.CollectionInfo
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.DecryptedRecipe
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.DecryptedRecipeInfo
@@ -16,7 +15,6 @@ import io.chefbook.sdk.recipe.core.api.internal.data.sources.common.dto.Ingredie
 import io.chefbook.sdk.recipe.core.api.internal.data.sources.remote.services.dto.ProfileBody
 import io.chefbook.sdk.recipe.core.api.internal.data.sources.remote.services.dto.RatingBody
 import io.chefbook.sdk.recipe.core.api.internal.data.sources.remote.services.dto.VisibilitySerializable
-import io.chefbook.sdk.recipe.core.api.internal.entity.RecipeMetaImpl
 import io.chefbook.sdk.recipe.crud.impl.data.sources.remote.services.dto.pictures.PicturesBody
 import io.chefbook.sdk.tag.api.external.domain.entities.Tag
 import kotlinx.serialization.SerialName
@@ -85,7 +83,7 @@ internal fun RecipeBody.toEntity(
     categoriesMap: Map<String, CollectionInfo>,
     tagsMap: Map<String, Tag>,
 ): Recipe {
-  val meta = RecipeMetaImpl(
+  val meta = RecipeMeta(
     id = id,
     owner = ProfileInfo(
       id = owner.id,

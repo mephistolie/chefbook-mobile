@@ -1,7 +1,7 @@
 package io.chefbook.sdk.profile.impl.di
 
 import io.chefbook.libs.di.qualifiers.DataSource
-import io.chefbook.libs.di.scopes.ProfileScope
+import io.chefbook.libs.di.scopes.ProfileComponent
 import io.chefbook.sdk.profile.api.external.domain.usecases.CancelProfileDeletionUseCase
 import io.chefbook.sdk.profile.api.external.domain.usecases.CheckNicknameAvailabilityUseCase
 import io.chefbook.sdk.profile.api.external.domain.usecases.DeleteAvatarUseCase
@@ -22,6 +22,7 @@ import io.chefbook.sdk.profile.impl.data.sources.local.LocalProfileSourceImpl
 import io.chefbook.sdk.profile.impl.data.sources.local.LocalProfilesSource
 import io.chefbook.sdk.profile.impl.data.sources.local.LocalProfilesSourceImpl
 import io.chefbook.sdk.profile.impl.data.sources.local.datastore.ProfilesDataStore
+import io.chefbook.sdk.profile.impl.data.sources.local.datastore.ProfilesDataStoreImpl
 import io.chefbook.sdk.profile.impl.data.sources.remote.RemoteProfilesSourceImpl
 import io.chefbook.sdk.profile.impl.data.sources.remote.RemoteProfileSource
 import io.chefbook.sdk.profile.impl.data.sources.remote.RemoteProfileSourceImpl
@@ -50,7 +51,7 @@ import org.koin.dsl.module
 
 fun sdkProfileModule() = module {
 
-  singleOf(::ProfilesDataStore)
+  singleOf(::ProfilesDataStoreImpl) bind ProfilesDataStore::class
 
   singleOf(::ProfilesApiServiceImpl) bind ProfilesApiService::class
 
@@ -61,7 +62,7 @@ fun sdkProfileModule() = module {
     PulledProfilesRepositoryImpl(
       localSource = get(named(DataSource.LOCAL)),
       remoteSource = get(named(DataSource.REMOTE)),
-      scopes = get(),
+      profileScope = get(),
     )
   }
   single<ProfilesRepository> {
@@ -69,7 +70,7 @@ fun sdkProfileModule() = module {
       pulledProfilesRepository = get(),
       localSource = get(named(DataSource.LOCAL)),
       sessionsRepository = get(),
-      scopes = get(),
+      appScope = get(),
     )
   }
 
@@ -77,16 +78,16 @@ fun sdkProfileModule() = module {
 }
 
 private fun sdkProfileProfileScopeModule() = module {
-  scope<ProfileScope> {
+  scope<ProfileComponent> {
     scopedOf(::ProfileApiServiceImpl) bind ProfileApiService::class
     scopedOf(::NicknameApiServiceImpl) bind NicknameApiService::class
 
     scopedOf(::LocalProfileSourceImpl) { named(DataSource.LOCAL) } bind ProfileSource::class
     scopedOf(::RemoteProfileSourceImpl) { named(DataSource.REMOTE) } bind RemoteProfileSource::class
 
-    scoped<ProfileRepository> { params ->
+    scoped<ProfileRepository> {
       ProfileRepositoryImpl(
-        profileId = params[ProfileScope.PARAM_PROFILE_ID],
+        profileId = get<ProfileComponent>().profileId,
         localSource = get(named(DataSource.LOCAL)),
         remoteSource = get(named(DataSource.REMOTE)),
         localProfilesSource = get(named(DataSource.LOCAL)),
@@ -95,7 +96,7 @@ private fun sdkProfileProfileScopeModule() = module {
         files = get(),
         compressor = get(),
         dispatchers = get(),
-        scopes = get(),
+        profileScope = get<ProfileComponent>().coroutineScope,
       )
     }
 

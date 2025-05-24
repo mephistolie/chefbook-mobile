@@ -1,8 +1,7 @@
 package io.chefbook.sdk.network.impl.di
 
 import android.content.Context
-import io.chefbook.libs.di.scopes.ProfileScope
-import io.chefbook.sdk.auth.api.internal.data.repositories.TokensRepository
+import io.chefbook.libs.di.scopes.ProfileComponent
 import io.chefbook.sdk.network.api.internal.clients.ProfileHttpClientFactory
 import io.chefbook.sdk.network.api.internal.connection.ConnectivityRepository
 import io.chefbook.sdk.network.impl.clients.ChefBookClientFactory
@@ -23,8 +22,8 @@ import org.koin.dsl.module
 fun sdkNetworkModule() = module {
   factoryOf(::EncryptedImageInterceptor)
 
-  singleOf(::baseClient) { named(HttpClient.BASE) }
-  singleOf(::imageClient) { named(HttpClient.ENCRYPTED_IMAGE) }
+  singleOf(::baseClient) { qualifier = named(HttpClient.BASE) }
+  singleOf(::imageClient) { qualifier = named(HttpClient.ENCRYPTED_IMAGE) }
 
   single<ProfileHttpClientFactory> {
     ProfileHttpClientFactoryImpl(
@@ -35,9 +34,9 @@ fun sdkNetworkModule() = module {
 
   singleOf(::ConnectivityRepositoryImpl) bind ConnectivityRepository::class
 
-  scope<ProfileScope> {
-    scoped { params ->
-      get<ProfileHttpClientFactory>().getOrCreate(params[ProfileScope.PARAM_PROFILE_ID])
+  scope<ProfileComponent> {
+    scoped {
+      get<ProfileHttpClientFactory>().getOrCreate(get<ProfileComponent>().profileId)
     }
   }
 }

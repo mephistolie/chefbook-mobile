@@ -73,7 +73,7 @@ internal fun CategoriesScreenContent(
           CategoryCard(
             id = category.id,
             name = category.name,
-            emoji = category.emoji,
+            emoji = null,
             modifier = Modifier
               .padding(
                 start = if (index % 4 == 0) 0.dp else 4.dp,

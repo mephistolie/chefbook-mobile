@@ -53,7 +53,7 @@ internal fun RecipeCategoriesSelectionBlockContent(
     ) {
       for (category in state.categories) {
         DynamicButton(
-          text = "${category.emoji.orEmpty()} ${category.name}".trim(),
+          text = category.name,
           onClick = {
             onIntent(RecipeCategoriesSelectionBlockIntent.ChangeSelectStatus(category.id))
           },

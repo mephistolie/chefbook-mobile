@@ -25,6 +25,9 @@ internal class SessionsRepositoryImpl(
   override fun observeSessions(): Flow<Map<String, Session>> =
     sessionsSource.observeSessionsInfo()
 
+  override fun observeCurrentProfileId(): Flow<String?> =
+    sessionsSource.observeCurrentProfileId()
+
   override suspend fun refreshTokens(): EmptyResult {
     val session = sessionsSource.getCurrentSessionInfo()
       ?: return Result.failure(NotFoundException())

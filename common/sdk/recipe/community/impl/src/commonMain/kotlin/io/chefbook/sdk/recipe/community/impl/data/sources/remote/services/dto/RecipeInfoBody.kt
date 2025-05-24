@@ -9,7 +9,6 @@ import io.chefbook.sdk.recipe.core.api.external.domain.entities.RecipeMeta
 import io.chefbook.sdk.recipe.core.api.internal.data.sources.remote.services.dto.ProfileBody
 import io.chefbook.sdk.recipe.core.api.internal.data.sources.remote.services.dto.RatingBody
 import io.chefbook.sdk.recipe.core.api.internal.data.sources.remote.services.dto.VisibilitySerializable
-import io.chefbook.sdk.recipe.core.api.internal.entity.RecipeMetaImpl
 import io.chefbook.sdk.tag.api.external.domain.entities.Tag
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -68,7 +67,7 @@ internal fun RecipeInfoBody.toEntity(
   collectionsMap: Map<String, CollectionInfo>,
   tagsMap: Map<String, Tag>,
 ): DecryptedRecipeInfo {
-  val meta = RecipeMetaImpl(
+  val meta = RecipeMeta(
     id = id,
     owner = ProfileInfo(
       id = owner.id,

@@ -33,6 +33,7 @@ import io.chefbook.design.theme.dimens.IconSize24
 import io.chefbook.features.category.R
 import io.chefbook.features.category.ui.input.mvi.CategoryInputScreenIntent
 import io.chefbook.features.category.ui.input.mvi.CategoryInputScreenState
+import io.chefbook.libs.models.visibility.Visibility
 import io.chefbook.sdk.collection.api.external.domain.entities.CollectionInput
 import io.chefbook.ui.common.dialogs.StandardDialog
 import io.chefbook.core.android.R as coreR
@@ -47,7 +48,7 @@ internal fun CategoryInputScreenContent(
   val isEditing = state.isEditing
   val isProcessing = state.isSaving || state.isDeleting
   val name = state.input.name
-  val cover = state.input.emoji.orEmpty()
+  val cover = ""
 
   val colors = LocalTheme.colors
 
@@ -172,6 +173,8 @@ private fun ThemedCategoryInputDialog(
     CategoryInputScreenContent(
       state = CategoryInputScreenState(
         input = CollectionInput(
+          id = "",
+          visibility = Visibility.PUBLIC,
           name = if (isEditing) "Cupcake" else "",
         ),
         isEditing = isEditing,

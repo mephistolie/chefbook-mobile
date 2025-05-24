@@ -12,5 +12,5 @@ interface RecipeBookRepository {
 
   suspend fun refreshRecipeBook(): EmptyResult
 
-  suspend fun clearLocalData(exceptProfileId: String? = null): EmptyResult
+  suspend fun clearUnusedRecipes(): EmptyResult
 }

@@ -8,7 +8,6 @@ import io.chefbook.sdk.recipe.core.api.internal.data.sources.local.sql.dto.toEnt
 import io.chefbook.sdk.recipe.crud.api.internal.data.sources.local.LocalRecipeCrudSource
 import io.chefbook.sdk.tag.api.external.domain.entities.Tag
 import io.chefbook.sdk.tag.api.internal.data.sources.common.dto.toSerializable
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
 internal class LocalRecipeCrudSourceImpl(
@@ -35,18 +34,25 @@ internal class LocalRecipeCrudSourceImpl(
 
   override suspend fun updateRecipe(recipe: Recipe) = safeQueryResult {
     val dto = recipe.toDto()
-    queries.update(
-      recipeId = dto.recipeId, name = dto.name,
-      ownerId = dto.ownerId, ownerName = dto.ownerName, ownerAvatar = dto.ownerAvatar,
-      visibility = dto.visibility, encrypted = dto.encrypted,
-      language = dto.language, description = dto.description,
-      creationTimestamp = dto.creationTimestamp, updateTimestamp = dto.updateTimestamp, version = dto.version,
-      rating = dto.rating, score = dto.score, votes = dto.votes,
-      tags = dto.tags,
-      servings = dto.servings, time = dto.time,
-      calories = dto.calories, protein = dto.protein, fats = dto.fats, carbohydrates = dto.carbohydrates,
-      ingredients = dto.ingredients, cooking = dto.cooking, pictures = dto.pictures,
-    )
+    queries.transaction {
+      queries.update(
+        recipeId = dto.recipeId, name = dto.name,
+        ownerId = dto.ownerId, ownerName = dto.ownerName, ownerAvatar = dto.ownerAvatar,
+        visibility = dto.visibility, encrypted = dto.encrypted,
+        language = dto.language, description = dto.description,
+        creationTimestamp = dto.creationTimestamp, updateTimestamp = dto.updateTimestamp, version = dto.version,
+        rating = dto.rating, votes = dto.votes,
+        tags = dto.tags,
+        servings = dto.servings, time = dto.time,
+        calories = dto.calories, protein = dto.protein, fats = dto.fats, carbohydrates = dto.carbohydrates,
+        ingredients = dto.ingredients, cooking = dto.cooking, pictures = dto.pictures,
+      )
+      queries.setScore(
+        score = recipe.rating.score?.toLong(),
+        recipeId = recipe.id,
+        profileId = profileId,
+      )
+    }
   }
 
   override suspend fun setRecipeOwnerInfo(

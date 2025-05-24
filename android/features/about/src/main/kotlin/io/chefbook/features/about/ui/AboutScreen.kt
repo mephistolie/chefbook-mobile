@@ -22,7 +22,7 @@ internal fun AboutScreen(
   val packageManager = remember { context.packageManager.getPackageInfo(context.packageName, 0) }
 
   AboutScreenContent(
-    versionName = packageManager.versionName,
+    versionName = packageManager.versionName.orEmpty(),
     versionCode = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
       packageManager.longVersionCode
     } else {

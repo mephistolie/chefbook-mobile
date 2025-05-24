@@ -77,7 +77,7 @@ internal fun LazyGridScope.categoriesBlock(
       CategoryCard(
         id = categories[index].id,
         name = categories[index].name,
-        emoji = categories[index].emoji,
+        emoji = null,
         modifier = categoryCardModifier(index),
       ) { onCategoryClicked(it) }
     }

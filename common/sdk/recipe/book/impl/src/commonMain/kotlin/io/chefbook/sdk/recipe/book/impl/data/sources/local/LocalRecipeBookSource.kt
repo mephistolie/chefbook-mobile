@@ -7,5 +7,5 @@ internal interface LocalRecipeBookSource {
 
   suspend fun getRecipeBook(): Result<List<RecipeInfo>>
 
-  suspend fun clearData(exceptProfileId: String? = null): EmptyResult
+  suspend fun clearUnused(): EmptyResult
 }

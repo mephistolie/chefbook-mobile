@@ -1,5 +1,6 @@
 package io.chefbook.sdk.recipe.crud.impl.data.sources.remote.services.dto.crud
 
+import io.chefbook.libs.models.visibility.Visibility
 import io.chefbook.libs.utils.uuid.generateUUID
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.Recipe.Decrypted.IngredientsItem
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.RecipeMeta
@@ -57,9 +58,9 @@ internal fun RecipeProcessedInput.toSerializable() =
       id = id,
       name = name,
       visibility = when (visibility) {
-        RecipeMeta.Visibility.PRIVATE -> VisibilitySerializable.PRIVATE
-        RecipeMeta.Visibility.LINK -> VisibilitySerializable.LINK
-        RecipeMeta.Visibility.PUBLIC -> VisibilitySerializable.PUBLIC
+        Visibility.PRIVATE -> VisibilitySerializable.PRIVATE
+        Visibility.LINK -> VisibilitySerializable.LINK
+        Visibility.PUBLIC -> VisibilitySerializable.PUBLIC
       },
       isEncrypted = isEncrypted,
       language = language.code,
@@ -81,9 +82,9 @@ internal fun RecipeProcessedInput.toSerializable() =
       id = id,
       name = name,
       visibility = when (visibility) {
-        RecipeMeta.Visibility.PRIVATE -> VisibilitySerializable.PRIVATE
-        RecipeMeta.Visibility.LINK -> VisibilitySerializable.LINK
-        RecipeMeta.Visibility.PUBLIC -> VisibilitySerializable.PUBLIC
+        Visibility.PRIVATE -> VisibilitySerializable.PRIVATE
+        Visibility.LINK -> VisibilitySerializable.LINK
+        Visibility.PUBLIC -> VisibilitySerializable.PUBLIC
       },
       isEncrypted = isEncrypted,
       language = language.code,

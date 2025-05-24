@@ -1,12 +1,12 @@
 package io.chefbook.sdk.tag.impl.data.repositories
 
 import io.chefbook.libs.coroutines.AppDispatchers
-import io.chefbook.libs.coroutines.CoroutineScopes
 import io.chefbook.libs.utils.language.getSystemLanguageCode
 import io.chefbook.sdk.tag.api.external.domain.entities.Tag
 import io.chefbook.sdk.tag.api.internal.data.repositories.TagRepository
 import io.chefbook.sdk.tag.impl.data.sources.local.LocalTagSource
 import io.chefbook.sdk.tag.impl.data.sources.remote.RemoteTagSource
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -17,10 +17,10 @@ internal class TagRepositoryImpl(
   private val localSource: LocalTagSource,
   private val remoteSource: RemoteTagSource,
   private val dispatchers: AppDispatchers,
-  scopes: CoroutineScopes,
+  profileScope: CoroutineScope,
 ) : TagRepository {
 
-  private val loadTagsJob = scopes.repository.launch(start = CoroutineStart.LAZY) {
+  private val loadTagsJob = profileScope.launch(start = CoroutineStart.LAZY) {
     remoteSource.getTags(language = getSystemLanguageCode()).onSuccess { localSource.cacheTags(it) }
   }
 

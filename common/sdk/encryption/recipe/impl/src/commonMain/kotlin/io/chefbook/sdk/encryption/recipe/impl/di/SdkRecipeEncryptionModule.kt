@@ -1,7 +1,7 @@
 package io.chefbook.sdk.encryption.recipe.impl.di
 
 import io.chefbook.libs.di.qualifiers.DataSource
-import io.chefbook.libs.di.scopes.ProfileScope
+import io.chefbook.libs.di.scopes.ProfileComponent
 import io.chefbook.sdk.encryption.recipe.api.internal.data.crypto.RecipeCryptor
 import io.chefbook.sdk.encryption.recipe.api.internal.data.repositories.RecipeEncryptionRepository
 import io.chefbook.sdk.encryption.recipe.impl.data.crypto.RecipeCryptorImpl
@@ -13,7 +13,6 @@ import io.chefbook.sdk.encryption.recipe.impl.data.sources.remote.RemoteRecipeEn
 import io.chefbook.sdk.encryption.recipe.impl.data.sources.remote.services.RecipeEncryptionApiService
 import io.chefbook.sdk.encryption.recipe.impl.data.sources.remote.services.RecipeEncryptionApiServiceImpl
 import org.koin.core.module.dsl.scopedOf
-import org.koin.core.module.dsl.singleOf
 import org.koin.core.qualifier.named
 import org.koin.dsl.bind
 import org.koin.dsl.module
@@ -22,13 +21,13 @@ fun sdkRecipeEncryptionModule() = module {
 
   single<RecipeCryptor> { RecipeCryptorImpl }
 
-  scope<ProfileScope> {
+  scope<ProfileComponent> {
 
     scopedOf(::RecipeEncryptionApiServiceImpl) bind RecipeEncryptionApiService::class
 
-    scoped<LocalRecipeEncryptionSource>(named(DataSource.LOCAL)) { params ->
+    scoped<LocalRecipeEncryptionSource>(named(DataSource.LOCAL)) {
       LocalRecipeEncryptionSourceImpl(
-        profileId = params[ProfileScope.PARAM_PROFILE_ID],
+        profileId = get<ProfileComponent>().profileId,
         io = get(),
       )
     }

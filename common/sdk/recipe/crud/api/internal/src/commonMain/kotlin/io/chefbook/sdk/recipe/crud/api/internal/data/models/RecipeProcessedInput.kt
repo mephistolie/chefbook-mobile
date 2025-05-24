@@ -1,8 +1,8 @@
 package io.chefbook.sdk.recipe.crud.api.internal.data.models
 
 import io.chefbook.libs.models.language.Language
+import io.chefbook.libs.models.visibility.Visibility
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.Recipe
-import io.chefbook.sdk.recipe.core.api.external.domain.entities.RecipeMeta
 import io.chefbook.sdk.recipe.crud.api.external.domain.entities.RecipeInput
 
 typealias DecryptedRecipeInput = RecipeProcessedInput.Decrypted
@@ -11,7 +11,7 @@ typealias EncryptedRecipeInput = RecipeProcessedInput.Encrypted
 sealed class RecipeProcessedInput(
   open val id: String,
 
-  open val visibility: RecipeMeta.Visibility,
+  open val visibility: Visibility,
   open val isEncrypted: Boolean,
   open val language: Language,
 
@@ -27,7 +27,7 @@ sealed class RecipeProcessedInput(
   data class Decrypted(
     override val id: String,
 
-    override val visibility: RecipeMeta.Visibility,
+    override val visibility: Visibility,
     override val isEncrypted: Boolean,
     override val language: Language,
 
@@ -70,7 +70,7 @@ sealed class RecipeProcessedInput(
   data class Encrypted(
     override val id: String,
 
-    override val visibility: RecipeMeta.Visibility,
+    override val visibility: Visibility,
     override val language: Language,
 
     override val servings: Int?,

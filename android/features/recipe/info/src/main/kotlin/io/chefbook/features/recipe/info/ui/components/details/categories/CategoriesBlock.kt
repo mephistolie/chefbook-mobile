@@ -23,15 +23,16 @@ import com.mephistolie.compost.modifiers.simpleClickable
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.design.components.buttons.DynamicButton
 import io.chefbook.sdk.collection.api.external.domain.entities.Collection
+import io.chefbook.sdk.recipe.core.api.external.domain.entities.CollectionInfo
 import io.chefbook.core.android.R as coreR
 import io.chefbook.design.R as designR
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 internal fun CategoriesBlock(
-    categories: List<Collection>,
-    onChangeCategoriesButtonClicked: () -> Unit,
-    onCategoryButtonClicked: (String) -> Unit,
+  categories: List<CollectionInfo>,
+  onChangeCategoriesButtonClicked: () -> Unit,
+  onCategoryButtonClicked: (String) -> Unit,
 ) {
   val colors = LocalTheme.colors
   val typography = LocalTheme.typography
@@ -62,7 +63,7 @@ internal fun CategoriesBlock(
     FlowRow {
       for (category in categories) {
         DynamicButton(
-          text = "${category.emoji.orEmpty()} ${category.name}".trim(),
+          text = category.name,
           onClick = { onCategoryButtonClicked(category.id) },
           modifier = Modifier
             .padding(top = 8.dp, end = 8.dp)

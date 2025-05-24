@@ -1,4 +1,4 @@
-package io.chefbook.sdk.collection.impl.data.sources.remote.services.dto
+package io.chefbook.sdk.collection.api.internal.data.sources.remote.services.dto
 
 import io.chefbook.libs.models.visibility.Visibility
 import io.chefbook.sdk.collection.api.external.domain.entities.Collection
@@ -7,7 +7,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-internal class CollectionSerializable(
+class CollectionSerializable(
   @SerialName("collectionId")
   val collectionId: String,
   @SerialName("name")

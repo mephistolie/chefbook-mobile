@@ -1,18 +1,18 @@
 package io.chefbook.sdk.settings.impl.data.sources.local
 
-import androidx.datastore.core.DataStore
 import io.chefbook.libs.models.language.Language
 import io.chefbook.libs.models.language.LanguageMapper
 import io.chefbook.sdk.settings.api.external.domain.entities.AppIcon
 import io.chefbook.sdk.settings.api.external.domain.entities.AppTheme
 import io.chefbook.sdk.settings.api.external.domain.entities.Environment
 import io.chefbook.sdk.settings.impl.data.sources.SettingsDataSource
+import io.chefbook.sdk.settings.impl.data.sources.local.datastore.SettingsDataStore
 import io.chefbook.sdk.settings.impl.data.sources.local.datastore.dto.SettingsSerializable
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 
 internal class LocalSettingsDataSourceImpl(
-  private val dataStore: DataStore<SettingsSerializable>,
+  private val dataStore: SettingsDataStore,
 ) : SettingsDataSource {
 
   override fun observeSettings() = dataStore.data.map(SettingsSerializable::toEntity)

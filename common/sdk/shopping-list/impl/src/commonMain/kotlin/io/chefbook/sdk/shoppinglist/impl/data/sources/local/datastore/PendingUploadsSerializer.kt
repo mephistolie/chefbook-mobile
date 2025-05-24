@@ -1,8 +1,6 @@
 package io.chefbook.sdk.shoppinglist.impl.data.sources.local.datastore
 
 import io.chefbook.sdk.database.api.internal.BaseSerializer
-import io.chefbook.sdk.database.api.internal.readFromJson
-import io.chefbook.sdk.database.api.internal.writeToJson
 import okio.BufferedSink
 import okio.BufferedSource
 

@@ -1,9 +1,8 @@
 package io.chefbook.sdk.recipe.book.impl.data.repositories
 
-import androidx.datastore.core.DataStore
-import io.chefbook.sdk.database.api.internal.ChefBookDataStoreFactory
 import io.chefbook.sdk.recipe.book.api.external.domain.entities.LatestRecipeInfo
 import io.chefbook.sdk.recipe.book.api.internal.data.repositories.LatestRecipesRepository
+import io.chefbook.sdk.recipe.book.impl.data.sources.local.datastore.LatestRecipesDataStore
 import io.chefbook.sdk.recipe.book.impl.data.sources.local.datastore.LatestRecipesSerializer
 import io.chefbook.sdk.recipe.book.impl.data.sources.local.datastore.dto.LatestRecipeInfoSerializable
 import io.chefbook.sdk.recipe.book.impl.data.sources.local.datastore.dto.toSerializable
@@ -11,7 +10,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 
 internal class LatestRecipesRepositoryImpl(
-  private val dataStore: DataStore<List<LatestRecipeInfoSerializable>>,
+  private val dataStore: LatestRecipesDataStore,
 ) : LatestRecipesRepository {
 
   override fun observeLatestRecipes() =

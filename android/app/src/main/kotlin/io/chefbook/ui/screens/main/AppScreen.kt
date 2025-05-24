@@ -68,7 +68,7 @@ fun AppScreen() {
 
   LaunchedEffect(Unit) {
     appViewModel.effect.collect { effect ->
-      if (appState.value.isSignedIn == null) return@collect
+      if (appState.value.profileId == null) return@collect
 
       when (effect) {
         is AppEffect.SignedOut -> {

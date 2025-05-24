@@ -1,7 +1,6 @@
 package io.chefbook.sdk.profile.impl.data.repositories
 
 import io.chefbook.libs.coroutines.AppDispatchers
-import io.chefbook.libs.coroutines.CoroutineScopes
 import io.chefbook.libs.utils.result.EmptyResult
 import io.chefbook.libs.utils.result.asEmpty
 import io.chefbook.libs.utils.result.onSuccess
@@ -14,6 +13,7 @@ import io.chefbook.sdk.profile.api.internal.data.repositories.ProfileRepository
 import io.chefbook.sdk.profile.impl.data.sources.common.ProfileSource
 import io.chefbook.sdk.profile.impl.data.sources.local.LocalProfilesSource
 import io.chefbook.sdk.profile.impl.data.sources.remote.RemoteProfileSource
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -32,7 +32,7 @@ internal class ProfileRepositoryImpl(
   private val compressor: ImageCompressor,
   private val dispatchers: AppDispatchers,
   localProfilesSource: LocalProfilesSource,
-  scopes: CoroutineScopes,
+  profileScope: CoroutineScope,
 ) : ProfileRepository {
 
   private val profileFlow =
@@ -41,7 +41,7 @@ internal class ProfileRepositoryImpl(
       profiles[profileId]
     }
       .distinctUntilChanged()
-      .shareIn(scopes.repository, SharingStarted.Lazily, replay = 1)
+      .shareIn(profileScope, SharingStarted.Lazily, replay = 1)
 
   override fun observeProfile(): Flow<Profile?> = profileFlow
 

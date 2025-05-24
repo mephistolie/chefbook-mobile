@@ -2,7 +2,6 @@ package io.chefbook.sdk.recipe.crud.impl.data.models
 
 import io.chefbook.libs.models.profile.ProfileInfo
 import io.chefbook.libs.utils.uuid.generateUUID
-import io.chefbook.sdk.collection.api.external.domain.entities.Collection
 import io.chefbook.sdk.profile.api.external.domain.entities.Profile
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.CollectionInfo
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.DecryptedRecipe
@@ -11,7 +10,6 @@ import io.chefbook.sdk.recipe.core.api.external.domain.entities.EncryptedRecipe
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.EncryptedRecipeInfo
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.Recipe
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.RecipeMeta
-import io.chefbook.sdk.recipe.core.api.internal.entity.RecipeMetaImpl
 import io.chefbook.sdk.recipe.crud.api.external.domain.entities.RecipeInput
 import io.chefbook.sdk.recipe.crud.api.internal.data.models.DecryptedRecipeInput
 import io.chefbook.sdk.recipe.crud.api.internal.data.models.RecipeProcessedInput
@@ -59,7 +57,7 @@ internal fun RecipeProcessedInput.toRecipe(
     collections: List<CollectionInfo> = emptyList(),
     isFavourite: Boolean = false,
 ): Recipe {
-  val meta = RecipeMetaImpl(
+  val meta = RecipeMeta(
     id = id,
     owner = ProfileInfo(
       id = ownerId,

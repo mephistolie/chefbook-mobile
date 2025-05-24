@@ -30,3 +30,10 @@ fun CollectionInput.toCollection(
     contributors = contributors,
     recipesCount = recipesCount,
   )
+
+fun Collection.toInput(): CollectionInput =
+  CollectionInput(
+    id = id,
+    name = name.trim(),
+    visibility = visibility,
+  )

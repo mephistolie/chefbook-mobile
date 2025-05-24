@@ -1,7 +1,7 @@
 package io.chefbook.sdk.recipe.interaction.impl.di
 
 import io.chefbook.libs.di.qualifiers.DataSource
-import io.chefbook.libs.di.scopes.ProfileScope
+import io.chefbook.libs.di.scopes.ProfileComponent
 import io.chefbook.sdk.recipe.interaction.api.external.domain.usecases.SetRecipeCategoriesUseCase
 import io.chefbook.sdk.recipe.interaction.api.external.domain.usecases.SetRecipeFavouriteStatusUseCase
 import io.chefbook.sdk.recipe.interaction.api.external.domain.usecases.SetRecipeSavedStatusUseCase
@@ -26,13 +26,13 @@ import org.koin.dsl.module
 
 fun sdkRecipeInteractionModule() = module {
 
-  scope<ProfileScope> {
+  scope<ProfileComponent> {
 
     scopedOf(::RecipeInteractionApiServiceImpl) bind RecipeInteractionApiService::class
 
-    scoped<LocalRecipeInteractionSource>(named(DataSource.LOCAL)) { params ->
+    scoped<LocalRecipeInteractionSource>(named(DataSource.LOCAL)) {
       LocalRecipeInteractionSourceImpl(
-        profileId = params[ProfileScope.PARAM_PROFILE_ID],
+        profileId = get<ProfileComponent>().profileId,
         database = get(),
       )
     }

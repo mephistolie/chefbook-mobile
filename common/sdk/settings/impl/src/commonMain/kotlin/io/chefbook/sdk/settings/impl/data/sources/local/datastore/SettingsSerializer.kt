@@ -1,8 +1,6 @@
 package io.chefbook.sdk.settings.impl.data.sources.local.datastore
 
 import io.chefbook.sdk.database.api.internal.BaseSerializer
-import io.chefbook.sdk.database.api.internal.readFromJson
-import io.chefbook.sdk.database.api.internal.writeToJson
 import io.chefbook.sdk.settings.impl.data.sources.local.datastore.dto.SettingsSerializable
 import okio.BufferedSink
 import okio.BufferedSource

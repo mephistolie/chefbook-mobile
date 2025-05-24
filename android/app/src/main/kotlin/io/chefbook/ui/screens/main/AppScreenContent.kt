@@ -27,16 +27,14 @@ import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.design.theme.ChefBookTheme
 import io.chefbook.design.theme.colors.Monochrome7
 import io.chefbook.features.recipe.info.ui.destinations.RecipeScreenDestination
-import io.chefbook.libs.di.scopes.ProfileScope
-import io.chefbook.libs.di.scopes.getOrCreateProfileScope
+import io.chefbook.libs.di.scopes.ProfileComponent
 import io.chefbook.navigation.hosts.AppHost
 import io.chefbook.navigation.navigators.AppNavigator
 import io.chefbook.sdk.settings.api.external.domain.entities.AppTheme
 import io.chefbook.ui.screens.main.mvi.AppState
 import org.koin.compose.scope.KoinScope
 import org.koin.core.annotation.KoinExperimentalAPI
-import org.koin.core.parameter.parametersOf
-import org.koin.core.scope.Scope
+import kotlin.collections.contains
 
 private val blackBackgroundModals =
   listOf(RecipeScreenDestination.route)
@@ -48,50 +46,70 @@ fun AppScreenContent(
   navigator: AppNavigator,
   isBackgroundBlurred: Boolean = false
 ) {
-  if (state.profileId == null) return
-
   val resources = LocalContext.current.resources
+
+  ChefBookTheme(darkTheme = isDarkTheme(state.theme, resources)) {
+    val content = @Composable {
+      AppScreen(
+        state = state,
+        navigator = navigator,
+        isBackgroundBlurred = isBackgroundBlurred,
+      )
+    }
+    if (state.profileId != null) {
+      KoinScope(
+        scopeDefinition = { ProfileComponent.getOrCreate(state.profileId).scope },
+      ) {
+        content()
+      }
+    } else {
+      content()
+    }
+  }
+}
+
+@OptIn(ExperimentalMaterialNavigationApi::class)
+@Composable
+private fun AppScreen(
+  state: AppState,
+  navigator: AppNavigator,
+  isBackgroundBlurred: Boolean = false,
+) {
 
   val blurRadius = animateDpAsState(
     label = "blur_radius",
     targetValue = if (isBackgroundBlurred) 20.dp else 0.dp,
   )
 
-  KoinScope(
-    scopeDefinition = { getOrCreateProfileScope(state.profileId) },
+  val colors = LocalTheme.colors
+
+  ModalBottomSheetLayout(
+    modifier = Modifier
+      .background(colors.backgroundPrimary)
+      .blur(
+        radius = blurRadius.value,
+        edgeTreatment = BlurredEdgeTreatment.Unbounded,
+      ),
+    bottomSheetNavigator = navigator.bottomSheet,
+    sheetShape = RectangleShape,
+    sheetBackgroundColor = Transparent,
+    sheetElevation = 0.dp,
+    scrimColor = if (navigator.navController.currentDestination?.route in blackBackgroundModals) {
+      Color.Black
+    } else {
+      ModalBottomSheetDefaults.scrimColor
+    },
   ) {
-    ChefBookTheme(darkTheme = isDarkTheme(state.theme, resources)) {
-      val colors = LocalTheme.colors
-
-      ModalBottomSheetLayout(
-        modifier = Modifier
-          .background(colors.backgroundPrimary)
-          .blur(
-            radius = blurRadius.value,
-            edgeTreatment = BlurredEdgeTreatment.Unbounded,
-          ),
-        bottomSheetNavigator = navigator.bottomSheet,
-        sheetShape = RectangleShape,
-        sheetBackgroundColor = Transparent,
-        sheetElevation = 0.dp,
-        scrimColor = if (navigator.navController.currentDestination?.route in blackBackgroundModals) {
-          Color.Black
-        } else {
-          ModalBottomSheetDefaults.scrimColor
-        },
-      ) {
-        AppHost(
-          isSignedIn = state.profileId != null,
-          navigator = navigator
-        )
-      }
-
-      AppThemeLaunchedEffect(
-        theme = state.theme,
-        currentDestination = navigator.navController.currentDestination,
-      )
-    }
+    AppHost(
+      isSignedIn = state.profileId != null,
+      navigator = navigator
+    )
   }
+
+  AppThemeLaunchedEffect(
+    theme = state.theme,
+    currentDestination = navigator.navController.currentDestination,
+  )
 }
 
 @Composable

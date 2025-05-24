@@ -3,12 +3,9 @@ package io.chefbook.sdk.recipe.core.api.internal.data.sources.local.sql.dto
 import io.chefbook.libs.models.language.LanguageMapper
 import io.chefbook.libs.models.profile.ProfileInfo
 import io.chefbook.libs.models.visibility.Visibility
-import io.chefbook.libs.models.visibility.Visibility.Companion.VISIBILITY_LINK
-import io.chefbook.libs.models.visibility.Visibility.Companion.VISIBILITY_PRIVATE
-import io.chefbook.libs.models.visibility.Visibility.Companion.VISIBILITY_PUBLIC
-import io.chefbook.sdk.collection.api.external.domain.entities.Collection
 import io.chefbook.sdk.database.api.internal.GetCollections
 import io.chefbook.sdk.database.api.internal.Select
+import io.chefbook.sdk.database.api.internal.recipe.SelectAll
 import io.chefbook.sdk.database.api.internal.toBoolean
 import io.chefbook.sdk.database.api.internal.toLong
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.CollectionInfo
@@ -17,18 +14,76 @@ import io.chefbook.sdk.recipe.core.api.external.domain.entities.DecryptedRecipeI
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.EncryptedRecipe
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.EncryptedRecipeInfo
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.Recipe
+import io.chefbook.sdk.recipe.core.api.external.domain.entities.RecipeInfo
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.RecipeMeta
 import io.chefbook.sdk.recipe.core.api.internal.data.sources.common.dto.CookingItemSerializable
 import io.chefbook.sdk.recipe.core.api.internal.data.sources.common.dto.IngredientItemSerializable
 import io.chefbook.sdk.recipe.core.api.internal.data.sources.common.dto.PicturesSerializable
 import io.chefbook.sdk.recipe.core.api.internal.data.sources.common.dto.toSerializable
-import io.chefbook.sdk.recipe.core.api.internal.data.sources.remote.services.dto.VisibilitySerializable
-import io.chefbook.sdk.recipe.core.api.internal.entity.RecipeMetaImpl
 import io.chefbook.sdk.tag.api.internal.data.sources.common.dto.TagsSerializable
 import io.chefbook.sdk.tag.api.internal.data.sources.common.dto.toSerializable
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import io.chefbook.sdk.database.api.internal.Recipes as RecipeSql
+
+fun SelectAll.toEntity(
+  collections: List<GetCollections>
+): RecipeInfo {
+  val pictures: PicturesSerializable = Json.decodeFromString(pictures)
+
+  val meta = RecipeMeta(
+    id = recipeId,
+    owner = ProfileInfo(
+      id = ownerId,
+      name = ownerName,
+      avatar = ownerAvatar,
+    ),
+
+    visibility = Visibility.deserialize(visibility),
+    isEncryptionEnabled = encrypted.toBoolean(),
+
+    language = LanguageMapper.map(language),
+
+    version = version.toInt(),
+    creationTimestamp = creationTimestamp,
+    updateTimestamp = updateTimestamp,
+
+    rating = RecipeMeta.Rating(
+      index = rating.toFloat(),
+      score = score?.toInt(),
+      votes = votes.toInt(),
+    ),
+
+    tags = Json.decodeFromString<TagsSerializable>(tags).toEntity(),
+  )
+
+  return if (meta.isEncryptionEnabled) {
+    EncryptedRecipeInfo(
+      meta = meta,
+      isOwned = owned,
+      isSaved = true,
+      collections = collections.toEntities(),
+      isFavourite = favourite.toBoolean(),
+      servings = servings?.toInt(),
+      time = time?.toInt(),
+      calories = calories?.toInt(),
+      name = name,
+      preview = pictures.preview,
+    )
+  } else {
+    DecryptedRecipeInfo(
+      meta = meta,
+      isOwned = owned,
+      isSaved = true,
+      collections = collections.toEntities(),
+      isFavourite = favourite.toBoolean(),
+      servings = servings?.toInt(),
+      time = time?.toInt(),
+      calories = calories?.toInt(),
+      name = name,
+      preview = pictures.preview,
+    )
+  }
+}
 
 fun Select.toEntity(
   collections: List<GetCollections>
@@ -40,7 +95,7 @@ fun Select.toEntity(
 
   val pictures: PicturesSerializable = Json.decodeFromString(pictures)
 
-  val meta = RecipeMetaImpl(
+  val meta = RecipeMeta(
     id = recipeId,
     owner = ProfileInfo(
       id = ownerId,
@@ -48,11 +103,7 @@ fun Select.toEntity(
       avatar = ownerAvatar,
     ),
 
-    visibility = when (visibility.lowercase()) {
-      VISIBILITY_PUBLIC -> Visibility.PUBLIC
-      VISIBILITY_LINK -> Visibility.LINK
-      else -> Visibility.PRIVATE
-    },
+    visibility = Visibility.deserialize(visibility),
     isEncryptionEnabled = encrypted.toBoolean(),
 
     language = LanguageMapper.map(language),
@@ -125,11 +176,7 @@ fun Recipe.toDto() =
       ownerName = owner.name,
       ownerAvatar = owner.avatar,
 
-      visibility = when (visibility) {
-        Visibility.PRIVATE -> VISIBILITY_PRIVATE
-        Visibility.LINK -> VISIBILITY_LINK
-        Visibility.PUBLIC -> VISIBILITY_PUBLIC
-      },
+      visibility = visibility.serialize(),
       encrypted = isEncryptionEnabled.toLong(),
 
       language = language.code,
@@ -140,7 +187,6 @@ fun Recipe.toDto() =
       version = version.toLong(),
 
       rating = rating.index.toDouble(),
-      score = rating.score?.toLong(),
       votes = rating.votes.toLong(),
 
       tags = Json.encodeToString(tags.toSerializable()),
@@ -175,11 +221,7 @@ fun Recipe.toDto() =
       ownerName = owner.name,
       ownerAvatar = owner.avatar,
 
-      visibility = when (visibility) {
-        Visibility.PRIVATE -> VISIBILITY_PRIVATE
-        Visibility.LINK -> VISIBILITY_LINK
-        Visibility.PUBLIC -> VISIBILITY_PUBLIC
-      },
+      visibility = visibility.serialize(),
       encrypted = isEncryptionEnabled.toLong(),
 
       language = language.code,
@@ -190,7 +232,6 @@ fun Recipe.toDto() =
       version = version.toLong(),
 
       rating = rating.index.toDouble(),
-      score = rating.score?.toLong(),
       votes = rating.votes.toLong(),
 
       tags = Json.encodeToString(tags.toSerializable()),

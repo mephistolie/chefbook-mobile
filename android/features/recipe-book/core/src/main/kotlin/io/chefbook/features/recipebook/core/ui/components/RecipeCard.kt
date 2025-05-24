@@ -61,7 +61,7 @@ fun RecipeCard(
   val pressed = remember { mutableStateOf(false) }
 
   val placeholder = remember {
-    recipe.collections.firstOrNull { it.emoji != null }?.emoji ?: EmojiUtils.randomFoodEmoji(recipe.id)
+    EmojiUtils.randomFoodEmoji(recipe.id)
   }
 
   RecipeEncryptionProvider(

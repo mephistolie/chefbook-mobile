@@ -1,6 +1,5 @@
 package io.chefbook.sdk.recipe.crud.impl.data.repositories
 
-import io.chefbook.libs.coroutines.CoroutineScopes
 import io.chefbook.libs.encryption.SymmetricKey
 import io.chefbook.libs.utils.result.EmptyResult
 import io.chefbook.libs.utils.result.successResult
@@ -11,7 +10,7 @@ import io.chefbook.sdk.encryption.vault.api.internal.data.repositories.Encrypted
 import io.chefbook.sdk.profile.api.internal.data.repositories.ProfileRepository
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.EncryptedRecipe
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.Recipe
-import io.chefbook.sdk.profile.api.internal.data.cache.RecipesCache
+import io.chefbook.sdk.recipe.core.api.internal.data.cache.RecipesCache
 import io.chefbook.sdk.recipe.crud.api.external.domain.entities.RecipeInput
 import io.chefbook.sdk.recipe.crud.api.internal.data.sources.local.LocalRecipeCrudSource
 import io.chefbook.sdk.recipe.crud.impl.data.models.asDecrypted
@@ -31,7 +30,6 @@ internal class RecipeCrudRepositoryImpl(
   private val profileRepository: ProfileRepository,
   private val sources: DataSourcesRepository,
   private val cryptor: RecipeCryptor,
-  private val scopes: CoroutineScopes,
 ) : RecipeCrudRepository {
 
   override fun observeRecipes() =

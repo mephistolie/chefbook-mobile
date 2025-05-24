@@ -1,7 +1,6 @@
 package io.chefbook.sdk.collection.impl.data.repositories
 
 import io.chefbook.libs.coroutines.AppDispatchers
-import io.chefbook.libs.coroutines.CoroutineScopes
 import io.chefbook.libs.utils.result.EmptyResult
 import io.chefbook.libs.utils.result.guard
 import io.chefbook.libs.utils.result.onSuccess
@@ -16,6 +15,7 @@ import io.chefbook.sdk.collection.impl.data.sources.local.LocalCollectionSource
 import io.chefbook.sdk.collection.impl.data.sources.remote.RemoteCollectionSource
 import io.chefbook.sdk.core.api.internal.data.repositories.DataSourcesRepository
 import io.chefbook.sdk.profile.api.internal.data.repositories.ProfileRepository
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -28,11 +28,11 @@ internal class CollectionRepositoryImpl(
   private val sources: DataSourcesRepository,
   private val cache: CollectionsCache,
   private val dispatchers: AppDispatchers,
-  scopes: CoroutineScopes,
+  profileScope: CoroutineScope,
 ) : CollectionRepository {
 
   private val initCollectionsJob: Job =
-    scopes.repository.launch { loadCachedCategories() }
+    profileScope.launch { loadCachedCategories() }
 
   override fun observeCollections(): StateFlow<List<Collection>?> =
     cache.observeCollections()
@@ -139,6 +139,6 @@ internal class CollectionRepositoryImpl(
     return successResult
   }
 
-  override suspend fun clearUnusedData(): EmptyResult =
+  override suspend fun clearUnusedCollections(): EmptyResult =
     localSource.clearUnusedCollections()
 }

@@ -13,9 +13,6 @@ internal class RecipeStateBody(
   @SerialName("id")
   val id: String,
 
-  @SerialName("owner")
-  val owner: OwnerInfo? = null,
-
   @SerialName("version")
   val version: Int,
 
@@ -28,15 +25,7 @@ internal class RecipeStateBody(
   val collections: List<String> = emptyList(),
   @SerialName("favourite")
   val isFavourite: Boolean = false,
-) {
-  @Serializable
-  class OwnerInfo(
-    @SerialName("name")
-    val name: String? = null,
-    @SerialName("avatar")
-    val avatar: String? = null,
-  )
-}
+)
 
 internal fun RecipeStateBody.toModel(
   collectionsMap: Map<String, CollectionInfo>,
@@ -44,8 +33,6 @@ internal fun RecipeStateBody.toModel(
 ): RecipeState =
   RecipeState(
     id = id,
-    ownerName = owner?.name,
-    ownerAvatar = owner?.avatar,
     version = version,
     rating = RecipeMeta.Rating(
       index = rating?.index ?: 0F,

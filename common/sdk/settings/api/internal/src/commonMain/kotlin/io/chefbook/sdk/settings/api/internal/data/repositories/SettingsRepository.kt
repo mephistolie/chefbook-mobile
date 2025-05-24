@@ -4,7 +4,6 @@ import io.chefbook.libs.models.language.Language
 import io.chefbook.sdk.settings.api.external.domain.entities.AppIcon
 import io.chefbook.sdk.settings.api.external.domain.entities.AppTheme
 import io.chefbook.sdk.settings.api.external.domain.entities.Environment
-import io.chefbook.sdk.settings.api.external.domain.entities.ProfileMode
 import io.chefbook.sdk.settings.api.external.domain.entities.Settings
 import kotlinx.coroutines.flow.Flow
 

@@ -2,6 +2,8 @@ package io.chefbook.sdk.collection.impl.data.sources.local.sql.dto
 
 import io.chefbook.libs.models.profile.ProfileInfo
 import io.chefbook.sdk.collection.api.external.domain.entities.Contributor
+import io.chefbook.sdk.collection.api.internal.data.sources.common.dto.ContributorRoleSerializable
+import io.chefbook.sdk.collection.api.internal.data.sources.common.dto.serialize
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -14,7 +16,7 @@ internal class ContributorSerializable(
   @SerialName("avatar")
   val avatar: String? = null,
   @SerialName("role")
-  val role: String? = null,
+  val role: ContributorRoleSerializable,
 ) {
 
   fun toEntity(): Contributor =
@@ -24,7 +26,7 @@ internal class ContributorSerializable(
         name = name,
         avatar = avatar,
       ),
-      role = Contributor.Role.deserialize(role),
+      role = role.deserialize(),
     )
 }
 

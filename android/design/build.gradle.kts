@@ -9,6 +9,7 @@ dependencies {
 
   implementation(libs.network.ktor.client.okhttp)
 
+  implementation(libs.androidx.compose.materialIcons.core)
   implementation(libs.androidx.compose.uiTooling)
 
   implementation(libs.compost.ui)

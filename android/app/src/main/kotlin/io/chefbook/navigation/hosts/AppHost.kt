@@ -67,9 +67,6 @@ fun AppHost(
       RecipeInputScreenDependencies()
       CommunityRecipesScreen()
     },
-    manualComposableCallsBuilder = {
-
-    },
   ) {
     composable(AuthScreenDestination) {
       AuthScreen(

@@ -8,6 +8,8 @@ interface SessionsRepository {
 
   fun observeSessions(): Flow<Map<String, Session>>
 
+  fun observeCurrentProfileId(): Flow<String?>
+
   suspend fun refreshTokens(): EmptyResult
 
   fun clearClientTokens(profileId: String)

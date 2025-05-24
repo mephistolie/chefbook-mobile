@@ -42,7 +42,7 @@ internal class CategoryRecipesScreenViewModel(
           } else {
             val category = recipeBook.collections.find { it.id == categoryId }
             name = category?.name
-            emoji = category?.emoji
+            emoji = null
           }
           _state.emit(
             CategoryScreenState(
@@ -70,13 +70,13 @@ internal class CategoryRecipesScreenViewModel(
         )
       )
 
-      is CategoryScreenIntent.OnCategoryUpdated ->
-        _state.update { state ->
-          state.copy(
-            name = intent.collection.name,
-            emoji = intent.collection.emoji,
-          )
-        }
+      is CategoryScreenIntent.OnCategoryUpdated -> Unit
+//        _state.update { state ->
+//          state.copy(
+//            name = intent.collection.name,
+//            emoji = intent.collection.emoji,
+//          )
+//        }
 
       is CategoryScreenIntent.Back -> _effect.emit(CategoryScreenEffect.Back)
     }

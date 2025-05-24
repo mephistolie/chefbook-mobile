@@ -6,6 +6,8 @@ kotlin {
   sourceSets {
     commonMain.dependencies {
       api(projects.common.sdk.collection.api.external)
+
+      api(projects.common.sdk.network.api.internal)
     }
   }
 }

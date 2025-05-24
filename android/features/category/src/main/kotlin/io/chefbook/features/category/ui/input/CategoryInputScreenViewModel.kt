@@ -1,7 +1,7 @@
 package io.chefbook.features.category.ui.input
 
 import androidx.lifecycle.viewModelScope
-import io.chefbook.features.category.ui.input.mvi.CategoryInputScreenEffect
+import io.chefbook.features.category.ui.input.mvi.CollectionInputScreenEffect
 import io.chefbook.features.category.ui.input.mvi.CategoryInputScreenIntent
 import io.chefbook.features.category.ui.input.mvi.CategoryInputScreenState
 import io.chefbook.libs.mvi.BaseMviViewModel
@@ -16,22 +16,22 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 internal class CategoryInputScreenViewModel(
-  private val categoryId: String?,
+  private val collectionId: String?,
 
   private val getCollectionUseCase: GetCollectionUseCase,
   private val createCollectionUseCase: CreateCollectionUseCase,
   private val updateCollectionUseCase: UpdateCollectionUseCase,
   private val deleteCollectionUseCase: DeleteCollectionUseCase,
 ) :
-  BaseMviViewModel<CategoryInputScreenState, CategoryInputScreenIntent, CategoryInputScreenEffect>() {
+  BaseMviViewModel<CategoryInputScreenState, CategoryInputScreenIntent, CollectionInputScreenEffect>() {
 
   override val _state: MutableStateFlow<CategoryInputScreenState> =
-    MutableStateFlow(CategoryInputScreenState(isEditing = categoryId != null))
+    MutableStateFlow(CategoryInputScreenState(isEditing = collectionId != null))
 
   init {
-    categoryId?.let {
+    collectionId?.let {
       viewModelScope.launch {
-        getCollectionUseCase(categoryId).onSuccess { category ->
+        getCollectionUseCase(collectionId).onSuccess { category ->
           _state.emit(state.value.copy(input = category.toInput()))
         }
       }
@@ -43,13 +43,13 @@ internal class CategoryInputScreenViewModel(
       is CategoryInputScreenIntent.Cancel -> {
         val state = state.value
         val isProcessing = state.isSaving || state.isDeleting
-        if (!isProcessing) _effect.emit(CategoryInputScreenEffect.Cancel)
+        if (!isProcessing) _effect.emit(CollectionInputScreenEffect.Cancel)
       }
 
       is CategoryInputScreenIntent.SetName -> setName(name = intent.name)
       is CategoryInputScreenIntent.SetCover -> setCover(newCover = intent.cover)
       is CategoryInputScreenIntent.ConfirmInput -> confirmInput()
-      is CategoryInputScreenIntent.Delete -> _effect.emit(CategoryInputScreenEffect.OpenDeleteConfirmation)
+      is CategoryInputScreenIntent.Delete -> _effect.emit(CollectionInputScreenEffect.OpenDeleteConfirmation)
       is CategoryInputScreenIntent.ConfirmDelete -> deleteCategory()
     }
   }
@@ -61,21 +61,21 @@ internal class CategoryInputScreenViewModel(
   }
 
   private fun setCover(newCover: String) {
-    val lastCover = state.value.input.emoji.orEmpty()
-    if (
-      (lastCover.length > newCover.length || lastCover.isEmpty()) &&
-      (newCover.length <= 10 && !coverRegex.matches(newCover) || newCover.length <= 1)
-    ) {
-      _state.update { state -> state.copy(input = state.input.copy(emoji = newCover.ifEmpty { null })) }
-    }
+//    val lastCover = state.value.input.emoji.orEmpty()
+//    if (
+//      (lastCover.length > newCover.length || lastCover.isEmpty()) &&
+//      (newCover.length <= 10 && !coverRegex.matches(newCover) || newCover.length <= 1)
+//    ) {
+//      _state.update { state -> state.copy(input = state.input.copy(emoji = newCover.ifEmpty { null })) }
+//    }
 
   }
 
   private suspend fun confirmInput() {
     var input = state.value.input
     input = input.copy(name = input.name.trim())
-    if (categoryId != null) updateCategory(
-      categoryId = categoryId,
+    if (collectionId != null) updateCategory(
+      categoryId = collectionId,
       input = input
     ) else createCategory(input = input)
   }
@@ -85,7 +85,7 @@ internal class CategoryInputScreenViewModel(
   ) {
     _state.update { it.copy(isSaving = true) }
     createCollectionUseCase(input = input)
-      .onSuccess { _effect.emit(CategoryInputScreenEffect.CategoryCreated(it)) }
+//      .onSuccess { _effect.emit(CollectionInputScreenEffect.CollectionCreated(it)) }
       .onFailure { _state.update { it.copy(isSaving = false) } }
   }
 
@@ -94,16 +94,16 @@ internal class CategoryInputScreenViewModel(
     input: CollectionInput,
   ) {
     _state.update { it.copy(isSaving = true) }
-    updateCollectionUseCase(categoryId = categoryId, input = input)
-      .onSuccess { category -> _effect.emit(CategoryInputScreenEffect.CategoryUpdated(category)) }
+    updateCollectionUseCase(collectionId = categoryId, input = input)
+      .onSuccess { category -> _effect.emit(CollectionInputScreenEffect.CollectionUpdated(category)) }
       .onFailure { _state.update { it.copy(isSaving = false) } }
   }
 
   private suspend fun deleteCategory() {
-    categoryId?.let {
+    collectionId?.let {
       _state.update { it.copy(isDeleting = true) }
-      deleteCollectionUseCase(categoryId = categoryId)
-        .onSuccess { _effect.emit(CategoryInputScreenEffect.CategoryDeleted(categoryId)) }
+      deleteCollectionUseCase(collectionId = collectionId)
+        .onSuccess { _effect.emit(CollectionInputScreenEffect.CollectionDeleted(collectionId)) }
         .onFailure { _state.update { it.copy(isDeleting = false) } }
     }
   }

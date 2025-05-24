@@ -39,10 +39,10 @@ internal class TokensRepositoryImpl(
     }
   }
 
-  override suspend fun sendWithoutRequest(): Boolean =
+  private suspend fun sendWithoutRequest(): Boolean =
     localSource.getCurrentSessionInfo().isExpired()
 
-  override suspend fun sendWithoutRequest(profileId: String): Boolean =
+  private suspend fun sendWithoutRequest(profileId: String): Boolean =
     localSource.getSessionsInfo()[profileId].isExpired()
 
   private fun Session?.isExpired(): Boolean {

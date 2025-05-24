@@ -1,6 +1,5 @@
 package io.chefbook.sdk.recipe.core.impl.data.cache
 
-import io.chefbook.libs.coroutines.CoroutineScopes
 import io.chefbook.libs.logger.Logger
 import io.chefbook.sdk.collection.api.internal.data.cache.CollectionsCacheReader
 import io.chefbook.sdk.recipe.book.api.external.domain.entities.RecipeBook
@@ -8,6 +7,7 @@ import io.chefbook.sdk.recipe.book.api.internal.data.cache.RecipeBookCache
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.CollectionInfo
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.Recipe
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.RecipeInfo
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,7 +21,7 @@ import kotlinx.coroutines.flow.update
 
 internal class RecipesCacheImpl(
   private val collectionsCache: CollectionsCacheReader,
-  scopes: CoroutineScopes,
+  profileScope: CoroutineScope,
 ) : RecipeBookCache {
 
   private val cachedRecipeInfo = MutableStateFlow<List<RecipeInfo>?>(null)
@@ -43,7 +43,7 @@ internal class RecipesCacheImpl(
       null
     }
   }
-    .shareIn(scopes.repository, started = SharingStarted.Lazily, replay = 1)
+    .shareIn(profileScope, started = SharingStarted.Lazily, replay = 1)
 
   override fun observeRecipes() =
     cachedRecipeMap

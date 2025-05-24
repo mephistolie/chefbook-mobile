@@ -10,8 +10,4 @@ interface TokensRepository {
   suspend fun getTokens(profileId: String): BearerTokens?
 
   suspend fun refreshTokens(params: RefreshTokensParams): BearerTokens?
-
-  suspend fun sendWithoutRequest(): Boolean
-
-  suspend fun sendWithoutRequest(profileId: String): Boolean
 }

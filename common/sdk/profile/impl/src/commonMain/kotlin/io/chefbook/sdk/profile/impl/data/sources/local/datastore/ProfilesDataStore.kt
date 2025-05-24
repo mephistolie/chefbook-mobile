@@ -4,9 +4,11 @@ import androidx.datastore.core.DataStore
 import io.chefbook.sdk.database.api.internal.ChefBookDataStoreFactory
 import io.chefbook.sdk.profile.impl.data.sources.common.dto.ProfileSerializable
 
-class ProfilesDataStore(
+internal interface ProfilesDataStore : DataStore<Map<String, ProfileSerializable>>
+
+class ProfilesDataStoreImpl(
   factory: ChefBookDataStoreFactory,
-) : DataStore<Map<String, ProfileSerializable>> by factory.create(
+) : ProfilesDataStore, DataStore<Map<String, ProfileSerializable>> by factory.create(
   fileName = "profiles.json",
   serializer = ProfilesSerializer,
 )

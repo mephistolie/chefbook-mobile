@@ -1,8 +1,9 @@
 package io.chefbook.sdk.recipe.book.impl.data.sources.remote.services.dto
 
+import io.chefbook.sdk.collection.api.internal.data.sources.remote.services.dto.CollectionSerializable
+import io.chefbook.sdk.network.api.internal.service.dto.responses.ProfileMinInfoSerializable
 import io.chefbook.sdk.recipe.book.api.internal.data.models.RecipeBookState
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.CollectionInfo
-import io.chefbook.sdk.recipe.core.api.internal.data.sources.remote.services.dto.RecipeCollectionInfoBody
 import io.chefbook.sdk.recipe.core.api.internal.data.sources.remote.services.dto.RecipeTagBody
 import io.chefbook.sdk.tag.api.external.domain.entities.Tag
 import io.chefbook.sdk.tag.api.external.domain.entities.TagGroup
@@ -14,23 +15,20 @@ internal data class GetRecipeBookResponse(
   @SerialName("recipes")
   val recipes: List<RecipeStateBody>,
   @SerialName("collections")
-  val collections: List<RecipeCollectionInfoBody>? = null,
+  val collections: List<CollectionSerializable>? = null,
   @SerialName("tags")
   val tags: Map<String, RecipeTagBody>? = null,
   @SerialName("tagGroups")
   val tagGroups: Map<String, String>? = null,
   @SerialName("isEncryptedVaultEnabled")
   val isEncryptedVaultEnabled: Boolean? = false,
+  @SerialName("profilesInfo")
+  val profilesInfo: Map<String, ProfileMinInfoSerializable>? = null,
 )
 
 internal fun GetRecipeBookResponse.toModel(): RecipeBookState {
-  val collections = collections.orEmpty().map {
-    CollectionInfo(
-      id = it.id,
-      name = it.name,
-    )
-  }
-  val collectionsMap = collections.associateBy { it.id }
+  val collections = collections.orEmpty().map { it.deserialize(profilesInfo.orEmpty()) }
+  val collectionsMap = collections.associate { it.id to CollectionInfo(id = it.id, name = it.name) }
   val tagsMap = tags.orEmpty().mapValues { entry ->
     Tag(
       id = entry.key,
@@ -48,7 +46,8 @@ internal fun GetRecipeBookResponse.toModel(): RecipeBookState {
   }
   return RecipeBookState(
     recipes = recipes.map { it.toModel(collectionsMap, tagsMap) },
-    collections = collectionsMap,
-    isEncryptedVaultEnabled = isEncryptedVaultEnabled ?: false,
+    collections = collections,
+    profiles = profilesInfo.orEmpty().mapValues { (id, dto) -> dto.deserialize(id) },
+    isEncryptedVaultEnabled = isEncryptedVaultEnabled == true,
   )
 }

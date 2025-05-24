@@ -13,7 +13,7 @@ import io.chefbook.sdk.file.api.internal.images.ImageCompressor
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.Recipe.Decrypted
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.Recipe.Decrypted.CookingItem
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.Recipe.Encrypted
-import io.chefbook.sdk.profile.api.internal.data.cache.RecipesCache
+import io.chefbook.sdk.recipe.core.api.internal.data.cache.RecipesCache
 import io.chefbook.sdk.recipe.crud.api.external.domain.entities.RecipeInput
 import io.chefbook.sdk.recipe.crud.impl.data.models.RecipePictures
 import io.chefbook.sdk.recipe.crud.impl.data.models.uploaded

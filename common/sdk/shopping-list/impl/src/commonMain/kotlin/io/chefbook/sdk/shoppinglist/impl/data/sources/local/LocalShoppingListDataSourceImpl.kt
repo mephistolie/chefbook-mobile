@@ -1,6 +1,5 @@
 package io.chefbook.sdk.shoppinglist.impl.data.sources.local
 
-import androidx.datastore.core.DataStore
 import io.chefbook.libs.exceptions.NotFoundException
 import io.chefbook.libs.exceptions.notFoundResult
 import io.chefbook.libs.utils.result.EmptyResult
@@ -8,15 +7,15 @@ import io.chefbook.libs.utils.result.successResult
 import io.chefbook.sdk.shoppinglist.api.external.domain.entities.Purchase
 import io.chefbook.sdk.shoppinglist.api.external.domain.entities.ShoppingList
 import io.chefbook.sdk.shoppinglist.impl.data.sources.common.dto.ShoppingListTypeSerializable
+import io.chefbook.sdk.shoppinglist.impl.data.sources.local.datastore.ShoppingListsDataStore
 import io.chefbook.sdk.shoppinglist.impl.data.sources.local.datastore.ShoppingListsSerializer
-import io.chefbook.sdk.shoppinglist.impl.data.sources.local.datastore.dto.ShoppingListSerializable
 import io.chefbook.sdk.shoppinglist.impl.data.sources.local.datastore.dto.toSerializable
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 
 internal class LocalShoppingListDataSourceImpl(
   private val profileId: String,
-  private val dataStore: DataStore<Map<String, List<ShoppingListSerializable>>>
+  private val dataStore: ShoppingListsDataStore,
 ) : LocalShoppingListDataSource {
 
   override fun observeShoppingLists() = dataStore.data

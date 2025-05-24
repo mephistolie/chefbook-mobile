@@ -1,7 +1,6 @@
 package io.chefbook.sdk.encryption.vault.impl.data.repositories
 
 import io.chefbook.libs.coroutines.AppDispatchers
-import io.chefbook.libs.coroutines.CoroutineScopes
 import io.chefbook.libs.encryption.AsymmetricKey
 import io.chefbook.libs.encryption.AsymmetricPrivateKey
 import io.chefbook.libs.encryption.AsymmetricPublicKey
@@ -15,6 +14,7 @@ import io.chefbook.sdk.encryption.vault.api.external.domain.entities.EncryptedVa
 import io.chefbook.sdk.encryption.vault.api.internal.data.repositories.EncryptedVaultRepository
 import io.chefbook.sdk.encryption.vault.impl.data.sources.local.LocalEncryptedVaultSource
 import io.chefbook.sdk.encryption.vault.impl.data.sources.remote.RemoteEncryptedVaultSource
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -28,13 +28,13 @@ internal class EncryptedVaultRepositoryImpl(
 
   private val sources: DataSourcesRepository,
   private val dispatchers: AppDispatchers,
-  scopes: CoroutineScopes,
+  profileScope: CoroutineScope,
 ) : EncryptedVaultRepository {
 
   private val vaultState: MutableStateFlow<InternalEncryptionState> =
     MutableStateFlow(InternalEncryptionState.Loading)
 
-  private val initEncryptionStateJob = scopes.repository.launch {
+  private val initEncryptionStateJob = profileScope.launch {
     val localResult = localSource.getEncryptedVaultKey()
     val state = localResult.getOrNull()?.let(InternalEncryptionState::Locked)
       ?: InternalEncryptionState.Disabled

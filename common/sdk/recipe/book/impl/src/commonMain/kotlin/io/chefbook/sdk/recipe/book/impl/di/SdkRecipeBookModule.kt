@@ -2,6 +2,7 @@ package io.chefbook.sdk.recipe.book.impl.di
 
 import androidx.datastore.core.DataStore
 import io.chefbook.libs.di.qualifiers.DataSource
+import io.chefbook.libs.di.scopes.ProfileComponent
 import io.chefbook.sdk.database.api.internal.ChefBookDataStoreFactory
 import io.chefbook.sdk.recipe.book.api.external.domain.usecases.GetLatestRecipesUseCase
 import io.chefbook.sdk.recipe.book.api.external.domain.usecases.GetRecipeBookUseCase
@@ -13,6 +14,8 @@ import io.chefbook.sdk.recipe.book.impl.data.repositories.LatestRecipesRepositor
 import io.chefbook.sdk.recipe.book.impl.data.repositories.RecipeBookRepositoryImpl
 import io.chefbook.sdk.recipe.book.impl.data.sources.local.LocalRecipeBookSource
 import io.chefbook.sdk.recipe.book.impl.data.sources.local.LocalRecipeBookSourceImpl
+import io.chefbook.sdk.recipe.book.impl.data.sources.local.datastore.LatestRecipesDataStore
+import io.chefbook.sdk.recipe.book.impl.data.sources.local.datastore.LatestRecipesDataStoreImpl
 import io.chefbook.sdk.recipe.book.impl.data.sources.local.datastore.LatestRecipesSerializer
 import io.chefbook.sdk.recipe.book.impl.data.sources.local.datastore.dto.LatestRecipeInfoSerializable
 import io.chefbook.sdk.recipe.book.impl.data.sources.remote.RemoteRecipeBookSource
@@ -31,11 +34,16 @@ import org.koin.dsl.module
 
 fun sdkRecipeBookModule() = module {
 
-  singleOf(::latestRecipesDataStore)
+  singleOf(::LatestRecipesDataStoreImpl) bind LatestRecipesDataStore::class
 
   singleOf(::RecipeBookApiServiceImpl) bind RecipeBookApiService::class
 
-  single<LocalRecipeBookSource>(named(DataSource.LOCAL)) { LocalRecipeBookSourceImpl(get()) }
+  single<LocalRecipeBookSource>(named(DataSource.LOCAL)) {
+    LocalRecipeBookSourceImpl(
+      profileId = get<ProfileComponent>().profileId,
+      database = get(),
+    )
+  }
   single<RemoteRecipeBookSource>(named(DataSource.REMOTE)) { RemoteRecipeBookSourceImpl(get()) }
 
   single<RecipeBookRepository> {
@@ -54,7 +62,7 @@ fun sdkRecipeBookModule() = module {
       categoriesRepository = get(),
       cryptor = get(),
       dispatchers = get(),
-      scopes = get(),
+      profileScope = get<ProfileComponent>().coroutineScope,
     )
   }
   singleOf(::LatestRecipesRepositoryImpl) bind LatestRecipesRepository::class
@@ -64,11 +72,3 @@ fun sdkRecipeBookModule() = module {
   factoryOf(::ObserveLatestRecipesUseCaseImpl) bind ObserveLatestRecipesUseCase::class
   factoryOf(::GetLatestRecipesUseCaseImpl) bind GetLatestRecipesUseCase::class
 }
-
-private fun latestRecipesDataStore(
-  factory: ChefBookDataStoreFactory,
-): DataStore<List<LatestRecipeInfoSerializable>> =
-  factory.create(
-    fileName = "latest_recipes.json",
-    serializer = LatestRecipesSerializer,
-  )

@@ -33,7 +33,7 @@ fun sdkCommunityRecipesModule() = module {
     )
   }
 
-  single<CommunityRecipesRepository> {
+  factory<CommunityRecipesRepository> {
     CommunityRecipesRepositoryImpl(
       source = get(named(DataSource.REMOTE)),
     )
