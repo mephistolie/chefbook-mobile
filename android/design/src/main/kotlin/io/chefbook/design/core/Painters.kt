@@ -12,7 +12,7 @@ fun scorePainter(score: Int) = painterResource(
     1 -> R.drawable.ic_broccy_crossed_out_eyes
     2 -> R.drawable.ic_broccy_expressionless
     3 -> R.drawable.ic_broccy_neutral
-    4 -> R.drawable.ic_broccy
+//    4 -> R.drawable.ic_broccy
     else -> R.drawable.ic_broccy_stars
   }
 )
@@ -23,7 +23,7 @@ fun scorePainter(rating: Float, votes: Int) = painterResource(
   when {
     votes == 0 -> R.drawable.ic_broccy_think
     rating >= 4.5 -> R.drawable.ic_broccy_stars
-    rating >= 3.5 -> R.drawable.ic_broccy
+//    rating >= 3.5 -> R.drawable.ic_broccy
     rating >= 2.5 -> R.drawable.ic_broccy_neutral
     rating >= 1.5 -> R.drawable.ic_broccy_expressionless
     else -> R.drawable.ic_broccy_crossed_out_eyes

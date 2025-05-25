@@ -1,7 +1,6 @@
 package io.chefbook.features.auth.ui
 
 import android.content.Context
-import androidx.lifecycle.viewModelScope
 import io.chefbook.features.auth.R
 import io.chefbook.features.auth.data.oauth.GoogleAuthenticator
 import io.chefbook.features.auth.ui.mvi.AuthScreenEffect
@@ -9,23 +8,19 @@ import io.chefbook.features.auth.ui.mvi.AuthScreenIntent
 import io.chefbook.features.auth.ui.mvi.AuthScreenState
 import io.chefbook.libs.exceptions.ServerException
 import io.chefbook.libs.logger.Logger
+import io.chefbook.libs.models.profile.ProfileInfo
 import io.chefbook.libs.mvi.BaseMviViewModel
 import io.chefbook.libs.utils.auth.PasswordRating
 import io.chefbook.libs.utils.auth.isEmail
 import io.chefbook.libs.utils.auth.isNickname
 import io.chefbook.libs.utils.auth.validatePassword
 import io.chefbook.sdk.auth.api.external.domain.usecases.ActivateProfileUseCase
-import io.chefbook.sdk.auth.api.external.domain.usecases.ObserveProfileDeletionUseCase
-import io.chefbook.sdk.auth.api.external.domain.usecases.RequestPasswordResetUseCase
-import io.chefbook.sdk.auth.api.external.domain.usecases.ResetPasswordUseCase
 import io.chefbook.sdk.auth.api.external.domain.usecases.RestoreProfileUseCase
 import io.chefbook.sdk.auth.api.external.domain.usecases.SignInGoogleUseCase
 import io.chefbook.sdk.auth.api.external.domain.usecases.SignInUseCase
-import io.chefbook.sdk.auth.api.external.domain.usecases.SignOutUseCase
 import io.chefbook.sdk.auth.api.external.domain.usecases.SignUpUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.scope.Scope
 import io.chefbook.core.android.R as coreR
@@ -53,20 +48,31 @@ internal class AuthViewModel(
   private var password = ""
   private var passwordValidation = ""
 
-  override val _state = MutableStateFlow(
-    when {
-      userId.isNotBlank() && activationCode.isNotBlank() -> getProfileActivationState()
-      userId.isNotBlank() && passwordResetCode.isNotBlank() -> getPasswordResetConfirmationState()
-      else -> getSignInState()
-    }
+  private val stubState =     AuthScreenState.ProfileList(
+    profiles = listOf(
+      ProfileInfo(
+        id = "1",
+        avatar = "https://sun9-17.userapi.com/s/v1/if1/-xsdRlUD-9URd1NpuoqKYcyowoJFKKPdBAy7Z1YKb1QHoioT_jsFwjoLZNFZa9eSf7uvJA.jpg?quality=96&crop=208,74,384,384&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360&ava=1&cs=200x200",
+        name = "Уолтер Уайт",
+      ),
+      ProfileInfo(
+        id = "2",
+        avatar = "https://avatars.mds.yandex.net/i?id=d8c50d9c0d31bd565240a06217903f3b_l-8209451-images-thumbs&n=13",
+        name = "Джимми МакГилл",
+      )
+    )
+  )
+
+  override val _state: MutableStateFlow<AuthScreenState> = MutableStateFlow(
+    stubState
   )
 
   init {
-    viewModelScope.launch {
-      launch { googleAuthenticator.clearCredentialState() }
-      if (userId.isNotBlank() && activationCode.isNotBlank()) activateProfile()
-      observeProfileDeletion()
-    }
+//    viewModelScope.launch {
+//      launch { googleAuthenticator.clearCredentialState() }
+//      if (userId.isNotBlank() && activationCode.isNotBlank()) activateProfile()
+//      observeProfileDeletion()
+//    }
   }
 
   private suspend fun observeProfileDeletion() {
@@ -110,6 +116,9 @@ internal class AuthViewModel(
       is AuthScreenIntent.RestoreProfile -> restoreProfile()
       is AuthScreenIntent.OpenSignOutConfirmationScreen -> _effect.emit(AuthScreenEffect.SignOutConfirmationScreenOpened)
       is AuthScreenIntent.SignOut -> Unit // signOutUseCase()
+
+      is AuthScreenIntent.OpenProfileListForm -> _state.update { stubState }
+      is AuthScreenIntent.SignInProfile -> TODO()
     }
   }
 
@@ -301,7 +310,8 @@ internal class AuthViewModel(
       when (state) {
         is AuthScreenState.Loading -> state
         is AuthScreenState.ProfileRestoration -> state
-        is AuthScreenState.SignIn -> getSignInState()
+        is AuthScreenState.ProfileList -> state
+        is AuthScreenState.SignInLogin -> getSignInState()
         is AuthScreenState.SignInPassword -> getSignInPasswordState()
         is AuthScreenState.PasswordReset -> getPasswordResetState()
         is AuthScreenState.PasswordResetConfirmation -> getPasswordResetConfirmationState()
@@ -312,9 +322,10 @@ internal class AuthViewModel(
     }
   }
 
-  private fun getSignInState() = AuthScreenState.SignIn(
+  private fun getSignInState() = AuthScreenState.SignInLogin(
     login = login,
-    isAuthButtonEnabled = isNickname(login) || isEmail(login)
+    isAuthButtonEnabled = isNickname(login) || isEmail(login),
+    isProfileListButtonVisible = true,
   )
 
   private fun getSignInPasswordState() = AuthScreenState.SignInPassword(

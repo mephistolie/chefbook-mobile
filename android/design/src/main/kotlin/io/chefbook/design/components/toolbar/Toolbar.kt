@@ -1,6 +1,5 @@
 package io.chefbook.design.components.toolbar
 
-import androidx.annotation.DrawableRes
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
@@ -14,23 +13,21 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.mephistolie.compost.modifiers.simpleClickable
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
-import io.chefbook.design.R
+import io.chefbook.design.icons.ArrowStart
+import io.chefbook.design.icons.ChefBookIcons
 import io.chefbook.design.theme.dimens.IconSize24
 import io.chefbook.design.theme.dimens.ToolbarHeight
 
 @Composable
 fun Toolbar(
   modifier: Modifier = Modifier,
-  @DrawableRes
-  leftButtonIconId: Int? = R.drawable.ic_arrow_left,
+  leftButtonIcon: ImageVector? = ChefBookIcons.ArrowStart,
   onLeftButtonClick: () -> Unit = {},
-  @DrawableRes
-  rightButtonIconId: Int? = null,
+  rightButtonIcon: ImageVector? = null,
   rightButtonTint: Color = LocalTheme.colors.foregroundPrimary,
   rightIconEndPadding: Dp = 0.dp,
   onRightButtonClick: () -> Unit = {},
@@ -45,9 +42,9 @@ fun Toolbar(
       .padding(vertical = 8.dp),
     verticalAlignment = Alignment.CenterVertically,
   ) {
-    leftButtonIconId?.let {
+    leftButtonIcon?.let {
       ToolbarIcon(
-        iconId = leftButtonIconId,
+        icon = leftButtonIcon,
         onClick = onLeftButtonClick,
         paddingEnd = 12.dp,
       )
@@ -55,8 +52,8 @@ fun Toolbar(
     Column(
       modifier = Modifier
         .padding(
-          start = if (rightButtonIconId != null && leftButtonIconId == null) 36.dp else 0.dp,
-          end = if (leftButtonIconId != null && rightButtonIconId == null) 36.dp else 0.dp,
+          start = if (rightButtonIcon != null && leftButtonIcon == null) 36.dp else 0.dp,
+          end = if (leftButtonIcon != null && rightButtonIcon == null) 36.dp else 0.dp,
         )
         .weight(1F)
         .fillMaxWidth()
@@ -64,9 +61,9 @@ fun Toolbar(
       horizontalAlignment = contentAlignment,
       content = content
     )
-    rightButtonIconId?.let {
+    rightButtonIcon?.let {
       ToolbarIcon(
-        iconId = rightButtonIconId,
+        icon = rightButtonIcon,
         onClick = onRightButtonClick,
         tint = rightButtonTint,
         paddingStart = 12.dp,
@@ -78,8 +75,7 @@ fun Toolbar(
 
 @Composable
 fun ToolbarIcon(
-  @DrawableRes
-  iconId: Int,
+  icon: ImageVector,
   onClick: () -> Unit,
   tint: Color = LocalTheme.colors.foregroundPrimary,
   paddingStart: Dp = 0.dp,
@@ -87,7 +83,7 @@ fun ToolbarIcon(
   iconPaddingEnd: Dp = 0.dp,
 ) {
   Icon(
-    imageVector = ImageVector.vectorResource(iconId),
+    imageVector = icon,
     tint = tint,
     modifier = Modifier
       .padding(start = paddingStart, end = paddingEnd)

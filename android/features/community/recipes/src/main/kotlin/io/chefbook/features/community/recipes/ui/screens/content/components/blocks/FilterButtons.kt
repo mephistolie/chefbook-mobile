@@ -22,6 +22,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
+import io.chefbook.design.icons.ArrowEnd
+import io.chefbook.design.icons.ChefBookIcons
 import io.chefbook.core.android.R as coreR
 import io.chefbook.design.R as designR
 import io.chefbook.features.community.recipes.ui.screens.content.components.elements.FilterButton
@@ -112,7 +114,7 @@ internal fun FilterButtons(
         onClick = onMoreTagsClick,
       ) {
         Icon(
-          imageVector = ImageVector.vectorResource(designR.drawable.ic_arrow_right),
+          imageVector = ChefBookIcons.ArrowEnd,
           tint = colors.foregroundPrimary,
           contentDescription = null,
           modifier = Modifier.size(28.dp),

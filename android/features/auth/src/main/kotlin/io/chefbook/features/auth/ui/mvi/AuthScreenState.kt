@@ -1,14 +1,16 @@
 package io.chefbook.features.auth.ui.mvi
 
+import io.chefbook.libs.models.profile.ProfileInfo
 import io.chefbook.libs.mvi.MviState
 
 internal sealed interface AuthScreenState : MviState {
 
   data object Loading : AuthScreenState
 
-  data class SignIn(
+  data class SignInLogin(
     val login: String = "",
     val isAuthButtonEnabled: Boolean = false,
+    val isProfileListButtonVisible: Boolean = false,
   ) : AuthScreenState
 
   data class SignInPassword(
@@ -51,5 +53,9 @@ internal sealed interface AuthScreenState : MviState {
 
   data class ProfileRestoration(
     val deletionTimestamp: String,
+  ) : AuthScreenState
+
+  data class ProfileList(
+    val profiles: List<ProfileInfo>,
   ) : AuthScreenState
 }

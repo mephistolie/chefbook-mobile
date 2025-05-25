@@ -35,6 +35,10 @@ internal fun SignUpForm(
 
   val focusRequester = remember { FocusRequester() }
 
+  LaunchedEffect(Unit) {
+    if (state.email.isNotEmpty()) focusRequester.requestFocus()
+  }
+
   LoginInputField(
     value = state.email,
     onValueChange = { text -> onIntent(AuthScreenIntent.SetLogin(text)) },
@@ -63,8 +67,4 @@ internal fun SignUpForm(
       .simpleClickable { onIntent(AuthScreenIntent.OpenSignInForm) }
       .padding(vertical = 12.dp)
   )
-
-  LaunchedEffect(Unit) {
-    if (state.email.isNotEmpty()) focusRequester.requestFocus()
-  }
 }

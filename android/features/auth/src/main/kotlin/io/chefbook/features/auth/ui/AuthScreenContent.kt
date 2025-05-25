@@ -33,6 +33,7 @@ import io.chefbook.features.auth.ui.blocks.PasswordResetConfirmationForm
 import io.chefbook.features.auth.ui.blocks.PasswordResetForm
 import io.chefbook.features.auth.ui.blocks.ProfileActivationForm
 import io.chefbook.features.auth.ui.blocks.ProfileRestorationForm
+import io.chefbook.features.auth.ui.blocks.ProfilesListForm
 import io.chefbook.features.auth.ui.blocks.SignInForm
 import io.chefbook.features.auth.ui.blocks.SignInPasswordForm
 import io.chefbook.features.auth.ui.blocks.SignUpForm
@@ -56,16 +57,17 @@ internal fun AuthScreenContent(
       .fillMaxSize()
       .background(colors.backgroundPrimary)
       .systemBarsPadding(),
-    contentAlignment = Alignment.Center,
   ) {
     Column(
       modifier = Modifier
         .fillMaxWidth()
         .wrapContentHeight()
+        .align(Alignment.TopCenter)
         .animateContentSize()
         .scrollable(orientation = Orientation.Vertical, state = rememberScrollState()),
       horizontalAlignment = Alignment.CenterHorizontally,
     ) {
+      Spacer(modifier = Modifier.height(128.dp))
       ChefBookLogo()
       Spacer(modifier = Modifier.height(20.dp))
       Box {
@@ -89,10 +91,10 @@ internal fun AuthScreenContent(
         AnimatedAuthForm<AuthScreenState.ProfileActivation>(state) {
           ProfileActivationForm(state = it, onIntent = onIntent)
         }
-        AnimatedAuthForm<AuthScreenState.SignIn>(state) {
+        AnimatedAuthForm<AuthScreenState.SignInLogin>(state) {
           SignInForm(state = it, onIntent = onIntent)
         }
-        AnimatedAuthForm<AuthScreenState.SignIn>(state) {
+        AnimatedAuthForm<AuthScreenState.SignInLogin>(state) {
           SignInForm(state = it, onIntent = onIntent)
         }
         AnimatedAuthForm<AuthScreenState.SignInPassword>(state) {
@@ -107,11 +109,22 @@ internal fun AuthScreenContent(
         AnimatedAuthForm<AuthScreenState.ProfileRestoration>(state) {
           ProfileRestorationForm(state = it, onIntent = onIntent)
         }
+        AnimatedAuthForm<AuthScreenState.ProfileList>(state) {
+          ProfilesListForm(state = it, onIntent = onIntent)
+        }
       }
     }
 
-    if (state !is AuthScreenState.Loading && state !is AuthScreenState.ProfileRestoration) {
-      HyperlinkText(
+    when (state) {
+      AuthScreenState.Loading, is AuthScreenState.ProfileRestoration -> Unit
+      is AuthScreenState.PasswordReset,
+      is AuthScreenState.PasswordResetConfirmation,
+      is AuthScreenState.ProfileActivation,
+      is AuthScreenState.SignInLogin,
+      is AuthScreenState.SignInPassword,
+      is AuthScreenState.SignUp,
+      is AuthScreenState.SignUpPassword,
+      is AuthScreenState.ProfileList -> HyperlinkText(
         text = stringResource(R.string.common_auth_screen_agreement),
         hyperlinks = listOf(stringResource(coreR.string.common_general_eula) to "https://chefbook.io/eula"),
         modifier = Modifier

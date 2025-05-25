@@ -7,6 +7,8 @@ import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import io.chefbook.design.icons.ArrowDownMedium
+import io.chefbook.design.icons.ChefBookIcons
 import io.chefbook.features.recipe.info.R
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.Recipe
 import io.chefbook.core.android.R as coreR
@@ -38,8 +40,8 @@ internal fun ManagementButton(
       recipe.isSaved -> designR.drawable.ic_bookmark_fill
       else -> null
     },
-    rightIconId = when {
-      recipe.isSaved || recipe.isOwned -> designR.drawable.ic_arrow_down
+    rightIcon = when {
+      recipe.isSaved || recipe.isOwned -> ChefBookIcons.ArrowDownMedium
       else -> null
     },
     rightIconModifier = Modifier.padding(top = 2.dp),

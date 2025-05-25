@@ -33,6 +33,9 @@ import com.mephistolie.compost.modifiers.simpleClickable
 import io.chefbook.core.android.R as coreR
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.design.components.buttons.DynamicButton
+import io.chefbook.design.icons.ArrowDownMedium
+import io.chefbook.design.icons.ArrowStart
+import io.chefbook.design.icons.ChefBookIcons
 import io.chefbook.design.theme.dimens.ComponentHeight40
 import io.chefbook.design.theme.dimens.IconSize24
 import io.chefbook.design.theme.dimens.ToolbarHeight
@@ -73,7 +76,7 @@ internal fun Toolbar(
     contentAlignment = Alignment.Center,
   ) {
     Icon(
-      imageVector = ImageVector.vectorResource(designR.drawable.ic_arrow_left),
+      imageVector = ChefBookIcons.ArrowStart,
       tint = colors.foregroundPrimary,
       contentDescription = null,
       modifier = Modifier
@@ -100,7 +103,7 @@ internal fun Toolbar(
         cornerRadius = 12.dp,
         textStyle = typography.headline1,
         iconsSize = 16.dp,
-        rightIcon = ImageVector.vectorResource(designR.drawable.ic_arrow_down),
+        rightIcon = ChefBookIcons.ArrowDownMedium,
         selectedForeground = colors.foregroundPrimary,
         selectedBackground = Color.Transparent,
         isSelected = true,

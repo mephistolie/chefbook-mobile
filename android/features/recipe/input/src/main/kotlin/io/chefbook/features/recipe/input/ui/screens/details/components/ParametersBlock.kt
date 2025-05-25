@@ -13,6 +13,8 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.design.components.buttons.DynamicButton
+import io.chefbook.design.icons.ArrowDownMedium
+import io.chefbook.design.icons.ChefBookIcons
 import io.chefbook.design.theme.dimens.ComponentHeight40
 import io.chefbook.libs.models.visibility.Visibility
 import io.chefbook.sdk.recipe.crud.api.external.domain.entities.RecipeInput
@@ -55,7 +57,7 @@ internal fun ParametersBlock(
           }
         ),
         iconsSize = 16.dp,
-        rightIcon = ImageVector.vectorResource(designR.drawable.ic_arrow_down),
+        rightIcon = ChefBookIcons.ArrowDownMedium,
         unselectedForeground = colors.foregroundPrimary,
         modifier = Modifier
           .padding(start = 12.dp)
@@ -70,7 +72,7 @@ internal fun ParametersBlock(
         cornerRadius = 12.dp,
         textStyle = typography.body2,
         iconsSize = 16.dp,
-        rightIcon = ImageVector.vectorResource(designR.drawable.ic_arrow_down),
+        rightIcon = ChefBookIcons.ArrowDownMedium,
         unselectedForeground = colors.foregroundPrimary,
         modifier = Modifier.height(ComponentHeight40),
         onClick = onLanguageClick,
@@ -85,7 +87,7 @@ internal fun ParametersBlock(
         iconsSize = 16.dp,
         isEnabled = !isEditing,
         leftIcon = ImageVector.vectorResource(if (state.hasEncryption) designR.drawable.ic_lock else designR.drawable.ic_lock_open),
-        rightIcon = if (!isEditing) ImageVector.vectorResource(designR.drawable.ic_arrow_down) else null,
+        rightIcon = if (!isEditing) ChefBookIcons.ArrowDownMedium else null,
         unselectedForeground = colors.foregroundPrimary,
         modifier = Modifier
           .padding(end = 12.dp)

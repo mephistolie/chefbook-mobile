@@ -21,6 +21,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
+import io.chefbook.design.icons.Broccy
+import io.chefbook.design.icons.ChefBookIcons
 import io.chefbook.design.theme.colors.Gradients
 import io.chefbook.features.settings.BuildConfig
 import io.chefbook.features.settings.R
@@ -86,7 +88,7 @@ internal fun SettingsScreenContent(
           .padding(vertical = 14.dp),
       ) {
         MenuSelectableImage(
-          image = ImageVector.vectorResource(designR.drawable.ic_broccy),
+          image = ChefBookIcons.Broccy,
           isSelected = state.appIcon == AppIcon.STANDARD,
           onClick = { onIntent(SettingsScreenIntent.SetIcon(AppIcon.STANDARD)) },
         )

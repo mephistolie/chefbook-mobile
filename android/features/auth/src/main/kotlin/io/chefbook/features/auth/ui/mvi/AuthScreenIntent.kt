@@ -27,4 +27,7 @@ internal sealed interface AuthScreenIntent : MviIntent {
   data object RestoreProfile : AuthScreenIntent
   data object OpenSignOutConfirmationScreen : AuthScreenIntent
   data object SignOut : AuthScreenIntent
+
+  data object OpenProfileListForm : AuthScreenIntent
+  data class SignInProfile(val profileId: String): AuthScreenIntent
 }

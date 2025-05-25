@@ -19,6 +19,9 @@ import androidx.compose.ui.unit.dp
 import com.mephistolie.compost.modifiers.simpleClickable
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.design.components.dividers.Divider
+import io.chefbook.design.icons.ArrowStart
+import io.chefbook.design.icons.ArrowUpMedium
+import io.chefbook.design.icons.ChefBookIcons
 import io.chefbook.design.R as designR
 
 val bottomBarHeight = 69.dp
@@ -65,7 +68,7 @@ internal fun BottomBar(
       )
       AnimatedVisibility(isScrollUpButtonVisible) {
         Icon(
-          painter = painterResource(id = designR.drawable.ic_arrow_up),
+          imageVector = ChefBookIcons.ArrowUpMedium,
           tint = colors.foregroundPrimary,
           contentDescription = null,
           modifier = Modifier

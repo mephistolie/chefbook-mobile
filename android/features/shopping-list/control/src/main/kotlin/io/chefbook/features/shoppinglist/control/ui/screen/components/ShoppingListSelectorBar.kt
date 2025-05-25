@@ -61,7 +61,7 @@ internal fun ShoppingListSelectorBar(
             color = colors.foregroundPrimary,
           )
 //          Icon(
-//            imageVector = ImageVector.vectorResource(designR.drawable.ic_arrow_down),
+//            imageVector = ChefBookIcons.ArrowDownMedium,
 //            tint = colors.foregroundPrimary,
 //            modifier = Modifier
 //              .padding(top = 2.dp)

@@ -10,7 +10,9 @@ import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.design.components.buttons.DynamicButton
@@ -32,7 +34,7 @@ internal fun RecipeCategoriesSelectionBlockContent(
   Column {
     Toolbar(
       onLeftButtonClick = { onIntent(RecipeCategoriesSelectionBlockIntent.Cancel) },
-      rightButtonIconId = designR.drawable.ic_check,
+      rightButtonIcon = ImageVector.vectorResource(designR.drawable.ic_check),
       rightButtonTint = colors.tintPrimary,
       rightIconEndPadding = 2.dp,
       onRightButtonClick = { onIntent(RecipeCategoriesSelectionBlockIntent.ConfirmSelection) }

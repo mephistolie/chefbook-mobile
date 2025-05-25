@@ -21,6 +21,8 @@ import androidx.compose.ui.unit.dp
 import com.mephistolie.compost.modifiers.clippedBackground
 import com.mephistolie.compost.modifiers.simpleClickable
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
+import io.chefbook.design.icons.ArrowEnd
+import io.chefbook.design.icons.ChefBookIcons
 import io.chefbook.design.theme.dimens.IconSize24
 import io.chefbook.design.theme.shapes.SmoothCornerShape28Top
 import io.chefbook.features.community.recipes.R
@@ -93,7 +95,7 @@ internal fun FilterBlock(
       )
     }
     Icon(
-      imageVector = ImageVector.vectorResource(designR.drawable.ic_arrow_right),
+      imageVector = ChefBookIcons.ArrowEnd,
       tint = colors.foregroundPrimary,
       contentDescription = null,
       modifier = Modifier

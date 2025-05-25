@@ -8,10 +8,14 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.design.components.toolbar.Toolbar
+import io.chefbook.design.icons.ArrowEnd
+import io.chefbook.design.icons.ChefBookIcons
 import io.chefbook.design.theme.dimens.IconSize16
 import io.chefbook.features.recipe.control.R
 import io.chefbook.features.recipe.control.ui.mvi.RecipeControlScreenIntent
@@ -30,7 +34,7 @@ internal fun RecipeControlScreenMenu(
     horizontalAlignment = Alignment.CenterHorizontally
   ) {
     Toolbar(
-      leftButtonIconId = null,
+      leftButtonIcon = null,
       modifier = Modifier.padding(bottom = 4.dp)
     ) {
       Text(
@@ -50,13 +54,15 @@ internal fun RecipeControlScreenMenu(
           else
             R.string.common_recipe_control_screen_add_to_favourite
         ),
-        iconId = if (recipe.isFavourite) designR.drawable.ic_favourite else designR.drawable.ic_unfavourite,
+        icon = ImageVector.vectorResource(
+          if (recipe.isFavourite) designR.drawable.ic_favourite else designR.drawable.ic_unfavourite
+        ),
         isFirst = true,
       )
       RecipeActionButton(
         onClick = { onIntent(RecipeControlScreenIntent.ChangeCategories) },
         text = stringResource(R.string.common_recipe_control_screen_choose_categories),
-        iconId = designR.drawable.ic_arrow_right,
+        icon = ChefBookIcons.ArrowEnd,
         iconSize = IconSize16,
         isLast = true,
       )
@@ -76,7 +82,9 @@ internal fun RecipeControlScreenMenu(
         else
           R.string.common_recipe_control_screen_add_to_recipe_book
       ),
-      iconId = if (recipe.isSaved) designR.drawable.ic_bookmark_fill else designR.drawable.ic_bookmark,
+      icon = ImageVector.vectorResource(
+        if (recipe.isSaved) designR.drawable.ic_bookmark_fill else designR.drawable.ic_bookmark
+      ),
       isFirst = true,
       isLast = true,
     )
@@ -85,14 +93,14 @@ internal fun RecipeControlScreenMenu(
       RecipeActionButton(
         onClick = { onIntent(RecipeControlScreenIntent.EditRecipe) },
         text = stringResource(R.string.common_recipe_control_screen_edit_recipe),
-        iconId = designR.drawable.ic_edit,
+        icon = ImageVector.vectorResource(designR.drawable.ic_edit),
         isFirst = true,
       )
       RecipeActionButton(
         onClick = { onIntent(RecipeControlScreenIntent.OpenDeleteDialog) },
         text = stringResource(R.string.common_recipe_control_screen_delete_recipe),
         textTint = colors.tintPrimary,
-        iconId = designR.drawable.ic_trash,
+        icon = ImageVector.vectorResource(designR.drawable.ic_trash),
         isLast = true,
       )
     }

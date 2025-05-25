@@ -30,10 +30,7 @@ internal inline fun <reified T : AuthScreenState> AnimatedAuthForm(
     exit = slideOutHorizontally { fullWidth -> -fullWidth },
   ) {
     var savedState by remember { mutableStateOf<T?>(null) }
-
     if (state is T) savedState = state
-
-    val currentState = savedState
 
     Column(
       modifier = modifier
@@ -42,9 +39,7 @@ internal inline fun <reified T : AuthScreenState> AnimatedAuthForm(
       verticalArrangement = Arrangement.Center,
       horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-      if (currentState != null) {
-        content(currentState)
-      }
+      savedState?.let { content(it) }
     }
   }
 }

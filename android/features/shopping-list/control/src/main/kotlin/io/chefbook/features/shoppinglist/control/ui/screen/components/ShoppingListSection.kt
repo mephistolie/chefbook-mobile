@@ -26,6 +26,8 @@ import com.mephistolie.compost.modifiers.clippedBackground
 import com.mephistolie.compost.modifiers.scalingClickable
 import com.mephistolie.compost.modifiers.simpleClickable
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
+import io.chefbook.design.icons.ArrowEnd
+import io.chefbook.design.icons.ChefBookIcons
 import io.chefbook.design.theme.shapes.SmoothCornerShape28
 import io.chefbook.features.shoppinglist.control.ui.screen.state.ShoppingListSection
 import io.chefbook.design.R as designR
@@ -71,7 +73,7 @@ internal fun ShoppingListSection(
               .fillMaxWidth()
           )
           Icon(
-            painter = painterResource(id = designR.drawable.ic_arrow_right),
+            imageVector = ChefBookIcons.ArrowEnd,
             contentDescription = null,
             tint = colors.foregroundPrimary,
             modifier = Modifier

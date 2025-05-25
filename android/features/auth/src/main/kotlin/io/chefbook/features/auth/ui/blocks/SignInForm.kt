@@ -1,9 +1,12 @@
 package io.chefbook.features.auth.ui.blocks
 
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -17,6 +20,8 @@ import androidx.compose.ui.unit.dp
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.design.components.buttons.DynamicButton
 import io.chefbook.design.components.dividers.Divider
+import io.chefbook.design.icons.ChefBookIcons
+import io.chefbook.design.icons.Users
 import io.chefbook.design.theme.dimens.ComponentHeight56
 import io.chefbook.features.auth.R
 import io.chefbook.features.auth.ui.components.LoginInputField
@@ -25,7 +30,7 @@ import io.chefbook.features.auth.ui.mvi.AuthScreenState
 
 @Composable
 internal fun SignInForm(
-  state: AuthScreenState.SignIn,
+  state: AuthScreenState.SignInLogin,
   onIntent: (AuthScreenIntent) -> Unit,
 ) {
   val colors = LocalTheme.colors
@@ -35,13 +40,26 @@ internal fun SignInForm(
 
   val focusRequester = remember { FocusRequester() }
 
-  LoginInputField(
-    value = state.login,
-    onValueChange = { text -> onIntent(AuthScreenIntent.SetLogin(text)) },
-    modifier = Modifier.focusRequester(focusRequester),
-    hint = stringResource(R.string.common_auth_screen_nickname_or_email),
-    imeAction = ImeAction.Done,
-  )
+  Row {
+    if (state.isProfileListButtonVisible) {
+      DynamicButton(
+        onClick = { onIntent(AuthScreenIntent.OpenProfileListForm) },
+        leftIcon = ChefBookIcons.Users,
+        isSelected = true,
+        selectedForeground = colors.foregroundPrimary,
+        selectedBackground = colors.backgroundSecondary,
+        modifier = Modifier.size(ComponentHeight56),
+      )
+      Spacer(modifier = Modifier.width(8.dp))
+    }
+    LoginInputField(
+      value = state.login,
+      onValueChange = { text -> onIntent(AuthScreenIntent.SetLogin(text)) },
+      modifier = Modifier.focusRequester(focusRequester),
+      hint = stringResource(R.string.common_auth_screen_nickname_or_email),
+      imeAction = ImeAction.Done,
+    )
+  }
   Spacer(Modifier.height(20.dp))
   DynamicButton(
     text = stringResource(id = R.string.common_auth_screen_sign_in),

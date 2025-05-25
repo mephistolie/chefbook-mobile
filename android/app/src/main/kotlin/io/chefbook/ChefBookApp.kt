@@ -44,7 +44,7 @@ class ChefBookApp : Application() {
   private fun configureCoil() {
     Coil.setImageLoader {
       ImageLoader.Builder(this)
-        .okHttpClient(get<OkHttpClient>())
+//        .okHttpClient(get<OkHttpClient>())
         .build()
     }
   }

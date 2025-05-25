@@ -29,6 +29,8 @@ import androidx.compose.ui.unit.dp
 import com.mephistolie.compost.modifiers.simpleClickable
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.design.components.buttons.CircleIconButton
+import io.chefbook.design.icons.ArrowStart
+import io.chefbook.design.icons.ChefBookIcons
 import io.chefbook.design.theme.shapes.SmoothCornerShape28Top
 import io.chefbook.design.theme.shapes.SmoothCornerShape24
 import io.chefbook.features.encryption.ui.vault.components.EncryptedVaultScreenManagement
@@ -80,7 +82,7 @@ internal fun EncryptedVaultScreenContent(
           .padding(vertical = 18.dp)
       )
       CircleIconButton(
-        iconId = designR.drawable.ic_cross,
+        icon = ImageVector.vectorResource(designR.drawable.ic_cross),
         onClick = {
           keyboardController?.hide()
           onIntent(EncryptedVaultScreenIntent.Close)
@@ -93,7 +95,7 @@ internal fun EncryptedVaultScreenContent(
       )
       if (state is EncryptedVaultScreenState.PinCodeInput && state.type == PinCodeInputType.VALIDATION) {
         Icon(
-          imageVector = ImageVector.vectorResource(designR.drawable.ic_arrow_left),
+          imageVector = ChefBookIcons.ArrowStart,
           tint = colors.foregroundSecondary,
           modifier = Modifier
             .align(Alignment.TopStart)

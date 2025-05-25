@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:ignore="LockedOrientationActivity">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name="io.chefbook.ChefBookApp"
         android:hardwareAccelerated="true"
@@ -14,35 +16,35 @@
 
         <activity
             android:name="io.chefbook.ui.MainActivity"
-            android:theme="@style/Theme.ChefBook"
+            android:exported="true"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize"
-            android:exported="true">
+            android:theme="@style/Theme.ChefBook"
+            android:windowSoftInputMode="adjustResize">
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data android:scheme="http"/>
-                <data android:scheme="https"/>
-                <data android:host="chefbook.io"/>
-                <data android:pathPrefix="/auth"/>
-                <data android:pathPrefix="/recipes"/>
+                <data android:scheme="http" />
+                <data android:scheme="https" />
+                <data android:host="chefbook.io" />
+                <data android:pathPrefix="/auth" />
+                <data android:pathPrefix="/recipes" />
             </intent-filter>
         </activity>
 
         <activity
             android:name="com.canhub.cropper.CropImageActivity"
-            android:theme="@style/Base.Theme.AppCompat"/>
+            android:theme="@style/Base.Theme.AppCompat" />
 
         <activity-alias
             android:name=".STANDARD"
             android:enabled="true"
             android:exported="true"
             android:icon="@mipmap/ic_broccy_icon"
-            android:roundIcon="@mipmap/ic_broccy_icon_round"
             android:label="ChefBook"
+            android:roundIcon="@mipmap/ic_broccy_icon_round"
 
             android:targetActivity="io.chefbook.ui.MainActivity">
             <intent-filter>
@@ -59,8 +61,8 @@
             android:enabled="false"
             android:exported="true"
             android:icon="@mipmap/ic_chefbook_icon"
-            android:roundIcon="@mipmap/ic_chefbook_icon_round"
             android:label="ChefBook"
+            android:roundIcon="@mipmap/ic_chefbook_icon_round"
             android:targetActivity="io.chefbook.ui.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

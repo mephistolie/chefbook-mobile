@@ -106,5 +106,5 @@ private fun LazyGridItemScope.categoryCardModifier(index: Int): Modifier {
         else -> 0.dp
       }
     )
-    .animateItemPlacement()
+    .animateItem()
 }

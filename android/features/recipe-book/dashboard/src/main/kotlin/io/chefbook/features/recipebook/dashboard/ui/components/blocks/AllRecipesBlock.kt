@@ -33,7 +33,7 @@ internal fun LazyGridScope.allRecipesBlock(
         color = LocalTheme.colors.foregroundPrimary,
         modifier = Modifier
             .padding(20.dp, 32.dp, 20.dp, 16.dp)
-            .animateItemPlacement(),
+            .animateItem(),
       )
     }
   }
@@ -52,7 +52,7 @@ internal fun LazyGridScope.allRecipesBlock(
                 end = if (isSecondColumn) 12.dp else 6.dp,
                 bottom = 16.dp,
             )
-            .animateItemPlacement()
+            .animateItem()
       ) { onRecipeClicked(it.id) }
     }
   } else {
@@ -65,7 +65,7 @@ internal fun LazyGridScope.allRecipesBlock(
                 end = if (isSecondColumn) 12.dp else 6.dp,
                 bottom = 16.dp,
             )
-            .animateItemPlacement()
+            .animateItem()
       )
     }
   }

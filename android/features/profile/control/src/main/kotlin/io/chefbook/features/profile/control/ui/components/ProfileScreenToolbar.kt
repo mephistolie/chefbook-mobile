@@ -18,6 +18,8 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import com.mephistolie.compost.modifiers.simpleClickable
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
+import io.chefbook.design.icons.ArrowStart
+import io.chefbook.design.icons.ChefBookIcons
 import io.chefbook.design.theme.dimens.IconSize24
 import io.chefbook.design.theme.dimens.ToolbarHeight
 import io.chefbook.ui.common.components.profile.BroccoinsBadge
@@ -42,7 +44,7 @@ internal fun ProfileScreenToolbar(
     contentAlignment = Alignment.Center,
   ) {
     Icon(
-      imageVector = ImageVector.vectorResource(designR.drawable.ic_arrow_left),
+      imageVector = ChefBookIcons.ArrowStart,
       tint = colors.foregroundPrimary,
       contentDescription = null,
       modifier = Modifier

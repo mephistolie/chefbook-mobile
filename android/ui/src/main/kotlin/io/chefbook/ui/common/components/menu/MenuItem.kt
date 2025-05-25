@@ -20,6 +20,8 @@ import androidx.compose.ui.unit.dp
 import com.mephistolie.compost.modifiers.simpleClickable
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.design.R
+import io.chefbook.design.icons.ArrowEnd
+import io.chefbook.design.icons.ChefBookIcons
 
 @Composable
 fun MenuItem(
@@ -79,7 +81,7 @@ fun MenuItem(
       endContent()
       if (showChevron) {
         Icon(
-          imageVector = ImageVector.vectorResource(R.drawable.ic_arrow_right),
+          imageVector = ChefBookIcons.ArrowEnd,
           contentDescription = null,
           tint = colors.foregroundSecondary,
           modifier = Modifier

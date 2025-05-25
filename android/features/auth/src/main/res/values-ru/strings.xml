@@ -25,5 +25,6 @@
     <string name="common_auth_screen_restore_profile_info">Вы можете восстановить профиль до</string>
     <string name="common_auth_screen_restore_profile">Восстановить профиль</string>
     <string name="common_auth_screen_sign_out">Выйти</string>
+    <string name="common_auth_screen_another_account">Другой профиль</string>
 
 </resources>

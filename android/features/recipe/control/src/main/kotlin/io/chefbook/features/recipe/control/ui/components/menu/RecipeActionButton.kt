@@ -1,6 +1,5 @@
 package io.chefbook.features.recipe.control.ui.components.menu
 
-import androidx.annotation.DrawableRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -16,7 +15,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.mephistolie.compost.extensions.Shading
@@ -31,8 +29,7 @@ internal fun RecipeActionButton(
   onClick: () -> Unit,
   text: String,
   textTint: Color = LocalTheme.colors.foregroundPrimary,
-  @DrawableRes
-  iconId: Int? = null,
+  icon: ImageVector? = null,
   iconSize: Dp = 20.dp,
   iconTint: Color = textTint,
   isFirst: Boolean = false,
@@ -76,9 +73,9 @@ internal fun RecipeActionButton(
         style = typography.headline1,
         color = textTint,
       )
-      iconId?.let {
+      icon?.let {
         Icon(
-          imageVector = ImageVector.vectorResource(iconId),
+          imageVector = icon,
           tint = iconTint,
           modifier = Modifier.size(iconSize),
           contentDescription = null,

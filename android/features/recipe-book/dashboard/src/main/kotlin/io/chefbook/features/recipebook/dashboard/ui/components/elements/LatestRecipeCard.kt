@@ -35,6 +35,8 @@ import io.chefbook.core.android.compose.providers.theme.LocalTheme
 import io.chefbook.core.android.utils.EmojiUtils
 import io.chefbook.core.android.utils.minutesToTimeString
 import io.chefbook.design.components.images.EncryptedImage
+import io.chefbook.design.icons.ArrowEnd
+import io.chefbook.design.icons.ChefBookIcons
 import io.chefbook.design.theme.shapes.SmoothCornerShape12
 import io.chefbook.design.theme.shapes.smooth.SmoothCornerShape
 import io.chefbook.sdk.recipe.book.api.external.domain.entities.LatestRecipeInfo
@@ -116,7 +118,7 @@ internal fun LatestRecipeCard(
           color = colors.foregroundSecondary,
         )
         Icon(
-          imageVector = ImageVector.vectorResource(designR.drawable.ic_arrow_right),
+          imageVector = ChefBookIcons.ArrowEnd,
           tint = colors.foregroundSecondary,
           modifier = Modifier
             .padding(2.dp, 0.dp, 0.dp, 0.dp)

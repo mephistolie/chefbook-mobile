@@ -9,14 +9,13 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.mephistolie.compost.modifiers.simpleClickable
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
-import io.chefbook.design.R
+import io.chefbook.design.icons.ArrowStart
+import io.chefbook.design.icons.ChefBookIcons
 import io.chefbook.design.theme.dimens.IconSize24
 
 @Composable
@@ -34,7 +33,7 @@ fun AuthFormToolbar(
     contentAlignment = Alignment.CenterStart,
   ) {
     Icon(
-      imageVector = ImageVector.vectorResource(R.drawable.ic_arrow_left),
+      imageVector = ChefBookIcons.ArrowStart,
       tint = colors.foregroundPrimary,
       contentDescription = null,
       modifier = Modifier

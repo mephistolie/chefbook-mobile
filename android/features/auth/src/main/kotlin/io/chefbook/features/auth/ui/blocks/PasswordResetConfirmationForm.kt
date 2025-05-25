@@ -34,6 +34,10 @@ internal fun PasswordResetConfirmationForm(
 
   val focusRequester = remember { FocusRequester() }
 
+  LaunchedEffect(Unit) {
+    focusRequester.requestFocus()
+  }
+
   PasswordInputField(
     value = state.password,
     onValueChange = { text -> onIntent(AuthScreenIntent.SetPassword(text)) },
@@ -69,8 +73,4 @@ internal fun PasswordResetConfirmationForm(
       .simpleClickable { onIntent(AuthScreenIntent.OpenSignInForm) }
       .padding(vertical = 12.dp)
   )
-
-  LaunchedEffect(Unit) {
-    focusRequester.requestFocus()
-  }
 }

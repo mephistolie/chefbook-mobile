@@ -37,7 +37,7 @@ internal fun LazyGridScope.recipesBlock(
           end = if (isSecondColumn) 12.dp else 6.dp,
           bottom = 16.dp,
         )
-        .animateItemPlacement()
+        .animateItem()
     ) { onRecipeClicked(it.id) }
   }
   when {
@@ -50,7 +50,7 @@ internal fun LazyGridScope.recipesBlock(
             end = if (isSecondColumn) 12.dp else 6.dp,
             bottom = 16.dp,
           )
-          .animateItemPlacement()
+          .animateItem()
       )
     }
     recipes.isEmpty() -> item(span = { GridItemSpan(2) }) {

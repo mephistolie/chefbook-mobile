@@ -37,6 +37,12 @@ internal fun CodeForm(
     remember { Array(codeLength) { FocusRequester() } }
   val keyboardController = LocalSoftwareKeyboardController.current
 
+  LaunchedEffect(code) {
+    if (code.length < AuthScreenState.ProfileActivation.CODE_LENGTH) {
+      focusRequesters[code.length].requestFocus()
+    }
+  }
+
   AuthFormToolbar(
     login = login,
     onBackClick = onBackClick,
@@ -69,12 +75,6 @@ internal fun CodeForm(
           .focusRequester(focusRequesters[index]),
         isFocused = code.length == index,
       )
-    }
-  }
-
-  LaunchedEffect(code) {
-    if (code.length < AuthScreenState.ProfileActivation.CODE_LENGTH) {
-      focusRequesters[code.length].requestFocus()
     }
   }
 }

@@ -6,6 +6,8 @@ import androidx.compose.material.ButtonDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import io.chefbook.design.R
@@ -20,7 +22,7 @@ fun BottomSheetCloseButton(
   onClick: () -> Unit,
 ) {
   CircleIconButton(
-    iconId = R.drawable.ic_cross,
+    icon = ImageVector.vectorResource(R.drawable.ic_cross),
     onClick = onClick,
     modifier = modifier
       .padding(

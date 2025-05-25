@@ -11,13 +11,12 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import com.mephistolie.compost.modifiers.simpleClickable
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
-import io.chefbook.design.R as designR
+import io.chefbook.design.icons.ArrowEnd
+import io.chefbook.design.icons.ChefBookIcons
 
 @Composable
 internal fun AboutScreenButton(
@@ -43,7 +42,7 @@ internal fun AboutScreenButton(
       modifier = Modifier.wrapContentHeight()
     )
     Icon(
-      imageVector = ImageVector.vectorResource(designR.drawable.ic_arrow_right),
+      imageVector = ChefBookIcons.ArrowEnd,
       tint = colors.foregroundSecondary,
       modifier = Modifier.size(18.dp),
       contentDescription = null,

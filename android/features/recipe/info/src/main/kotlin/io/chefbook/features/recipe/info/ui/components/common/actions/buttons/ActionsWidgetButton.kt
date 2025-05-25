@@ -26,8 +26,7 @@ internal fun ActionsWidgetButton(
   @DrawableRes
   leftIconId: Int? = null,
   leftContent: @Composable (() -> Unit)? = null,
-  @DrawableRes
-  rightIconId: Int? = null,
+  rightIcon: ImageVector? = null,
   rightIconModifier: Modifier = Modifier,
   isSelected: Boolean = false,
 ) {
@@ -54,7 +53,7 @@ internal fun ActionsWidgetButton(
     text = text,
     leftIcon = leftIconId?.let { ImageVector.vectorResource(it) },
     leftContent = leftContent,
-    rightIcon = rightIconId?.let { ImageVector.vectorResource(it) },
+    rightIcon = rightIcon,
     rightIconModifier = rightIconModifier,
     iconsSize = 18.dp,
     isSelected = isSelected,

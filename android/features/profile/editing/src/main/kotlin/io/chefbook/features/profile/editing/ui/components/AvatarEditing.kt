@@ -19,8 +19,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
@@ -98,21 +100,21 @@ internal fun AvatarEditing(
     contentAlignment = Alignment.Center,
   ) {
     CircleIconButton(
-      iconId = designR.drawable.ic_camera,
+      icon = ImageVector.vectorResource(designR.drawable.ic_camera),
       onClick = { imagePickerLauncher.launch("image/*") },
       modifier = Modifier
         .size(56.dp)
         .offset(x = -offset.value),
     )
     CircleIconButton(
-      iconId = designR.drawable.ic_trash,
+      icon = ImageVector.vectorResource(designR.drawable.ic_trash),
       onClick = onDeleteClick,
       modifier = Modifier
         .size(56.dp)
         .offset(x = offset.value),
     )
     CircleIconButton(
-      iconId = designR.drawable.ic_camera,
+      icon = ImageVector.vectorResource(designR.drawable.ic_camera),
       onClick = { imagePickerLauncher.launch("image/*") },
       modifier = Modifier.size(96.dp),
       iconModifier = Modifier.size(48.dp),

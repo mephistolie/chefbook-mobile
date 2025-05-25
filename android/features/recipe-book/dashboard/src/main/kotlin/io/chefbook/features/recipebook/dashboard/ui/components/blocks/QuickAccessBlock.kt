@@ -63,7 +63,7 @@ internal fun LazyGridScope.quickAccessBlock(
             LatestRecipeCard(
               recipe = recipe,
               onRecipeClicked = onRecipeClicked,
-              modifier = Modifier.animateItemPlacement(),
+              modifier = Modifier.animateItem(),
             )
           }
         } ?: items(2) {

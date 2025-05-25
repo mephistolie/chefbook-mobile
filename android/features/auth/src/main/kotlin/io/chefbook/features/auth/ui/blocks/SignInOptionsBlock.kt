@@ -2,7 +2,10 @@ package io.chefbook.features.auth.ui.blocks
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.runtime.Composable
-import io.chefbook.design.R
+import io.chefbook.design.icons.ChefBookIcons
+import io.chefbook.design.icons.Google
+import io.chefbook.design.icons.SyncOff
+import io.chefbook.design.icons.VK
 import io.chefbook.features.auth.ui.components.SignInOptionButton
 
 @Composable
@@ -11,15 +14,15 @@ internal fun SignInOptionsBlock(
 ) {
   Row {
     SignInOptionButton(
-      iconId = R.drawable.ic_google,
+      icon = ChefBookIcons.Google,
       onClick = onSignInGoogleClick,
     )
     SignInOptionButton(
-      iconId = R.drawable.ic_vk,
+      icon = ChefBookIcons.VK,
       onClick = { /*TODO*/ },
     )
     SignInOptionButton(
-      iconId = R.drawable.ic_disable_sync,
+      icon = ChefBookIcons.SyncOff,
       onClick = { /*TODO*/ },
     )
   }

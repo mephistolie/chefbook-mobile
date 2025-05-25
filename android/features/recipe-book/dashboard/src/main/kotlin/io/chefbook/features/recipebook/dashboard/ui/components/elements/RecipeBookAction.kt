@@ -23,6 +23,9 @@ import com.mephistolie.compost.extensions.Shading
 import com.mephistolie.compost.modifiers.clippedBackground
 import com.mephistolie.compost.modifiers.scalingClickable
 import io.chefbook.core.android.compose.providers.theme.LocalTheme
+import io.chefbook.design.icons.ArrowDownMedium
+import io.chefbook.design.icons.ArrowEnd
+import io.chefbook.design.icons.ChefBookIcons
 import io.chefbook.design.theme.shapes.SmoothCornerShape16
 import io.chefbook.design.R as designR
 
@@ -92,7 +95,7 @@ fun RecipeBookActionButton(
             color = colors.foregroundSecondary
           )
           Icon(
-            imageVector = ImageVector.vectorResource(designR.drawable.ic_arrow_right),
+            imageVector = ChefBookIcons.ArrowEnd,
             tint = colors.foregroundSecondary,
             modifier = Modifier
               .padding(2.dp, 2.dp, 0.dp, 0.dp)

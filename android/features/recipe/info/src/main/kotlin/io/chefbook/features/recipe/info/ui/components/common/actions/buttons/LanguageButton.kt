@@ -8,6 +8,8 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import io.chefbook.design.icons.ArrowDownMedium
+import io.chefbook.design.icons.ChefBookIcons
 import io.chefbook.design.theme.dimens.ComponentHeight36
 import io.chefbook.design.theme.dimens.ComponentHeight40
 import io.chefbook.design.theme.dimens.IconSize36
@@ -31,7 +33,7 @@ internal fun LanguageButton(
     isPreviewLoaded = isPreviewLoaded,
     onClick = onLanguageClick,
     modifier = modifier.height(ComponentHeight36),
-    rightIconId = designR.drawable.ic_arrow_down,
+    rightIcon = ChefBookIcons.ArrowDownMedium,
     rightIconModifier = Modifier.padding(top = 2.dp),
   )
 }
