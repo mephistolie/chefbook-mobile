@@ -13,6 +13,7 @@ dependencies {
 
   implementation(projects.common.libs.exceptions)
 
+  implementation(projects.common.core)
   implementation(projects.android.core)
   implementation(projects.android.design)
   implementation(projects.android.navigation)

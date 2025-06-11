@@ -21,7 +21,7 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import com.mephistolie.compost.modifiers.simpleClickable
-import io.chefbook.core.android.compose.providers.theme.LocalTheme
+import io.chefbook.core.compose.providers.theme.LocalTheme
 import io.chefbook.design.components.checkboxes.Checkbox
 import io.chefbook.design.theme.dimens.IconSize16
 import io.chefbook.sdk.shoppinglist.api.external.domain.entities.Purchase

@@ -16,12 +16,12 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.mephistolie.compost.modifiers.clippedBackground
-import io.chefbook.core.android.compose.providers.theme.LocalTheme
+import io.chefbook.core.compose.providers.theme.LocalTheme
 import io.chefbook.design.theme.shapes.SmoothCornerShape28Top
 import io.chefbook.features.recipe.input.R
 import io.chefbook.features.recipe.input.ui.dialogs.components.RadioElement
 import io.chefbook.features.recipe.input.ui.mvi.RecipeInputDetailsScreenIntent
-import io.chefbook.core.android.R as coreR
+import io.chefbook.core.res as CoreR
 import io.chefbook.design.R as designR
 
 @Composable
@@ -40,7 +40,7 @@ internal fun EncryptionStateDialogContent(
       .wrapContentHeight(),
   ) {
     Text(
-      text = stringResource(coreR.string.common_global_encryption),
+      text = stringResource(CoreR.string.common_global_encryption),
       maxLines = 1,
       style = typography.h4,
       color = colors.foregroundPrimary,
@@ -57,7 +57,7 @@ internal fun EncryptionStateDialogContent(
     )
     RadioElement(
       icon = ImageVector.vectorResource(designR.drawable.ic_lock_open),
-      name = stringResource(coreR.string.common_general_standard),
+      name = stringResource(CoreR.string.common_general_standard),
       description = stringResource(R.string.common_recipe_input_screen_standard_description),
       isSelected = !isEncrypted,
       onSelected = {
@@ -66,7 +66,7 @@ internal fun EncryptionStateDialogContent(
     )
     RadioElement(
       icon = ImageVector.vectorResource(designR.drawable.ic_lock),
-      name = stringResource(coreR.string.common_general_encrypted),
+      name = stringResource(CoreR.string.common_general_encrypted),
       description = stringResource(R.string.common_recipe_input_screen_encrypted_description),
       isSelected = isEncrypted,
       onSelected = {

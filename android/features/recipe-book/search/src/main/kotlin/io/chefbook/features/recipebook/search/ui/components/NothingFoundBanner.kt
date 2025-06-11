@@ -19,8 +19,8 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.mephistolie.compost.modifiers.simpleClickable
-import io.chefbook.core.android.R as coreR
-import io.chefbook.core.android.compose.providers.theme.LocalTheme
+import io.chefbook.core.res as CoreR
+import io.chefbook.core.compose.providers.theme.LocalTheme
 import io.chefbook.design.R as designR
 import io.chefbook.features.recipebook.search.R
 
@@ -48,7 +48,7 @@ internal fun NothingFoundBanner(
     )
     Spacer(Modifier.height(32.dp))
     Text(
-      text = stringResource(coreR.string.common_general_nothing_found),
+      text = stringResource(CoreR.string.common_general_nothing_found),
       style = typography.h2,
       textAlign = TextAlign.Center,
       color = colors.foregroundPrimary,

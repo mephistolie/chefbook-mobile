@@ -12,7 +12,7 @@ import io.chefbook.sdk.recipe.interaction.api.external.domain.usecases.SetRecipe
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import io.chefbook.core.android.R as coreR
+import io.chefbook.core.res as CoreR
 
 internal class RecipeCategoriesSelectionBlockViewModel(
   private val recipe: DecryptedRecipeInfo,
@@ -63,7 +63,7 @@ internal class RecipeCategoriesSelectionBlockViewModel(
           }
           .onFailure {
             _state.update { it.copy(isLoading = false) }
-            _effect.emit(RecipeCategoriesSelectionBlockEffect.ShowToast(coreR.string.common_general_unknown_error))
+            _effect.emit(RecipeCategoriesSelectionBlockEffect.ShowToast(CoreR.string.common_general_unknown_error))
           }
       }
     }

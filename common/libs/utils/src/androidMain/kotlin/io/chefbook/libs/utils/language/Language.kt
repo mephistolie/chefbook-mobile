@@ -2,5 +2,5 @@ package io.chefbook.libs.utils.language
 
 import java.util.Locale
 
-actual fun getSystemLanguageCode() =
-  Locale.getDefault().getLanguage()
+actual fun getSystemLanguageCode(): String =
+  Locale.getDefault().language

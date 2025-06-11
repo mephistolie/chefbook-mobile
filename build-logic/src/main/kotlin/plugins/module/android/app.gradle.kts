@@ -22,7 +22,7 @@ configureKsp()
 enableExplicitBackingFields()
 
 android {
-  defaultConfig.targetSdk = libs.versions.targetSdk.get().toInt()
+  defaultConfig.targetSdk = libs.versions.android.targetSdk.get().toInt()
 
   packaging.resources.excludes += "/META-INF/{AL2.0,LGPL2.1}"
 
@@ -41,18 +41,18 @@ dependencies {
   implementation(libs.androidx.lifecycle.compose)
   implementation(libs.androidx.lifecycle.viewmodel.compose)
 
-  implementation(libs.androidx.navigation.compose)
-  implementation(libs.composeDestinations.core)
+  implementation(libs.decompose.core)
+  implementation(libs.decompose.extensions.android)
+  implementation(libs.decompose.extensions.compose)
 
   implementation(libs.di.koin.core)
   implementation(libs.di.koin.android)
   implementation(libs.di.koin.compose)
 
-  implementation(libs.tinkAndroid)
-
   implementation(libs.network.ktor.client.okhttp)
 
-  implementation(libs.coil)
+  implementation(libs.coil.compose)
+  implementation(libs.coil.network.ktor)
   implementation(libs.imageCropper)
 
   implementation(project(":common:libs:logger"))

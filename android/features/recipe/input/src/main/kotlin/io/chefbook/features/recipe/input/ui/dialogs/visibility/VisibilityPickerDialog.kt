@@ -16,13 +16,13 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.mephistolie.compost.modifiers.clippedBackground
-import io.chefbook.core.android.compose.providers.theme.LocalTheme
+import io.chefbook.core.compose.providers.theme.LocalTheme
 import io.chefbook.design.theme.shapes.SmoothCornerShape28Top
 import io.chefbook.features.recipe.input.R
 import io.chefbook.features.recipe.input.ui.dialogs.components.RadioElement
 import io.chefbook.features.recipe.input.ui.mvi.RecipeInputDetailsScreenIntent
 import io.chefbook.libs.models.visibility.Visibility
-import io.chefbook.core.android.R as coreR
+import io.chefbook.core.res as CoreR
 import io.chefbook.design.R as designR
 
 @Composable
@@ -41,7 +41,7 @@ internal fun VisibilityDialogContent(
       .wrapContentHeight(),
   ) {
     Text(
-      text = stringResource(coreR.string.common_general_visibility),
+      text = stringResource(CoreR.string.common_general_visibility),
       maxLines = 1,
       style = typography.h4,
       color = colors.foregroundPrimary,
@@ -58,7 +58,7 @@ internal fun VisibilityDialogContent(
     )
     RadioElement(
       icon = ImageVector.vectorResource(designR.drawable.ic_eye_closed),
-      name = stringResource(coreR.string.common_general_only_author),
+      name = stringResource(CoreR.string.common_general_only_author),
       description = stringResource(R.string.common_recipe_input_screen_private_description),
       isSelected = selectedVisibility == Visibility.PRIVATE,
       onSelected = {
@@ -67,7 +67,7 @@ internal fun VisibilityDialogContent(
     )
     RadioElement(
       icon = ImageVector.vectorResource(designR.drawable.ic_link),
-      name = stringResource(coreR.string.common_general_by_link),
+      name = stringResource(CoreR.string.common_general_by_link),
       description = stringResource(R.string.common_recipe_input_screen_shared_description),
       isSelected = selectedVisibility == Visibility.LINK,
       onSelected = {
@@ -76,7 +76,7 @@ internal fun VisibilityDialogContent(
     )
     RadioElement(
       icon = ImageVector.vectorResource(designR.drawable.ic_earth),
-      name = stringResource(coreR.string.common_general_community),
+      name = stringResource(CoreR.string.common_general_community),
       description = stringResource(R.string.common_recipe_input_screen_public_description),
       isSelected = selectedVisibility == Visibility.PUBLIC,
       onSelected = {

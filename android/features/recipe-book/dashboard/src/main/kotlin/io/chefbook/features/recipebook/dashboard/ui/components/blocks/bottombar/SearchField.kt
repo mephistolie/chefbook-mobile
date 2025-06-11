@@ -22,9 +22,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.mephistolie.compost.modifiers.simpleClickable
-import io.chefbook.core.android.compose.providers.theme.LocalTheme
+import io.chefbook.core.compose.providers.theme.LocalTheme
 import io.chefbook.design.theme.shapes.SmoothCornerShape16
-import io.chefbook.core.android.R as coreR
+import io.chefbook.core.res as CoreR
 import io.chefbook.design.R as designR
 
 @Composable
@@ -57,7 +57,7 @@ internal fun SearchField(
         modifier = Modifier.size(18.dp)
       )
       Text(
-        text = stringResource(id = coreR.string.common_general_search),
+        text = stringResource(id = CoreR.string.common_general_search),
         style = typography.headline1,
         color = colors.foregroundSecondary,
         modifier = Modifier.padding(start = 6.dp),

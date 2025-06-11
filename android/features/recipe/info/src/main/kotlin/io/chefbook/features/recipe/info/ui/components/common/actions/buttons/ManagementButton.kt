@@ -11,7 +11,7 @@ import io.chefbook.design.icons.ArrowDownMedium
 import io.chefbook.design.icons.ChefBookIcons
 import io.chefbook.features.recipe.info.R
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.Recipe
-import io.chefbook.core.android.R as coreR
+import io.chefbook.core.res as CoreR
 import io.chefbook.design.R as designR
 
 @Composable
@@ -30,9 +30,9 @@ internal fun ManagementButton(
     text = stringResource(
       when {
         recipe.isFavourite -> R.string.common_recipe_screen_in_favourite
-        recipe.isSaved -> coreR.string.common_general_saved
+        recipe.isSaved -> CoreR.string.common_general_saved
         recipe.isOwned -> R.string.common_recipe_screen_management
-        else -> coreR.string.common_general_save
+        else -> CoreR.string.common_general_save
       }
     ),
     leftIconId = when {

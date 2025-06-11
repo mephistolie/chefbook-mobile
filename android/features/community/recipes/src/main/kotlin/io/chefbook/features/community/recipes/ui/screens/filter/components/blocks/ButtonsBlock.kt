@@ -18,10 +18,10 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import io.chefbook.core.android.compose.providers.theme.LocalTheme
+import io.chefbook.core.compose.providers.theme.LocalTheme
 import io.chefbook.design.components.buttons.DynamicButton
 import io.chefbook.design.theme.shapes.SmoothCornerShape28Top
-import io.chefbook.core.android.R as coreR
+import io.chefbook.core.res as CoreR
 
 internal val buttonsBlockHeight = 80.dp
 
@@ -55,7 +55,7 @@ internal fun ButtonsBlock(
       visible = isResetButtonVisible,
     ) {
       DynamicButton(
-        text = stringResource(coreR.string.common_general_reset),
+        text = stringResource(CoreR.string.common_general_reset),
         onClick = onResetClick,
         unselectedForeground = colors.foregroundPrimary,
         modifier = Modifier
@@ -64,7 +64,7 @@ internal fun ButtonsBlock(
       )
     }
     DynamicButton(
-      text = stringResource(coreR.string.common_general_confirm),
+      text = stringResource(CoreR.string.common_general_confirm),
       onClick = onConfirmClick,
       isSelected = true,
       modifier = Modifier

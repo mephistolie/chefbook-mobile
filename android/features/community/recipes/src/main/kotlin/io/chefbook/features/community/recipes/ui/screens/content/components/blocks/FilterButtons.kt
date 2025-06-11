@@ -15,16 +15,15 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
-import io.chefbook.core.android.compose.providers.theme.LocalTheme
+import io.chefbook.core.compose.providers.theme.LocalTheme
 import io.chefbook.design.icons.ArrowEnd
 import io.chefbook.design.icons.ChefBookIcons
-import io.chefbook.core.android.R as coreR
+import io.chefbook.core.res as CoreR
 import io.chefbook.design.R as designR
 import io.chefbook.features.community.recipes.ui.screens.content.components.elements.FilterButton
 import io.chefbook.sdk.tag.api.external.domain.entities.Tag
@@ -51,7 +50,7 @@ internal fun FilterButtons(
     item { Spacer(Modifier.width(4.dp)) }
     item {
       FilterButton(
-        name = stringResource(coreR.string.common_general_search),
+        name = stringResource(CoreR.string.common_general_search),
         onClick = onSearchClick,
       ) {
         Icon(
@@ -69,7 +68,7 @@ internal fun FilterButtons(
         exit = fadeOut() + shrinkHorizontally()
       ) {
         FilterButton(
-          name = stringResource(coreR.string.common_general_chefmatch),
+          name = stringResource(CoreR.string.common_general_chefmatch),
           onClick = {},
         ) {
           Icon(
@@ -83,7 +82,7 @@ internal fun FilterButtons(
     }
     item {
       FilterButton(
-        name = stringResource(coreR.string.common_general_filters),
+        name = stringResource(CoreR.string.common_general_filters),
         onClick = onFilterClick,
       ) {
         Icon(
@@ -110,7 +109,7 @@ internal fun FilterButtons(
     }
     item {
       FilterButton(
-        name = stringResource(coreR.string.common_general_more),
+        name = stringResource(CoreR.string.common_general_more),
         onClick = onMoreTagsClick,
       ) {
         Icon(

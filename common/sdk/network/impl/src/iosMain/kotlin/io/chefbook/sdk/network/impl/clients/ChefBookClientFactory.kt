@@ -1,10 +1,7 @@
 package io.chefbook.sdk.network.impl.clients
 
-import io.chefbook.sdk.auth.api.internal.data.repositories.TokensRepository
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.darwin.Darwin
-import io.ktor.client.plugins.auth.Auth
-import io.ktor.client.plugins.auth.providers.bearer
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.defaultRequest
 import io.ktor.client.plugins.logging.LogLevel

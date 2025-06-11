@@ -20,11 +20,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import com.mephistolie.compost.modifiers.simpleClickable
-import io.chefbook.core.android.compose.providers.theme.LocalTheme
+import io.chefbook.core.compose.providers.theme.LocalTheme
 import io.chefbook.design.components.buttons.DynamicButton
-import io.chefbook.sdk.collection.api.external.domain.entities.Collection
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.CollectionInfo
-import io.chefbook.core.android.R as coreR
+import io.chefbook.core.res as CoreR
 import io.chefbook.design.R as designR
 
 @OptIn(ExperimentalLayoutApi::class)
@@ -46,7 +45,7 @@ internal fun CategoriesBlock(
       verticalAlignment = Alignment.CenterVertically,
     ) {
       Text(
-        text = stringResource(coreR.string.common_general_categories),
+        text = stringResource(CoreR.string.common_general_categories),
         style = typography.headline1,
         color = colors.foregroundSecondary,
       )

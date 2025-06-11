@@ -19,7 +19,7 @@ import io.chefbook.ui.common.extensions.localizedName
 import kotlinx.datetime.toJavaLocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
-import io.chefbook.core.android.R as coreR
+import io.chefbook.core.res as CoreR
 
 @SuppressLint("NewApi")
 @Composable
@@ -47,7 +47,7 @@ internal fun InfoWidget(
     recipe.description?.let { description ->
       item(span = { GridItemSpan(2) }) {
         InfoElement(
-          name = stringResource(coreR.string.common_general_description),
+          name = stringResource(CoreR.string.common_general_description),
           value = description,
           modifier = Modifier.padding(bottom = 12.dp),
         )
@@ -57,7 +57,7 @@ internal fun InfoWidget(
     recipe.owner.name?.let { author ->
       item {
         InfoElement(
-          name = stringResource(coreR.string.common_general_author),
+          name = stringResource(CoreR.string.common_general_author),
           value = author,
           modifier = Modifier.padding(bottom = 12.dp),
         )
@@ -67,7 +67,7 @@ internal fun InfoWidget(
     if (recipe.language != Language.OTHER) {
       item {
         InfoElement(
-          name = stringResource(coreR.string.common_general_language),
+          name = stringResource(CoreR.string.common_general_language),
           value = recipe.language.localizedName(resources),
           modifier = Modifier.padding(bottom = 12.dp),
         )
@@ -76,11 +76,11 @@ internal fun InfoWidget(
 
     item {
       InfoElement(
-        name = stringResource(coreR.string.common_general_visibility),
+        name = stringResource(CoreR.string.common_general_visibility),
         value = when (recipe.visibility) {
-          Visibility.PRIVATE -> stringResource(coreR.string.common_general_only_author)
-          Visibility.LINK -> stringResource(coreR.string.common_general_by_link)
-          Visibility.PUBLIC -> stringResource(coreR.string.common_general_community)
+          Visibility.PRIVATE -> stringResource(CoreR.string.common_general_only_author)
+          Visibility.LINK -> stringResource(CoreR.string.common_general_by_link)
+          Visibility.PUBLIC -> stringResource(CoreR.string.common_general_community)
         },
         modifier = Modifier.padding(bottom = 12.dp),
       )
@@ -89,7 +89,7 @@ internal fun InfoWidget(
     creationTimestamp?.let {
       item {
         InfoElement(
-          name = stringResource(coreR.string.common_general_creation_date),
+          name = stringResource(CoreR.string.common_general_creation_date),
           value = creationTimestamp,
           modifier = Modifier.padding(bottom = 12.dp),
         )
@@ -99,7 +99,7 @@ internal fun InfoWidget(
     if (updateTimestamp != creationTimestamp && updateTimestamp != null) {
       item {
         InfoElement(
-          name = stringResource(coreR.string.common_general_update_date),
+          name = stringResource(CoreR.string.common_general_update_date),
           value = updateTimestamp,
         )
       }

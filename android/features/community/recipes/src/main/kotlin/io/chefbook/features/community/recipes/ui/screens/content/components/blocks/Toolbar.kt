@@ -19,19 +19,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.mephistolie.compost.modifiers.clippedBackground
 import com.mephistolie.compost.modifiers.simpleClickable
-import io.chefbook.core.android.R as coreR
-import io.chefbook.core.android.compose.providers.theme.LocalTheme
+import io.chefbook.core.res as CoreR
+import io.chefbook.core.compose.providers.theme.LocalTheme
 import io.chefbook.design.components.buttons.DynamicButton
 import io.chefbook.design.icons.ArrowDownMedium
 import io.chefbook.design.icons.ArrowStart
@@ -92,7 +90,7 @@ internal fun Toolbar(
     ) {
       DynamicButton(
         text = when {
-          languages.isEmpty() -> stringResource(coreR.string.common_general_all_languages)
+          languages.isEmpty() -> stringResource(CoreR.string.common_general_all_languages)
           languages.size == 1 -> "${languages[0].flag} ${languages[0].localizedName(resources)}"
           else -> {
             var flags = languages.take(5).fold("") { str, language -> str + language.flag }
@@ -121,12 +119,12 @@ internal fun Toolbar(
       DynamicButton(
         text =
         when (mode) {
-          CommunityRecipesScreenState.Mode.FILTER -> stringResource(coreR.string.common_general_search)
+          CommunityRecipesScreenState.Mode.FILTER -> stringResource(CoreR.string.common_general_search)
           CommunityRecipesScreenState.Mode.DASHBOARD -> when (tab) {
-            DashboardState.Tab.NEW -> stringResource(coreR.string.common_general_new)
-            DashboardState.Tab.VOTES -> stringResource(coreR.string.common_general_popular)
-            DashboardState.Tab.TOP -> stringResource(coreR.string.common_general_top)
-            DashboardState.Tab.FAST -> stringResource(coreR.string.common_general_fast)
+            DashboardState.Tab.NEW -> stringResource(CoreR.string.common_general_new)
+            DashboardState.Tab.VOTES -> stringResource(CoreR.string.common_general_popular)
+            DashboardState.Tab.TOP -> stringResource(CoreR.string.common_general_top)
+            DashboardState.Tab.FAST -> stringResource(CoreR.string.common_general_fast)
           }
         },
         cornerRadius = 12.dp,

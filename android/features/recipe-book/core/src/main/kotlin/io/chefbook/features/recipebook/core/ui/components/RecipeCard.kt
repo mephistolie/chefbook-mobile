@@ -34,7 +34,7 @@ import androidx.compose.ui.unit.dp
 import com.mephistolie.compost.extensions.Shading
 import com.mephistolie.compost.modifiers.clippedBackground
 import com.mephistolie.compost.modifiers.scalingClickable
-import io.chefbook.core.android.compose.providers.theme.LocalTheme
+import io.chefbook.core.compose.providers.theme.LocalTheme
 import io.chefbook.core.android.utils.EmojiUtils
 import io.chefbook.core.android.utils.minutesToTimeString
 import io.chefbook.design.R
@@ -45,7 +45,7 @@ import io.chefbook.design.theme.shapes.SmoothCornerShape16
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.DecryptedRecipeInfo
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.RecipeInfo
 import io.chefbook.ui.common.providers.RecipeEncryptionProvider
-import io.chefbook.core.android.R as coreR
+import io.chefbook.core.res as CoreR
 
 @Composable
 fun RecipeCard(
@@ -167,7 +167,7 @@ fun RecipeCard(
         if (recipe.calories != null) {
           Spacer(modifier = Modifier.width(4.dp))
           Text(
-            text = "${recipe.calories} ${stringResource(coreR.string.common_general_kcal)}",
+            text = "${recipe.calories} ${stringResource(CoreR.string.common_general_kcal)}",
             style = typography.subhead1,
             color = colors.tintPrimary
           )

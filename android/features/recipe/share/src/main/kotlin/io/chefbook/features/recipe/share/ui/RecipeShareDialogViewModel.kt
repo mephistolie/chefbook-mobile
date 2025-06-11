@@ -17,7 +17,7 @@ import io.chefbook.sdk.recipe.crud.api.external.domain.usecases.GetRecipeUseCase
 import io.chefbook.ui.common.extensions.localizedName
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
-import io.chefbook.core.android.R as coreR
+import io.chefbook.core.res as CoreR
 
 internal class RecipeShareDialogViewModel(
   private val recipeId: String,
@@ -66,7 +66,7 @@ internal class RecipeShareDialogViewModel(
     _effect.emit(
       RecipeShareDialogEffect.CopyText(
         state.value.url.orEmpty(),
-        coreR.string.common_general_link_copied
+        CoreR.string.common_general_link_copied
       )
     )
   }
@@ -87,19 +87,19 @@ fun DecryptedRecipe.asText(resources: Resources): String {
   var text = name.uppercase()
 
   owner.name?.let { author ->
-    text += "\n\n${resources.getString(coreR.string.common_general_author)}: $author"
+    text += "\n\n${resources.getString(CoreR.string.common_general_author)}: $author"
   }
 
   description?.let { description ->
-    text += "\n\n${resources.getString(coreR.string.common_general_description)}:\n$description"
+    text += "\n\n${resources.getString(CoreR.string.common_general_description)}:\n$description"
   }
 
   text += "\n"
   servings?.let {
-    text += "\n${resources.getString(coreR.string.common_general_servings)}: $servings"
+    text += "\n${resources.getString(CoreR.string.common_general_servings)}: $servings"
   }
   time?.let { time ->
-    text += "\n${resources.getString(coreR.string.common_general_time)}: ${
+    text += "\n${resources.getString(CoreR.string.common_general_time)}: ${
       minutesToTimeString(
         time,
         resources
@@ -108,26 +108,26 @@ fun DecryptedRecipe.asText(resources: Resources): String {
   }
 
   if (hasDietData) {
-    text += "\n\n${resources.getString(coreR.string.common_general_in_100_g)}:\n"
+    text += "\n\n${resources.getString(CoreR.string.common_general_in_100_g)}:\n"
     calories?.let { calories ->
-      text += "${resources.getString(coreR.string.common_general_calories)}: $calories ${
+      text += "${resources.getString(CoreR.string.common_general_calories)}: $calories ${
         resources.getString(
-          coreR.string.common_general_kcal
+          CoreR.string.common_general_kcal
         )
       }\n"
     }
     macronutrients?.protein?.let { protein ->
-      text += "${resources.getString(coreR.string.common_general_protein)}: $protein\n"
+      text += "${resources.getString(CoreR.string.common_general_protein)}: $protein\n"
     }
     macronutrients?.fats?.let { fats ->
-      text += "${resources.getString(coreR.string.common_general_fats)}: $fats\n"
+      text += "${resources.getString(CoreR.string.common_general_fats)}: $fats\n"
     }
     macronutrients?.carbohydrates?.let { carbohydrates ->
-      text += "${resources.getString(coreR.string.common_general_carbs)}: $carbohydrates"
+      text += "${resources.getString(CoreR.string.common_general_carbs)}: $carbohydrates"
     }
   }
 
-  text += "\n\n${resources.getString(coreR.string.common_general_ingredients).uppercase()}\n"
+  text += "\n\n${resources.getString(CoreR.string.common_general_ingredients).uppercase()}\n"
   for (ingredient in ingredients) {
     when (ingredient) {
       is IngredientsItem.Section -> {
@@ -146,7 +146,7 @@ fun DecryptedRecipe.asText(resources: Resources): String {
       else -> Unit
     }
   }
-  text += "\n\n${resources.getString(coreR.string.common_general_cooking).uppercase()}\n"
+  text += "\n\n${resources.getString(CoreR.string.common_general_cooking).uppercase()}\n"
   var stepCount = 1
   for (cookingItem in cooking) {
     when (cookingItem) {
@@ -161,9 +161,9 @@ fun DecryptedRecipe.asText(resources: Resources): String {
     }
   }
 
-  text += "\n${resources.getString(coreR.string.common_general_recipe)} #${id}, ${
+  text += "\n${resources.getString(CoreR.string.common_general_recipe)} #${id}, ${
     resources.getString(
-      coreR.string.app_name
+      CoreR.string.app_name
     )
   }"
 

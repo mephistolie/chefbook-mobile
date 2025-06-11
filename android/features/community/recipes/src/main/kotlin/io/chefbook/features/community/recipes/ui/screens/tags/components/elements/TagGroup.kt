@@ -11,7 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.mephistolie.compost.modifiers.padding
-import io.chefbook.core.android.compose.providers.theme.LocalTheme
+import io.chefbook.core.compose.providers.theme.LocalTheme
 import io.chefbook.design.theme.shapes.SmoothCornerShape28
 import io.chefbook.features.community.recipes.ui.screens.filter.components.elements.TagButton
 import io.chefbook.features.community.recipes.ui.mvi.FilterState

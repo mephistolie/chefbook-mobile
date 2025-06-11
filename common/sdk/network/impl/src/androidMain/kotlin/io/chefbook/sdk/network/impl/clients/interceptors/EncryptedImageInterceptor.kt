@@ -1,6 +1,6 @@
 package io.chefbook.sdk.network.impl.clients.interceptors
 
-import io.chefbook.libs.encryption.HybridCryptor
+import io.chefbook.libs.crypto.encryption.HybridCryptor
 import io.chefbook.libs.logger.Logger
 import io.chefbook.libs.utils.images.ImageUtils
 import io.chefbook.sdk.encryption.recipe.api.internal.data.repositories.RecipeEncryptionRepository

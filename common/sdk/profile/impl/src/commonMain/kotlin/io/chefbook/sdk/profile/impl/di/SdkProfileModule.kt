@@ -42,10 +42,12 @@ import io.chefbook.sdk.profile.impl.domain.usecases.SetAvatarUseCaseImpl
 import io.chefbook.sdk.profile.impl.domain.usecases.SetDescriptionUseCaseImpl
 import io.chefbook.sdk.profile.impl.domain.usecases.SetNameUseCaseImpl
 import io.chefbook.sdk.profile.impl.domain.usecases.SetNicknameUseCaseImpl
+import kotlinx.coroutines.GlobalScope
 import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.scopedOf
 import org.koin.core.module.dsl.singleOf
 import org.koin.core.qualifier.named
+import org.koin.core.qualifier.qualifier
 import org.koin.dsl.bind
 import org.koin.dsl.module
 
@@ -55,14 +57,15 @@ fun sdkProfileModule() = module {
 
   singleOf(::ProfilesApiServiceImpl) bind ProfilesApiService::class
 
-  singleOf(::LocalProfilesSourceImpl) { named(DataSource.LOCAL) } bind LocalProfilesSource::class
-  singleOf(::RemoteProfilesSourceImpl) { named(DataSource.REMOTE) } bind RemoteProfilesSource::class
+  singleOf(::LocalProfilesSourceImpl) { qualifier = named(DataSource.LOCAL) } bind LocalProfilesSource::class
+  singleOf(::RemoteProfilesSourceImpl) { qualifier = named(DataSource.REMOTE) } bind RemoteProfilesSource::class
 
   single<PulledProfilesRepository> {
     PulledProfilesRepositoryImpl(
       localSource = get(named(DataSource.LOCAL)),
       remoteSource = get(named(DataSource.REMOTE)),
-      profileScope = get(),
+      // TODO: add custom scope
+      profileScope = GlobalScope,
     )
   }
   single<ProfilesRepository> {
@@ -82,8 +85,14 @@ private fun sdkProfileProfileScopeModule() = module {
     scopedOf(::ProfileApiServiceImpl) bind ProfileApiService::class
     scopedOf(::NicknameApiServiceImpl) bind NicknameApiService::class
 
-    scopedOf(::LocalProfileSourceImpl) { named(DataSource.LOCAL) } bind ProfileSource::class
-    scopedOf(::RemoteProfileSourceImpl) { named(DataSource.REMOTE) } bind RemoteProfileSource::class
+    scoped<ProfileSource>(qualifier = named(DataSource.LOCAL)) {
+      LocalProfileSourceImpl(
+        profileId = get<ProfileComponent>().profileId,
+        dataStore = get(),
+        io = get(),
+      )
+    }
+    scopedOf(::RemoteProfileSourceImpl) { qualifier = named(DataSource.REMOTE) } bind RemoteProfileSource::class
 
     scoped<ProfileRepository> {
       ProfileRepositoryImpl(

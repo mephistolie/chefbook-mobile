@@ -9,9 +9,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import io.chefbook.core.android.compose.providers.theme.LocalTheme
+import io.chefbook.core.compose.providers.theme.LocalTheme
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.Recipe.Macronutrients
-import io.chefbook.core.android.R as coreR
+import io.chefbook.core.res as CoreR
 
 @Composable
 internal fun DietWidget(
@@ -24,35 +24,35 @@ internal fun DietWidget(
 
   Column(modifier = modifier) {
     Text(
-      text = stringResource(coreR.string.common_general_in_100_g),
+      text = stringResource(CoreR.string.common_general_in_100_g),
       modifier = Modifier.padding(bottom = 2.dp),
       style = typography.caption1,
       color = colors.foregroundSecondary
     )
     Row {
       DietElement(
-        name = stringResource(coreR.string.common_general_kcal),
+        name = stringResource(CoreR.string.common_general_kcal),
         value = calories,
         modifier = Modifier
           .fillMaxWidth()
           .weight(1F)
       )
       DietElement(
-        name = stringResource(coreR.string.common_general_protein),
+        name = stringResource(CoreR.string.common_general_protein),
         value = macronutrients?.protein,
         modifier = Modifier
           .fillMaxWidth()
           .weight(1F)
       )
       DietElement(
-        name = stringResource(coreR.string.common_general_fats),
+        name = stringResource(CoreR.string.common_general_fats),
         value = macronutrients?.fats,
         modifier = Modifier
           .fillMaxWidth()
           .weight(1F)
       )
       DietElement(
-        name = stringResource(coreR.string.common_general_carbs),
+        name = stringResource(CoreR.string.common_general_carbs),
         value = macronutrients?.carbohydrates,
         modifier = Modifier
           .fillMaxWidth()

@@ -9,7 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import io.chefbook.core.android.compose.providers.theme.LocalTheme
+import io.chefbook.core.compose.providers.theme.LocalTheme
 import io.chefbook.design.theme.ChefBookTheme
 import io.chefbook.features.about.R
 import io.chefbook.features.about.data.EULA_URL
@@ -23,7 +23,7 @@ import io.chefbook.ui.common.components.menu.MenuDivider
 import io.chefbook.ui.common.components.menu.MenuGroup
 import io.chefbook.ui.common.components.menu.MenuItem
 import io.chefbook.ui.common.components.menu.MenuScreen
-import io.chefbook.core.android.R as coreR
+import io.chefbook.core.res as CoreR
 
 @Composable
 internal fun AboutScreenContent(
@@ -62,7 +62,7 @@ internal fun AboutScreenContent(
     MenuDivider()
     MenuGroup(isLast = true) {
       MenuItem(
-        title = stringResource(coreR.string.common_general_eula),
+        title = stringResource(CoreR.string.common_general_eula),
         onClick = { openUrl(context, EULA_URL) }
       )
     }

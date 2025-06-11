@@ -19,12 +19,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import com.mephistolie.compost.modifiers.simpleClickable
-import io.chefbook.core.android.compose.providers.theme.LocalTheme
+import io.chefbook.core.compose.providers.theme.LocalTheme
 import io.chefbook.design.components.buttons.DynamicButton
 import io.chefbook.design.theme.dimens.ComponentHeight40
 import io.chefbook.features.recipe.input.R
 import io.chefbook.sdk.recipe.crud.api.external.domain.entities.RecipeInput
-import io.chefbook.core.android.R as coreR
+import io.chefbook.core.res as CoreR
 import io.chefbook.design.R as designR
 
 @Composable
@@ -45,7 +45,7 @@ internal fun CaloriesBlock(
       modifier = Modifier.wrapContentSize(),
     ) {
       Text(
-        text = stringResource(coreR.string.common_general_calories),
+        text = stringResource(CoreR.string.common_general_calories),
         style = typography.headline2,
         color = colors.foregroundPrimary,
       )
@@ -62,7 +62,7 @@ internal fun CaloriesBlock(
         verticalAlignment = Alignment.CenterVertically
       ) {
         Text(
-          text = "${state.calories} ${stringResource(coreR.string.common_general_kcal).lowercase()}",
+          text = "${state.calories} ${stringResource(CoreR.string.common_general_kcal).lowercase()}",
           style = typography.headline1,
           color = colors.foregroundPrimary,
         )
@@ -78,7 +78,7 @@ internal fun CaloriesBlock(
       }
     } else {
       DynamicButton(
-        text = stringResource(coreR.string.common_general_specify),
+        text = stringResource(CoreR.string.common_general_specify),
         cornerRadius = 12.dp,
         unselectedForeground = colors.foregroundPrimary,
         onClick = onCaloriesClick,

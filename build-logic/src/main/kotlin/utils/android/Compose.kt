@@ -17,7 +17,7 @@ import utils.gradle.implementation
 import utils.gradle.libs
 
 internal fun Project.configureCompose() {
-  apply(plugin = libs.plugins.compose.compiler.get().pluginId)
+  apply(plugin = libs.plugins.composeCompiler.get().pluginId)
 
   androidExtension?.configureCompose()
 

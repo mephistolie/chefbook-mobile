@@ -23,7 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInteropFilter
 import androidx.compose.ui.unit.dp
 import io.chefbook.core.android.compose.modifiers.shimmer
-import io.chefbook.core.android.compose.providers.theme.LocalTheme
+import io.chefbook.core.compose.providers.theme.LocalTheme
 import io.chefbook.design.theme.shapes.SmoothCornerShape28Bottom
 import io.chefbook.features.recipebook.dashboard.ui.components.blocks.ALL_RECIPES_CARD_KEY_PREFIX
 import io.chefbook.features.recipebook.dashboard.ui.components.blocks.DashboardTopBar
@@ -82,8 +82,7 @@ internal fun DashboardScreenContent(
       item(span = { GridItemSpan(4) }) {
         AnimatedVisibility(visible = state.onlineFeaturesAppearance != ContentAppearance.HIDDEN) {
           RecipeBookOnlineBlock(
-            modifier = Modifier
-              .background(colors.divider)
+            modifier = background(colors.divider)
               .padding(bottom = 8.dp)
               .background(colors.backgroundPrimary, SmoothCornerShape28Bottom)
               .padding(12.dp, 20.dp, 12.dp, 16.dp)

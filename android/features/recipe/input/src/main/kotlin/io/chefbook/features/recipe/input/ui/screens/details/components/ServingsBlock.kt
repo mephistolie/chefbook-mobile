@@ -7,10 +7,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import io.chefbook.core.android.compose.providers.theme.LocalTheme
+import io.chefbook.core.compose.providers.theme.LocalTheme
 import io.chefbook.design.components.counter.Counter
 import io.chefbook.sdk.recipe.crud.api.external.domain.entities.RecipeInput
-import io.chefbook.core.android.R as coreR
+import io.chefbook.core.res as CoreR
 
 @Composable
 internal fun ServingsBlock(
@@ -27,7 +27,7 @@ internal fun ServingsBlock(
     verticalAlignment = Alignment.CenterVertically,
   ) {
     Text(
-      text = stringResource(coreR.string.common_general_servings),
+      text = stringResource(CoreR.string.common_general_servings),
       style = typography.headline1,
       color = colors.foregroundPrimary,
     )

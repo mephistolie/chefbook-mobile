@@ -1,0 +1,160 @@
+<resources>
+    <string name="appName" translatable="false">ChefBook</string>
+
+    <string name="commonGeneralId" translatable="false">ID</string>
+    <string name="commonGeneralOk">OK</string>
+    <string name="commonGeneralContinue">Continue</string>
+    <string name="commonGeneralConfirm">Confirm</string>
+    <string name="commonGeneralCancel">Cancel</string>
+    <string name="commonGeneralReset">Reset</string>
+    <string name="commonGeneralAdd">Add</string>
+    <string name="commonGeneralRemove">Remove</string>
+    <string name="commonGeneralShow">Show</string>
+    <string name="commonGeneralHide">Hide</string>
+    <string name="commonGeneralNext">Next</string>
+    <string name="commonGeneralEmail">Email</string>
+    <string name="commonGeneralPassword">Password</string>
+    <string name="commonGeneralSearch">Search</string>
+    <string name="commonGeneralOnline">Online</string>
+    <string name="commonGeneralProfile">Profile</string>
+    <string name="commonGeneralControl">Control</string>
+    <string name="commonGlobalEncryptedVault">Encrypted Vault</string>
+    <string name="commonGlobalEncryption">Encryption</string>
+    <string name="commonGeneralManage">Manage</string>
+    <string name="commonGeneralExplore">Explore</string>
+    <string name="commonGeneralOpen">Open</string>
+    <string name="commonGeneralDisabled">Disabled</string>
+    <string name="commonGeneralLock">Lock</string>
+    <string name="commonGeneralLocked">Locked</string>
+    <string name="commonGeneralUnlock">Unlock</string>
+    <string name="commonGeneralUnlocked">Unlocked</string>
+    <string name="commonGeneralMore">More</string>
+    <string name="commonGeneralLess">Less</string>
+    <string name="commonGeneralFavourite">Favourite</string>
+    <string name="commonGeneralRecipes">Recipes</string>
+    <string name="commonGeneralNoRecipes">No recipes</string>
+    <string name="commonGeneralRecipe">Recipe</string>
+    <string name="commonGeneralName">Name</string>
+    <string name="commonGeneralCover">Cover</string>
+    <string name="commonGeneralTime">Time</string>
+    <string name="commonGeneralHours">h</string>
+    <string name="commonGeneralMinutes">min</string>
+    <string name="commonGeneralCalories">Calories</string>
+    <string name="commonGeneralIn100G">In 100 grams</string>
+    <string name="commonGeneralKcal">Kcal</string>
+    <string name="commonGeneralFats">Fats</string>
+    <string name="commonGeneralProtein">Protein</string>
+    <string name="commonGeneralCarbs">Carbs</string>
+    <string name="commonGeneralAmount">Amount</string>
+    <string name="commonGeneralUnit">Measure unit</string>
+    <string name="commonGeneralSection">Section</string>
+    <string name="commonGeneralInfo">Info</string>
+    <string name="commonGeneralDetails">Details</string>
+    <string name="commonGeneralServings">Servings</string>
+    <string name="commonGeneralMultiplier">Multiplier</string>
+    <string name="commonGeneralIngredients">Ingredients</string>
+    <string name="commonGeneralIngredient">Ingredient</string>
+    <string name="commonGeneralG">g</string>
+    <string name="commonGeneralKg">kg</string>
+    <string name="commonGeneralMl">ml</string>
+    <string name="commonGeneralL">l</string>
+    <string name="commonGeneralPcs">pcs</string>
+    <string name="commonGeneralTsp">tsp</string>
+    <string name="commonGeneralTbsp">tbsp</string>
+    <string name="commonGeneralCooking">Cooking</string>
+    <string name="commonGeneralStep">Step</string>
+    <string name="commonGeneralCategories">Categories</string>
+    <string name="commonGeneralCategory">Category</string>
+    <string name="commonGeneralShoppingList">Shopping List</string>
+    <string name="commonGeneralPurchases">Purchases</string>
+    <string name="commonGeneralPurchase">Purchase</string>
+    <string name="commonGeneralShare">Share</string>
+    <string name="commonGeneralEdit">Edit</string>
+    <string name="commonGeneralDelete">Delete</string>
+    <string name="commonGeneralAuthor">Author</string>
+    <string name="commonGeneralDescription">Description</string>
+    <string name="commonGeneralVisibility">Visibility</string>
+    <string name="commonGeneralOnlyAuthor">Only author</string>
+    <string name="commonGeneralByLink">By link</string>
+    <string name="commonGeneralCommunity">Community</string>
+    <string name="commonGeneralCreationDate">Creation date</string>
+    <string name="commonGeneralUpdateDate">Update date</string>
+    <string name="commonGeneralSave">Save</string>
+    <string name="commonGeneralSaved">Saved</string>
+    <string name="commonGeneralLinkCopied">Link copied</string>
+    <string name="commonGeneralVisibleToYou">Visible for you</string>
+    <string name="commonGeneralVisibleByLink">Visible by link</string>
+    <string name="commonGeneralVisibleToEveryone">Visible to everyone</string>
+    <string name="commonGeneralStandard">Standard</string>
+    <string name="commonGeneralEncrypted">Encrypted</string>
+    <string name="commonGeneralRefresh">Refresh</string>
+    <string name="commonGeneralSpecify">Specify</string>
+    <string name="commonGeneralAreYouSure">Are you sure?</string>
+    <string name="commonGeneralCantPerformOperation">Can\'t perform operation</string>
+    <string name="commonGeneralNothingFound">Nothing found</string>
+    <string name="commonGeneralEula">EULA</string>
+    <string name="commonGeneralProfileEditing">Profile editing</string>
+    <string name="commonGeneralAllLanguages">All languages</string>
+    <string name="commonGeneralSorting">Sorting</string>
+    <string name="commonGeneralNew">New</string>
+    <string name="commonGeneralPopular">Popular</string>
+    <string name="commonGeneralTop">Top</string>
+    <string name="commonGeneralFast">Fast</string>
+    <string name="commonGeneralFilters">Filters</string>
+    <string name="commonGeneralTags">Tags</string>
+    <string name="commonGeneralChefmatch" translatable="false">ChefMatch</string>
+
+    <string name="commonGeneralLanguage">Language</string>
+    <string name="commonGeneralLanguages">Languages</string>
+    <string name="commonGeneralLanguageEnglish">English</string>
+    <string name="commonGeneralLanguageRussian">Russian</string>
+    <string name="commonGeneralLanguageUkrainian">Ukrainian</string>
+    <string name="commonGeneralLanguageBelarusian">Belarusian</string>
+    <string name="commonGeneralLanguageKazakh">Kazakh</string>
+    <string name="commonGeneralLanguageArmenian">Armenian</string>
+    <string name="commonGeneralLanguageGeorgian">Georgian</string>
+    <string name="commonGeneralLanguageSerbian">Serbian</string>
+    <string name="commonGeneralLanguageFrench">French</string>
+    <string name="commonGeneralLanguageGerman">German</string>
+    <string name="commonGeneralLanguageItalian">Italian</string>
+    <string name="commonGeneralLanguageSpanish">Spanish</string>
+    <string name="commonGeneralLanguageTurkish">Turkish</string>
+    <string name="commonGeneralLanguageHindi">Hindi</string>
+    <string name="commonGeneralLanguagePortuguese">Portuguese</string>
+    <string name="commonGeneralLanguageBengali">Bengali</string>
+    <string name="commonGeneralLanguageJapanese">Japanese</string>
+    <string name="commonGeneralLanguageKorean">Korean</string>
+    <string name="commonGeneralLanguageChinese">Chinese</string>
+    <string name="commonGeneralLanguageArabian">Arabian</string>
+    <string name="commonGeneralLanguagePersian">Persian</string>
+    <string name="commonGeneralLanguageOther">Other</string>
+
+    <string name="commonGeneralEmptyFields">Please fill in the fields</string>
+
+    <string name="commonGeneralNetworkError">Network error</string>
+    <string name="commonGeneralUnknownError">Unknown error</string>
+    <string name="commonGeneralSomethingWentWrong">Something went wrong…</string>
+
+    <string name="commonGeneralAppError">App error</string>
+    <string name="commonGeneralAppErrorLocalUser">This action require online profile</string>
+    <string name="commonGeneralAppErrorDecryptionFailed">Data decryption failed</string>
+    <string name="commonGeneralAppErrorEncryptedVaultLocked">Encrypted vault locked</string>
+
+    <string name="commonGeneralServerError">Server error</string>
+    <string name="commonGeneralServerErrorOldVersion">Please, update app</string>
+    <string name="commonGeneralServerErrorInvalidCredentials">Login or password is incorrect</string>
+    <string name="commonGeneralServerErrorProfileNotActivated">Profile not activated</string>
+    <string name="commonGeneralServerErrorProfileBlocked">Profile is blocked</string>
+    <string name="commonGeneralServerErrorProfileExists">Profile already exists</string>
+    <string name="commonGeneralServerErrorAccessDenied">Access denied</string>
+    <string name="commonGeneralServerErrorAuthorizationFailed">Authorization failed</string>
+    <string name="commonGeneralServerErrorBigFile">File being uploaded is too large</string>
+    <string name="commonGeneralServerErrorInvalidActivationCode">Invalid activation code</string>
+    <string name="commonGeneralServerErrorInvalidRecipe">Invalid recipe</string>
+    <string name="commonGeneralServerErrorNotInRecipeBook">For this action, the recipe must be in your recipe book</string>
+
+    <string name="commonGeneralSubscription">Subscription</string>
+    <string name="commonGeneralSubscriptionFree" translatable="false">FREE</string>
+    <string name="commonGeneralSubscriptionPremium" translatable="false">PREMIUM</string>
+
+</resources>

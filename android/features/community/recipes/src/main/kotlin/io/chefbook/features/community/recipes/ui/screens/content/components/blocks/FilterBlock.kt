@@ -20,14 +20,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.mephistolie.compost.modifiers.clippedBackground
 import com.mephistolie.compost.modifiers.simpleClickable
-import io.chefbook.core.android.compose.providers.theme.LocalTheme
+import io.chefbook.core.compose.providers.theme.LocalTheme
 import io.chefbook.design.icons.ArrowEnd
 import io.chefbook.design.icons.ChefBookIcons
 import io.chefbook.design.theme.dimens.IconSize24
 import io.chefbook.design.theme.shapes.SmoothCornerShape28Top
 import io.chefbook.features.community.recipes.R
 import io.chefbook.features.community.recipes.ui.mvi.FilterState
-import io.chefbook.core.android.R as coreR
+import io.chefbook.core.res as CoreR
 import io.chefbook.design.R as designR
 
 internal val filterBlockHeight = 64.dp
@@ -49,14 +49,14 @@ internal fun FilterBlock(
           .flatMap { it.tags }
           .firstOrNull { it.id == filter.selectedTags.first() }
           ?.name.orEmpty()
-        else -> "${stringResource(coreR.string.common_general_tags)}: ${filter.selectedTags.size}"
+        else -> "${stringResource(CoreR.string.common_general_tags)}: ${filter.selectedTags.size}"
       }
     }
 
     else -> when (filter.sorting) {
-      FilterState.Sorting.VOTES -> stringResource(coreR.string.common_general_popular)
-      FilterState.Sorting.RATING -> stringResource(coreR.string.common_general_top)
-      FilterState.Sorting.CREATION_TIMESTAMP -> stringResource(coreR.string.common_general_new)
+      FilterState.Sorting.VOTES -> stringResource(CoreR.string.common_general_popular)
+      FilterState.Sorting.RATING -> stringResource(CoreR.string.common_general_top)
+      FilterState.Sorting.CREATION_TIMESTAMP -> stringResource(CoreR.string.common_general_new)
       FilterState.Sorting.TIME -> stringResource(R.string.common_community_recipes_filter_screen_by_cooking_time)
       FilterState.Sorting.CALORIES -> stringResource(R.string.common_community_recipes_filter_screen_by_calories)
     }

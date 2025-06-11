@@ -17,13 +17,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.mephistolie.compost.modifiers.simpleClickable
-import io.chefbook.core.android.compose.providers.theme.LocalTheme
+import io.chefbook.core.compose.providers.theme.LocalTheme
 import io.chefbook.design.theme.dimens.IconSize24
 import io.chefbook.design.theme.shapes.SmoothCornerShape28Top
 import io.chefbook.features.recipebook.core.ui.components.CategoryCard
 import io.chefbook.features.recipebook.core.ui.components.CategoryCardSkeleton
 import io.chefbook.sdk.collection.api.external.domain.entities.Collection
-import io.chefbook.core.android.R as coreR
+import io.chefbook.core.res as CoreR
 import io.chefbook.design.R as designR
 
 private const val KEY_PREFIX = "category_card"
@@ -57,7 +57,7 @@ internal fun LazyGridScope.categoriesBlock(
       verticalAlignment = Alignment.CenterVertically,
     ) {
       Text(
-        text = stringResource(id = coreR.string.common_general_categories),
+        text = stringResource(id = CoreR.string.common_general_categories),
         style = typography.h2,
         color = colors.foregroundPrimary,
       )

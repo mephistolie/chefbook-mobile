@@ -16,10 +16,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import com.mephistolie.compost.modifiers.clippedBackground
-import io.chefbook.core.android.compose.providers.theme.LocalTheme
+import io.chefbook.core.compose.providers.theme.LocalTheme
 import io.chefbook.design.components.buttons.DynamicButton
 import io.chefbook.design.theme.shapes.SmoothCornerShape28Top
-import io.chefbook.core.android.R as coreR
+import io.chefbook.core.res as CoreR
 import io.chefbook.design.R as designR
 
 internal val shoppingListActionBarHeight = 80.dp
@@ -44,7 +44,7 @@ internal fun ShoppingListActionBar(
       .padding(12.dp)
   ) {
     DynamicButton(
-      text = stringResource(coreR.string.common_general_add),
+      text = stringResource(CoreR.string.common_general_add),
       leftIcon = ImageVector.vectorResource(id = designR.drawable.ic_add),
       onClick = onAddPurchaseClick,
       isSelected = false,

@@ -15,8 +15,8 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
-import io.chefbook.core.android.compose.providers.theme.LocalTheme
-import io.chefbook.core.android.R as coreR
+import io.chefbook.core.compose.providers.theme.LocalTheme
+import io.chefbook.core.res as CoreR
 import io.chefbook.design.R as designR
 
 @Composable
@@ -38,7 +38,7 @@ internal fun FavouriteRecipesToolbarContent() {
       contentDescription = null,
     )
     Text(
-      text = stringResource(coreR.string.common_general_favourite),
+      text = stringResource(CoreR.string.common_general_favourite),
       modifier = Modifier.padding(start = 4.dp),
       style = typography.h4,
       color = colors.foregroundPrimary,

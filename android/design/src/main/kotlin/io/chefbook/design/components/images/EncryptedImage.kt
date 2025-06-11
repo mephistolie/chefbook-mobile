@@ -10,11 +10,12 @@ import androidx.compose.ui.graphics.FilterQuality
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import coil.compose.AsyncImage
-import coil.compose.AsyncImagePainter
-import coil.memory.MemoryCache
-import coil.request.ImageRequest
-import io.chefbook.core.android.compose.providers.LocalDataAccess
+import coil3.compose.AsyncImage
+import coil3.compose.AsyncImagePainter
+import coil3.memory.MemoryCache
+import coil3.request.ImageRequest
+import coil3.request.crossfade
+import io.chefbook.core.compose.providers.LocalDataAccess
 
 private const val TYPE = "TYPE"
 
@@ -47,8 +48,8 @@ fun EncryptedImage(
     model = ImageRequest.Builder(context)
       .diskCacheKey(diskKey)
       .memoryCacheKey(memoryKey)
-      .placeholder(placeholder)
-      .error(errorDrawable)
+//      .placeholder(placeholder)
+//      .error(errorDrawable)
       .data(data)
       .crossfade(true)
       .build(),

@@ -22,7 +22,7 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import io.chefbook.core.android.compose.providers.theme.LocalTheme
+import io.chefbook.core.compose.providers.theme.LocalTheme
 import io.chefbook.design.components.buttons.BottomSheetCloseButton
 import io.chefbook.design.components.buttons.DynamicButton
 import io.chefbook.design.theme.dimens.ComponentHeight48
@@ -30,7 +30,7 @@ import io.chefbook.design.theme.shapes.smooth.SmoothCornerShape
 import io.chefbook.features.recipe.share.R
 import io.chefbook.features.recipe.share.ui.mvi.RecipeShareDialogIntent
 import io.chefbook.features.recipe.share.ui.mvi.RecipeShareDialogState
-import io.chefbook.core.android.R as coreR
+import io.chefbook.core.res as CoreR
 import io.chefbook.design.R as designR
 
 @Composable
@@ -65,7 +65,7 @@ internal fun RecipeShareDialogContent(
         horizontalAlignment = Alignment.CenterHorizontally
       ) {
         Text(
-          text = "${stringResource(coreR.string.common_general_recipe)} #${state.id?.substringBefore('-')}",
+          text = "${stringResource(CoreR.string.common_general_recipe)} #${state.id?.substringBefore('-')}",
           modifier = Modifier.padding(top = 16.dp),
           maxLines = 2,
           style = typography.h2,

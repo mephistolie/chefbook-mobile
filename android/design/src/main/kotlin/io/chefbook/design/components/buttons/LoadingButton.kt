@@ -18,7 +18,7 @@ import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import io.chefbook.core.android.compose.constants.ShortDebounceInterval
-import io.chefbook.core.android.compose.providers.theme.LocalTheme
+import io.chefbook.core.compose.providers.theme.LocalTheme
 import io.chefbook.design.components.progress.CircularProgressIndicator
 import io.chefbook.design.theme.dimens.IconSize24
 
@@ -42,8 +42,8 @@ fun LoadingButton(
     onClick = onClick,
     modifier = modifier,
     cornerRadius = cornerRadius,
-    selectedBackground = selectedBackground,
-    unselectedBackground = unselectedBackground,
+    activeBackground = selectedBackground,
+    inactiveBackground = unselectedBackground,
     isSelected = isSelected,
     isEnabled = !isLoading && isEnabled,
     disableScaling = disableScaling,

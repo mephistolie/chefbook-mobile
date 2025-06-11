@@ -1,7 +1,7 @@
 package io.chefbook.sdk.recipe.crud.impl.domain
 
 import io.chefbook.libs.coroutines.AppDispatchers
-import io.chefbook.libs.encryption.SymmetricKey
+import io.chefbook.libs.crypto.encryption.models.SymmetricKey
 import io.chefbook.libs.exceptions.notFoundResult
 import io.chefbook.libs.utils.result.EmptyResult
 import io.chefbook.libs.utils.result.successResult

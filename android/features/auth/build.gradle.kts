@@ -19,7 +19,10 @@ composeDestinationsModuleName("auth-form")
 dependencies {
   implementation(projects.common.libs.exceptions)
   implementation(projects.common.libs.utils)
+
   implementation(projects.common.sdk.auth.api.external)
+
+  implementation(projects.common.features.auth)
 
   implementation(libs.androidx.compose.uiTooling)
   implementation(libs.androidx.credentials)

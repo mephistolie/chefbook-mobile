@@ -52,7 +52,7 @@ internal class SessionsRepositoryImpl(
   }
 
   override fun clearClientTokens(profileId: String) {
-    httpClientFactory.baseClient.clearTokens()
+//    httpClientFactory.baseClient.clearTokens()
     httpClientFactory.get(profileId)?.clearTokens()
   }
 

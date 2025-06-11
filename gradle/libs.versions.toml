@@ -1,80 +1,138 @@
 [versions]
-compileSdk = "36"
-targetSdk = "36"
-minSdk = "21"
+
+# Common
+
+## Project Configuration
 
 kotlin = "2.1.21"
-kotlin-coroutines = "1.10.1"
-kotlin-datetime = "0.5.0"
-
-jdk-desugar = "2.1.5"
-
 ksp = "2.1.21-2.0.1"
 
-agp = "8.10.0"
+## Libs
 
-timber = "5.0.1"
+### KotlinX
 
-koin = "4.0.2"
+kotlinx-coroutines = "1.10.2"
+kotlinx-datetime = "0.6.2"
+
+### Input / Output
 
 ktor = "3.1.1"
 okio = "3.10.2"
 
+### Storage
+
 sqldelight = "2.0.2"
 datastore = "1.1.7"
 
-tink = "1.13.0"
+### DI
+
+koin = "4.0.2"
+
+# Crypto
+
+cryptographyKotlin = "0.4.0"
+hash = "0.7.0"
+
+### Architecture
+
+decompose = "3.3.0"
+
+### UI
+
+### Compose
+
+composeMultiplatform = "1.8.1"
+
+compose-shimmer = "1.3.3"
+
+haze = "1.6.4"
+
+#### Images
+
+coil = "3.2.0"
+
+# Android
+
+## Project Configuration
+
+agp = "8.10.1"
+
+android-compileSdk = "36"
+android-targetSdk = "36"
+android-minSdk = "21"
+
+jdk-desugar = "2.1.5"
+
+## Libs
+
+### Core
 
 androidx-core-ktx = "1.16.0"
 androidx-appcompat = "1.7.0"
 
-androidx-credentials = "1.5.0"
-credentials-google = "1.1.1"
+### UI
 
+#### Compose
+
+androidx-composeBom = "2025.05.01"
 androidx-activity-compose = "1.10.1"
 androidx-lifecycle = "2.9.0"
-androidx-composeBom = "2025.05.01"
-androidx-navigationCompose = "2.9.0"
-accompanist = "0.34.0"
-
-composeDestinations = "1.10.1"
 
 compost = "0.0.5"
 
 compose-reorderable = "0.9.6"
-compose-shimmer = "1.2.0"
 
-material = "1.12.0"
+#### Images
 
-zxing = "3.5.3"
-
-coil = "2.5.0"
 imageCropper = "4.5.0"
 compressor = "3.0.1"
 
+#### QR
+
+zxing = "3.5.3"
+
+### Navigation
+
+composeDestinations = "1.10.1"
+
+### Auth
+
+androidx-credentials = "1.5.0"
+credentials-google = "1.1.1"
+
+# Apple
+
+## Project Configuration
+
+swiftKLib = "0.6.4"
+
 [libraries]
-kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
-ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "symbol-processing-gradle-plugin", version.ref = "ksp" }
-android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }
-compose-gradlePlugin = { group = "org.jetbrains.kotlin", name = "compose-compiler-gradle-plugin", version.ref = "kotlin" }
 
-kotlin-test = { group = "org.jetbrains.kotlin", name = "kotlin-test", version.ref = "kotlin" }
-kotlin-test-junit = { group = "org.jetbrains.kotlin", name = "kotlin-test-junit", version.ref = "kotlin" }
+# Plugins
 
-kotlin-serialization = { group = "org.jetbrains.kotlin", name = "kotlin-serialization", version.ref = "kotlin" }
-kotlin-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlin" }
+gradlePlugin-kotlin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
+gradlePlugin-ksp = { group = "com.google.devtools.ksp", name = "symbol-processing-gradle-plugin", version.ref = "ksp" }
+gradlePlugin-android = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }
+gradlePlugin-composeMultiplatform = { group = "org.jetbrains.compose", name = "compose-gradle-plugin", version.ref = "composeMultiplatform" }
+gradlePlugin-composeCompiler = { group = "org.jetbrains.kotlin", name = "compose-compiler-gradle-plugin", version.ref = "kotlin" }
+gradlePlugin-swiftKLib = { group = "io.github.ttypic.swiftklib", name = "io.github.ttypic.swiftklib.gradle.plugin", version.ref = "swiftKLib" }
 
-kotlin-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlin-coroutines" }
-kotlin-datetime = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime", version.ref = "kotlin-datetime" }
+# Common
 
-jdk-desugar = { group = "com.android.tools", name = "desugar_jdk_libs", version.ref = "jdk-desugar" }
+## Libs
 
-logger-timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "timber" }
+### KotlinX
 
-di-koin-core = { group = "io.insert-koin", name = "koin-core", version.ref = "koin" }
-di-koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koin" }
-di-koin-compose = { group = "io.insert-koin", name = "koin-androidx-compose", version.ref = "koin" }
+kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
 
+kotlinx-datetime = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime", version.ref = "kotlinx-datetime" }
+
+kotlinx-serialization = { group = "org.jetbrains.kotlin", name = "kotlin-serialization", version.ref = "kotlin" }
+kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlin" }
+
+### Input / Output
+
+network-ktor-utils = { group = "io.ktor", name = "ktor-utils", version.ref = "ktor" }
 network-ktor-client-core = { group = "io.ktor", name = "ktor-client-core", version.ref = "ktor" }
 network-ktor-client-okhttp = { group = "io.ktor", name = "ktor-client-okhttp", version.ref = "ktor" }
 network-ktor-client-darwin = { group = "io.ktor", name = "ktor-client-darwin", version.ref = "ktor" }
@@ -86,74 +144,147 @@ network-ktor-serialization-kotlinx-json = { group = "io.ktor", name = "ktor-seri
 
 okio = { group = "com.squareup.okio", name = "okio", version.ref = "okio" }
 
+### Storage
+
 database-sqldelight-runtime = { group = "app.cash.sqldelight", name = "runtime", version.ref = "sqldelight" }
 database-sqldelight-driver-android = { group = "app.cash.sqldelight", name = "android-driver", version.ref = "sqldelight" }
 database-sqldelight-driver-native = { group = "app.cash.sqldelight", name = "native-driver", version.ref = "sqldelight" }
 
-tinkAndroid = { group = "com.google.crypto.tink", name = "tink-android", version.ref = "tink" }
+androidx-datastore-core = { group = "androidx.datastore", name = "datastore-core", version.ref = "datastore" }
+androidx-datastore-core-okio = { group = "androidx.datastore", name = "datastore-core-okio", version.ref = "datastore" }
+
+### DI
+
+di-koin-core = { group = "io.insert-koin", name = "koin-core", version.ref = "koin" }
+di-koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koin" }
+di-koin-compose = { group = "io.insert-koin", name = "koin-androidx-compose", version.ref = "koin" }
+
+# Crypto
+
+cryptographyKotlin-asn1 = { group = "dev.whyoleg.cryptography", "name" = "cryptography-serialization-asn1-modules", version.ref = "cryptographyKotlin" }
+
+hash-sha1 = { group = "org.kotlincrypto.hash", name = "sha1", version.ref = "hash" }
+hash-sha256 = { group = "org.kotlincrypto.hash", name = "sha2", version.ref = "hash" }
+
+### Architecture
+
+decompose-core = { group = "com.arkivanov.decompose", name = "decompose", version.ref = "decompose" }
+decompose-extensions-android = { group = "com.arkivanov.decompose", name = "extensions-android", version.ref = "decompose" }
+decompose-extensions-compose = { group = "com.arkivanov.decompose", name = "extensions-compose", version.ref = "decompose" }
+
+### UI
+
+### Compose
+
+compose-shimmer = { group = "com.valentinilk.shimmer", name = "compose-shimmer", version.ref = "compose-shimmer" }
+
+haze = { group = "dev.chrisbanes.haze", name = "haze", version.ref = "haze" }
+
+#### Images
+
+coil-compose = { group = "io.coil-kt.coil3", name = "coil-compose", version.ref = "coil" }
+coil-network-ktor = { group = "io.coil-kt.coil3", name = "coil-network-ktor3", version.ref = "coil" }
+
+### Tests
+
+kotlin-test = { group = "org.jetbrains.kotlin", name = "kotlin-test", version.ref = "kotlin" }
+kotlin-test-junit = { group = "org.jetbrains.kotlin", name = "kotlin-test-junit", version.ref = "kotlin" }
+
+# Android
+
+## Project Configuration
+
+jdk-desugar = { group = "com.android.tools", name = "desugar_jdk_libs", version.ref = "jdk-desugar" }
+
+## Libs
+
+### Core
 
 androidx-coreKtx = { group = "androidx.core", name = "core-ktx", version.ref = "androidx-core-ktx" }
 androidx-appCompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "androidx-appcompat" }
-androidx-datastore = { group = "androidx.datastore", name = "datastore", version.ref = "datastore" }
-androidx-datastore-core = { group = "androidx.datastore", name = "datastore-core", version.ref = "datastore" }
-androidx-datastore-core-okio = { group = "androidx.datastore", name = "datastore-core-okio", version.ref = "datastore" }
-androidx-datastore-coreAndroid = { group = "androidx.datastore", name = "datastore-core-android", version.ref = "datastore" }
 
-androidx-credentials = { group = "androidx.credentials", name = "credentials", version.ref = "androidx-credentials" }
-androidx-credentials-playServices = { group = "androidx.credentials", name = "credentials-play-services-auth", version.ref = "androidx-credentials" }
-credentials-google = { group = "com.google.android.libraries.identity.googleid", name = "googleid", version.ref = "credentials-google" }
+### UI
+
+#### Compose
 
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "androidx-composeBom" }
+
 androidx-compose-foundation = { group = "androidx.compose.foundation", name = "foundation" }
 androidx-compose-runtime = { group = "androidx.compose.runtime", name = "runtime" }
 androidx-compose-ui = { group = "androidx.compose.ui", name = "ui" }
-androidx-compose-uiTooling = { group = "androidx.compose.ui", name = "ui-tooling" }
+
 androidx-compose-animation = { group = "androidx.compose.animation", name = "animation" }
+
 androidx-compose-material = { group = "androidx.compose.material", name = "material" }
 androidx-compose-materialIcons-core = { group = "androidx.compose.material", name = "material-icons-core" }
 androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3" }
 
+androidx-compose-uiTooling = { group = "androidx.compose.ui", name = "ui-tooling" }
+
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "androidx-activity-compose" }
 androidx-lifecycle-compose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "androidx-lifecycle" }
 androidx-lifecycle-viewmodel-compose = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "androidx-lifecycle" }
-androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "androidx-navigationCompose" }
-
-composeDestinations-core = { group = "io.github.raamcosta.compose-destinations", name = "animations-core", version.ref = "composeDestinations" }
-composeDestinations-ksp = { group = "io.github.raamcosta.compose-destinations", name = "ksp", version.ref = "composeDestinations" }
 
 compost-core = { group = "com.github.mephistolie.compost", name = "core", version.ref = "compost" }
 compost-ui = { group = "com.github.mephistolie.compost", name = "ui", version.ref = "compost" }
 
 compose-reorderable = { group = "org.burnoutcrew.composereorderable", name = "reorderable", version.ref = "compose-reorderable" }
-compose-shimmer = { group = "com.valentinilk.shimmer", name = "compose-shimmer", version.ref = "compose-shimmer" }
 
-zxing-core = { group = "com.google.zxing", name = "core", version.ref = "zxing" }
-
-coil = { group = "io.coil-kt", name = "coil", version.ref = "coil" }
-coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
+#### Images
 
 imageCropper = { group = "com.vanniktech", name = "android-image-cropper", version.ref = "imageCropper" }
 compressor = { group = "id.zelory", name = "compressor", version.ref = "compressor" }
 
+#### QR
+
+zxing-core = { group = "com.google.zxing", name = "core", version.ref = "zxing" }
+
+### Navigation
+
+composeDestinations-core = { group = "io.github.raamcosta.compose-destinations", name = "animations-core", version.ref = "composeDestinations" }
+composeDestinations-ksp = { group = "io.github.raamcosta.compose-destinations", name = "ksp", version.ref = "composeDestinations" }
+
+### Auth
+
+androidx-credentials = { group = "androidx.credentials", name = "credentials", version.ref = "androidx-credentials" }
+androidx-credentials-playServices = { group = "androidx.credentials", name = "credentials-play-services-auth", version.ref = "androidx-credentials" }
+
+credentials-google = { group = "com.google.android.libraries.identity.googleid", name = "googleid", version.ref = "credentials-google" }
+
+[bundles]
+
+hash = ["hash-sha1", "hash-sha256"]
+
 [plugins]
+
+# Project Configuration
+
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 
+sqldelight = { id = "app.cash.sqldelight", version.ref = "sqldelight" }
+
+composeMultiplatform = { id = "org.jetbrains.compose", version.ref = "composeMultiplatform" }
+composeCompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+
 android-application = { id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
 
-compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+swiftKLib = { id = "io.github.ttypic.swiftklib", version.ref = "swiftKLib" }
 
-sqldelight = { id = "app.cash.sqldelight", version.ref = "sqldelight" }
+# Project Plugins
 
 module-multiplatform-base = { id = "plugins.module.multiplatform.base", version = "unspecified" }
 module-multiplatform-sdk = { id = "plugins.module.multiplatform.sdk", version = "unspecified" }
 module-multiplatform-database = { id = "plugins.module.multiplatform.database", version = "unspecified" }
 module-multiplatform-network = { id = "plugins.module.multiplatform.network", version = "unspecified" }
 module-multiplatform-data = { id = "plugins.module.multiplatform.data", version = "unspecified" }
+module-multiplatform-compose = { id = "plugins.module.multiplatform.compose", version = "unspecified" }
+module-multiplatform-feature = { id = "plugins.module.multiplatform.feature", version = "unspecified" }
+
 module-android-lib = { id = "plugins.module.android.lib", version = "unspecified" }
 module-android-compose = { id = "plugins.module.android.compose", version = "unspecified" }
 module-android-navigation = { id = "plugins.module.android.navigation", version = "unspecified" }

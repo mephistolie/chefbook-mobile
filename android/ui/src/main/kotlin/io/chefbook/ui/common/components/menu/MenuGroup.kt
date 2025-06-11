@@ -10,8 +10,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.mephistolie.compost.modifiers.clippedBackground
-import io.chefbook.core.android.compose.providers.theme.LocalTheme
+import io.chefbook.core.compose.modifiers.clippingBackground
+import io.chefbook.core.compose.providers.theme.LocalTheme
 import io.chefbook.design.theme.shapes.smooth.SmoothCornerShape
 
 private val cornerRadius = 24.dp
@@ -28,8 +28,8 @@ fun MenuGroup(
   Column(
     modifier = modifier
       .run { if (isLast) fillMaxSize() else fillMaxWidth() }
-      .clippedBackground(
-        background = colors.backgroundPrimary,
+      .clippingBackground(
+        color = colors.backgroundPrimary,
         shape = SmoothCornerShape(
           topStart = if (isFirst) 0.dp else cornerRadius,
           topEnd = if (isFirst) 0.dp else cornerRadius,

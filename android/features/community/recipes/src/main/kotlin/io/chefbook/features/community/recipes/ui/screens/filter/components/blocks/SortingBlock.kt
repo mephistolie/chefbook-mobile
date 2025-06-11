@@ -10,12 +10,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.mephistolie.compost.modifiers.padding
-import io.chefbook.core.android.compose.providers.theme.LocalTheme
+import io.chefbook.core.compose.providers.theme.LocalTheme
 import io.chefbook.design.theme.shapes.SmoothCornerShape28
 import io.chefbook.features.community.recipes.R
 import io.chefbook.features.community.recipes.ui.screens.filter.components.elements.RadioElement
 import io.chefbook.features.community.recipes.ui.mvi.FilterState
-import io.chefbook.core.android.R as coreR
+import io.chefbook.core.res as CoreR
 
 internal fun LazyListScope.sortingBlock(
   state: FilterState.Sorting,
@@ -33,7 +33,7 @@ internal fun LazyListScope.sortingBlock(
         .padding(horizontal = 16.dp, top = 12.dp, bottom = 4.dp)
     ) {
       Text(
-        text = stringResource(coreR.string.common_general_sorting),
+        text = stringResource(CoreR.string.common_general_sorting),
         style = typography.h2,
         color = colors.foregroundPrimary,
         modifier = Modifier
@@ -43,9 +43,9 @@ internal fun LazyListScope.sortingBlock(
       FilterState.Sorting.entries.forEach { sorting ->
         RadioElement(
           text = when (sorting) {
-            FilterState.Sorting.VOTES -> stringResource(coreR.string.common_general_popular)
-            FilterState.Sorting.RATING -> stringResource(coreR.string.common_general_top)
-            FilterState.Sorting.CREATION_TIMESTAMP -> stringResource(coreR.string.common_general_new)
+            FilterState.Sorting.VOTES -> stringResource(CoreR.string.common_general_popular)
+            FilterState.Sorting.RATING -> stringResource(CoreR.string.common_general_top)
+            FilterState.Sorting.CREATION_TIMESTAMP -> stringResource(CoreR.string.common_general_new)
             FilterState.Sorting.TIME -> stringResource(R.string.common_community_recipes_filter_screen_by_cooking_time)
             FilterState.Sorting.CALORIES -> stringResource(R.string.common_community_recipes_filter_screen_by_calories)
           },

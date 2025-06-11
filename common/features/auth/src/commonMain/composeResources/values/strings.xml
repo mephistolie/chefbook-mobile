@@ -1,0 +1,30 @@
+<resources>
+
+    <string name="commonAuthScreenNicknameOrEmail">Nickname or email</string>
+    <string name="commonAuthScreenSignIn">Sign In</string>
+    <string name="commonAuthScreenSignUp">Sign Up</string>
+    <string name="commonAuthScreenNewPassword">New password</string>
+    <string name="commonAuthScreenForgotPassword">Forgot password?</string>
+    <string name="commonAuthScreenNotMember">Not a member yet?</string>
+    <string name="commonAuthScreenAlreadyMember">Already member</string>
+    <string name="commonAuthScreenRepeatPassword">Repeat password</string>
+    <string name="commonAuthScreenResetPassword">Reset password</string>
+    <string name="commonAuthScreenInvalidEmail">Type correct email</string>
+    <string name="commonAuthScreenShortPassword">Password must contain at least 8 characters</string>
+    <string name="commonAuthScreenLowerPassword">Password must contain at least 1 lower character</string>
+    <string name="commonAuthScreenUpperPassword">Password must contain at least 1 upper character</string>
+    <string name="commonAuthScreenNumberPassword">Password must contain at least 1 digit</string>
+    <string name="commonAuthScreenSpacePassword">Password mustn\'t contain spaces</string>
+    <string name="commonAuthScreenPasswordMismatch">Passwords don\'t match</string>
+    <string name="commonAuthScreenAgreement">By using app, you accept EULA</string>
+    <string name="commonAuthScreenActivationCode">Enter code from mail</string>
+    <string name="commonAuthScreenProfileActivated">Profile activated</string>
+    <string name="commonAuthScreenPasswordResetMail">If the profile exists, password reset link has been sent to the mail. Open it.</string>
+    <string name="commonAuthScreenPasswordReset">Password has been reset</string>
+    <string name="commonAuthScreenProfileDeleted">Profile deleted</string>
+    <string name="commonAuthScreenRestoreProfileInfo">You can restore profile before</string>
+    <string name="commonAuthScreenRestoreProfile">Restore profile</string>
+    <string name="commonAuthScreenSignOut">Sign out</string>
+    <string name="commonAuthScreenAnotherAccount">Another account</string>
+
+</resources>

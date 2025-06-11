@@ -1,6 +1,6 @@
 package io.chefbook.sdk.encryption.recipe.api.internal.data.crypto
 
-import io.chefbook.libs.encryption.SymmetricKey
+import io.chefbook.libs.crypto.encryption.models.SymmetricKey
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.DecryptedRecipe
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.DecryptedRecipeInfo
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.EncryptedRecipe

@@ -1,7 +1,5 @@
 package io.chefbook.features.recipebook.search.ui
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -32,21 +30,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.mephistolie.compost.modifiers.simpleClickable
-import io.chefbook.core.android.compose.providers.theme.LocalTheme
+import io.chefbook.core.compose.providers.theme.LocalTheme
 import io.chefbook.design.components.buttons.DynamicButton
 import io.chefbook.features.recipebook.search.R
 import io.chefbook.features.recipebook.search.ui.components.NothingFoundBanner
 import io.chefbook.features.recipebook.search.ui.components.SearchRecipeCard
 import io.chefbook.features.recipebook.search.ui.mvi.RecipeBookSearchScreenIntent
 import io.chefbook.features.recipebook.search.ui.mvi.RecipeBookSearchScreenState
-import io.chefbook.core.android.R as coreR
+import io.chefbook.core.res as CoreR
 
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalLayoutApi::class)
 @Composable
@@ -109,7 +104,7 @@ internal fun RecipeBookSearchScreenContent(
               Row(modifier = Modifier.fillMaxWidth()) {
                 if (state.query.isEmpty()) {
                   Text(
-                    text = stringResource(coreR.string.common_general_search),
+                    text = stringResource(CoreR.string.common_general_search),
                     style = typography.body1,
                     color = colors.foregroundSecondary,
                   )
@@ -120,7 +115,7 @@ internal fun RecipeBookSearchScreenContent(
           )
         }
         Text(
-          text = stringResource(coreR.string.common_general_cancel),
+          text = stringResource(CoreR.string.common_general_cancel),
           modifier = Modifier
             .padding(start = 8.dp)
             .simpleClickable { onIntent(RecipeBookSearchScreenIntent.Back) },

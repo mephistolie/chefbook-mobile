@@ -17,9 +17,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.mephistolie.compost.modifiers.simpleClickable
-import io.chefbook.core.android.compose.providers.theme.LocalTheme
+import io.chefbook.core.compose.providers.theme.LocalTheme
 import io.chefbook.design.components.dividers.Divider
-import io.chefbook.design.icons.ArrowStart
 import io.chefbook.design.icons.ArrowUpMedium
 import io.chefbook.design.icons.ChefBookIcons
 import io.chefbook.design.R as designR

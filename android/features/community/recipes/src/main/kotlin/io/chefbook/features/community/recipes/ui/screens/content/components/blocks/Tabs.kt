@@ -12,8 +12,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import io.chefbook.core.android.compose.providers.theme.LocalTheme
-import io.chefbook.core.android.R as coreR
+import io.chefbook.core.compose.providers.theme.LocalTheme
+import io.chefbook.core.res as CoreR
 import io.chefbook.design.components.buttons.DynamicButton
 import io.chefbook.design.theme.dimens.ComponentHeight40
 import io.chefbook.features.community.recipes.ui.mvi.DashboardState
@@ -45,10 +45,10 @@ internal fun Tabs(
       item {
         DynamicButton(
           text = when (tab) {
-            DashboardState.Tab.NEW -> stringResource(coreR.string.common_general_new)
-            DashboardState.Tab.VOTES -> stringResource(coreR.string.common_general_popular)
-            DashboardState.Tab.TOP -> stringResource(coreR.string.common_general_top)
-            DashboardState.Tab.FAST -> stringResource(coreR.string.common_general_fast)
+            DashboardState.Tab.NEW -> stringResource(CoreR.string.common_general_new)
+            DashboardState.Tab.VOTES -> stringResource(CoreR.string.common_general_popular)
+            DashboardState.Tab.TOP -> stringResource(CoreR.string.common_general_top)
+            DashboardState.Tab.FAST -> stringResource(CoreR.string.common_general_fast)
           },
           cornerRadius = 12.dp,
           textStyle = if (tab == selectedTab) typography.h4 else typography.headline1,

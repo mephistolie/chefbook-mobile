@@ -5,15 +5,11 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import io.chefbook.core.android.R
-import io.chefbook.core.android.compose.providers.theme.LocalTheme
+import io.chefbook.core.compose.providers.theme.LocalTheme
 import io.chefbook.design.theme.colors.Gradients
 
 @Composable
@@ -34,13 +30,13 @@ fun SubscriptionBadge(
       .defaultMinSize(minWidth = 48.dp),
     contentAlignment = Alignment.Center
   ) {
-    Text(
-      text = stringResource(
-        if (isPremium) R.string.common_general_subscription_premium
-        else R.string.common_general_subscription_free
-      ),
-      style = typography.subhead2,
-      color = if (isPremium) Color.White else colors.foregroundPrimary,
-    )
+//    Text(
+//      text = stringResource(
+//        if (isPremium) R.string.common_general_subscription_premium
+//        else R.string.common_general_subscription_free
+//      ),
+//      style = typography.subhead2,
+//      color = if (isPremium) Color.White else colors.foregroundPrimary,
+//    )
   }
 }

@@ -19,10 +19,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.TextUnit
@@ -31,7 +29,7 @@ import androidx.compose.ui.unit.dp
 import com.mephistolie.compost.extensions.Shading
 import com.mephistolie.compost.modifiers.clippedBackground
 import com.mephistolie.compost.modifiers.scalingClickable
-import io.chefbook.core.android.compose.providers.theme.LocalTheme
+import io.chefbook.core.compose.providers.theme.LocalTheme
 import io.chefbook.core.android.utils.EmojiUtils
 import io.chefbook.core.android.utils.minutesToTimeString
 import io.chefbook.design.components.images.EncryptedImage
@@ -40,8 +38,7 @@ import io.chefbook.design.icons.ChefBookIcons
 import io.chefbook.design.theme.shapes.SmoothCornerShape12
 import io.chefbook.design.theme.shapes.smooth.SmoothCornerShape
 import io.chefbook.sdk.recipe.book.api.external.domain.entities.LatestRecipeInfo
-import io.chefbook.core.android.R as coreR
-import io.chefbook.design.R as designR
+import io.chefbook.core.res as CoreR
 
 @Composable
 internal fun LatestRecipeCard(
@@ -113,7 +110,7 @@ internal fun LatestRecipeCard(
         verticalAlignment = Alignment.CenterVertically
       ) {
         Text(
-          text = stringResource(id = coreR.string.common_general_open).uppercase(),
+          text = stringResource(id = CoreR.string.common_general_open).uppercase(),
           style = typography.subhead2,
           color = colors.foregroundSecondary,
         )

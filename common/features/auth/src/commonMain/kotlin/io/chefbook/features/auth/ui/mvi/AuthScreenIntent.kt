@@ -1,0 +1,30 @@
+package io.chefbook.features.auth.ui.mvi
+
+sealed interface AuthScreenIntent {
+
+  data class SetLogin(val login: String) : AuthScreenIntent
+  data class SetPassword(val password: String) : AuthScreenIntent
+  data class SetPasswordValidation(val validation: String) : AuthScreenIntent
+  data class SetActivationCode(val code: String) : AuthScreenIntent
+
+  data object OpenSignUpForm : AuthScreenIntent
+  data object OpenSignUpPasswordForm : AuthScreenIntent
+  data object SignUp : AuthScreenIntent
+
+  data object OpenSignInForm : AuthScreenIntent
+  data object OpenSignInPasswordForm : AuthScreenIntent
+  data object SignIn : AuthScreenIntent
+
+//  data class SignInGoogleClicked(val context: Context) : AuthScreenIntent
+  data object ChooseLocalMode : AuthScreenIntent
+
+  data object RequestPasswordReset : AuthScreenIntent
+  data object ConfirmPasswordReset : AuthScreenIntent
+
+  data object RestoreProfile : AuthScreenIntent
+  data object OpenSignOutConfirmationScreen : AuthScreenIntent
+  data object SignOut : AuthScreenIntent
+
+  data object OpenProfileListForm : AuthScreenIntent
+  data class SignInProfile(val profileId: String): AuthScreenIntent
+}

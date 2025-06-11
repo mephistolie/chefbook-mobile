@@ -29,7 +29,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.mephistolie.compost.modifiers.clippedBackground
-import io.chefbook.core.android.compose.providers.theme.LocalTheme
+import io.chefbook.core.compose.providers.theme.LocalTheme
 import io.chefbook.design.theme.dimens.ToolbarHeight
 import io.chefbook.design.theme.shapes.smooth.SmoothCornerShape
 import io.chefbook.features.community.recipes.ui.screens.content.components.blocks.FilterButtons

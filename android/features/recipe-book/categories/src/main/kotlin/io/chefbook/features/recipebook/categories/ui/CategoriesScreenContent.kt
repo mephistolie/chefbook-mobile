@@ -1,9 +1,7 @@
 package io.chefbook.features.recipebook.categories.ui
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
@@ -11,22 +9,19 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.mephistolie.compost.modifiers.padding
-import io.chefbook.core.android.compose.providers.theme.LocalTheme
-import io.chefbook.core.android.R as coreR
+import io.chefbook.core.compose.providers.theme.LocalTheme
+import io.chefbook.core.res as CoreR
 import io.chefbook.design.components.toolbar.Toolbar
 import io.chefbook.features.recipebook.categories.R
 import io.chefbook.features.recipebook.categories.ui.mvi.CategoriesScreenIntent
 import io.chefbook.features.recipebook.categories.ui.mvi.CategoriesScreenState
 import io.chefbook.features.recipebook.core.ui.components.CategoryCard
-import io.chefbook.ui.common.components.menu.MenuGroup
 
 @Composable
 internal fun CategoriesScreenContent(
@@ -60,7 +55,7 @@ internal fun CategoriesScreenContent(
       if (state.categories.isNotEmpty()) {
         item(span = { GridItemSpan(4) }) {
           Text(
-            text = stringResource(coreR.string.common_general_categories),
+            text = stringResource(CoreR.string.common_general_categories),
             style = typography.h2,
             color = colors.foregroundPrimary,
             modifier = Modifier
@@ -86,7 +81,7 @@ internal fun CategoriesScreenContent(
       if (state.tags.isNotEmpty()) {
         item(span = { GridItemSpan(4) }) {
           Text(
-            text = stringResource(coreR.string.common_general_tags),
+            text = stringResource(CoreR.string.common_general_tags),
             style = typography.h2,
             color = colors.foregroundPrimary,
             modifier = Modifier

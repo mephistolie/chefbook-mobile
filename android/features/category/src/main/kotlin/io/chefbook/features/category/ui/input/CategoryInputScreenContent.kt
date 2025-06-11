@@ -21,7 +21,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import io.chefbook.core.android.compose.providers.theme.LocalTheme
+import io.chefbook.core.compose.providers.theme.LocalTheme
 import io.chefbook.core.android.utils.EmojiUtils
 import io.chefbook.design.components.buttons.DynamicButton
 import io.chefbook.design.components.buttons.LoadingButton
@@ -36,7 +36,7 @@ import io.chefbook.features.category.ui.input.mvi.CategoryInputScreenState
 import io.chefbook.libs.models.visibility.Visibility
 import io.chefbook.sdk.collection.api.external.domain.entities.CollectionInput
 import io.chefbook.ui.common.dialogs.StandardDialog
-import io.chefbook.core.android.R as coreR
+import io.chefbook.core.res as CoreR
 import io.chefbook.design.R as designR
 
 @Composable
@@ -81,7 +81,7 @@ internal fun CategoryInputScreenContent(
         value = name,
         onValueChange = { text -> onIntent(CategoryInputScreenIntent.SetName(text)) },
         modifier = modifier.fillMaxWidth(),
-        hint = stringResource(coreR.string.common_general_name),
+        hint = stringResource(CoreR.string.common_general_name),
         readOnly = isProcessing,
       )
     }

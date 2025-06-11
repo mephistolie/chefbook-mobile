@@ -10,7 +10,7 @@ import androidx.compose.ui.unit.dp
 import io.chefbook.design.components.bottomsheet.BottomSheetBox
 import io.chefbook.design.components.bottomsheet.BottomSheetColumn
 import io.chefbook.design.components.bottomsheet.PullBarType
-import io.chefbook.core.android.R as coreR
+import io.chefbook.core.res as CoreR
 import io.chefbook.features.recipebook.creation.ui.mvi.RecipeBookCreationScreenIntent
 import io.chefbook.ui.common.components.menu.MenuItem
 
@@ -28,11 +28,11 @@ internal fun RecipeControlScreenContent(
         .padding(horizontal = 16.dp),
     ) {
       MenuItem(
-        title = stringResource(coreR.string.common_general_recipe),
+        title = stringResource(CoreR.string.common_general_recipe),
         onClick = { onIntent(RecipeBookCreationScreenIntent.RecipeInputButtonClicked) },
       )
       MenuItem(
-        title = stringResource(coreR.string.common_general_category),
+        title = stringResource(CoreR.string.common_general_category),
         onClick = { onIntent(RecipeBookCreationScreenIntent.CategoryInputButtonClicked) },
       )
     }

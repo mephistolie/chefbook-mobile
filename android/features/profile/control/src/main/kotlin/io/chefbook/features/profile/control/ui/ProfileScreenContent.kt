@@ -8,7 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import io.chefbook.core.android.compose.providers.theme.LocalTheme
+import io.chefbook.core.compose.providers.theme.LocalTheme
 import io.chefbook.design.theme.colors.Gradients
 import io.chefbook.features.profile.control.R
 import io.chefbook.features.profile.control.ui.components.ProfileScreenToolbar
@@ -21,7 +21,7 @@ import io.chefbook.ui.common.components.menu.MenuItem
 import io.chefbook.ui.common.components.menu.MenuScreen
 import io.chefbook.ui.common.components.profile.ProfileAvatar
 import io.chefbook.ui.common.components.profile.SubscriptionBadge
-import io.chefbook.core.android.R as coreR
+import io.chefbook.core.res as CoreR
 import io.chefbook.design.R as designR
 
 @Composable
@@ -72,7 +72,7 @@ internal fun ProfileScreenContent(
     MenuDivider()
     MenuGroup {
       MenuItem(
-        title = stringResource(coreR.string.common_general_subscription),
+        title = stringResource(CoreR.string.common_general_subscription),
         iconId = designR.drawable.ic_credit_card,
         onClick = {},
         endContent = { SubscriptionBadge(isPremium = state.profile.subscriptionPlan != SubscriptionPlan.FREE) },
@@ -81,11 +81,11 @@ internal fun ProfileScreenContent(
 //      MenuItem(
 //        title = stringResource(R.string.common_profile_screen_data_exporting),
 //        subtitle = stringResource(R.string.common_profile_screen_print_recipe_book),
-//        iconId = designR.drawable.ic_cloud_down,
+//        iconId = designR.strings.ic_cloud_down,
 //        onClick = {},
 //      )
       MenuItem(
-        title = stringResource(coreR.string.common_general_profile_editing),
+        title = stringResource(CoreR.string.common_general_profile_editing),
         iconId = designR.drawable.ic_manage_profile,
         onClick = { onIntent(ProfileScreenIntent.OpenProfileEditingScreen) },
       )

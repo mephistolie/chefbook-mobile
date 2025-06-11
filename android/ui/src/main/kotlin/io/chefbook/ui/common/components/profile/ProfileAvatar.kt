@@ -6,24 +6,17 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
-import coil.request.ImageRequest
-import com.mephistolie.compost.modifiers.clippedBackground
-import com.mephistolie.compost.modifiers.simpleClickable
-import io.chefbook.core.android.compose.providers.theme.LocalTheme
-import io.chefbook.design.R
+import io.chefbook.core.compose.modifiers.clippingBackground
+import io.chefbook.core.compose.modifiers.clickable.simpleClickable
+import io.chefbook.core.compose.providers.theme.LocalTheme
 
 @Composable
 fun ProfileAvatar(
@@ -58,25 +51,25 @@ fun ProfileAvatar(
     modifier = processedModifier
       .simpleClickable(onClick = onClick)
       .padding(all = if (strokeBrush != null) strokeWidth * 2 else 0.dp)
-      .clippedBackground(colors.backgroundPrimary, CircleShape)
+      .clippingBackground(colors.backgroundPrimary, CircleShape)
   ) {
-    if (url.isNullOrBlank()) {
-      Icon(
-        painter = painterResource(id = R.drawable.ic_user),
-        contentDescription = null,
-        tint = colors.foregroundSecondary,
-        modifier = Modifier.size(size / 1.5F),
-      )
-    }
-    AsyncImage(
-      model = ImageRequest.Builder(context)
-        .data(url)
-        .crossfade(true)
-        .build(),
-      contentDescription = null,
-
-      contentScale = ContentScale.Crop,
-      colorFilter = if (url.isNullOrBlank()) ColorFilter.tint(colors.foregroundPrimary) else null,
-    )
+//    if (url.isNullOrBlank()) {
+//      Icon(
+//        painter = painterResource(id = R.drawable.ic_user),
+//        contentDescription = null,
+//        tint = colors.foregroundSecondary,
+//        modifier = Modifier.size(size / 1.5F),
+//      )
+//    }
+//    AsyncImage(
+//      model = ImageRequest.Builder(context)
+//        .data(url)
+//        .crossfade(true)
+//        .build(),
+//      contentDescription = null,
+//
+//      contentScale = ContentScale.Crop,
+//      colorFilter = if (url.isNullOrBlank()) ColorFilter.tint(colors.foregroundPrimary) else null,
+//    )
   }
 }

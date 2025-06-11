@@ -1,9 +1,9 @@
 package io.chefbook.sdk.encryption.recipe.impl.data.repositories
 
-import io.chefbook.libs.encryption.AsymmetricPrivateKey
-import io.chefbook.libs.encryption.AsymmetricPublicKey
-import io.chefbook.libs.encryption.HybridCryptor
-import io.chefbook.libs.encryption.SymmetricKey
+import io.chefbook.libs.crypto.encryption.models.AsymmetricPrivateKey
+import io.chefbook.libs.crypto.encryption.models.AsymmetricPublicKey
+import io.chefbook.libs.crypto.encryption.HybridCryptor
+import io.chefbook.libs.crypto.encryption.models.SymmetricKey
 import io.chefbook.libs.utils.result.EmptyResult
 import io.chefbook.sdk.core.api.internal.data.repositories.DataSourcesRepository
 import io.chefbook.sdk.encryption.recipe.api.internal.data.repositories.RecipeEncryptionRepository

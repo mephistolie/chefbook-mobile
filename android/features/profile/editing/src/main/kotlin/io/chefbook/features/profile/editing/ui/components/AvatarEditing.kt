@@ -30,8 +30,8 @@ import com.canhub.cropper.CropImageContract
 import com.canhub.cropper.CropImageContractOptions
 import com.canhub.cropper.CropImageOptions
 import com.canhub.cropper.CropImageView
-import io.chefbook.core.android.compose.providers.theme.LocalTheme
-import io.chefbook.design.components.buttons.CircleIconButton
+import io.chefbook.core.compose.providers.theme.LocalTheme
+import io.chefbook.design.components.buttons.IconButton
 import io.chefbook.features.profile.editing.ui.getProfileAvatarPath
 import io.chefbook.design.R as designR
 
@@ -99,21 +99,21 @@ internal fun AvatarEditing(
     modifier = Modifier.fillMaxWidth(),
     contentAlignment = Alignment.Center,
   ) {
-    CircleIconButton(
+    IconButton(
       icon = ImageVector.vectorResource(designR.drawable.ic_camera),
       onClick = { imagePickerLauncher.launch("image/*") },
       modifier = Modifier
         .size(56.dp)
         .offset(x = -offset.value),
     )
-    CircleIconButton(
+    IconButton(
       icon = ImageVector.vectorResource(designR.drawable.ic_trash),
       onClick = onDeleteClick,
       modifier = Modifier
         .size(56.dp)
         .offset(x = offset.value),
     )
-    CircleIconButton(
+    IconButton(
       icon = ImageVector.vectorResource(designR.drawable.ic_camera),
       onClick = { imagePickerLauncher.launch("image/*") },
       modifier = Modifier.size(96.dp),

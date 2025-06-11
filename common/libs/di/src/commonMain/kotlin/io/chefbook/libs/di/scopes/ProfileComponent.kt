@@ -24,12 +24,9 @@ class ProfileComponent(
     }
   }
 
-  companion object {
-    private val components: MutableMap<String, ProfileComponent> = mutableMapOf()
-
-    fun getOrCreate(
-      profileId: String,
-    ): KoinScopeComponent =
-      components.getOrPut(profileId) { ProfileComponent(profileId) }
+  fun close() {
+    if (scope.isNotClosed()) {
+      scope.close()
+    }
   }
 }

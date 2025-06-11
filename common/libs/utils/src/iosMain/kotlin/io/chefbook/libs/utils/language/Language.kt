@@ -1,3 +1,4 @@
 package io.chefbook.libs.utils.language
 
-actual fun getSystemLanguageCode(): String = TODO()
+// TODO
+actual fun getSystemLanguageCode(): String = "en"

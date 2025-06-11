@@ -15,10 +15,10 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.mephistolie.compost.modifiers.padding
-import io.chefbook.core.android.compose.providers.theme.LocalTheme
+import io.chefbook.core.compose.providers.theme.LocalTheme
 import io.chefbook.design.components.textfields.OutlinedTextField
 import io.chefbook.design.theme.shapes.SmoothCornerShape28
-import io.chefbook.core.android.R as coreR
+import io.chefbook.core.res as CoreR
 
 internal fun LazyListScope.searchBlock(
   search: String,
@@ -39,7 +39,7 @@ internal fun LazyListScope.searchBlock(
         .padding(12.dp)
     ) {
       Text(
-        text = stringResource(coreR.string.common_general_search),
+        text = stringResource(CoreR.string.common_general_search),
         style = typography.h2,
         color = colors.foregroundPrimary,
         modifier = Modifier
@@ -52,7 +52,7 @@ internal fun LazyListScope.searchBlock(
         modifier = modifier
           .fillMaxWidth()
           .focusRequester(focusRequester),
-        hint = stringResource(coreR.string.common_general_name),
+        hint = stringResource(CoreR.string.common_general_name),
       )
     }
 

@@ -21,7 +21,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
-import io.chefbook.core.android.compose.providers.theme.LocalTheme
+import io.chefbook.core.compose.providers.theme.LocalTheme
 import io.chefbook.design.components.buttons.DynamicButton
 import io.chefbook.features.recipe.info.ui.components.details.categories.CategoriesBlock
 import io.chefbook.features.recipe.info.ui.components.details.diet.DietWidget
@@ -34,7 +34,7 @@ import io.chefbook.ui.common.extensions.localizedName
 import kotlinx.datetime.toJavaLocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
-import io.chefbook.core.android.R as coreR
+import io.chefbook.core.res as CoreR
 import io.chefbook.design.R as designR
 
 @SuppressLint("NewApi")
@@ -94,44 +94,44 @@ internal fun DetailsPage(
     Spacer(modifier = Modifier.height(12.dp))
     recipe.description?.let { description ->
       InfoElement(
-        name = stringResource(coreR.string.common_general_description),
+        name = stringResource(CoreR.string.common_general_description),
         value = description,
         modifier = Modifier.padding(bottom = 12.dp),
       )
     }
     recipe.owner.name?.let { author ->
       InfoElement(
-        name = stringResource(coreR.string.common_general_author),
+        name = stringResource(CoreR.string.common_general_author),
         value = author,
         modifier = Modifier.padding(bottom = 12.dp),
       )
     }
     if (recipe.language != Language.OTHER) {
       InfoElement(
-        name = stringResource(coreR.string.common_general_language),
+        name = stringResource(CoreR.string.common_general_language),
         value = recipe.language.localizedName(resources),
         modifier = Modifier.padding(bottom = 12.dp),
       )
     }
     InfoElement(
-      name = stringResource(coreR.string.common_general_visibility),
+      name = stringResource(CoreR.string.common_general_visibility),
       value = when (recipe.visibility) {
-        Visibility.PRIVATE -> stringResource(coreR.string.common_general_only_author)
-        Visibility.LINK -> stringResource(coreR.string.common_general_by_link)
-        Visibility.PUBLIC -> stringResource(coreR.string.common_general_community)
+        Visibility.PRIVATE -> stringResource(CoreR.string.common_general_only_author)
+        Visibility.LINK -> stringResource(CoreR.string.common_general_by_link)
+        Visibility.PUBLIC -> stringResource(CoreR.string.common_general_community)
       },
       modifier = Modifier.padding(bottom = 12.dp),
     )
     creationTimestamp?.let {
       InfoElement(
-        name = stringResource(coreR.string.common_general_creation_date),
+        name = stringResource(CoreR.string.common_general_creation_date),
         value = creationTimestamp,
         modifier = Modifier.padding(bottom = 12.dp),
       )
     }
     if (updateTimestamp != creationTimestamp && updateTimestamp != null) {
       InfoElement(
-        name = stringResource(coreR.string.common_general_update_date),
+        name = stringResource(CoreR.string.common_general_update_date),
         value = updateTimestamp,
         modifier = Modifier.padding(bottom = 12.dp),
       )
@@ -151,7 +151,7 @@ internal fun DetailsPage(
         DynamicButton(
           leftIcon = ImageVector.vectorResource(designR.drawable.ic_edit),
           iconsSize = 18.dp,
-          text = stringResource(coreR.string.common_general_edit),
+          text = stringResource(CoreR.string.common_general_edit),
           unselectedForeground = colors.foregroundPrimary,
           modifier = Modifier
             .weight(1F)
@@ -162,7 +162,7 @@ internal fun DetailsPage(
         DynamicButton(
           leftIcon = ImageVector.vectorResource(designR.drawable.ic_trash),
           iconsSize = 18.dp,
-          text = stringResource(coreR.string.common_general_delete),
+          text = stringResource(CoreR.string.common_general_delete),
           isSelected = true,
           modifier = Modifier
             .weight(1F)

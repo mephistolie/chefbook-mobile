@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -20,7 +19,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
-import io.chefbook.core.android.compose.providers.theme.LocalTheme
+import io.chefbook.core.compose.providers.theme.LocalTheme
 import io.chefbook.design.icons.Broccy
 import io.chefbook.design.icons.ChefBookIcons
 import io.chefbook.design.theme.colors.Gradients
@@ -38,7 +37,6 @@ import io.chefbook.ui.common.components.menu.MenuGroup
 import io.chefbook.ui.common.components.menu.MenuItem
 import io.chefbook.ui.common.components.menu.MenuScreen
 import io.chefbook.ui.common.components.menu.MenuSection
-import io.chefbook.core.android.R as coreR
 import io.chefbook.design.R as designR
 
 @Composable

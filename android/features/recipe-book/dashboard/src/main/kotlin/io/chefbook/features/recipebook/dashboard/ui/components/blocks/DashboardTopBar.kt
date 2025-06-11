@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.mephistolie.compost.modifiers.simpleClickable
-import io.chefbook.core.android.compose.providers.theme.LocalTheme
+import io.chefbook.core.compose.providers.theme.LocalTheme
 import io.chefbook.features.recipebook.dashboard.R
 import io.chefbook.features.recipebook.dashboard.ui.mvi.DashboardScreenIntent
 import io.chefbook.design.R as designR

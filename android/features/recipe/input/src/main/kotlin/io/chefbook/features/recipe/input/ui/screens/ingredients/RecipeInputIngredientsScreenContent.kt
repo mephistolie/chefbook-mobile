@@ -16,7 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import io.chefbook.core.android.compose.providers.theme.LocalTheme
+import io.chefbook.core.compose.providers.theme.LocalTheme
 import io.chefbook.design.components.buttons.DynamicButton
 import io.chefbook.design.components.toolbar.Toolbar
 import io.chefbook.features.recipe.input.ui.mvi.RecipeInputIngredientsScreenIntent
@@ -28,7 +28,7 @@ import io.chefbook.sdk.recipe.crud.api.external.domain.entities.RecipeInput
 import org.burnoutcrew.reorderable.detectReorderAfterLongPress
 import org.burnoutcrew.reorderable.rememberReorderableLazyListState
 import org.burnoutcrew.reorderable.reorderable
-import io.chefbook.core.android.R as coreR
+import io.chefbook.core.res as CoreR
 
 @Composable
 internal fun RecipeInputIngredientScreenContent(
@@ -56,7 +56,7 @@ internal fun RecipeInputIngredientScreenContent(
       modifier = Modifier.padding(horizontal = 12.dp)
     ) {
       Text(
-        text = stringResource(coreR.string.common_general_ingredients),
+        text = stringResource(CoreR.string.common_general_ingredients),
         maxLines = 1,
         style = typography.h4,
         color = colors.foregroundPrimary,
@@ -93,7 +93,7 @@ internal fun RecipeInputIngredientScreenContent(
     }
     val isContinueAvailable = isContinueAvailable(state.ingredients)
     DynamicButton(
-      text = stringResource(coreR.string.common_general_continue),
+      text = stringResource(CoreR.string.common_general_continue),
       isSelected = isContinueAvailable,
       isEnabled = isContinueAvailable,
       modifier = Modifier

@@ -19,7 +19,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import com.mephistolie.compost.modifiers.clippedBackground
-import io.chefbook.core.android.compose.providers.theme.LocalTheme
+import io.chefbook.core.compose.providers.theme.LocalTheme
 import io.chefbook.design.components.buttons.DynamicButton
 import io.chefbook.design.components.toolbar.Toolbar
 import io.chefbook.design.theme.shapes.SmoothCornerShape24
@@ -34,7 +34,7 @@ import io.chefbook.features.recipe.input.ui.screens.details.components.PreviewBl
 import io.chefbook.features.recipe.input.ui.screens.details.components.ServingsBlock
 import io.chefbook.features.recipe.input.ui.screens.details.components.TimeBlock
 import io.chefbook.sdk.recipe.crud.api.external.domain.entities.RecipeInput
-import io.chefbook.core.android.R as coreR
+import io.chefbook.core.res as CoreR
 import io.chefbook.design.R as designR
 
 @Composable
@@ -61,7 +61,7 @@ internal fun RecipeInputDetailsScreenContent(
       modifier = Modifier.padding(horizontal = 12.dp)
     ) {
       Text(
-        text = stringResource(coreR.string.common_general_details),
+        text = stringResource(CoreR.string.common_general_details),
         maxLines = 1,
         style = typography.h4,
         color = colors.foregroundPrimary,
@@ -179,7 +179,7 @@ internal fun RecipeInputDetailsScreenContent(
       }
     }
     DynamicButton(
-      text = stringResource(coreR.string.common_general_continue),
+      text = stringResource(CoreR.string.common_general_continue),
       isSelected = isContinueAvailable(input),
       isEnabled = isContinueAvailable(input),
       modifier = Modifier

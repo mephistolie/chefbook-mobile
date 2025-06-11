@@ -14,8 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.mephistolie.compost.modifiers.padding
-import io.chefbook.core.android.compose.providers.theme.LocalTheme
-import io.chefbook.design.components.bottomsheet.PullBar
+import io.chefbook.core.compose.providers.theme.LocalTheme
 import io.chefbook.design.core.scorePainter
 import io.chefbook.features.recipe.rating.R
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.RecipeMeta

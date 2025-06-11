@@ -11,7 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import io.chefbook.core.android.compose.providers.theme.LocalTheme
+import io.chefbook.core.compose.providers.theme.LocalTheme
 import io.chefbook.design.components.progress.CircularProgressIndicator
 import io.chefbook.design.components.toolbar.Toolbar
 import io.chefbook.features.recipebook.core.ui.components.RecipesGrid

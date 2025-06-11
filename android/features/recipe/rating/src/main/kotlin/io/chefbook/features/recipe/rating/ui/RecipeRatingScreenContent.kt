@@ -7,7 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.mephistolie.compost.modifiers.padding
-import io.chefbook.core.android.compose.providers.theme.LocalTheme
+import io.chefbook.core.compose.providers.theme.LocalTheme
 import io.chefbook.design.components.bottomsheet.BottomSheetColumn
 import io.chefbook.design.components.bottomsheet.PullBarType
 import io.chefbook.design.theme.shapes.SmoothCornerShape28Top

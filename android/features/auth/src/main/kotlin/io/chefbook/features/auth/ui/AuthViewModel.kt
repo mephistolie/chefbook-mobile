@@ -23,7 +23,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import org.koin.core.component.KoinComponent
 import org.koin.core.scope.Scope
-import io.chefbook.core.android.R as coreR
+import io.chefbook.core.R as CoreR
 
 internal class AuthViewModel(
   private var userId: String = "",
@@ -48,7 +48,7 @@ internal class AuthViewModel(
   private var password = ""
   private var passwordValidation = ""
 
-  private val stubState =     AuthScreenState.ProfileList(
+  private val stubState = AuthScreenState.ProfileList(
     profiles = listOf(
       ProfileInfo(
         id = "1",
@@ -107,7 +107,7 @@ internal class AuthViewModel(
 
       is AuthScreenIntent.SignIn -> signIn()
 
-      is AuthScreenIntent.SignInGoogleClicked -> signInGoogle(intent.context)
+//      is AuthScreenIntent.SignInGoogleClicked -> signInGoogle(intent.context)
       is AuthScreenIntent.ChooseLocalMode -> signInLocally()
 
       is AuthScreenIntent.RequestPasswordReset -> requestPasswordReset()
@@ -170,23 +170,23 @@ internal class AuthViewModel(
         }
       }
       .onFailure { e ->
-        if (e is ServerException) {
-          when (e.type) {
-            ServerException.PROFILE_EXISTS -> {
-              showToast(coreR.string.common_general_server_error_profile_exists)
-              return@onFailure _state.emit(getSignInState())
-            }
-
-            ServerException.PROFILE_BLOCKED -> {
-              this.login = ""
-              showToast(coreR.string.common_general_server_error_profile_blocked)
-              return@onFailure _state.emit(getSignInState())
-            }
-
-            else -> e.message?.let { showToast(it) }
-          }
-        }
-        _state.emit(getSignUpState())
+//        if (e is ServerException) {
+//          when (e.type) {
+//            ServerException.PROFILE_EXISTS -> {
+//              showToast(CoreR.string.common_general_server_error_profile_exists)
+//              return@onFailure _state.emit(getSignInState())
+//            }
+//
+//            ServerException.PROFILE_BLOCKED -> {
+//              this.login = ""
+//              showToast(CoreR.string.common_general_server_error_profile_blocked)
+//              return@onFailure _state.emit(getSignInState())
+//            }
+//
+//            else -> e.message?.let { showToast(it) }
+//          }
+//        }
+//        _state.emit(getSignUpState())
       }
   }
 
@@ -198,7 +198,7 @@ internal class AuthViewModel(
         this.activationCode = ""
       }
       .onSuccess {
-        showToast(R.string.common_auth_screen_profile_activated)
+//        showToast(R.string.common_auth_screen_profile_activated)
         _state.emit(getSignInState())
       }
       .onFailure {
@@ -221,28 +221,28 @@ internal class AuthViewModel(
       .onFailure { e ->
         this.password = ""
         this.passwordValidation = ""
-        if (e is ServerException) {
-          when {
-            e.type == ServerException.INVALID_CREDENTIALS -> {
-              showToast(io.chefbook.core.android.R.string.common_general_server_error_invalid_credentials)
-            }
-
-            e.type == ServerException.PROFILE_NOT_ACTIVATED -> {
-              showToast(io.chefbook.core.android.R.string.common_general_server_error_profile_not_activated)
-              return@onFailure _state.emit(getSignInState())
-            }
-
-            e.type == ServerException.PROFILE_BLOCKED -> {
-              this.login = ""
-              showToast(coreR.string.common_general_server_error_profile_blocked)
-              return@onFailure _state.emit(getSignInState())
-            }
-
-            e.isServerSide -> {
-              showToast(coreR.string.common_general_server_error)
-            }
-          }
-        }
+//        if (e is ServerException) {
+//          when {
+//            e.type == ServerException.INVALID_CREDENTIALS -> {
+//              showToast(io.chefbook.core.android.R.string.common_general_server_error_invalid_credentials)
+//            }
+//
+//            e.type == ServerException.PROFILE_NOT_ACTIVATED -> {
+//              showToast(io.chefbook.core.android.R.string.common_general_server_error_profile_not_activated)
+//              return@onFailure _state.emit(getSignInState())
+//            }
+//
+//            e.type == ServerException.PROFILE_BLOCKED -> {
+//              this.login = ""
+//              showToast(CoreR.string.common_general_server_error_profile_blocked)
+//              return@onFailure _state.emit(getSignInState())
+//            }
+//
+//            e.isServerSide -> {
+//              showToast(CoreR.string.common_general_server_error)
+//            }
+//          }
+//        }
         _state.emit(getSignInPasswordState())
       }
   }

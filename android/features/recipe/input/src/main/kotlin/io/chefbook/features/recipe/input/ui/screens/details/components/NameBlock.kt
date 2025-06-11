@@ -7,9 +7,9 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
-import io.chefbook.core.android.compose.providers.theme.LocalTheme
-import io.chefbook.design.components.textfields.ThemedIndicatorTextField
-import io.chefbook.core.android.R as coreR
+import io.chefbook.core.compose.providers.theme.LocalTheme
+import io.chefbook.design.components.textfields.IndicatorLineTextField
+import io.chefbook.core.res as CoreR
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -31,7 +31,7 @@ internal fun NameBlock(
     ),
     label = {
       Text(
-        stringResource(coreR.string.common_general_name),
+        stringResource(CoreR.string.common_general_name),
         color = colors.foregroundPrimary
       )
     },

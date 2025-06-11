@@ -1,7 +1,7 @@
 package io.chefbook.sdk.recipe.book.impl.data.repositories
 
 import io.chefbook.libs.coroutines.AppDispatchers
-import io.chefbook.libs.encryption.AsymmetricPrivateKey
+import io.chefbook.libs.crypto.encryption.models.AsymmetricPrivateKey
 import io.chefbook.libs.models.profile.ProfileInfo
 import io.chefbook.libs.utils.result.EmptyResult
 import io.chefbook.libs.utils.result.onSuccess

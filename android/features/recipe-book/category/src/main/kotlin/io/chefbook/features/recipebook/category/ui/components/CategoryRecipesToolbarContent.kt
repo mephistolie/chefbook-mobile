@@ -13,8 +13,8 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
-import io.chefbook.core.android.compose.providers.theme.LocalTheme
-import io.chefbook.core.android.R as coreR
+import io.chefbook.core.compose.providers.theme.LocalTheme
+import io.chefbook.core.res as CoreR
 import io.chefbook.design.R as designR
 
 @Composable
@@ -49,9 +49,9 @@ internal fun CategoryRecipesToolbarContent(
   }
   Text(
     text = if (recipesCount > 0) {
-      "${stringResource(coreR.string.common_general_recipes)}: $recipesCount"
+      "${stringResource(CoreR.string.common_general_recipes)}: $recipesCount"
     } else {
-      stringResource(coreR.string.common_general_no_recipes)
+      stringResource(CoreR.string.common_general_no_recipes)
     },
     maxLines = 1,
     style = typography.subhead1,

@@ -38,17 +38,16 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.mephistolie.compost.modifiers.clippedBackground
-import io.chefbook.core.android.compose.providers.theme.LocalTheme
-import io.chefbook.design.components.buttons.CircleIconButton
+import io.chefbook.core.compose.providers.theme.LocalTheme
+import io.chefbook.design.components.buttons.IconButton
 import io.chefbook.design.components.buttons.DynamicButton
-import io.chefbook.design.components.textfields.ThemedIndicatorTextField
 import io.chefbook.design.theme.shapes.SmoothCornerShape28Top
 import io.chefbook.features.shoppinglist.purchases.input.ui.mvi.PurchaseInputDialogIntent
 import io.chefbook.libs.models.measureunit.standardUnits
 import io.chefbook.sdk.shoppinglist.api.external.domain.entities.Purchase
 import io.chefbook.ui.common.extensions.localizedName
 import io.chefbook.ui.common.extensions.stringToMeasureUnit
-import io.chefbook.core.android.R as coreR
+import io.chefbook.core.res as CoreR
 import io.chefbook.design.R as designR
 
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalLayoutApi::class)
@@ -76,7 +75,7 @@ internal fun PurchaseInputDialogContent(
       contentAlignment = Alignment.TopEnd
     ) {
       Text(
-        text = stringResource(coreR.string.common_general_purchase),
+        text = stringResource(CoreR.string.common_general_purchase),
         maxLines = 1,
         style = typography.h4,
         color = colors.foregroundPrimary,
@@ -85,7 +84,7 @@ internal fun PurchaseInputDialogContent(
           .fillMaxWidth()
           .padding(vertical = 18.dp)
       )
-      CircleIconButton(
+      IconButton(
         icon = ImageVector.vectorResource(designR.drawable.ic_cross),
         onClick = {
           keyboardController?.hide()
@@ -113,7 +112,7 @@ internal fun PurchaseInputDialogContent(
       keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
       label = {
         Text(
-          stringResource(coreR.string.common_general_name),
+          stringResource(CoreR.string.common_general_name),
           color = colors.foregroundPrimary
         )
       },
@@ -132,7 +131,7 @@ internal fun PurchaseInputDialogContent(
       ),
       label = {
         Text(
-          stringResource(coreR.string.common_general_amount),
+          stringResource(CoreR.string.common_general_amount),
           color = colors.foregroundPrimary
         )
       },
@@ -147,7 +146,7 @@ internal fun PurchaseInputDialogContent(
       keyboardActions = KeyboardActions { onIntent(PurchaseInputDialogIntent.Close) },
       label = {
         Text(
-          stringResource(coreR.string.common_general_unit),
+          stringResource(CoreR.string.common_general_unit),
           color = colors.foregroundPrimary
         )
       },

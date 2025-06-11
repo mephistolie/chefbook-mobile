@@ -27,8 +27,8 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.mephistolie.compost.modifiers.simpleClickable
-import io.chefbook.core.android.compose.providers.theme.LocalTheme
-import io.chefbook.design.components.buttons.CircleIconButton
+import io.chefbook.core.compose.providers.theme.LocalTheme
+import io.chefbook.design.components.buttons.IconButton
 import io.chefbook.design.icons.ArrowStart
 import io.chefbook.design.icons.ChefBookIcons
 import io.chefbook.design.theme.shapes.SmoothCornerShape28Top
@@ -39,7 +39,7 @@ import io.chefbook.features.encryption.ui.vault.components.EncryptedVaultScreenP
 import io.chefbook.features.encryption.ui.vault.mvi.EncryptedVaultScreenIntent
 import io.chefbook.features.encryption.ui.vault.mvi.EncryptedVaultScreenState
 import io.chefbook.features.encryption.ui.vault.mvi.PinCodeInputType
-import io.chefbook.core.android.R as coreR
+import io.chefbook.core.res as CoreR
 import io.chefbook.design.R as designR
 
 @Composable
@@ -72,7 +72,7 @@ internal fun EncryptedVaultScreenContent(
       modifier = Modifier
     ) {
       Text(
-        text = stringResource(coreR.string.common_global_encryption),
+        text = stringResource(CoreR.string.common_global_encryption),
         maxLines = 1,
         style = typography.h4,
         color = colors.foregroundPrimary,
@@ -81,7 +81,7 @@ internal fun EncryptedVaultScreenContent(
           .fillMaxWidth()
           .padding(vertical = 18.dp)
       )
-      CircleIconButton(
+      IconButton(
         icon = ImageVector.vectorResource(designR.drawable.ic_cross),
         onClick = {
           keyboardController?.hide()

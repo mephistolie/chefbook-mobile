@@ -15,7 +15,7 @@ import io.chefbook.sdk.recipe.interaction.api.external.domain.usecases.SetRecipe
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
-import io.chefbook.core.android.R as coreR
+import io.chefbook.core.res as CoreR
 
 internal class RecipeControlScreenViewModel(
   private val recipeId: String,
@@ -82,7 +82,7 @@ internal class RecipeControlScreenViewModel(
         _effect.emit(RecipeControlScreenEffect.Close)
       }
       .onFailure {
-        _effect.emit(RecipeControlScreenEffect.ShowToast(coreR.string.common_general_cant_perform_operation))
+        _effect.emit(RecipeControlScreenEffect.ShowToast(CoreR.string.common_general_cant_perform_operation))
       }
   }
 }

@@ -21,7 +21,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.mephistolie.compost.modifiers.clippedBackground
 import io.chefbook.core.android.compose.modifiers.shimmer
-import io.chefbook.core.android.compose.providers.theme.LocalTheme
+import io.chefbook.core.compose.providers.theme.LocalTheme
 import io.chefbook.design.theme.shapes.SmoothCornerShape28Top
 import io.chefbook.features.shoppinglist.control.ui.screen.components.ShoppingListActionBar
 import io.chefbook.features.shoppinglist.control.ui.screen.components.ShoppingListSelectorBar

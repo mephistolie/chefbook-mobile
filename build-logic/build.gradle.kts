@@ -11,11 +11,13 @@ repositories {
 }
 
 dependencies {
-  implementation(libs.kotlin.gradlePlugin)
-  implementation(libs.kotlin.serialization)
-  implementation(libs.ksp.gradlePlugin)
-  implementation(libs.android.gradlePlugin)
-  implementation(libs.compose.gradlePlugin)
+  implementation(libs.gradlePlugin.kotlin)
+  implementation(libs.kotlinx.serialization)
+  implementation(libs.gradlePlugin.ksp)
+  implementation(libs.gradlePlugin.swiftKLib)
+  implementation(libs.gradlePlugin.composeMultiplatform)
+  implementation(libs.gradlePlugin.composeCompiler)
+  implementation(libs.gradlePlugin.android)
 
   compileOnly(files(libs.javaClass.superclass.protectionDomain.codeSource.location))
 }

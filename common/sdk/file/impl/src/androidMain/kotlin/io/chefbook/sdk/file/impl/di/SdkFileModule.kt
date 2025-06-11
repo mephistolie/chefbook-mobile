@@ -13,6 +13,7 @@ import io.chefbook.sdk.file.impl.data.sources.remote.api.FileApiServiceImpl
 import io.chefbook.sdk.file.impl.images.ImageCompressorImpl
 import org.koin.core.module.dsl.singleOf
 import org.koin.core.qualifier.named
+import org.koin.core.scope.Scope
 import org.koin.dsl.bind
 import org.koin.dsl.module
 
@@ -32,3 +33,9 @@ fun sdkFileModule() = module {
     )
   }
 }
+
+actual fun Scope.imageCompressor(): ImageCompressor =
+  ImageCompressorImpl(
+    context = get(),
+    dispatchers = get(),
+  )

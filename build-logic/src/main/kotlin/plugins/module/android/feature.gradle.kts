@@ -11,10 +11,9 @@ plugins {
 
 dependencies {
   implementation(libs.di.koin.core)
+  implementation(project(":common:libs:di"))
   implementation(project(":android:core"))
   implementation(project(":android:design"))
   implementation(project(":android:ui"))
-  implementation(project(":android:navigation"))
-
   implementation(project(":android:navigation"))
 }

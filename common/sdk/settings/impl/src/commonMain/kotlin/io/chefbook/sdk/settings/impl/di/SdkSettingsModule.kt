@@ -12,6 +12,7 @@ import io.chefbook.sdk.settings.api.external.domain.usecases.SetDefaultRecipeLan
 import io.chefbook.sdk.settings.api.external.domain.usecases.SetEnvironmentUseCase
 import io.chefbook.sdk.settings.api.external.domain.usecases.SetOpenSavedRecipeExpandedUseCase
 import io.chefbook.sdk.settings.api.internal.data.repositories.SettingsRepository
+import io.chefbook.sdk.settings.impl.data.platform.IconSwitcher
 import io.chefbook.sdk.settings.impl.data.repositories.SettingsRepositoryImpl
 import io.chefbook.sdk.settings.impl.data.sources.SettingsDataSource
 import io.chefbook.sdk.settings.impl.data.sources.local.LocalSettingsDataSourceImpl
@@ -30,12 +31,13 @@ import io.chefbook.sdk.settings.impl.domain.usecases.SetOpenSavedRecipeExpandedU
 import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.singleOf
 import org.koin.core.qualifier.named
+import org.koin.core.scope.Scope
 import org.koin.dsl.bind
 import org.koin.dsl.module
 
 fun sdkSettingsModule() = module {
 
-  includes(iconSwitcherModule())
+  single { iconSwitcher() }
 
   singleOf(::SettingsDataStoreImpl) bind SettingsDataStore::class
 
@@ -63,3 +65,5 @@ fun sdkSettingsModule() = module {
   factoryOf(::ObserveCommunityRecipesLanguagesUseCaseImpl) bind ObserveCommunityRecipesLanguagesUseCase::class
   factoryOf(::SetCommunityRecipesLanguagesUseCaseImpl) bind SetCommunityRecipesLanguagesUseCase::class
 }
+
+expect fun Scope.iconSwitcher(): IconSwitcher

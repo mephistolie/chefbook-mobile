@@ -35,7 +35,6 @@ import com.google.zxing.EncodeHintType
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel
 import com.google.zxing.qrcode.encoder.ByteMatrix
 import com.google.zxing.qrcode.encoder.Encoder
-import io.chefbook.core.android.R
 import java.io.IOException
 import java.util.Arrays
 import kotlin.math.roundToInt
@@ -275,12 +274,12 @@ class QRCodeWriter(
       y++
       outputY += multiple
     }
-    val icon = getBitmap(
-      ContextCompat.getDrawable(context, R.drawable.ic_broccy_transparent) as VectorDrawable?,
-      imageSize
-    )
-    canvas.drawBitmap(icon, imageX.toFloat(), imageX.toFloat(), null)
-    icon.recycle()
+//    val icon = getBitmap(
+//      ContextCompat.getDrawable(context, R.drawable.ic_broccy_transparent) as VectorDrawable?,
+//      imageSize
+//    )
+//    canvas.drawBitmap(icon, imageX.toFloat(), imageX.toFloat(), null)
+//    icon.recycle()
     canvas.setBitmap(null)
     return bitmap
   }

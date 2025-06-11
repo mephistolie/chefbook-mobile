@@ -21,8 +21,8 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import com.canhub.cropper.CropImageContract
 import com.canhub.cropper.CropImageContractOptions
-import io.chefbook.core.android.compose.providers.theme.LocalTheme
-import io.chefbook.design.components.buttons.CircleIconButton
+import io.chefbook.core.compose.providers.theme.LocalTheme
+import io.chefbook.design.components.buttons.IconButton
 import io.chefbook.design.components.buttons.DynamicButton
 import io.chefbook.design.components.images.EncryptedImage
 import io.chefbook.design.theme.dimens.ComponentHeight56
@@ -72,7 +72,7 @@ internal fun PreviewBlock(
         data = preview,
         modifier = Modifier.matchParentSize(),
       )
-      CircleIconButton(
+      IconButton(
         icon = ImageVector.vectorResource(designR.drawable.ic_cross),
         onClick = onPreviewDeleted,
         modifier = Modifier

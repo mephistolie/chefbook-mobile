@@ -17,7 +17,7 @@ import io.chefbook.sdk.encryption.vault.api.external.domain.usecases.ObserveEncr
 import io.chefbook.sdk.encryption.vault.api.external.domain.usecases.UnlockEncryptedVaultUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
-import io.chefbook.core.android.R as coreR
+import io.chefbook.core.res as CoreR
 
 internal class EncryptedVaultScreenViewModel(
   private val closeOnUnlocked: Boolean,
@@ -130,7 +130,7 @@ internal class EncryptedVaultScreenViewModel(
       }
       .onFailure {
         _state.emit(EncryptedVaultScreenState.PinCodeInput(type = PinCodeInputType.CREATION))
-        _effect.emit(EncryptedVaultScreenEffect.ShowToast(coreR.string.common_general_something_went_wrong))
+        _effect.emit(EncryptedVaultScreenEffect.ShowToast(CoreR.string.common_general_something_went_wrong))
       }
   }
 

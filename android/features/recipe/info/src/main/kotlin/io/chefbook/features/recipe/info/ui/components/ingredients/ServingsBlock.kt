@@ -12,11 +12,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import io.chefbook.core.android.compose.providers.theme.LocalTheme
+import io.chefbook.core.compose.providers.theme.LocalTheme
 import io.chefbook.design.components.counter.Counter
 import io.chefbook.design.theme.dimens.ComponentHeight40
 import io.chefbook.features.recipe.info.R
-import io.chefbook.core.android.R as coreR
+import io.chefbook.core.res as CoreR
 
 @Composable
 internal fun ServingsBlock(
@@ -43,8 +43,8 @@ internal fun ServingsBlock(
           !hasDynamicIngredients && servings != null -> {
             stringResource(R.string.common_recipe_screen_servings_count, servings)
           }
-          servings != null -> stringResource(coreR.string.common_general_servings)
-          else -> stringResource(coreR.string.common_general_multiplier)
+          servings != null -> stringResource(CoreR.string.common_general_servings)
+          else -> stringResource(CoreR.string.common_general_multiplier)
         },
         style = typography.headline1,
         color = colors.foregroundSecondary,

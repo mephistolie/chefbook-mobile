@@ -1,10 +1,10 @@
 package io.chefbook.sdk.encryption.vault.impl.data.repositories
 
 import io.chefbook.libs.coroutines.AppDispatchers
-import io.chefbook.libs.encryption.AsymmetricKey
-import io.chefbook.libs.encryption.AsymmetricPrivateKey
-import io.chefbook.libs.encryption.AsymmetricPublicKey
-import io.chefbook.libs.encryption.HybridCryptor
+import io.chefbook.libs.crypto.encryption.models.AsymmetricKey
+import io.chefbook.libs.crypto.encryption.models.AsymmetricPrivateKey
+import io.chefbook.libs.crypto.encryption.models.AsymmetricPublicKey
+import io.chefbook.libs.crypto.encryption.HybridCryptor
 import io.chefbook.libs.exceptions.ServerException
 import io.chefbook.libs.utils.result.EmptyResult
 import io.chefbook.libs.utils.result.asEmpty

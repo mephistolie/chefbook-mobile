@@ -6,13 +6,12 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import io.chefbook.core.android.compose.providers.theme.LocalTheme
+import io.chefbook.core.compose.providers.theme.LocalTheme
 import io.chefbook.design.components.bottomsheet.BottomSheetBox
 import io.chefbook.features.community.recipes.ui.screens.filter.components.blocks.ButtonsBlock
 import io.chefbook.features.community.recipes.ui.screens.filter.components.blocks.buttonsBlockHeight
@@ -23,7 +22,6 @@ import io.chefbook.features.community.recipes.ui.screens.filter.components.block
 import io.chefbook.features.community.recipes.ui.mvi.CommunityRecipesScreenIntent
 import io.chefbook.features.community.recipes.ui.mvi.FilterState
 import io.chefbook.features.community.recipes.ui.screens.filter.components.blocks.tagGroupsBlocks
-import io.chefbook.features.community.recipes.ui.screens.tags.components.elements.TagGroup
 
 private const val FIRST_TAG_GROUP_INDEX = 4
 

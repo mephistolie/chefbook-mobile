@@ -1,6 +1,6 @@
 package io.chefbook.sdk.recipe.crud.impl.data.repositories
 
-import io.chefbook.libs.encryption.SymmetricKey
+import io.chefbook.libs.crypto.encryption.models.SymmetricKey
 import io.chefbook.libs.utils.result.EmptyResult
 import io.chefbook.libs.utils.result.successResult
 import io.chefbook.sdk.core.api.internal.data.repositories.DataSourcesRepository

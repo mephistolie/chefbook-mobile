@@ -4,9 +4,9 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import io.chefbook.core.android.compose.providers.theme.LocalTheme
-import io.chefbook.design.components.textfields.ThemedIndicatorTextField
-import io.chefbook.core.android.R as coreR
+import io.chefbook.core.compose.providers.theme.LocalTheme
+import io.chefbook.design.components.textfields.IndicatorLineTextField
+import io.chefbook.core.res as CoreR
 
 @Composable
 internal fun DescriptionBlock(
@@ -22,7 +22,7 @@ internal fun DescriptionBlock(
     onValueChange = onValueChange,
     label = {
       Text(
-        stringResource(coreR.string.common_general_description),
+        stringResource(CoreR.string.common_general_description),
         color = colors.foregroundPrimary
       )
     },

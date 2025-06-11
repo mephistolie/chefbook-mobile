@@ -12,12 +12,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import io.chefbook.core.android.compose.providers.theme.LocalTheme
+import io.chefbook.core.compose.providers.theme.LocalTheme
 import io.chefbook.core.android.utils.minutesToTimeString
 import io.chefbook.design.components.buttons.DynamicButton
 import io.chefbook.design.theme.dimens.ComponentHeight40
 import io.chefbook.sdk.recipe.crud.api.external.domain.entities.RecipeInput
-import io.chefbook.core.android.R as coreR
+import io.chefbook.core.res as CoreR
 
 @Composable
 fun TimeBlock(
@@ -39,13 +39,13 @@ fun TimeBlock(
     verticalAlignment = Alignment.CenterVertically,
   ) {
     Text(
-      text = stringResource(coreR.string.common_general_time),
+      text = stringResource(CoreR.string.common_general_time),
       style = typography.headline1,
       color = colors.foregroundPrimary,
     )
     DynamicButton(
       text = when (time) {
-        null -> stringResource(coreR.string.common_general_specify)
+        null -> stringResource(CoreR.string.common_general_specify)
         else -> minutesToTimeString(time, resources)
       },
       cornerRadius = 12.dp,

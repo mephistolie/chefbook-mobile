@@ -1,0 +1,30 @@
+<resources>
+
+    <string name="commonAuthScreenNicknameOrEmail">Никнейм или почта</string>
+    <string name="commonAuthScreenSignIn">Войти</string>
+    <string name="commonAuthScreenSignUp">Зарегистрироваться</string>
+    <string name="commonAuthScreenNewPassword">Новый пароль</string>
+    <string name="commonAuthScreenForgotPassword">Забыли пароль?</string>
+    <string name="commonAuthScreenNotMember">Еще не участник?</string>
+    <string name="commonAuthScreenAlreadyMember">Уже участник</string>
+    <string name="commonAuthScreenRepeatPassword">Повторите пароль</string>
+    <string name="commonAuthScreenResetPassword">Сбросить пароль</string>
+    <string name="commonAuthScreenInvalidEmail">Введите корректную почту</string>
+    <string name="commonAuthScreenShortPassword">Пароль должен содержать хотя бы 8 символов</string>
+    <string name="commonAuthScreenLowerPassword">Пароль должен содержать хотя бы 1 строчную букву</string>
+    <string name="commonAuthScreenUpperPassword">Пароль должен содержать хотя бы 1 заглавную букву</string>
+    <string name="commonAuthScreenNumberPassword">Пароль должен содержать хотя бы 1 цифру</string>
+    <string name="commonAuthScreenSpacePassword">Пароль не должен содержать пробел</string>
+    <string name="commonAuthScreenPasswordMismatch">Пароли не совпадают</string>
+    <string name="commonAuthScreenAgreement">Используя приложение, вы принимаете пользовательское соглашение</string>
+    <string name="commonAuthScreenActivationCode">Введите код из письма</string>
+    <string name="commonAuthScreenProfileActivated">Профиль активирован</string>
+    <string name="commonAuthScreenPasswordResetMail">Если профиль существует, ссылка для сброса пароля отправлена на почту. Откройте ее.</string>
+    <string name="commonAuthScreenPasswordReset">Пароль сброшен</string>
+    <string name="commonAuthScreenProfileDeleted">Профиль удален</string>
+    <string name="commonAuthScreenRestoreProfileInfo">Вы можете восстановить профиль до</string>
+    <string name="commonAuthScreenRestoreProfile">Восстановить профиль</string>
+    <string name="commonAuthScreenSignOut">Выйти</string>
+    <string name="commonAuthScreenAnotherAccount">Другой профиль</string>
+
+</resources>

@@ -18,11 +18,11 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.core.text.isDigitsOnly
 import com.mephistolie.compost.modifiers.padding
-import io.chefbook.core.android.compose.providers.theme.LocalTheme
+import io.chefbook.core.compose.providers.theme.LocalTheme
 import io.chefbook.design.components.textfields.OutlinedTextField
 import io.chefbook.design.theme.shapes.SmoothCornerShape28
 import io.chefbook.features.community.recipes.R
-import io.chefbook.core.android.R as coreR
+import io.chefbook.core.res as CoreR
 
 internal fun LazyListScope.caloriesBlock(
   minCalories: Int?,
@@ -43,7 +43,7 @@ internal fun LazyListScope.caloriesBlock(
         .padding(12.dp)
     ) {
       Text(
-        text = stringResource(coreR.string.common_general_calories),
+        text = stringResource(CoreR.string.common_general_calories),
         style = typography.h2,
         color = colors.foregroundPrimary,
         modifier = Modifier
@@ -51,7 +51,7 @@ internal fun LazyListScope.caloriesBlock(
           .wrapContentHeight()
       )
       Text(
-        text = stringResource(coreR.string.common_general_in_100_g),
+        text = stringResource(CoreR.string.common_general_in_100_g),
         style = typography.body2,
         color = colors.foregroundSecondary,
         modifier = Modifier

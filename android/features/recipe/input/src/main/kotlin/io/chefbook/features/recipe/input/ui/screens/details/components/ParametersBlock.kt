@@ -11,7 +11,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
-import io.chefbook.core.android.compose.providers.theme.LocalTheme
+import io.chefbook.core.compose.providers.theme.LocalTheme
 import io.chefbook.design.components.buttons.DynamicButton
 import io.chefbook.design.icons.ArrowDownMedium
 import io.chefbook.design.icons.ChefBookIcons
@@ -19,7 +19,7 @@ import io.chefbook.design.theme.dimens.ComponentHeight40
 import io.chefbook.libs.models.visibility.Visibility
 import io.chefbook.sdk.recipe.crud.api.external.domain.entities.RecipeInput
 import io.chefbook.ui.common.extensions.localizedName
-import io.chefbook.core.android.R as coreR
+import io.chefbook.core.res as CoreR
 import io.chefbook.design.R as designR
 
 @Composable
@@ -42,9 +42,9 @@ internal fun ParametersBlock(
     item {
       DynamicButton(
         text = when (state.visibility) {
-          Visibility.PRIVATE -> stringResource(coreR.string.common_general_visible_to_you)
-          Visibility.LINK -> stringResource(coreR.string.common_general_visible_by_link)
-          Visibility.PUBLIC -> stringResource(coreR.string.common_general_visible_to_everyone)
+          Visibility.PRIVATE -> stringResource(CoreR.string.common_general_visible_to_you)
+          Visibility.LINK -> stringResource(CoreR.string.common_general_visible_by_link)
+          Visibility.PUBLIC -> stringResource(CoreR.string.common_general_visible_to_everyone)
         },
         horizontalPadding = 10.dp,
         cornerRadius = 12.dp,
@@ -80,7 +80,7 @@ internal fun ParametersBlock(
     }
     item {
       DynamicButton(
-        text = stringResource(if (state.hasEncryption) coreR.string.common_general_encrypted else coreR.string.common_general_standard),
+        text = stringResource(if (state.hasEncryption) CoreR.string.common_general_encrypted else CoreR.string.common_general_standard),
         horizontalPadding = 10.dp,
         cornerRadius = 12.dp,
         textStyle = typography.body2,

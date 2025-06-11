@@ -1,8 +1,8 @@
 package io.chefbook.sdk.recipe.crud.impl.domain
 
 import io.chefbook.libs.coroutines.AppDispatchers
-import io.chefbook.libs.encryption.AsymmetricPublicKey
-import io.chefbook.libs.encryption.SymmetricKey
+import io.chefbook.libs.crypto.encryption.models.AsymmetricPublicKey
+import io.chefbook.libs.crypto.encryption.models.SymmetricKey
 import io.chefbook.sdk.encryption.recipe.api.internal.data.repositories.RecipeEncryptionRepository
 import io.chefbook.sdk.encryption.vault.api.internal.data.repositories.EncryptedVaultRepository
 import io.chefbook.sdk.recipe.crud.api.external.domain.entities.RecipeInput

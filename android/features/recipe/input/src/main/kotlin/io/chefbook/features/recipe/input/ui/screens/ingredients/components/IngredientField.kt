@@ -24,13 +24,13 @@ import androidx.compose.ui.text.input.TransformedText
 import androidx.compose.ui.unit.dp
 import com.mephistolie.compost.modifiers.clippedBackground
 import com.mephistolie.compost.modifiers.simpleClickable
-import io.chefbook.core.android.compose.providers.theme.LocalTheme
-import io.chefbook.design.components.textfields.ThemedIndicatorTextField
+import io.chefbook.core.compose.providers.theme.LocalTheme
+import io.chefbook.design.components.textfields.IndicatorLineTextField
 import io.chefbook.design.theme.shapes.SmoothCornerShape8
 import io.chefbook.libs.utils.numbers.toFormattedText
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.Recipe.Decrypted.IngredientsItem
 import io.chefbook.ui.common.extensions.localizedName
-import io.chefbook.core.android.R as coreR
+import io.chefbook.core.res as CoreR
 import io.chefbook.design.R as designR
 
 @Composable
@@ -102,7 +102,7 @@ internal fun IngredientField(
       ),
       label = {
         Text(
-          text = stringResource(coreR.string.common_general_ingredient),
+          text = stringResource(CoreR.string.common_general_ingredient),
           color = colors.foregroundPrimary
         )
       },

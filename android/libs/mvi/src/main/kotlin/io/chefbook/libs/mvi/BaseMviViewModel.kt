@@ -14,44 +14,44 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-interface StateViewModel<State : MviState> {
+interface StateViewModel<State : Any> {
   val state: StateFlow<State>
 }
 
-interface IIntentViewModel<Intent : MviIntent> {
+interface IIntentViewModel<Intent : Any> {
   fun handleIntent(intent: Intent)
 }
 
-interface ISideEffectViewModel<Effect : MviSideEffect> {
+interface ISideEffectViewModel<Effect : Any> {
   val effect: Flow<Effect>
 }
 
-interface IStateEventViewModel<State : MviState, Intent : MviIntent> : StateViewModel<State>,
+interface IStateEventViewModel<State : Any, Intent : Any> : StateViewModel<State>,
   IIntentViewModel<Intent>
 
-interface IStateSideEffectViewModel<State : MviState, Effect : MviSideEffect> :
+interface IStateSideEffectViewModel<State : Any, Effect : Any> :
   StateViewModel<State>, ISideEffectViewModel<Effect>
 
-interface IntentSideEffectViewModel<Intent : MviIntent, Effect : MviSideEffect> :
+interface IntentSideEffectViewModel<Intent : Any, Effect : Any> :
   IIntentViewModel<Intent>, ISideEffectViewModel<Effect>
 
-interface MviViewModel<State : MviState, Intent : MviIntent, Effect : MviSideEffect> :
+interface MviViewModel<State : Any, Intent : Any, Effect : Any> :
   IStateEventViewModel<State, Intent>,
   IStateSideEffectViewModel<State, Effect>,
   IntentSideEffectViewModel<Intent, Effect>
 
-abstract class BaseStateViewModel<State : MviState> : BaseMviViewModel<State, Nothing, Nothing>()
-abstract class BaseIntentViewModel<Intent : MviIntent> : BaseMviViewModel<Nothing, Intent, Nothing>()
-abstract class BaseSideEffectViewModel<Effect : MviSideEffect> :
+abstract class BaseStateViewModel<State : Any> : BaseMviViewModel<State, Nothing, Nothing>()
+abstract class BaseIntentViewModel<Intent : Any> : BaseMviViewModel<Nothing, Intent, Nothing>()
+abstract class BaseSideEffectViewModel<Effect : Any> :
   BaseMviViewModel<Nothing, Nothing, Effect>()
 
-abstract class BaseStateIntentViewModel<State : MviState, Intent : MviIntent> :
+abstract class BaseStateIntentViewModel<State : Any, Intent : Any> :
   BaseMviViewModel<State, Intent, Nothing>()
 
-abstract class StateSideEffectViewModel<State : MviState, Effect : MviSideEffect> :
+abstract class StateSideEffectViewModel<State : Any, Effect : Any> :
   BaseMviViewModel<State, Nothing, Effect>()
 
-abstract class BaseIntentSideEffectViewModel<Intent : MviIntent, Effect : MviSideEffect> : ViewModel(),
+abstract class BaseIntentSideEffectViewModel<Intent : Any, Effect : Any> : ViewModel(),
   IntentSideEffectViewModel<Intent, Effect> {
 
   protected val _effect: MutableSharedFlow<Effect> = MutableSharedFlow()
@@ -66,7 +66,7 @@ abstract class BaseIntentSideEffectViewModel<Intent : MviIntent, Effect : MviSid
   protected open suspend fun reduceIntent(intent: Intent) = Unit
 }
 
-abstract class BaseMviViewModel<State : MviState, Intent : MviIntent, Effect : MviSideEffect> :
+abstract class BaseMviViewModel<State : Any, Intent : Any, Effect : Any> :
   BaseIntentSideEffectViewModel<Intent, Effect>(), MviViewModel<State, Intent, Effect> {
 
   protected abstract val _state: MutableStateFlow<State>

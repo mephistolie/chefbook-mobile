@@ -23,13 +23,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.mephistolie.compost.modifiers.clippedBackground
 import com.mephistolie.compost.modifiers.simpleClickable
-import io.chefbook.core.android.compose.providers.theme.LocalTheme
+import io.chefbook.core.compose.providers.theme.LocalTheme
 import io.chefbook.design.components.checkboxes.Checkbox
 import io.chefbook.design.theme.shapes.SmoothCornerShape28Top
 import io.chefbook.features.community.languages.ui.mvi.CommunityLanguagesScreenIntent
 import io.chefbook.libs.models.language.Language
 import io.chefbook.ui.common.extensions.localizedName
-import io.chefbook.core.android.R as coreR
+import io.chefbook.core.res as CoreR
 
 @Composable
 internal fun CommunityLanguagesScreenContent(
@@ -48,7 +48,7 @@ internal fun CommunityLanguagesScreenContent(
       .padding(horizontal = 18.dp),
   ) {
     Text(
-      text = stringResource(coreR.string.common_general_languages),
+      text = stringResource(CoreR.string.common_general_languages),
       maxLines = 1,
       style = typography.h4,
       color = colors.foregroundPrimary,

@@ -1,7 +1,7 @@
 package io.chefbook.sdk.encryption.recipe.impl.data.crypto
 
-import io.chefbook.libs.encryption.HybridCryptor
-import io.chefbook.libs.encryption.SymmetricKey
+import io.chefbook.libs.crypto.encryption.HybridCryptor
+import io.chefbook.libs.crypto.encryption.models.SymmetricKey
 import io.chefbook.sdk.encryption.recipe.api.internal.data.crypto.RecipeCryptor
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.DecryptedRecipe
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.DecryptedRecipeInfo
@@ -17,7 +17,6 @@ import io.chefbook.sdk.recipe.crud.api.internal.data.sources.common.dto.toSerial
 import io.ktor.util.decodeBase64Bytes
 import io.ktor.util.encodeBase64
 import io.ktor.utils.io.core.String
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
 internal object RecipeCryptorImpl : RecipeCryptor {

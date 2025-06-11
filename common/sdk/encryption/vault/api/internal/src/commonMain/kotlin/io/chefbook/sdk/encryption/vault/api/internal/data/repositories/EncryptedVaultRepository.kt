@@ -1,7 +1,7 @@
 package io.chefbook.sdk.encryption.vault.api.internal.data.repositories
 
-import io.chefbook.libs.encryption.AsymmetricPrivateKey
-import io.chefbook.libs.encryption.AsymmetricPublicKey
+import io.chefbook.libs.crypto.encryption.models.AsymmetricPrivateKey
+import io.chefbook.libs.crypto.encryption.models.AsymmetricPublicKey
 import io.chefbook.libs.utils.result.EmptyResult
 import io.chefbook.sdk.encryption.vault.api.external.domain.entities.EncryptedVaultState
 import kotlinx.coroutines.flow.Flow

@@ -1,22 +1,11 @@
 package io.chefbook.sdk.database.impl.di
 
 import android.content.Context
+import app.cash.sqldelight.db.SqlDriver
 import app.cash.sqldelight.driver.android.AndroidSqliteDriver
-import io.chefbook.sdk.database.api.internal.ChefBookDataStoreFactory
 import io.chefbook.sdk.database.api.internal.ChefBookDatabase
-import io.chefbook.sdk.database.impl.ChefBookDataStoreFactoryImpl
 import io.chefbook.sdk.database.impl.DATABASE_FILE
-import org.koin.core.module.dsl.singleOf
-import org.koin.dsl.bind
-import org.koin.dsl.module
+import org.koin.core.scope.Scope
 
-fun sdkDatabaseModule() = module {
-
-  singleOf(::createDriver)
-  singleOf(ChefBookDatabase::invoke)
-
-  singleOf(::ChefBookDataStoreFactoryImpl) bind ChefBookDataStoreFactory::class
-}
-
-private fun createDriver(context: Context) =
-  AndroidSqliteDriver(ChefBookDatabase.Schema, context, DATABASE_FILE)
+actual fun Scope.createDriver(): SqlDriver =
+  AndroidSqliteDriver(ChefBookDatabase.Schema, context = get<Context>(), DATABASE_FILE)

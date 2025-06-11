@@ -99,7 +99,12 @@ private fun sdkAuthProfileModule() = module {
     scopedOf(::PasswordApiServiceImpl) bind PasswordApiService::class
 
     factoryOf(::PasswordSourceImpl) bind PasswordSource::class
-    factoryOf(::SessionSourceImpl) bind SessionSource::class
+    factory<SessionSource> {
+      SessionSourceImpl(
+        profileId = get<ProfileComponent>().profileId,
+        dataStore = get(),
+      )
+    }
 
     factoryOf(::PasswordRepositoryImpl) bind PasswordRepository::class
     factoryOf(::SessionRepositoryImpl) bind SessionRepository::class

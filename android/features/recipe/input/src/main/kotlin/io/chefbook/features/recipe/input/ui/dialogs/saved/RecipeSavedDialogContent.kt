@@ -13,18 +13,15 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import io.chefbook.core.android.compose.providers.theme.LocalTheme
+import io.chefbook.core.compose.providers.theme.LocalTheme
 import io.chefbook.design.components.buttons.DynamicButton
 import io.chefbook.design.icons.Broccy
 import io.chefbook.design.icons.ChefBookIcons
-import io.chefbook.design.R as designR
 import io.chefbook.design.theme.ChefBookTheme
 import io.chefbook.design.theme.dimens.ComponentHeight48
 import io.chefbook.design.theme.shapes.SmoothCornerShape24

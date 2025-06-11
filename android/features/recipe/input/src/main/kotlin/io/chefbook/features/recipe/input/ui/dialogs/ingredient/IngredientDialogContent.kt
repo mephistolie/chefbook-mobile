@@ -41,10 +41,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.mephistolie.compost.modifiers.clippedBackground
 import io.chefbook.core.android.compose.composables.keyboardAsState
-import io.chefbook.core.android.compose.providers.theme.LocalTheme
-import io.chefbook.design.components.buttons.CircleIconButton
+import io.chefbook.core.compose.providers.theme.LocalTheme
+import io.chefbook.design.components.buttons.IconButton
 import io.chefbook.design.components.buttons.DynamicButton
-import io.chefbook.design.components.textfields.ThemedIndicatorTextField
 import io.chefbook.design.theme.shapes.SmoothCornerShape28Top
 import io.chefbook.features.recipe.input.ui.mvi.RecipeInputIngredientsScreenIntent
 import io.chefbook.features.recipe.input.ui.mvi.RecipeInputScreenIntent
@@ -54,7 +53,7 @@ import io.chefbook.libs.utils.numbers.toFormattedInput
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.Recipe.Decrypted.IngredientsItem
 import io.chefbook.ui.common.extensions.localizedName
 import io.chefbook.ui.common.extensions.stringToMeasureUnit
-import io.chefbook.core.android.R as coreR
+import io.chefbook.core.res as CoreR
 import io.chefbook.design.R as designR
 
 @OptIn(ExperimentalLayoutApi::class)
@@ -88,7 +87,7 @@ internal fun IngredientDialogContent(
       contentAlignment = Alignment.TopEnd
     ) {
       Text(
-        text = stringResource(coreR.string.common_general_ingredient),
+        text = stringResource(CoreR.string.common_general_ingredient),
         maxLines = 1,
         style = typography.h4,
         color = colors.foregroundPrimary,
@@ -97,7 +96,7 @@ internal fun IngredientDialogContent(
           .fillMaxWidth()
           .padding(vertical = 18.dp)
       )
-      CircleIconButton(
+      IconButton(
         icon = ImageVector.vectorResource(designR.drawable.ic_cross),
         onClick = { keyboardController?.hide() },
         modifier = Modifier
@@ -122,7 +121,7 @@ internal fun IngredientDialogContent(
       keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
       label = {
         Text(
-          stringResource(coreR.string.common_general_name),
+          stringResource(CoreR.string.common_general_name),
           color = colors.foregroundPrimary
         )
       },
@@ -148,7 +147,7 @@ internal fun IngredientDialogContent(
       ),
       label = {
         Text(
-          stringResource(coreR.string.common_general_amount),
+          stringResource(CoreR.string.common_general_amount),
           color = colors.foregroundPrimary
         )
       },
@@ -168,7 +167,7 @@ internal fun IngredientDialogContent(
       keyboardActions = KeyboardActions { onIntent(RecipeInputScreenIntent.CloseBottomSheet) },
       label = {
         Text(
-          stringResource(coreR.string.common_general_unit),
+          stringResource(CoreR.string.common_general_unit),
           color = colors.foregroundPrimary
         )
       },
