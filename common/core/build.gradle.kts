@@ -1,0 +1,20 @@
+plugins {
+  alias(libs.plugins.module.multiplatform.compose)
+}
+
+kotlin {
+  sourceSets {
+    commonMain.dependencies {
+      implementation(libs.compose.shimmer)
+    }
+  }
+}
+
+val namespace = "io.chefbook.core"
+
+compose.resources {
+  publicResClass = true
+  packageOfResClass = namespace
+}
+
+android.namespace = namespace

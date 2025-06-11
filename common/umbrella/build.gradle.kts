@@ -14,7 +14,9 @@ kotlin {
       api(projects.common.libs.di)
       api(projects.common.libs.coroutines)
       api(projects.common.libs.exceptions)
+      api(projects.common.libs.encryption)
       api(projects.common.libs.logger)
+      api(projects.common.libs.mvi)
 
       // SDK
 
