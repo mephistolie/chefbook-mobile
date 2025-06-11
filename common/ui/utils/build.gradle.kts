@@ -10,7 +10,7 @@ kotlin {
   }
 }
 
-val namespace = "io.chefbook.core"
+val namespace = "io.chefbook.utils"
 
 compose.resources {
   publicResClass = true

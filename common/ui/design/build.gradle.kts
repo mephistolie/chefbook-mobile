@@ -5,7 +5,7 @@ plugins {
 kotlin {
   sourceSets {
     commonMain.dependencies {
-      implementation(projects.common.core)
+      implementation(projects.common.ui.utils)
 
       implementation(compose.material3)
       implementation(compose.components.uiToolingPreview)
@@ -17,5 +17,5 @@ kotlin {
 }
 
 val namespace = "io.chefbook.design"
-compose.resources.packageOfResClass = namespace
 android.namespace = namespace
+compose.resources.packageOfResClass = namespace
