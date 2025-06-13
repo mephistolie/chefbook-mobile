@@ -1,7 +1,7 @@
-package io.chefbook.libs.io
+package io.chefbook.sdk.file.impl.io
 
 import android.content.Context
-import io.chefbook.libs.io.IOProvider
+import io.chefbook.sdk.file.api.internal.io.IOProvider
 import okio.FileSystem
 import okio.Path
 import okio.Path.Companion.toOkioPath
@@ -11,7 +11,7 @@ class IOProviderImpl(
 ) : IOProvider {
 
   override val fileSystem: FileSystem
-    get() = FileSystem.SYSTEM
+    get() = FileSystem.Companion.SYSTEM
 
   override val filesDir: Path = context.filesDir.toOkioPath()
 

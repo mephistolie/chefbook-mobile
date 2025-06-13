@@ -1,4 +1,4 @@
-package io.chefbook.libs.io
+package io.chefbook.sdk.file.api.internal.io
 
 import okio.FileSystem
 import okio.Path
