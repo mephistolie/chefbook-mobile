@@ -13,7 +13,7 @@ data class CollectionInput(
     fun new() = CollectionInput(
       id = generateUUID(),
       name = "",
-      visibility = Visibility.PRIVATE,
+      visibility = Visibility.Private,
     )
   }
 }

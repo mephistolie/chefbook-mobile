@@ -9,5 +9,3 @@ kotlin {
     }
   }
 }
-
-android.namespace = "io.chefbook.sdk.recipe.book.api.external"

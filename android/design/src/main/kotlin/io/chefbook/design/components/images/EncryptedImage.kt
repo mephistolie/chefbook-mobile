@@ -15,7 +15,7 @@ import coil3.compose.AsyncImagePainter
 import coil3.memory.MemoryCache
 import coil3.request.ImageRequest
 import coil3.request.crossfade
-import io.chefbook.core.compose.providers.LocalDataAccess
+import io.chefbook.ui.utils.compose.providers.LocalDataAccess
 
 private const val TYPE = "TYPE"
 

@@ -15,7 +15,3 @@ kotlin {
     }
   }
 }
-
-val namespace = "io.chefbook.design"
-android.namespace = namespace
-compose.resources.packageOfResClass = namespace

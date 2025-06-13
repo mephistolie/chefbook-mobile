@@ -15,9 +15,9 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.dp
-import io.chefbook.core.compose.modifiers.clickable.simpleClickable
-import io.chefbook.core.compose.providers.theme.LocalTheme
-import io.chefbook.design.components.textfields.PinCodeField
+import io.chefbook.ui.utils.compose.modifiers.clickable.simpleClickable
+import io.chefbook.ui.utils.compose.providers.theme.LocalTheme
+import io.chefbook.ui.design.components.textfields.PinCodeField
 import io.chefbook.features.auth.Res
 import io.chefbook.features.auth.commonAuthScreenActivationCode
 import io.chefbook.features.auth.ui.mvi.AuthScreenState

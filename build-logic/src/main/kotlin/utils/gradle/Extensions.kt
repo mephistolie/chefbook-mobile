@@ -6,6 +6,7 @@ import org.gradle.api.artifacts.MinimalExternalModuleDependency
 import org.gradle.api.provider.Provider
 import org.gradle.kotlin.dsl.support.delegates.DependencyHandlerDelegate
 import org.gradle.kotlin.dsl.the
+import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 
 val Project.libs
   get(): LibrariesForLibs = the<LibrariesForLibs>()

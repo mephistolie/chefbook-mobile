@@ -1,14 +1,12 @@
 package io.chefbook.features.auth.ui
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import io.chefbook.core.android.showToast
-import io.chefbook.core.compose.composables.LaunchedEffect
+import io.chefbook.utils.android.showToast
+import io.chefbook.ui.utils.compose.composables.LaunchedEffect
 import io.chefbook.features.auth.AuthComponent
 import io.chefbook.features.auth.ui.mvi.AuthScreenEffect
-import io.chefbook.libs.logger.Logger
 import io.chefbook.navigation.viewModelStoreOwner
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf

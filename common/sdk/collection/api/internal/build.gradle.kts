@@ -11,5 +11,3 @@ kotlin {
     }
   }
 }
-
-android.namespace = "io.chefbook.sdk.collection.api.internal"

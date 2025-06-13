@@ -20,25 +20,25 @@ internal class CollectionsCacheImpl : CollectionsCache {
 
   override suspend fun setCollections(categories: List<Collection>) {
     cache.emit(categories)
-    Logger.d("Collections set: ${categories.map { it.id }}")
+    Logger.d { "Collections set: ${categories.map { it.id }}" }
   }
 
   override suspend fun addCollection(collection: Collection) {
     cache.update { categories ->
       categories?.filter { it.id != collection.id }.orEmpty().plus(collection)
     }
-    Logger.d("Collection added: ${collection.id}")
+    Logger.d { "Collection added: ${collection.id}" }
   }
 
   override suspend fun updateCollection(collection: Collection) {
     cache.update { categories ->
       categories?.map { if (it.id != collection.id) it else collection }
     }
-    Logger.d("Collection updated: ${collection.id}")
+    Logger.d { "Collection updated: ${collection.id}" }
   }
 
   override suspend fun removeCollection(collectionId: String) {
     cache.update { categories -> categories?.filter { it.id != collectionId } }
-    Logger.d("Collection removed: $collectionId")
+    Logger.d { "Collection removed: $collectionId" }
   }
 }

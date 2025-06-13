@@ -3,7 +3,6 @@ package io.chefbook.sdk.recipe.crud.impl.data.sources.remote.services.dto.crud
 import io.chefbook.libs.models.visibility.Visibility
 import io.chefbook.libs.utils.uuid.generateUUID
 import io.chefbook.sdk.recipe.core.api.external.domain.entities.Recipe.Decrypted.IngredientsItem
-import io.chefbook.sdk.recipe.core.api.external.domain.entities.RecipeMeta
 import io.chefbook.sdk.recipe.core.api.internal.data.sources.common.dto.CookingItemSerializable
 import io.chefbook.sdk.recipe.core.api.internal.data.sources.common.dto.IngredientItemSerializable
 import io.chefbook.sdk.recipe.core.api.internal.data.sources.common.dto.toSerializable
@@ -58,9 +57,9 @@ internal fun RecipeProcessedInput.toSerializable() =
       id = id,
       name = name,
       visibility = when (visibility) {
-        Visibility.PRIVATE -> VisibilitySerializable.PRIVATE
-        Visibility.LINK -> VisibilitySerializable.LINK
-        Visibility.PUBLIC -> VisibilitySerializable.PUBLIC
+        Visibility.Private -> VisibilitySerializable.PRIVATE
+        Visibility.Link -> VisibilitySerializable.LINK
+        Visibility.Public -> VisibilitySerializable.PUBLIC
       },
       isEncrypted = isEncrypted,
       language = language.code,
@@ -75,16 +74,16 @@ internal fun RecipeProcessedInput.toSerializable() =
       ingredients = ingredients.map(IngredientsItem::toSerializable),
       cooking = cooking.map(CookingItem::toSerializable),
 
-      version = version,
+      version = originalVersion,
     )
 
     is EncryptedRecipeInput -> RecipeInputRequest(
       id = id,
       name = name,
       visibility = when (visibility) {
-        Visibility.PRIVATE -> VisibilitySerializable.PRIVATE
-        Visibility.LINK -> VisibilitySerializable.LINK
-        Visibility.PUBLIC -> VisibilitySerializable.PUBLIC
+        Visibility.Private -> VisibilitySerializable.PRIVATE
+        Visibility.Link -> VisibilitySerializable.LINK
+        Visibility.Public -> VisibilitySerializable.PUBLIC
       },
       isEncrypted = isEncrypted,
       language = language.code,
@@ -111,6 +110,6 @@ internal fun RecipeProcessedInput.toSerializable() =
         )
       ),
 
-      version = version,
+      version = originalVersion,
     )
   }

@@ -11,4 +11,3 @@ kotlin {
   }
 }
 
-android.namespace = "io.chefbook.sdk.encryption.vault.api.internal"

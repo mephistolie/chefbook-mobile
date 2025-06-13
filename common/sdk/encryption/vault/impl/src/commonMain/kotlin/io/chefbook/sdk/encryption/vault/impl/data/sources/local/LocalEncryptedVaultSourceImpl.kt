@@ -1,46 +1,42 @@
 package io.chefbook.sdk.encryption.vault.impl.data.sources.local
 
-import io.chefbook.libs.coroutines.AppDispatchers
-import io.chefbook.libs.io.IOProvider
-import io.chefbook.libs.exceptions.NotFoundException
 import io.chefbook.libs.utils.result.EmptyResult
-import io.chefbook.libs.utils.result.successResult
-import kotlinx.coroutines.withContext
-import okio.BufferedSource
+import io.chefbook.sdk.database.api.internal.ChefBookDatabase
+import io.chefbook.sdk.database.api.internal.DatabaseDataSource
+import io.chefbook.sdk.database.api.internal.EncryptedVaults
+import io.chefbook.sdk.encryption.vault.impl.data.sources.models.EncryptedVaultKey
+import io.ktor.util.decodeBase64Bytes
+import io.ktor.util.encodeBase64
 
 internal class LocalEncryptedVaultSourceImpl(
-  profileId: String,
-  io: IOProvider,
-  private val dispatchers: AppDispatchers,
-) : LocalEncryptedVaultSource {
+  private val profileId: String,
+  database: ChefBookDatabase,
+) : DatabaseDataSource(), LocalEncryptedVaultSource {
 
-  private val files = io.fileSystem
-  private val encryptionDir = io.filesDir.resolve("encryption/$profileId")
-  private val vaultKeyPath = encryptionDir.resolve("vault_key")
+  private val queries = database.encryptedVaultQueries
 
-  override suspend fun getEncryptedVaultKey(): Result<ByteArray> = withContext(dispatchers.io) {
-    if (!files.exists(vaultKeyPath)) return@withContext Result.failure(NotFoundException())
-    return@withContext Result.success(files.read(vaultKeyPath, BufferedSource::readByteArray))
+  override suspend fun getEncryptedVaultKey(): Result<EncryptedVaultKey> = safeQueryResult {
+    val result = queries.select(profileId = profileId).executeAsOne()
+    return@safeQueryResult EncryptedVaultKey(
+      key = result.encryptedKey.decodeBase64Bytes(),
+      passwordSalt = result.passwordSalt.decodeBase64Bytes(),
+    )
   }
 
-  override suspend fun setEncryptedVaultKey(privateKey: ByteArray) = withContext(dispatchers.io) {
-    return@withContext try {
-      files.createDirectories(encryptionDir)
-      files.write(vaultKeyPath) { write(privateKey) }
-      successResult
-    } catch (e: Exception) {
-      Result.failure(e)
-    }
+  override suspend fun setEncryptedVaultKey(
+    encryptedPrivateKey: ByteArray,
+    passwordSalt: ByteArray,
+  ): EmptyResult = safeQueryResult {
+    queries.insert(
+      encryptedVaults = EncryptedVaults(
+        profileId = profileId,
+        encryptedKey = encryptedPrivateKey.encodeBase64(),
+        passwordSalt = passwordSalt.encodeBase64(),
+      )
+    )
   }
 
-  override suspend fun deleteEncryptedVault(): EmptyResult = withContext(dispatchers.io) {
-    return@withContext try {
-      if (files.exists(vaultKeyPath)) {
-        files.deleteRecursively(vaultKeyPath)
-      }
-      successResult
-    } catch (e: Exception) {
-      Result.failure(e)
-    }
+  override suspend fun deleteEncryptedVault(): EmptyResult = safeQueryResult {
+    queries.delete(profileId)
   }
 }

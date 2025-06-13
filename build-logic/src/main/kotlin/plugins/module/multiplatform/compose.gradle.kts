@@ -1,7 +1,7 @@
 package plugins.module.multiplatform
 
-import utils.gradle.libs
 import org.gradle.kotlin.dsl.kotlin
+import utils.android.defaultKmpNamespace
 
 plugins {
   id("plugins.module.multiplatform.base")
@@ -12,7 +12,7 @@ plugins {
 kotlin {
   sourceSets {
     commonMain.dependencies {
-      implementation(project(":common:libs:logger"))
+      implementation(project(":common:libs:logging"))
       implementation(project(":common:libs:coroutines"))
       implementation(project(":common:libs:utils"))
 
@@ -21,4 +21,10 @@ kotlin {
       implementation(compose.components.resources)
     }
   }
+
+  androidLibrary {
+    experimentalProperties["android.experimental.kmp.enableAndroidResources"] = true
+  }
 }
+
+compose.resources.packageOfResClass = project.defaultKmpNamespace

@@ -76,9 +76,9 @@ internal fun RecipeInfoBody.toEntity(
     ),
     tags = tags.mapNotNull(tagsMap::get),
     visibility = when (visibility) {
-      VisibilitySerializable.PUBLIC -> Visibility.PUBLIC
-      VisibilitySerializable.LINK -> Visibility.LINK
-      else -> Visibility.PRIVATE
+      VisibilitySerializable.PUBLIC -> Visibility.Public
+      VisibilitySerializable.LINK -> Visibility.Link
+      else -> Visibility.Private
     },
     isEncryptionEnabled = isEncrypted,
     language = LanguageMapper.map(language),

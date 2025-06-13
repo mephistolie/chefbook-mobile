@@ -1,0 +1,24 @@
+CREATE TABLE encryptedVaults (
+    profileId TEXT PRIMARY KEY NOT NULL,
+    encryptedKey TEXT NOT NULL,
+    passwordSalt TEXT NOT NULL
+);
+
+select:
+SELECT
+    encryptedKey,
+    passwordSalt
+FROM encryptedVaults
+WHERE profileId = ?;
+
+insert:
+INSERT INTO encryptedVaults (
+    profileId,
+    encryptedKey,
+    passwordSalt
+)
+VALUES ?;
+
+delete:
+DELETE FROM encryptedVaults
+WHERE profileId = ?;

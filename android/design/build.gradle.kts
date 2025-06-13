@@ -5,9 +5,9 @@ plugins {
 android.namespace = "io.chefbook.design"
 
 dependencies {
-  api(projects.common.design)
+  api(projects.common.ui.design)
 
-  implementation(projects.common.core)
+  implementation(projects.common.ui.utils)
   implementation(projects.android.core)
 
   implementation(libs.network.ktor.client.okhttp)

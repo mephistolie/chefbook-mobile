@@ -13,10 +13,10 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import io.chefbook.core.compose.modifiers.clickable.simpleClickable
-import io.chefbook.core.compose.providers.theme.LocalTheme
-import io.chefbook.design.components.buttons.DynamicButton
-import io.chefbook.design.theme.dimens.ComponentHeight56
+import io.chefbook.ui.utils.compose.modifiers.clickable.simpleClickable
+import io.chefbook.ui.utils.compose.providers.theme.LocalTheme
+import io.chefbook.ui.design.components.buttons.DynamicButton
+import io.chefbook.ui.design.theme.dimens.ComponentHeight56
 import io.chefbook.features.auth.Res
 import io.chefbook.features.auth.commonAuthScreenProfileDeleted
 import io.chefbook.features.auth.commonAuthScreenRestoreProfile

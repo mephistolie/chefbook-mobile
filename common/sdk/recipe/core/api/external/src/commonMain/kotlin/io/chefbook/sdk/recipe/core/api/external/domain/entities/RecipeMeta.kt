@@ -31,7 +31,7 @@ data class RecipeMeta(
 
   override val owner: ProfileInfo,
 
-  override val visibility: Visibility = Visibility.PRIVATE,
+  override val visibility: Visibility = Visibility.Private,
   override val isEncryptionEnabled: Boolean = false,
 
   override val language: Language,

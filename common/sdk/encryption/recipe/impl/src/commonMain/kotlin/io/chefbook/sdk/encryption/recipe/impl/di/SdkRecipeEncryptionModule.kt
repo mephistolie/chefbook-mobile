@@ -28,7 +28,7 @@ fun sdkRecipeEncryptionModule() = module {
     scoped<LocalRecipeEncryptionSource>(named(DataSource.LOCAL)) {
       LocalRecipeEncryptionSourceImpl(
         profileId = get<ProfileComponent>().profileId,
-        io = get(),
+        database = get(),
       )
     }
 

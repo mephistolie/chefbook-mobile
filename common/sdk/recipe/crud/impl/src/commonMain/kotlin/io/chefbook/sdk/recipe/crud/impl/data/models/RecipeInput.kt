@@ -67,7 +67,7 @@ internal fun RecipeProcessedInput.toRecipe(
     visibility = visibility,
     isEncryptionEnabled = isEncrypted,
     language = language,
-    version = version,
+    version = originalVersion ?: targetVersion,
     creationTimestamp = creationTimestamp,
     updateTimestamp = updateTimestamp,
     rating = RecipeMeta.Rating(
@@ -179,5 +179,5 @@ internal fun RecipeInput.asDecrypted() = DecryptedRecipeInput(
   ingredients = ingredients,
   cooking = cooking,
 
-  version = version,
+  originalVersion = version,
 )

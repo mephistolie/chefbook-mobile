@@ -21,10 +21,10 @@ internal class RemoteRecipeEncryptionSourceImpl(
       onFailure = { Result.failure(it) }
     )
 
-  override suspend fun setRecipeKey(recipeId: String, key: ByteArray) =
+  override suspend fun setRecipeKey(recipeId: String, encryptedKey: ByteArray) =
     api.uploadRecipeKey(
       recipeId = recipeId,
-      body = UploadRecipeKeyRequest(key.encodeBase64())
+      body = UploadRecipeKeyRequest(encryptedKey.encodeBase64())
     ).asEmpty()
 
   override suspend fun deleteRecipeKey(recipeId: String) =

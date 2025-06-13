@@ -2,20 +2,16 @@ package io.chefbook.libs.crypto.encryption
 
 import io.chefbook.libs.utils.interop.byteArray
 import io.chefbook.libs.utils.interop.nSData
-import io.chefbook.libs.crypto.digest.sha256
 import io.chefbook.libs.crypto.encryption.models.AsymmetricKey
 import io.chefbook.libs.crypto.encryption.models.AsymmetricPrivateKey
 import io.chefbook.libs.crypto.encryption.models.AsymmetricPublicKey
-import io.chefbook.libs.crypto.encryption.models.CipherData
+import io.chefbook.libs.crypto.encryption.models.SymmetricCipherData
 import io.chefbook.libs.crypto.encryption.models.SymmetricKey
 import io.chefbook.libs.crypto.random.CCRandom
 import io.chefbook.libs.utils.interop.swiftTry
 import platform.Foundation.NSData
 
 actual object HybridCryptor {
-
-  private val randomIV: ByteArray
-    get() = CCRandom.nextBytes(AesGcmIVLength)
 
   actual fun generateAsymmetricKey(): AsymmetricKey {
     val (publicKey, privateKey) = ССRSA.generateKey()
@@ -25,10 +21,14 @@ actual object HybridCryptor {
     )
   }
 
-  actual fun generateSymmetricKey(): SymmetricKey =
+  actual fun generatePasswordSymmetricKey(): SymmetricKey =
     SymmetricKey(CryptoKitAes.generateKey().byteArray)
 
-  actual fun generateSymmetricKey(
+  actual fun generateRandomIV(): ByteArray = CCRandom.nextBytes(AesGcmIVLength)
+
+  actual fun generateSalt(): ByteArray = CCRandom.nextBytes(AesSaltSize)
+
+  actual fun generatePasswordSymmetricKey(
     password: String,
     salt: ByteArray,
   ): SymmetricKey {
@@ -40,16 +40,14 @@ actual object HybridCryptor {
     )
   }
 
-  actual fun encryptDataBySymmetricKey(
-    data: ByteArray,
+  actual fun encryptBySymmetricKey(
+    plaintext: ByteArray,
     key: SymmetricKey,
-    ivSeed: String?,
-  ): CipherData {
-    val iv = ivSeed?.sha256?.copyOfRange(0, AesGcmIVLength) ?: randomIV
-
+    iv: ByteArray,
+  ): SymmetricCipherData {
     val result = swiftTry { e ->
       CryptoKitAes.encryptGCMWithKey(
-        plaintext = data.nSData,
+        plaintext = plaintext.nSData,
         key = key.raw.nSData,
         iv = iv.nSData,
         error = e,
@@ -59,66 +57,50 @@ actual object HybridCryptor {
     val ciphertext = (result[0] as NSData).byteArray
     val tag = (result[1] as NSData).byteArray
 
-    return CipherData(
+    return SymmetricCipherData(
       ciphertext = ciphertext,
       iv = iv,
       tag = tag,
     )
   }
 
-  actual fun decryptDataBySymmetricKey(
-    data: CipherData,
+  actual fun decryptBySymmetricKey(
+    cipherData: SymmetricCipherData,
     key: SymmetricKey,
   ): ByteArray =
     swiftTry { e ->
       CryptoKitAes.decryptGCMWithKey(
-        ciphertext = data.ciphertext.nSData,
+        ciphertext = cipherData.ciphertext.nSData,
         key = key.raw.nSData,
-        iv = data.iv.nSData,
-        tag = data.tag.nSData,
+        iv = cipherData.iv.nSData,
+        tag = cipherData.tag.nSData,
         error = e,
       )
     }.byteArray
 
-  actual fun encryptDataByAsymmetricKey(data: ByteArray, key: AsymmetricPublicKey): ByteArray {
+  actual fun encryptByAsymmetricKey(plaintext: ByteArray, key: AsymmetricPublicKey): ByteArray {
     return ССRSA.encryptWithPublicKey(
       publicKey = key.pkcs1.nSData,
-      plaintext = data.nSData,
+      plaintext = plaintext.nSData,
     ).byteArray
   }
 
-  actual fun decryptDataByAsymmetricKey(data: ByteArray, key: AsymmetricPrivateKey): ByteArray {
+  actual fun decryptByAsymmetricKey(ciphertext: ByteArray, key: AsymmetricPrivateKey): ByteArray {
     return ССRSA.decryptWithPrivateKey(
       privateKey = key.pkcs1.nSData,
-      ciphertext = data.nSData,
+      ciphertext = ciphertext.nSData,
     ).byteArray
   }
 
-  actual fun encryptPrivateKeyBySymmetricKey(
-    data: AsymmetricPrivateKey,
-    key: SymmetricKey,
-    ivSeed: String?,
-  ): CipherData = encryptDataBySymmetricKey(data.raw, key, ivSeed)
-
   actual fun decryptAsymmetricKeyBySymmetricKey(
-    data: CipherData,
+    cipherData: SymmetricCipherData,
     key: SymmetricKey,
   ): AsymmetricKey {
-    val privateKey = AsymmetricPrivateKey.pkcs8(decryptDataBySymmetricKey(data, key))
+    val privateKey = AsymmetricPrivateKey.pkcs8(decryptBySymmetricKey(cipherData, key))
     val publicKey = AsymmetricPublicKey.pkcs1(ССRSA.getPublicKey(privateKey.pkcs1.nSData).byteArray)
     return AsymmetricKey(
       public = publicKey,
       private = privateKey,
     )
   }
-
-  actual fun encryptSymmetricKeyByPublicKey(
-    data: SymmetricKey,
-    key: AsymmetricPublicKey
-  ): ByteArray = encryptDataByAsymmetricKey(data.raw, key)
-
-  actual fun decryptSymmetricKeyByPrivateKey(
-    data: ByteArray,
-    key: AsymmetricPrivateKey
-  ): SymmetricKey = SymmetricKey(decryptDataByAsymmetricKey(data, key))
 }

@@ -55,6 +55,6 @@ dependencies {
   implementation(libs.coil.network.ktor)
   implementation(libs.imageCropper)
 
-  implementation(project(":common:libs:logger"))
+  implementation(project(":common:libs:logging"))
   implementation(project(":common:libs:coroutines"))
 }

@@ -8,6 +8,7 @@ internal interface RemoteEncryptedVaultSource : EncryptedVaultSource {
 
   suspend fun createEncryptedVault(
     publicKey: AsymmetricPublicKey,
-    privateKey: ByteArray
+    privateKey: ByteArray,
+    passwordSalt: ByteArray,
   ): EmptyResult
 }

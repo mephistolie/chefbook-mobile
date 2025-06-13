@@ -2,7 +2,8 @@ CREATE TABLE recipesCollections (
     recipeId TEXT NOT NULL,
     collectionId TEXT NOT NULL,
     FOREIGN KEY (recipeId) REFERENCES recipes(recipeId) ON DELETE CASCADE,
-    FOREIGN KEY (collectionId) REFERENCES collections(collectionId) ON DELETE CASCADE
+    FOREIGN KEY (collectionId) REFERENCES collections(collectionId) ON DELETE CASCADE,
+    UNIQUE (recipeId, collectionId)
 );
 
 insert:

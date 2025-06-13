@@ -2,4 +2,10 @@ plugins {
   alias(libs.plugins.module.multiplatform.sdk)
 }
 
-android.namespace = "io.chefbook.sdk.file.api.internal"
+kotlin {
+  sourceSets {
+    commonMain.dependencies {
+      api(libs.okio)
+    }
+  }
+}

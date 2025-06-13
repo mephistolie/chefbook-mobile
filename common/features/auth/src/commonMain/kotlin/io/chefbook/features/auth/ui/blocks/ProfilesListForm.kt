@@ -17,15 +17,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import io.chefbook.core.compose.modifiers.clickable.simpleClickable
-import io.chefbook.core.compose.providers.theme.LocalTheme
-import io.chefbook.design.components.ProfileAvatar
-import io.chefbook.design.components.buttons.DynamicButton
-import io.chefbook.design.components.buttons.selectableButtonColors
-import io.chefbook.design.icons.ArrowEndMedium
-import io.chefbook.design.icons.ArrowStart
-import io.chefbook.design.icons.ChefBookIcons
-import io.chefbook.design.theme.dimens.ComponentHeight56
+import io.chefbook.ui.utils.compose.modifiers.clickable.simpleClickable
+import io.chefbook.ui.utils.compose.providers.theme.LocalTheme
+import io.chefbook.ui.design.components.ProfileAvatar
+import io.chefbook.ui.design.components.buttons.DynamicButton
+import io.chefbook.ui.design.components.buttons.selectableButtonColors
+import io.chefbook.ui.design.icons.ArrowEndMedium
+import io.chefbook.ui.design.icons.ArrowStart
+import io.chefbook.ui.design.icons.ChefBookIcons
+import io.chefbook.ui.design.theme.dimens.ComponentHeight56
 import io.chefbook.features.auth.Res
 import io.chefbook.features.auth.commonAuthScreenAnotherAccount
 import io.chefbook.features.auth.ui.mvi.AuthScreenIntent
@@ -100,7 +100,7 @@ fun ProfilesListForm(
     Spacer(modifier = Modifier.width(8.dp))
     DynamicButton(
       leadIcon = ChefBookIcons.ArrowStart,
-//      leftIcon = ImageVector.vectorResource(io.chefbook.design.R.drawable.ic_manage_profile),
+//      leftIcon = ImageVector.vectorResource(io.chefbook.ui.design.R.drawable.ic_manage_profile),
       onClick = { onIntent(AuthScreenIntent.OpenSignInForm) },
       textStyle = typography.headline1,
       colors = selectableButtonColors(

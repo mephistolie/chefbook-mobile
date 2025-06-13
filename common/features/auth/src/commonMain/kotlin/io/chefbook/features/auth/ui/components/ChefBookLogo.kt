@@ -10,9 +10,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import io.chefbook.core.compose.providers.theme.LocalTheme
-import io.chefbook.design.icons.Broccy
-import io.chefbook.design.icons.ChefBookIcons
+import io.chefbook.ui.utils.compose.providers.theme.LocalTheme
+import io.chefbook.ui.design.icons.Broccy
+import io.chefbook.ui.design.icons.ChefBookIcons
 
 @Composable
 fun ChefBookLogo(

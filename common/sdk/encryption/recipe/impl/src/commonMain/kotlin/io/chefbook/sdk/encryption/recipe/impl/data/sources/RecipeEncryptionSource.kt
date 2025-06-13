@@ -6,7 +6,7 @@ internal interface RecipeEncryptionSource {
 
   suspend fun getRecipeKey(recipeId: String): Result<ByteArray>
 
-  suspend fun setRecipeKey(recipeId: String, key: ByteArray): EmptyResult
+  suspend fun setRecipeKey(recipeId: String, encryptedKey: ByteArray): EmptyResult
 
   suspend fun deleteRecipeKey(recipeId: String): EmptyResult
 }

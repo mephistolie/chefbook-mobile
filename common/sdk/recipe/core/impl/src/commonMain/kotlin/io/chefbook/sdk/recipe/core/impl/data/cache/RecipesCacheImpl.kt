@@ -63,14 +63,14 @@ internal class RecipesCacheImpl(
 
   override suspend fun getRecipe(recipeId: String): Recipe? {
     val recipe = cachedRecipeMap.value[recipeId]
-    Logger.i("Requested recipe $recipeId is found: ${recipe != null}")
+    Logger.i { "Requested recipe $recipeId is found: ${recipe != null}" }
     return recipe
   }
 
   override suspend fun setRecipeBook(recipes: List<RecipeInfo>) {
     cachedRecipeInfo.emit(recipes)
     removeOutdatedRecipes(recipes)
-    Logger.i("${recipes.size} recipes were cached")
+    Logger.i { "${recipes.size} recipes were cached" }
   }
 
   private fun removeOutdatedRecipes(newRecipeBook: List<RecipeInfo>) = cachedRecipeMap.update { recipesCache ->
@@ -87,31 +87,31 @@ internal class RecipesCacheImpl(
   override suspend fun putRecipe(recipe: Recipe) {
     transformRecipeCache(recipe.id) { recipe }
     cachedRecipeInfo.update { recipes -> recipes?.filter { it.id != recipe.id }?.plus(recipe.info) }
-    Logger.i("Recipe ${recipe.id} was put")
+    Logger.i { "Recipe ${recipe.id} was put" }
   }
 
   override suspend fun removeRecipe(recipeId: String) {
     transformRecipeCache(recipeId) { null }
     cachedRecipeInfo.update { recipeBook -> recipeBook?.filter { it.id != recipeId } }
-    Logger.i("Recipe $recipeId removed")
+    Logger.i { "Recipe $recipeId removed" }
   }
 
   override suspend fun setRecipeScore(recipeId: String, score: Int?) {
     transformRecipeCache(recipeId) { it?.withScore(score) }
     transformRecipeBookCache(recipeId) { it.withScore(score) }
-    Logger.i("Recipe $recipeId score changed to $score")
+    Logger.i { "Recipe $recipeId score changed to $score" }
   }
 
   override suspend fun setRecipeSavedStatus(recipeId: String, saved: Boolean) {
     transformRecipeCache(recipeId) { it?.withSavedStatus(saved) }
     transformRecipeBookCache(recipeId) { it.withSavedStatus(saved) }
-    Logger.i("Recipe $recipeId saved status changed to $saved")
+    Logger.i { "Recipe $recipeId saved status changed to $saved" }
   }
 
   override suspend fun setRecipeFavouriteStatus(recipeId: String, favourite: Boolean) {
     transformRecipeCache(recipeId) { it?.withFavouriteStatus(isFavourite = favourite) }
     transformRecipeBookCache(recipeId) { it.withFavouriteStatus(isFavourite = favourite) }
-    Logger.i("Recipe $recipeId favourite changed to $favourite")
+    Logger.i { "Recipe $recipeId favourite changed to $favourite" }
   }
 
   override suspend fun setRecipeCollections(recipeId: String, collections: List<String>) {
@@ -121,7 +121,7 @@ internal class RecipesCacheImpl(
     }
     transformRecipeCache(recipeId) { it?.withCollections(collections = recipeCollections) }
     transformRecipeBookCache(recipeId) { it.withCollections(collections = recipeCollections) }
-    Logger.i("Recipe $recipeId collections $collections were set")
+    Logger.i { "Recipe $recipeId collections $collections were set" }
   }
 
   private fun transformRecipeBookCache(

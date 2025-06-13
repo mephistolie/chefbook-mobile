@@ -1,15 +1,15 @@
 package io.chefbook.libs.models.visibility
 
 enum class Visibility {
-  PRIVATE,
-  LINK,
-  PUBLIC;
+  Private,
+  Link,
+  Public;
 
   fun serialize(): String =
     when (this) {
-      PRIVATE -> VISIBILITY_PRIVATE
-      LINK -> VISIBILITY_LINK
-      PUBLIC -> VISIBILITY_PUBLIC
+      Private -> VISIBILITY_PRIVATE
+      Link -> VISIBILITY_LINK
+      Public -> VISIBILITY_PUBLIC
     }
 
   companion object {
@@ -19,9 +19,9 @@ enum class Visibility {
 
     fun deserialize(visibility: String?): Visibility =
       when (visibility?.lowercase()) {
-        VISIBILITY_PUBLIC -> PUBLIC
-        VISIBILITY_LINK -> LINK
-        else -> PRIVATE
+        VISIBILITY_PUBLIC -> Public
+        VISIBILITY_LINK -> Link
+        else -> Private
       }
   }
 }

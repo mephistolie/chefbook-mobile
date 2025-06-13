@@ -9,4 +9,6 @@ internal data class CreateEncryptedVaultRequest(
   val publicKey: String,
   @SerialName("privateKey")
   val privateKey: String,
+  @SerialName("salt")
+  val salt: String,
 )

@@ -16,7 +16,7 @@ class ChefBookApp : Application() {
 
   private fun configureLogger() {
     if (BuildConfig.DEBUG) {
-      Logger.plantDebug()
+      Logger.initDebug()
     }
   }
 

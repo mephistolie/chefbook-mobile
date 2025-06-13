@@ -13,5 +13,3 @@ kotlin {
     }
   }
 }
-
-android.namespace = "io.chefbook.features.profile"

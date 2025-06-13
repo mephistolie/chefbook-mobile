@@ -1,6 +1,6 @@
 package io.chefbook.di
 
-import io.chefbook.core.android.qr.QRCodeWriter
+import io.chefbook.utils.android.qr.QRCodeWriter
 import io.chefbook.ui.delegates.IconSwitcherDelegate
 import io.chefbook.ui.screens.main.RootViewModel
 import org.koin.core.module.dsl.singleOf

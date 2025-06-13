@@ -6,7 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
-import io.chefbook.design.components.buttons.IconButton
+import io.chefbook.ui.design.components.buttons.IconButton
 
 @Composable
 fun SignInOptionButton(

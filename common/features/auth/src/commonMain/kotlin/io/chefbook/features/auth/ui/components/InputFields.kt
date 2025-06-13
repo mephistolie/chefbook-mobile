@@ -8,12 +8,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import io.chefbook.core.commonGeneralEmail
-import io.chefbook.core.commonGeneralPassword
-import io.chefbook.design.components.textfields.OutlinedConfidentialTextField
-import io.chefbook.design.components.textfields.OutlinedTextField
+import io.chefbook.ui.utils.commonGeneralEmail
+import io.chefbook.ui.utils.commonGeneralPassword
+import io.chefbook.ui.design.components.textfields.OutlinedConfidentialTextField
+import io.chefbook.ui.design.components.textfields.OutlinedTextField
 import org.jetbrains.compose.resources.stringResource
-import io.chefbook.core.Res as CoreR
+import io.chefbook.ui.utils.Res as CoreR
 
 @Composable
 internal fun LoginInputField(

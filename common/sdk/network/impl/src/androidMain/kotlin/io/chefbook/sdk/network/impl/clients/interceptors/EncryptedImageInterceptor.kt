@@ -1,6 +1,8 @@
 package io.chefbook.sdk.network.impl.clients.interceptors
 
 import io.chefbook.libs.crypto.encryption.HybridCryptor
+import io.chefbook.libs.crypto.encryption.generateIV
+import io.chefbook.libs.crypto.encryption.models.SymmetricCipherData
 import io.chefbook.libs.logger.Logger
 import io.chefbook.libs.utils.images.ImageUtils
 import io.chefbook.sdk.encryption.recipe.api.internal.data.repositories.RecipeEncryptionRepository
@@ -10,7 +12,6 @@ import okhttp3.HttpUrl
 import okhttp3.Interceptor
 import okhttp3.Response
 import okhttp3.ResponseBody.Companion.toResponseBody
-import javax.crypto.AEADBadTagException
 
 class EncryptedImageInterceptor(
   private val encryptedVaultRepository: EncryptedVaultRepository,
@@ -35,12 +36,18 @@ class EncryptedImageInterceptor(
         val recipeKey = (recipeEncryptionRepository.getRecipeKey(recipeId, vaultKey).getOrNull()
           ?: return@runBlocking makeResponseWithBody(response, data))
       val decryptedData = try {
-        HybridCryptor.decryptDataBySymmetricKey(data, recipeKey)
-      } catch (e: AEADBadTagException) {
-        Logger.e("Unable to decrypt encrypted image $url")
+        HybridCryptor.decryptBySymmetricKey(
+          cipherData = SymmetricCipherData(
+            combinedData = data,
+            iv = HybridCryptor.generateIV(url.toString()),
+          ),
+          key = recipeKey,
+        )
+      } catch (e: Exception) {
+        Logger.e { "Unable to decrypt encrypted image $url" }
         return@runBlocking makeResponseWithBody(response, data)
       }
-      Logger.i("Encrypted image $url successfully decrypted")
+      Logger.i { "Encrypted image $url successfully decrypted" }
 
       makeResponseWithBody(response, decryptedData)
     }

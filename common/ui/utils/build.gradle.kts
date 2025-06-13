@@ -10,11 +10,4 @@ kotlin {
   }
 }
 
-val namespace = "io.chefbook.utils"
-
-compose.resources {
-  publicResClass = true
-  packageOfResClass = namespace
-}
-
-android.namespace = namespace
+compose.resources.publicResClass = true

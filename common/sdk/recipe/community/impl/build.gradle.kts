@@ -12,5 +12,3 @@ kotlin {
     }
   }
 }
-
-android.namespace = "io.chefbook.sdk.recipe.community.impl"

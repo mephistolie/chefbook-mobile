@@ -3,6 +3,8 @@ package io.chefbook.sdk.encryption.recipe.impl.data.repositories
 import io.chefbook.libs.crypto.encryption.models.AsymmetricPrivateKey
 import io.chefbook.libs.crypto.encryption.models.AsymmetricPublicKey
 import io.chefbook.libs.crypto.encryption.HybridCryptor
+import io.chefbook.libs.crypto.encryption.decryptSymmetricKeyByPrivateKey
+import io.chefbook.libs.crypto.encryption.encryptSymmetricKeyByPublicKey
 import io.chefbook.libs.crypto.encryption.models.SymmetricKey
 import io.chefbook.libs.utils.result.EmptyResult
 import io.chefbook.sdk.core.api.internal.data.repositories.DataSourcesRepository
@@ -17,7 +19,7 @@ internal class RecipeEncryptionRepositoryImpl(
   private val sources: DataSourcesRepository,
 ) : RecipeEncryptionRepository {
 
-  override suspend fun generateRecipeKey() = HybridCryptor.generateSymmetricKey()
+  override suspend fun generateRecipeKey() = HybridCryptor.generatePasswordSymmetricKey()
 
   override suspend fun getRecipeKey(
     recipeId: String,

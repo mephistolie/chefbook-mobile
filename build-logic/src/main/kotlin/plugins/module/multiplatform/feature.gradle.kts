@@ -2,6 +2,7 @@ package plugins.module.multiplatform
 
 import utils.gradle.libs
 import org.gradle.kotlin.dsl.kotlin
+import utils.android.defaultKmpNamespace
 
 plugins {
   id("plugins.module.multiplatform.compose")
@@ -18,11 +19,12 @@ kotlin {
       implementation(project(":common:libs:exceptions"))
       implementation(project(":common:libs:mvi"))
 
-      implementation(project(":common:core"))
-      implementation(project(":common:design"))
+      implementation(project(":common:ui:utils"))
+      implementation(project(":common:ui:design"))
 
       implementation(libs.di.koin.core)
       implementation(libs.decompose.core)
     }
   }
+
 }

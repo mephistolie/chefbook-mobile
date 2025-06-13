@@ -4,8 +4,8 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.core.DataStoreFactory
 import androidx.datastore.core.okio.OkioSerializer
 import androidx.datastore.core.okio.OkioStorage
-import io.chefbook.libs.io.IOProvider
 import io.chefbook.sdk.database.api.internal.ChefBookDataStoreFactory
+import io.chefbook.sdk.file.api.internal.io.IOProvider
 
 class ChefBookDataStoreFactoryImpl(
   private val io: IOProvider,

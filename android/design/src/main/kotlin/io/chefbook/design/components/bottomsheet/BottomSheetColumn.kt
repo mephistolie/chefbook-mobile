@@ -8,9 +8,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import io.chefbook.core.compose.modifiers.clippingBackground
-import io.chefbook.core.compose.providers.theme.LocalTheme
-import io.chefbook.design.theme.shapes.SmoothCornerShape28Top
+import io.chefbook.ui.utils.compose.modifiers.clippingBackground
+import io.chefbook.ui.utils.compose.providers.theme.LocalTheme
+import io.chefbook.ui.design.theme.shapes.SmoothCornerShape28Top
 
 @Composable
 inline fun BottomSheetColumn(

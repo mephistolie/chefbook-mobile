@@ -20,8 +20,7 @@ dependencies {
 
   // Internal libs
 
-  implementation(projects.common.libs.logger)
-  implementation(projects.common.libs.io)
+  implementation(projects.common.libs.logging)
   implementation(projects.common.libs.di)
 
   implementation(projects.android.libs.mvi)
@@ -46,7 +45,7 @@ dependencies {
   implementation(projects.common.sdk.tag.impl)
   implementation(projects.common.sdk.shoppingList.impl)
 
-  implementation(projects.common.core)
+  implementation(projects.common.ui.utils)
   implementation(projects.android.core)
   implementation(projects.android.design)
   implementation(projects.android.ui)

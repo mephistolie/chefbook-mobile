@@ -14,18 +14,18 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import io.chefbook.core.commonGeneralNext
-import io.chefbook.core.compose.modifiers.clickable.simpleClickable
-import io.chefbook.core.compose.providers.theme.LocalTheme
-import io.chefbook.design.components.buttons.DynamicButton
-import io.chefbook.design.theme.dimens.ComponentHeight56
+import io.chefbook.ui.utils.commonGeneralNext
+import io.chefbook.ui.utils.compose.modifiers.clickable.simpleClickable
+import io.chefbook.ui.utils.compose.providers.theme.LocalTheme
+import io.chefbook.ui.design.components.buttons.DynamicButton
+import io.chefbook.ui.design.theme.dimens.ComponentHeight56
 import io.chefbook.features.auth.Res
 import io.chefbook.features.auth.commonAuthScreenAlreadyMember
 import io.chefbook.features.auth.ui.components.LoginInputField
 import io.chefbook.features.auth.ui.mvi.AuthScreenIntent
 import io.chefbook.features.auth.ui.mvi.AuthScreenState
 import org.jetbrains.compose.resources.stringResource
-import io.chefbook.core.Res as CoreR
+import io.chefbook.ui.utils.Res as CoreR
 
 @Composable
 fun SignUpForm(

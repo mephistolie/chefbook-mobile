@@ -17,10 +17,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
-import io.chefbook.core.compose.modifiers.clickable.simpleClickable
-import io.chefbook.core.compose.providers.theme.LocalTheme
-import io.chefbook.design.icons.ArrowEnd
-import io.chefbook.design.icons.ChefBookIcons
+import io.chefbook.ui.utils.compose.modifiers.clickable.simpleClickable
+import io.chefbook.ui.utils.compose.providers.theme.LocalTheme
+import io.chefbook.ui.design.icons.ArrowEnd
+import io.chefbook.ui.design.icons.ChefBookIcons
 
 @Composable
 fun MenuItem(

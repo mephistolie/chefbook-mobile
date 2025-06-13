@@ -19,7 +19,7 @@ import utils.gradle.libs
 internal fun Project.configureCompose() {
   apply(plugin = libs.plugins.composeCompiler.get().pluginId)
 
-  androidExtension?.configureCompose()
+  nativeAndroidExtension?.configureCompose()
 
   dependencies {
     val composeBom = platform(libs.androidx.compose.bom)

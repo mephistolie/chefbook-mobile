@@ -1,10 +1,9 @@
 package io.chefbook.libs.crypto.encryption
 
-import io.chefbook.libs.crypto.digest.sha256
 import io.chefbook.libs.crypto.encryption.models.AsymmetricKey
 import io.chefbook.libs.crypto.encryption.models.AsymmetricPrivateKey
 import io.chefbook.libs.crypto.encryption.models.AsymmetricPublicKey
-import io.chefbook.libs.crypto.encryption.models.CipherData
+import io.chefbook.libs.crypto.encryption.models.SymmetricCipherData
 import io.chefbook.libs.crypto.encryption.models.SymmetricKey
 import io.chefbook.libs.crypto.encryption.models.asAsymmetricKey
 import io.chefbook.libs.crypto.encryption.models.asPrivateKey
@@ -26,9 +25,6 @@ import javax.crypto.spec.PBEKeySpec
 
 actual object HybridCryptor {
 
-  private val randomIV: ByteArray
-    get() = SecureRandom().generateSeed(AesGcmIVLength)
-
   private val aesGenerator = KeyGenerator.getInstance(Aes)
   private val aesCipher = Cipher.getInstance(AesGcm)
 
@@ -43,87 +39,73 @@ actual object HybridCryptor {
     return rsaGenerator.generateKeyPair().asAsymmetricKey()
   }
 
-  actual fun generateSymmetricKey(): SymmetricKey {
+  actual fun generatePasswordSymmetricKey(): SymmetricKey {
     aesGenerator.init(AesKeySize)
     return aesGenerator.generateKey().asSymmetricKey()
   }
 
-  actual fun generateSymmetricKey(password: String, salt: ByteArray): SymmetricKey {
+  actual fun generateRandomIV(): ByteArray = SecureRandom().generateSeed(AesGcmIVLength)
+
+  actual fun generateSalt(): ByteArray = SecureRandom().generateSeed(AesSaltSize)
+
+  actual fun generatePasswordSymmetricKey(
+    password: String,
+    salt: ByteArray,
+  ): SymmetricKey {
     val spec = PBEKeySpec(password.toCharArray(), salt, PBKDF2IterationsCount, AesKeySize)
     return keyFactory.generateSecret(spec).asSymmetricKey()
   }
 
-  actual fun encryptDataBySymmetricKey(
-    data: ByteArray,
+  actual fun encryptBySymmetricKey(
+    plaintext: ByteArray,
     key: SymmetricKey,
-    ivSeed: String?,
-  ): CipherData {
-    val iv = ivSeed?.sha256?.copyOfRange(0, AesGcmIVLength) ?: randomIV
+    iv: ByteArray,
+  ): SymmetricCipherData {
     val spec = GCMParameterSpec(AesGcmTagLengthBits, iv)
 
     aesCipher.init(Cipher.ENCRYPT_MODE, key.asSecretKey(), spec)
-    val output = aesCipher.doFinal(data)
+    val output = aesCipher.doFinal(plaintext)
 
     val ciphertext = output.copyOfRange(0, output.size - AesGcmTagLength)
     val tag = output.copyOfRange(output.size - AesGcmTagLength, output.size)
 
-    return CipherData(
+    return SymmetricCipherData(
       ciphertext = ciphertext,
       iv = iv,
       tag = tag,
     )
   }
 
-  actual fun decryptDataBySymmetricKey(
-    data: CipherData,
+  actual fun decryptBySymmetricKey(
+    cipherData: SymmetricCipherData,
     key: SymmetricKey,
   ): ByteArray {
-    val spec = GCMParameterSpec(AesGcmTagLengthBits, data.iv)
+    val spec = GCMParameterSpec(AesGcmTagLengthBits, cipherData.iv)
 
     aesCipher.init(Cipher.DECRYPT_MODE, key.asSecretKey(), spec)
 
-    return aesCipher.doFinal(data.ciphertext + data.tag)
+    return aesCipher.doFinal(cipherData.ciphertext + cipherData.tag)
   }
 
-  actual fun encryptDataByAsymmetricKey(data: ByteArray, key: AsymmetricPublicKey): ByteArray {
+  actual fun encryptByAsymmetricKey(plaintext: ByteArray, key: AsymmetricPublicKey): ByteArray {
     rsaCipher.init(Cipher.ENCRYPT_MODE, key.asPublicKey())
-    return rsaCipher.doFinal(data)
+    return rsaCipher.doFinal(plaintext)
   }
 
-  actual fun decryptDataByAsymmetricKey(data: ByteArray, key: AsymmetricPrivateKey): ByteArray {
+  actual fun decryptByAsymmetricKey(ciphertext: ByteArray, key: AsymmetricPrivateKey): ByteArray {
     rsaCipher.init(Cipher.DECRYPT_MODE, key.asPrivateKey())
-    return rsaCipher.doFinal(data)
+    return rsaCipher.doFinal(ciphertext)
   }
-
-  actual fun encryptPrivateKeyBySymmetricKey(
-    data: AsymmetricPrivateKey,
-    key: SymmetricKey,
-    ivSeed: String?,
-  ): CipherData = encryptDataBySymmetricKey(data.raw, key, ivSeed)
 
   actual fun decryptAsymmetricKeyBySymmetricKey(
-    data: CipherData,
+    cipherData: SymmetricCipherData,
     key: SymmetricKey
   ): AsymmetricKey {
-    val privateKeyBytes = decryptDataBySymmetricKey(data, key)
+    val privateKeyBytes = decryptBySymmetricKey(cipherData, key)
     val privateKey =
       rsaFactory.generatePrivate(PKCS8EncodedKeySpec(privateKeyBytes)) as RSAPrivateCrtKey
     val publicKey =
       rsaFactory.generatePublic(RSAPublicKeySpec(privateKey.modulus, privateKey.publicExponent))
     return KeyPair(publicKey, privateKey).asAsymmetricKey()
-  }
-
-  actual fun encryptSymmetricKeyByPublicKey(
-    data: SymmetricKey,
-    key: AsymmetricPublicKey
-  ): ByteArray {
-    return encryptDataByAsymmetricKey(data.raw, key)
-  }
-
-  actual fun decryptSymmetricKeyByPrivateKey(
-    data: ByteArray,
-    key: AsymmetricPrivateKey
-  ): SymmetricKey {
-    return SymmetricKey(decryptDataByAsymmetricKey(data, key))
   }
 }

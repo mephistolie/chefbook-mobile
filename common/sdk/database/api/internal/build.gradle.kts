@@ -9,14 +9,12 @@ plugins {
 kotlin {
   sourceSets {
     commonMain.dependencies {
-      api(projects.common.libs.logger)
+      api(projects.common.libs.logging)
 
       api(libs.androidx.datastore.core.okio)
     }
   }
 }
-
-android.namespace = modulePackage
 
 sqldelight {
   databases {

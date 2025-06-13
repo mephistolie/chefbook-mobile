@@ -7,7 +7,7 @@ plugins {
 kotlin {
   sourceSets {
     commonMain.dependencies {
-      implementation(projects.common.libs.logger)
+      implementation(projects.common.libs.logging)
     }
 
     compilerOptions {
@@ -18,5 +18,3 @@ kotlin {
     }
   }
 }
-
-android.namespace = "io.chefbook.libs.utils"

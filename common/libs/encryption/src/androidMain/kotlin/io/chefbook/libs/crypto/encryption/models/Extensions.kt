@@ -8,19 +8,19 @@ import java.security.spec.X509EncodedKeySpec
 import javax.crypto.SecretKey
 import javax.crypto.spec.SecretKeySpec
 
-fun SymmetricKey.asSecretKey() =
+internal fun SymmetricKey.asSecretKey() =
   SecretKeySpec(raw, Aes)
 
-fun SecretKey.asSymmetricKey() =
+internal fun SecretKey.asSymmetricKey() =
   SymmetricKey(encoded)
 
-fun KeyPair.asAsymmetricKey() = AsymmetricKey(
+internal fun KeyPair.asAsymmetricKey() = AsymmetricKey(
   public = AsymmetricPublicKey(public.encoded),
   private = AsymmetricPrivateKey(private.encoded),
 )
 
-fun AsymmetricPublicKey.asPublicKey() =
+internal fun AsymmetricPublicKey.asPublicKey() =
   rsaFactory.generatePublic(X509EncodedKeySpec(raw))
 
-fun AsymmetricPrivateKey.asPrivateKey() =
+internal fun AsymmetricPrivateKey.asPrivateKey() =
   rsaFactory.generatePrivate(PKCS8EncodedKeySpec(raw))

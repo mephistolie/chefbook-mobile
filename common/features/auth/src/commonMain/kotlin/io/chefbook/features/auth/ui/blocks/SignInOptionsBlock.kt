@@ -2,10 +2,10 @@ package io.chefbook.features.auth.ui.blocks
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.runtime.Composable
-import io.chefbook.design.icons.ChefBookIcons
-import io.chefbook.design.icons.Google
-import io.chefbook.design.icons.SyncOff
-import io.chefbook.design.icons.VK
+import io.chefbook.ui.design.icons.ChefBookIcons
+import io.chefbook.ui.design.icons.Google
+import io.chefbook.ui.design.icons.SyncOff
+import io.chefbook.ui.design.icons.VK
 import io.chefbook.features.auth.ui.components.SignInOptionButton
 
 @Composable

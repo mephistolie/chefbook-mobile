@@ -38,7 +38,7 @@ class ChefBookClientFactory(
     Logging {
       logger = object : io.ktor.client.plugins.logging.Logger {
         override fun log(message: String) =
-          Logger.v(message.replace("%", ""))
+          Logger.v { message.replace("%", "") }
       }
       level = if (isDevelop) LogLevel.BODY else LogLevel.NONE
     }

@@ -5,7 +5,7 @@
 ## Project Configuration
 
 kotlin = "2.1.21"
-ksp = "2.1.21-2.0.1"
+ksp = "2.1.21-2.0.2"
 
 ## Libs
 
@@ -14,10 +14,14 @@ ksp = "2.1.21-2.0.1"
 kotlinx-coroutines = "1.10.2"
 kotlinx-datetime = "0.6.2"
 
+### Logging
+
+napier = "2.7.1"
+
 ### Input / Output
 
-ktor = "3.1.1"
-okio = "3.10.2"
+ktor = "3.1.2"
+okio = "3.11.0"
 
 ### Storage
 
@@ -129,6 +133,10 @@ kotlinx-datetime = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime",
 
 kotlinx-serialization = { group = "org.jetbrains.kotlin", name = "kotlin-serialization", version.ref = "kotlin" }
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlin" }
+
+### Logging
+
+napier = { group = "io.github.aakira", name = "napier", version.ref = "napier" }
 
 ### Input / Output
 
@@ -272,6 +280,7 @@ composeCompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "k
 
 android-application = { id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
+android-library-multiplatform = { id = "com.android.kotlin.multiplatform.library", version.ref = "agp" }
 
 swiftKLib = { id = "io.github.ttypic.swiftklib", version.ref = "swiftKLib" }
 

@@ -7,7 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import io.chefbook.core.compose.providers.theme.LocalTheme
+import io.chefbook.ui.utils.compose.providers.theme.LocalTheme
 import io.chefbook.features.auth.Res
 import io.chefbook.features.auth.commonAuthScreenPasswordResetMail
 import io.chefbook.features.auth.ui.mvi.AuthScreenIntent

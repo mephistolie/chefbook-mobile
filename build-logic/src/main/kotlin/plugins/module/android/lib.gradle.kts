@@ -15,7 +15,7 @@ configureAndroidCommon()
 enableExplicitBackingFields()
 
 dependencies {
-  implementation(project(":common:libs:logger"))
+  implementation(project(":common:libs:logging"))
   implementation(project(":common:libs:coroutines"))
   implementation(project(":common:libs:utils"))
 }

@@ -8,7 +8,7 @@ abstract class DatabaseDataSource {
     try {
       block()
     } catch (e: Exception) {
-      Logger.e(e, "Exception during SQL query")
+      Logger.e(e) { "Exception during SQL query" }
       Result.failure(e)
     }
 
@@ -16,7 +16,7 @@ abstract class DatabaseDataSource {
     try {
       Result.success(block())
     } catch (e: Exception) {
-      Logger.e(e, "Exception during SQL query")
+      Logger.e(e) { "Exception during SQL query" }
       Result.failure(e)
     }
 }

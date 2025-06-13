@@ -11,7 +11,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import io.chefbook.core.compose.providers.theme.LocalTheme
+import io.chefbook.ui.utils.compose.providers.theme.LocalTheme
 
 @Composable
 fun MenuScreen(

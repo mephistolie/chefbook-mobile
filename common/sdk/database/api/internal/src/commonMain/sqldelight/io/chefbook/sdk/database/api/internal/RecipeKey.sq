@@ -1,0 +1,30 @@
+CREATE TABLE recipeKeys (
+    recipeId TEXT NOT NULL,
+    profileId TEXT NOT NULL,
+    encryptedKey TEXT NOT NULL,
+    FOREIGN KEY (recipeId) REFERENCES recipes(recipeId) ON DELETE CASCADE,
+    FOREIGN KEY (profileId) REFERENCES profiles(profileId) ON DELETE CASCADE,
+    UNIQUE(recipeId, profileId)
+);
+
+select:
+SELECT
+    encryptedKey
+FROM recipeKeys
+WHERE profileId = ? AND recipeId = ?;
+
+insert:
+INSERT INTO recipeKeys (
+    recipeId,
+    profileId,
+    encryptedKey
+)
+VALUES ?;
+
+delete:
+DELETE FROM recipeKeys
+WHERE profileId = ? AND recipeId = ?;
+
+deleteAll:
+DELETE FROM recipeKeys
+WHERE profileId = ?;

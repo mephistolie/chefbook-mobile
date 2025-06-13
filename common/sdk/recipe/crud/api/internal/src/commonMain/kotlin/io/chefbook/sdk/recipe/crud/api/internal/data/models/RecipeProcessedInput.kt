@@ -21,8 +21,9 @@ sealed class RecipeProcessedInput(
   open val calories: Int?,
   open val macronutrients: Recipe.Macronutrients?,
 
-  open val version: Int,
+  open val originalVersion: Int?,
 ) {
+  val targetVersion = originalVersion ?: 1
 
   data class Decrypted(
     override val id: String,
@@ -37,7 +38,7 @@ sealed class RecipeProcessedInput(
     override val calories: Int?,
     override val macronutrients: Recipe.Macronutrients?,
 
-    override val version: Int,
+    override val originalVersion: Int?,
 
     val name: String,
     val description: String?,
@@ -57,7 +58,7 @@ sealed class RecipeProcessedInput(
     calories = calories,
     macronutrients = macronutrients,
 
-    version = version,
+    originalVersion = originalVersion,
   ) {
     val pictures
       get() = RecipeInput.Pictures(
@@ -79,7 +80,7 @@ sealed class RecipeProcessedInput(
     override val calories: Int?,
     override val macronutrients: Recipe.Macronutrients?,
 
-    override val version: Int,
+    override val originalVersion: Int?,
 
     val name: String,
     val description: String?,
@@ -99,6 +100,6 @@ sealed class RecipeProcessedInput(
     calories = calories,
     macronutrients = macronutrients,
 
-    version = version,
+    originalVersion = originalVersion,
   )
 }

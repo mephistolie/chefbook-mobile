@@ -4,7 +4,7 @@ import io.chefbook.libs.models.language.LanguageMapper
 import io.chefbook.libs.models.profile.ProfileInfo
 import io.chefbook.libs.models.visibility.Visibility
 import io.chefbook.sdk.database.api.internal.GetCollections
-import io.chefbook.sdk.database.api.internal.Select
+import io.chefbook.sdk.database.api.`internal`.recipe.Select
 import io.chefbook.sdk.database.api.internal.recipe.SelectAll
 import io.chefbook.sdk.database.api.internal.toBoolean
 import io.chefbook.sdk.database.api.internal.toLong
@@ -201,7 +201,8 @@ fun Recipe.toDto() =
 
       ingredients = Json.encodeToString(ingredients.map(Recipe.Decrypted.IngredientsItem::toSerializable)),
       cooking = Json.encodeToString(cooking.map(Recipe.Decrypted.CookingItem::toSerializable)),
-      pictures = Json.encodeToString(cooking
+      pictures = Json.encodeToString(
+        cooking
         .filterIsInstance<Recipe.Decrypted.CookingItem.Step>()
         .associate { it.id to it.pictures }
         .let { cooking ->

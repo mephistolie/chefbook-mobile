@@ -9,10 +9,8 @@ kotlin {
 
       implementation(projects.common.sdk.auth.api.internal)
       implementation(projects.common.sdk.recipe.core.api.internal)
-
-      implementation(projects.common.libs.io)
+      implementation(projects.common.sdk.file.api.internal)
     }
   }
 }
 
-android.namespace = "io.chefbook.sdk.encryption.recipe.impl"

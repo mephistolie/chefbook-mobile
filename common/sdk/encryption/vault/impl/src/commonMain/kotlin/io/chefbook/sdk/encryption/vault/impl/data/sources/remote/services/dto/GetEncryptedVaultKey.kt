@@ -7,4 +7,6 @@ import kotlinx.serialization.Serializable
 internal data class GetEncryptedVaultKeyResponse(
   @SerialName("key")
   val key: String? = null,
+  @SerialName("salt")
+  val passwordSalt: String? = null,
 )

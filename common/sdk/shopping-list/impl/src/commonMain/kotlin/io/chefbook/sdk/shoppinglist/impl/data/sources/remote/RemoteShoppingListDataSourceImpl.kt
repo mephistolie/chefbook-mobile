@@ -1,7 +1,7 @@
 package io.chefbook.sdk.shoppinglist.impl.data.sources.remote
 
 import io.chefbook.libs.utils.result.asEmpty
-import io.chefbook.libs.utils.result.withListCast
+import io.chefbook.libs.utils.result.map
 import io.chefbook.sdk.network.api.internal.service.dto.responses.VersionResponse
 import io.chefbook.sdk.shoppinglist.api.external.domain.entities.Purchase
 import io.chefbook.sdk.shoppinglist.api.external.domain.entities.ShoppingList
@@ -16,7 +16,7 @@ internal class RemoteShoppingListDataSourceImpl(
 ) : RemoteShoppingListDataSource {
 
   override suspend fun getShoppingLists() =
-    api.getShoppingLists().withListCast(ShoppingListMetaSerializable::toEntity)
+    api.getShoppingLists().map(ShoppingListMetaSerializable::toEntity)
 
   override suspend fun getShoppingList(shoppingListId: String): Result<ShoppingList> =
     api.getShoppingList(shoppingListId).map(ShoppingListSerializable::toEntity)

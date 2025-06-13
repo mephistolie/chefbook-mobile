@@ -14,9 +14,9 @@ interface EncryptedVaultRepository {
 
   suspend fun refreshEncryptedVaultState(isEnabled: Boolean): EmptyResult
 
-  suspend fun createEncryptedVault(password: String, salt: ByteArray): EmptyResult
+  suspend fun createEncryptedVault(password: String): EmptyResult
 
-  suspend fun unlockEncryptedVault(password: String, salt: ByteArray): EmptyResult
+  suspend fun unlockEncryptedVault(password: String): EmptyResult
 
   suspend fun lockEncryptedVault(): EmptyResult
 

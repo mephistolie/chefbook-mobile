@@ -1,52 +1,55 @@
 package io.chefbook.sdk.encryption.recipe.impl.data.sources.local
 
-import io.chefbook.libs.io.IOProvider
-import io.chefbook.libs.exceptions.NotFoundException
 import io.chefbook.libs.utils.result.EmptyResult
-import io.chefbook.libs.utils.result.successResult
-import okio.BufferedSource
-import okio.Path
+import io.chefbook.sdk.database.api.internal.ChefBookDatabase
+import io.chefbook.sdk.database.api.internal.DatabaseDataSource
+import io.chefbook.sdk.database.api.internal.RecipeKeys
+import io.ktor.util.decodeBase64Bytes
+import io.ktor.util.encodeBase64
 
 internal class LocalRecipeEncryptionSourceImpl(
-  profileId: String,
-  io: IOProvider,
-) : LocalRecipeEncryptionSource {
+  private val profileId: String,
+  database: ChefBookDatabase,
+) : DatabaseDataSource(), LocalRecipeEncryptionSource {
 
-  private val files = io.fileSystem
-  private val encryptionDir = io.filesDir.resolve("encryption/$profileId/recipes")
+  private val queries = database.recipeKeyQueries
 
-  override suspend fun getRecipeKey(recipeId: String): Result<ByteArray> {
-    val recipeKeyFile = getRecipeKeyPath(recipeId)
-    if (!files.exists(recipeKeyFile)) return Result.failure(NotFoundException())
-    return Result.success(files.read(recipeKeyFile, BufferedSource::readByteArray))
+  override suspend fun getRecipeKey(recipeId: String): Result<ByteArray> = safeQueryResult {
+    queries.select(
+      profileId = profileId,
+      recipeId = recipeId,
+    ).executeAsOne().decodeBase64Bytes()
   }
 
-  override suspend fun setRecipeKey(recipeId: String, key: ByteArray): EmptyResult {
-    return runCatching {
-      deleteRecipeKey(recipeId)
-
-      if (!files.exists(encryptionDir)) files.createDirectories(encryptionDir)
-
-      val recipeKeyFile = getRecipeKeyPath(recipeId)
-      files.write(recipeKeyFile) { write(key) }
-
-      successResult
+  override suspend fun setRecipeKey(
+    recipeId: String,
+    encryptedKey: ByteArray,
+  ): EmptyResult  = safeQueryResult {
+    return@safeQueryResult queries.transaction {
+      queries.delete(
+        profileId = profileId,
+        recipeId = recipeId,
+      )
+      queries.insert(
+        recipeKeys = RecipeKeys(
+          profileId = profileId,
+          recipeId = recipeId,
+          encryptedKey = encryptedKey.encodeBase64(),
+        )
+      )
     }
   }
 
-  override suspend fun deleteRecipeKey(recipeId: String) = runCatching {
-    if (!files.exists(encryptionDir)) successResult
-    val recipeKeyFile = getRecipeKeyPath(recipeId)
-    if (files.exists(recipeKeyFile)) {
-      files.deleteRecursively(recipeKeyFile)
-    }
+  override suspend fun deleteRecipeKey(recipeId: String): EmptyResult = safeQueryResult {
+    queries.delete(
+      profileId = profileId,
+      recipeId = recipeId,
+    )
   }
 
-  override suspend fun clear() = runCatching {
-    if (files.exists(encryptionDir)) files.deleteRecursively(encryptionDir)
-  }
-
-  private fun getRecipeKeyPath(recipeId: String): Path {
-    return encryptionDir.resolve(recipeId)
+  override suspend fun clear(): EmptyResult = safeQueryResult {
+    queries.deleteAll(
+      profileId = profileId,
+    )
   }
 }

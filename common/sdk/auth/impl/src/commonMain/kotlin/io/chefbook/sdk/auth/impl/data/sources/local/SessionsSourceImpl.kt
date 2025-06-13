@@ -40,14 +40,14 @@ internal class SessionsSourceImpl(
         currentProfileId = if (current) session.profileId else sessionsInfo.currentProfileId,
       )
     }
-    Logger.i("Tokens updated for profile ${session.profileId}")
+    Logger.i { "Tokens updated for profile ${session.profileId}" }
   }
 
   override suspend fun setCurrentProfile(profileId: String?) {
     dataStore.updateData { sessionsInfo ->
       sessionsInfo.copy(currentProfileId = profileId)
     }
-    Logger.i("Switch current profile to $profileId")
+    Logger.i { "Switch current profile to $profileId" }
   }
 
   override suspend fun endSession(profileId: String): String? {
@@ -66,7 +66,7 @@ internal class SessionsSourceImpl(
         },
       )
     }
-    Logger.i("Tokens cleared for profile $profileId")
+    Logger.i { "Tokens cleared for profile $profileId" }
     return refreshToken
   }
 

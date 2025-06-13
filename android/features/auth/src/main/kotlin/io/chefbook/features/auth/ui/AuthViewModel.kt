@@ -1,12 +1,10 @@
 package io.chefbook.features.auth.ui
 
 import android.content.Context
-import io.chefbook.features.auth.R
 import io.chefbook.features.auth.data.oauth.GoogleAuthenticator
 import io.chefbook.features.auth.ui.mvi.AuthScreenEffect
 import io.chefbook.features.auth.ui.mvi.AuthScreenIntent
 import io.chefbook.features.auth.ui.mvi.AuthScreenState
-import io.chefbook.libs.exceptions.ServerException
 import io.chefbook.libs.logger.Logger
 import io.chefbook.libs.models.profile.ProfileInfo
 import io.chefbook.libs.mvi.BaseMviViewModel
@@ -23,7 +21,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import org.koin.core.component.KoinComponent
 import org.koin.core.scope.Scope
-import io.chefbook.core.R as CoreR
 
 internal class AuthViewModel(
   private var userId: String = "",
@@ -260,7 +257,7 @@ internal class AuthViewModel(
             googleAuthenticator.clearCredentialState()
           }
       }
-      .onFailure { e -> Logger.e(e, "Google sign in failed") }
+      .onFailure { e -> Logger.e(e) { "Google sign in failed" } }
     _state.emit(getSignInState())
   }
 

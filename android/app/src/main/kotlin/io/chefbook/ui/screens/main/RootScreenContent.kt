@@ -12,9 +12,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
-import io.chefbook.core.compose.providers.theme.LocalTheme
-import io.chefbook.design.theme.ChefBookTheme
-import io.chefbook.design.theme.colors.Monochrome7
+import io.chefbook.ui.utils.compose.providers.theme.LocalTheme
+import io.chefbook.ui.design.theme.ChefBookTheme
+import io.chefbook.ui.design.theme.colors.Monochrome7
 import io.chefbook.features.auth.ui.AuthScreen
 import io.chefbook.features.root.RootComponent
 import io.chefbook.sdk.settings.api.external.domain.entities.AppTheme

@@ -12,11 +12,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import io.chefbook.core.compose.modifiers.clickable.simpleClickable
-import io.chefbook.core.compose.providers.theme.LocalTheme
-import io.chefbook.design.icons.ArrowStart
-import io.chefbook.design.icons.ChefBookIcons
-import io.chefbook.design.theme.dimens.IconSize24
+import io.chefbook.ui.utils.compose.modifiers.clickable.simpleClickable
+import io.chefbook.ui.utils.compose.providers.theme.LocalTheme
+import io.chefbook.ui.design.icons.ArrowStart
+import io.chefbook.ui.design.icons.ChefBookIcons
+import io.chefbook.ui.design.theme.dimens.IconSize24
 
 @Composable
 fun AuthFormToolbar(

@@ -16,7 +16,7 @@ kotlin {
       implementation(project(":common:libs:di"))
       implementation(project(":common:libs:coroutines"))
       implementation(project(":common:libs:exceptions"))
-      implementation(project(":common:libs:logger"))
+      implementation(project(":common:libs:logging"))
 
       implementation(libs.di.koin.core)
       implementation(libs.network.ktor.client.serialization)

@@ -19,9 +19,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import io.chefbook.core.commonGeneralEula
-import io.chefbook.core.compose.providers.theme.LocalTheme
-import io.chefbook.design.components.texts.HyperlinkText
+import io.chefbook.ui.utils.commonGeneralEula
+import io.chefbook.ui.utils.compose.providers.theme.LocalTheme
+import io.chefbook.ui.design.components.texts.HyperlinkText
 import io.chefbook.features.auth.Res
 import io.chefbook.features.auth.commonAuthScreenAgreement
 import io.chefbook.features.auth.ui.blocks.AnimatedAuthForm
@@ -38,7 +38,7 @@ import io.chefbook.features.auth.ui.components.ChefBookLogo
 import io.chefbook.features.auth.ui.mvi.AuthScreenIntent
 import io.chefbook.features.auth.ui.mvi.AuthScreenState
 import org.jetbrains.compose.resources.stringResource
-import io.chefbook.core.Res as CoreR
+import io.chefbook.ui.utils.Res as CoreR
 
 @Composable
 fun AuthScreenContent(

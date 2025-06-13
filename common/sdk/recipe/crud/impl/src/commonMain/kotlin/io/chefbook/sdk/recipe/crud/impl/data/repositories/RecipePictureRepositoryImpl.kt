@@ -1,6 +1,7 @@
 package io.chefbook.sdk.recipe.crud.impl.data.repositories
 
 import io.chefbook.libs.crypto.encryption.HybridCryptor
+import io.chefbook.libs.crypto.encryption.generateIV
 import io.chefbook.libs.crypto.encryption.models.SymmetricKey
 import io.chefbook.libs.logger.Logger
 import io.chefbook.libs.utils.result.EmptyResult
@@ -160,19 +161,25 @@ internal class RecipePictureRepositoryImpl(
 
     val pictureResult = files.getFile(finalSource)
       .onFailure { e ->
-        Logger.e(e, "Picture not found: $finalSource")
+        Logger.e(e) { "Picture not found: $finalSource" }
         return Result.failure(e)
       }
 
     var picture = pictureResult.getOrThrow()
-    if (key != null) picture = HybridCryptor.encryptDataBySymmetricKey(picture, key)
+    if (key != null) {
+      picture = HybridCryptor.encryptBySymmetricKey(
+        plaintext = picture,
+        key = key,
+        iv = HybridCryptor.generateIV(upload.picturePath),
+      ).combinedData
+    }
 
     return files.uploadFile(upload.uploadPath, picture, upload.meta)
       .onSuccess {
         doOnSuccess(RecipeInput.Picture.Uploaded(path = upload.picturePath))
-        Logger.i("File $finalSource uploaded to ${upload.uploadPath}")
+        Logger.i { "File $finalSource uploaded to ${upload.uploadPath}" }
       }
-      .onFailure { e -> Logger.e(e, "Unable to upload file $finalSource") }
+      .onFailure { e -> Logger.e(e) { "Unable to upload file $finalSource" } }
   }
 }
 

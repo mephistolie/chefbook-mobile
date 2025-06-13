@@ -38,8 +38,7 @@ fun sdkEncryptedVaultModule() = module {
       getProperty<String>("")
       LocalEncryptedVaultSourceImpl(
         profileId = get<ProfileComponent>().profileId,
-        io = get(),
-        dispatchers = get(),
+        database = get(),
       )
     }
 
@@ -51,6 +50,7 @@ fun sdkEncryptedVaultModule() = module {
 
     scoped<EncryptedVaultRepository> {
       EncryptedVaultRepositoryImpl(
+        profileId = get<ProfileComponent>().profileId,
         localSource = get(named(DataSource.LOCAL)),
         remoteSource = get(named(DataSource.REMOTE)),
         sources = get(),
@@ -59,20 +59,8 @@ fun sdkEncryptedVaultModule() = module {
       )
     }
 
-    factory<CreateEncryptedVaultUseCase> {
-      CreateEncryptedVaultUseCaseImpl(
-        profileId = get<ProfileComponent>().profileId,
-        encryptionRepository = get(),
-      )
-    }
-
-    factory<UnlockEncryptedVaultUseCase> {
-      UnlockEncryptedVaultUseCaseImpl(
-        profileId = get<ProfileComponent>().profileId,
-        encryptionRepository = get(),
-      )
-    }
-
+    factoryOf(::CreateEncryptedVaultUseCaseImpl) bind CreateEncryptedVaultUseCase::class
+    factoryOf(::UnlockEncryptedVaultUseCaseImpl) bind UnlockEncryptedVaultUseCase::class
     factoryOf(::ObserveEncryptedVaultStateUseCaseImpl) bind ObserveEncryptedVaultStateUseCase::class
     factoryOf(::GetEncryptedVaultStateUseCaseImpl) bind GetEncryptedVaultStateUseCase::class
     factoryOf(::LockEncryptedVaultUseCaseImpl) bind LockEncryptedVaultUseCase::class

@@ -1,5 +1,7 @@
 package io.chefbook.libs.utils.result
 
+import kotlin.collections.map
+
 typealias EmptyResult = Result<Unit>
 
 val successResult = Result.success(Unit)
@@ -16,12 +18,7 @@ suspend inline fun <T> Result<T>.onSuccess(action: suspend (T) -> Unit): Result<
   return this
 }
 
-suspend inline fun <T> Result<T>.onFailure(action: suspend (exception: Throwable) -> Unit): Result<T> {
-  exceptionOrNull()?.let { action(it) }
-  return this
-}
-
-fun <T, R> Result<List<T>>.withListCast(cast: (T) -> R): Result<List<R>> = fold(
-  onSuccess = { Result.success(it.map(cast)) },
+fun <T, R> Result<List<T>>.map(transform: (T) -> R): Result<List<R>> = fold(
+  onSuccess = { Result.success(it.map(transform)) },
   onFailure = { e -> Result.failure(e) }
 )

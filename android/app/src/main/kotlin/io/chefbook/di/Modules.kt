@@ -23,7 +23,6 @@ import io.chefbook.features.auth.di.featureAuthModule
 //import io.chefbook.features.settings.di.featureSettingsModule
 //import io.chefbook.features.shoppinglist.control.di.featureShoppingListModule
 //import io.chefbook.features.shoppinglist.purchases.input.di.featurePurchaseInputModule
-import io.chefbook.libs.io.di.libIOModule
 import io.chefbook.sdk.auth.impl.di.sdkAuthModule
 import io.chefbook.sdk.collection.impl.di.sdkCollectionModule
 import io.chefbook.sdk.core.impl.di.sdkCoreModule
@@ -44,10 +43,6 @@ import io.chefbook.sdk.tag.impl.di.sdkTagModule
 import org.koin.core.module.Module
 
 object Modules {
-
-  fun lib() = listOf(
-    libIOModule(),
-  )
 
   fun sdk() = listOf(
     sdkCoreModule(),
@@ -116,8 +111,7 @@ object Modules {
       shoppingList()
   }
 
-  fun all() = lib() +
-    sdk() +
+  fun all() = sdk() +
     Features.all() +
     appModule()
 }

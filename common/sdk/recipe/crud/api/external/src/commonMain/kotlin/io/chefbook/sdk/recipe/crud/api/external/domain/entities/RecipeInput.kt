@@ -25,7 +25,7 @@ data class RecipeInput(
   val ingredients: List<IngredientsItem>,
   val cooking: List<CookingItem>,
 
-  val version: Int,
+  val version: Int?,
 ) {
 
   val pictures
@@ -103,7 +103,7 @@ data class RecipeInput(
     fun new(language: Language = Language.ENGLISH) = RecipeInput(
       id = generateUUID(),
       name = "",
-      visibility = Visibility.PRIVATE,
+      visibility = Visibility.Private,
       hasEncryption = false,
       language = language,
       description = null,
@@ -118,7 +118,7 @@ data class RecipeInput(
       ingredients = listOf(IngredientsItem.Ingredient(id = generateUUID(), name = "")),
       cooking =  listOf(CookingItem.Step()),
 
-      version = 1,
+      version = null,
     )
   }
 }

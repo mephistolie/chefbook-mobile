@@ -14,10 +14,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import io.chefbook.core.compose.providers.theme.LocalTheme
-import io.chefbook.design.theme.ChefBookTheme
-import io.chefbook.design.theme.dimens.IconSize48
-import io.chefbook.design.theme.shapes.SmoothCornerShape16
+import io.chefbook.ui.utils.compose.providers.theme.LocalTheme
+import io.chefbook.ui.design.theme.ChefBookTheme
+import io.chefbook.ui.design.theme.dimens.IconSize48
+import io.chefbook.ui.design.theme.shapes.SmoothCornerShape16
 
 @Composable
 fun LoadingDialog() {

@@ -19,9 +19,9 @@ internal class FileRepositoryImpl(
       local.getFile(path)
     }
     if (result.isSuccess) {
-      Logger.i("Got file $path")
+      Logger.i { "Got file $path" }
     } else {
-      Logger.e("Unable to get file $path", result.getOrThrow())
+      Logger.e(result.exceptionOrNull()) { "Unable to get file $path"  }
     }
 
     return result

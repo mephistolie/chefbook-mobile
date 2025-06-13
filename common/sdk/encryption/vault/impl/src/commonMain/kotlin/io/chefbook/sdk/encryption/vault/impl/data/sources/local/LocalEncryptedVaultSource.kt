@@ -5,5 +5,8 @@ import io.chefbook.sdk.encryption.vault.impl.data.sources.EncryptedVaultSource
 
 internal interface LocalEncryptedVaultSource : EncryptedVaultSource {
 
-  suspend fun setEncryptedVaultKey(privateKey: ByteArray): EmptyResult
+  suspend fun setEncryptedVaultKey(
+    encryptedPrivateKey: ByteArray,
+    passwordSalt: ByteArray,
+  ): EmptyResult
 }

@@ -21,22 +21,23 @@ internal class UpdateRecipeUseCaseImpl(
   private val dispatchers: AppDispatchers,
 ) : UpdateRecipeUseCase {
 
-  override suspend operator fun invoke(input: RecipeInput): EmptyResult = withContext(dispatchers.computation) {
-    val recipeKey: SymmetricKey? = if (input.hasEncryption) {
-      getRecipeKey(input.id)
-        .onFailure { e -> return@withContext Result.failure(e) }
-        .getOrNull()
-    } else {
-      null
+  override suspend operator fun invoke(input: RecipeInput): EmptyResult =
+    withContext(dispatchers.computation) {
+      val recipeKey: SymmetricKey? = if (input.hasEncryption) {
+        getRecipeKey(input.id)
+          .onFailure { e -> return@withContext Result.failure(e) }
+          .getOrNull()
+      } else {
+        null
+      }
+
+      val updateRecipeResult = recipeRepository.updateRecipe(input, recipeKey)
+      if (updateRecipeResult.isFailure) return@withContext Result.failure(updateRecipeResult.exceptionOrNull()!!)
+
+      pictureRepository.uploadRecipePictures(input.id, input.pictures, recipeKey)
+
+      return@withContext successResult
     }
-
-    val updateRecipeResult = recipeRepository.updateRecipe(input, recipeKey)
-    if (updateRecipeResult.isFailure) return@withContext Result.failure(updateRecipeResult.exceptionOrNull()!!)
-
-    pictureRepository.uploadRecipePictures(input.id, input.pictures, recipeKey)
-
-    return@withContext successResult
-  }
 
   private suspend inline fun getRecipeKey(recipeId: String): Result<SymmetricKey> =
     vaultRepository.getVaultPrivateKey()

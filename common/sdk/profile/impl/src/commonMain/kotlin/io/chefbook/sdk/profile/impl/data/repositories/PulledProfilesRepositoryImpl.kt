@@ -1,7 +1,6 @@
 package io.chefbook.sdk.profile.impl.data.repositories
 
 import io.chefbook.libs.models.auth.LOCAL_PROFILE_ID
-import io.chefbook.libs.utils.result.onFailure
 import io.chefbook.sdk.profile.api.external.domain.entities.Profile
 import io.chefbook.sdk.profile.impl.data.sources.local.LocalProfilesSource
 import io.chefbook.sdk.profile.impl.data.sources.remote.RemoteProfilesSource

@@ -9,9 +9,6 @@ kotlin {
   sourceSets {
     commonMain.dependencies {
       implementation(projects.common.libs.utils)
-      implementation(projects.common.libs.utils)
-    }
-    androidMain.dependencies {
     }
     iosMain.dependencies {
       implementation(libs.cryptographyKotlin.asn1)
@@ -40,9 +37,11 @@ kotlin {
       )
     }
   }
-}
 
-android.namespace = "io.chefbook.libs.crypto"
+  androidLibrary {
+    withHostTestBuilder {}
+  }
+}
 
 swiftklib {
   create("swift") {

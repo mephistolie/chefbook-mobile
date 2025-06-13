@@ -1,7 +1,7 @@
 package io.chefbook.sdk.file.impl.data.sources.local
 
 import io.chefbook.libs.coroutines.AppDispatchers
-import io.chefbook.libs.io.IOProvider
+import io.chefbook.sdk.file.api.internal.io.IOProvider
 import io.chefbook.libs.exceptions.NotFoundException
 import io.chefbook.libs.utils.result.EmptyResult
 import io.chefbook.libs.utils.result.successResult

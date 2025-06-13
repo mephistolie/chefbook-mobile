@@ -4,7 +4,6 @@ import io.chefbook.libs.exceptions.NotFoundException
 import io.chefbook.libs.models.auth.LOCAL_PROFILE_ID
 import io.chefbook.libs.utils.result.EmptyResult
 import io.chefbook.libs.utils.result.asEmpty
-import io.chefbook.libs.utils.result.onFailure
 import io.chefbook.libs.utils.result.successResult
 import io.chefbook.sdk.auth.api.internal.data.models.Session
 import io.chefbook.sdk.auth.api.internal.data.repositories.SessionsRepository
