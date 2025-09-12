@@ -17,6 +17,7 @@ kotlin {
 }
 
 sqldelight {
+  linkSqlite = true
   databases {
     create(databaseName) {
       packageName.set(modulePackage)

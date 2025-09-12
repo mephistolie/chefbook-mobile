@@ -9,9 +9,12 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.TextFieldDefaults.contentPaddingWithoutLabel
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.VisualTransformation
 import io.chefbook.ui.utils.compose.providers.theme.LocalTheme
 import io.chefbook.ui.design.components.textfields.internal.DecorationBoxStyle
@@ -28,6 +31,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 fun OutlinedTextField(
   value: String,
   onValueChange: (String) -> Unit,
+  selection: MutableState<TextRange> = remember { mutableStateOf(TextRange.Zero) },
   modifier: Modifier = Modifier,
   enabled: Boolean = true,
   readOnly: Boolean = false,
@@ -54,6 +58,7 @@ fun OutlinedTextField(
   StandardTextField(
     value = value,
     onValueChange = onValueChange,
+    selection = selection,
     modifier = modifier,
     enabled = enabled,
     readOnly = readOnly,

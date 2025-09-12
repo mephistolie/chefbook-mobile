@@ -2,6 +2,8 @@ package io.chefbook.di
 
 //import io.chefbook.features.about.di.featureAboutModule
 import io.chefbook.features.auth.di.featureAuthModule
+import io.chefbook.features.profile.control.di.featureProfileModule
+import io.chefbook.features.root.di.featureRootModule
 //import io.chefbook.features.category.di.featureCategoryModule
 //import io.chefbook.features.community.languages.di.featureCommunityLanguagesModule
 //import io.chefbook.features.community.recipes.di.featureCommunityRecipesModule
@@ -68,8 +70,9 @@ object Modules {
 
     fun unscoped() = listOf(
 //      featureEncryptionModule(),
+      featureRootModule(),
       featureAuthModule(),
-//      featureProfileModule(),
+      featureProfileModule(),
 //      featureProfileEditingModule(),
 //      featureProfileDeletionModule(),
 //      featureSettingsModule(),

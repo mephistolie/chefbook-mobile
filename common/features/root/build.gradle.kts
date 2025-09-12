@@ -8,11 +8,16 @@ kotlin {
     commonMain.dependencies {
       implementation(projects.common.libs.di)
 
+      implementation(projects.common.sdk.settings.api.external)
+      implementation(projects.common.sdk.auth.api.external)
+
       implementation(projects.common.features.auth)
-      implementation(projects.common.features.profile)
+      implementation(projects.common.features.profile.control)
 
       implementation(libs.decompose.core)
+      implementation(libs.decompose.extensions.compose)
       implementation(libs.di.koin.core)
+      implementation(libs.di.koin.compose)
     }
   }
 }

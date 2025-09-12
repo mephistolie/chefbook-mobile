@@ -91,10 +91,6 @@ fun sdkAuthModule() = module {
   factoryOf(::ChangePasswordUseCaseImpl) bind ChangePasswordUseCase::class
   factoryOf(::RestoreProfileUseCaseImpl) bind RestoreProfileUseCase::class
 
-  includes(sdkAuthProfileModule())
-}
-
-private fun sdkAuthProfileModule() = module {
   scope<ProfileComponent> {
     scopedOf(::PasswordApiServiceImpl) bind PasswordApiService::class
 

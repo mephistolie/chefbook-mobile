@@ -8,11 +8,14 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldColors
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.VisualTransformation
 import io.chefbook.ui.utils.compose.providers.theme.LocalTheme
 
@@ -20,6 +23,7 @@ import io.chefbook.ui.utils.compose.providers.theme.LocalTheme
 internal fun StandardTextField(
   value: String,
   onValueChange: (String) -> Unit,
+  selection: MutableState<TextRange> = remember { mutableStateOf(TextRange.Zero) },
   modifier: Modifier = Modifier,
   enabled: Boolean = true,
   readOnly: Boolean = false,
@@ -50,6 +54,7 @@ internal fun StandardTextField(
   TextField(
     value = value,
     onValueChange = onValueChange,
+    selection = selection,
     enabled = enabled,
     modifier = modifier,
     readOnly = readOnly,

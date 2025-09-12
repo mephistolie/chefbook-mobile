@@ -24,7 +24,7 @@ import io.chefbook.ui.utils.compose.modifiers.clippingBackground
 import io.chefbook.ui.utils.compose.modifiers.clickable.simpleClickable
 import io.chefbook.ui.utils.compose.providers.theme.LocalTheme
 import io.chefbook.ui.design.icons.ChefBookIcons
-import io.chefbook.ui.design.icons.Users
+import io.chefbook.ui.design.icons.User
 
 @Composable
 fun ProfileAvatar(
@@ -61,7 +61,7 @@ fun ProfileAvatar(
   ) {
     if (url.isNullOrBlank()) {
       Icon(
-        imageVector = ChefBookIcons.Users,
+        imageVector = ChefBookIcons.User,
         contentDescription = null,
         tint = colors.foregroundSecondary,
         modifier = Modifier.size(size / 1.5F),

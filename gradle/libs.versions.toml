@@ -165,7 +165,7 @@ androidx-datastore-core-okio = { group = "androidx.datastore", name = "datastore
 
 di-koin-core = { group = "io.insert-koin", name = "koin-core", version.ref = "koin" }
 di-koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koin" }
-di-koin-compose = { group = "io.insert-koin", name = "koin-androidx-compose", version.ref = "koin" }
+di-koin-compose = { group = "io.insert-koin", name = "koin-compose", version.ref = "koin" }
 
 # Crypto
 

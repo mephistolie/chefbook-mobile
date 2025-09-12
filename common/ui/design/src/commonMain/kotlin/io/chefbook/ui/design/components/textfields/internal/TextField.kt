@@ -13,15 +13,22 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.TextFieldColors
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.takeOrElse
+import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
+import kotlinx.coroutines.flow.MutableStateFlow
 
 const val SingleLine = 1
 
@@ -34,6 +41,7 @@ const val SingleLine = 1
  * @param onValueChange the callback that is triggered when the input service updates the text. An
  * updated text comes as a parameter of the callback
  * @param modifier a [Modifier] for this text field
+ * @param selection current input selection
  * @param enabled controls the enabled state of the [BasicTextField]. When `false`, the text field will
  * be neither editable nor focusable, the input of the text field will not be selectable,
  * visually text field will appear in the disabled UI state
@@ -81,6 +89,7 @@ const val SingleLine = 1
 internal fun TextField(
   value: String,
   onValueChange: (String) -> Unit,
+  selection: MutableState<TextRange> = remember { mutableStateOf(TextRange.Zero) },
   modifier: Modifier = Modifier,
   enabled: Boolean = true,
   readOnly: Boolean = false,
@@ -120,9 +129,19 @@ internal fun TextField(
   }
   val mergedTextStyle = textStyle.merge(TextStyle(color = textColor))
 
+  var composition by remember { mutableStateOf<TextRange?>(null) }
+
   BasicTextField(
-    value = value,
-    onValueChange = onValueChange,
+    value = TextFieldValue(
+      text = value,
+      selection = selection.value,
+      composition = composition,
+    ),
+    onValueChange = { value ->
+      selection.value = value.selection
+      composition = value.composition
+      onValueChange(value.text)
+    },
     modifier = modifier,
     enabled = enabled,
     readOnly = readOnly,

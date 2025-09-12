@@ -15,7 +15,7 @@ fun TextFieldIcon(
   imageVector: ImageVector,
   modifier: Modifier = Modifier,
   contentDescription: @Composable () -> String? = { null },
-  tint: Color = LocalTheme.colors.tintPrimary,
+  tint: Color = LocalTheme.colors.foregroundSecondary,
   onClickLabel: @Composable () -> String? = { null },
   onClick: (() -> Unit)? = null,
 ) = Icon(

@@ -97,10 +97,11 @@ include(":common:sdk:shopping-list:impl")
 
 include(":common:ui:utils")
 include(":common:ui:design")
+include(":common:ui:common")
 
 include(":common:features:root")
 include(":common:features:auth")
-include(":common:features:profile")
+include(":common:features:profile:control")
 
 include(":android:libs:mvi")
 
@@ -112,7 +113,6 @@ include(":android:navigation")
 //include(":android:features:about")
 //include(":android:features:settings")
 include(":android:features:auth")
-//include(":android:features:profile:control")
 //include(":android:features:profile:editing")
 //include(":android:features:profile:deletion")
 //include(":android:features:encryption")

@@ -4,8 +4,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import io.chefbook.ui.utils.commonGeneralEmail
@@ -19,6 +23,7 @@ import io.chefbook.ui.utils.Res as CoreR
 internal fun LoginInputField(
   value: String,
   onValueChange: (String) -> Unit,
+  selection: MutableState<TextRange> = remember { mutableStateOf(TextRange.Zero) },
   modifier: Modifier = Modifier,
   hint: String = stringResource(CoreR.string.commonGeneralEmail),
   readOnly: Boolean = false,
@@ -29,6 +34,7 @@ internal fun LoginInputField(
   OutlinedTextField(
     value = value,
     onValueChange = onValueChange,
+    selection = selection,
     modifier = modifier.fillMaxWidth(),
     readOnly = readOnly,
     hint = hint,

@@ -10,12 +10,10 @@ import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 
-private const val ViewportSize = IconSizeDefault * 2
-
 val ChefBookIcons.Users: ImageVector
   get() {
     return instance ?: Builder(
-      name = "VK",
+      name = "Users",
       defaultWidth = IconSizeDefault.dp,
       defaultHeight = IconSizeDefault.dp,
       viewportWidth = IconSizeDefault,

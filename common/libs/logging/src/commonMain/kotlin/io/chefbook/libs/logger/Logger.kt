@@ -9,21 +9,25 @@ object Logger {
     Napier.base(DebugAntilog(defaultTag = "ChefBook"))
   }
 
-  fun v(throwable: Throwable? = null, tag: String? = null, message: () -> String) =
+  inline fun v(throwable: Throwable? = null, tag: String? = null, noinline message: () -> String) =
     Napier.v(throwable = throwable, tag = tag, message = message)
 
-  fun d(throwable: Throwable? = null, tag: String? = null, message: () -> String) =
+  inline fun d(throwable: Throwable? = null, tag: String? = null, noinline message: () -> String) =
     Napier.d(throwable = throwable, tag = tag, message = message)
 
-  fun i(throwable: Throwable? = null, tag: String? = null, message: () -> String) =
+  inline fun i(throwable: Throwable? = null, tag: String? = null, noinline message: () -> String) =
     Napier.i(throwable = throwable, tag = tag, message = message)
 
-  fun w(throwable: Throwable? = null, tag: String? = null, message: () -> String) =
+  inline fun w(throwable: Throwable? = null, tag: String? = null, noinline message: () -> String) =
     Napier.w(throwable = throwable, tag = tag, message = message)
 
-  fun e(throwable: Throwable? = null, tag: String? = null, message: () -> String) =
+  inline fun e(throwable: Throwable? = null, tag: String? = null, noinline message: () -> String) =
     Napier.e(throwable = throwable, tag = tag, message = message)
 
-  fun wtf(throwable: Throwable? = null, tag: String? = null, message: () -> String) =
+  inline fun wtf(
+    throwable: Throwable? = null,
+    tag: String? = null,
+    noinline message: () -> String
+  ) =
     Napier.wtf(throwable = throwable, tag = tag, message = message)
 }

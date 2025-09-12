@@ -1,0 +1,13 @@
+<resources>
+
+    <string name="commonProfileScreenDataExporting">Data exporting</string>
+    <string name="commonProfileScreenPrintRecipeBook">Print your recipe book!</string>
+    <string name="commonProfileScreenChangeProfile">Change profile</string>
+
+    <string name="commonProfileScreenAppSettings">App settings</string>
+    <string name="commonProfileScreenRateChefbook">Rate ChefBook</string>
+    <string name="commonProfileScreenAboutApp">About app</string>
+
+    <string name="commonProfileScreenLogoutWarning">You will sign out of the profile on this device</string>
+
+</resources>

@@ -11,6 +11,7 @@ import androidx.compose.material3.TextFieldDefaults.contentPaddingWithoutLabel
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.input.VisualTransformation
 import io.chefbook.ui.utils.compose.providers.theme.LocalTheme
@@ -76,6 +77,9 @@ fun FilledTextField(
       focusedTextColor = colors.foregroundPrimary,
       cursorColor = colors.tintPrimary,
       focusedContainerColor = colors.backgroundTertiary,
+      unfocusedContainerColor = colors.backgroundTertiary,
+      focusedIndicatorColor = Color.Transparent,
+      unfocusedIndicatorColor = Color.Transparent,
     ),
     contentPadding = contentPadding,
   )

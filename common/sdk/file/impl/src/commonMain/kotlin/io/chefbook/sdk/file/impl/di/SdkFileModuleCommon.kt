@@ -11,6 +11,7 @@ import io.chefbook.sdk.file.impl.data.sources.local.LocalFileSourceImpl
 import io.chefbook.sdk.file.impl.data.sources.remote.RemoteFileSourceImpl
 import io.chefbook.sdk.file.impl.data.sources.remote.api.FileApiService
 import io.chefbook.sdk.file.impl.data.sources.remote.api.FileApiServiceImpl
+import io.ktor.client.HttpClient
 import org.koin.core.module.dsl.singleOf
 import org.koin.core.qualifier.named
 import org.koin.dsl.bind
@@ -21,7 +22,11 @@ fun sdkFileModule() = module {
   single<IOProvider> { ioProvider() }
   single<ImageCompressor> { imageCompressor() }
 
-  singleOf(::FileApiServiceImpl) bind FileApiService::class
+  single<FileApiService> {
+    FileApiServiceImpl(
+      client = get(qualifier = named(io.chefbook.libs.di.qualifiers.HttpClient.BASE)),
+    )
+  }
 
   single<LocalFileSource>(named(DataSource.LOCAL)) { LocalFileSourceImpl(get(), get()) }
   single<FileSource>(named(DataSource.REMOTE)) { RemoteFileSourceImpl(get()) }

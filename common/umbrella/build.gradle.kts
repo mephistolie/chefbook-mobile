@@ -1,5 +1,11 @@
+import com.android.build.api.dsl.androidLibrary
+
 plugins {
-  alias(libs.plugins.kotlin.multiplatform)
+  alias(libs.plugins.module.multiplatform.base)
+  alias(libs.plugins.kotlin.serialization)
+  alias(libs.plugins.ksp)
+  alias(libs.plugins.composeMultiplatform)
+  alias(libs.plugins.composeCompiler)
 }
 
 kotlin {
@@ -19,87 +25,88 @@ kotlin {
 
       // Libs
 
-      api(projects.common.libs.mvi)
-      api(projects.common.libs.utils)
-      api(projects.common.libs.logging)
-      api(projects.common.libs.coroutines)
-      api(projects.common.libs.exceptions)
-      api(projects.common.libs.encryption)
-      api(projects.common.libs.di)
-      api(projects.common.libs.models)
+      implementation(projects.common.libs.mvi)
+      implementation(projects.common.libs.utils)
+      implementation(projects.common.libs.logging)
+      implementation(projects.common.libs.coroutines)
+      implementation(projects.common.libs.exceptions)
+      implementation(projects.common.libs.encryption)
+      implementation(projects.common.libs.di)
+      implementation(projects.common.libs.models)
 
       // SDK
 
-      api(projects.common.sdk.core.api.internal)
-      api(projects.common.sdk.core.impl)
+      implementation(projects.common.sdk.core.api.internal)
+      implementation(projects.common.sdk.core.impl)
 
-      api(projects.common.sdk.network.api.internal)
-      api(projects.common.sdk.network.impl)
+      implementation(projects.common.sdk.network.api.internal)
+      implementation(projects.common.sdk.network.impl)
 
-      api(projects.common.sdk.file.api.internal)
-      api(projects.common.sdk.file.impl)
+      implementation(projects.common.sdk.file.api.internal)
+      implementation(projects.common.sdk.file.impl)
 
-      api(projects.common.sdk.database.api.internal)
-      api(projects.common.sdk.database.impl)
+      implementation(projects.common.sdk.database.api.internal)
+      implementation(projects.common.sdk.database.impl)
 
-      api(projects.common.sdk.settings.api.external)
-      api(projects.common.sdk.settings.api.internal)
-      api(projects.common.sdk.settings.impl)
+      implementation(projects.common.sdk.settings.api.external)
+      implementation(projects.common.sdk.settings.api.internal)
+      implementation(projects.common.sdk.settings.impl)
 
-      api(projects.common.sdk.auth.api.external)
-      api(projects.common.sdk.auth.api.internal)
-      api(projects.common.sdk.auth.impl)
+      implementation(projects.common.sdk.auth.api.external)
+      implementation(projects.common.sdk.auth.api.internal)
+      implementation(projects.common.sdk.auth.impl)
 
-      api(projects.common.sdk.profile.api.external)
-      api(projects.common.sdk.profile.api.internal)
-      api(projects.common.sdk.profile.impl)
+      implementation(projects.common.sdk.profile.api.external)
+      implementation(projects.common.sdk.profile.api.internal)
+      implementation(projects.common.sdk.profile.impl)
 
-      api(projects.common.sdk.collection.api.external)
-      api(projects.common.sdk.collection.api.internal)
-      api(projects.common.sdk.collection.impl)
+      implementation(projects.common.sdk.collection.api.external)
+      implementation(projects.common.sdk.collection.api.internal)
+      implementation(projects.common.sdk.collection.impl)
 
-      api(projects.common.sdk.tag.api.external)
-      api(projects.common.sdk.tag.api.internal)
-      api(projects.common.sdk.tag.impl)
+      implementation(projects.common.sdk.tag.api.external)
+      implementation(projects.common.sdk.tag.api.internal)
+      implementation(projects.common.sdk.tag.impl)
 
-      api(projects.common.sdk.encryption.vault.api.external)
-      api(projects.common.sdk.encryption.vault.api.internal)
-      api(projects.common.sdk.encryption.vault.impl)
+      implementation(projects.common.sdk.encryption.vault.api.external)
+      implementation(projects.common.sdk.encryption.vault.api.internal)
+      implementation(projects.common.sdk.encryption.vault.impl)
 
-      api(projects.common.sdk.encryption.recipe.api.internal)
-      api(projects.common.sdk.encryption.recipe.impl)
+      implementation(projects.common.sdk.encryption.recipe.api.internal)
+      implementation(projects.common.sdk.encryption.recipe.impl)
 
-      api(projects.common.sdk.recipe.core.api.external)
-      api(projects.common.sdk.recipe.core.api.internal)
-      api(projects.common.sdk.recipe.core.impl)
+      implementation(projects.common.sdk.recipe.core.api.external)
+      implementation(projects.common.sdk.recipe.core.api.internal)
+      implementation(projects.common.sdk.recipe.core.impl)
 
-      api(projects.common.sdk.recipe.crud.api.external)
-      api(projects.common.sdk.recipe.crud.api.internal)
-      api(projects.common.sdk.recipe.crud.impl)
+      implementation(projects.common.sdk.recipe.crud.api.external)
+      implementation(projects.common.sdk.recipe.crud.api.internal)
+      implementation(projects.common.sdk.recipe.crud.impl)
 
-      api(projects.common.sdk.recipe.book.api.external)
-      api(projects.common.sdk.recipe.book.api.internal)
-      api(projects.common.sdk.recipe.book.impl)
+      implementation(projects.common.sdk.recipe.book.api.external)
+      implementation(projects.common.sdk.recipe.book.api.internal)
+      implementation(projects.common.sdk.recipe.book.impl)
 
-      api(projects.common.sdk.recipe.community.api.external)
-      api(projects.common.sdk.recipe.community.impl)
+      implementation(projects.common.sdk.recipe.community.api.external)
+      implementation(projects.common.sdk.recipe.community.impl)
 
-      api(projects.common.sdk.recipe.interaction.api.external)
-      api(projects.common.sdk.recipe.interaction.api.internal)
-      api(projects.common.sdk.recipe.interaction.impl)
+      implementation(projects.common.sdk.recipe.interaction.api.external)
+      implementation(projects.common.sdk.recipe.interaction.api.internal)
+      implementation(projects.common.sdk.recipe.interaction.impl)
 
-      api(projects.common.sdk.shoppingList.api.external)
-      api(projects.common.sdk.shoppingList.api.internal)
-      api(projects.common.sdk.shoppingList.impl)
+      implementation(projects.common.sdk.shoppingList.api.external)
+      implementation(projects.common.sdk.shoppingList.api.internal)
+      implementation(projects.common.sdk.shoppingList.impl)
 
       // Features
 
-      api(projects.common.ui.utils)
-      api(projects.common.ui.design)
+      implementation(projects.common.ui.utils)
+      implementation(projects.common.ui.design)
+      implementation(projects.common.ui.common)
 
-      api(projects.common.features.root)
-      api(projects.common.features.auth)
-      api(projects.common.features.profile)
+      implementation(projects.common.features.root)
+      implementation(projects.common.features.auth)
+      implementation(projects.common.features.profile.control)
     }
   }
 }

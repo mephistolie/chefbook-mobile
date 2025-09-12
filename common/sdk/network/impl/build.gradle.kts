@@ -11,6 +11,7 @@ kotlin {
       implementation(projects.common.sdk.encryption.vault.api.internal)
       implementation(projects.common.sdk.encryption.recipe.api.internal)
 
+      implementation(libs.network.ktor.client.core)
       implementation(libs.network.ktor.client.auth)
       implementation(libs.network.ktor.client.logging)
       implementation(libs.network.ktor.client.contentNegotiation)

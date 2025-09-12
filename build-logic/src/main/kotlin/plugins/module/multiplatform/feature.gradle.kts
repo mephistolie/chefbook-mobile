@@ -21,10 +21,10 @@ kotlin {
 
       implementation(project(":common:ui:utils"))
       implementation(project(":common:ui:design"))
+      implementation(project(":common:ui:common"))
 
       implementation(libs.di.koin.core)
       implementation(libs.decompose.core)
     }
   }
-
 }

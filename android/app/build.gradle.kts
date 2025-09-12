@@ -55,7 +55,7 @@ dependencies {
 
   implementation(projects.common.features.root)
   implementation(projects.common.features.auth)
-  implementation(projects.common.features.profile)
+  implementation(projects.common.features.profile.control)
 
 //  implementation(projects.android.features.about)
 //  implementation(projects.android.features.settings)

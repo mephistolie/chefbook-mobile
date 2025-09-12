@@ -10,6 +10,7 @@ kotlin {
       implementation(compose.material3)
 
       implementation(libs.decompose.core)
+      implementation(libs.decompose.extensions.compose)
       implementation(libs.di.koin.core)
     }
   }

@@ -1,16 +1,17 @@
 import SwiftUI
-import common
+import ChefBookMPP
 
-struct ContentView: View {
-	var body: some View {
-        let t = Dummy()
-        
-        Text(t.test())
-	}
+struct ComposeView: UIViewControllerRepresentable {
+    func makeUIViewController(context: Context) -> UIViewController {
+        DummyKt.MainUIViewController()
+    }
+    
+    func updateUIViewController(_ uiViewController: UIViewController, context: Context) {}
 }
 
-struct ContentView_Previews: PreviewProvider {
-	static var previews: some View {
-		ContentView()
-	}
+
+struct ContentView: View {
+    var body: some View {
+        ComposeView().ignoresSafeArea(.all)
+    }
 }
